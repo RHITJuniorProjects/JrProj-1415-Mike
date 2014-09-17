@@ -9,7 +9,7 @@
 #import "HenryProjectsTableViewController.h"
 
 @interface HenryProjectsTableViewController ()
-
+@property NSArray *cellText;
 @end
 
 @implementation HenryProjectsTableViewController
@@ -32,6 +32,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.cellText = @[@"Henery-iOS", @"Henery-Android", @"Henery-Web", @"Henery-Platform"];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +53,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 2;
+    return [self.cellText count];
 }
 
 
@@ -60,7 +62,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = @"text";
+    cell.textLabel.text = [self.cellText objectAtIndex:indexPath.row];
     
     return cell;
 }
