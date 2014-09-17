@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Firebase/Firebase.h>
 
 @interface LoginViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextField *emailText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loginIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 - (IBAction)loginAction:(id)sender;
-
+@property Firebase *fb;
 @end

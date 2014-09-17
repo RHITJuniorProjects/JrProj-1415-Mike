@@ -7,10 +7,8 @@
 //
 
 #import "LoginViewController.h"
-#import "HenryFirebase.h"
 
 @interface LoginViewController ()
-@property HenryFirebase *fb;
 @end
 
 @implementation LoginViewController
@@ -27,12 +25,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com/projects/"];
 }
 
 - (IBAction)loginAction:(id)sender
 {
-    [self.fb login:self.emailText.text passwordForUser:self.passwordText.text];
+    NSLog(@"Attempting login");
+    self.errorLabel.hidden = YES;
+    self.loginIndicator.hidden = NO;
+    [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
+        self.loginIndicator.hidden = YES;
+        if (error) {
+            NSLog(@"Failed to login");
+            self.errorLabel.hidden = NO;
+            self.errorLabel.text = @"Failed to login";
+            return;
+        }
+        NSLog(@"Logged in");
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
+        UIViewController *initialView = [sb instantiateInitialViewController];
+        [self presentViewController:initialView animated:YES completion:nil];
+
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning
