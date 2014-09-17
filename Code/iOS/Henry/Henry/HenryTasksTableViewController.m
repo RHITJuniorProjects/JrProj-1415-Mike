@@ -10,6 +10,8 @@
 
 @interface HenryTasksTableViewController ()
 
+@property NSMutableArray *tasks;
+
 @end
 
 @implementation HenryTasksTableViewController
@@ -27,11 +29,9 @@
 {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.tasks = [[NSMutableArray alloc] init];
+    [self.tasks addObject:@"Task 1"];
+    [self.tasks addObject:@"Task 2"];
 }
 
 - (void)didReceiveMemoryWarning
@@ -60,7 +60,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = @"tasks";
+    cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
     
     return cell;
 }
