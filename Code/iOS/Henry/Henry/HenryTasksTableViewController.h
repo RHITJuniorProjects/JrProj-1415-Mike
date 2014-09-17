@@ -10,4 +10,7 @@
 
 @interface HenryTasksTableViewController : UITableViewController
 
+@property NSString *ProjectID;
+@property NSString *MileStoneID;
+
 @end

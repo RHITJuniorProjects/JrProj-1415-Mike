@@ -21,7 +21,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="ekY-7Z-Ep6" kind="push" id="Fwr-B4-Jg0"/>
+                                    <segue destination="ekY-7Z-Ep6" kind="push" identifier="MilestoneSegue" id="Fwr-B4-Jg0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -54,7 +54,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="8CP-Lh-3kU" kind="push" id="V9F-Xf-hWr"/>
+                                    <segue destination="8CP-Lh-3kU" kind="push" identifier="TaskSegue" id="V9F-Xf-hWr"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

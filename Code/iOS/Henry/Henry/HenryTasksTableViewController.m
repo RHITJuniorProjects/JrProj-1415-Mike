@@ -30,8 +30,28 @@
     [super viewDidLoad];
     
     self.tasks = [[NSMutableArray alloc] init];
-    [self.tasks addObject:@"Task 1"];
-    [self.tasks addObject:@"Task 2"];
+    
+    if ([self.ProjectID isEqualToString:@"Project 1"]) {
+        if ([self.MileStoneID isEqualToString:@"Milestone 1"]) {
+            [self.tasks addObject:@"P1: M1: Task 1"];
+            [self.tasks addObject:@"P1: M1: Task 2"];
+        } else if ([self.MileStoneID isEqualToString:@"Milestone 2"]) {
+            [self.tasks addObject:@"P1: M2: Task 1"];
+            [self.tasks addObject:@"P1: M2: Task 2"];
+        }
+    } else if ([self.ProjectID isEqualToString:@"Project 2"]) {
+        if ([self.MileStoneID isEqualToString:@"Milestone 1"]) {
+            [self.tasks addObject:@"P2: M1: Task 1"];
+            [self.tasks addObject:@"P2: M1: Task 2"];
+        } else if ([self.MileStoneID isEqualToString:@"Milestone 2"]) {
+            [self.tasks addObject:@"P2: M2: Task 1"];
+            [self.tasks addObject:@"P2: M2: Task 2"];
+        }
+    } else {
+        self.MileStoneID = @"Null";
+    }
+    
+    self.title = self.MileStoneID;
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,7 +71,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 2;
+    return [self.tasks count];
 }
 
 
