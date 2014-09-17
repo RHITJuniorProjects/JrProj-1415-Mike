@@ -24,6 +24,9 @@
 		93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */; };
 		93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */; };
 		93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */; };
+		93447F7319C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */; };
+		93447F7619C92C0900C2FC38 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7519C92C0900C2FC38 /* LoginViewController.m */; };
+		93447F7919C9301100C2FC38 /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7819C9301100C2FC38 /* HenryFirebase.m */; };
 		ADB3A4DE19E48A1F00C687D5 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4DD19E48A1F00C687D5 /* libicucore.dylib */; };
 		ADB3A4E019E48A2A00C687D5 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4DF19E48A2A00C687D5 /* libc++.dylib */; };
 		ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */; };
@@ -66,6 +69,11 @@
 		93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestonesTableViewController.m; sourceTree = "<group>"; };
 		93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTasksTableViewController.h; sourceTree = "<group>"; };
 		93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTasksTableViewController.m; sourceTree = "<group>"; };
+		93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = iPhoneLoginStoryboard.storyboard; path = ../iPhoneLoginStoryboard.storyboard; sourceTree = "<group>"; };
+		93447F7419C92C0900C2FC38 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../LoginViewController.h; sourceTree = "<group>"; };
+		93447F7519C92C0900C2FC38 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../LoginViewController.m; sourceTree = "<group>"; };
+		93447F7719C9301100C2FC38 /* HenryFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryFirebase.h; sourceTree = "<group>"; };
+		93447F7819C9301100C2FC38 /* HenryFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryFirebase.m; sourceTree = "<group>"; };
 		ADB3A4DD19E48A1F00C687D5 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		ADB3A4DF19E48A2A00C687D5 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -142,6 +150,9 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */,
+				93447F7419C92C0900C2FC38 /* LoginViewController.h */,
+				93447F7519C92C0900C2FC38 /* LoginViewController.m */,
 				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
@@ -149,6 +160,8 @@
 				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
 				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
 				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
+				93447F7719C9301100C2FC38 /* HenryFirebase.h */,
+				93447F7819C9301100C2FC38 /* HenryFirebase.m */,
 				93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */,
 				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
 				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
@@ -262,6 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93447F7319C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard in Resources */,
 				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
 				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
 				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
@@ -285,9 +299,11 @@
 			files = (
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
 				93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */,
+				93447F7619C92C0900C2FC38 /* LoginViewController.m in Sources */,
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
+				93447F7919C9301100C2FC38 /* HenryFirebase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
