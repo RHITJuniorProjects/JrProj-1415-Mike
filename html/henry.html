@@ -3,8 +3,21 @@
 <head>
 	<meta charset='utf-8'>
 	<title>Henry Webpage</title>
+	<script src='firebase.js' type='text/javascript'></script>
+	<script src='henry.js' type='text/javascript'></script>
 </head>
 <body>
 	<h1>HELLO</h1>
+	<form>
+		<h3>Sign Up!</h3>
+		<label>
+			Username
+			<input type='text' id='username'>
+		</label>
+		<input type='button' id='submit' onclick='submitName()' value='submit'>
+	</form>
+	<h4>current users</h4>
+	<ul id='user-list'>
+	</ul>
 </body>
 </html>
