@@ -1,0 +1,31 @@
+{
+  "firebase": "shining-fire-545",
+  "public": "./",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ],
+  "rewrites": [
+    {
+      "source":"/henry.js",
+      "destination":"/js/henry.js"
+    },
+    {
+      "source":"henry.js",
+      "destination":"/js/henry.js"
+    },
+    {
+      "source":"/firebase.js",
+      "destination":"/public/firebase.js"
+    },
+    {
+      "source":"/firebase.js",
+      "destination":"/public/firebase.js"
+    },
+    {
+      "source":"/index.html",
+      "destination":"/html/henry.html"
+    }
+  ]
+}
