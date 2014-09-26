@@ -1,0 +1,3 @@
+Git Hooks are a built in mechanism to trigger custom scripts when specific git actions occur. These are built into git. Every git project has a .git/hooks directory containing all active git hooks for the project.
+
+The bulk of the work in Henry will occur in one hook script that will be triggered on a commit. This hook will parse the commit message, verify that it matches Henry's format and write the appropriate data to firebase.
