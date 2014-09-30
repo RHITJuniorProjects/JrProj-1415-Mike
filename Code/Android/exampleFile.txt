@@ -1,0 +1,3 @@
+example file from Adalyn Johnson
+This will be my first commit. 
+Document may be subject to deletion. 
