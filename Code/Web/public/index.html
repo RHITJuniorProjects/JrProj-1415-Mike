@@ -1,23 +1,53 @@
-<!DOCTYPE html>
 <html>
-<head>
-	<meta charset='utf-8'>
-	<title>Henry Webpage</title>
-	<script src='firebase.js' type='text/javascript'></script>
-	<script src='henry.js' type='text/javascript'></script>
-</head>
-<body>
-	<h1>HELLO</h1>
-	<form>
-		<h3>Sign Up!</h3>
-		<label>
-			Username
-			<input type='text' id='username'>
-		</label>
-		<input type='button' id='submit' onclick='submitName()' value='submit'>
-	</form>
-	<h4>current users</h4>
-	<ul id='user-list'>
+	<head>
+		<title>Henry</title>
+		<meta charset="utf-8">
+<meta name="description" content="Henry project management tool">
+<link rel="stylesheet" type="text/css" href="/foundation.css"></script>
+<link rel="stylesheet" type="text/css" href="/henry.css"></script>
+<script type="text/javascript" src="/firebase.js"></script>
+<script type="text/javascript" src="/jquery.js"></script>
+<script type="text/javascript" src="/henry.js"></script>
+<script type="text/javascript" src="/foundation.js"></script>
+<script type="text/javascript">
+	$(function(){ $(document).foundation()});
+</script>
+	</head>
+	<body>
+		<!-- topbar -->
+<nav class="top-bar" data-topbar role="navigation">
+	<ul class="title-area">
+		<li class="name">
+			<h1><a href="/">Henry</a><h1>
+		</li>
+		<li class="menu-icon">
+			<!-- put icon here -->
+		</li>
 	</ul>
-</body>
+
+	<section class="top-bar-section">
+		<ul class="left">
+			<li><a href="teams">Teams</a></li>
+			<!-- add top bar links here> -->
+		</ul>
+
+		<ul class="right">
+			<li class="has-form">
+				<div class="row collapse">
+					<div class="small-8 columns">
+						<input type="text" placeholder="search bar">
+					</div>
+					<div class="small-4 columns">
+						<a href="#" class="button expand">Search</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</section>
+</nav>
+		<div>
+			<h1>Henry Page<h1>
+			<a href="/teams">
+		</div>
+	</body>
 </html>

@@ -1,25 +1,16 @@
 
-var users,
-	username,
-	userList;
+/* this file contains classes and utility functions that are used everywhere on the website */
 
-function submitName(){
-	users.push(username.value);
-	username.value = '';
+var database = new Firebase('https://shining-fire-545.firebaseapp.com');
+
+function Table(name){
+	this.entry = database.get(name);
 }
 
-function addUser(username){
-	var li = document.createElement('li');
-	li.innerHTML = username;
-	userList.appendChild(li);
+Table.
+
+function User(id){
+
 }
 
-window.onload = function(){
-	users = new Firebase('https://shining-fire-545.firebaseio.com');
-	console.log('LOADERD');
-	username = document.getElementById('username');
-	userList = document.getElementById('user-list');
-	users.on('child_added',function(message){
-		addUser(message.val());
-	});
-}
+var users = new Table('users');
