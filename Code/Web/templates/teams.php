@@ -5,154 +5,117 @@
 	</head>
 	<body>
 		<?php require 'topbar.php';?>
-		<dl class="accordian" data-accordian>
-			<dd class="accordian-navigation">
-				<a href="#panel1" class="content-active">
-					<h3>Production</h3>
-				</a>
-				<div id="panel1" class="active row">
-					<div class="small-6 columns panel">
-						<div class="row">
-							<div class="small-4 columns small-offset-4">
+		<div class="row text-center">
+			<h1>My Teams</h1>
+		</div>
+		<div class="small-10 columns small-offset-1">
+			<dl class="row collapse accordion" data-accordion>
+				<dd class="accordion-navigation">
+					<a href="#panel1" class="text-center">
+						<h3>Production</h3>
+					</a>
+					<div id="panel1" class="content active row panel">
+						<div class="small-4 columns small-offset-1">
+							<div class="row text-center">
 								<h3>Project 1</h3>
 							</div>
-						</div>
-						<div class="row">
-							<ul>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="small-6 columns panel">
-						<div class="row">
-							<div class="small-4 columns small-offset-4">
-								<h3>Project 1</h3>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team1
+										</a>
+									</li>
+									<li>
+										<a class="button expand">
+											Team2
+										</a>
+									</li>
+								</ul>
 							</div>
 						</div>
-						<div class="row">
-							<ul>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</dd>
-			<dd class="accordian-navigation">
-				<a href="#panel2" class="content-active">
-					<h3>Production</h3>
-				</a>
-				<div id="panel2" class="active row">
-					<div class="small-6 columns panel">
-						<div class="row">
-							<div class="small-4 columns small-offset-4">
-								<h3>Project 1</h3>
+						<div class="small-4 columns small-offset-2 left">
+							<div class="row text-center">
+								<h3>Project 2</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team3
+										</a>
+									</li>
+								</ul>
 							</div>
 						</div>
-						<div class="row">
-							<ul>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-							</ul>
-						</div>
 					</div>
-					<div class="small-6 columns panel">
-						<div class="row">
-							<div class="small-4 columns small-offset-4">
-								<h3>Project 1</h3>
+				</dd>
+			</dl>
+			<dl class="row collapse accordion" data-accordion>
+				<dd class="accordion-navigation">
+					<a href="#panel2" class="text-center">
+						<h3>Maintenance</h3>
+					</a>
+					<div id="panel2" class="content active row panel">
+						<div class="small-4 columns small-offset-1">
+							<div class="row text-center">
+								<h3>Project 3</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team4
+										</a>
+									</li>
+								</ul>
 							</div>
 						</div>
-						<div class="row">
-							<ul>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-							</ul>
-						</div>
 					</div>
-				</div>
-			</dd>
-			<dd class="accordian-navigation">
-				<a href="#panel3" class="content-active">
-					<h3>Production</h3>
-				</a>
-				<div id="panel3" class="active row">
-					<div class="small-6 columns panel">
-						<div class="row">
-							<div class="small-4 columns small-offset-4">
-								<h3>Project 1</h3>
+				</dd>
+			</dl>
+			<dl class="row collapse accordion" data-accordion>
+				<dd class="accordion-navigation">
+					<a href="#panel3" class="text-center">
+						<h3>Closed</h3>
+					</a>
+					<div id="panel3" class="content active row panel">
+						<div class="small-4 columns small-offset-1">
+							<div class="row text-center">
+								<h3>Project 4</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team5
+										</a>
+									</li>
+								</ul>
 							</div>
 						</div>
-						<div class="row">
-							<ul>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-							</ul>
-						</div>
-					</div>
-					<div class="small-6 columns panel">
-						<div class="row">
-							<div class="small-4 columns small-offset-4">
-								<h3>Project 1</h3>
+						<div class="small-4 columns small-offset-2 left">
+							<div class="row text-center">
+								<h3>Project 5</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team6
+										</a>
+									</li>
+									<li>
+										<a class="button expand">
+											Team7
+										</a>
+									</li>
+								</ul>
 							</div>
 						</div>
-						<div class="row">
-							<ul>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-								<li>
-									<a class="button expand">
-										Team1
-									</a>
-								</li>
-							</ul>
-						</div>
 					</div>
-				</div>
-			</dd>
-		</dl>
+				</dd>
+			</dl>
+		</div>
 	</body>
 </html>
