@@ -1,5 +1,6 @@
 {
   "firebase": "sizzling-heat-6137",
+  "firebase": "shining-fire-2560",
   "public": "public",
   "ignore": [
     "**/.*"
@@ -13,5 +14,8 @@
   },{
     "source":"/teams",
     "destination":"/teams.html"
+  },{
+	"source":"/tasks",
+	"destination":"/tasks.html"
   }]
 }
