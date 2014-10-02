@@ -1,0 +1,161 @@
+<html>
+	<head>
+		<title>Henry - Teams</title>
+		<meta charset="utf-8">
+<meta name="description" content="Henry project management tool">
+<link rel="stylesheet" type="text/css" href="/foundation.css"></script>
+<link rel="stylesheet" type="text/css" href="/henry.css"></script>
+<script type="text/javascript" src="/firebase.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+<script type="text/javascript" src="/henry.js"></script>
+<script type="text/javascript" src="/foundation.js"></script>
+<script type="text/javascript">
+	$(function(){ $(document).foundation()});
+</script>
+	</head>
+	<body>
+		<!-- topbar -->
+<nav class="top-bar" data-topbar role="navigation">
+	<ul class="title-area">
+		<li class="name">
+			<h1><a href="/">Henry</a><h1>
+		</li>
+		<li class="menu-icon">
+			<!-- put icon here -->
+		</li>
+	</ul>
+
+	<section class="top-bar-section">
+		<ul class="left">
+			<li><a href="teams">Teams</a></li>
+			<!-- add top bar links here> -->
+		</ul>
+
+		<ul class="right">
+			<li class="has-form">
+				<div class="row collapse">
+					<div class="small-8 columns">
+						<input type="text" placeholder="search bar">
+					</div>
+					<div class="small-4 columns">
+						<a href="#" class="button expand">Search</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</section>
+</nav>
+		<div class="row text-center">
+			<h1>My Teams</h1>
+		</div>
+		<div class="small-10 columns small-offset-1">
+			<dl class="row collapse accordion" data-accordion>
+				<dd class="accordion-navigation">
+					<a href="#panel1" class="text-center">
+						<h3>Production</h3>
+					</a>
+					<div id="panel1" class="content active row panel">
+						<div class="small-4 columns small-offset-1">
+							<div class="row text-center">
+								<h3>Project 1</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team1
+										</a>
+									</li>
+									<li>
+										<a class="button expand">
+											Team2
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="small-4 columns small-offset-2 left">
+							<div class="row text-center">
+								<h3>Project 2</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team3
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+			<dl class="row collapse accordion" data-accordion>
+				<dd class="accordion-navigation">
+					<a href="#panel2" class="text-center">
+						<h3>Maintenance</h3>
+					</a>
+					<div id="panel2" class="content active row panel">
+						<div class="small-4 columns small-offset-1">
+							<div class="row text-center">
+								<h3>Project 3</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team4
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+			<dl class="row collapse accordion" data-accordion>
+				<dd class="accordion-navigation">
+					<a href="#panel3" class="text-center">
+						<h3>Closed</h3>
+					</a>
+					<div id="panel3" class="content active row panel">
+						<div class="small-4 columns small-offset-1">
+							<div class="row text-center">
+								<h3>Project 4</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team5
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+						<div class="small-4 columns small-offset-2 left">
+							<div class="row text-center">
+								<h3>Project 5</h3>
+							</div>
+							<div class="row">
+								<ul>
+									<li>
+										<a class="button expand">
+											Team6
+										</a>
+									</li>
+									<li>
+										<a class="button expand">
+											Team7
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</dd>
+			</dl>
+		</div>
+	</body>
+</html>
