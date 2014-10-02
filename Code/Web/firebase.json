@@ -1,0 +1,17 @@
+{
+  "firebase": "radiant-fire-9199",
+  "public": "public",
+  "ignore": [
+    "**/.*"
+  ],
+  "rewrites": [{
+    "source":"/foundation.css",
+    "destination":"/foundation-5.4.5/css/foundation.min.css"
+  },{
+    "source":"/foundation.js",
+    "destination":"/foundation-5.4.5/js/foundation.min.js"
+  },{
+    "source":"/teams",
+    "destination":"/teams.html"
+  }]
+}
