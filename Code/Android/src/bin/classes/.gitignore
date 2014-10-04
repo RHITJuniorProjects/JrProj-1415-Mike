@@ -1,0 +1,6 @@
+/rhit/
+/.gitignore
+
+*
+
+!.gitignore
