@@ -9,7 +9,7 @@
 #import "HenryMilestonesTableViewController.h"
 
 @interface HenryMilestonesTableViewController ()
-
+@property NSMutableArray *staticData;
 @end
 
 @implementation HenryMilestonesTableViewController
@@ -26,7 +26,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.staticData = [[NSMutableArray alloc] init];
+    [self.staticData addObject:@"Milestone 1"];
+    [self.staticData addObject:@"Milestone 2"];
+    [self.staticData addObject:@"Milestone 3"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -51,7 +54,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 2;
+    return self.staticData.count;
 }
 
 
@@ -60,7 +63,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MilestoneCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = @"test";
+    cell.textLabel.text = [self.staticData objectAtIndex:indexPath.row];
     
     return cell;
 }
