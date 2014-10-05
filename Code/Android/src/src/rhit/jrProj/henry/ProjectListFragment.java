@@ -1,14 +1,13 @@
 package rhit.jrProj.henry;
 
-import rhit.jrProj.firebase.Project;
+import rhit.jrProj.henry.content.ProjectContent;
+import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import rhit.jrProj.henry.dummy.DummyContent;
 
 /**
  * A list fragment representing a list of Projects. This fragment also supports
@@ -74,7 +73,7 @@ public class ProjectListFragment extends ListFragment {
 		// TODO: replace with a real list adapter.
 		setListAdapter(new ArrayAdapter<Project>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DummyContent.PROJECT_ITEMS));
+				android.R.id.text1, ProjectContent.ITEMS));
 	}
 
 	@Override
@@ -117,7 +116,7 @@ public class ProjectListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.PROJECT_ITEMS.get(position).toString());
+		mCallbacks.onItemSelected(ProjectContent.ITEMS.get(position).toString());
 	}
 
 	@Override

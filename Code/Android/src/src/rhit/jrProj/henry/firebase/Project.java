@@ -1,6 +1,8 @@
-package rhit.jrProj.firebase;
+package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
+
+import rhit.jrProj.henry.firebase.Milestone;
 
 public class Project {
 

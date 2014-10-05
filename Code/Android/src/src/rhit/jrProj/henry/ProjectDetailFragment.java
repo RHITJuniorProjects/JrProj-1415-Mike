@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import rhit.jrProj.firebase.Project;
-import rhit.jrProj.henry.dummy.DummyContent;
+import rhit.jrProj.henry.content.ProjectContent;
+import rhit.jrProj.henry.firebase.Project;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
@@ -41,7 +41,7 @@ public class ProjectDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			projectItem = DummyContent.PROJECT_MAP.get(getArguments().getString(
+			projectItem = ProjectContent.ITEM_MAP.get(getArguments().getString(
 					ARG_ITEM_ID));
 		}
 	}
