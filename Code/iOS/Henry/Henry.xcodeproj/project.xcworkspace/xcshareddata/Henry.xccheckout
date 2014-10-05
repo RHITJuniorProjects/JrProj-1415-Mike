@@ -10,29 +10,29 @@
 	<string>Henry</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>BD232D4F-9ABB-4B68-9DAE-2A176D305536</key>
+		<key>0A569D4E510D25740E340E1FA91E4EF8D6C7945F</key>
 		<string>https://github.com/RHITJuniorProjects/JrProj-1415-Mike.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Code/iOS/Henry/Henry.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>BD232D4F-9ABB-4B68-9DAE-2A176D305536</key>
+		<key>0A569D4E510D25740E340E1FA91E4EF8D6C7945F</key>
 		<string>../../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/RHITJuniorProjects/JrProj-1415-Mike.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>BD232D4F-9ABB-4B68-9DAE-2A176D305536</string>
+	<string>0A569D4E510D25740E340E1FA91E4EF8D6C7945F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>BD232D4F-9ABB-4B68-9DAE-2A176D305536</string>
+			<string>0A569D4E510D25740E340E1FA91E4EF8D6C7945F</string>
 			<key>IDESourceControlWCCName</key>
 			<string>JrProj-1415-Mike</string>
 		</dict>
