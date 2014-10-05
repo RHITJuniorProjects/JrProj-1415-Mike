@@ -1,13 +1,18 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import rhit.jrProj.henry.content.ProjectContent;
+import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.Task;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
@@ -59,5 +64,19 @@ public class ProjectDetailFragment extends Fragment {
 		}
 
 		return rootView;
+	}
+	
+	/**
+	 * The method that is called when the "View Tasks" button
+	 * is pressed.
+	 * @param view
+	 */
+	public void openMilestoneView(View view)
+	{
+		//TODO: Start intent to feature 2.
+		Intent intent = new Intent();
+		ArrayList<Milestone> milestones = projectItem.getMilestones();
+	//	intent.put
+		this.startActivity(intent);
 	}
 }

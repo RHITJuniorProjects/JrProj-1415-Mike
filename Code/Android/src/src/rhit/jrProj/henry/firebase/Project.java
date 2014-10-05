@@ -35,4 +35,11 @@ public class Project {
 	public String toString() {
 		return "Project " + this.projectNumber;
 	}
+	
+	/**
+	 * Gets an ArrayList of milestones associated with this project.
+	 */
+	public ArrayList<Milestone> getMilestones() {
+		return this.milestones;
+	}
 }
