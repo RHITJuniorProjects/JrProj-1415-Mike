@@ -1,8 +1,8 @@
 package rhit.jrProj.henry;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
@@ -78,7 +78,6 @@ public class MilestoneListActivity extends Activity implements
 	 * Callback method from {@link MilestoneListFragment.Callbacks} indicating
 	 * that the item with the given ID was selected.
 	 */
-	@Override
 	public void onItemSelected(String id) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by

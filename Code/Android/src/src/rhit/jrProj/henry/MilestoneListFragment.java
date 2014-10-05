@@ -4,7 +4,6 @@ import rhit.jrProj.henry.content.MilestoneContent;
 import rhit.jrProj.henry.firebase.Milestone;
 import android.app.Activity;
 import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -55,7 +54,6 @@ public class MilestoneListFragment extends ListFragment {
 	 * nothing. Used only when this fragment is not attached to an activity.
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		@Override
 		public void onItemSelected(String id) {
 		}
 	};
