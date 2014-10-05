@@ -1,8 +1,12 @@
 package rhit.jrProj.henry;
 
-import rhit.jrProj.firebase.Milestone;
-import rhit.jrProj.henry.dummy.DummyContent;
+import java.util.ArrayList;
+
+import rhit.jrProj.henry.content.MilestoneContent;
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Task;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +45,7 @@ public class MilestoneDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			milestoneItem = DummyContent.ITEM_MAP.get(getArguments().getString(
+			milestoneItem = MilestoneContent.ITEM_MAP.get(getArguments().getString(
 					ARG_ITEM_ID));
 		}
 	}
@@ -60,4 +64,18 @@ public class MilestoneDetailFragment extends Fragment {
 
 		return rootView;
 	}
+	/**
+	 * The method that is called when the "View Tasks" button
+	 * is pressed.
+	 * @param view
+	 */
+	public void openTaskView(View view)
+	{
+		//TODO: Start intent to feature 3.
+		Intent intent = new Intent();
+		ArrayList<Task> tasks = milestoneItem.getTasks();
+	//	intent.put
+		this.startActivity(intent);
+	}
+	
 }

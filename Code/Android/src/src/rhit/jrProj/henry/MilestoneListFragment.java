@@ -1,9 +1,10 @@
 package rhit.jrProj.henry;
 
-import rhit.jrProj.firebase.Milestone;
-import rhit.jrProj.henry.dummy.DummyContent;
+import rhit.jrProj.henry.content.MilestoneContent;
+import rhit.jrProj.henry.firebase.Milestone;
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -69,11 +70,10 @@ public class MilestoneListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// Done: replace with a real list adapter.
 		setListAdapter(new ArrayAdapter<Milestone>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, DummyContent.ITEMS));
+				android.R.id.text1, MilestoneContent.ITEMS));
 	}
 
 	@Override
@@ -116,7 +116,7 @@ public class MilestoneListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).toString());
+		mCallbacks.onItemSelected(MilestoneContent.ITEMS.get(position).toString());
 	}
 
 	@Override

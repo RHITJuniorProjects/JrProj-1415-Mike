@@ -52,6 +52,9 @@ public class MilestoneListActivity extends Activity implements
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
+		Intent intent = this.getIntent();
+	//	ArrayList<Milestones> milestoneList = intent.getParcelableArrayListExtra(name);
+		
 	}
 
 	@Override
