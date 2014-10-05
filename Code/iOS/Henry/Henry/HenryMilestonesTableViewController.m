@@ -7,9 +7,10 @@
 //
 
 #import "HenryMilestonesTableViewController.h"
-
+#import "HenryTasksTableViewController.h"
 @interface HenryMilestonesTableViewController ()
 @property NSMutableArray *staticData;
+
 @end
 
 @implementation HenryMilestonesTableViewController
@@ -26,10 +27,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+        
     self.staticData = [[NSMutableArray alloc] init];
-    [self.staticData addObject:@"Milestone 1"];
-    [self.staticData addObject:@"Milestone 2"];
-    [self.staticData addObject:@"Milestone 3"];
+    if([self.ProjectID  isEqual: @"Project 1"]){
+        [self.staticData addObject:@"Milestone P-1-1"];
+        [self.staticData addObject:@"Milestone P-1-2"];
+    }else if ([self.ProjectID  isEqual: @"Project 2"]){
+        [self.staticData addObject:@"Milestone P-2-1"];
+        [self.staticData addObject:@"Milestone P-2-2"];
+    }
+    
+    
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -107,15 +117,21 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    
+    HenryTasksTableViewController *vc = [segue destinationViewController];
+    vc.ProjectID = self.ProjectID;
+    vc.MileStoneID = [self.staticData objectAtIndex:indexPath.row];
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

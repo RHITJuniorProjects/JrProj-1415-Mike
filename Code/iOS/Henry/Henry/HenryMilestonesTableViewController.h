@@ -10,4 +10,7 @@
 
 @interface HenryMilestonesTableViewController : UITableViewController
 
+
+@property NSString *ProjectID;
+
 @end

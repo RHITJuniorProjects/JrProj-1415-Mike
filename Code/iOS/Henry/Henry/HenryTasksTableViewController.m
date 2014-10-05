@@ -32,18 +32,18 @@
     self.tasks = [[NSMutableArray alloc] init];
     
     if ([self.ProjectID isEqualToString:@"Project 1"]) {
-        if ([self.MileStoneID isEqualToString:@"Milestone 1"]) {
+        if ([self.MileStoneID isEqualToString:@"Milestone P-1-1"]) {
             [self.tasks addObject:@"P1: M1: Task 1"];
             [self.tasks addObject:@"P1: M1: Task 2"];
-        } else if ([self.MileStoneID isEqualToString:@"Milestone 2"]) {
+        } else if ([self.MileStoneID isEqualToString:@"Milestone P-1-2"]) {
             [self.tasks addObject:@"P1: M2: Task 1"];
             [self.tasks addObject:@"P1: M2: Task 2"];
         }
     } else if ([self.ProjectID isEqualToString:@"Project 2"]) {
-        if ([self.MileStoneID isEqualToString:@"Milestone 1"]) {
+        if ([self.MileStoneID isEqualToString:@"Milestone P-2-1"]) {
             [self.tasks addObject:@"P2: M1: Task 1"];
             [self.tasks addObject:@"P2: M1: Task 2"];
-        } else if ([self.MileStoneID isEqualToString:@"Milestone 2"]) {
+        } else if ([self.MileStoneID isEqualToString:@"Milestone P-2-2"]) {
             [self.tasks addObject:@"P2: M2: Task 1"];
             [self.tasks addObject:@"P2: M2: Task 2"];
         }
