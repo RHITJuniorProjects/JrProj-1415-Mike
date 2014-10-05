@@ -7,5 +7,7 @@
     <string name="title_milestone_list">Milestones</string>
     <string name="title_milestone_detail">Milestone Detail</string>
     <string name="milestoneButtonName">View Milestones</string>
+    <string name="title_project_list">Projects</string>
+    <string name="title_project_detail">Project Detail</string>
 
 </resources>
