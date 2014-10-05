@@ -20,6 +20,9 @@
 		AD3E8FFB19CF82B100DCFF56 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3E8FFA19CF82B100DCFF56 /* CFNetwork.framework */; };
 		AD3E8FFD19CF82BB00DCFF56 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3E8FFC19CF82BB00DCFF56 /* Security.framework */; };
 		AD3E8FFF19CF82C700DCFF56 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD3E8FFE19CF82C700DCFF56 /* SystemConfiguration.framework */; };
+		F2426A1D19E1E00700E6944C /* ProjectsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2426A1C19E1E00700E6944C /* ProjectsTableViewController.m */; };
+		F2426A2019E1E01F00E6944C /* MilestonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2426A1F19E1E01F00E6944C /* MilestonesTableViewController.m */; };
+		F2426A2319E1E03400E6944C /* TasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2426A2219E1E03400E6944C /* TasksTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +55,12 @@
 		AD3E8FFA19CF82B100DCFF56 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		AD3E8FFC19CF82BB00DCFF56 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		AD3E8FFE19CF82C700DCFF56 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F2426A1B19E1E00700E6944C /* ProjectsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectsTableViewController.h; sourceTree = "<group>"; };
+		F2426A1C19E1E00700E6944C /* ProjectsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectsTableViewController.m; sourceTree = "<group>"; };
+		F2426A1E19E1E01F00E6944C /* MilestonesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestonesTableViewController.h; sourceTree = "<group>"; };
+		F2426A1F19E1E01F00E6944C /* MilestonesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestonesTableViewController.m; sourceTree = "<group>"; };
+		F2426A2119E1E03400E6944C /* TasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TasksTableViewController.h; path = ../TasksTableViewController.h; sourceTree = "<group>"; };
+		F2426A2219E1E03400E6944C /* TasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TasksTableViewController.m; path = ../TasksTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +113,12 @@
 		AD3E8FCD19CF824300DCFF56 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				F2426A1B19E1E00700E6944C /* ProjectsTableViewController.h */,
+				F2426A1C19E1E00700E6944C /* ProjectsTableViewController.m */,
+				F2426A1E19E1E01F00E6944C /* MilestonesTableViewController.h */,
+				F2426A1F19E1E01F00E6944C /* MilestonesTableViewController.m */,
+				F2426A2119E1E03400E6944C /* TasksTableViewController.h */,
+				F2426A2219E1E03400E6944C /* TasksTableViewController.m */,
 				AD3E8FD219CF824300DCFF56 /* AppDelegate.h */,
 				AD3E8FD319CF824300DCFF56 /* AppDelegate.m */,
 				AD3E8FD519CF824300DCFF56 /* ViewController.h */,
@@ -244,7 +259,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD3E8FD719CF824300DCFF56 /* ViewController.m in Sources */,
+				F2426A1D19E1E00700E6944C /* ProjectsTableViewController.m in Sources */,
+				F2426A2019E1E01F00E6944C /* MilestonesTableViewController.m in Sources */,
 				AD3E8FD419CF824300DCFF56 /* AppDelegate.m in Sources */,
+				F2426A2319E1E03400E6944C /* TasksTableViewController.m in Sources */,
 				AD3E8FD119CF824300DCFF56 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
