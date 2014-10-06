@@ -1,0 +1,479 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
+		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
+		93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
+		93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93447F4119C91C5500C2FC38 /* InfoPlist.strings */; };
+		93447F4519C91C5500C2FC38 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F4419C91C5500C2FC38 /* main.m */; };
+		93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */; };
+		93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93447F4A19C91C5500C2FC38 /* Images.xcassets */; };
+		93447F5219C91C5600C2FC38 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F5119C91C5500C2FC38 /* XCTest.framework */; };
+		93447F5319C91C5600C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
+		93447F5419C91C5600C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
+		93447F5C19C91C5600C2FC38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93447F5A19C91C5600C2FC38 /* InfoPlist.strings */; };
+		93447F5E19C91C5600C2FC38 /* HenryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F5D19C91C5600C2FC38 /* HenryTests.m */; };
+		93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */; };
+		93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */; };
+		93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */; };
+		93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		93447F5519C91C5600C2FC38 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 93447F2D19C91C5500C2FC38 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 93447F3419C91C5500C2FC38;
+			remoteInfo = Henry;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		93447F3C19C91C5500C2FC38 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		93447F4019C91C5500C2FC38 /* Henry-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Henry-Info.plist"; sourceTree = "<group>"; };
+		93447F4219C91C5500C2FC38 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93447F4419C91C5500C2FC38 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		93447F4619C91C5500C2FC38 /* Henry-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Henry-Prefix.pch"; sourceTree = "<group>"; };
+		93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HenryAppDelegate.h; sourceTree = "<group>"; };
+		93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HenryAppDelegate.m; sourceTree = "<group>"; };
+		93447F4A19C91C5500C2FC38 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		93447F5019C91C5500C2FC38 /* HenryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HenryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		93447F5119C91C5500C2FC38 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		93447F5919C91C5600C2FC38 /* HenryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HenryTests-Info.plist"; sourceTree = "<group>"; };
+		93447F5B19C91C5600C2FC38 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		93447F5D19C91C5600C2FC38 /* HenryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HenryTests.m; sourceTree = "<group>"; };
+		93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhoneStoryboard.storyboard; sourceTree = "<group>"; };
+		93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectsTableViewController.h; sourceTree = "<group>"; };
+		93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectsTableViewController.m; sourceTree = "<group>"; };
+		93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMilestonesTableViewController.h; sourceTree = "<group>"; };
+		93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestonesTableViewController.m; sourceTree = "<group>"; };
+		93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTasksTableViewController.h; sourceTree = "<group>"; };
+		93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTasksTableViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		93447F3219C91C5500C2FC38 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */,
+				93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */,
+				93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93447F4D19C91C5500C2FC38 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93447F5219C91C5600C2FC38 /* XCTest.framework in Frameworks */,
+				93447F5419C91C5600C2FC38 /* UIKit.framework in Frameworks */,
+				93447F5319C91C5600C2FC38 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		93447F2C19C91C5500C2FC38 = {
+			isa = PBXGroup;
+			children = (
+				93447F3E19C91C5500C2FC38 /* Henry */,
+				93447F5719C91C5600C2FC38 /* HenryTests */,
+				93447F3719C91C5500C2FC38 /* Frameworks */,
+				93447F3619C91C5500C2FC38 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		93447F3619C91C5500C2FC38 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				93447F3519C91C5500C2FC38 /* Henry.app */,
+				93447F5019C91C5500C2FC38 /* HenryTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		93447F3719C91C5500C2FC38 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93447F3819C91C5500C2FC38 /* Foundation.framework */,
+				93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */,
+				93447F3C19C91C5500C2FC38 /* UIKit.framework */,
+				93447F5119C91C5500C2FC38 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93447F3E19C91C5500C2FC38 /* Henry */ = {
+			isa = PBXGroup;
+			children = (
+				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
+				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
+				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
+				93447F3F19C91C5500C2FC38 /* Supporting Files */,
+				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
+				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
+				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
+				93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */,
+				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
+				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
+				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
+			);
+			path = Henry;
+			sourceTree = "<group>";
+		};
+		93447F3F19C91C5500C2FC38 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				93447F4019C91C5500C2FC38 /* Henry-Info.plist */,
+				93447F4119C91C5500C2FC38 /* InfoPlist.strings */,
+				93447F4419C91C5500C2FC38 /* main.m */,
+				93447F4619C91C5500C2FC38 /* Henry-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		93447F5719C91C5600C2FC38 /* HenryTests */ = {
+			isa = PBXGroup;
+			children = (
+				93447F5D19C91C5600C2FC38 /* HenryTests.m */,
+				93447F5819C91C5600C2FC38 /* Supporting Files */,
+			);
+			path = HenryTests;
+			sourceTree = "<group>";
+		};
+		93447F5819C91C5600C2FC38 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				93447F5919C91C5600C2FC38 /* HenryTests-Info.plist */,
+				93447F5A19C91C5600C2FC38 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		93447F3419C91C5500C2FC38 /* Henry */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93447F6119C91C5600C2FC38 /* Build configuration list for PBXNativeTarget "Henry" */;
+			buildPhases = (
+				93447F3119C91C5500C2FC38 /* Sources */,
+				93447F3219C91C5500C2FC38 /* Frameworks */,
+				93447F3319C91C5500C2FC38 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Henry;
+			productName = Henry;
+			productReference = 93447F3519C91C5500C2FC38 /* Henry.app */;
+			productType = "com.apple.product-type.application";
+		};
+		93447F4F19C91C5500C2FC38 /* HenryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 93447F6419C91C5600C2FC38 /* Build configuration list for PBXNativeTarget "HenryTests" */;
+			buildPhases = (
+				93447F4C19C91C5500C2FC38 /* Sources */,
+				93447F4D19C91C5500C2FC38 /* Frameworks */,
+				93447F4E19C91C5500C2FC38 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				93447F5619C91C5600C2FC38 /* PBXTargetDependency */,
+			);
+			name = HenryTests;
+			productName = HenryTests;
+			productReference = 93447F5019C91C5500C2FC38 /* HenryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		93447F2D19C91C5500C2FC38 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = Henry;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Rose-Hulman";
+				TargetAttributes = {
+					93447F4F19C91C5500C2FC38 = {
+						TestTargetID = 93447F3419C91C5500C2FC38;
+					};
+				};
+			};
+			buildConfigurationList = 93447F3019C91C5500C2FC38 /* Build configuration list for PBXProject "Henry" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 93447F2C19C91C5500C2FC38;
+			productRefGroup = 93447F3619C91C5500C2FC38 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				93447F3419C91C5500C2FC38 /* Henry */,
+				93447F4F19C91C5500C2FC38 /* HenryTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		93447F3319C91C5500C2FC38 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
+				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
+				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93447F4E19C91C5500C2FC38 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93447F5C19C91C5600C2FC38 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		93447F3119C91C5500C2FC38 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */,
+				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
+				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
+				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		93447F4C19C91C5500C2FC38 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93447F5E19C91C5600C2FC38 /* HenryTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		93447F5619C91C5600C2FC38 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 93447F3419C91C5500C2FC38 /* Henry */;
+			targetProxy = 93447F5519C91C5600C2FC38 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		93447F4119C91C5500C2FC38 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				93447F4219C91C5500C2FC38 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		93447F5A19C91C5600C2FC38 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				93447F5B19C91C5600C2FC38 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		93447F5F19C91C5600C2FC38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		93447F6019C91C5600C2FC38 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		93447F6219C91C5600C2FC38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
+				INFOPLIST_FILE = "Henry/Henry-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		93447F6319C91C5600C2FC38 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
+				INFOPLIST_FILE = "Henry/Henry-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		93447F6519C91C5600C2FC38 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Henry.app/Henry";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "HenryTests/HenryTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		93447F6619C91C5600C2FC38 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Henry.app/Henry";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
+				INFOPLIST_FILE = "HenryTests/HenryTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		93447F3019C91C5500C2FC38 /* Build configuration list for PBXProject "Henry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93447F5F19C91C5600C2FC38 /* Debug */,
+				93447F6019C91C5600C2FC38 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		93447F6119C91C5600C2FC38 /* Build configuration list for PBXNativeTarget "Henry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93447F6219C91C5600C2FC38 /* Debug */,
+				93447F6319C91C5600C2FC38 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		93447F6419C91C5600C2FC38 /* Build configuration list for PBXNativeTarget "HenryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				93447F6519C91C5600C2FC38 /* Debug */,
+				93447F6619C91C5600C2FC38 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 93447F2D19C91C5500C2FC38 /* Project object */;
+}
