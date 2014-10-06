@@ -2,17 +2,15 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import android.os.Bundle;
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Project;
 import android.app.Fragment;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import rhit.jrProj.henry.content.ProjectContent;
-import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.Task;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
@@ -42,12 +40,11 @@ public class ProjectDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
+		if (getArguments().containsKey("Project")) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			projectItem = ProjectContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			projectItem = (Project) getArguments().getParcelable("Project");
 		}
 	}
 
@@ -56,7 +53,6 @@ public class ProjectDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_project_detail,
 				container, false);
-
 		// Show the dummy content as text in a TextView.
 		if (projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_detail))
@@ -67,16 +63,16 @@ public class ProjectDetailFragment extends Fragment {
 	}
 	
 	/**
-	 * The method that is called when the "View Tasks" button
+	 * The method that is called when the "View Milestones" button
 	 * is pressed.
 	 * @param view
 	 */
 	public void openMilestoneView(View view)
 	{
 		//TODO: Start intent to feature 2.
-		Intent intent = new Intent();
+		Intent intent = new Intent(this.getActivity(), MilestoneListActivity.class);
 		ArrayList<Milestone> milestones = projectItem.getMilestones();
-	//	intent.put
+	 	intent.putParcelableArrayListExtra("Milestones", milestones);
 		this.startActivity(intent);
 	}
 }

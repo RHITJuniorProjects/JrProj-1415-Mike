@@ -1,5 +1,8 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+
+import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -35,6 +38,8 @@ public class TaskListFragment extends ListFragment {
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
+	private ArrayList<Task> tasks;
+
 	/**
 	 * A callback interface that all activities containing this fragment must
 	 * implement. This mechanism allows activities to be notified of item
@@ -44,7 +49,7 @@ public class TaskListFragment extends ListFragment {
 		/**
 		 * Callback for when an item has been selected.
 		 */
-		public void onItemSelected(String id);
+		public void onItemSelected(Task t);
 	}
 
 	/**
@@ -52,8 +57,8 @@ public class TaskListFragment extends ListFragment {
 	 * nothing. Used only when this fragment is not attached to an activity.
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		@Override
-		public void onItemSelected(String id) {
+
+		public void onItemSelected(Task t) {
 		}
 	};
 
@@ -69,9 +74,10 @@ public class TaskListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		ArrayAdapter<TaskContent.Task> adapter = new ArrayAdapter<TaskContent.Task>(getActivity(),
+		this.tasks = this.getActivity().getIntent().getParcelableArrayListExtra("Tasks");
+		ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, TaskContent.ITEMS);
+				android.R.id.text1, this.tasks);
 		
 
 		// TODO: replace with a real list adapter.
@@ -123,7 +129,7 @@ public class TaskListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(TaskContent.ITEMS.get(position).id);
+		mCallbacks.onItemSelected(this.tasks.get(position));
 	}
 
 	@Override

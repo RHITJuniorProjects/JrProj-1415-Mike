@@ -1,8 +1,8 @@
 package rhit.jrProj.henry;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
@@ -37,8 +37,8 @@ public class ProjectDetailActivity extends Activity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(ProjectDetailFragment.ARG_ITEM_ID, getIntent()
-					.getStringExtra(ProjectDetailFragment.ARG_ITEM_ID));
+			arguments.putParcelable("Project", getIntent()
+					.getParcelableExtra("Project"));
 			ProjectDetailFragment fragment = new ProjectDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()

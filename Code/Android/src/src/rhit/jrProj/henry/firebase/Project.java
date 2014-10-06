@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import rhit.jrProj.henry.firebase.Milestone;
 
 public class Project implements Parcelable {
 
@@ -38,7 +37,7 @@ public class Project implements Parcelable {
 	public Project(Parcel in) {
 		this.projectNumber = in.readInt();
 		this.milestones = new ArrayList<Milestone>();
-		in.readTypedList(this.milestones, Milestone.Creator);
+		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
 
 	public int getMilestoneNumber() {
@@ -57,19 +56,19 @@ public class Project implements Parcelable {
 		return this.milestones;
 	}
 
-	@Override
+
 	public int describeContents() {
 		// Do nothing.
 		return 0;
 	}
 
-	@Override
+
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(this.projectNumber);
 		dest.writeTypedList(this.milestones);
 	}
 	
-	public static final Parcelable.Creator<Project> Creator = new Parcelable.Creator<Project>() {
+	public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
 
 		public Project createFromParcel(Parcel pc) {
 			return new Project(pc);

@@ -1,5 +1,6 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.firebase.Task;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ public class TaskDetailFragment extends Fragment {
 	/**
 	 * The List content this fragment is presenting.
 	 */
-	private TaskContent.Task mItem;
+	private Task mItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -37,12 +38,11 @@ public class TaskDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
+		if (getArguments().containsKey("Task")) {
 			// Load the List content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = TaskContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			mItem = this.getArguments().getParcelable("Task");
 		}
 	}
 
@@ -55,7 +55,7 @@ public class TaskDetailFragment extends Fragment {
 		// Show the List content as text in a TextView.
 		if (mItem != null) {
 			((TextView) rootView.findViewById(R.id.task_detail))
-					.setText(mItem.content);
+					.setText(mItem.toString());
 		}
 
 		return rootView;

@@ -1,5 +1,6 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.firebase.Milestone;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,7 +53,7 @@ public class MilestoneListActivity extends Activity implements
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
-		Intent intent = this.getIntent();
+		//Intent intent = this.getIntent();
 	//	ArrayList<Milestones> milestoneList = intent.getParcelableArrayListExtra(name);
 		
 	}
@@ -78,13 +79,14 @@ public class MilestoneListActivity extends Activity implements
 	 * Callback method from {@link MilestoneListFragment.Callbacks} indicating
 	 * that the item with the given ID was selected.
 	 */
-	public void onItemSelected(String id) {
+	public void onItemSelected(Milestone m) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(MilestoneDetailFragment.ARG_ITEM_ID, id);
+			//arguments.putString(MilestoneDetailFragment.ARG_ITEM_ID, id);
+			arguments.putParcelable("Milestone", m);
 			MilestoneDetailFragment fragment = new MilestoneDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
@@ -96,7 +98,7 @@ public class MilestoneListActivity extends Activity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this,
 					MilestoneDetailActivity.class);
-			detailIntent.putExtra(MilestoneDetailFragment.ARG_ITEM_ID, id);
+			detailIntent.putExtra("Milestone", m);
 			startActivity(detailIntent);
 		}
 	}

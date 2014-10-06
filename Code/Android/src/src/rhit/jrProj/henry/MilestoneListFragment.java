@@ -1,6 +1,7 @@
 package rhit.jrProj.henry;
 
-import rhit.jrProj.henry.content.MilestoneContent;
+import java.util.ArrayList;
+
 import rhit.jrProj.henry.firebase.Milestone;
 import android.app.Activity;
 import android.app.ListFragment;
@@ -37,6 +38,8 @@ public class MilestoneListFragment extends ListFragment {
 	 */
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
+	private ArrayList<Milestone> milestones;
+
 	/**
 	 * A callback interface that all activities containing this fragment must
 	 * implement. This mechanism allows activities to be notified of item
@@ -46,7 +49,7 @@ public class MilestoneListFragment extends ListFragment {
 		/**
 		 * Callback for when an item has been selected.
 		 */
-		public void onItemSelected(String id);
+		public void onItemSelected(Milestone m);
 	}
 
 	/**
@@ -54,7 +57,7 @@ public class MilestoneListFragment extends ListFragment {
 	 * nothing. Used only when this fragment is not attached to an activity.
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		public void onItemSelected(String id) {
+		public void onItemSelected(Milestone m) {
 		}
 	};
 
@@ -69,9 +72,10 @@ public class MilestoneListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Done: replace with a real list adapter.
+		this.milestones = this.getActivity().getIntent().getParcelableArrayListExtra("Milestones");
 		setListAdapter(new ArrayAdapter<Milestone>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, MilestoneContent.ITEMS));
+				android.R.id.text1, this.milestones));
 	}
 
 	@Override
@@ -114,7 +118,7 @@ public class MilestoneListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(MilestoneContent.ITEMS.get(position).toString());
+		mCallbacks.onItemSelected(this.milestones.get(position));
 	}
 
 	@Override

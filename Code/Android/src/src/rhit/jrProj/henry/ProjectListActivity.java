@@ -1,10 +1,14 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.firebase.Project;
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
-import android.app.Activity;
+import android.widget.FrameLayout;
 
 /**
  * An activity representing a list of Projects. This activity has different
@@ -34,10 +38,20 @@ public class ProjectListActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_project_list);
+		FrameLayout layout = new FrameLayout(this);
+		layout.setId(0x1234);
+		//setContentView(R.layout.activity_project_list);
+		setContentView(layout);
+		Bundle arguments = new Bundle();
+		arguments.putParcelableArrayList("Projects", this.getIntent().getParcelableArrayListExtra("Projects"));
+		FragmentTransaction t = getFragmentManager().beginTransaction();
+		ProjectListFragment fragment = new ProjectListFragment();
+		fragment.setArguments(arguments);
+		t.add(layout.getId(), fragment, "test");
+		t.commit();
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
+		Log.i("Test", "Made it this far!");
 		if (findViewById(R.id.project_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
@@ -75,14 +89,14 @@ public class ProjectListActivity extends Activity implements
 	 * Callback method from {@link ProjectListFragment.Callbacks} indicating
 	 * that the item with the given ID was selected.
 	 */
-	@Override
-	public void onItemSelected(String id) {
+	public void onItemSelected(Project p) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(ProjectDetailFragment.ARG_ITEM_ID, id);
+			//arguments.putString(ProjectDetailFragment.ARG_ITEM_ID, id);
+			arguments.putParcelable("Project", p);
 			ProjectDetailFragment fragment = new ProjectDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
@@ -94,7 +108,8 @@ public class ProjectListActivity extends Activity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this,
 					ProjectDetailActivity.class);
-			detailIntent.putExtra(ProjectDetailFragment.ARG_ITEM_ID, id);
+			//detailIntent.putExtra(ProjectDetailFragment.ARG_ITEM_ID, id);
+			detailIntent.putExtra("Project", p);
 			startActivity(detailIntent);
 		}
 	}

@@ -6,8 +6,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="lib" path="libs/firebase-client-jvm-1.0.18.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/appcompat_v7.jar"/>
-	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/appcompat_v7"/>
+	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Workspaces/AndroidProjects/android-support-v7-appcompat/libs/android-support-v7-appcompat.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

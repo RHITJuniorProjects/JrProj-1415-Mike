@@ -1,7 +1,6 @@
 package rhit.jrProj.henry;
 
-import com.firebase.client.Firebase;
-
+import rhit.jrProj.henry.firebase.Task;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -34,11 +33,6 @@ public class TaskListActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
-		
-		Firebase f = new Firebase(
-				"https://sizzling-inferno-2459.firebaseio.com/");
-		
-
 		if (findViewById(R.id.task_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
@@ -59,14 +53,13 @@ public class TaskListActivity extends FragmentActivity implements
 	 * Callback method from {@link ItemListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
 	 */
-	@Override
-	public void onItemSelected(String id) {
+	public void onItemSelected(Task t) {
 		if (mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(TaskDetailFragment.ARG_ITEM_ID, id);
+			arguments.putParcelable("Task", t);
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
 			getSupportFragmentManager().beginTransaction()
@@ -76,7 +69,7 @@ public class TaskListActivity extends FragmentActivity implements
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this, TaskDetailActivity.class);
-			detailIntent.putExtra(TaskDetailFragment.ARG_ITEM_ID, id);
+			detailIntent.putExtra("Task", t);
 			startActivity(detailIntent);
 		}
 	}

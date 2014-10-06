@@ -37,7 +37,7 @@ public class Milestone implements Parcelable {
 	public Milestone(Parcel in) {
 		this.milestoneNumber = in.readInt();
 		this.tasks = new ArrayList<Task>();
-		in.readTypedList(this.tasks, Task.Creator);
+		in.readTypedList(this.tasks, Task.CREATOR);
 	}
 
 	public int getMilestoneNumber() {
@@ -69,7 +69,7 @@ public class Milestone implements Parcelable {
 		dest.writeTypedList(this.tasks);
 	}
 	
-	public static final Parcelable.Creator<Milestone> Creator = new Parcelable.Creator<Milestone>() {
+	public static final Parcelable.Creator<Milestone> CREATOR = new Parcelable.Creator<Milestone>() {
 
 		public Milestone createFromParcel(Parcel pc) {
 			return new Milestone(pc);

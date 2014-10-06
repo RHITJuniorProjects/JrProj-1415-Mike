@@ -1,10 +1,12 @@
 package rhit.jrProj.henry;
 
-import rhit.jrProj.henry.content.ProjectContent;
+import java.util.ArrayList;
+
 import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.ListFragment;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -20,6 +22,8 @@ import android.widget.ListView;
  */
 public class ProjectListFragment extends ListFragment {
 
+	ArrayList<Project> projects;
+	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -46,7 +50,7 @@ public class ProjectListFragment extends ListFragment {
 		/**
 		 * Callback for when an item has been selected.
 		 */
-		public void onItemSelected(String id);
+		public void onItemSelected(Project p);
 	}
 
 	/**
@@ -54,8 +58,8 @@ public class ProjectListFragment extends ListFragment {
 	 * nothing. Used only when this fragment is not attached to an activity.
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		@Override
-		public void onItemSelected(String id) {
+
+		public void onItemSelected(Project p) {
 		}
 	};
 
@@ -69,11 +73,14 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// TODO: replace with a real list adapter.
+		Log.i("Test", "Got to fragment");
+		this.projects = this.getArguments().getParcelableArrayList("Projects");
+		Log.i("Test", this.projects.size()+"");
+		// Done: replace with a real list adapter.
 		setListAdapter(new ArrayAdapter<Project>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, ProjectContent.ITEMS));
+				android.R.id.text1, projects));
+		Log.i("Test", "got through fragment");
 	}
 
 	@Override
@@ -116,7 +123,7 @@ public class ProjectListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(ProjectContent.ITEMS.get(position).toString());
+		mCallbacks.onItemSelected(this.projects.get(position));
 	}
 
 	@Override

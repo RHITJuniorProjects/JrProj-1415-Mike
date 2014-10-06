@@ -2,7 +2,6 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import rhit.jrProj.henry.content.MilestoneContent;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Fragment;
@@ -41,12 +40,11 @@ public class MilestoneDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
+		if (getArguments().containsKey("Milestone")) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			milestoneItem = MilestoneContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			milestoneItem = this.getArguments().getParcelable("Milestone");
 		}
 	}
 
@@ -71,10 +69,9 @@ public class MilestoneDetailFragment extends Fragment {
 	 */
 	public void openTaskView(View view)
 	{
-		//TODO: Start intent to feature 3.
 		Intent intent = new Intent(this.getActivity(), TaskListActivity.class);
 		ArrayList<Task> tasks = milestoneItem.getTasks();
-	//	intent.put
+		intent.putParcelableArrayListExtra("Tasks", tasks);
 		this.startActivity(intent);
 	}
 	
