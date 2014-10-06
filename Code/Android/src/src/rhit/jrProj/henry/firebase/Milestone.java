@@ -2,7 +2,10 @@ package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
 
-public class Milestone {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Milestone implements Parcelable {
 
 	/**
 	 * A List of tasks that are contained within the Milestone
@@ -25,6 +28,18 @@ public class Milestone {
 		this.milestoneNumber = number;
 	}
 
+	/**
+	 * 
+	 * Ctor from Parcel, reads back fields IN THE ORDER they were written
+	 *
+	 * @param in
+	 */
+	public Milestone(Parcel in) {
+		this.milestoneNumber = in.readInt();
+		this.tasks = new ArrayList<Task>();
+		in.readTypedList(this.tasks, Task.Creator);
+	}
+
 	public int getMilestoneNumber() {
 		return this.milestoneNumber;
 	}
@@ -40,4 +55,28 @@ public class Milestone {
 	public ArrayList<Task> getTasks() {
 		return this.tasks;
 	}
+
+	/** 
+	 * Used to give additional hints on how to process the received parcel. 
+	 */
+	public int describeContents() {
+		// Do nothing.
+		return 0;
+	}
+
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(this.milestoneNumber);
+		dest.writeTypedList(this.tasks);
+	}
+	
+	public static final Parcelable.Creator<Milestone> Creator = new Parcelable.Creator<Milestone>() {
+
+		public Milestone createFromParcel(Parcel pc) {
+			return new Milestone(pc);
+		}
+
+		public Milestone[] newArray(int size) {
+			return new Milestone[size];
+		}
+	};
 }

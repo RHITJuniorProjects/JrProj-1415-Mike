@@ -44,4 +44,15 @@ public class MainActivity extends Activity {
 		this.startActivity(intent);
 	}
 	
+	/**
+	 * The method that is called when the "Open Milestone" button
+	 * is pressed.
+	 * @param view
+	 */
+	public void openProjectListView(View view)
+	{
+		Intent intent = new Intent(this, ProjectListActivity.class);
+		this.startActivity(intent);
+	}
+	
 }
