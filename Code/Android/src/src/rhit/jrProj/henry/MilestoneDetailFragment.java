@@ -72,7 +72,7 @@ public class MilestoneDetailFragment extends Fragment {
 	public void openTaskView(View view)
 	{
 		//TODO: Start intent to feature 3.
-		Intent intent = new Intent();
+		Intent intent = new Intent(this.getActivity(), TaskListActivity.class);
 		ArrayList<Task> tasks = milestoneItem.getTasks();
 	//	intent.put
 		this.startActivity(intent);
