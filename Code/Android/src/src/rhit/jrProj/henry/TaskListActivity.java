@@ -1,9 +1,11 @@
 package rhit.jrProj.henry;
 
 import rhit.jrProj.henry.firebase.Task;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.widget.FrameLayout;
 
 /**
  * An activity representing a list of Items. This activity has different
@@ -32,7 +34,18 @@ public class TaskListActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_task_list);
+		FrameLayout layout = new FrameLayout(this);
+		layout.setId(0x1112);
+		setContentView(layout);
+		// Show the Up button in the action bar.
+		Bundle args = new Bundle();
+		args.putParcelableArrayList("Tasks", this.getIntent().getParcelableArrayListExtra("Tasks"));
+		FragmentTransaction t = getFragmentManager().beginTransaction();
+		TaskListFragment frag = new TaskListFragment();
+		frag.setArguments(args);
+		t.add(layout.getId(), frag, "Task List");
+		t.commit();
+		
 		if (findViewById(R.id.task_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
@@ -42,7 +55,7 @@ public class TaskListActivity extends FragmentActivity implements
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
-			((TaskListFragment) getSupportFragmentManager().findFragmentById(
+			((TaskListFragment) getFragmentManager().findFragmentById(
 					R.id.task_list)).setActivateOnItemClick(true);
 		}
 

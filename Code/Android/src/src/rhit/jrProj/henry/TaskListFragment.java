@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -59,6 +59,7 @@ public class TaskListFragment extends ListFragment {
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 
 		public void onItemSelected(Task t) {
+			//do nothing
 		}
 	};
 
@@ -75,17 +76,9 @@ public class TaskListFragment extends ListFragment {
 		
 		super.onCreate(savedInstanceState);
 		this.tasks = this.getArguments().getParcelableArrayList("Tasks");
-		ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
+		setListAdapter(new ArrayAdapter<Task>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, this.tasks);
-		
-
-		// TODO: replace with a real list adapter.
-//		setListAdapter(new ArrayAdapter<ListContent.Task>(getActivity(),
-//				android.R.layout.simple_list_item_activated_1,
-//				android.R.id.text1, ListContent.ITEMS));
-		setListAdapter(adapter);
-		adapter.notifyDataSetChanged();
+				android.R.id.text1, this.tasks));
 		
 	}
 
@@ -162,8 +155,5 @@ public class TaskListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-//	public void remove(ListContent.Task task){
-//		adapter.remove(task);
-//	}
 	
 }

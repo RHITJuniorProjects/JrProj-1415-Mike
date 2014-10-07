@@ -1,9 +1,10 @@
 package rhit.jrProj.henry;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+
 import android.view.MenuItem;
 
 /**
@@ -14,7 +15,7 @@ import android.view.MenuItem;
  * This activity is mostly just a 'shell' activity containing nothing more than
  * a {@link ItemDetailFragment}.
  */
-public class TaskDetailActivity extends ActionBarActivity {
+public class TaskDetailActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,7 @@ public class TaskDetailActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_task_detail);
 
 		// Show the Up button in the action bar.
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// savedInstanceState is non-null when there is fragment state
 		// saved from previous configurations of this activity
@@ -41,8 +42,7 @@ public class TaskDetailActivity extends ActionBarActivity {
 					.getStringExtra(TaskDetailFragment.ARG_ITEM_ID));
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.task_detail_container, fragment).commit();
+		//	getFragmentManager().beginTransaction().add(R.id.task_detail_container, fragment).commit();
 		}
 	}
 
