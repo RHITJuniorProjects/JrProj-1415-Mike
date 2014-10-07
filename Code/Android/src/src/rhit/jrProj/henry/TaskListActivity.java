@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 /**
@@ -39,19 +40,20 @@ public class TaskListActivity extends FragmentActivity implements
 		setContentView(layout);
 		// Show the Up button in the action bar.
 		Bundle args = new Bundle();
-		args.putParcelableArrayList("Tasks", this.getIntent().getParcelableArrayListExtra("Tasks"));
+		args.putParcelableArrayList("Tasks", this.getIntent()
+				.getParcelableArrayListExtra("Tasks"));
 		FragmentTransaction t = getFragmentManager().beginTransaction();
 		TaskListFragment frag = new TaskListFragment();
 		frag.setArguments(args);
 		t.add(layout.getId(), frag, "Task List");
 		t.commit();
-		
+
 		if (findViewById(R.id.task_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
-			mTwoPane = true;
+			this.mTwoPane = true;
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
@@ -62,12 +64,22 @@ public class TaskListActivity extends FragmentActivity implements
 		// TODO: If exposing deep links into your app, handle intents here.
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	/**
 	 * Callback method from {@link ItemListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
 	 */
 	public void onItemSelected(Task t) {
-		if (mTwoPane) {
+		if (this.mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.

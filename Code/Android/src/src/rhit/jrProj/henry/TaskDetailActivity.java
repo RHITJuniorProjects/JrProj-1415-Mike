@@ -1,10 +1,7 @@
 package rhit.jrProj.henry;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-
 import android.view.MenuItem;
 
 /**
@@ -56,9 +53,7 @@ public class TaskDetailActivity extends Activity {
 			// more details, see the Navigation pattern on Android Design:
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpTo(this,
-					new Intent(this, TaskListActivity.class));
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

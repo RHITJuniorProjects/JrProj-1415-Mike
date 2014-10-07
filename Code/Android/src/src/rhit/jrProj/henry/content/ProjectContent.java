@@ -24,7 +24,7 @@ public class ProjectContent {
 		tasks.add(new Task(3));
 		tasks.add(new Task(4));
 		ArrayList<Milestone> milestones = new ArrayList<Milestone>();
-		milestones.add(new Milestone(tasks, 1));
+		milestones.add(new Milestone(new ArrayList<Task>(), 1));
 		tasks.remove(0);
 		milestones.add(new Milestone(tasks, 2));
 		ITEMS.add(new Project(milestones, 1));
