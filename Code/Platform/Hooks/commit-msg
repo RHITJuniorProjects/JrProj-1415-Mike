@@ -3,12 +3,15 @@ import sys
 import re
 from firebase import firebase
 
-#firebaseUrl = 'https://henry371.firebaseio.com'
-firebaseUrl = 'https://henry372.firebaseio.com'
-firebase = firebase.FirebaseApplication(firebaseUrl, None)
+prodUrl = 'https://henry-production.firebaseio.com'
+stagUrl = 'https://henry-staging.firebaseio.com'
+testUrl = 'https://henry-test.firebaseio.com'
 
-#sys.argv[0] is the path to this file
-#sys.argv[1] is the path to commit file
+# set this to the correct database
+firebase = firebase.FirebaseApplication(testUrl, None)
+
+# sys.argv[0] is the path to this file
+# sys.argv[1] is the path to commit file
 with open(sys.argv[1], "r") as msgfile:
     msg = msgfile.read()
 
