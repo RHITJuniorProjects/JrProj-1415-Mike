@@ -13,5 +13,13 @@
   },{
     "source":"/teams",
     "destination":"/teams.html"
+	
+  },{
+    "source":"/Milestones",
+    "destination":"/Milestones.html"
+  }
+  ,{
+    "source":"/tasks",
+    "destination":"/tasks.html"
   }]
 }

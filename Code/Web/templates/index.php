@@ -6,8 +6,12 @@
 	<body>
 		<?php require 'topbar.php';?>
 		<div>
-			<h1>Henry Page<h1>
+			<div class="row text-left">
+			<h2>Henry</h2>
+			</div>
 			<a href="/teams">
+			<a href="/Milestones">
+			<a href="/tasks">
 		</div>
 	</body>
 </html>
