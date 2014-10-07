@@ -11,6 +11,7 @@
 @interface HenryTasksTableViewController : UITableViewController
 
 @property NSString *ProjectID;
+@property NSString *milestoneName;
 @property NSString *MileStoneID;
 
 @end

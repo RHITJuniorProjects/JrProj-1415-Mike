@@ -8,9 +8,12 @@
 
 #import "HenryMilestonesTableViewController.h"
 #import "HenryTasksTableViewController.h"
+#import <Firebase/Firebase.h>
+
 @interface HenryMilestonesTableViewController ()
 @property NSMutableArray *staticData;
-
+@property Firebase *fb;
+@property NSMutableArray *milestoneIDs;
 @end
 
 @implementation HenryMilestonesTableViewController
@@ -37,14 +40,40 @@
         [self.staticData addObject:@"Milestone P-2-1"];
         [self.staticData addObject:@"Milestone P-2-2"];
     }
-    
-    
+//    NSString *fbURL = [NSString stringWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones", self.ProjectID];
+//    NSString *url = [[NSString alloc] initWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones", self.ProjectID];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry371.firebaseio.com/projects/"];
+//    self.fb = [[Firebase alloc] initWithUrl:url];
+
+    // Attach a block to read the data at our posts reference
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+}
+
+-(void)updateTable {
+    NSString *urlString = [NSString stringWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
+    NSURL *jsonURL = [NSURL URLWithString:urlString];
+    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
+    NSError *error;
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    NSArray *keys = [json allKeys];
+    self.staticData = [[NSMutableArray alloc] init];
+    self.milestoneIDs = [[NSMutableArray alloc] init];
+    for (NSString *key in keys) {
+        NSString *name = [[json objectForKey:key] objectForKey:@"name"];
+        [self.staticData addObject:name];
+        [self.milestoneIDs addObject:key];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -128,7 +157,8 @@
     
     HenryTasksTableViewController *vc = [segue destinationViewController];
     vc.ProjectID = self.ProjectID;
-    vc.MileStoneID = [self.staticData objectAtIndex:indexPath.row];
+    vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
+    vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }

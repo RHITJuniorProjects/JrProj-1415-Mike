@@ -8,9 +8,12 @@
 
 #import "HenryProjectsTableViewController.h"
 #import "HenryMilestonesTableViewController.h"
+#import <Firebase/Firebase.h>
 
 @interface HenryProjectsTableViewController ()
-@property NSArray *cellText;
+@property NSMutableArray *cellText;
+@property NSArray *projectIDs;
+@property Firebase *fbUsers;
 @end
 
 @implementation HenryProjectsTableViewController
@@ -33,8 +36,40 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.cellText = @[@"Project 1", @"Project 2"];
+    self.cellText = [[NSMutableArray alloc] initWithObjects:@"Project 1", @"Project 2", nil];
+    self.fbUsers = [[Firebase alloc] initWithUrl:@"https://henry371.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/projects"];
     
+    // Attach a block to read the data at our posts reference
+    [self.fbUsers observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+
+-(void)updateTable {
+    NSURL *jsonURL = [NSURL URLWithString:@"https://henry371.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/projects.json"];
+    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
+    NSError *error;
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    self.projectIDs = [json allKeys];
+    
+    NSURL *projectsURL = [NSURL URLWithString:@"https://henry371.firebaseio.com/projects.json"];
+    NSData *data2 = [NSData dataWithContentsOfURL:projectsURL];
+    NSDictionary *projectsJSON = [NSJSONSerialization JSONObjectWithData:data2 options:0 error:&error];
+    NSArray *projects = [projectsJSON allKeys];
+    
+    //Empty out hard-coded values
+    self.cellText = [[NSMutableArray alloc] init];
+    
+    for (NSString *project in projects) {
+        if ([self.projectIDs containsObject:project]) {
+            NSString *name = [[projectsJSON objectForKey:project] objectForKey:@"name"];
+            [self.cellText addObject:name];
+        }
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -119,7 +154,7 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
     HenryMilestonesTableViewController *vc = [segue destinationViewController];
-    vc.ProjectID = [self.cellText objectAtIndex:indexPath.row];
+    vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
 }
 
 

@@ -7,11 +7,12 @@
 //
 
 #import "HenryTasksTableViewController.h"
+#import <Firebase/Firebase.h>
 
 @interface HenryTasksTableViewController ()
 
 @property NSMutableArray *tasks;
-
+@property Firebase *fb;
 @end
 
 @implementation HenryTasksTableViewController
@@ -31,28 +32,55 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     
-    if ([self.ProjectID isEqualToString:@"Project 1"]) {
-        if ([self.MileStoneID isEqualToString:@"Milestone P-1-1"]) {
-            [self.tasks addObject:@"P1: M1: Task 1"];
-            [self.tasks addObject:@"P1: M1: Task 2"];
-        } else if ([self.MileStoneID isEqualToString:@"Milestone P-1-2"]) {
-            [self.tasks addObject:@"P1: M2: Task 1"];
-            [self.tasks addObject:@"P1: M2: Task 2"];
-        }
-    } else if ([self.ProjectID isEqualToString:@"Project 2"]) {
-        if ([self.MileStoneID isEqualToString:@"Milestone P-2-1"]) {
-            [self.tasks addObject:@"P2: M1: Task 1"];
-            [self.tasks addObject:@"P2: M1: Task 2"];
-        } else if ([self.MileStoneID isEqualToString:@"Milestone P-2-2"]) {
-            [self.tasks addObject:@"P2: M2: Task 1"];
-            [self.tasks addObject:@"P2: M2: Task 2"];
-        }
-    } else {
-        self.MileStoneID = @"Null";
-    }
+//    if ([self.ProjectID isEqualToString:@"Project 1"]) {
+//        if ([self.MileStoneID isEqualToString:@"Milestone P-1-1"]) {
+//            [self.tasks addObject:@"P1: M1: Task 1"];
+//            [self.tasks addObject:@"P1: M1: Task 2"];
+//        } else if ([self.MileStoneID isEqualToString:@"Milestone P-1-2"]) {
+//            [self.tasks addObject:@"P1: M2: Task 1"];
+//            [self.tasks addObject:@"P1: M2: Task 2"];
+//        }
+//    } else if ([self.ProjectID isEqualToString:@"Project 2"]) {
+//        if ([self.MileStoneID isEqualToString:@"Milestone P-2-1"]) {
+//            [self.tasks addObject:@"P2: M1: Task 1"];
+//            [self.tasks addObject:@"P2: M1: Task 2"];
+//        } else if ([self.MileStoneID isEqualToString:@"Milestone P-2-2"]) {
+//            [self.tasks addObject:@"P2: M2: Task 1"];
+//            [self.tasks addObject:@"P2: M2: Task 2"];
+//        }
+//    } else {
+//        self.MileStoneID = @"Null";
+//    }
     
-    self.title = self.MileStoneID;
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry371.firebaseio.com/projects/"];
+    //    self.fb = [[Firebase alloc] initWithUrl:url];
+    
+    // Attach a block to read the data at our posts reference
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+    
+    self.title = self.milestoneName;
 }
+
+-(void)updateTable {
+    NSString *urlString = [NSString stringWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
+    NSURL *jsonURL = [NSURL URLWithString:urlString];
+    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
+    NSError *error;
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    NSArray *keys = [json allKeys];
+    self.tasks = [[NSMutableArray alloc] init];
+    
+    for (NSString *key in keys) {
+        NSString *name = [[json objectForKey:key] objectForKey:@"name"];
+        [self.tasks addObject:name];
+    }
+    [self.tableView reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
