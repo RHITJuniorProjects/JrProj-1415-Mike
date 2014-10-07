@@ -36,15 +36,6 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	/**
-	 * The method that is called when the "Open Milestone" button
-	 * is pressed.
-	 * @param view
-	 */
-	public void openMilestoneView(View view)
-	{
-		
-	}
 	
 	/**
 	 * The method that is called when the "Open Milestone" button

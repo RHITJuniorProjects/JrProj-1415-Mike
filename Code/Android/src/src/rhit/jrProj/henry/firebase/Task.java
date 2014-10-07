@@ -7,12 +7,26 @@ public class Task implements Parcelable {
 	
 	private int taskNumber;
 	
+	/**
+	 * A Creator object that allows this object to be created by a parcel
+	 */
+	public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+
+		public Task createFromParcel(Parcel pc) {
+			return new Task(pc);
+		}
+
+		public Task[] newArray(int size) {
+			return new Task[size];
+		}
+	};
+	
 	public Task(int number)
 	{
 		this.taskNumber = number;
 	}
 	
-	public Task(Parcel pc) {
+	Task(Parcel pc) {
 		this.taskNumber = pc.readInt();
 	}
 
@@ -27,16 +41,5 @@ public class Task implements Parcelable {
 	@Override
 	public String toString() {
 		return "Task " + this.taskNumber;
-	};
-
-	public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
-
-		public Task createFromParcel(Parcel pc) {
-			return new Task(pc);
-		}
-
-		public Task[] newArray(int size) {
-			return new Task[size];
-		}
-	};
+	}
 }

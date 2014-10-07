@@ -6,7 +6,6 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -39,33 +38,30 @@ public class ProjectListActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		FrameLayout layout = new FrameLayout(this);
-		layout.setId(0x1234);
-		//setContentView(R.layout.activity_project_list);
+		layout.setId(0x4774);
 		setContentView(layout);
+		// Create the parameters for the Project List Fragment and then display/create it
 		Bundle arguments = new Bundle();
 		arguments.putParcelableArrayList("Projects", this.getIntent().getParcelableArrayListExtra("Projects"));
 		FragmentTransaction t = getFragmentManager().beginTransaction();
 		ProjectListFragment fragment = new ProjectListFragment();
 		fragment.setArguments(arguments);
-		t.add(layout.getId(), fragment, "test");
+		t.add(layout.getId(), fragment, "Project List");
 		t.commit();
 		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		Log.i("Test", "Made it this far!");
 		if (findViewById(R.id.project_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
-			mTwoPane = true;
+			this.mTwoPane = true;
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
 			((ProjectListFragment) getFragmentManager().findFragmentById(
 					R.id.project_list)).setActivateOnItemClick(true);
 		}
-
-		// TODO: If exposing deep links into your app, handle intents here.
 	}
 	
 	@Override
@@ -90,7 +86,7 @@ public class ProjectListActivity extends Activity implements
 	 * that the item with the given ID was selected.
 	 */
 	public void onItemSelected(Project p) {
-		if (mTwoPane) {
+		if (this.mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.

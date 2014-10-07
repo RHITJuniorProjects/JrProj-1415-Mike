@@ -6,7 +6,6 @@ import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -60,6 +59,7 @@ public class ProjectListFragment extends ListFragment {
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 
 		public void onItemSelected(Project p) {
+		// Do nothing
 		}
 	};
 
@@ -73,14 +73,11 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i("Test", "Got to fragment");
 		this.projects = this.getArguments().getParcelableArrayList("Projects");
-		Log.i("Test", this.projects.size()+"");
 		// Done: replace with a real list adapter.
 		setListAdapter(new ArrayAdapter<Project>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, projects));
-		Log.i("Test", "got through fragment");
+				android.R.id.text1, this.projects));
 	}
 
 	@Override
@@ -105,7 +102,7 @@ public class ProjectListFragment extends ListFragment {
 					"Activity must implement fragment's callbacks.");
 		}
 
-		mCallbacks = (Callbacks) activity;
+		this.mCallbacks = (Callbacks) activity;
 	}
 
 	@Override
@@ -113,7 +110,7 @@ public class ProjectListFragment extends ListFragment {
 		super.onDetach();
 
 		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
+		this.mCallbacks = sDummyCallbacks;
 	}
 
 	@Override
@@ -123,15 +120,15 @@ public class ProjectListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(this.projects.get(position));
+		this.mCallbacks.onItemSelected(this.projects.get(position));
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mActivatedPosition != ListView.INVALID_POSITION) {
+		if (this.mActivatedPosition != ListView.INVALID_POSITION) {
 			// Serialize and persist the activated item position.
-			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+			outState.putInt(STATE_ACTIVATED_POSITION, this.mActivatedPosition);
 		}
 	}
 
@@ -149,11 +146,11 @@ public class ProjectListFragment extends ListFragment {
 
 	private void setActivatedPosition(int position) {
 		if (position == ListView.INVALID_POSITION) {
-			getListView().setItemChecked(mActivatedPosition, false);
+			getListView().setItemChecked(this.mActivatedPosition, false);
 		} else {
 			getListView().setItemChecked(position, true);
 		}
 
-		mActivatedPosition = position;
+		this.mActivatedPosition = position;
 	}
 }

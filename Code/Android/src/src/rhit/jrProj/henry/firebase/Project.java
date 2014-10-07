@@ -18,6 +18,20 @@ public class Project implements Parcelable {
 	private int projectNumber;
 
 	/**
+	 * A Creator object that allows this object to be created by a parcel
+	 */
+	public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
+
+		public Project createFromParcel(Parcel pc) {
+			return new Project(pc);
+		}
+
+		public Project[] newArray(int size) {
+			return new Project[size];
+		}
+	};
+
+	/**
 	 * Creates a Milestone object
 	 * 
 	 * @param tasks
@@ -27,14 +41,14 @@ public class Project implements Parcelable {
 		this.milestones = milestones;
 		this.projectNumber = number;
 	}
-	
+
 	/**
 	 * 
 	 * Ctor from Parcel, reads back fields IN THE ORDER they were written
 	 *
 	 * @param in
 	 */
-	public Project(Parcel in) {
+	Project(Parcel in) {
 		this.projectNumber = in.readInt();
 		this.milestones = new ArrayList<Milestone>();
 		in.readTypedList(this.milestones, Milestone.CREATOR);
@@ -48,7 +62,7 @@ public class Project implements Parcelable {
 	public String toString() {
 		return "Project " + this.projectNumber;
 	}
-	
+
 	/**
 	 * Gets an ArrayList of milestones associated with this project.
 	 */
@@ -56,26 +70,13 @@ public class Project implements Parcelable {
 		return this.milestones;
 	}
 
-
 	public int describeContents() {
 		// Do nothing.
 		return 0;
 	}
 
-
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(this.projectNumber);
 		dest.writeTypedList(this.milestones);
 	}
-	
-	public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
-
-		public Project createFromParcel(Parcel pc) {
-			return new Project(pc);
-		}
-
-		public Project[] newArray(int size) {
-			return new Project[size];
-		}
-	};
 }

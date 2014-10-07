@@ -1,10 +1,15 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 /**
  * An activity representing a single Project detail screen. This activity is
@@ -15,6 +20,8 @@ import android.view.MenuItem;
  * a {@link ProjectDetailFragment}.
  */
 public class ProjectDetailActivity extends Activity {
+
+	private Project projectItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +44,9 @@ public class ProjectDetailActivity extends Activity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putParcelable("Project", getIntent()
-					.getParcelableExtra("Project"));
+			this.projectItem = getIntent()
+					.getParcelableExtra("Project");
+			arguments.putParcelable("Project", projectItem);
 			ProjectDetailFragment fragment = new ProjectDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
@@ -46,6 +54,14 @@ public class ProjectDetailActivity extends Activity {
 		}
 	}
 
+	public void openMilestoneView(View view)
+	{
+		Intent intent = new Intent(this, MilestoneListActivity.class);
+		ArrayList<Milestone> milestones = this.projectItem.getMilestones();
+	 	intent.putParcelableArrayListExtra("Milestones", milestones);
+		this.startActivity(intent);
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();

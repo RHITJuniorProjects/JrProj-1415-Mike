@@ -14,18 +14,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="130dp"
-        android:onClick="openMilestoneView"
-        android:text="@string/milestoneButtonName" />
+        android:onClick="openProjectListView"
+        android:text="@string/projectButtonName" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button1"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_alignRight="@+id/button1"
-        android:layout_marginBottom="54dp"
-        android:text="View Projects"
-        android:onClick="openProjectListView" />
 
 </RelativeLayout>

@@ -6,6 +6,7 @@ import rhit.jrProj.henry.firebase.Milestone;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -58,6 +59,7 @@ public class MilestoneListFragment extends ListFragment {
 	 */
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 		public void onItemSelected(Milestone m) {
+			// Do nothing
 		}
 	};
 
@@ -72,7 +74,8 @@ public class MilestoneListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Done: replace with a real list adapter.
-		this.milestones = this.getActivity().getIntent().getParcelableArrayListExtra("Milestones");
+		this.milestones = this.getArguments().getParcelableArrayList("Milestones");
+		Log.i("DEBUG: ", ""+this.milestones.size());
 		setListAdapter(new ArrayAdapter<Milestone>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.milestones));

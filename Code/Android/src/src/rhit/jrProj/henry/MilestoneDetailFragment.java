@@ -1,11 +1,7 @@
 package rhit.jrProj.henry;
 
-import java.util.ArrayList;
-
 import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.Task;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,11 +14,6 @@ import android.widget.TextView;
  * tablets) or a {@link MilestoneDetailActivity} on handsets.
  */
 public class MilestoneDetailFragment extends Fragment {
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
-	public static final String ARG_ITEM_ID = "item_id";
 
 	/**
 	 * The dummy content this fragment is presenting.
@@ -44,7 +35,7 @@ public class MilestoneDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			milestoneItem = this.getArguments().getParcelable("Milestone");
+			this.milestoneItem = this.getArguments().getParcelable("Milestone");
 		}
 	}
 
@@ -55,24 +46,13 @@ public class MilestoneDetailFragment extends Fragment {
 				container, false);
 
 		// Show the dummy content as text in a TextView.
-		if (milestoneItem != null) {
+		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_detail))
-					.setText(milestoneItem.toString());
+					.setText(this.milestoneItem.toString());
 		}
 
 		return rootView;
 	}
-	/**
-	 * The method that is called when the "View Tasks" button
-	 * is pressed.
-	 * @param view
-	 */
-	public void openTaskView(View view)
-	{
-		Intent intent = new Intent(this.getActivity(), TaskListActivity.class);
-		ArrayList<Task> tasks = milestoneItem.getTasks();
-		intent.putParcelableArrayListExtra("Tasks", tasks);
-		this.startActivity(intent);
-	}
+	
 	
 }

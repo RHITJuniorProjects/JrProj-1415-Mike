@@ -1,10 +1,15 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
 
 /**
  * An activity representing a single Milestone detail screen. This activity is
@@ -16,6 +21,8 @@ import android.view.MenuItem;
  * a {@link MilestoneDetailFragment}.
  */
 public class MilestoneDetailActivity extends Activity {
+
+	private Milestone milestoneItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +45,9 @@ public class MilestoneDetailActivity extends Activity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putParcelable(
-					"Milestone",
-					getIntent().getParcelableExtra("Milestone"));
+			this.milestoneItem = getIntent().getParcelableExtra(
+					"Milestone");
+			arguments.putParcelable("Milestone", this.milestoneItem);
 			MilestoneDetailFragment fragment = new MilestoneDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
@@ -64,5 +71,17 @@ public class MilestoneDetailActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	/**
+	 * The method that is called when the "View Tasks" button is pressed.
+	 * 
+	 * @param view
+	 */
+	public void openTaskView(View view) {
+		Intent intent = new Intent(this, TaskListActivity.class);
+		ArrayList<Task> tasks = this.milestoneItem.getTasks();
+		intent.putParcelableArrayListExtra("Tasks", tasks);
+		this.startActivity(intent);
 	}
 }

@@ -18,6 +18,20 @@ public class Milestone implements Parcelable {
 	private int milestoneNumber;
 
 	/**
+	 * A Creator object that allows this object to be created by a parcel
+	 */
+	public static final Parcelable.Creator<Milestone> CREATOR = new Parcelable.Creator<Milestone>() {
+
+		public Milestone createFromParcel(Parcel pc) {
+			return new Milestone(pc);
+		}
+
+		public Milestone[] newArray(int size) {
+			return new Milestone[size];
+		}
+	};
+	
+	/**
 	 * Creates a Milestone object
 	 * 
 	 * @param tasks
@@ -69,14 +83,4 @@ public class Milestone implements Parcelable {
 		dest.writeTypedList(this.tasks);
 	}
 	
-	public static final Parcelable.Creator<Milestone> CREATOR = new Parcelable.Creator<Milestone>() {
-
-		public Milestone createFromParcel(Parcel pc) {
-			return new Milestone(pc);
-		}
-
-		public Milestone[] newArray(int size) {
-			return new Milestone[size];
-		}
-	};
 }

@@ -1,11 +1,7 @@
 package rhit.jrProj.henry;
 
-import java.util.ArrayList;
-
-import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,12 +14,7 @@ import android.widget.TextView;
  * tablets) or a {@link ProjectDetailActivity} on handsets.
  */
 public class ProjectDetailFragment extends Fragment {
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
-	public static final String ARG_ITEM_ID = "item_id";
-
+	
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
@@ -44,7 +35,7 @@ public class ProjectDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			projectItem = (Project) getArguments().getParcelable("Project");
+			this.projectItem = (Project) getArguments().getParcelable("Project");
 		}
 	}
 
@@ -53,26 +44,13 @@ public class ProjectDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_project_detail,
 				container, false);
-		// Show the dummy content as text in a TextView.
-		if (projectItem != null) {
+		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_detail))
-					.setText(projectItem.toString());
+					.setText(this.projectItem.toString());
 		}
 
 		return rootView;
 	}
 	
-	/**
-	 * The method that is called when the "View Milestones" button
-	 * is pressed.
-	 * @param view
-	 */
-	public void openMilestoneView(View view)
-	{
-		//TODO: Start intent to feature 2.
-		Intent intent = new Intent(this.getActivity(), MilestoneListActivity.class);
-		ArrayList<Milestone> milestones = projectItem.getMilestones();
-	 	intent.putParcelableArrayListExtra("Milestones", milestones);
-		this.startActivity(intent);
-	}
+
 }

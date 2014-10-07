@@ -74,7 +74,7 @@ public class TaskListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		this.tasks = this.getActivity().getIntent().getParcelableArrayListExtra("Tasks");
+		this.tasks = this.getArguments().getParcelableArrayList("Tasks");
 		ArrayAdapter<Task> adapter = new ArrayAdapter<Task>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.tasks);
