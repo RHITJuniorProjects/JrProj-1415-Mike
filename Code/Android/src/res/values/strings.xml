@@ -4,5 +4,8 @@
     <string name="app_name">Henry</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_milestone_list">Milestones</string>
+    <string name="title_milestone_detail">Milestone Detail</string>
+    <string name="milestoneButtonName">View Milestones</string>
 
 </resources>

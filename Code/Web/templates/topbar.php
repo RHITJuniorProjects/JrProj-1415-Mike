@@ -12,9 +12,10 @@
 	<section class="top-bar-section">
 		<ul class="left">
 			<li><a href="teams">Teams</a></li>
+			<li><a href="Milestones">Milestones</a></li>
+			<li><a href="tasks">Tasks</a></li>
 			<!-- add top bar links here> -->
 		</ul>
-
 		<ul class="right">
 			<li class="has-form">
 				<div class="row collapse">

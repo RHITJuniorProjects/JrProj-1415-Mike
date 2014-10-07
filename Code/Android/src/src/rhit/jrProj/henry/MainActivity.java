@@ -1,9 +1,11 @@
 package rhit.jrProj.henry;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity {
 
@@ -31,4 +33,15 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	/**
+	 * The method that is called when the "Open Milestone" button
+	 * is pressed.
+	 * @param view
+	 */
+	public void openMilestoneView(View view)
+	{
+		Intent intent = new Intent(this, MilestoneListActivity.class);
+		this.startActivity(intent);
+	}
+	
 }

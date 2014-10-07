@@ -22,6 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MilestoneListActivity"
+            android:label="@string/title_milestone_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rhit.jrProj.henry.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MilestoneDetailActivity"
+            android:label="@string/title_milestone_detail"
+            android:parentActivityName=".MilestoneListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rhit.jrProj.henry.MilestoneListActivity" />
+        </activity>
     </application>
 
 </manifest>
