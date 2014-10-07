@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Henry - Tasks</title>
+	<title>Henry - Teams</title>
 	<?php require 'header.php';?>
 </head>
 <body>
