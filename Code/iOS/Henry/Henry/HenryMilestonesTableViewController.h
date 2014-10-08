@@ -12,5 +12,5 @@
 
 
 @property NSString *ProjectID;
-
+@property NSArray *tasks;
 @end

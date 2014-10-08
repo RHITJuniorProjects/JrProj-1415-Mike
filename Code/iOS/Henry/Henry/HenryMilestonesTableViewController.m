@@ -159,6 +159,7 @@
     vc.ProjectID = self.ProjectID;
     vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
     vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
+    vc.userTasks = self.tasks;
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }

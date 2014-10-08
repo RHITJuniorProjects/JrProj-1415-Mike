@@ -14,6 +14,7 @@
 @property NSMutableArray *cellText;
 @property NSArray *projectIDs;
 @property Firebase *fbUsers;
+@property (strong, nonatomic) NSArray *tasks;
 @end
 
 @implementation HenryProjectsTableViewController
@@ -53,6 +54,11 @@
     NSError *error;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     self.projectIDs = [json allKeys];
+    
+    NSURL *jsonURL2 = [NSURL URLWithString:@"https://henry371.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/tasks.json"];
+    NSData *data3 = [NSData dataWithContentsOfURL:jsonURL2];
+    NSDictionary *json2 = [NSJSONSerialization JSONObjectWithData:data3 options:0 error:&error];
+    self.tasks = [[NSArray alloc] initWithArray:[json2 allKeys]];
     
     NSURL *projectsURL = [NSURL URLWithString:@"https://henry371.firebaseio.com/projects.json"];
     NSData *data2 = [NSData dataWithContentsOfURL:projectsURL];
@@ -155,6 +161,7 @@
     
     HenryMilestonesTableViewController *vc = [segue destinationViewController];
     vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
+    vc.tasks = self.tasks;
 }
 
 

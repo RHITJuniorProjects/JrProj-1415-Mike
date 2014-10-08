@@ -75,6 +75,9 @@
     self.tasks = [[NSMutableArray alloc] init];
     
     for (NSString *key in keys) {
+        if (![self.userTasks containsObject:key]) {
+            continue;
+        }
         NSString *name = [[json objectForKey:key] objectForKey:@"name"];
         [self.tasks addObject:name];
     }
