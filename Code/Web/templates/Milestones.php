@@ -2,11 +2,12 @@
 	<head>
 		<title>Henry - Milestones</title>
 		<?php require 'header.php';?>
+		<script type="text/javascript" src="/milestones.js"></script>
 	</head>
 	<body>
 		<?php require 'topbar.php';?>
 		<div class="row text-center">
-			<h1>Current Project</h1>
+			<h1 id="project-name"></h1>
 		</div>
 		<div class="small-10 columns small-offset-1">
 			<dl class="row collapse accordion" data-accordion>

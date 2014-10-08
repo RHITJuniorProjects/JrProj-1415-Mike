@@ -2,6 +2,7 @@
 	<head>
 		<title>Henry - Teams</title>
 		<?php require 'header.php';?>
+		<script type="text/javascript" src="/teams.js"></script>
 	</head>
 	<body>
 		<?php require 'topbar.php';?>
@@ -14,38 +15,24 @@
 					<a href="#panel1" class="text-center">
 						<h3>Production</h3>
 					</a>
-					<div id="panel1" class="content active row panel">
-						<div class="small-4 columns small-offset-1">
-							<div class="row text-center">
-								<h3>Project 1</h3>
+					<div id="panel1" class="content active panel row">
+						<div class="row">
+							<div class="small-4 columns small-offset-1">
+								<div class="button expand text-center">
+									<h3>Project 1</h3>
+								</div>
 							</div>
-							<div class="row">
-								<ul>
-									<li>
-										<a class="button expand">
-											Team1
-										</a>
-									</li>
-									<li>
-										<a class="button expand">
-											Team2
-										</a>
-									</li>
-								</ul>
+							<div class="small-4 columns small-offset-2 left">
+								<div class="button expand text-center">
+									<h3>Project 2</h3>
+								</div>
 							</div>
 						</div>
-						<div class="small-4 columns small-offset-2 left">
-							<div class="row text-center">
-								<h3>Project 2</h3>
-							</div>
-							<div class="row">
-								<ul>
-									<li>
-										<a class="button expand">
-											Team3
-										</a>
-									</li>
-								</ul>
+						<div class="row">
+							<div class="small-4 columns small-offset-1">
+								<div class="button expand text-center">
+									<h3>Project 6</h3>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -58,17 +45,8 @@
 					</a>
 					<div id="panel2" class="content active row panel">
 						<div class="small-4 columns small-offset-1">
-							<div class="row text-center">
+							<div class="text-center button expand">
 								<h3>Project 3</h3>
-							</div>
-							<div class="row">
-								<ul>
-									<li>
-										<a class="button expand">
-											Team4
-										</a>
-									</li>
-								</ul>
 							</div>
 						</div>
 					</div>
@@ -81,36 +59,13 @@
 					</a>
 					<div id="panel3" class="content active row panel">
 						<div class="small-4 columns small-offset-1">
-							<div class="row text-center">
+							<div class="text-center button expand">
 								<h3>Project 4</h3>
-							</div>
-							<div class="row">
-								<ul>
-									<li>
-										<a class="button expand">
-											Team5
-										</a>
-									</li>
-								</ul>
 							</div>
 						</div>
 						<div class="small-4 columns small-offset-2 left">
-							<div class="row text-center">
+							<div class="button expand text-center">
 								<h3>Project 5</h3>
-							</div>
-							<div class="row">
-								<ul>
-									<li>
-										<a class="button expand">
-											Team6
-										</a>
-									</li>
-									<li>
-										<a class="button expand">
-											Team7
-										</a>
-									</li>
-								</ul>
 							</div>
 						</div>
 					</div>

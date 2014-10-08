@@ -3,8 +3,8 @@
 		<title>Henry - Milestones</title>
 		<meta charset="utf-8">
 <meta name="description" content="Henry project management tool">
-<link rel="stylesheet" type="text/css" href="/foundation.css"></script>
-<link rel="stylesheet" type="text/css" href="/henry.css"></script>
+<link rel="stylesheet" type="text/css" href="/foundation.css">
+<link rel="stylesheet" type="text/css" href="/henry.css">
 <script type="text/javascript" src="/firebase.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
 <script type="text/javascript" src="/henry.js"></script>
@@ -12,13 +12,14 @@
 <script type="text/javascript">
 	$(function(){ $(document).foundation()});
 </script>
+		<script type="text/javascript" src="/milestones.js"></script>
 	</head>
 	<body>
 		<!-- topbar -->
 <nav class="top-bar" data-topbar role="navigation">
 	<ul class="title-area">
 		<li class="name">
-			<h1><a href="/">Henry</a><h1>
+			<h1><a href="/">Henry</a></h1>
 		</li>
 		<li class="menu-icon">
 			<!-- put icon here -->
@@ -47,7 +48,7 @@
 	</section>
 </nav>
 		<div class="row text-center">
-			<h1>Current Project</h1>
+			<h1 id="project-name"></h1>
 		</div>
 		<div class="small-10 columns small-offset-1">
 			<dl class="row collapse accordion" data-accordion>
