@@ -8,20 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="rhit.jrProj.henry.MainActivity" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="130dp"
-        android:text="@string/milestoneButtonName"
-        android:onClick="openMilestoneView" />
+        android:onClick="openProjectListView"
+        android:text="@string/projectButtonName" />
+
 
 </RelativeLayout>

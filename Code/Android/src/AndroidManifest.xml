@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="20" />
+        android:targetSdkVersion="20" />f
 
     <application
         android:allowBackup="true"
@@ -37,6 +37,49 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="rhit.jrProj.henry.MilestoneListActivity" />
+        </activity>
+        <activity
+            android:name=".MainTaskActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".TaskListActivity"
+            android:parentActivityName=".MainTaskActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.firebasetest.MainActivity" />
+        </activity>
+        <activity
+            android:name=".TaskDetailActivity"
+            android:parentActivityName=".ItemListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.firebasetest.ItemListActivity" />
+        </activity>
+        <activity
+            android:name=".ProjectActivity"
+            android:label="PROJECT" >
+        </activity>
+        <activity
+            android:name=".ProjectListActivity"
+            android:label="@string/title_project_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rhit.jrProj.henry.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ProjectDetailActivity"
+            android:label="@string/title_project_detail"
+            android:parentActivityName=".ProjectListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rhit.jrProj.henry.ProjectListActivity" />
         </activity>
     </application>
 

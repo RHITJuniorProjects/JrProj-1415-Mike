@@ -6,6 +6,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_milestone_list">Milestones</string>
     <string name="title_milestone_detail">Milestone Detail</string>
-    <string name="milestoneButtonName">View Milestones</string>
+    <string name="projectButtonName">View Projects</string>
+    <string name="title_project_list">Projects</string>
+    <string name="title_project_detail">Project Detail</string>
+    <string name="ViewTasks">View Tasks</string>
+    <string name="ViewMilestones">View Milestones</string>
 
 </resources>

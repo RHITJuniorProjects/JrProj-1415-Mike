@@ -1,8 +1,10 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.content.ProjectContent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		Log.i("Test", "Start");
 	}
 
 	@Override
@@ -33,14 +36,16 @@ public class MainActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
 	/**
 	 * The method that is called when the "Open Milestone" button
 	 * is pressed.
 	 * @param view
 	 */
-	public void openMilestoneView(View view)
+	public void openProjectListView(View view)
 	{
-		Intent intent = new Intent(this, MilestoneListActivity.class);
+		Intent intent = new Intent(this, ProjectListActivity.class);
+		intent.putParcelableArrayListExtra("Projects", ProjectContent.ITEMS);
 		this.startActivity(intent);
 	}
 	

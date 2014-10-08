@@ -1,10 +1,12 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.firebase.Milestone;
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 /**
  * An activity representing a list of Milestones. This activity has different
@@ -34,8 +36,18 @@ public class MilestoneListActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_milestone_list);
+		FrameLayout layout = new FrameLayout(this);
+		layout.setId(0x1111);
+		setContentView(layout);
 		// Show the Up button in the action bar.
+		Bundle args = new Bundle();
+		args.putParcelableArrayList("Milestones", this.getIntent().getParcelableArrayListExtra("Milestones"));
+		FragmentTransaction t = getFragmentManager().beginTransaction();
+		MilestoneListFragment frag = new MilestoneListFragment();
+		frag.setArguments(args);
+		t.add(layout.getId(), frag, "Milestone List");
+		t.commit();
+		// Template code
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (findViewById(R.id.milestone_detail_container) != null) {
@@ -43,7 +55,7 @@ public class MilestoneListActivity extends Activity implements
 			// large-screen layouts (res/values-large and
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
-			mTwoPane = true;
+			this.mTwoPane = true;
 
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
@@ -52,6 +64,9 @@ public class MilestoneListActivity extends Activity implements
 		}
 
 		// TODO: If exposing deep links into your app, handle intents here.
+		//Intent intent = this.getIntent();
+	//	ArrayList<Milestones> milestoneList = intent.getParcelableArrayListExtra(name);
+		
 	}
 
 	@Override
@@ -65,7 +80,7 @@ public class MilestoneListActivity extends Activity implements
 			//
 			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
 			//
-			NavUtils.navigateUpFromSameTask(this);
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -75,14 +90,14 @@ public class MilestoneListActivity extends Activity implements
 	 * Callback method from {@link MilestoneListFragment.Callbacks} indicating
 	 * that the item with the given ID was selected.
 	 */
-	@Override
-	public void onItemSelected(String id) {
-		if (mTwoPane) {
+	public void onItemSelected(Milestone m) {
+		if (this.mTwoPane) {
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
 			Bundle arguments = new Bundle();
-			arguments.putString(MilestoneDetailFragment.ARG_ITEM_ID, id);
+			//arguments.putString(MilestoneDetailFragment.ARG_ITEM_ID, id);
+			arguments.putParcelable("Milestone", m);
 			MilestoneDetailFragment fragment = new MilestoneDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
@@ -94,7 +109,7 @@ public class MilestoneListActivity extends Activity implements
 			// for the selected item ID.
 			Intent detailIntent = new Intent(this,
 					MilestoneDetailActivity.class);
-			detailIntent.putExtra(MilestoneDetailFragment.ARG_ITEM_ID, id);
+			detailIntent.putExtra("Milestone", m);
 			startActivity(detailIntent);
 		}
 	}

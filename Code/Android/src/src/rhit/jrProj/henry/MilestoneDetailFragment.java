@@ -1,7 +1,6 @@
 package rhit.jrProj.henry;
 
-import rhit.jrProj.firebase.Milestone;
-import rhit.jrProj.henry.dummy.DummyContent;
+import rhit.jrProj.henry.firebase.Milestone;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +14,6 @@ import android.widget.TextView;
  * tablets) or a {@link MilestoneDetailActivity} on handsets.
  */
 public class MilestoneDetailFragment extends Fragment {
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
-	public static final String ARG_ITEM_ID = "item_id";
 
 	/**
 	 * The dummy content this fragment is presenting.
@@ -37,12 +31,11 @@ public class MilestoneDetailFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey(ARG_ITEM_ID)) {
+		if (getArguments().containsKey("Milestone")) {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			milestoneItem = DummyContent.ITEM_MAP.get(getArguments().getString(
-					ARG_ITEM_ID));
+			this.milestoneItem = this.getArguments().getParcelable("Milestone");
 		}
 	}
 
@@ -53,11 +46,13 @@ public class MilestoneDetailFragment extends Fragment {
 				container, false);
 
 		// Show the dummy content as text in a TextView.
-		if (milestoneItem != null) {
+		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_detail))
-					.setText(milestoneItem.toString());
+					.setText(this.milestoneItem.toString());
 		}
 
 		return rootView;
 	}
+	
+	
 }
