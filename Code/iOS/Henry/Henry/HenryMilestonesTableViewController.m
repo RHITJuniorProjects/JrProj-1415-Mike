@@ -14,6 +14,7 @@
 @property NSMutableArray *staticData;
 @property Firebase *fb;
 @property NSMutableArray *milestoneIDs;
+@property NSMutableArray *milestoneDescriptions;
 @end
 
 @implementation HenryMilestonesTableViewController
@@ -40,11 +41,11 @@
         [self.staticData addObject:@"Milestone P-2-1"];
         [self.staticData addObject:@"Milestone P-2-2"];
     }
-//    NSString *fbURL = [NSString stringWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones", self.ProjectID];
-//    NSString *url = [[NSString alloc] initWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones", self.ProjectID];
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry371.firebaseio.com/projects/"];
-//    self.fb = [[Firebase alloc] initWithUrl:url];
+    
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-production.firebaseio.com/projects/"];
 
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateTable];
@@ -60,19 +61,24 @@
 }
 
 -(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-production.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSArray *keys = [json allKeys];
     self.staticData = [[NSMutableArray alloc] init];
+    self.milestoneDescriptions = [[NSMutableArray alloc] init];
     self.milestoneIDs = [[NSMutableArray alloc] init];
     for (NSString *key in keys) {
         NSString *name = [[json objectForKey:key] objectForKey:@"name"];
+        NSString *description = [[json objectForKey:key] objectForKey:@"description"];
         [self.staticData addObject:name];
         [self.milestoneIDs addObject:key];
+        [self.milestoneDescriptions addObject:description];
     }
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
 }
 
@@ -103,6 +109,7 @@
     
     // Configure the cell...
     cell.textLabel.text = [self.staticData objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.milestoneDescriptions objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -160,6 +167,8 @@
     vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
     vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
     vc.userTasks = self.tasks;
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }

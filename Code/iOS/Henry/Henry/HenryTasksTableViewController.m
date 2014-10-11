@@ -13,6 +13,8 @@
 
 @property NSMutableArray *tasks;
 @property Firebase *fb;
+@property NSMutableArray *tasksDescriptions;
+
 @end
 
 @implementation HenryTasksTableViewController
@@ -32,28 +34,9 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     
-//    if ([self.ProjectID isEqualToString:@"Project 1"]) {
-//        if ([self.MileStoneID isEqualToString:@"Milestone P-1-1"]) {
-//            [self.tasks addObject:@"P1: M1: Task 1"];
-//            [self.tasks addObject:@"P1: M1: Task 2"];
-//        } else if ([self.MileStoneID isEqualToString:@"Milestone P-1-2"]) {
-//            [self.tasks addObject:@"P1: M2: Task 1"];
-//            [self.tasks addObject:@"P1: M2: Task 2"];
-//        }
-//    } else if ([self.ProjectID isEqualToString:@"Project 2"]) {
-//        if ([self.MileStoneID isEqualToString:@"Milestone P-2-1"]) {
-//            [self.tasks addObject:@"P2: M1: Task 1"];
-//            [self.tasks addObject:@"P2: M1: Task 2"];
-//        } else if ([self.MileStoneID isEqualToString:@"Milestone P-2-2"]) {
-//            [self.tasks addObject:@"P2: M2: Task 1"];
-//            [self.tasks addObject:@"P2: M2: Task 2"];
-//        }
-//    } else {
-//        self.MileStoneID = @"Null";
-//    }
-    
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry371.firebaseio.com/projects/"];
-    //    self.fb = [[Firebase alloc] initWithUrl:url];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-production.firebaseio.com/projects/"];
+
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -66,21 +49,27 @@
 }
 
 -(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry371.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-production.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     NSArray *keys = [json allKeys];
+    
     self.tasks = [[NSMutableArray alloc] init];
+    self.tasksDescriptions = [[NSMutableArray alloc] init];
     
     for (NSString *key in keys) {
         if (![self.userTasks containsObject:key]) {
             continue;
         }
         NSString *name = [[json objectForKey:key] objectForKey:@"name"];
+        NSString *description = [[json objectForKey:key] objectForKey:@"description"];
         [self.tasks addObject:name];
+        [self.tasksDescriptions addObject:description];
     }
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
 }
 
@@ -112,6 +101,7 @@
     
     // Configure the cell...
     cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.tasksDescriptions objectAtIndex:indexPath.row];
     
     return cell;
 }

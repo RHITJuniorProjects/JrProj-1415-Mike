@@ -12,6 +12,7 @@
 
 @interface HenryProjectsTableViewController ()
 @property NSMutableArray *cellText;
+@property NSMutableArray *projectDescriptions;
 @property NSArray *projectIDs;
 @property Firebase *fbUsers;
 @property (strong, nonatomic) NSArray *tasks;
@@ -37,8 +38,10 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.cellText = [[NSMutableArray alloc] initWithObjects:@"Project 1", @"Project 2", nil];
-    self.fbUsers = [[Firebase alloc] initWithUrl:@"https://henry371.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/projects"];
+    self.cellText = [[NSMutableArray alloc] init];
+    self.fbUsers = [[Firebase alloc] initWithUrl:@"https://henry-production.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/projects"];
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
     [self.fbUsers observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -49,32 +52,36 @@
 }
 
 -(void)updateTable {
-    NSURL *jsonURL = [NSURL URLWithString:@"https://henry371.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/projects.json"];
+    NSURL *jsonURL = [NSURL URLWithString:@"https://henry-production.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/projects.json"];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     self.projectIDs = [json allKeys];
     
-    NSURL *jsonURL2 = [NSURL URLWithString:@"https://henry371.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/tasks.json"];
+    NSURL *jsonURL2 = [NSURL URLWithString:@"https://henry-production.firebaseio.com/users/-JYcUsrB48tvUiVxmyjT/tasks.json"];
     NSData *data3 = [NSData dataWithContentsOfURL:jsonURL2];
     NSDictionary *json2 = [NSJSONSerialization JSONObjectWithData:data3 options:0 error:&error];
     self.tasks = [[NSArray alloc] initWithArray:[json2 allKeys]];
     
-    NSURL *projectsURL = [NSURL URLWithString:@"https://henry371.firebaseio.com/projects.json"];
+    NSURL *projectsURL = [NSURL URLWithString:@"https://henry-production.firebaseio.com/projects.json"];
     NSData *data2 = [NSData dataWithContentsOfURL:projectsURL];
     NSDictionary *projectsJSON = [NSJSONSerialization JSONObjectWithData:data2 options:0 error:&error];
     NSArray *projects = [projectsJSON allKeys];
     
     //Empty out hard-coded values
     self.cellText = [[NSMutableArray alloc] init];
+    self.projectDescriptions = [[NSMutableArray alloc] init];
     
     for (NSString *project in projects) {
         if ([self.projectIDs containsObject:project]) {
             NSString *name = [[projectsJSON objectForKey:project] objectForKey:@"name"];
+            NSString *description = [[projectsJSON objectForKey:project] objectForKey:@"description"];
+            [self.projectDescriptions addObject:description];
             [self.cellText addObject:name];
         }
     }
     
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
 }
 
@@ -105,6 +112,7 @@
     
     // Configure the cell...
     cell.textLabel.text = [self.cellText objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.projectDescriptions objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -162,6 +170,8 @@
     HenryMilestonesTableViewController *vc = [segue destinationViewController];
     vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
     vc.tasks = self.tasks;
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 
