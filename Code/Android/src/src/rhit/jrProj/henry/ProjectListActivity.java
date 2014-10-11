@@ -55,7 +55,6 @@ public class ProjectListActivity extends Activity implements
 			// res/values-sw600dp). If this view is present, then the
 			// activity should be in two-pane mode.
 			this.mTwoPane = true;
-
 			// In two-pane mode, list items should be given the
 			// 'activated' state when touched.
 			((ProjectListFragment) getFragmentManager().findFragmentById(

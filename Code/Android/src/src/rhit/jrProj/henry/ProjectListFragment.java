@@ -2,6 +2,7 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.firebase.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;
@@ -75,9 +76,14 @@ public class ProjectListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		this.projects = this.getArguments().getParcelableArrayList("Projects");
 		// Done: replace with a real list adapter.
-		setListAdapter(new ArrayAdapter<Project>(getActivity(),
+		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, this.projects));
+				android.R.id.text1, this.projects);
+		setListAdapter(arrayAdapter);
+		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(arrayAdapter);
+		for (Project project : this.projects) {
+			project.setListChangeNotifier(lcn);
+		}
 	}
 
 	@Override

@@ -54,6 +54,10 @@ public class Milestone implements Parcelable {
 		in.readTypedList(this.tasks, Task.CREATOR);
 	}
 
+	public Milestone(String firebaseUrl) {
+		// TODO Auto-generated constructor stub.
+	}
+
 	public int getMilestoneNumber() {
 		return this.milestoneNumber;
 	}

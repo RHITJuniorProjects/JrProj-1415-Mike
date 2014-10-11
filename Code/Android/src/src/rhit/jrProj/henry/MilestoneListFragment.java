@@ -75,9 +75,10 @@ public class MilestoneListFragment extends ListFragment {
 		super.onCreate(savedInstanceState);
 		// Done: replace with a real list adapter.
 		this.milestones = this.getArguments().getParcelableArrayList("Milestones");
-		setListAdapter(new ArrayAdapter<Milestone>(getActivity(),
+		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, this.milestones));
+				android.R.id.text1, this.milestones);
+		setListAdapter(arrayAdapter);
 	}
 
 	@Override

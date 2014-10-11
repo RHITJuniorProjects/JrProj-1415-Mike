@@ -1,6 +1,8 @@
 package rhit.jrProj.henry;
 
-import rhit.jrProj.henry.content.ProjectContent;
+import java.util.ArrayList;
+
+import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,8 +46,10 @@ public class MainActivity extends Activity {
 	 */
 	public void openProjectListView(View view)
 	{
+		ArrayList<Project> projects = new ArrayList<Project>();
+		projects.add(new Project("https://henry371.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
 		Intent intent = new Intent(this, ProjectListActivity.class);
-		intent.putParcelableArrayListExtra("Projects", ProjectContent.ITEMS);
+		intent.putParcelableArrayListExtra("Projects", projects);
 		this.startActivity(intent);
 	}
 	
