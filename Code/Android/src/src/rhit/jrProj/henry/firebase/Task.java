@@ -3,9 +3,19 @@ package rhit.jrProj.henry.firebase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Task implements Parcelable {
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+
+public class Task implements Parcelable, ChildEventListener {
 	
-	private int taskNumber;
+	private String name;
+	
+	private String description;
+	
+	//private User assignedUser;
+	
+	//private Category category;
 	
 	/**
 	 * A Creator object that allows this object to be created by a parcel
@@ -41,5 +51,30 @@ public class Task implements Parcelable {
 	@Override
 	public String toString() {
 		return "Task " + this.taskNumber;
+	}
+
+	public void onCancelled(FirebaseError arg0) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	public void onChildAdded(DataSnapshot arg0, String arg1) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	public void onChildChanged(DataSnapshot arg0, String arg1) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	public void onChildMoved(DataSnapshot arg0, String arg1) {
+		// TODO Auto-generated method stub.
+		
+	}
+
+	public void onChildRemoved(DataSnapshot arg0) {
+		// TODO Auto-generated method stub.
+		
 	}
 }

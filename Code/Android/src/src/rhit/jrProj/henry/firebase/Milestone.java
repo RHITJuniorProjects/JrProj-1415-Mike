@@ -5,7 +5,14 @@ import java.util.ArrayList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Milestone implements Parcelable {
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+public class Milestone implements Parcelable, ChildEventListener {
+
+	private Firebase firebase;
 
 	/**
 	 * A List of tasks that are contained within the Milestone
@@ -13,9 +20,38 @@ public class Milestone implements Parcelable {
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 
 	/**
-	 * The milestone Number within the project
+	 * The milestone name within the project
 	 */
-	private int milestoneNumber;
+	private String name;
+
+	/**
+	 * A description of the work that needs to happen in this milestone.
+	 */
+	private String description;
+
+	/**
+	 * Creates a Milestone object
+	 * 
+	 * @param tasks
+	 * @param number
+	 */
+	public Milestone(String firebaseUrl) {
+		this.firebase = new Firebase(firebaseUrl);
+		this.firebase.addChildEventListener(this);
+	}
+
+	/**
+	 * 
+	 * Ctor from Parcel, reads back fields IN THE ORDER they were written
+	 *
+	 * @param in
+	 */
+	public Milestone(Parcel in) {
+		this.firebase = new Firebase(in.readString());
+		this.name = in.readString();
+		this.description = in.readString();
+		in.readTypedList(this.tasks, Task.CREATOR);
+	}
 
 	/**
 	 * A Creator object that allows this object to be created by a parcel
@@ -30,41 +66,10 @@ public class Milestone implements Parcelable {
 			return new Milestone[size];
 		}
 	};
-	
-	/**
-	 * Creates a Milestone object
-	 * 
-	 * @param tasks
-	 * @param number
-	 */
-	public Milestone(ArrayList<Task> tasks, int number) {
-		this.tasks = tasks;
-		this.milestoneNumber = number;
-	}
-
-	/**
-	 * 
-	 * Ctor from Parcel, reads back fields IN THE ORDER they were written
-	 *
-	 * @param in
-	 */
-	public Milestone(Parcel in) {
-		this.milestoneNumber = in.readInt();
-		this.tasks = new ArrayList<Task>();
-		in.readTypedList(this.tasks, Task.CREATOR);
-	}
-
-	public Milestone(String firebaseUrl) {
-		// TODO Auto-generated constructor stub.
-	}
-
-	public int getMilestoneNumber() {
-		return this.milestoneNumber;
-	}
 
 	@Override
 	public String toString() {
-		return "Milestone " + this.milestoneNumber;
+		return this.name;
 	}
 
 	/**
@@ -74,8 +79,8 @@ public class Milestone implements Parcelable {
 		return this.tasks;
 	}
 
-	/** 
-	 * Used to give additional hints on how to process the received parcel. 
+	/**
+	 * Used to give additional hints on how to process the received parcel.
 	 */
 	public int describeContents() {
 		// Do nothing.
@@ -83,8 +88,41 @@ public class Milestone implements Parcelable {
 	}
 
 	public void writeToParcel(Parcel dest, int flags) {
-		dest.writeInt(this.milestoneNumber);
+		dest.writeString(this.firebase.toString());
+		dest.writeString(this.name);
+		dest.writeString(this.description);
 		dest.writeTypedList(this.tasks);
 	}
-	
+
+	public void onCancelled(FirebaseError arg0) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	public void onChildAdded(DataSnapshot arg0, String arg1) {
+		if (arg0.getName().equals("name")) {
+			this.name = arg0.getValue(String.class);
+		} else if (arg0.getName().equals("description")) {
+			this.description = arg0.getValue(String.class);
+		} else if (arg0.getName().equals("tasks")) {
+			// TODO
+		}
+
+	}
+
+	public void onChildChanged(DataSnapshot arg0, String arg1) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	public void onChildMoved(DataSnapshot arg0, String arg1) {
+		// TODO Auto-generated method stub.
+
+	}
+
+	public void onChildRemoved(DataSnapshot arg0) {
+		// TODO Auto-generated method stub.
+
+	}
+
 }

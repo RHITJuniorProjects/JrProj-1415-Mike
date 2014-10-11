@@ -2,7 +2,7 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import rhit.jrProj.henry.firebase.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;

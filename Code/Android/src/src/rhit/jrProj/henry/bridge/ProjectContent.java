@@ -1,4 +1,4 @@
-package rhit.jrProj.henry.content;
+package rhit.jrProj.henry.bridge;
 
 import java.util.ArrayList;
 

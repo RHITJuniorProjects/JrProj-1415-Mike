@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -25,30 +25,30 @@ public class Project implements Parcelable, ChildEventListener {
 	/**
 	 * A List of milestones that are contained within the project
 	 */
-	ArrayList<Milestone> milestones = new ArrayList<Milestone>();
+	private ArrayList<Milestone> milestones = new ArrayList<Milestone>();
 
 	/**
 	 * The project's name
 	 */
-	String name;
+	private String name;
 
 	/**
 	 * The members that are working on the project
 	 */
-	Map<User, Role> members = new HashMap<User, Role>();
+	private Map<User, Enums.Role> members = new HashMap<User, Enums>();
 
 	/**
 	 * A description of the project.
 	 */
-	String description;
+	private String description;
 
 	/**
 	 * Do we need to do anything with the backlog?
 	 */
 	// private Backlog;
 
-	ListChangeNotifier<Project> lcn;
-	
+	private ListChangeNotifier<Project> lcn;
+
 	/**
 	 * 
 	 * This constructor builds a new project that updates its self from
@@ -64,16 +64,6 @@ public class Project implements Parcelable, ChildEventListener {
 	}
 
 	/**
-	 * Creates a Project object from static data
-	 * 
-	 * @param tasks
-	 * @param number
-	 */
-	public Project(ArrayList<Milestone> milestones, int number) {
-		this.milestones = milestones;
-	}
-
-	/**
 	 * 
 	 * Ctor from Parcel, reads back fields IN THE ORDER they were written
 	 *
@@ -84,7 +74,6 @@ public class Project implements Parcelable, ChildEventListener {
 		this.firebase.addChildEventListener(this);
 		this.name = in.readString();
 		this.description = in.readString();
-		this.milestones = new ArrayList<Milestone>();
 		// this.members = new HashMap<User, Role>(); // How to transport? Loop?
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
@@ -102,10 +91,6 @@ public class Project implements Parcelable, ChildEventListener {
 			return new Project[size];
 		}
 	};
-	
-	public int getMilestoneNumber() {
-		return 0;
-	}
 
 	/**
 	 * Gets an ArrayList of milestones associated with this project.
@@ -133,49 +118,47 @@ public class Project implements Parcelable, ChildEventListener {
 		dest.writeString(this.name);
 		dest.writeString(this.description);
 		dest.writeTypedList(this.milestones);
-		// Members?
+		// TODO Members?
 		// number for the loop and then loop through it all?
 	}
 
+	public void onCancelled(FirebaseError arg0) {
+		// TODO Auto-generated method stub.
 
-		public void onCancelled(FirebaseError arg0) {
-			// TODO Auto-generated method stub.
+	}
 
-		}
+	public void onChildAdded(DataSnapshot arg0, String arg1) {
 
-		public void onChildAdded(DataSnapshot arg0, String arg1) {
-
-			if (arg0.getName().equals("name")) {
-				this.name = arg0.getValue().toString();
-				Log.i("FB", this.name);
-				if (this.lcn != null) {
-					this.lcn.onChange();
-				}
-			} else if (arg0.getName().equals("description")) {
-				this.description = arg0.getValue().toString();
-			} else if (arg0.getName().equals("milestones")) {
-				// for(DataSnapshot grandchild : arg0.getChildren())
-				// {
-				// this.project.milestones.add(new
-				// Milestone(grandchild.getRef().toString()));
-				// }
+		if (arg0.getName().equals("name")) {
+			this.name = arg0.getValue(String.class);
+			if (this.lcn != null) {
+				this.lcn.onChange();
 			}
+		} else if (arg0.getName().equals("description")) {
+			this.description = arg0.getValue(String.class);
+		} else if (arg0.getName().equals("milestones")) {
+			// TODO
+			// for(DataSnapshot grandchild : arg0.getChildren())
+			// {
+			// this.project.milestones.add(new
+			// Milestone(grandchild.getRef().toString()));
+			// }
 		}
+	}
 
-		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			// TODO Auto-generated method stub.
+	public void onChildChanged(DataSnapshot arg0, String arg1) {
+		// TODO Auto-generated method stub.
 
-		}
+	}
 
-		public void onChildMoved(DataSnapshot arg0, String arg1) {
-			// TODO Auto-generated method stub.
+	public void onChildMoved(DataSnapshot arg0, String arg1) {
+		// TODO Auto-generated method stub.
 
-		}
+	}
 
-		public void onChildRemoved(DataSnapshot arg0) {
-			// TODO Auto-generated method stub.
+	public void onChildRemoved(DataSnapshot arg0) {
+		// TODO Auto-generated method stub.
 
-		}
+	}
 
-	
 }

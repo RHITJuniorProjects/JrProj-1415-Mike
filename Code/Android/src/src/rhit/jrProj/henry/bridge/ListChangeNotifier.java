@@ -1,4 +1,4 @@
-package rhit.jrProj.henry.firebase;
+package rhit.jrProj.henry.bridge;
 
 import android.widget.ArrayAdapter;
 
