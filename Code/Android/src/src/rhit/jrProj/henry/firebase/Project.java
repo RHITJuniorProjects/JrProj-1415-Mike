@@ -13,7 +13,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable {
+public class Project implements Parcelable, ChildEventListener {
 
 	/**
 	 * A reference to firebase to keep the data up to date.
@@ -47,22 +47,8 @@ public class Project implements Parcelable {
 	 */
 	// private Backlog;
 
-	ListChangeNotifier lcn;
-
-	/**
-	 * A Creator object that allows this object to be created by a parcel
-	 */
-	public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
-
-		public Project createFromParcel(Parcel pc) {
-			return new Project(pc);
-		}
-
-		public Project[] newArray(int size) {
-			return new Project[size];
-		}
-	};
-
+	ListChangeNotifier<Project> lcn;
+	
 	/**
 	 * 
 	 * This constructor builds a new project that updates its self from
@@ -74,7 +60,7 @@ public class Project implements Parcelable {
 	 */
 	public Project(String firebaseUrl) {
 		this.firebase = new Firebase(firebaseUrl);
-		this.firebase.addChildEventListener(new FirebaseProjectListener(this));
+		this.firebase.addChildEventListener(this);
 	}
 
 	/**
@@ -95,7 +81,7 @@ public class Project implements Parcelable {
 	 */
 	Project(Parcel in) {
 		this.firebase = new Firebase(in.readString());
-		this.firebase.addChildEventListener(new FirebaseProjectListener(this));
+		this.firebase.addChildEventListener(this);
 		this.name = in.readString();
 		this.description = in.readString();
 		this.milestones = new ArrayList<Milestone>();
@@ -103,6 +89,20 @@ public class Project implements Parcelable {
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
 
+	/**
+	 * A Creator object that allows this object to be created by a parcel
+	 */
+	public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
+
+		public Project createFromParcel(Parcel pc) {
+			return new Project(pc);
+		}
+
+		public Project[] newArray(int size) {
+			return new Project[size];
+		}
+	};
+	
 	public int getMilestoneNumber() {
 		return 0;
 	}
@@ -114,7 +114,7 @@ public class Project implements Parcelable {
 		return this.milestones;
 	}
 
-	public void setListChangeNotifier(ListChangeNotifier lcn) {
+	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.lcn = lcn;
 	}
 
@@ -137,19 +137,6 @@ public class Project implements Parcelable {
 		// number for the loop and then loop through it all?
 	}
 
-	/**
-	 * 
-	 * This class is the listener for when data in firebase changes.
-	 *
-	 * @author rockwotj. Created Oct 10, 2014.
-	 */
-	class FirebaseProjectListener implements ChildEventListener {
-
-		private Project project;
-
-		public FirebaseProjectListener(Project project) {
-			this.project = project;
-		}
 
 		public void onCancelled(FirebaseError arg0) {
 			// TODO Auto-generated method stub.
@@ -157,16 +144,15 @@ public class Project implements Parcelable {
 		}
 
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			Log.i("FB", arg0.getName());
 
 			if (arg0.getName().equals("name")) {
-				this.project.name = arg0.getValue().toString();
-				Log.i("FB", this.project.name);
-				if (this.project.lcn != null) {
-					this.project.lcn.onChange();
+				this.name = arg0.getValue().toString();
+				Log.i("FB", this.name);
+				if (this.lcn != null) {
+					this.lcn.onChange();
 				}
 			} else if (arg0.getName().equals("description")) {
-				this.project.description = arg0.getValue().toString();
+				this.description = arg0.getValue().toString();
 			} else if (arg0.getName().equals("milestones")) {
 				// for(DataSnapshot grandchild : arg0.getChildren())
 				// {
@@ -191,5 +177,5 @@ public class Project implements Parcelable {
 
 		}
 
-	}
+	
 }
