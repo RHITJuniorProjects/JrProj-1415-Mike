@@ -47,6 +47,11 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	// private Backlog;
 
+	/**
+	 * This is the class that we need to call onChange from to when
+	 * we update a field in firebase bacause this then notifies the 
+	 * object that is desplaying the project that this object has been updated.
+	 */
 	private ListChangeNotifier<Project> listViewCallback;
 
 	/**
@@ -99,6 +104,12 @@ public class Project implements Parcelable, ChildEventListener {
 		return this.milestones;
 	}
 
+	/**
+	 * 
+	 * Sets what should be calledback to when the project's data is modified.
+	 *
+	 * @param lcn
+	 */
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.listViewCallback = lcn;
 	}
@@ -174,6 +185,12 @@ public class Project implements Parcelable, ChildEventListener {
 
 	}
 
+	/**
+	 * 
+	 * Gets the description of the project
+	 *
+	 * @return
+	 */
 	public String getDescription() {
 		return this.description;
 	}
