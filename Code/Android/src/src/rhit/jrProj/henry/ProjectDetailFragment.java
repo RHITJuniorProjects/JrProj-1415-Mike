@@ -47,6 +47,8 @@ public class ProjectDetailFragment extends Fragment {
 		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_detail))
 					.setText(this.projectItem.toString());
+			((TextView) rootView.findViewById(R.id.project_description))
+			.setText(this.projectItem.getDescription());
 		}
 
 		return rootView;

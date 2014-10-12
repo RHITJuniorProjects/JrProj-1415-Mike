@@ -2,11 +2,11 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Milestone;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -78,6 +78,11 @@ public class MilestoneListFragment extends ListFragment {
 		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.milestones);
+		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(arrayAdapter);
+		for(Milestone m : this.milestones)
+		{
+			m.setListChangeNotifier(lcn);
+		}
 		setListAdapter(arrayAdapter);
 	}
 

@@ -2,6 +2,7 @@ package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -29,6 +30,8 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 */
 	private String description;
 
+	private ListChangeNotifier<Milestone> listViewCallback;
+
 	/**
 	 * Creates a Milestone object
 	 * 
@@ -46,11 +49,22 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 *
 	 * @param in
 	 */
-	public Milestone(Parcel in) {
+	Milestone(Parcel in) {
 		this.firebase = new Firebase(in.readString());
+		this.firebase.addChildEventListener(this);
 		this.name = in.readString();
 		this.description = in.readString();
 		in.readTypedList(this.tasks, Task.CREATOR);
+	}
+
+	/**
+	 * 
+	 * Sets a new list changed notifier
+	 *
+	 * @param lcn
+	 */
+	public void setListChangeNotifier(ListChangeNotifier<Milestone> lcn) {
+		this.listViewCallback = lcn;
 	}
 
 	/**
@@ -70,6 +84,19 @@ public class Milestone implements Parcelable, ChildEventListener {
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	/**
+	 * If both of the firebase URLs are the same, then they are referencing the
+	 * same project.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Milestone) {
+			return ((Milestone) o).firebase.toString().equals(
+					this.firebase.toString());
+		}
+		return false;
 	}
 
 	/**
@@ -102,10 +129,18 @@ public class Milestone implements Parcelable, ChildEventListener {
 	public void onChildAdded(DataSnapshot arg0, String arg1) {
 		if (arg0.getName().equals("name")) {
 			this.name = arg0.getValue(String.class);
+			if (this.listViewCallback != null) {
+				this.listViewCallback.onChange();
+			}
 		} else if (arg0.getName().equals("description")) {
 			this.description = arg0.getValue(String.class);
 		} else if (arg0.getName().equals("tasks")) {
-			// TODO
+			for (DataSnapshot child : arg0.getChildren()) {
+				Task t = new Task(child.getRef().toString());
+				if (!this.tasks.contains(t)) {
+					this.tasks.add(t);
+				}
+			}
 		}
 
 	}

@@ -13,7 +13,13 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
-
+<TextView
+        android:id="@+id/project_description"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"

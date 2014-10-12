@@ -35,7 +35,7 @@ public class Project implements Parcelable, ChildEventListener {
 	/**
 	 * The members that are working on the project
 	 */
-	private Map<User, Enums.Role> members = new HashMap<User, Enums>();
+	private Map<User, Enums.Role> members = new HashMap<User, Enums.Role>();
 
 	/**
 	 * A description of the project.
@@ -47,7 +47,7 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	// private Backlog;
 
-	private ListChangeNotifier<Project> lcn;
+	private ListChangeNotifier<Project> listViewCallback;
 
 	/**
 	 * 
@@ -100,12 +100,25 @@ public class Project implements Parcelable, ChildEventListener {
 	}
 
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
-		this.lcn = lcn;
+		this.listViewCallback = lcn;
 	}
 
 	@Override
 	public String toString() {
 		return this.name;
+	}
+
+	/**
+	 * If both of the firebase URLs are the same, then they are referencing the
+	 * same project.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Project) {
+			return ((Project) o).firebase.toString().equals(
+					this.firebase.toString());
+		}
+		return false;
 	}
 
 	public int describeContents() {
@@ -131,18 +144,18 @@ public class Project implements Parcelable, ChildEventListener {
 
 		if (arg0.getName().equals("name")) {
 			this.name = arg0.getValue(String.class);
-			if (this.lcn != null) {
-				this.lcn.onChange();
+			if (this.listViewCallback != null) {
+				this.listViewCallback.onChange();
 			}
 		} else if (arg0.getName().equals("description")) {
 			this.description = arg0.getValue(String.class);
 		} else if (arg0.getName().equals("milestones")) {
-			// TODO
-			// for(DataSnapshot grandchild : arg0.getChildren())
-			// {
-			// this.project.milestones.add(new
-			// Milestone(grandchild.getRef().toString()));
-			// }
+			for (DataSnapshot child : arg0.getChildren()) {
+				Milestone m = new Milestone(child.getRef().toString());
+				if (!this.milestones.contains(m)) {
+					this.milestones.add(m);
+				}
+			}
 		}
 	}
 
@@ -159,6 +172,10 @@ public class Project implements Parcelable, ChildEventListener {
 	public void onChildRemoved(DataSnapshot arg0) {
 		// TODO Auto-generated method stub.
 
+	}
+
+	public String getDescription() {
+		return this.description;
 	}
 
 }

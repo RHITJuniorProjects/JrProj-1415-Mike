@@ -2,6 +2,7 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.app.ListFragment;
@@ -76,9 +77,16 @@ public class TaskListFragment extends ListFragment {
 		
 		super.onCreate(savedInstanceState);
 		this.tasks = this.getArguments().getParcelableArrayList("Tasks");
-		setListAdapter(new ArrayAdapter<Task>(getActivity(),
+		
+		ArrayAdapter<Task> arrayAdapter = new ArrayAdapter<Task>(getActivity(),
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, this.tasks));
+				android.R.id.text1, this.tasks);
+		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(arrayAdapter);
+		for(Task t : this.tasks)
+		{
+			t.setListChangeNotifier(lcn);
+		}
+		setListAdapter(arrayAdapter);
 		
 	}
 
