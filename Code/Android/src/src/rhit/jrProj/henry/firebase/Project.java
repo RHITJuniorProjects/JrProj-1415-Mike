@@ -48,9 +48,9 @@ public class Project implements Parcelable, ChildEventListener {
 	// private Backlog;
 
 	/**
-	 * This is the class that we need to call onChange from to when
-	 * we update a field in firebase bacause this then notifies the 
-	 * object that is desplaying the project that this object has been updated.
+	 * This is the class that onChange is called from to when a field in
+	 * Firebase is updated. This then notifies the object that is displaying the
+	 * project that this object has been updated.
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
 
@@ -58,7 +58,7 @@ public class Project implements Parcelable, ChildEventListener {
 	 * 
 	 * This constructor builds a new project that updates its self from
 	 * firebase.
-	 *
+	 * 
 	 * @param firebaseUrl
 	 *            i.e. https://henry371.firebaseio.com/projects/-
 	 *            JYcg488tAYS5rJJT4Kh
@@ -71,7 +71,7 @@ public class Project implements Parcelable, ChildEventListener {
 	/**
 	 * 
 	 * Ctor from Parcel, reads back fields IN THE ORDER they were written
-	 *
+	 * 
 	 * @param in
 	 */
 	Project(Parcel in) {
@@ -107,7 +107,7 @@ public class Project implements Parcelable, ChildEventListener {
 	/**
 	 * 
 	 * Sets what should be calledback to when the project's data is modified.
-	 *
+	 * 
 	 * @param lcn
 	 */
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
@@ -137,6 +137,10 @@ public class Project implements Parcelable, ChildEventListener {
 		return 0;
 	}
 
+	/**
+	 * Passes the Firebase URL, the name of the project, the description of the
+	 * project and the milestones
+	 */
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.name);
@@ -146,13 +150,19 @@ public class Project implements Parcelable, ChildEventListener {
 		// number for the loop and then loop through it all?
 	}
 
+	/**
+	 * Nothing to do here
+	 */
 	public void onCancelled(FirebaseError arg0) {
 		// TODO Auto-generated method stub.
-
+		// nothing to do here
 	}
 
+	/**
+	 * Method that is called when a project is added to the list
+	 * 
+	 */
 	public void onChildAdded(DataSnapshot arg0, String arg1) {
-
 		if (arg0.getName().equals("name")) {
 			this.name = arg0.getValue(String.class);
 			if (this.listViewCallback != null) {
@@ -170,25 +180,31 @@ public class Project implements Parcelable, ChildEventListener {
 		}
 	}
 
+	/**
+	 * Will be called when any project value is changed
+	 */
 	public void onChildChanged(DataSnapshot arg0, String arg1) {
 		// TODO Auto-generated method stub.
-
 	}
 
+	/**
+	 * Nothing to do here
+	 */
 	public void onChildMoved(DataSnapshot arg0, String arg1) {
 		// TODO Auto-generated method stub.
 
 	}
 
+	/**
+	 * Until further notice from Mike: do nothing
+	 */
 	public void onChildRemoved(DataSnapshot arg0) {
 		// TODO Auto-generated method stub.
 
 	}
 
 	/**
-	 * 
 	 * Gets the description of the project
-	 *
 	 * @return
 	 */
 	public String getDescription() {

@@ -49,6 +49,8 @@ public class MilestoneDetailFragment extends Fragment {
 		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_detail))
 					.setText(this.milestoneItem.toString());
+			((TextView) rootView.findViewById(R.id.milestone_description))
+			.setText(this.milestoneItem.getDescription());
 		}
 
 		return rootView;

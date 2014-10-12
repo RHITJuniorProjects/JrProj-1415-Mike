@@ -11,16 +11,36 @@ import com.firebase.client.FirebaseError;
 
 public class Task implements Parcelable, ChildEventListener {
 
+	/**
+	 * A reference to firebase to keep the data up to date.
+	 */
 	private Firebase firebase;
 
+	/**
+	 * The task's name
+	 */
 	private String name;
 
+	/**
+	 * A description of the task
+	 */
 	private String description;
 
+	/**
+	 * This is the class that onChange is called from to when a field in
+	 * Firebase is updated. This then notifies the object that is displaying the
+	 * task that this object has been updated.
+	 */
 	private ListChangeNotifier<Task> listViewCallback;
 
+	/**
+	 * The task's assignee(s)
+	 */
 	// private User assignedUser;
 
+	/**
+	 * the task's category
+	 */
 	// private Category category;
 
 	/**
@@ -39,7 +59,7 @@ public class Task implements Parcelable, ChildEventListener {
 
 	/**
 	 * Creates a new task from a parcel
-	 *
+	 * 
 	 * @param pc
 	 */
 	Task(Parcel pc) {
@@ -60,14 +80,17 @@ public class Task implements Parcelable, ChildEventListener {
 	/**
 	 * 
 	 * Sets a new list changed notifier
-	 *
+	 * 
 	 * @param lcn
 	 */
 	public void setListChangeNotifier(ListChangeNotifier<Task> lcn) {
 		this.listViewCallback = lcn;
 	}
 
-	
+	/**
+	 * Passes the Firebase URL, the name of the task and the description of the
+	 * task to the next view
+	 */
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.name);
@@ -117,5 +140,15 @@ public class Task implements Parcelable, ChildEventListener {
 	public void onChildRemoved(DataSnapshot arg0) {
 		// TODO Auto-generated method stub.
 
+	}
+
+	/**
+	 * 
+	 * Gets the description of the task
+	 * 
+	 * @return
+	 */
+	public String getDescription() {
+		return this.description;
 	}
 }

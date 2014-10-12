@@ -25,7 +25,7 @@ public class TaskDetailFragment extends Fragment {
 	/**
 	 * The List content this fragment is presenting.
 	 */
-	private Task mItem;
+	private Task taskItem;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,7 +42,7 @@ public class TaskDetailFragment extends Fragment {
 			// Load the List content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			mItem = this.getArguments().getParcelable("Task");
+			taskItem = this.getArguments().getParcelable("Task");
 		}
 	}
 
@@ -53,9 +53,12 @@ public class TaskDetailFragment extends Fragment {
 				container, false);
 
 		// Show the List content as text in a TextView.
-		if (mItem != null) {
+		if (taskItem != null) {
 			((TextView) rootView.findViewById(R.id.task_detail))
-					.setText(mItem.toString());
+					.setText(taskItem.toString());
+
+			((TextView) rootView.findViewById(R.id.task_description))
+			.setText(this.taskItem.getDescription());
 		}
 
 		return rootView;

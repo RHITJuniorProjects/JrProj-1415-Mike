@@ -2,24 +2,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
     android:layout_gravity="center_horizontal"
-    >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/project_detail"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:shadowColor="@color/black"
+        android:textColor="@color/grey_font"
         android:textIsSelectable="true"
+        android:textStyle="bold"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
-<TextView
+
+    <TextView
         android:id="@+id/project_description"
         style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:shadowColor="@color/text_shadow"
+        android:textColor="@color/dark_blue"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
+
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
