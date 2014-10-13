@@ -10,42 +10,42 @@ var projects = null;
 var commits = null;
 
 metrics.on('value', function(metric) {
-	projects = metric;
+    projects = metric;
 });
 
 commitsRef.on('value', function(commitsData) {
-	commits = commitsData;
+    commits = commitsData;
 });
 
 commitsRef.on('child_added', function(commit) {
-	if (projects !== null && commits !== null) {
-		
-		var project = projects.child(commit.child("project").val());
+    if (projects !== null && commits !== null) {
+        
+        var project = projects.child(commit.child("project").val());
 
-		var averageTime = project.child("average_time").val();
-		var numCommits = project.child("number_of_commits").val();
-		var commitTime = commit.child("time_spent").val();
+        var averageTime = project.child("average_time").val();
+        var numCommits = project.child("number_of_commits").val();
+        var commitTime = commit.child("time_spent").val();
 
-		averageTime = (averageTime * (numCommits - 1) + commitTime) / numCommits;
+        numCommits++;
 
-		numCommits++;
+        averageTime = (averageTime * (numCommits - 1) + commitTime) / numCommits;
 
-		project.ref().update({
-			average_time : averageTime,
-			number_of_commits : numCommits
-		});
-	}
+        project.ref().update({
+            average_time : averageTime,
+            number_of_commits : numCommits
+        });
+    }
 });
 /*
 commitsRef.on('child_removed', function(commit) {
-	if (projects !== null && commits !== null) {
-		var project = projects.child(commit.child("project").val());
-		
-		var numCommits = project.child("number_of_commits").val() - 1;
-		
-		project.ref().update({
-			number_of_commits : numCommits
-		});
-	}
+    if (projects !== null && commits !== null) {
+        var project = projects.child(commit.child("project").val());
+        
+        var numCommits = project.child("number_of_commits").val() - 1;
+        
+        project.ref().update({
+            number_of_commits : numCommits
+        });
+    }
 });
 */
