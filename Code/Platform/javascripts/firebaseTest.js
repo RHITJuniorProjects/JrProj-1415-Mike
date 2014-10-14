@@ -13,7 +13,7 @@ window.onload = function() {
                 }, function(error) {
                     if (error == null) {
                         console.log("user created");
-                                fb.authWithPassword({
+             fb.authWithPassword({
                 "email": userEmail,
                 "password": pass
             }, function(error, authData) {
