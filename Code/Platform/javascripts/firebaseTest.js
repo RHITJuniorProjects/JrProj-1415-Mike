@@ -1,34 +1,69 @@
-window.onload = function(){
-var fb = new Firebase('https://henry371.firebaseio.com');
+window.onload = function() {
+    var fb = new Firebase('https://henry-test.firebaseio.com');
 
-fb.on("value", function(data){
-	var received = data.val() ? data : "";
-	var textToDisplay = ""; 
-	var users = received.child('user')
-	var sprintName = ""
-	var milestoneName =""
-	var taskName = ""
+    document.getElementById("submit").addEventListener("click", function(event) {
 
-	users.forEach(function (user){
-		textToDisplay = textToDisplay + user.name() + " is on the the following teams: <br/>"
-		var teams = user.child('teams')
-		teams.forEach(function (projects){
-			textToDisplay = textToDisplay + "&nbsp&nbsp&nbspProject: " + projects.name() + "<br>&nbsp&nbsp&nbspTeam: " + projects.val() + "<br><br>"
+            var userEmail = document.getElementById("email").value
+            var pass = document.getElementById("password").value
+        var fName = document.getElementById("firstName").value
+       	 var githubName = document.getElementById("gitHub").value
+            fb.createUser({
+                    email  : userEmail,
+                    password : pass
+                }, function(error) {
+                    if (error == null) {
+                        console.log("user created");
+                                fb.authWithPassword({
+                "email": userEmail,
+                "password": pass
+            }, function(error, authData) {
+                if (error == null) {
+                	 console.log("Success");
+                    document.getElementById("projectField").innerHTML = authData.uid;
+                    fb.child('users').child(authData.uid).set({email : userEmail, firstName : fName, github : githubName, projects : false, tasks : false});
 
+                } else {
+                    console.log("login Failed", error);
+                   
 
-			// sprints = received.child('projects/' + project.name() + "/" + project.val())
-			// sprints.forEach(function (sprint){
-			// 	if(sprint.name() != "members"){
-			// 		sprintName = sprint.name()
-			// 		milestones = received.child()
-			// 	}
+                }
+            }
+        )
+                    } else {
+                        console.log("error", error);
+                       document.getElementById("projectField").innerHTML = error.code;
 
-			})
-		})
-	document.getElementById("projectField").innerHTML += document.getElementById("projectField").innerHTML + textToDisplay;
-	})
+                    }
+                });
+
+    })
+
+document.getElementById("login").addEventListener("click", function(event) {
+
+        var userEmail = document.getElementById("emailLogin").value
+        var pass = document.getElementById("passwordLogin").value
+
+            fb.authWithPassword({
+                "email": userEmail,
+                "password": pass
+            }, function(error, authData) {
+                if (error == null) {
+                	 console.log("Success");
+                    var uid = authData.uid;
+                    fb.child('users').child(authData.uid).once("value", function(data){
+   					document.getElementById("projectField").innerHTML = data.email + " " + data.firstName + " " + data.github;
+	
+                    })
+
+                } else {
+                    console.log("login Failed", error);
+                   
+
+                }
+            }
+        )
+})
 }
-
 
 // fbUsers = fb.child("user/")
 // document.getElementById("setValue").addEventListener('click',function(event){
@@ -49,6 +84,3 @@ fb.on("value", function(data){
 // );
 // }
 //LISTEN FOR REALTIME CHANGES
-
-
- 
