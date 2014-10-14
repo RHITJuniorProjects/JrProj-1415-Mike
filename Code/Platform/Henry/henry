@@ -1,0 +1,40 @@
+#!/usr/bin/python
+
+"""
+    This installer requires the 'requests' library which does not
+    ship with any version of Python. It can be installed with pip.
+    This is not ideal and will most likely be replaced with the
+    urllib2 library which does ship with most common versions.
+
+    This installer pulls the most recent Henry git-hook from the
+    repository. At the moment, the class repository is private and
+    cannot be accessed by this installer without credentials. For
+    the moment, I am also hosting the git-hook on an alternate public
+    repository solely for the purpose of this script.
+    
+"""
+
+
+import urllib
+import json
+from base64 import b64decode
+import os
+
+
+
+gh_url = 'https://api.github.com/repos/aj-michael/Henry/contents/commit-msg'
+hook_dir = os.getcwd()+'/.git/hooks'
+hook_path = os.getcwd()+'/.git/hooks/commit-msg'
+
+try:
+    with open(hook_path,'w') as f:
+        pass
+except IOError:
+    print 'Error: Must be in the root of a Git repository'
+    exit(1)
+
+text = urllib.urlopen(gh_url).read()
+text = b64decode(json.loads(text)['content'])
+
+with open(hook_path,'w') as f:
+    f.write(text)
