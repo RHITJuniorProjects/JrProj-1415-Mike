@@ -3,66 +3,70 @@ window.onload = function() {
 
     document.getElementById("submit").addEventListener("click", function(event) {
 
-            var userEmail = document.getElementById("email").value
-            var pass = document.getElementById("password").value
+        var userEmail = document.getElementById("email").value
+        var pass = document.getElementById("password").value
         var fName = document.getElementById("firstName").value
-       	 var githubName = document.getElementById("gitHub").value
-            fb.createUser({
-                    email  : userEmail,
-                    password : pass
-                }, function(error) {
+        var githubName = document.getElementById("gitHub").value
+        fb.createUser({
+            email: userEmail,
+            password: pass
+        }, function(error) {
+            if (error == null) {
+                console.log("user created");
+                fb.authWithPassword({
+                    "email": userEmail,
+                    "password": pass
+                }, function(error, authData) {
                     if (error == null) {
-                        console.log("user created");
-             fb.authWithPassword({
-                "email": userEmail,
-                "password": pass
-            }, function(error, authData) {
-                if (error == null) {
-                	 console.log("Success");
-                    document.getElementById("projectField").innerHTML = authData.uid;
-                    fb.child('users').child(authData.uid).set({email : userEmail, firstName : fName, github : githubName, projects : false, tasks : false});
+                        console.log("Success");
+                        document.getElementById("projectField").innerHTML = authData.uid;
+                        fb.child('users').child(authData.uid).set({
+                            email: userEmail,
+                            firstName: fName,
+                            github: githubName,
+                            projects: false,
+                            tasks: false
+                        });
 
-                } else {
-                    console.log("login Failed", error);
-                   
-
-                }
-            }
-        )
                     } else {
-                        console.log("error", error);
-                       document.getElementById("projectField").innerHTML = error.code;
+                        console.log("login Failed", error);
+
 
                     }
-                });
+                })
+            } else {
+                console.log("error", error);
+                document.getElementById("projectField").innerHTML = error.code;
+
+            }
+        });
 
     })
 
-document.getElementById("login").addEventListener("click", function(event) {
+    document.getElementById("login").addEventListener("click", function(event) {
 
-        var userEmail = document.getElementById("emailLogin").value
-        var pass = document.getElementById("passwordLogin").value
+        var loginEmail = document.getElementById("emailLogin").value
+        var loginpass = document.getElementById("passwordLogin").value
 
-            fb.authWithPassword({
-                "email": userEmail,
-                "password": pass
-            }, function(error, authData) {
-                if (error == null) {
-                	 console.log("Success");
-                    var uid = authData.uid;
-                    fb.child('users').child(authData.uid).once("value", function(data){
-   					document.getElementById("projectField").innerHTML = data.email + " " + data.firstName + " " + data.github;
-	
-                    })
+        fb.authWithPassword({
+            "email": loginEmail,
+            "password": loginpass
+        }, function(error, authData) {
+            if (error == null) {
+                console.log("Success");
+                var uid = authData.uid;
+                console.log(uid)
+                fb.child('users/' + uid + "/email").once("value", function(data) {
+                    document.getElementById("projectField").innerHTML = data.val() + " is logged in";
+                })
 
-                } else {
-                    console.log("login Failed", error);
-                   
+            } else {
+                console.log("login Failed", error);
 
-                }
+
             }
-        )
-})
+        })
+    })
 }
 
 // fbUsers = fb.child("user/")
