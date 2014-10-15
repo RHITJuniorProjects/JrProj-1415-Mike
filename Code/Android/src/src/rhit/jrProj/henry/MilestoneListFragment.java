@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -70,17 +72,22 @@ public class MilestoneListFragment extends ListFragment {
 	public MilestoneListFragment() {
 	}
 
+	/**
+ * 
+ */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Done: replace with a real list adapter.
-		this.milestones = this.getArguments().getParcelableArrayList("Milestones");
-		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
+		this.milestones = ((MilestoneListActivity) this.getActivity())
+				.getMilestones();
+
+		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(
+				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.milestones);
-		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(arrayAdapter);
-		for(Milestone m : this.milestones)
-		{
+		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(
+				arrayAdapter);
+		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
 		}
 		setListAdapter(arrayAdapter);
@@ -150,6 +157,11 @@ public class MilestoneListFragment extends ListFragment {
 						: ListView.CHOICE_MODE_NONE);
 	}
 
+
+	/**
+	 * 
+	 * @param position
+	 */
 	private void setActivatedPosition(int position) {
 		if (position == ListView.INVALID_POSITION) {
 			getListView().setItemChecked(mActivatedPosition, false);

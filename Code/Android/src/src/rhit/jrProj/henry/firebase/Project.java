@@ -7,6 +7,7 @@ import java.util.Map;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -16,7 +17,7 @@ import com.firebase.client.FirebaseError;
 public class Project implements Parcelable, ChildEventListener {
 
 	/**
-	 * A reference to firebase to keep the data up to date.
+	 * A reference to Firebase to keep the data up to date.
 	 */
 	private Firebase firebase;
 
@@ -54,6 +55,21 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
 
+
+	/**
+	 * A Creator object that allows this object to be created by a parcel
+	 */
+	public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
+
+		public Project createFromParcel(Parcel pc) {
+			return new Project(pc);
+		}
+
+		public Project[] newArray(int size) {
+			return new Project[size];
+		}
+	};
+	
 	/**
 	 * 
 	 * This constructor builds a new project that updates its self from
@@ -83,19 +99,6 @@ public class Project implements Parcelable, ChildEventListener {
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
 
-	/**
-	 * A Creator object that allows this object to be created by a parcel
-	 */
-	public static final Parcelable.Creator<Project> CREATOR = new Parcelable.Creator<Project>() {
-
-		public Project createFromParcel(Parcel pc) {
-			return new Project(pc);
-		}
-
-		public Project[] newArray(int size) {
-			return new Project[size];
-		}
-	};
 
 	/**
 	 * Gets an ArrayList of milestones associated with this project.
@@ -163,6 +166,7 @@ public class Project implements Parcelable, ChildEventListener {
 	 * 
 	 */
 	public void onChildAdded(DataSnapshot arg0, String arg1) {
+		Log.i("Project::",arg0.getName().toString());
 		if (arg0.getName().equals("name")) {
 			this.name = arg0.getValue(String.class);
 			if (this.listViewCallback != null) {
@@ -205,6 +209,7 @@ public class Project implements Parcelable, ChildEventListener {
 
 	/**
 	 * Gets the description of the project
+	 * 
 	 * @return
 	 */
 	public String getDescription() {

@@ -8,5 +8,4 @@
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
     <item name="activity_milestone_list" type="layout">@layout/activity_milestone_twopane</item>
-
 </resources>

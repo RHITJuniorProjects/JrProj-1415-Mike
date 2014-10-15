@@ -14,7 +14,7 @@ import android.widget.TextView;
  * tablets) or a {@link ProjectDetailActivity} on handsets.
  */
 public class ProjectDetailFragment extends Fragment {
-	
+
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
@@ -27,6 +27,9 @@ public class ProjectDetailFragment extends Fragment {
 	public ProjectDetailFragment() {
 	}
 
+	/**
+	 * TODO
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,10 +38,15 @@ public class ProjectDetailFragment extends Fragment {
 			// Load the dummy content specified by the fragment
 			// arguments. In a real-world scenario, use a Loader
 			// to load content from a content provider.
-			this.projectItem = (Project) getArguments().getParcelable("Project");
+			this.projectItem = (Project) getArguments()
+					.getParcelable("Project");
 		}
+
 	}
 
+	/**
+	 * TODO
+	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -48,11 +56,10 @@ public class ProjectDetailFragment extends Fragment {
 			((TextView) rootView.findViewById(R.id.project_detail))
 					.setText(this.projectItem.toString());
 			((TextView) rootView.findViewById(R.id.project_description))
-			.setText(this.projectItem.getDescription());
+					.setText(this.projectItem.getDescription());
 		}
 
 		return rootView;
 	}
-	
 
 }

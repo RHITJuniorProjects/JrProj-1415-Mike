@@ -1,12 +1,17 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+
+import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 /**
  * An activity representing a list of Items. This activity has different
@@ -31,23 +36,35 @@ public class TaskListActivity extends FragmentActivity implements
 	 * device.
 	 */
 	private boolean mTwoPane;
+	private ArrayList<Task> tasks;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		FrameLayout layout = new FrameLayout(this);
-		layout.setId(0x1112);
-		setContentView(layout);
-		// Show the Up button in the action bar.
-		Bundle args = new Bundle();
-		args.putParcelableArrayList("Tasks", this.getIntent()
-				.getParcelableArrayListExtra("Tasks"));
-		FragmentTransaction t = getFragmentManager().beginTransaction();
-		TaskListFragment frag = new TaskListFragment();
-		frag.setArguments(args);
-		t.add(layout.getId(), frag, "Task List");
-		t.commit();
+		
+		this.tasks = this.getIntent().getParcelableArrayListExtra(
+				"Tasks");
 
+		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+		if (!tabletSize) {
+			setContentView(R.layout.activity_task_list);
+		} else {
+			setContentView(R.layout.activity_task_twopane);
+		}
+//		LinearLayout layout = new LinearLayout(this);
+//		layout.setId(0x1112);
+//		setContentView(layout);
+//		// Show the Up button in the action bar.
+//		Bundle args = new Bundle();
+//		args.putParcelableArrayList("Tasks", this.getIntent()
+//				.getParcelableArrayListExtra("Tasks"));
+//		FragmentTransaction t = getFragmentManager().beginTransaction();
+//		TaskListFragment frag = new TaskListFragment();
+//		frag.setArguments(args);
+//		t.add(layout.getId(), frag, "Task List");
+//		t.commit();
+
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		if (findViewById(R.id.task_detail_container) != null) {
 			// The detail container view will be present only in the
 			// large-screen layouts (res/values-large and
@@ -73,6 +90,14 @@ public class TaskListActivity extends FragmentActivity implements
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Returns the list of tasks
+	 * 
+	 * @return
+	 */
+	public ArrayList<Task> getTasks() {
+		return this.tasks;
+	}
 	/**
 	 * Callback method from {@link ItemListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.

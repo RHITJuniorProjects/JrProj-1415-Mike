@@ -44,8 +44,7 @@ public class MilestoneDetailActivity extends Activity {
 			// Create the detail fragment and add it to the activity
 			// using a fragment transaction.
 			Bundle arguments = new Bundle();
-			this.milestoneItem = getIntent().getParcelableExtra(
-					"Milestone");
+			this.milestoneItem = getIntent().getParcelableExtra("Milestone");
 			arguments.putParcelable("Milestone", this.milestoneItem);
 			MilestoneDetailFragment fragment = new MilestoneDetailFragment();
 			fragment.setArguments(arguments);
@@ -56,6 +55,7 @@ public class MilestoneDetailActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		this.milestoneItem = (Milestone) item;
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			// This ID represents the Home or Up button. In the case of this
