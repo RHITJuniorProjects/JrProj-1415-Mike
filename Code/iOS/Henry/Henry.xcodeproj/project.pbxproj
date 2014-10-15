@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		90B8EAA419EEE4BF00DA57A8 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8EAA319EEE4BF00DA57A8 /* Firebase.framework */; };
 		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
 		93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
@@ -23,7 +24,6 @@
 		93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */; };
 		93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */; };
 		93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */; };
-		ADB3A4DC19E489EC00C687D5 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4DB19E489EC00C687D5 /* Firebase.framework */; };
 		ADB3A4DE19E48A1F00C687D5 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4DD19E48A1F00C687D5 /* libicucore.dylib */; };
 		ADB3A4E019E48A2A00C687D5 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4DF19E48A2A00C687D5 /* libc++.dylib */; };
 		ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */; };
@@ -42,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		90B8EAA319EEE4BF00DA57A8 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -65,7 +66,6 @@
 		93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestonesTableViewController.m; sourceTree = "<group>"; };
 		93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTasksTableViewController.h; sourceTree = "<group>"; };
 		93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTasksTableViewController.m; sourceTree = "<group>"; };
-		ADB3A4DB19E489EC00C687D5 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		ADB3A4DD19E48A1F00C687D5 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		ADB3A4DF19E48A2A00C687D5 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -79,6 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB3A4E619E48A4C00C687D5 /* SystemConfiguration.framework in Frameworks */,
+				90B8EAA419EEE4BF00DA57A8 /* Firebase.framework in Frameworks */,
 				ADB3A4E419E48A4300C687D5 /* Security.framework in Frameworks */,
 				ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */,
 				ADB3A4E019E48A2A00C687D5 /* libc++.dylib in Frameworks */,
@@ -86,7 +87,6 @@
 				93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */,
 				93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */,
 				93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */,
-				ADB3A4DC19E489EC00C687D5 /* Firebase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -106,6 +106,7 @@
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
+				90B8EAA319EEE4BF00DA57A8 /* Firebase.framework */,
 				93447F3E19C91C5500C2FC38 /* Henry */,
 				93447F5719C91C5600C2FC38 /* HenryTests */,
 				93447F3719C91C5500C2FC38 /* Frameworks */,
@@ -141,7 +142,6 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
-				ADB3A4DB19E489EC00C687D5 /* Firebase.framework */,
 				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
@@ -410,6 +410,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Henry",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
@@ -429,6 +430,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Henry",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
