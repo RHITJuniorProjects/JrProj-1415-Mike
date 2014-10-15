@@ -33,4 +33,25 @@ Project.prototype = {
 	}
 };
 
+function login(){
+	var user = document.getElementById("user").value;
+	var pass = document.getElementById("pwd").value;
+
+	firebase.authWithPassword(
+		{
+			email: user,
+			password: pass
+		}, 
+		function(error, authData) {
+			if (error == null) {
+				console.log("Success");
+				var uid = authData.uid;
+				console.log(uid)
+			} else {
+				console.log("login Failed", error);
+			}
+		}
+	);
+};
+
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
