@@ -12,7 +12,8 @@
 		<tr>
 			<td>Task Name</td>
 			<td>Assigned User</td> 
-			<td>Points</td>
+			<td>Estimated Hours</td>
+			<td>Actual Hours</td>
 		</tr>
 		<tr>
 			<td>Change html pages</td>
