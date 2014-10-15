@@ -20,5 +20,8 @@
   ,{
     "source":"/tasks",
     "destination":"/tasks.html"
+  },{
+	"source":"/login",
+	"destination":"/login.html"
   }]
 }
