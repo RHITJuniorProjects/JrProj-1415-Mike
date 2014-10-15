@@ -21,8 +21,6 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	private Firebase firebase;
 
-	// Below are the data of the Project Object
-
 	/**
 	 * A List of milestones that are contained within the project
 	 */

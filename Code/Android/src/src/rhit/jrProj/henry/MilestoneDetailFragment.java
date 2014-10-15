@@ -32,9 +32,6 @@ public class MilestoneDetailFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		if (getArguments().containsKey("Milestone")) {
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
 			this.milestoneItem = this.getArguments().getParcelable("Milestone");
 		}
 	}
@@ -44,8 +41,6 @@ public class MilestoneDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_milestone_detail,
 				container, false);
-
-		// Show the dummy content as text in a TextView.
 		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_detail))
 					.setText(this.milestoneItem.toString());
