@@ -1,7 +1,16 @@
 #!/usr/bin/python
 import sys
 import re
+import subprocess
 from firebase import firebase
+
+def getLoC():
+    pipe = subprocess.Popen(['git','diff','--shortstat'],stdout=subprocess.PIPE)
+    pair = pipe.communicate()[0]
+    vals = map(lambda x: int(x[0]), pair.replace(' ','').split(','))
+    return vals[1] - vals[2]
+
+print "Started commit hook"
 
 prodUrl = 'https://henry-production.firebaseio.com'
 stagUrl = 'https://henry-staging.firebaseio.com'
@@ -10,16 +19,40 @@ testUrl = 'https://henry-test.firebaseio.com'
 # set this to the correct database
 firebase = firebase.FirebaseApplication(testUrl, None)
 
+username = 'aj-michael'
+
+users = firebase.get('/users',None)
+try:
+    uid = [u for u in users if users[u]['github']==username][0]
+except:
+    print "HENRY: Invalid username, commit failed"
+    exit(1)
+
 # sys.argv[0] is the path to this file
 # sys.argv[1] is the path to commit file
 with open(sys.argv[1], "r") as msgfile:
     msg = msgfile.read()
 
-hoursRE = r"\[hours: ([0-9]+)\]"
+hoursRE = r"\[hours:([0-9]+)\]"
+milestoneRE = r"\[milestone:([0-9]+)\]"
+taskRE = r"\[task:([0-9]+)\]"
 
 
-hours = re.search(hoursRE, msg)
 
+
+hours = re.search(hoursRE,msg).group(1)
+milestone = re.search(milestoneRE,msg).group(1)
+task = re.search(taskRE,msg).group(1)
+
+print uid
+print hours
+print milestone
+print task
+
+path = '/users'
+
+
+"""
 # no hour included
 if hours == None:
     print "Hours not included, set to zero by default"
@@ -28,12 +61,14 @@ else:
     hours = hours.group(1)
 
 print "Hours were: " + str(hours)
+"""
 
 
-
-#print firebase.get('/user', None)
+"""
+print firebase.get('/user', None)
 path = '/users'
 key = 'Sample user'
 value = 'Sample field'
 firebase.put(path, key, value)
+"""
 
