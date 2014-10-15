@@ -19,7 +19,9 @@ commitsRef.on('value', function(commitsData) {
 });
 
 commitsRef.on('child_added', function(commit) {
-    if (projects !== null && commits !== null) {
+    if (projects !== null){// && commits !== null) {
+    // is commits == null necessary? If we can determine "no",
+    // then we can be rid of the commit data call
         
         var project = projects.child(commit.child("project").val());
 
