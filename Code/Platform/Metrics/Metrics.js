@@ -1,5 +1,6 @@
 /**
  * Metric collection script for CSSE371 Henry project
+ * @author Sean Carter, Abby Mann
  */
 
 var Firebase = require("firebase");
@@ -24,7 +25,7 @@ commitsRef.on('child_added', function(commit) {
 
         var averageTime = project.child("average_time").val();
         var numCommits = project.child("number_of_commits").val();
-        var commitTime = commit.child("time_spent").val();
+        var commitTime = commit.child("hours").val();
 
         numCommits++;
 
@@ -36,16 +37,3 @@ commitsRef.on('child_added', function(commit) {
         });
     }
 });
-/*
-commitsRef.on('child_removed', function(commit) {
-    if (projects !== null && commits !== null) {
-        var project = projects.child(commit.child("project").val());
-        
-        var numCommits = project.child("number_of_commits").val() - 1;
-        
-        project.ref().update({
-            number_of_commits : numCommits
-        });
-    }
-});
-*/
