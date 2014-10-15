@@ -1,6 +1,6 @@
 
 /* this file contains classes and utility functions that are used everywhere on the website */
-var firebase = new Firebase("https://henry371.firebaseIO.com");
+var firebase = new Firebase("https://henry-production.firebaseIO.com");
 
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
