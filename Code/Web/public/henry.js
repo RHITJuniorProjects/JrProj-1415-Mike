@@ -7,7 +7,7 @@ var firebase = new Firebase("https://henry-production.firebaseIO.com");
 function Table(factory,firebase){
 	this.__factory = factory;
 	this.__firebase = firebase;
-}
+};
 
 Table.prototype = {
 	get:function(uid){
@@ -23,7 +23,7 @@ function Project(firebase){
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__milestones = firebase.child('milestones');
-}
+};
 
 Project.prototype = {
 	getName:function(callback){
@@ -37,21 +37,16 @@ function login(){
 	var user = document.getElementById("user").value;
 	var pass = document.getElementById("pwd").value;
 
-	firebase.authWithPassword(
-		{
-			email: user,
-			password: pass
-		}, 
-		function(error, authData) {
-			if (error == null) {
-				console.log("Success");
-				var uid = authData.uid;
-				console.log(uid)
-			} else {
-				console.log("login Failed", error);
-			}
+	firebase.authWithPassword({
+		"email": user,
+		"password": pass
+	}, function(error, authData) {
+		if (error === null) {
+			console.log("User ID: " + authData.uid + ", Provider: " + authData.provider);
+		} else {
+			console.log("Error authenticating user:", error);
 		}
-	);
+	});;
 };
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
