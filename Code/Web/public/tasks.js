@@ -1,8 +1,7 @@
 
-
 $(function(){
 	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
-	var $panel = $('#panel2');
+	var $panel = $('#task-table');
 	for(var i = 0; i < 1; i++){
 		//var $tString = '#project-name' + i;
 		//var $dString = '#project-description' + i;
