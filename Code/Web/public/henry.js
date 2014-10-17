@@ -16,8 +16,9 @@ Table.prototype = {
 		return this.__factory(this.__firebase.child(uid));
 	},
 	onItemAdded:function(callback){
+		//console.log(this.__onChildAdded);
 		if(!this.__onChildAdded){
-			this.__onChildRemoved = [];
+			this.__onChildAdded = [];
 			this.__firebase.on('child_added',function(snap){
 				var val = this.__factory(snap.val());
 				this.__onChildAdded.forEach(function(callback){
@@ -44,7 +45,7 @@ Table.prototype = {
 var users = new Table(function(fb){return new User(fb);},firebase.child('users'));
 
 function User(firebase){
-	this.firebase = firebase;
+	this.__firebase = firebase;
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__email = firebase.chile('email');
@@ -58,7 +59,7 @@ User.prototype = {
 };
 
 function Project(firebase){
-	this.firebase = firebase;
+	this.__firebase = firebase;
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
@@ -96,13 +97,13 @@ Project.prototype = {
 		});
 	},
 	getMilestones:function() {
-		return new Table(function(fb){ return new Milestone(fb);},this.firebase.child('milestones'));
+		return new Table(function(fb){ return new Milestone(fb);},this.__firebase.child('milestones'));
 	
 	}
 };
 
 function Milestone(firebase){
-	this.firebase = firebase;
+	this.__firebase = firebase;
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
@@ -138,8 +139,60 @@ Milestone.prototype = {
 		this.getDescription(function(descriptionStr){
 			description.html(descriptionStr);
 		});
+	}, 
+	getTasks:function() {
+		return new Table(function(fb){ return new Task(fb);},this.__firebase.child('tasks'));
+	
 	}
 };
+
+function Task(firebase){
+	this.__firebase = firebase;
+	this.uid = firebase.name();
+	this.__name = firebase.child('name');
+	this.__description = firebase.child('description');
+	this.__task = firebase.child('original_time_estimate');
+	this.__task = firebase.child('updated_time_estimate');
+};
+
+Task.prototype = {
+	getName:function(callback){
+		this.__name.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getDescription:function(callback){
+		this.__description.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getTableHtml:function(callback){
+		callback('<tr>'+
+			'<td>Change html pages</td>'+
+			'<td>Jeff</td>'+
+			'<td>3</td>'+
+			'<td>5</td>'+
+			'</tr>');
+		var name = $('#task-name-'+this.uid);
+		this.getName(function(nameStr){
+			name.html(nameStr);
+		});
+		var description = $('#task-description-'+this.uid);
+		this.getDescription(function(descriptionStr){
+			description.html(descriptionStr);
+		});
+		var original_time_estimate = $('#task-original_time_estimate-'+this.uid);
+		this.getOriginaltime(function(original_time_estimate\Str){
+			description.html(original_time_estimateStr);
+		});
+		var updated_time_estimate = $('#task-updated_time_estimate-'+this.uid);
+		this.getUpdatedtime(function(updated_time_estimateStr){
+			description.html(updated_time_estimateStr);
+		});
+	}, 
+	
+};
+
 
 function login(){
 	var user = document.getElementById("user").value;

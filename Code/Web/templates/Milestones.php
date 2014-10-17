@@ -16,7 +16,6 @@
 						<h3>Production</h3>
 					</a>
 					<div id="panel2" class="content active row panel">
-					
 					</div>
 				</dd>
 			</dl>
