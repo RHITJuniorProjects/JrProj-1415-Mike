@@ -250,6 +250,7 @@ function login(user, pass){
 			console.log("Error authenticating user:", error);
 		}
 	});
+	window.location.replace(window.location.hostname + "projects")
 };
 
 function register(){
@@ -260,6 +261,7 @@ function register(){
 		}, 
 		function(error) {
 			if (error === null) {
+				getLoginData();
 				console.log("User " + user + " created successfully");
 			} else {
 				console.log("Error creating user:" + user + ", " + error);
