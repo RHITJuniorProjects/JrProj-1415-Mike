@@ -153,8 +153,8 @@ function Task(firebase){
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
-	this.__task = firebase.child('original_time_estimate');
-	this.__task = firebase.child('updated_time_estimate');
+	this.__originalTime = firebase.child('original_time_estimate');
+	this.__updatedTime = firebase.child('updated_time_estimate');
 };
 
 Task.prototype = {
@@ -168,14 +168,38 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
-
+	getAssignedUser:function(callback){
+		this.__assigned_user.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getCategory:function(callback){
+		this.__category.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	
+	getOriginalTime:function(callback){
+		this.__original_time_estimate.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getUpdatedTime:function(callback){
+		this.__updated_time_estimate.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	
 	getTableHtml:function(callback){
 		callback('<tr>'+
-			'<td>Change html pages</td>'+
-			'<td>Jeff</td>'+
-			'<td>3</td>'+
-			'<td>5</td>'+
+			'<td id="#task-name-'+this.uid+'"></td>'+
+			'<td id="#task-description-'+this.uid+'"></td>'+
+			'<td id="#task-category-'+this.uid+'"></td>'+
+			'<td id="#task-assignedTo-'+this.uid+'"></td>'+
+			'<td id="#task-original_time_estimate-'+this.uid+'"></td>'+
+			'<td id="#task-updated_time_estimate-'+this.uid+'"></td>'+
 			'</tr>');
+		
 		var name = $('#task-name-'+this.uid);
 		this.getName(function(nameStr){
 			name.html(nameStr);
@@ -184,15 +208,23 @@ Task.prototype = {
 		this.getDescription(function(descriptionStr){
 			description.html(descriptionStr);
 		});
-		/*var original_time_estimate = $('#task-original_time_estimate-'+this.uid);
-		this.getOriginaltime(function(original_time_estimate\Str){
-			description.html(original_time_estimateStr);
+		var assignedUser = $('#task-assignedTo-'+this.uid);
+		this.getAssignedUser(function(assignedUserStr){
+			assignedUser.html(assignedUserStr);
 		});
-		var updated_time_estimate = $('#task-updated_time_estimate-'+this.uid);
-		this.getUpdatedtime(function(updated_time_estimateStr){
-			description.html(updated_time_estimateStr);
+		var category= $('#task-category-'+this.uid);
+		this.getCategory(function(categoryStr){
+			category.html(categoryStr);
 		});
-		*/
+		var originalTime = $('#task-original_time_estimate-'+this.uid);
+		this.getOriginalTime(function(original_time_estimateStr){
+			originalTime.html(original_time_estimateStr);
+		});
+		var updatedTime= $('#task-updated_time_estimate-'+this.uid);
+		this.getUpdatedTime(function(updated_time_estimateStr){
+			updatedTime.html(updated_time_estimateStr);
+		});
+		
 	}	
 };
 
