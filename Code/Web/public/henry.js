@@ -228,10 +228,13 @@ Task.prototype = {
 	}	
 };
 
-
-function login(){
+function getLoginData(){
 	var user = document.getElementById("user").value;
-	var pass = document.getElementById("pwd").value;
+	var pass = document.getElementById("pass").value;
+	login(user, pass);
+}
+
+function login(user, pass){
 
 	firebase.authWithPassword({
 		"email": user,
