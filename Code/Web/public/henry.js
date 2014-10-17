@@ -65,17 +65,6 @@ function Project(firebase){
 	this.__milestones = firebase.child('milestones');
 };
 
-function Milestone(firebase){
-	this.firebase = firebase;
-	this.uid = firebase.name();
-	this.__name = firebase.child('name');
-	this.__description = firebase.child('description');
-	this.__task = firebase.child('tasks');
-};
-
-
-
-
 
 Project.prototype = {
 	getName:function(callback){
@@ -101,6 +90,54 @@ Project.prototype = {
 		this.getName(function(nameStr){
 			name.html(nameStr);
 		});
+		var description = $('#project-description-'+this.uid);
+		this.getDescription(function(descriptionStr){
+			description.html(descriptionStr);
+		});
+	},
+	getMilestones:function() {
+		return new Table(function(fb){ return new Milestone(fb);},this.firebase.child('milestones'));
+	
+	}
+};
+
+function Milestone(firebase){
+	this.firebase = firebase;
+	this.uid = firebase.name();
+	this.__name = firebase.child('name');
+	this.__description = firebase.child('description');
+	this.__task = firebase.child('tasks');
+};
+
+
+Milestone.prototype = {
+	getName:function(callback){
+		this.__name.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getDescription:function(callback){
+		this.__description.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getButtonHtml:function(callback){
+		callback('<div class="row">'+
+		'<div class="small-4 columns small-offset-1">'+
+		'<div class="button expand text-center">'+
+		'<a href="tasks"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
+		'</div>'+
+		'<div id="milestone-description-'+this.uid+'"></div>'+
+		'</div>'+
+		'</div>');
+		var name = $('#milestone-name-'+this.uid);
+		this.getName(function(nameStr){
+			name.html(nameStr);
+		});
+		var description = $('#milestone-description-'+this.uid);
+		this.getDescription(function(descriptionStr){
+			description.html(descriptionStr);
+		});
 	}
 };
 
@@ -121,4 +158,4 @@ function login(){
 };
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
-var milestones = new Table(function(fb){ return new Milestone(fb);},firebase.child('milestones'));
+

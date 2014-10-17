@@ -7,7 +7,7 @@ $(function(){
 		//var $dString = '#project-description' + i;
 		
 		$title = $('#project-name' + i);
-		console.log($title);
+		//console.log($title);
 		$description = $('#project-description' + i);
 		//var projectId = $.cookie('project');
 		var projectId = projectIDs[i];

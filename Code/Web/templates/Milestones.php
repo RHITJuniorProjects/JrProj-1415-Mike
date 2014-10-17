@@ -18,7 +18,6 @@
 								<li><a href="tasks" class="button expand">Tasks</a></li>
 							</ul>
 						</div>
-					
 					</div>
 					<div class="small-4 columns small-offset-2 left">
 						<div class="row text-center">
