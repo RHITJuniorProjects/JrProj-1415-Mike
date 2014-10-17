@@ -56,8 +56,10 @@ function User(firebase){
 User.prototype = {
 	getName:function(callback){
 		this.__name
-	}
+	},
+	getProjects:function(){
 
+	}
 };
 
 function Project(firebase){
@@ -84,7 +86,7 @@ Project.prototype = {
 		callback('<div class="row">'+
 		'<div class="small-4 columns small-offset-1">'+
 		'<div class="button expand text-center">'+
-		'<a href="Milestones"><h3 id="project-name-'+this.uid+'"></h3></a>'+
+		'<a onclick="selectProject(\''+this.uid+'\')"><h3 id="project-name-'+this.uid+'"></h3></a>'+
 		'</div>'+
 		'<div id="project-description-'+this.uid+'"></div>'+
 		'</div>'+
@@ -128,7 +130,7 @@ Milestone.prototype = {
 		callback('<div class="row">'+
 		'<div class="small-4 columns small-offset-1">'+
 		'<div class="button expand text-center">'+
-		'<a href="tasks"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
+		'<a onclick="selectMilestone(\''+this.uid+'\'"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
 		'</div>'+
 		'<div id="milestone-description-'+this.uid+'"></div>'+
 		'</div>'+
@@ -219,13 +221,12 @@ Task.prototype = {
 		var originalTime = $('#task-original_time_estimate-'+this.uid);
 		this.getOriginalTime(function(original_time_estimateStr){
 			originalTime.html(original_time_estimateStr);
-		});
+
 		var updatedTime= $('#task-updated_time_estimate-'+this.uid);
 		this.getUpdatedTime(function(updated_time_estimateStr){
 			updatedTime.html(updated_time_estimateStr);
-		});
-		
-	}	
+		});		
+	}
 };
 
 function getLoginData(){
@@ -276,6 +277,4 @@ function register(){
 function logout() {
 	document.cookie = "userData=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
 };
-
-var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 
