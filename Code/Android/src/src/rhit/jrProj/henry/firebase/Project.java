@@ -52,8 +52,7 @@ public class Project implements Parcelable, ChildEventListener {
 	 * project that this object has been updated.
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
-
-
+	
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -77,7 +76,7 @@ public class Project implements Parcelable, ChildEventListener {
 	 *            i.e. https://henry371.firebaseio.com/projects/-
 	 *            JYcg488tAYS5rJJT4Kh
 	 */
-	public Project(String firebaseUrl) {
+	public Project(String firebaseUrl){
 		this.firebase = new Firebase(firebaseUrl);
 		this.firebase.addChildEventListener(this);
 	}
@@ -164,7 +163,6 @@ public class Project implements Parcelable, ChildEventListener {
 	 * 
 	 */
 	public void onChildAdded(DataSnapshot arg0, String arg1) {
-		Log.i("Project::",arg0.getName().toString());
 		if (arg0.getName().equals("name")) {
 			this.name = arg0.getValue(String.class);
 			if (this.listViewCallback != null) {
@@ -186,23 +184,30 @@ public class Project implements Parcelable, ChildEventListener {
 	 * Will be called when any project value is changed
 	 */
 	public void onChildChanged(DataSnapshot arg0, String arg1) {
-		// TODO Auto-generated method stub.
+		if (arg0.getName().equals("name")) {
+			this.name = arg0.getValue(String.class);
+			if (this.listViewCallback != null) {
+				this.listViewCallback.onChange();
+			}
+		} else if (arg0.getName().equals("description")) {
+			this.description = arg0.getValue(String.class);
+		} else if (arg0.getName().equals("milestones")) {
+			Log.i("Henry", "Milestone Changed!?!");
+		}
 	}
 
 	/**
 	 * Nothing to do here
 	 */
 	public void onChildMoved(DataSnapshot arg0, String arg1) {
-		// TODO Auto-generated method stub.
-
+		Log.i("Henry", "Something Moved!?!");
 	}
 
 	/**
 	 * Until further notice from Mike: do nothing
 	 */
 	public void onChildRemoved(DataSnapshot arg0) {
-		// TODO Auto-generated method stub.
-
+		Log.i("Henry", arg0.getName());
 	}
 
 	/**
@@ -213,5 +218,4 @@ public class Project implements Parcelable, ChildEventListener {
 	public String getDescription() {
 		return this.description;
 	}
-
 }
