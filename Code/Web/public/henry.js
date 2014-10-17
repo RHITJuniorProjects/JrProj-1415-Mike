@@ -238,11 +238,19 @@ function login(){
 		"password": pass
 	}, function(error, authData) {
 		if (error === null) {
-			console.log("User ID: " + authData.uid + ", Provider: " + authData.provider);
+			var d = new Date();
+			d.setTime(d.getTime() + (20*24*60*60*1000)); // the cookie expires in 20 days
+			document.cookie = "userData=" + authData + "; expires=" + d.toUTCString();
+			console.log(authData);
 		} else {
+			logout();
 			console.log("Error authenticating user:", error);
 		}
 	});
+};
+
+function logout() {
+	document.cookie = "userData=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
 };
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
