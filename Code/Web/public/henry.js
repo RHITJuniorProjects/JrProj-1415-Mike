@@ -236,20 +236,22 @@ function getLoginData(){
 
 function login(user, pass){
 	firebase.authWithPassword({
-		"email": user,
-		"password": pass
+		email: user,
+		password: pass
 	}, function(error, authData) {
 		if (error === null) {
 			var d = new Date();
 			d.setTime(d.getTime() + (20*24*60*60*1000)); // the cookie expires in 20 days
 			document.cookie = "userData=" + authData + "; expires=" + d.toUTCString();
+			console.log("User " + user + " logged in successfully");
 			console.log(authData);
+			window.location.replace("projects")
 		} else {
 			logout();
 			console.log("Error authenticating user:", error);
+			window.location.replace("login")
 		}
 	});
-	window.location.replace(window.location.hostname + "projects")
 };
 
 function register(){
@@ -257,8 +259,8 @@ function register(){
 	var pass = document.getElementById("pass").value;
 	firebase.createUser(
 		{
-			"email": document.getElementById("user").value,
-			"password": document.getElementById("pass").value
+			email: document.getElementById("user").value,
+			password: document.getElementById("pass").value
 		}, 
 		function(error) {
 			if (error === null) {
