@@ -270,7 +270,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
 			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
-	}
+	} 
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
