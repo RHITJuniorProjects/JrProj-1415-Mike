@@ -4,17 +4,26 @@
   "ignore": [
     "**/.*"
   ],
-  "rewrites": [{
-    "source":"/foundation.css",
-    "destination":"/foundation-5.4.5/css/foundation.min.css"
-  },{
-    "source":"/foundation.js",
-    "destination":"/foundation-5.4.5/js/foundation.min.js"
-  },{
-    "source":"/projects",
-    "destination":"/projects.html"
-  },{
-	"source":"/login",
-	"destination":"/login.html"
-  }]
+    "rewrites": [
+    {
+      "source":"/foundation.css",
+      "destination":"/foundation-5.4.5/css/foundation.min.css"
+    },
+    {
+      "source":"/foundation.js",
+      "destination":"/foundation-5.4.5/js/foundation.min.js"
+    },
+    {
+      "source":"/projects",
+      "destination":"/projects.html"
+    },
+    {
+    	"source":"/login",
+    	"destination":"/login.html"
+    },
+    {
+      "source":"/register",
+      "destination":"/register.html"
+    }
+  ]
 }

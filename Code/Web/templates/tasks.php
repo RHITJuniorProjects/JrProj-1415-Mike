@@ -1,7 +1,9 @@
-<div id='tasks-page' hidden>
-	<table style="width:100%">
+<div id='task-page' hidden>
+	<table id="task-table" style="width:100%">
 		<tr>
 			<td>Task Name</td>
+			<td>Description</td>
+			<td>Category</td>
 			<td>Assigned User</td> 
 			<td>Estimated Hours</td>
 			<td>Actual Hours</td>
