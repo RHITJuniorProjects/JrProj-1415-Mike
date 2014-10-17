@@ -49,15 +49,13 @@ public class User implements Parcelable, ChildEventListener {
 	 */
 	private ListChangeNotifier<User> listViewCallback;
 	/**
-	 * projects is a Set in the form:
-	 * [project_key, this_Users_role]
+	 * projects is a Set in the form: [project_key, this_Users_role]
 	 */
 	private Map<Project, Role> projects = new HashMap<Project, Role>();
 	/**
-	 * tasks is a Set in the form:
-	 * task_key
+	 * tasks is a Set in the form: task_key
 	 */
-	private Set<String> tasks= new HashSet<String>();
+	private Set<String> tasks = new HashSet<String>();
 	/**
 	 * The User's assignee(s)
 	 */
@@ -81,9 +79,10 @@ public class User implements Parcelable, ChildEventListener {
 			return new User[size];
 		}
 	};
-//	public void setKey(String s){
-//		this.key=s;
-//	}
+
+	// public void setKey(String s){
+	// this.key=s;
+	// }
 
 	/**
 	 * Creates a new User from a parcel
@@ -95,14 +94,13 @@ public class User implements Parcelable, ChildEventListener {
 		this.firebase = new Firebase(pc.readString());
 		this.name = pc.readString();
 		this.gitName = pc.readString();
-		this.email=pc.readString();
-//		this.key=pc.readString();
+		this.email = pc.readString();
+		// this.key=pc.readString();
 	}
 
-	
 	public User(String firebaseURL) {
 		this.firebase = new Firebase(firebaseURL);
-		this.key= firebaseURL.substring(firebaseURL.lastIndexOf("-"));
+		this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
 		Log.i("FIREBASEURL", this.key);
 		this.firebase.addChildEventListener(this);
 	}
@@ -110,7 +108,8 @@ public class User implements Parcelable, ChildEventListener {
 	public int describeContents() {
 		return 0;
 	}
-	public Set<String> getTasks(){
+
+	public Set<String> getTasks() {
 		return this.tasks;
 	}
 
@@ -133,14 +132,15 @@ public class User implements Parcelable, ChildEventListener {
 		dest.writeString(this.name);
 		dest.writeString(this.gitName);
 		dest.writeString(this.email);
-//		dest.writeString(this.key);
+		// dest.writeString(this.key);
 	}
 
 	@Override
 	public String toString() {
 		return this.name;
 	}
-	public String getKey(){
+
+	public String getKey() {
 		return this.key;
 	}
 
@@ -159,32 +159,45 @@ public class User implements Parcelable, ChildEventListener {
 	}
 
 	public void onChildAdded(DataSnapshot arg0, String arg1) {
+		Log.i("I'm getting called!", arg0.getName());
+		
 		if (arg0.getName().equals("name")) {
+			
 			this.name = arg0.getValue().toString();
+			Log.i("name", this.name);
 			if (this.listViewCallback != null) {
 				this.listViewCallback.onChange();
 			}
 		} else if (arg0.getName().equals("git")) {
+			
 			this.gitName = arg0.getValue().toString();
+			Log.i("Child", this.gitName);
 		} else if (arg0.getName().equals("email")) {
+			
 			this.email = arg0.getValue().toString();
-		} else if (arg0.getName().equals("projects"))
-		{for (DataSnapshot project : arg0.getChildren()){
-				Role r= Role.Developer;
-					if (project.getValue().equals("lead")){
-					r=Role.Lead;
-					}
-				this.projects.put(new Project("https://shining-inferno-2277.firebaseio.com/projects/"+project.getName()),r);
-		}
-		} else if (arg0.getName().equals("tasks")){
-			for (DataSnapshot task : arg0.getChildren()){
+			Log.i("Child", this.email);
+		} else if (arg0.getName().equals("projects")) {
+			Log.i("Child", "project");
+			for (DataSnapshot project : arg0.getChildren()) {
+				Role r = Role.Developer;
+				if (project.getValue().equals("lead")) {
+					r = Role.Lead;
+				}
+				this.projects.put(new Project(
+						"https://shining-inferno-2277.firebaseio.com/projects/"
+								+ project.getName()), r);
+			}
+		} else if (arg0.getName().equals("tasks")) {
+			for (DataSnapshot task : arg0.getChildren()) {
 				this.tasks.add(task.getName());
 			}
 		}
 	}
-	public Map<Project, Role> getProjects(){
-			return this.projects;
-		}
+
+	public Map<Project, Role> getProjects() {
+		return this.projects;
+	}
+
 	public void onChildChanged(DataSnapshot arg0, String arg1) {
 		// TODO Auto-generated method stub.
 

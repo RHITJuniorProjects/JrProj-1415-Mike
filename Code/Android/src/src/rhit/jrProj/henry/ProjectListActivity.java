@@ -1,9 +1,12 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.Enums.Role;
+import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -33,7 +36,7 @@ import android.widget.LinearLayout;
  */
 public class ProjectListActivity extends Activity implements
 		ProjectListFragment.Callbacks {
-
+	public User user;
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
@@ -52,10 +55,15 @@ public class ProjectListActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.user = this.getIntent().getParcelableExtra("user");
+		Map<Project, Role> projectMap = user.getProjects();
 
-		this.projects = this.getIntent()
-				.getParcelableArrayListExtra("Projects");
-
+		for (Project p : projectMap.keySet()) {
+			this.projects.add(p);
+		}
+//		this.projects = this.getIntent()
+//				.getParcelableArrayListExtra("Projects");
+		Log.i("Here", "ohj");
 		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		if (!tabletSize) {
 			setContentView(R.layout.activity_project_list);
