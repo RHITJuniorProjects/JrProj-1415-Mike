@@ -31,11 +31,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.User;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -167,18 +164,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 	public void openProjectListView()
 	{
-		Log.i("authData", "test");
-		Log.i("authData status", new Boolean(authData==null).toString());
-		User user= new User("https://shining-inferno-2277.firebaseio.com/users/simplelogin:"+authData.getProviderData().get("uid"));
-		Map <Project, Role> projectMap = user.getProjects();
-		ArrayList<Project> projects= new ArrayList<Project>();
-		for (Project p : projectMap.keySet()){
-			projects.add(p);
-		}
+		ArrayList<Project> projects = new ArrayList<Project>();
 		
-		//TODO: Replace with the logged in user's projects.
-//		projects.add(new Project("https://shining-inferno-2277.firebaseio.com/users/projects/-JYkWFRJRG5eZ1S85iKL"));
-//		projects.add(new Project("https://shining-inferno-2277.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
+		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYkWFRJRG5eZ1S85iKL"));
+		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
 		
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putParcelableArrayListExtra("Projects", projects);
