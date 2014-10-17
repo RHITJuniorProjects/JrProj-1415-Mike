@@ -10,13 +10,3 @@ $(function(){
 	});
 });
 
-$(function(){
-	$milestoneTitle = $('#milestone-name');
-	//var projectId = $.cookie('project');
-	var milestoneId = '-JYc_9ZGEPFM8cjChyKl';
-	var milestone = milestone.get(milestoneId);
-	milestone.getDescription(function(description){
-		$milestoneTitle.html(description);
-	});
-});
-

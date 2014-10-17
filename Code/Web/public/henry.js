@@ -1,6 +1,6 @@
 
 /* this file contains classes and utility functions that are used everywhere on the website */
-var firebase = new Firebase("https://henry-production.firebaseIO.com");
+var firebase = new Firebase("https://henry-test.firebaseIO.com");
 
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
@@ -22,13 +22,45 @@ function Project(firebase){
 	this.firebase = firebase;
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
+	this.__description = firebase.child('description');
 	this.__milestones = firebase.child('milestones');
 };
 
+function Milestone(firebase){
+	this.firebase = firebase;
+	this.uid = firebase.name();
+	this.__name = firebase.child('name');
+	this.__description = firebase.child('description');
+	this.__task = firebase.child('tasks');
+};
+
+
+
+
+
 Project.prototype = {
 	getName:function(callback){
-		this.__name.once('value',function(dat){
+		this.__name.on('value',function(dat){
 			callback(dat.val());
+		});
+	},
+	getDescription:function(callback){
+		this.__description.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getButtonHtml:function(callback){
+		callback('<div class="row">'+
+		'<div class="small-4 columns small-offset-1">'+
+		'<div class="button expand text-center">'+
+		'<a href="Milestones"><h3 id="project-name-'+this.uid+'"></h3></a>'+
+		'</div>'+
+		'<div id="project-description-'+this.uid+'"></div>'+
+		'</div>'+
+		'</div>');
+		var name = $('#project-name-'+this.uid);
+		this.getName(function(nameStr){
+			name.html(nameStr);
 		});
 	}
 };
@@ -50,3 +82,4 @@ function login(){
 };
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
+var milestones = new Table(function(fb){ return new Milestone(fb);},firebase.child('milestones'));
