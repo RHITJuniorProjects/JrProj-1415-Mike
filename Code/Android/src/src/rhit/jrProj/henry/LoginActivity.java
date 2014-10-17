@@ -78,7 +78,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		super.onCreate(savedInstanceState);
 		Firebase.setAndroidContext(this);
 		setContentView(R.layout.activity_login);
-
+		mAuthProgressDialog = new ProgressDialog(this);
+        mAuthProgressDialog.setTitle("Loading");
+        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+        mAuthProgressDialog.setCancelable(false);
+        
 		// Set up the login form.
 		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 		populateAutoComplete();
@@ -126,7 +130,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// Reset errors.
 		mEmailView.setError(null);
 		mPasswordView.setError(null);
-
+		
 		// Store values at the time of the login attempt.
 		String email = mEmailView.getText().toString();
 		String password = mPasswordView.getText().toString();
@@ -160,6 +164,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
 			showProgress(true);
+			mAuthProgressDialog.show();
 			// mAuthTask = new UserLoginTask(email, password);
 			// mAuthTask.execute((Void) null);
 			loginWithPassword(email, password);
@@ -182,13 +187,18 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		// Log.i("User creatiwhile ()
 		
+//		this.user = this.getIntent().getParcelableExtra("user");
+		Map<Project, Role> projectMap = user.getProjects();
+
+		for (Project p : projectMap.keySet()) {
+			projects.add(p);
+		}
 		
 		
-		
+		mAuthProgressDialog.hide();
 //		Log.i("Num projects", new Integer(projects.size()).toString());
 		Intent intent = new Intent(this, ProjectListActivity.class);
-		
-		intent.putExtra("user", user);
+		intent.putParcelableArrayListExtra("projects", projects);
 		this.startActivity(intent);
 	}
 

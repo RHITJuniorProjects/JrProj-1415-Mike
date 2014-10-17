@@ -172,10 +172,16 @@ public class User implements Parcelable, ChildEventListener {
 			
 			this.gitName = arg0.getValue().toString();
 			Log.i("Child", this.gitName);
+			if (this.listViewCallback != null) {
+				this.listViewCallback.onChange();
+			}
 		} else if (arg0.getName().equals("email")) {
 			
 			this.email = arg0.getValue().toString();
 			Log.i("Child", this.email);
+			if (this.listViewCallback != null) {
+				this.listViewCallback.onChange();
+			}
 		} else if (arg0.getName().equals("projects")) {
 			Log.i("Child", "project");
 			for (DataSnapshot project : arg0.getChildren()) {
@@ -186,10 +192,16 @@ public class User implements Parcelable, ChildEventListener {
 				this.projects.put(new Project(
 						"https://shining-inferno-2277.firebaseio.com/projects/"
 								+ project.getName()), r);
+				if (this.listViewCallback != null) {
+					this.listViewCallback.onChange();
+				}
 			}
 		} else if (arg0.getName().equals("tasks")) {
 			for (DataSnapshot task : arg0.getChildren()) {
 				this.tasks.add(task.getName());
+			}
+			if (this.listViewCallback != null) {
+				this.listViewCallback.onChange();
 			}
 		}
 	}
