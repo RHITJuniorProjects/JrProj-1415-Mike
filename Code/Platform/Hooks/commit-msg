@@ -1,25 +1,74 @@
 #!/usr/bin/python
 import sys
 import re
+import subprocess
 from firebase import firebase
 
 prodUrl = 'https://henry-production.firebaseio.com'
 stagUrl = 'https://henry-staging.firebaseio.com'
 testUrl = 'https://henry-test.firebaseio.com'
 
-# set this to the correct database
-firebase = firebase.FirebaseApplication(testUrl, None)
+def readCommit(path):
+    with open(path,'r') as msgfile:
+        msg = msgfile.read()
+    return msg
+    
 
-# sys.argv[0] is the path to this file
-# sys.argv[1] is the path to commit file
-with open(sys.argv[1], "r") as msgfile:
-    msg = msgfile.read()
+def getLoC():
+    command = 'git diff --cached --shortstat'.split(' ')
+    pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
+    pair = pipe.communicate()[0]
+    vals = pair.replace(' ','').split(',') 
+    if len(vals) == 3:
+        vals = vals[1:]
+    elif len(vals) == 2:
+        vals = [vals[1]]+['0'] if 'insertion' in pair else ['0']+[vals[1]]
+    elif len(vals) == 1:
+        raise Exception('HENRY: Unexpected output of `git diff --cached --shortstat`')
+    else:
+        vals = ['0','0']
+    nums = map(lambda x: int(x[0]),vals) 
+    return nums[0] - nums[1]
 
-hoursRE = r"\[hours: ([0-9]+)\]"
+def parse(msg):
+    hoursRE = r"\[hours:([0-9]+)\]"
+    milestoneRE = r"\[milestone:([0-9]+)\]"
+    taskRE = r"\[task:([0-9]+)\]"
+
+    hours = re.search(hoursRE,msg)
+    milestone = re.search(milestoneRE,msg)
+    task = re.search(taskRE,msg)
+
+    hours = hours.group(1) if hours != None else None
+    milestone = milestone.group(1) if milestone != None else None
+    task = task.group(1) if task != None else None
+
+    return hours,milestone,task
+
+def getUID(gituser,firebase):
+    users = firebase.get('/users',None)
+    try:
+        uid = [u for u in users if users[u]['github']==gituser][0]
+    except:
+        raise Exception('HENRY: Invalid username, commit failed')
+    return uid
 
 
-hours = re.search(hoursRE, msg)
+if __name__ == '__main__':
+    # set this to the correct database
+    firebase = firebase.FirebaseApplication(testUrl, None)
 
+    username = 'aj-michael'
+    uid = getUID(gitusername,firebase)
+    msg = readCommit(sys.argv[1])
+    hours,milestone,task,loc = parse(msg),getLoC()
+
+    print hours
+    print milestone
+    print task
+    print loc
+
+"""
 # no hour included
 if hours == None:
     print "Hours not included, set to zero by default"
@@ -28,12 +77,14 @@ else:
     hours = hours.group(1)
 
 print "Hours were: " + str(hours)
+"""
 
 
-
-#print firebase.get('/user', None)
+"""
+print firebase.get('/user', None)
 path = '/users'
 key = 'Sample user'
 value = 'Sample field'
 firebase.put(path, key, value)
+"""
 

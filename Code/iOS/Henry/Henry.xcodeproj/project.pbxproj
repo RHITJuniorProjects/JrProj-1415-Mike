@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
+		87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */; };
+		87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4619EEEF12009D3906 /* HenryRightViewController.m */; };
 		90B8EAA419EEE4BF00DA57A8 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8EAA319EEE4BF00DA57A8 /* Firebase.framework */; };
 		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
@@ -42,6 +45,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
+		87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeftTableViewController.h; sourceTree = "<group>"; };
+		87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeftTableViewController.m; sourceTree = "<group>"; };
+		87E54D4519EEEF12009D3906 /* HenryRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRightViewController.h; sourceTree = "<group>"; };
+		87E54D4619EEEF12009D3906 /* HenryRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRightViewController.m; sourceTree = "<group>"; };
 		90B8EAA319EEE4BF00DA57A8 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -153,6 +161,11 @@
 				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
 				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
 				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
+				87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */,
+				87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */,
+				87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */,
+				87E54D4519EEEF12009D3906 /* HenryRightViewController.h */,
+				87E54D4619EEEF12009D3906 /* HenryRightViewController.m */,
 			);
 			path = Henry;
 			sourceTree = "<group>";
@@ -265,6 +278,7 @@
 				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
 				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
 				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
+				87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,9 +299,11 @@
 			files = (
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
 				93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */,
+				87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */,
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
+				87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

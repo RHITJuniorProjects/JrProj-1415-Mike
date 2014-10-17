@@ -1,51 +1,94 @@
 /**
  * Metric collection script for CSSE371 Henry project
+ * @author Sean Carter, Abby Mann
  */
 
 var Firebase = require("firebase");
 var commitsRef = new Firebase("https://henry-test.firebaseio.com/commits");
-var metrics = new Firebase("https://henry-test.firebaseio.com/metrics");
+var usersRef = new Firebase("https://henry-test.firebaseio.com/users");
+var projectsRef = new Firebase("https://henry-test.firebaseio.com/projects");
 
-var projects = null;
-var commits = null;
-
-metrics.on('value', function(metric) {
-    projects = metric;
-});
-
-commitsRef.on('value', function(commitsData) {
-    commits = commitsData;
-});
-
-commitsRef.on('child_added', function(commit) {
-    if (projects !== null && commits !== null) {
+// add a listener to commits for new projects
+commitsRef.on('child_added', function(project) {
+    // ignore description
+    if (project.name() == 'description') return;
+    
+    // add a listener to each project for new commits
+    project.ref().on('child_added', function(commit) {
+        // ignore description
+        if (commit.name() == 'description') return;
         
-        var project = projects.child(commit.child("project").val());
+        var hours = commit.child('hours').val();
+        var lines_of_code = commit.child('lines_of_code').val();
+        var milestone = commit.child('milestone').val();
+        var user = commit.child('user').val();
+        var task = commit.child('task').val();
 
-        var averageTime = project.child("average_time").val();
-        var numCommits = project.child("number_of_commits").val();
-        var commitTime = commit.child("time_spent").val();
+        // metrics data for users
+        usersRef.child(user)
+                .child('projects')
+                .child(project.name())
+                .once('value', function(userProject) {
 
-        numCommits++;
-
-        averageTime = (averageTime * (numCommits - 1) + commitTime) / numCommits;
-
-        project.ref().update({
-            average_time : averageTime,
-            number_of_commits : numCommits
+            var userMilestone = userProject.child('milestones').child(milestone);
+            var userMilestoneHours = userMilestone.child('total_hours').val();
+            var userMilestoneLOC = userMilestone.child('total_lines_of_code').val();
+            
+            userMilestoneHours += hours;
+            userMilestoneLOC += lines_of_code;
+            
+            // update milestone data
+            userMilestone.ref().update({
+                'total_hours' : userMilestoneHours,
+                'total_lines_of_code' : userMilestoneLOC
+            });
+            
+            var userProjectHours = userProject.child('total_hours').val();
+            var userProjectLOC = userProject.child('total_lines_of_code').val();
+            
+            userProjectHours += hours;
+            userProjectLOC += lines_of_code;
+            
+            // update project data
+            userProject.ref().update({
+                'total_hours' : userProjectHours,
+                'total_lines_of_code' : userProjectLOC
+            });
+            
         });
-    }
-});
-/*
-commitsRef.on('child_removed', function(commit) {
-    if (projects !== null && commits !== null) {
-        var project = projects.child(commit.child("project").val());
         
-        var numCommits = project.child("number_of_commits").val() - 1;
-        
-        project.ref().update({
-            number_of_commits : numCommits
+        // metrics data for projects and milestones
+        projectsRef.child(project.name())
+                .once('value', function(projectBranch) {
+
+            var projectLOC = projectBranch.child('total_lines_of_code').val();
+            var projectHours = projectBranch.child('total_hours').val();
+            
+            projectLOC += lines_of_code;
+            projectHours += hours;
+            
+            // update project
+            projectBranch.ref().update({
+                'total_hours' : projectHours,
+                'total_lines_of_code' : projectLOC
+            });
+            
+            // TODO: need to update completeness percentages
+            
+            var milestoneBranch = projectBranch.child('milestones').child(milestone);
+            
+            var milestoneLOC = milestoneBranch.child('total_lines_of_code').val();
+            var milestoneHours = milestoneBranch.child('total_hours').val();
+            
+            milestoneLOC += lines_of_code;
+            milestoneHours += hours;
+            
+            // update milestone
+            milestoneBranch.ref().update({
+                'total_hours' : milestoneHours,
+                'total_lines_of_code' : milestoneLOC
+            });
         });
-    }
+    });
+    console.log("added listener for project " + project.name());
 });
-*/
