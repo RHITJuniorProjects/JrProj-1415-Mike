@@ -1,3 +1,4 @@
+
 <div id="milestone-page" hidden>
 	<div class="row text-center">
 		<h1 id="project-name"></h1>
@@ -13,6 +14,7 @@
 						<div class="row text-center">
 							<h3 id="milestone-name"></h3>
 						</div>
+
 							<div class="row">
 							<ul>
 								<li><a href="tasks" class="button expand">Tasks</a></li>

@@ -1,17 +1,13 @@
 
 $(function(){
-	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
 	var $panel = $('#panel1');
-	for(var i = 0; i < 1; i++){
-		//var $tString = '#project-name' + i;
-		//var $dString = '#project-description' + i;
+	projects.onItemAdded(function(project) {
 		
-		$title = $('#project-name' + i);
-		//console.log($title);
-		$description = $('#project-description' + i);
-		//var projectId = $.cookie('project');
-		var projectId = projectIDs[i];
-		var project = projects.get(projectId);
+		$title = $('#project-name' + project.uid);
+		
+		$description = $('#project-description' + project.uid);
+		
+		
 		project.getButtonHtml(function(html){
 			$panel.append(html);
 		});
@@ -21,5 +17,5 @@ $(function(){
 		project.getDescription(function(description){
 			$description.html(description);
 		});
-	}
+	});
 });
