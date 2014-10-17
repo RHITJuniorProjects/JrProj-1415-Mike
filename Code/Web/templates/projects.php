@@ -53,7 +53,7 @@
 				</dd>
 			</dl>
 		</div>
-		<?php require 'teams.php'?>
+		<?php require 'Milestones.php'?>
 		<?php require 'tasks.php'?>
 	</body>
 </html>
