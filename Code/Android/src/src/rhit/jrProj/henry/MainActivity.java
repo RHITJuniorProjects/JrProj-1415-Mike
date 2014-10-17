@@ -2,6 +2,8 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +18,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Firebase.setAndroidContext(this);
 		setContentView(R.layout.activity_main);
 		Log.i("Test", "Start");
 	}
@@ -44,6 +47,12 @@ public class MainActivity extends Activity {
 	 * is pressed.
 	 * @param view
 	 */
+	public void openLoginDialog(View view)
+	{
+		Intent intent = new Intent(this, LoginActivity.class);
+//		intent.putParcelableArrayListExtra("Projects", projects);
+		this.startActivity(intent);
+	}
 	public void openProjectListView(View view)
 	{
 		ArrayList<Project> projects = new ArrayList<Project>();
