@@ -167,16 +167,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 	public void openProjectListView()
 	{
-//		ArrayList<Project> projects = new ArrayList<Project>();
-		Log.i("authData status", new Boolean(authData==null).toString());
-		Log.i("authData", "test");
-		Log.i("authData status", new Boolean(authData==null).toString());
-		User user= new User("https://shining-inferno-2277.firebaseio.com/users/simplelogin:"+authData.getProviderData().get("uid"));
-		Map <Project, Role> projectMap = user.getProjects();
-		ArrayList<Project> projects= new ArrayList<Project>();
-		for (Project p : projectMap.keySet()){
-			projects.add(p);
-		}
+		ArrayList<Project> projects = new ArrayList<Project>();
+//		Log.i("authData status", new Boolean(authData==null).toString());
+//		Log.i("authData", "test");
+//		Log.i("authData status", new Boolean(authData==null).toString());
+//		User user= new User("https://shining-inferno-2277.firebaseio.com/users/simplelogin:"+authData.getProviderData().get("uid"));
+//		Map <Project, Role> projectMap = user.getProjects();
+//		ArrayList<Project> projects= new ArrayList<Project>();
+//		for (Project p : projectMap.keySet()){
+//			projects.add(p);
+//		}
 
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putParcelableArrayListExtra("Projects", projects);
@@ -184,38 +184,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 	private void setAuthenticatedUser(AuthData authData) {
         if (authData != null) {
-            /* Hide all the login buttons */
-//            mFacebookLoginButton.setVisibility(View.GONE);
-//            mGoogleLoginButton.setVisibility(View.GONE);
-//            mTwitterLoginButton.setVisibility(View.GONE);
-//            mPasswordLoginButton.setVisibility(View.GONE);
-//            mAnonymousLoginButton.setVisibility(View.GONE);
-//            mLoggedInStatusTextView.setVisibility(View.VISIBLE);
-            /* show a provider specific status text */
-            String name = null;
-            if (authData.getProvider().equals("facebook")
-                || authData.getProvider().equals("google")
-                || authData.getProvider().equals("twitter")) {
-                name = (String)authData.getProviderData().get("displayName");
-            } else if (authData.getProvider().equals("anonymous")
-                       || authData.getProvider().equals("password")) {
-                name = authData.getUid();
+                String name = authData.getUid();
                 Log.i("Authenticated User set", "hi");
-            } else {
-                Log.e(TAG, "Invalid provider: " + authData.getProvider());
-                this.authData = authData;
+                this.authData=authData;
+                Log.i("authData status", new Boolean(this.authData==null).toString());
+            
             }
-            if (name != null) {
-//                mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
-            }
-        } else {
-            /* No authenticated user show all the login buttons */
-//            mFacebookLoginButton.setVisibility(View.VISIBLE);
-//            mGoogleLoginButton.setVisibility(View.VISIBLE);
-//            mTwitterLoginButton.setVisibility(View.VISIBLE);
-//            mPasswordLoginButton.setVisibility(View.VISIBLE);
-//            mAnonymousLoginButton.setVisibility(View.VISIBLE);
-//            mLoggedInStatusTextView.setVisibility(View.GONE);
+           
+         else {
+ 
         }
         
         /* invalidate options menu to hide/show the logout button */
@@ -326,6 +303,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 	public void loginWithPassword(String username, String password) {
 //        mAuthProgressDialog.show();
+		Log.i("T", "T2");
         ref.authWithPassword(username, password, new AuthResultHandler("password"));
     }
 	 private class AuthResultHandler implements Firebase.AuthResultHandler {
