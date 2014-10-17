@@ -8,6 +8,12 @@ prodUrl = 'https://henry-production.firebaseio.com'
 stagUrl = 'https://henry-staging.firebaseio.com'
 testUrl = 'https://henry-test.firebaseio.com'
 
+def readCommit(path):
+    with open(path,'r') as msgfile:
+        msg = msgfile.read()
+    return msg
+    
+
 def getLoC():
     command = 'git diff --cached --shortstat'.split(' ')
     pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
@@ -29,35 +35,38 @@ def parse(msg):
     milestoneRE = r"\[milestone:([0-9]+)\]"
     taskRE = r"\[task:([0-9]+)\]"
 
-    hours = re.search(hoursRE,msg).group(1)
-    milestone = re.search(milestoneRE,msg).group(1)
-    task = re.search(taskRE,msg).group(1)
+    hours = re.search(hoursRE,msg)
+    milestone = re.search(milestoneRE,msg)
+    task = re.search(taskRE,msg)
+
+    hours = hours.group(1) if hours != None else None
+    milestone = milestone.group(1) if milestone != None else None
+    task = task.group(1) if task != None else None
+
+    return hours,milestone,task
+
+def getUID(gituser,firebase):
+    users = firebase.get('/users',None)
+    try:
+        uid = [u for u in users if users[u]['github']==gituser][0]
+    except:
+        raise Exception('HENRY: Invalid username, commit failed')
+    return uid
 
 
-# set this to the correct database
-firebase = firebase.FirebaseApplication(testUrl, None)
+if __name__ == '__main__':
+    # set this to the correct database
+    firebase = firebase.FirebaseApplication(testUrl, None)
 
-username = 'aj-michael'
+    username = 'aj-michael'
+    uid = getUID(gitusername,firebase)
+    msg = readCommit(sys.argv[1])
+    hours,milestone,task,loc = parse(msg),getLoC()
 
-users = firebase.get('/users',None)
-try:
-    uid = [u for u in users if users[u]['github']==username][0]
-except:
-    raise Exception('HENRY: Invalid username, commit failed')
-
-# sys.argv[0] is the path to this file
-# sys.argv[1] is the path to commit file
-with open(sys.argv[1], "r") as msgfile:
-    msg = msgfile.read()
-
-parse(msg)
-
-
-path = '/users'
-
-x = range(0,2)
-
-#print x[5]
+    print hours
+    print milestone
+    print task
+    print loc
 
 """
 # no hour included
