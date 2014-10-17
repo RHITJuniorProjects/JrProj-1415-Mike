@@ -7,7 +7,7 @@
 	<body>
 		<?php require 'topbar.php';?>
 		<div class="row text-center">
-			<h1 id="project-name"></h1>
+		<h1 id="project-name"></h1>
 		</div>
 		<div class="small-10 columns small-offset-1">
 			<dl class="row collapse accordion" data-accordion>
@@ -18,7 +18,7 @@
 					<div id="panel1" class="content active row panel">
 						<div class="small-4 columns small-offset-1">
 							<div class="row text-center">
-								<h3>Milestone 4</h3>
+								<h3 id="milestone-name"></h3>
 							</div>
 								<div class="row">
 								<ul>

@@ -19,7 +19,7 @@
 						<div class="row">
 							<div class="small-4 columns small-offset-1">
 								<div class="button expand text-center">
-									<a href="Milestones"><h3>Henry - Platform</h3></a>
+									<a href="Milestones"><h2 id="project-name"></h2></a>
 								</div>
 							</div>
 							<div class="small-4 columns small-offset-2 left">
