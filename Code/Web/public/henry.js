@@ -19,9 +19,11 @@ Table.prototype = {
 		//console.log(this.__onChildAdded);
 		if(!this.__onChildAdded){
 			this.__onChildAdded = [];
+			var table = this;
 			this.__firebase.on('child_added',function(snap){
-				var val = this.__factory(snap.val());
-				this.__onChildAdded.forEach(function(callback){
+				//console.log(snap.val());
+				var val = table.__factory(snap.ref());
+				table.__onChildAdded.forEach(function(callback){
 					callback(val);
 				});
 			});
@@ -182,7 +184,7 @@ Task.prototype = {
 		this.getDescription(function(descriptionStr){
 			description.html(descriptionStr);
 		});
-		var original_time_estimate = $('#task-original_time_estimate-'+this.uid);
+		/*var original_time_estimate = $('#task-original_time_estimate-'+this.uid);
 		this.getOriginaltime(function(original_time_estimate\Str){
 			description.html(original_time_estimateStr);
 		});
@@ -190,8 +192,8 @@ Task.prototype = {
 		this.getUpdatedtime(function(updated_time_estimateStr){
 			description.html(updated_time_estimateStr);
 		});
-	}, 
-	
+		*/
+	}	
 };
 
 
@@ -208,7 +210,7 @@ function login(){
 		} else {
 			console.log("Error authenticating user:", error);
 		}
-	});;
+	});
 };
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
