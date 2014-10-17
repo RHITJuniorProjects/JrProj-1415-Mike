@@ -31,8 +31,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.User;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -164,11 +167,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 	public void openProjectListView()
 	{
-		ArrayList<Project> projects = new ArrayList<Project>();
-		
-		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYkWFRJRG5eZ1S85iKL"));
-		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
-		
+//		ArrayList<Project> projects = new ArrayList<Project>();
+		Log.i("authData status", new Boolean(authData==null).toString());
+		Log.i("authData", "test");
+		Log.i("authData status", new Boolean(authData==null).toString());
+		User user= new User("https://shining-inferno-2277.firebaseio.com/users/simplelogin:"+authData.getProviderData().get("uid"));
+		Map <Project, Role> projectMap = user.getProjects();
+		ArrayList<Project> projects= new ArrayList<Project>();
+		for (Project p : projectMap.keySet()){
+			projects.add(p);
+		}
+
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putParcelableArrayListExtra("Projects", projects);
 		this.startActivity(intent);
@@ -191,8 +200,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             } else if (authData.getProvider().equals("anonymous")
                        || authData.getProvider().equals("password")) {
                 name = authData.getUid();
+                Log.i("Authenticated User set", "hi");
             } else {
                 Log.e(TAG, "Invalid provider: " + authData.getProvider());
+                this.authData = authData;
             }
             if (name != null) {
 //                mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
@@ -206,7 +217,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 //            mAnonymousLoginButton.setVisibility(View.VISIBLE);
 //            mLoggedInStatusTextView.setVisibility(View.GONE);
         }
-        this.authData = authData;
+        
         /* invalidate options menu to hide/show the logout button */
 //        supportInvalidateOptionsMenu();
     }
