@@ -18,4 +18,5 @@ $(function(){
 			$description.html(description);
 		});
 	});
+	
 });

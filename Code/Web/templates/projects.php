@@ -19,6 +19,13 @@
 					<button data-reveal-id="myModal">Add Member</button>
 						<div id="myModal" class="reveal-modal" data-reveal>
 						 Users
+						 <select>
+							<option>mike</option>
+							<option>jordan</option>
+							<option>bulls</option>
+							<option>NBA</option>
+						</select>
+						<button>Select</button>
 						</div>
 					</div>
 				</dd>
