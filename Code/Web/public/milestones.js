@@ -9,3 +9,14 @@ $(function(){
 		$title.html(name);
 	});
 });
+
+$(function(){
+	$milestoneTitle = $('#milestone-name');
+	//var projectId = $.cookie('project');
+	var milestoneId = '-JYc_9ZGEPFM8cjChyKl';
+	var milestone = milestones.get(milestoneId);
+	milestone.getName(function(name){
+		$milestoneTitle.html(name);
+	});
+});
+

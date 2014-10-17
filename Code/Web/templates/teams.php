@@ -16,25 +16,6 @@
 						<h3>Production</h3>
 					</a>
 					<div id="panel1" class="content active panel row">
-						<div class="row">
-							<div class="small-4 columns small-offset-1">
-								<div class="button expand text-center">
-									<a href="Milestones"><h3>Henry - Platform</h3></a>
-								</div>
-							</div>
-							<div class="small-4 columns small-offset-2 left">
-								<div class="button expand text-center">
-									<h3>Project 2</h3>
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="small-4 columns small-offset-1">
-								<div class="button expand text-center">
-									<h3>Project 6</h3>
-								</div>
-							</div>
-						</div>
 					</div>
 				</dd>
 			</dl>
