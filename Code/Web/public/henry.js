@@ -166,6 +166,7 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
+
 	getTableHtml:function(callback){
 		callback('<tr>'+
 			'<td>Change html pages</td>'+
