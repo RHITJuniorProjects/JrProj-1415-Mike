@@ -249,6 +249,22 @@ function login(){
 	});
 };
 
+function register(){
+	firebase.createUser(
+		{
+			"email": user,
+			"password": pass
+		}, 
+		function(error) {
+			if (error === null) {
+				console.log("User " + user + " created successfully");
+			} else {
+				console.log("Error creating user:" + user + ", " + error);
+			}
+		}
+	);
+}
+
 function logout() {
 	document.cookie = "userData=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
 };

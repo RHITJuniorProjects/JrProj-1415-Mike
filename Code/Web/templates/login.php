@@ -6,9 +6,9 @@
 	<body>
 		<?php require 'topbar.php';?>
 		<div>
-			<h2>Henry: Login</h2>
+			<h2>Henry: Login with Your Account</h2>
 			Username: <input type="text" id="user">
-			Password: <input type="password" id="pwd">
+			Password: <input type="password" id="pass">
 			<input type="submit" value="Submit" onclick="login()">
 		</div>
 	</body>

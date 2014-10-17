@@ -16,5 +16,14 @@
   },{
 	"source":"/login",
 	"destination":"/login.html"
+  },{
+    "source":"/register",
+    "destination":"/register.html"
+  },{
+    "source":"/milestones",
+    "destination":"/Milestones.html"
+  },{
+    "source":"/tasks",
+    "destination":"/tasks.html"
   }]
 }
