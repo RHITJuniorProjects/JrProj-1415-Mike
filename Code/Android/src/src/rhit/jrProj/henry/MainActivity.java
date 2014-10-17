@@ -53,16 +53,16 @@ public class MainActivity extends Activity {
 //		intent.putParcelableArrayListExtra("Projects", projects);
 		this.startActivity(intent);
 	}
-	public void openProjectListView(View view)
-	{
-		ArrayList<Project> projects = new ArrayList<Project>();
-		
-		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYkWFRJRG5eZ1S85iKL"));
-		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
-		
-		Intent intent = new Intent(this, ProjectListActivity.class);
-		intent.putParcelableArrayListExtra("Projects", projects);
-		this.startActivity(intent);
-	}
+//	public void openProjectListView(View view)
+//	{
+//		ArrayList<Project> projects = new ArrayList<Project>();
+//		
+//		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYkWFRJRG5eZ1S85iKL"));
+//		projects.add(new Project("https://henry-staging.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
+//		
+//		Intent intent = new Intent(this, ProjectListActivity.class);
+//		intent.putParcelableArrayListExtra("Projects", projects);
+//		this.startActivity(intent);
+//	}
 	
 }
