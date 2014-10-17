@@ -235,7 +235,6 @@ function getLoginData(){
 }
 
 function login(user, pass){
-
 	firebase.authWithPassword({
 		"email": user,
 		"password": pass
@@ -254,10 +253,12 @@ function login(user, pass){
 };
 
 function register(){
+	var user = document.getElementById("user").value;
+	var pass = document.getElementById("pass").value;
 	firebase.createUser(
 		{
-			"email": user,
-			"password": pass
+			"email": document.getElementById("user").value,
+			"password": document.getElementById("pass").value
 		}, 
 		function(error) {
 			if (error === null) {
