@@ -56,8 +56,10 @@ function User(firebase){
 User.prototype = {
 	getName:function(callback){
 		this.__name
-	}
+	},
+	getProjects:function(){
 
+	}
 };
 
 function Project(firebase){
@@ -84,7 +86,7 @@ Project.prototype = {
 		callback('<div class="row">'+
 		'<div class="small-4 columns small-offset-1">'+
 		'<div class="button expand text-center">'+
-		'<a href="Milestones"><h3 id="project-name-'+this.uid+'"></h3></a>'+
+		'<a onclick="selectProject(\''+this.uid+'\')"><h3 id="project-name-'+this.uid+'"></h3></a>'+
 		'</div>'+
 		'<div id="project-description-'+this.uid+'"></div>'+
 		'</div>'+
@@ -128,7 +130,7 @@ Milestone.prototype = {
 		callback('<div class="row">'+
 		'<div class="small-4 columns small-offset-1">'+
 		'<div class="button expand text-center">'+
-		'<a href="tasks"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
+		'<a onclick="selectMilestone(\''+this.uid+'\'"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
 		'</div>'+
 		'<div id="milestone-description-'+this.uid+'"></div>'+
 		'</div>'+
@@ -193,7 +195,7 @@ Task.prototype = {
 			description.html(updated_time_estimateStr);
 		});
 		*/
-	}	
+	}
 };
 
 
