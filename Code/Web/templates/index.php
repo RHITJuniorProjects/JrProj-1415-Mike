@@ -8,9 +8,7 @@
 		<div>
 			<h2>Henry</h2>
 			<a href="/login">Login</a>
-			<a href="/teams">Teams</a>
-			<a href="/Milestones">Milestones</a>
-			<a href="/tasks">Tasks</a>
+			<a href="/projects">Projects</a>
 		</div>
 	</body>
 </html>

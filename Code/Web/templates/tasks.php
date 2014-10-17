@@ -1,13 +1,4 @@
-<html>
-<head>
-	<title>Henry - Teams</title>
-	<?php require 'header.php';?>
-</head>
-<body>
-	<?php require 'topbar.php';?>
-	<div class="row text-center">
-		<h1>My Tasks</h1>
-	</div>
+<div id='task-page' hidden>
 	<table style="width:100%">
 		<tr>
 			<td>Task Name</td>
@@ -34,5 +25,4 @@
 			<td>5</td>
 		</tr>
 	</table>
-</body>
-</html>
+</div>

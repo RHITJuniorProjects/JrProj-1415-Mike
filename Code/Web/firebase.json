@@ -11,15 +11,8 @@
     "source":"/foundation.js",
     "destination":"/foundation-5.4.5/js/foundation.min.js"
   },{
-    "source":"/teams",
-    "destination":"/teams.html"
-  },{
-    "source":"/Milestones",
-    "destination":"/Milestones.html"
-  }
-  ,{
-    "source":"/tasks",
-    "destination":"/tasks.html"
+    "source":"/projects",
+    "destination":"/projects.html"
   },{
 	"source":"/login",
 	"destination":"/login.html"
