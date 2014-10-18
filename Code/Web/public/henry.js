@@ -221,7 +221,7 @@ Task.prototype = {
 		var originalTime = $('#task-original_time_estimate-'+this.uid);
 		this.getOriginalTime(function(original_time_estimateStr){
 			originalTime.html(original_time_estimateStr);
-
+		});
 		var updatedTime= $('#task-updated_time_estimate-'+this.uid);
 		this.getUpdatedTime(function(updated_time_estimateStr){
 			updatedTime.html(updated_time_estimateStr);
@@ -230,8 +230,8 @@ Task.prototype = {
 };
 
 function getLoginData(){
-	var user = document.getElementById("user").value;
-	var pass = document.getElementById("pass").value;
+	var user = $("#user").val();
+	var pass = $("#pass").val();
 	document.getElementById("pass").value = "";
 	login(user, pass);
 }
@@ -242,7 +242,6 @@ function login(user, pass){
 		password: pass
 	}, function(error, authData) {
 		if (error === null) {
-			document.cookie = "userData=" + authData + ";";
 			userData = authData;
 			window.location.replace("projects");
 		} else {
@@ -254,17 +253,16 @@ function login(user, pass){
 };
 
 function register(){
-	var user = document.getElementById("user").value;
-	var pass = document.getElementById("pass").value;
-	document.getElementById("pass").value = "";
+	var user = $("#user").val();
+	var pass = $("#pass").val();
 	firebase.createUser(
 		{
-			email: document.getElementById("user").value,
-			password: document.getElementById("pass").value
+			email: user,
+			password: pass
 		}, 
 		function(error) {
 			if (error === null) {
-				getLoginData();
+				login(user, pass);
 			} else {
 				console.log("Error creating user:" + user + ", " + error);
 			}
