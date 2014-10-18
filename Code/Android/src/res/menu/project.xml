@@ -4,8 +4,9 @@
 
     <item
         android:id="@+id/action_example"
-        android:showAsAction="withText|ifRoom"
-        android:title="TEST"/>
+        android:showAsAction="never"
+        android:onClick="logOut"
+        android:title="Log Out"/>
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

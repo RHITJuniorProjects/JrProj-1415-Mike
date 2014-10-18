@@ -3,6 +3,9 @@ package rhit.jrProj.henry;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Enums.Role;
@@ -14,6 +17,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -52,13 +56,19 @@ public class ProjectListActivity extends Activity implements
 	 */
 	private Project projectItem;
 
+	/**
+	 * A reference to the firebase
+	 */
+	private Firebase ref;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		 this.projects = this.getIntent()
-		 .getParcelableArrayListExtra("projects");
-		
+
+		this.projects = this.getIntent()
+				.getParcelableArrayListExtra("projects");
+
 		Log.i("Here", "ohj");
 		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		if (!tabletSize) {
@@ -79,6 +89,14 @@ public class ProjectListActivity extends Activity implements
 			((ProjectListFragment) getFragmentManager().findFragmentById(
 					R.id.project_list)).setActivateOnItemClick(true);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.project, menu);
+
+		return true;
 	}
 
 	@Override
@@ -141,8 +159,18 @@ public class ProjectListActivity extends Activity implements
 			Intent detailIntent = new Intent(this, ProjectDetailActivity.class);
 			// detailIntent.putExtra(ProjectDetailFragment.ARG_ITEM_ID, id);
 			detailIntent.putExtra("Project", p);
-			startActivity(detailIntent);
+			this.startActivity(detailIntent);
 		}
 
+	}
+	
+	/**
+	 * Logout the user.
+	 */
+	public void logOut(MenuItem item) {
+
+		Intent login = new Intent(this, LoginActivity.class);
+		this.startActivity(login);
+		this.finish();
 	}
 }
