@@ -26,7 +26,6 @@
 	<true/>
 	<key>UIMainStoryboardFile</key>
 	<string>iPhoneLoginStoryboard</string>
-	<string>iPhoneStoryboard</string>
 	<key>UIMainStoryboardFile~ipad</key>
 	<string>iPadStoryboard</string>
 	<key>UIRequiredDeviceCapabilities</key>
