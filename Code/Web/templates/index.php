@@ -6,7 +6,7 @@
 	<body>
 		<?php require 'topbar.php';?>
 		<div>
-			<h2>Henry</h2>
+			<h1>Henry</h1>
 			<a href="/login">Login</a>
 			<a href="/register">Register</a>
 			<a href="/projects">Projects</a>

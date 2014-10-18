@@ -6,7 +6,7 @@
 	<body>
 		<?php require 'topbar.php';?>
 		<div>
-			<h2>Henry: Login with Your Account</h2>
+			<h1>Henry: Login with Your Account</h1>
 			Username: <input type="text" id="user">
 			Password: <input type="password" id="pass">
 			<input type="submit" value="Submit" onclick="getLoginData()">

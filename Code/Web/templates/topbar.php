@@ -15,7 +15,7 @@
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
-			<li id="currentUser"></li>
+			<li><a id="currentUser"></a></li>
 			<li id="logoutButton"><a href="javascript:logout()">Logout</a></li>
 			<li id="loginButton"><a href="login">Login</a></li>
 			<li class="has-form">
