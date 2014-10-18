@@ -32,6 +32,7 @@
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
+			<li id="currentUser"></li>
 			<li id="logoutButton"><a href="javascript:logout()">Logout</a></li>
 			<li id="loginButton"><a href="login">Login</a></li>
 			<li class="has-form">
@@ -52,6 +53,7 @@
 			Username: <input type="text" id="user">
 			Password: <input type="password" id="pass">
 			<input type="submit" value="Submit" onclick="getLoginData()">
+			<span style="color:red" id="loginerror" hidden>Incorrect Username or Password</span>
 		</div>
 	</body>
 </html>

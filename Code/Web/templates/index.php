@@ -8,6 +8,7 @@
 		<div>
 			<h2>Henry</h2>
 			<a href="/login">Login</a>
+			<a href="/register">Register</a>
 			<a href="/projects">Projects</a>
 		</div>
 	</body>

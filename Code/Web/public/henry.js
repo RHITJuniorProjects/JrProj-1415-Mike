@@ -247,7 +247,7 @@ function login(user, pass){
 		} else {
 			logout();
 			console.log("Error authenticating user:", error);
-			window.location.replace("login")
+			$("#loginerror").show();
 		}
 	});
 };
@@ -272,9 +272,11 @@ function register(){
 
 function logout() {
 	firebase.unauth();
+	$("#currentUser").hide();
 	$("#logoutButton").hide();
 	$("#loginButton").show();
 	userData = null;
+	window.location.replace("/");
 };
 
 firebase.onAuth(
@@ -283,9 +285,13 @@ firebase.onAuth(
 		$(document).ready(
 			function(){
 				if(userData == null){
+					$("#currentUser").hide();
 					$("#logoutButton").hide();
 					$("#loginButton").show();
 				} else {
+					document.getElementById("currentUser").innerHTML = "Currently logged in as " + userData.password.email;
+					firebase.child('users/'+userData.uid).child("email").set(userData.password.email);
+					$("#currentUser").show();
 					$("#logoutButton").show();
 					$("#loginButton").hide();
 				}
