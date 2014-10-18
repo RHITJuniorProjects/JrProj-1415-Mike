@@ -20,6 +20,8 @@ import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
@@ -64,6 +67,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	/* Data from the authenticated user */
 	private AuthData authData;
+	// private ArrayList<Project> projects;
 
 	/* A tag that is used for logging statements */
 	private static final String TAG = "LoginDemo";
@@ -79,10 +83,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		Firebase.setAndroidContext(this);
 		setContentView(R.layout.activity_login);
 		mAuthProgressDialog = new ProgressDialog(this);
-        mAuthProgressDialog.setTitle("Loading");
-        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
-        mAuthProgressDialog.setCancelable(false);
-        
+		mAuthProgressDialog.setTitle("Loading");
+		mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+		mAuthProgressDialog.setCancelable(false);
+
 		// Set up the login form.
 		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 		populateAutoComplete();
@@ -130,7 +134,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// Reset errors.
 		mEmailView.setError(null);
 		mPasswordView.setError(null);
-		
+
 		// Store values at the time of the login attempt.
 		String email = mEmailView.getText().toString();
 		String password = mPasswordView.getText().toString();
@@ -174,29 +178,46 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 
 	public void openProjectListView(AuthData authdata) {
+		// ArrayList<Project> projects = new ArrayList<Project>();
+		// projects.add(new
+		// Project("https://shining-inferno-2277.firebaseio.com/projects/-JYkWFRJRG5eZ1S85iKL"));
+		// projects.add(new
+		// Project("https://shining-inferno-2277.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
 		ArrayList<Project> projects = new ArrayList<Project>();
 		User user = new User(
 				"https://shining-inferno-2277.firebaseio.com/users/"
 						+ authData.getUid());
-		Log.i("Username", user.getKey());
-		// while (this.authData==null){
-		//
-		Log.i("authData status2", new Boolean(this.authData == null).toString());
-		// Log.i("authData", authData.toString());
-		// Log.i("authData status", new Boolean(authData==null).toString());
-
-		// Log.i("User creatiwhile ()
-		
-//		this.user = this.getIntent().getParcelableExtra("user");
 		Map<Project, Role> projectMap = user.getProjects();
 
 		for (Project p : projectMap.keySet()) {
 			projects.add(p);
 		}
-		
-		
+
+		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(this,
+				android.R.layout.simple_list_item_activated_1,
+				android.R.id.text1, projects);
+		// setListAdapter(arrayAdapter);
+		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
+				arrayAdapter);
+
+		for (Project project : projects) {
+			project.setListChangeNotifier(lcn);
+		}
+
+		// Log.i("Username", user.getKey());
+		// // while (this.authData==null){
+		// //
+		// Log.i("authData status2", new Boolean(this.authData ==
+		// null).toString());
+		// Log.i("authData", authData.toString());
+		// Log.i("authData status", new Boolean(authData==null).toString());
+
+		// Log.i("User creatiwhile ()
+
+		// this.user = this.getIntent().getParcelableExtra("user");
+
 		mAuthProgressDialog.hide();
-//		Log.i("Num projects", new Integer(projects.size()).toString());
+		// Log.i("Num projects", new Integer(projects.size()).toString());
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putParcelableArrayListExtra("projects", projects);
 		this.startActivity(intent);
@@ -361,6 +382,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				.setPositiveButton(android.R.string.ok, null)
 				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
+
 	/**
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
@@ -379,23 +401,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	// protected Boolean doInBackground(Void... params) {
 	// // TODO: attempt authentication against a network service.
 	//
-	// // try {
-	// // // Simulate network access.
-	// // Thread.sleep(2000);
-	// // } catch (InterruptedException e) {
-	// // return false;
-	// // }
-	// //
-	// // for (String credential : DUMMY_CREDENTIALS) {
-	// // String[] pieces = credential.split(":");
-	// // if (pieces[0].equals(mEmail)) {
-	// // // Account exists, return true if the password matches.
-	// // return pieces[1].equals(mPassword);
-	// // }
-	// // }
-	// //
-	// // // TODO: register the new account here.
-	// // return true;
+	// try {
+	// // Simulate network access.
+	// Thread.sleep(2000);
+	// } catch (InterruptedException e) {
+	// return false;
+	// }
+	//
+	// for (String credential : DUMMY_CREDENTIALS) {
+	// String[] pieces = credential.split(":");
+	// if (pieces[0].equals(mEmail)) {
+	// // Account exists, return true if the password matches.
+	// return pieces[1].equals(mPassword);
+	// }
+	// }
+	//
+	// // TODO: register the new account here.
+	// return true;
 	// }
 	//
 	// @Override
