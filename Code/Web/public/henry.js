@@ -1,7 +1,7 @@
 
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
-
+var userData;
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
 function Table(factory,firebase){
@@ -231,6 +231,7 @@ Task.prototype = {
 function getLoginData(){
 	var user = document.getElementById("user").value;
 	var pass = document.getElementById("pass").value;
+	document.getElementById("pass").value = "";
 	login(user, pass);
 }
 
@@ -240,12 +241,9 @@ function login(user, pass){
 		password: pass
 	}, function(error, authData) {
 		if (error === null) {
-			var d = new Date();
-			d.setTime(d.getTime() + (20*24*60*60*1000)); // the cookie expires in 20 days
-			document.cookie = "userData=" + authData + "; expires=" + d.toUTCString();
-			console.log("User " + user + " logged in successfully");
-			console.log(authData);
-			window.location.replace("projects")
+			document.cookie = "userData=" + authData + ";";
+			userData = authData;
+			window.location.replace("projects");
 		} else {
 			logout();
 			console.log("Error authenticating user:", error);
@@ -257,6 +255,7 @@ function login(user, pass){
 function register(){
 	var user = document.getElementById("user").value;
 	var pass = document.getElementById("pass").value;
+	document.getElementById("pass").value = "";
 	firebase.createUser(
 		{
 			email: document.getElementById("user").value,
@@ -265,7 +264,6 @@ function register(){
 		function(error) {
 			if (error === null) {
 				getLoginData();
-				console.log("User " + user + " created successfully");
 			} else {
 				console.log("Error creating user:" + user + ", " + error);
 			}
@@ -274,8 +272,28 @@ function register(){
 }
 
 function logout() {
-	document.cookie = "userData=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
+	firebase.unauth();
+	$("#logoutButton").hide();
+	$("#loginButton").show();
+	userData = null;
 };
+
+firebase.onAuth(
+	function(authData){
+		userData = authData;
+		$(document).ready(
+			function(){
+				if(userData == null){
+					$("#logoutButton").hide();
+					$("#loginButton").show();
+				} else {
+					$("#logoutButton").show();
+					$("#loginButton").hide();
+				}
+			}
+		);
+	}
+);
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 

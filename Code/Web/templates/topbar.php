@@ -12,10 +12,11 @@
 	<section class="top-bar-section">
 		<ul class="left">
 			<li><a href="projects">Projects</a></li>
-			<li><a href="login">Login</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
+			<li id="logoutButton"><a href="javascript:logout()">Logout</a></li>
+			<li id="loginButton"><a href="login">Login</a></li>
 			<li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">
