@@ -115,13 +115,10 @@ User.prototype = {
 			name.html(nameStr);
 		});
 		*/
-	}
+	},
 	onSelect:function(callback){
-	var projectID = '-JYcg488tAYS5rJJT4Kh';
-	
+		var projectID = '-JYcg488tAYS5rJJT4Kh';
 	}
-	
-	
 };
 
 function Project(firebase){
