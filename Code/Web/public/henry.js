@@ -2,6 +2,7 @@
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
 var userData;
+
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
 function Table(factory,firebase){
@@ -313,8 +314,7 @@ function login(user, pass){
 			window.location.replace("projects");
 		} else {
 			logout();
-			console.log("Error authenticating user:", error);
-			$("#loginerror").show();
+			$("#loginError").show();
 		}
 	});
 };
@@ -331,7 +331,7 @@ function register(){
 			if (error === null) {
 				login(user, pass);
 			} else {
-				console.log("Error creating user:" + user + ", " + error);
+				$("#registerError").show();
 			}
 		}
 	);
@@ -356,7 +356,7 @@ firebase.onAuth(
 					$("#logoutButton").hide();
 					$("#loginButton").show();
 				} else {
-					document.getElementById("currentUser").innerHTML = "Currently logged in as " + userData.password.email;
+					$("#currentUser").html("Currently logged in as " + userData.password.email);
 					firebase.child('users/'+userData.uid).child("email").set(userData.password.email);
 					$("#currentUser").show();
 					$("#logoutButton").show();
