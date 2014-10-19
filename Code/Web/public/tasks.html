@@ -1,4 +1,4 @@
-<div id='task-page'>
+<div id='task-page' hidden>
 	<table id="task-table" style="width:100%">
 		<tr>
 			<td>Task Name</td>

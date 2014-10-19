@@ -191,7 +191,6 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
-	
 	getTableHtml:function(callback){
 		callback('<tr>'+
 			'<td id="#task-name-'+this.uid+'"></td>'+
@@ -218,14 +217,16 @@ Task.prototype = {
 		this.getCategory(function(categoryStr){
 			category.html(categoryStr);
 		});
+
 		var originalTime = $('#task-original_time_estimate-'+this.uid);
 		this.getOriginalTime(function(original_time_estimateStr){
 			originalTime.html(original_time_estimateStr);
+		});
 
 		var updatedTime= $('#task-updated_time_estimate-'+this.uid);
 		this.getUpdatedTime(function(updated_time_estimateStr){
 			updatedTime.html(updated_time_estimateStr);
-		});		
+		});
 	}
 };
 
