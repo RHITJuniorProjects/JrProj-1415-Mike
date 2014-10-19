@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -51,6 +52,9 @@ public class MilestoneDetailFragment extends Fragment {
 			
 			((TextView) rootView.findViewById(R.id.milestone_task_percent))
 				.setText("Tasks Completed: " + this.milestoneItem.getTaskPercent() + "%");
+			ProgressBar taskCompleteBar = ((ProgressBar) rootView.findViewById(R.id.milestone_task_progress_bar));
+			taskCompleteBar.setMax(100);
+			taskCompleteBar.setProgress(50);
 		}
 
 		return rootView;
