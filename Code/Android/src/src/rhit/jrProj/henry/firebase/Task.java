@@ -207,6 +207,14 @@ public class Task implements Parcelable, ChildEventListener {
 	public double getCurrentHoursEstimate() {
 		return this.hoursEstimatedCurrent;
 	}
+	
+	/**
+	 * Returns the status of this task
+	 * @return the status of this task
+	 */
+	public String getStatus() {
+		return this.status;
+	}
 
 	/**
 	 * Returns the number of hours originally estimated for this task
@@ -219,5 +227,10 @@ public class Task implements Parcelable, ChildEventListener {
 	public void updateStatus(String taskStatus) {
 		this.status = taskStatus;
 		firebase.child("status").setValue(taskStatus);
+		if (taskStatus.equals("Closed")) {
+			firebase.child("is_completed").setValue(true);
+		} else {
+			firebase.child("is_completed").setValue(false);
+		}
 	}
 }

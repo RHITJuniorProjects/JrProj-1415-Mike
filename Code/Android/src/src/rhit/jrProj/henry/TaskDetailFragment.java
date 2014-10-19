@@ -70,6 +70,8 @@ public class TaskDetailFragment extends Fragment implements OnItemSelectedListen
 			((TextView) rootView.findViewById(R.id.task_description))
 				.setText(this.taskItem.getDescription());
 		
+			////////
+			//Task status spinner
 			Spinner spinner = (Spinner) rootView.findViewById(R.id.task_status_spinner);
 			// Create an ArrayAdapter using the string array and a default spinner layout
 			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
@@ -78,6 +80,14 @@ public class TaskDetailFragment extends Fragment implements OnItemSelectedListen
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			// Apply the adapter to the spinner
 			spinner.setAdapter(adapter);
+			
+			//Set the default for the spinner to be the task's current status
+			String myString = taskItem.getStatus();
+			int spinnerDefaultPos = adapter.getPosition(myString);
+			spinner.setSelection(spinnerDefaultPos);
+			
+			spinner.setOnItemSelectedListener(this);
+			///////
 			
 			((TextView) rootView.findViewById(R.id.task_hours_original_estimate))
 				.setText("Original Estimate: " + this.taskItem.getOriginalHoursEstimate() + " hours");
