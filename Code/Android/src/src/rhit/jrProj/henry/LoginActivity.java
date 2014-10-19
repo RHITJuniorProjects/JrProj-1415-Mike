@@ -195,24 +195,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// Project("https://shining-inferno-2277.firebaseio.com/projects/-JYkWFRJRG5eZ1S85iKL"));
 		// projects.add(new
 		// Project("https://shining-inferno-2277.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
-		ArrayList<Project> projects = new ArrayList<Project>();
+		// ArrayList<Project> projects = new ArrayList<Project>();
 		User user = new User(
 				"https://shining-inferno-2277.firebaseio.com/users/"
 						+ authData.getUid());
-		Map<Project, Role> projectMap = user.getProjects();
-
-		for (Project p : projectMap.keySet()) {
-			projects.add(p);
-		}
+		// Map<Project, Role> projectMap = user.getProjects();
 
 		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(this,
 				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, projects);
-		// setListAdapter(arrayAdapter);
+				android.R.id.text1, user.getProjects());
 		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
 				arrayAdapter);
-
-		for (Project project : projects) {
+		user.setListChangeNotifier(lcn);
+		for (Project project : user.getProjects()) {
 			project.setListChangeNotifier(lcn);
 		}
 
@@ -227,11 +222,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// Log.i("User creatiwhile ()
 
 		// this.user = this.getIntent().getParcelableExtra("user");
-
 		mAuthProgressDialog.hide();
 		// Log.i("Num projects", new Integer(projects.size()).toString());
 		Intent intent = new Intent(this, ProjectListActivity.class);
-		intent.putParcelableArrayListExtra("projects", projects);
+		intent.putParcelableArrayListExtra("projects", user.getProjects());
 		this.startActivity(intent);
 	}
 

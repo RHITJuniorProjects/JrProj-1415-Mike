@@ -1,9 +1,7 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
@@ -47,11 +45,12 @@ public class User implements Parcelable, ChildEventListener {
 	 * Firebase is updated. This then notifies the object that is displaying the
 	 * User that this object has been updated.
 	 */
-	private ListChangeNotifier<User> listViewCallback;
+	private ListChangeNotifier<Project> listViewCallback;
 	/**
 	 * projects is a Set in the form: [project_key, this_Users_role]
 	 */
-	private Map<Project, Role> projects = new HashMap<Project, Role>();
+	private ProjectMap projects = new ProjectMap();
+	
 	/**
 	 * tasks is a Set in the form: task_key
 	 */
@@ -119,7 +118,7 @@ public class User implements Parcelable, ChildEventListener {
 	 * 
 	 * @param lcn
 	 */
-	public void setListChangeNotifier(ListChangeNotifier<User> lcn) {
+	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.listViewCallback = lcn;
 	}
 
@@ -185,16 +184,16 @@ public class User implements Parcelable, ChildEventListener {
 		} else if (arg0.getName().equals("projects")) {
 			Log.i("Child", "project");
 			for (DataSnapshot project : arg0.getChildren()) {
+				Log.i(project.getName(), "project");
 				Role r = Role.Developer;
 				if (project.getValue().equals("lead")) {
 					r = Role.Lead;
 				}
-				this.projects.put(new Project(
+				Project p = new Project(
 						"https://shining-inferno-2277.firebaseio.com/projects/"
-								+ project.getName()), r);
-				if (this.listViewCallback != null) {
-					this.listViewCallback.onChange();
-				}
+								+ project.getName());
+				this.projects.put(p, r);
+				p.setListChangeNotifier(this.listViewCallback);
 			}
 		} else if (arg0.getName().equals("tasks")) {
 			for (DataSnapshot task : arg0.getChildren()) {
@@ -206,8 +205,13 @@ public class User implements Parcelable, ChildEventListener {
 		}
 	}
 
-	public Map<Project, Role> getProjects() {
-		return this.projects;
+	public ArrayList<Project> getProjects() {
+		return this.projects.getAllKeys();
+	}
+	
+	public Role getRole(Project p)
+	{
+		return this.projects.getValue(p);
 	}
 
 	public void onChildChanged(DataSnapshot arg0, String arg1) {

@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 
 /**
@@ -68,7 +69,7 @@ public class ProjectListActivity extends Activity implements
 
 		this.projects = this.getIntent()
 				.getParcelableArrayListExtra("projects");
-
+		Log.i("Count", user.getProjects().size()+"");
 		Log.i("Here", "ohj");
 		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		if (!tabletSize) {
