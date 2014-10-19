@@ -55,12 +55,10 @@ function getAllUsers(){
 
 		user.popSelect(function(html){
             $select.append(html);
+			
+			
         });
-		var name = $('#username-' + user.uid);
 		
-		user.getName(function(nameStr){
-			name.html(nameStr);
-		});
 		
 	
 		$title = $('#username-' + user.uid);
