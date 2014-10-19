@@ -95,17 +95,30 @@ var users = new Table(function(fb){return new User(fb);},firebase.child('users')
 function User(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
-	this.__name = firebase.child('name');
-	this.__email = firebase.child('email');
+	this.__name = firebase.child('firstName');
+	this.__email = firebase.chile('email');
 }
 
 User.prototype = {
 	getName:function(callback){
 		this.__name
 	},
-	getProjects:function(){
-
+	popSelect:function(callback){
+		callback('<button data-reveal-id="myModal">Add Member</button>'+
+				'<div id="myModal" class="reveal-modal" data-reveal>'+
+					'Users'+
+					'<select id="member-select">'+
+						
+					'</select>'+
+					'<button>Select</button>'+
+				'</div>');
+		var name = $('#user-name-'+this.uid);
+		this.getName(function(nameStr){
+			name.html(nameStr);
+		});
 	}
+	
+	
 };
 
 function Project(firebase){
