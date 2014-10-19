@@ -136,11 +136,21 @@ $(function () {
     });
 });
 
+
+var change = {
+    20: 'New',
+    40: 'Implementation',
+    60: 'Testing',
+    80: 'Verifying',
+    100: 'Regression',
+	120: 'Closed'
+};
+
 $(function () {
-    $('#container3').highcharts({
+    $('#taskContainer').highcharts({
         chart: {
             type: 'column',
-            margin: 75,
+            margin: 120,
             options3d: {
                 enabled: false,
                 alpha: 10,
@@ -150,7 +160,7 @@ $(function () {
         },
         title: {
             text: 'Progress of Tasks',
-			style: { "color": "#333333", "fontSize": "30px" },
+			style: { "color": "#333333", "fontSize": "30px"},
         },
         plotOptions: {
             column: {
@@ -163,14 +173,21 @@ $(function () {
         yAxis: {
             opposite: false,
 			tickInterval: 20,
-			max: 100,
+			max: 120,
+			labels: {
+					formatter: function() {
+						var value = change[this.value];
+						return value !== 'undefined' ? value : this.value;
+					}
+			},
             title: {
-                text: 'Percent Complete'
+                text: 'Task Stage',
+				style: {"font-family": "Arial", "font-weight": "bold", "color": "#333333"}	
             }
         },
         series: [{
             name: 'Percent Complete',
-            data: [100, 100, 0, 91, 50]
+            data: [120, 120, 20, 60, 80]
         }],
 		colors: ['#ff69b4', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
 				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 

@@ -6,7 +6,7 @@
 				<div id="myModal" class="reveal-modal" data-reveal>
 					Users
 					<select id="member-select"></select>
-					<button>Add</button>
+					<button onclick="addNewMember();">Add</button>
 				</div>
 		</h1>
 	</div>
