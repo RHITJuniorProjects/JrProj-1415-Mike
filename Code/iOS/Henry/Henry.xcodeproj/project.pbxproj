@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		849C8DFD19F1BC28006B3194 /* HenryTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 849C8DFC19F1BC28006B3194 /* HenryTaskDetailViewController.m */; };
+		849C8E0019F1F8B9006B3194 /* HenryTaskStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 849C8DFF19F1F8B9006B3194 /* HenryTaskStatusTableViewController.m */; };
+		849C8E0319F2C65F006B3194 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 849C8E0219F2C65F006B3194 /* TPKeyboardAvoidingScrollView.m */; };
+		849C8E0619F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 849C8E0519F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
 		87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */; };
 		87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4619EEEF12009D3906 /* HenryRightViewController.m */; };
@@ -45,6 +49,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		849C8DFB19F1BC28006B3194 /* HenryTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTaskDetailViewController.h; sourceTree = "<group>"; };
+		849C8DFC19F1BC28006B3194 /* HenryTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTaskDetailViewController.m; sourceTree = "<group>"; };
+		849C8DFE19F1F8B9006B3194 /* HenryTaskStatusTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTaskStatusTableViewController.h; sourceTree = "<group>"; };
+		849C8DFF19F1F8B9006B3194 /* HenryTaskStatusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTaskStatusTableViewController.m; sourceTree = "<group>"; };
+		849C8E0119F2C65F006B3194 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		849C8E0219F2C65F006B3194 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		849C8E0419F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		849C8E0519F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
 		87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeftTableViewController.h; sourceTree = "<group>"; };
 		87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeftTableViewController.m; sourceTree = "<group>"; };
@@ -150,12 +162,16 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				849C8E0419F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				849C8E0519F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
 				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
 				93447F3F19C91C5500C2FC38 /* Supporting Files */,
 				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
 				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
+				849C8E0119F2C65F006B3194 /* TPKeyboardAvoidingScrollView.h */,
+				849C8E0219F2C65F006B3194 /* TPKeyboardAvoidingScrollView.m */,
 				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
 				93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */,
 				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
@@ -166,6 +182,10 @@
 				87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */,
 				87E54D4519EEEF12009D3906 /* HenryRightViewController.h */,
 				87E54D4619EEEF12009D3906 /* HenryRightViewController.m */,
+				849C8DFB19F1BC28006B3194 /* HenryTaskDetailViewController.h */,
+				849C8DFC19F1BC28006B3194 /* HenryTaskDetailViewController.m */,
+				849C8DFE19F1F8B9006B3194 /* HenryTaskStatusTableViewController.h */,
+				849C8DFF19F1F8B9006B3194 /* HenryTaskStatusTableViewController.m */,
 			);
 			path = Henry;
 			sourceTree = "<group>";
@@ -298,10 +318,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				849C8E0319F2C65F006B3194 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */,
+				849C8E0019F1F8B9006B3194 /* HenryTaskStatusTableViewController.m in Sources */,
 				87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */,
+				849C8E0619F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
+				849C8DFD19F1BC28006B3194 /* HenryTaskDetailViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
 				87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */,
 			);

@@ -7,6 +7,7 @@
 //
 
 #import "HenryTasksTableViewController.h"
+#import "HenryTaskDetailViewController.h"
 #import <Firebase/Firebase.h>
 
 @interface HenryTasksTableViewController ()
@@ -14,7 +15,7 @@
 @property NSMutableArray *tasks;
 @property Firebase *fb;
 @property NSMutableArray *tasksDescriptions;
-
+@property NSMutableArray *taskIDs;
 @end
 
 @implementation HenryTasksTableViewController
@@ -34,7 +35,7 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-production.firebaseio.com/projects/"];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com/projects/"];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -49,7 +50,7 @@
 }
 
 -(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-production.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
@@ -58,15 +59,21 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     self.tasksDescriptions = [[NSMutableArray alloc] init];
+    self.taskIDs = [[NSMutableArray alloc] init];
     
     for (NSString *key in keys) {
-        if (![self.userTasks containsObject:key]) {
+        // Hardcoded user for now...
+        if (![[[json objectForKey:key] objectForKey:@"assignedTo"] isEqualToString:@"simplelogin:12"]) {
             continue;
         }
+//        if (![self.userTasks containsObject:key]) {
+//            continue;
+//        }
         NSString *name = [[json objectForKey:key] objectForKey:@"name"];
         NSString *description = [[json objectForKey:key] objectForKey:@"description"];
         [self.tasks addObject:name];
         [self.tasksDescriptions addObject:description];
+        [self.taskIDs addObject:key];
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -145,15 +152,18 @@
 }
 */
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    HenryTaskDetailViewController *vc = [segue destinationViewController];
+    vc.ProjectID = self.ProjectID;
+    vc.MileStoneID = self.MileStoneID;
+    vc.taskID = [self.taskIDs objectAtIndex:indexPath.row];
 }
-*/
 
 @end
