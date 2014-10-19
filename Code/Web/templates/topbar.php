@@ -15,9 +15,9 @@
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
-			<li><a id="currentUser"></a></li>
-			<li id="logoutButton"><a href="javascript:logout()">Logout</a></li>
-			<li id="loginButton"><a href="login">Login</a></li>
+			<li hidden><a id="currentUser"></a></li>
+			<li id="logoutButton" hidden><a href="javascript:logout()">Logout</a></li>
+			<li id="loginButton" hidden><a href="login">Login</a></li>
 			<li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">
