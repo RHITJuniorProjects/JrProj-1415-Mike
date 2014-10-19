@@ -7,8 +7,6 @@ var userData;
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
 function Table(factory,firebase){
-	this.__onChildAdded = null;
-	this.__onChildRemoved = null;
 	this.__factory = factory;
 	this.__firebase = firebase;
 };
@@ -19,34 +17,24 @@ Table.prototype = {
 	},
 	onItemAdded:function(callback){
 		//console.log(this.__onChildAdded);
-		if(!this.__onChildAdded){
-			this.__onChildAdded = [];
-			var table = this;
-			this.__firebase.on('child_added',function(snap){
-				//console.log(snap.val());
-				var val = table.__factory(snap.ref());
-				table.__onChildAdded.forEach(function(callback){
-					callback(val);
-				});
-			});
-		}
-		this.__onChildAdded.push(callback);
+		var table = this;
+		this.__firebase.on('child_added',function(snap){
+			var val = table.__factory(snap.ref());
+			callback(val);
+		});
 	},
 	onItemRemoved:function(callback){
-		if(!this.__onChildRemoved){
-			this.__onChildRemoved = [];
-			var table = this;
-			this.__firebase.on('child_removed',function(snap){
-				var val = table.__factory(snap.ref());
-				table.__onChildRemoved.forEach(function(callback){
-					callback(val);
-				});
-			});
-		}
-		this.__onChildRemoved.push(callback);
+		var table = this;
+		this.__firebase.on('child_removed',function(snap){
+			var val = table.__factory(snap.ref());
+			callback(val);
+		});
 	},
 	add:function(){
 		return this.__factory(this.__firebase.push());
+	},
+	getSelectHtml:function(){
+		
 	}
 };
 
@@ -127,6 +115,7 @@ function Project(firebase){
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
 	this.__milestones = firebase.child('milestones');
+	this.__members = firebase.child('members');
 };
 
 
@@ -165,6 +154,9 @@ Project.prototype = {
 	},
 	getMilestones:function() {
 		return new Table(function(fb){ return new Milestone(fb);},this.__firebase.child('milestones'));
+	},
+	addUser:function(id){
+		this.__members.set(id,id);
 	}
 };
 
@@ -192,7 +184,7 @@ Milestone.prototype = {
 		callback('<div class="row">'+
 		'<div class="small-4 columns small-offset-1">'+
 		'<div class="button expand text-center">'+
-		'<a onclick="selectMilestone(\''+this.uid+'\'"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
+		'<a onclick="selectMilestone(\''+this.uid+'\')"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
 		'</div>'+
 		'<div id="milestone-description-'+this.uid+'"></div>'+
 		'</div>'+
@@ -236,7 +228,8 @@ Task.prototype = {
 	},
 	getAssignedUser:function(callback){
 		this.__assigned_user.on('value',function(dat){
-			callback(dat.val());
+			var user = users.get(dat.val());
+			callback(user);
 		});
 	},
 	getCategory:function(callback){
@@ -257,12 +250,12 @@ Task.prototype = {
 	},
 	getTableHtml:function(callback){
 		callback('<tr>'+
-			'<td id="#task-name-'+this.uid+'"></td>'+
-			'<td id="#task-description-'+this.uid+'"></td>'+
-			'<td id="#task-category-'+this.uid+'"></td>'+
-			'<td id="#task-assignedTo-'+this.uid+'"></td>'+
-			'<td id="#task-original_time_estimate-'+this.uid+'"></td>'+
-			'<td id="#task-updated_time_estimate-'+this.uid+'"></td>'+
+			'<td id="task-name-'+this.uid+'"></td>'+
+			'<td id="task-description-'+this.uid+'"></td>'+
+			'<td id="task-category-'+this.uid+'"></td>'+
+			'<td id="task-assignedTo-'+this.uid+'"></td>'+
+			'<td id="task-original_time_estimate-'+this.uid+'"></td>'+
+			'<td id="task-updated_time_estimate-'+this.uid+'"></td>'+
 			'</tr>');
 		
 		var name = $('#task-name-'+this.uid);
@@ -273,9 +266,11 @@ Task.prototype = {
 		this.getDescription(function(descriptionStr){
 			description.html(descriptionStr);
 		});
-		var assignedUser = $('#task-assignedTo-'+this.uid);
-		this.getAssignedUser(function(assignedUserStr){
-			assignedUser.html(assignedUserStr);
+		var $assignedUser = $('#task-assignedTo-'+this.uid);
+		this.getAssignedUser(function(assignedUser){
+			assignedUser.getName(function(name){
+				$assignedUser.html(name);
+			});
 		});
 		var category= $('#task-category-'+this.uid);
 		this.getCategory(function(categoryStr){

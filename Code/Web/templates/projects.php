@@ -1,4 +1,4 @@
-<html class="wide">
+<html>
 	<head>
 		<title>Henry - Teams</title>
 		<?php require 'header.php';?>
