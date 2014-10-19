@@ -2,6 +2,7 @@
 import sys
 import re
 import subprocess
+import time
 from firebase import firebase
 
 
@@ -19,7 +20,7 @@ testUrl = 'https://henry-test.firebaseio.com'
 def readCommit(path):
     with open(path,'r') as msgfile:
         msg = msgfile.read()
-    return msg
+    return msg.strip()
     
 
 def getLoC():
@@ -59,15 +60,21 @@ def getEmail():
 
 def getUID(gituser,ref):
     users = ref.get('/users',None)
+    filteredusers = {u:users[u] for u in users if 'github' in users[u]}
     try:
-        uid = [u for u in users if users[u]['github']==gituser][0]
+        uid = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
     except:
         raise Exception('HENRY: Invalid username, commit failed')
     return uid
 
 
-def writeCommit(project,uid,hours,milestone,task,status,loc):
-    pass
+def getTime():
+    return time.time()*1000
+
+
+def writeCommit(ref,msg,project,uid,hours,milestone,task,status,loc,ts):
+    path = '/commits'
+    ref.post(path,{'hours':hours,'user':uid,'lines_of_code':loc,'message':msg,'timestamp':ts})
 
 
 if __name__ == '__main__':
@@ -78,8 +85,8 @@ if __name__ == '__main__':
     uid = getUID(githubID,ref)
     msg = readCommit(sys.argv[1])
     [hours,milestone,task,status],loc = parse(msg),getLoC()
+    ts = getTime()
 
-    print hours
-    print milestone
-    print task
-    print loc
+    writeCommit(ref,msg,None,uid,hours,milestone,task,status,loc,ts)
+    
+    #raise Exception('Reached end, prevents commit from executing')
