@@ -2,16 +2,12 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 
 /**
  * An activity representing a list of Items. This activity has different

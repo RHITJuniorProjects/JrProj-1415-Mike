@@ -1,5 +1,7 @@
 package rhit.jrProj.henry.firebase;
 
+import java.util.List;
+
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -25,6 +27,11 @@ public class Task implements Parcelable, ChildEventListener {
 	 * A description of the task
 	 */
 	private String description;
+	
+	/**
+	 * A list of the user ids of the users assigned to the task
+	 */
+	private String assignedUserId;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -66,6 +73,7 @@ public class Task implements Parcelable, ChildEventListener {
 		this.firebase = new Firebase(pc.readString());
 		this.name = pc.readString();
 		this.description = pc.readString();
+		this.assignedUserId = pc.readString();
 	}
 
 	public Task(String firebaseURL) {
@@ -95,6 +103,7 @@ public class Task implements Parcelable, ChildEventListener {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.name);
 		dest.writeString(this.description);
+		dest.writeString(this.assignedUserId);
 	}
 
 	@Override
@@ -124,6 +133,8 @@ public class Task implements Parcelable, ChildEventListener {
 			}
 		} else if (arg0.getName().equals("description")) {
 			this.description = arg0.getValue().toString();
+		} else if (arg0.getName().equals("assignedTo")) {
+			this.assignedUserId = arg0.getValue().toString();
 		}
 	}
 
@@ -150,5 +161,13 @@ public class Task implements Parcelable, ChildEventListener {
 	 */
 	public String getDescription() {
 		return this.description;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+	
+	public String getAssignedUserId() {
+		return this.assignedUserId;
 	}
 }

@@ -1,6 +1,9 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Task;
@@ -10,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 /**
  * A list fragment representing a list of Items. This fragment also supports
@@ -76,17 +80,27 @@ public class TaskListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		this.tasks = ((TaskListActivity)this.getActivity()).getTasks();
+		this.tasks = ((TaskListActivity)this.getActivity()).getTasks();	
 		
-		ArrayAdapter<Task> arrayAdapter = new ArrayAdapter<Task>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, this.tasks);
-		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(arrayAdapter);
+		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+		for (Task task : this.tasks) {
+		    Map<String, String> datum = new HashMap<String, String>(2);
+		    datum.put("title", task.getName());
+		    datum.put("assignee", task.getAssignedUserId());
+		    data.add(datum);
+		}
+		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
+                android.R.layout.simple_list_item_2,
+                new String[] {"title", "assignee"},
+                new int[] {android.R.id.text1,
+                           android.R.id.text2});
+		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
+		
 		for(Task t : this.tasks)
 		{
 			t.setListChangeNotifier(lcn);
 		}
-		setListAdapter(arrayAdapter);		
+		setListAdapter(adapter);		
 	}
 
 	@Override
