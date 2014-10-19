@@ -101,7 +101,7 @@ function addNewMember(){
 	var projectID = '-JYcg488tAYS5rJJT4Kh';
 	var selected = $("#member-select").val();
 	var id = $("#member-select").children(":selected").attr("id").substring(9);
-	console.log(firebase.child('projects/'+projectID).child("members").name());
+	console.log(firebase.child('projects/'+projectID).child("members"));
 	/*firebase.child('projects/'+projectID).child("members").forEach(function(cs) {
 		var name = cs.name();
 		console.log(name);
@@ -109,9 +109,9 @@ function addNewMember(){
 		cs.push(id);
 	});
 	*/
-	if(!firebase.child('projects/'+projectID).child("members").val().hasChild(id)){
+	//if(!firebase.child('projects/'+projectID).child("members").val().hasChild(id)){
 		firebase.child('projects/'+projectID).child("members").push(id);
-	}
+	//}
 	//console.log(id);
 }
 
