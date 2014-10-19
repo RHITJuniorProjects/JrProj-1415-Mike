@@ -116,6 +116,10 @@ User.prototype = {
 		});
 		*/
 	}
+	onSelect:function(callback){
+	var projectID = '-JYcg488tAYS5rJJT4Kh';
+	
+	}
 	
 	
 };
@@ -216,6 +220,8 @@ function Task(firebase){
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
+	this.__assigned_user = firebase.child('assignedTo');
+	this.__category = firebase.child('category');
 	this.__originalTime = firebase.child('original_time_estimate');
 	this.__updatedTime = firebase.child('updated_time_estimate');
 };
@@ -243,12 +249,12 @@ Task.prototype = {
 	},
 	
 	getOriginalTime:function(callback){
-		this.__original_time_estimate.on('value',function(dat){
+		this.__originalTime.on('value',function(dat){
 			callback(dat.val());
 		});
 	},
 	getUpdatedTime:function(callback){
-		this.__updated_time_estimate.on('value',function(dat){
+		this.__updatedTime.on('value',function(dat){
 			callback(dat.val());
 		});
 	},

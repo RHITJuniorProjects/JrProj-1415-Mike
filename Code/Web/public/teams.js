@@ -49,27 +49,18 @@ function allProjects(){
 }
 
 function getAllUsers(){
-	
 	users.onItemAdded(function (user) {
 		var $select = $('#member-select');
 
-		user.popSelect(function(html){
-            $select.append(html);
-			
-			
-        });
-		
-		
-	
-		$title = $('#username-' + user.uid);
-		user.getName(function(name){
-            $title.html(name);
-        });
+		user.getName(function(nameStr){
+			$select.append('<option id="username-' + user.uid + '">' +
+				nameStr + '</option>');	
+		});
 	
 	});
 
 }
-
+// milestone
 $(function(){
 	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
 	var $panel = $('#panel1');
@@ -99,6 +90,56 @@ $(function(){
 		});
 	}
 });
+//task
+$(function(){
+	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
+	var $panel = $('#task-table');
+	for(var i = 0; i < 1; i++){
+		//var $tString = '#project-name' + i;
+		//var $dString = '#project-description' + i;
+		
+		$title = $('#task-name' + i);
+		$description = $('#task-description' + i);
+		$user = $('#task-user' + i);
+		$category = $('#task-category' + i);
+		$originalTime = $('#task-originalTime' + i);
+		$updatedTime = $('#task-updatedTime' + i);
+		//var projectId = $.cookie('project');
+		var projectId = projectIDs[i];
+		var project = projects.get(projectId);
+		var milestoneTable = project.getMilestones();
+		var milestone = milestoneTable.get('-JYc_9ZGEPFM8cjChyKl');
+		var taskTable = milestone.getTasks();
+		
+		var task = taskTable.get('-JYc_fRjZ_IV3WgHIszD');
+		
+		task.getTableHtml(function(html){
+			$panel.append(html);
+		});
+		
+		task.getName(function(name){
+			$title.html(name);
+		});
+		task.getDescription(function(description){
+			$description.html(description);
+		});
+		task.getAssignedUser(function(user){
+			$user.html(user);
+		});
+		task.getCategory(function(category){
+			$category.html(category);
+		});
+		task.getOriginalTime(function(originalTime){
+			$originalTime.html(originalTime);
+		});
+		task.getUpdatedTime(function(updatedTime){
+			$updatedTime.html(updatedTime);
+		});
+	}
+});
+
+
+
 
 
 var currentProject = null;
