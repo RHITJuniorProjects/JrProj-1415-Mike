@@ -10,19 +10,15 @@ function selectProject(projectID){
     milestonePage.show();
     projectPage.hide();
     taskPage.hide();
-	var project = projects.get(projectID);
-	var milestones = project.getMilestones();
+	var milestones = projects.get(projectID).getMilestones();
 	var panel = $('#milestones-panel');
-	var title = $('#project-name');
-	project.getName(function(name){
-		title.text(name);
-	});
-
 	milestones.onItemAdded(function(milestone){
 		milestone.getButtonHtml(function(html){
 			panel.append(html);
 		});
 	});
+
+
 }
 
 function selectMilestone(milestone){
@@ -52,22 +48,66 @@ function allProjects(){
     });
 }
 
-var newProject = {
-	name:'',
-	description:'',
-	members:[]
+function getAllUsers(){
+	
+	users.onItemAdded(function (user) {
+		var $select = $('#member-select');
+
+		user.popSelect(function(html){
+            $select.append(html);
+			
+			
+        });
+		
+		
+	
+		$title = $('#username-' + user.uid);
+		user.getName(function(name){
+            $title.html(name);
+        });
+	
+	});
+
 }
 
-function createProject(){
-	var proj = Projects.add()
-	proj.setName(name);
-	proj.setDescription(desc);
-}
+$(function(){
+	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
+	var $panel = $('#panel1');
+	for(var i = 0; i < 1; i++){
+		//var $tString = '#project-name' + i;
+		//var $dString = '#project-description' + i;
+		
+		$title = $('#milestone-name' + i);
+		//console.log($title);
+		$description = $('#milestone-description' + i);
+		//var projectId = $.cookie('project');
+		var projectId = projectIDs[i];
+		var project = projects.get(projectId);
+		
+		var milestoneTable = project.getMilestones();
+		
+		var milestone = milestoneTable.get('-JYc_9ZGEPFM8cjChyKl');
+		milestone.getButtonHtml(function(html){
+			$panel.append(html);
+
+		});
+		milestone.getName(function(name){
+			$title.html(name);
+		});
+		milestone.getDescription(function(description){
+			$description.html(description);
+		});
+	}
+});
+
+
+var currentProject = null;
+var currentTask = null;
 
 $(function(){
     milestonePage = $('#milestones-page');
     projectPage = $('#projects-page');
     taskPage = $('#tasks-page');
 	allProjects();
-}); 
-
+	getAllUsers();
+});
