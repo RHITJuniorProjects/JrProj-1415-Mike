@@ -30,6 +30,11 @@ public class Project implements Parcelable, ChildEventListener {
 	 * The project's name
 	 */
 	private String name;
+	
+	/**
+	 * The due date of the project
+	 */
+	private String dueDate = "10/16/2005";
 
 	/**
 	 * The members that are working on the project
@@ -40,6 +45,21 @@ public class Project implements Parcelable, ChildEventListener {
 	 * A description of the project.
 	 */
 	private String description;
+	
+	/**
+	 * The percentage of hours complete for this project
+	 */
+	private int hoursPercent;
+	
+	/**
+	 * The percentage of tasks complete for this project
+	 */
+	private int tasksPercent;
+	
+	/**
+	 * The percentage of milestones compelte for this project
+	 */
+	private int milestonesPercent;
 
 	/**
 	 * Do we need to do anything with the backlog?
@@ -92,7 +112,11 @@ public class Project implements Parcelable, ChildEventListener {
 		this.firebase = new Firebase(in.readString());
 		this.firebase.addChildEventListener(this);
 		this.name = in.readString();
+		this.dueDate = in.readString();
 		this.description = in.readString();
+		this.hoursPercent = in.readInt();
+		this.tasksPercent = in.readInt();
+		this.milestonesPercent = in.readInt();
 		// this.members = new HashMap<User, Role>(); // How to transport? Loop?
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
@@ -145,7 +169,11 @@ public class Project implements Parcelable, ChildEventListener {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.name);
+		dest.writeString(this.dueDate);
 		dest.writeString(this.description);
+		dest.writeInt(this.hoursPercent);
+		dest.writeInt(this.tasksPercent);
+		dest.writeInt(this.milestonesPercent);
 		dest.writeTypedList(this.milestones);
 		// TODO Members?
 		// number for the loop and then loop through it all?
@@ -170,9 +198,22 @@ public class Project implements Parcelable, ChildEventListener {
 			if (this.listViewCallback != null) {
 				this.listViewCallback.onChange();
 			}
+		} else if (arg0.getName().equals("due_date")) {
+			this.dueDate = arg0.getValue(String.class);
 		} else if (arg0.getName().equals("description")) {
 			this.description = arg0.getValue(String.class);
-		} else if (arg0.getName().equals("milestones")) {
+		}
+		
+		//Percentage completes
+		else if (arg0.getName().equals("hours_percent")) {
+			this.hoursPercent = arg0.getValue(Integer.class);
+		} else if (arg0.getName().equals("task_percent")) {
+			this.tasksPercent = arg0.getValue(Integer.class);
+		} else if (arg0.getName().equals("milestone_percent")) {
+			this.milestonesPercent = arg0.getValue(Integer.class);
+		}
+		
+		else if (arg0.getName().equals("milestones")) {
 			for (DataSnapshot child : arg0.getChildren()) {
 				Milestone m = new Milestone(child.getRef().toString());
 				if (!this.milestones.contains(m)) {
@@ -204,6 +245,13 @@ public class Project implements Parcelable, ChildEventListener {
 		// TODO Auto-generated method stub.
 
 	}
+	 /**
+	  * Returns the name of the project
+	  * @return the name of the project
+	  */
+	public String getName() {
+		return this.name;
+	}
 
 	/**
 	 * Gets the description of the project
@@ -212,6 +260,38 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	public String getDescription() {
 		return this.description;
+	}
+
+	/**
+	 * Returns the due date of the project
+	 * @return the due date of the project
+	 */
+	public String getDueDate() {
+		return this.dueDate;
+	}
+
+	/**
+	 * Returns the percentage of hours complete for this project
+	 * @return the percentage of hours complete for this project
+	 */
+	public int getHoursPercent() {
+		return this.hoursPercent;
+	}
+
+	/**
+	 * Returns the percentage of tasks complete for this project
+	 * @return the percentage of tasks complete for this project
+	 */
+	public int getTasksPercent() {
+		return this.tasksPercent;
+	}
+
+	/**
+	 * Returns the percentage of milestones complete for this project
+	 * @return the percentage of milestones complete for this project
+	 */
+	public int getMilestonesPercent() {
+		return this.milestonesPercent;
 	}
 
 }

@@ -54,7 +54,7 @@ public class MilestoneDetailFragment extends Fragment {
 				.setText("Tasks Completed: " + this.milestoneItem.getTaskPercent() + "%");
 			ProgressBar taskCompleteBar = ((ProgressBar) rootView.findViewById(R.id.milestone_task_progress_bar));
 			taskCompleteBar.setMax(100);
-			taskCompleteBar.setProgress(50);
+			taskCompleteBar.setProgress(this.milestoneItem.getTaskPercent());
 		}
 
 		return rootView;

@@ -47,9 +47,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="311dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:minHeight="60dp"
-        android:maxHeight="100dp"/>
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/button1"
