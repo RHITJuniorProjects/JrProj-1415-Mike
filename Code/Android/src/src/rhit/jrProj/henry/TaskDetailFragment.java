@@ -3,9 +3,14 @@ package rhit.jrProj.henry;
 import rhit.jrProj.henry.firebase.Task;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 //import com.example.firebasetest.List.ListContent;
@@ -15,7 +20,7 @@ import android.widget.TextView;
  * contained in a {@link ItemListActivity} in two-pane mode (on tablets) or a
  * {@link ItemDetailActivity} on handsets.
  */
-public class TaskDetailFragment extends Fragment {
+public class TaskDetailFragment extends Fragment implements OnItemSelectedListener {
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
@@ -26,6 +31,8 @@ public class TaskDetailFragment extends Fragment {
 	 * The List content this fragment is presenting.
 	 */
 	private Task taskItem;
+	
+	private Context context;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -41,6 +48,10 @@ public class TaskDetailFragment extends Fragment {
 		if (getArguments().containsKey("Task")) {
 			taskItem = this.getArguments().getParcelable("Task");
 		}
+	}
+	
+	public void setContext(Context context) {
+		this.context = context;
 	}
 
 	@Override
@@ -58,6 +69,15 @@ public class TaskDetailFragment extends Fragment {
 				.setText("" + taskItem.getHoursSpent() + " / " + taskItem.getCurrentHoursEstimate() + " hours");
 			((TextView) rootView.findViewById(R.id.task_description))
 				.setText(this.taskItem.getDescription());
+		
+			Spinner spinner = (Spinner) rootView.findViewById(R.id.task_status_spinner);
+			// Create an ArrayAdapter using the string array and a default spinner layout
+			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
+			        R.array.task_statuses, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			// Apply the adapter to the spinner
+			spinner.setAdapter(adapter);
 			
 			((TextView) rootView.findViewById(R.id.task_hours_original_estimate))
 				.setText("Original Estimate: " + this.taskItem.getOriginalHoursEstimate() + " hours");
@@ -67,5 +87,17 @@ public class TaskDetailFragment extends Fragment {
 		}
 
 		return rootView;
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		String taskStatus = (String)parent.getItemAtPosition(position);
+		taskItem.updateStatus(taskStatus);
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		//do nothing
 	}
 }

@@ -4,6 +4,7 @@ import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -29,6 +30,7 @@ public class TaskDetailActivity extends Activity {
 			this.taskItem = getIntent().getParcelableExtra("Task");
 			arguments.putParcelable("Task", this.taskItem);
 			TaskDetailFragment fragment = new TaskDetailFragment();
+			fragment.setContext(this);
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
 				.add(R.id.task_detail_container, fragment).commit();

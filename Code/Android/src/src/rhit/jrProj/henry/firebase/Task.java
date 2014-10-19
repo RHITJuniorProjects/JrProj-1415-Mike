@@ -32,6 +32,11 @@ public class Task implements Parcelable, ChildEventListener {
 	private String assignedUserId;
 	
 	/**
+	 * The status of the task.
+	 */
+	private String status;
+	
+	/**
 	 * The number of hours logged for this task
 	 */
 	private double hoursComplete;
@@ -87,6 +92,7 @@ public class Task implements Parcelable, ChildEventListener {
 		this.name = pc.readString();
 		this.description = pc.readString();
 		this.assignedUserId = pc.readString();
+		this.status = pc.readString();
 	}
 
 	public Task(String firebaseURL) {
@@ -117,6 +123,7 @@ public class Task implements Parcelable, ChildEventListener {
 		dest.writeString(this.name);
 		dest.writeString(this.description);
 		dest.writeString(this.assignedUserId);
+		dest.writeString(this.status);
 	}
 
 	@Override
@@ -148,6 +155,8 @@ public class Task implements Parcelable, ChildEventListener {
 			this.description = arg0.getValue().toString();
 		} else if (arg0.getName().equals("assignedTo")) {
 			this.assignedUserId = arg0.getValue().toString();
+		} else if (arg0.getName().equals("status")) {
+			this.status = arg0.getValue().toString();
 		}
 	}
 
@@ -205,5 +214,10 @@ public class Task implements Parcelable, ChildEventListener {
 	 */
 	public double getOriginalHoursEstimate() {
 		return this.hoursEstimatedOriginal;
+	}
+
+	public void updateStatus(String taskStatus) {
+		this.status = taskStatus;
+		firebase.child("status").setValue(taskStatus);
 	}
 }
