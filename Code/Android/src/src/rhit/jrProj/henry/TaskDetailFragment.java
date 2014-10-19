@@ -2,7 +2,7 @@ package rhit.jrProj.henry;
 
 import rhit.jrProj.henry.firebase.Task;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,11 +50,20 @@ public class TaskDetailFragment extends Fragment {
 				container, false);
 		// Show the List content as text in a TextView.
 		if (taskItem != null) {
-			((TextView) rootView.findViewById(R.id.task_detail))
-					.setText(taskItem.toString());
-
+			((TextView) rootView.findViewById(R.id.task_name))
+					.setText(taskItem.getName());
+			((TextView) rootView.findViewById(R.id.task_assignee))
+				.setText(taskItem.getAssignedUserId());
+			((TextView) rootView.findViewById(R.id.task_hours_complete))
+				.setText("" + taskItem.getHoursSpent() + " / " + taskItem.getCurrentHoursEstimate() + " hours");
 			((TextView) rootView.findViewById(R.id.task_description))
-			.setText(this.taskItem.getDescription());
+				.setText(this.taskItem.getDescription());
+			
+			((TextView) rootView.findViewById(R.id.task_hours_original_estimate))
+				.setText("Original Estimate: " + this.taskItem.getOriginalHoursEstimate() + " hours");
+			((TextView) rootView.findViewById(R.id.task_hours_current_estimate))
+				.setText("Current Estimate: " + this.taskItem.getCurrentHoursEstimate() + " hours");
+		
 		}
 
 		return rootView;

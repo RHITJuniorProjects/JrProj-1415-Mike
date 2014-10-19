@@ -6,20 +6,56 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/task_detail"
-        style="?android:attr/textAppearanceLarge"
+        android:id="@+id/task_name"
+        style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16dp"
+        android:layout_height="wrap_content"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.TaskDetailFragment" />
 
+    <TextView
+        android:id="@+id/task_assignee"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.TaskDetailFragment" />
+    
+    <TextView
+        android:id="@+id/task_hours_complete"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.TaskDetailFragment" />
+    
     <TextView
         android:id="@+id/task_description"
         style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shadowColor="@color/text_shadow"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.TaskDetailFragment" />
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp" >
+    </FrameLayout>
+    
+    <TextView
+        android:id="@+id/task_hours_original_estimate"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.TaskDetailFragment" />
+    
+    <TextView
+        android:id="@+id/task_hours_current_estimate"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.TaskDetailFragment" />
+
 </LinearLayout>

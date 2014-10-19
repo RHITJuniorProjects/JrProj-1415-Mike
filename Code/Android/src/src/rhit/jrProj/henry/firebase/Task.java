@@ -1,7 +1,5 @@
 package rhit.jrProj.henry.firebase;
 
-import java.util.List;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -32,7 +30,22 @@ public class Task implements Parcelable, ChildEventListener {
 	 * A list of the user ids of the users assigned to the task
 	 */
 	private String assignedUserId;
+	
+	/**
+	 * The number of hours logged for this task
+	 */
+	private double hoursComplete;
+	
+	/**
+	 * The total number of hours currently estimated for this task 
+	 */
+	private double hoursEstimatedCurrent;
 
+	/**
+	 * The total number of hours originally estimated for this task
+	 */
+	private double hoursEstimatedOriginal;
+	
 	/**
 	 * This is the class that onChange is called from to when a field in
 	 * Firebase is updated. This then notifies the object that is displaying the
@@ -155,9 +168,8 @@ public class Task implements Parcelable, ChildEventListener {
 
 	/**
 	 * 
-	 * Gets the description of the task
-	 * 
-	 * @return
+	 * Returns the description of the task
+	 * @return the description of the task
 	 */
 	public String getDescription() {
 		return this.description;
@@ -169,5 +181,29 @@ public class Task implements Parcelable, ChildEventListener {
 	
 	public String getAssignedUserId() {
 		return this.assignedUserId;
+	}
+
+	/**
+	 * Returns the number of hours logged for this task
+	 * @return the number of hours logged for this task
+	 */
+	public double getHoursSpent() {
+		return this.hoursComplete;
+	}
+
+	/**
+	 * Returns the number of hours currently estimated for this task
+	 * @return the number of hours currently estimated for this task
+	 */
+	public double getCurrentHoursEstimate() {
+		return this.hoursEstimatedCurrent;
+	}
+
+	/**
+	 * Returns the number of hours originally estimated for this task
+	 * @return the number of hours originally estimated for this task
+	 */
+	public double getOriginalHoursEstimate() {
+		return this.hoursEstimatedOriginal;
 	}
 }

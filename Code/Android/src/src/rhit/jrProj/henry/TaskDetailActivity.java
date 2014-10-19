@@ -1,5 +1,6 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -13,6 +14,8 @@ import android.view.MenuItem;
  * a {@link ItemDetailFragment}.
  */
 public class TaskDetailActivity extends Activity {
+	
+	private Task taskItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +26,16 @@ public class TaskDetailActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		if (savedInstanceState == null) {
 			Bundle arguments = new Bundle();
-			arguments.putString(TaskDetailFragment.ARG_ITEM_ID, getIntent()
-					.getStringExtra(TaskDetailFragment.ARG_ITEM_ID));
+			this.taskItem = getIntent().getParcelableExtra("Task");
+			arguments.putParcelable("Task", this.taskItem);
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
+			getFragmentManager().beginTransaction()
+				.add(R.id.task_detail_container, fragment).commit();
+			/*arguments.putString(TaskDetailFragment.ARG_ITEM_ID, getIntent()
+					.getStringExtra(TaskDetailFragment.ARG_ITEM_ID));
+			TaskDetailFragment fragment = new TaskDetailFragment();
+			fragment.setArguments(arguments);*/
 		}
 	}
 
