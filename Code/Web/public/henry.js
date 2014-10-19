@@ -151,9 +151,7 @@ Project.prototype = {
 	getButtonHtml:function(callback){
 		callback('<div class="row">'+
 		'<div class="small-4 columns small-offset-1">'+
-		'<div class="button expand text-center">'+
-		'<a onclick="selectProject(\''+this.uid+'\')"><h3 id="project-name-'+this.uid+'"></h3></a>'+
-		'</div>'+
+		'<a class="button expand text-center" onclick="selectProject(\''+this.uid+'\')"><h3 id="project-name-'+this.uid+'"></h3></a>'+
 		'<div id="project-description-'+this.uid+'"></div>'+
 		'</div>'+
 		'</div>');
@@ -168,7 +166,6 @@ Project.prototype = {
 	},
 	getMilestones:function() {
 		return new Table(function(fb){ return new Milestone(fb);},this.__firebase.child('milestones'));
-	
 	}
 };
 
