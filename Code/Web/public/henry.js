@@ -116,11 +116,11 @@ User.prototype = {
 		});
 		*/
 	}
-	onSelect:function(callback){
+	/*onSelect:function(callback){
 	var projectID = '-JYcg488tAYS5rJJT4Kh';
 	
 	}
-	
+	*/
 	
 };
 
