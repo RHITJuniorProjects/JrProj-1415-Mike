@@ -42,10 +42,15 @@ public class MilestoneDetailFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_milestone_detail,
 				container, false);
 		if (this.milestoneItem != null) {
-			((TextView) rootView.findViewById(R.id.milestone_detail))
-					.setText(this.milestoneItem.toString());
+			((TextView) rootView.findViewById(R.id.milestone_name))
+				.setText(this.milestoneItem.getName());
+			((TextView) rootView.findViewById(R.id.milestone_due_date))
+				.setText(this.milestoneItem.getDueDate());
 			((TextView) rootView.findViewById(R.id.milestone_description))
-			.setText(this.milestoneItem.getDescription());
+				.setText(this.milestoneItem.getDescription());
+			
+			((TextView) rootView.findViewById(R.id.milestone_task_percent))
+				.setText("Tasks Completed: " + this.milestoneItem.getTaskPercent() + "%");
 		}
 
 		return rootView;

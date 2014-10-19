@@ -24,9 +24,20 @@ public class Milestone implements Parcelable, ChildEventListener {
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 
 	/**
-	 * The milestone name within the project
+	 * The name of the milestone
 	 */
 	private String name;
+	
+	/**
+	 * The due date of a milestone
+	 */
+	private String dueDate = "10/19/1996";
+	
+	/**
+	 * The percentage of tasks completed for this milestone
+	 */
+	private int taskPercent;
+	
 
 	/**
 	 * A description of the work that needs to happen in this milestone.
@@ -80,7 +91,9 @@ public class Milestone implements Parcelable, ChildEventListener {
 		this.firebase = new Firebase(in.readString());
 		this.firebase.addChildEventListener(this);
 		this.name = in.readString();
+		this.dueDate = in.readString();
 		this.description = in.readString();
+		this.taskPercent = in.readInt();
 		in.readTypedList(this.tasks, Task.CREATOR);
 	}
 
@@ -137,7 +150,9 @@ public class Milestone implements Parcelable, ChildEventListener {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.name);
+		dest.writeString(this.dueDate);
 		dest.writeString(this.description);
+		dest.writeInt(this.taskPercent);
 		dest.writeTypedList(this.tasks);
 	}
 
@@ -160,6 +175,10 @@ public class Milestone implements Parcelable, ChildEventListener {
 			}
 		} else if (arg0.getName().equals("description")) {
 			this.description = arg0.getValue(String.class);
+		} else if (arg0.getName().equals("dueDate")) { 
+			this.dueDate = arg0.getValue(String.class);
+		} else if (arg0.getName().equals("task_percent")) {
+			this.taskPercent = arg0.getValue(Integer.class);
 		} else if (arg0.getName().equals("tasks")) {
 			for (DataSnapshot child : arg0.getChildren()) {
 				Task t = new Task(child.getRef().toString());
@@ -192,6 +211,22 @@ public class Milestone implements Parcelable, ChildEventListener {
 		// TODO Auto-generated method stub.
 
 	}
+	
+	/**
+	 * Returns the name of the milestone
+	 * @return the name of the milestone
+	 */
+	public String getName() {
+		return this.name;
+	}
+	
+	/**
+	 * Returns the due date of the milestone
+	 * @return the due date of the milestone
+	 */
+	public String getDueDate() {
+		return this.dueDate;
+	}
 
 	/**
 	 * Gets the description of the milestone
@@ -199,5 +234,13 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 */
 	public String getDescription() {
 		return this.description;
+	}
+
+	/**
+	 * Gets the percentage of tasks completed in this milestone
+	 * @return the percentage of tasks completed in this milestone
+	 */
+	public int getTaskPercent() {
+		return this.taskPercent;
 	}
 }
