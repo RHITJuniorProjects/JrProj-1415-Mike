@@ -19,7 +19,14 @@
 						<div id="projects-panel" class="content active panel row">
 							<button data-reveal-id="myModal">Add Member</button>
 							<div id="myModal" class="reveal-modal" data-reveal>
-							 Users
+								 Users
+								 <select>
+									<option>mike</option>
+									<option>jordan</option>
+									<option>bulls</option>
+									<option>NBA</option>
+								</select>
+								<button>Select</button>
 							</div>
 						</div>
 					</dd>
@@ -29,17 +36,8 @@
 						<a href="#finished-projects-panel" class="text-center">
 							<h3>Closed</h3>
 						</a>
-						<div id="panel3" class="content active row panel">
-							<div class="small-4 columns small-offset-1">
-								<div class="text-center button expand">
-									<h3>Project 4</h3>
-								</div>
-							</div>
-							<div class="small-4 columns small-offset-2 left">
-								<div class="button expand text-center">
-									<h3>Project 5</h3>
-								</div>
-							</div>
+						<div id="finished-projects-panel" class="content active row panel">
+							<!-- pojects added by projects.js -->
 						</div>
 					</dd>
 				</dl>

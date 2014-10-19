@@ -1,5 +1,5 @@
 
-<div id="milestone-page" hidden>
+<div id="milestones-page" hidden>
 	<div class="row text-center">
 		<h1 id="project-name"></h1>
 	</div>

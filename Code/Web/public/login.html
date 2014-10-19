@@ -29,10 +29,12 @@
 	<section class="top-bar-section">
 		<ul class="left">
 			<li><a href="projects">Projects</a></li>
-			<li><a href="login">Login</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
+			<li><a id="currentUser"></a></li>
+			<li id="logoutButton"><a href="javascript:logout()">Logout</a></li>
+			<li id="loginButton"><a href="login">Login</a></li>
 			<li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">
@@ -47,10 +49,11 @@
 	</section>
 </nav>
 		<div>
-			<h2>Henry: Login with Your Account</h2>
+			<h1>Henry: Login with Your Account</h1>
 			Username: <input type="text" id="user">
 			Password: <input type="password" id="pass">
 			<input type="submit" value="Submit" onclick="getLoginData()">
+			<span style="color:red" id="loginerror" hidden>Incorrect Username or Password</span>
 		</div>
 	</body>
 </html>

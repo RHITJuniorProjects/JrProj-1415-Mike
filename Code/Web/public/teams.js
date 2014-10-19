@@ -17,14 +17,18 @@ function selectProject(projectID){
 			panel.append(html);
 		});
 	});
+
+
 }
+
+
     
 function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();
     taskPage.show();
     currentMilestone = milestone;
-}   
+}
     
 function allProjects(){
     milestonePage.hide();
@@ -55,3 +59,4 @@ $(function(){
     taskPage = $('#tasks-page');
 	allProjects();
 }); 
+

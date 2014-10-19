@@ -1,0 +1,12 @@
+This file outlines the tests that we will use to test our website.
+
+1) Testing Login
+Valid credentials:
+email:      		pass:
+test1@test.com		test1
+test2@test.com		test2
+
+Navigate to the login page, and the error message should not show up.
+Enter in incorrect crendentials, and press submit.
+The page should not load a new webpage, and it should show the user an error message saying that the credentials are incorrect.
+Next, enter in valid credentials, and press enter. The page should navigate to the projects page, populated by the projects of the current user.

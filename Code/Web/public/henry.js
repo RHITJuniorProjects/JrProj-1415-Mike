@@ -1,7 +1,7 @@
 
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
-
+var userData;
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
 function Table(factory,firebase){
@@ -231,8 +231,9 @@ Task.prototype = {
 };
 
 function getLoginData(){
-	var user = document.getElementById("user").value;
-	var pass = document.getElementById("pass").value;
+	var user = $("#user").val();
+	var pass = $("#pass").val();
+	document.getElementById("pass").value = "";
 	login(user, pass);
 }
 
@@ -242,32 +243,27 @@ function login(user, pass){
 		password: pass
 	}, function(error, authData) {
 		if (error === null) {
-			var d = new Date();
-			d.setTime(d.getTime() + (20*24*60*60*1000)); // the cookie expires in 20 days
-			document.cookie = "userData=" + authData + "; expires=" + d.toUTCString();
-			console.log("User " + user + " logged in successfully");
-			console.log(authData);
-			window.location.replace("projects")
+			userData = authData;
+			window.location.replace("projects");
 		} else {
 			logout();
 			console.log("Error authenticating user:", error);
-			window.location.replace("login")
+			$("#loginerror").show();
 		}
 	});
 };
 
 function register(){
-	var user = document.getElementById("user").value;
-	var pass = document.getElementById("pass").value;
+	var user = $("#user").val();
+	var pass = $("#pass").val();
 	firebase.createUser(
 		{
-			email: document.getElementById("user").value,
-			password: document.getElementById("pass").value
+			email: user,
+			password: pass
 		}, 
 		function(error) {
 			if (error === null) {
-				getLoginData();
-				console.log("User " + user + " created successfully");
+				login(user, pass);
 			} else {
 				console.log("Error creating user:" + user + ", " + error);
 			}
@@ -276,6 +272,34 @@ function register(){
 }
 
 function logout() {
-	document.cookie = "userData=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
+	firebase.unauth();
+	$("#currentUser").hide();
+	$("#logoutButton").hide();
+	$("#loginButton").show();
+	userData = null;
+	window.location.replace("/");
 };
+
+firebase.onAuth(
+	function(authData){
+		userData = authData;
+		$(document).ready(
+			function(){
+				if(userData == null){
+					$("#currentUser").hide();
+					$("#logoutButton").hide();
+					$("#loginButton").show();
+				} else {
+					document.getElementById("currentUser").innerHTML = "Currently logged in as " + userData.password.email;
+					firebase.child('users/'+userData.uid).child("email").set(userData.password.email);
+					$("#currentUser").show();
+					$("#logoutButton").show();
+					$("#loginButton").hide();
+				}
+			}
+		);
+	}
+);
+
+var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 
