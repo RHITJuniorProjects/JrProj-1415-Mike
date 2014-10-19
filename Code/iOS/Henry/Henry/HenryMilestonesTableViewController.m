@@ -8,6 +8,7 @@
 
 #import "HenryMilestonesTableViewController.h"
 #import "HenryTasksTableViewController.h"
+#import "HenryMilestoneDetailViewController.h"
 #import <Firebase/Firebase.h>
 
 @interface HenryMilestonesTableViewController ()
@@ -42,7 +43,7 @@
         [self.staticData addObject:@"Milestone P-2-2"];
     }
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-production.firebaseio.com/projects/"];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com/projects/"];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -61,7 +62,7 @@
 }
 
 -(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-production.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
@@ -155,18 +156,27 @@
 
 
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
-    HenryTasksTableViewController *vc = [segue destinationViewController];
-    vc.ProjectID = self.ProjectID;
-    vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
-    vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-    vc.userTasks = self.tasks;
+    if ([segue.identifier isEqualToString:@"MtoT"]) {
+        HenryTasksTableViewController *vc = [segue destinationViewController];
+        
+        vc.ProjectID = self.ProjectID;
+        vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
+        vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
+        vc.userTasks = self.tasks;
+    } else {
+        HenryMilestoneDetailViewController *vc = [segue destinationViewController];
+        vc.ProjectID = self.ProjectID;
+        vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
+        vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
+        vc.userTasks = self.tasks;
+    }
+
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     // Get the new view controller using [segue destinationViewController].
