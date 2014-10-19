@@ -10,17 +10,21 @@ function selectProject(projectID){
     milestonePage.show();
     projectPage.hide();
     taskPage.hide();
-	var milestones = projects.get(projectID).getMilestones();
+	var project = projects.get(projectID);
+	var milestones = project.getMilestones();
 	var panel = $('#milestones-panel');
+	var title = $('#project-name');
+	project.getName(function(name){
+		title.text(name);
+	});
+
 	milestones.onItemAdded(function(milestone){
 		milestone.getButtonHtml(function(html){
 			panel.append(html);
 		});
 	});
-
-
 }
-    
+
 function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();
@@ -48,8 +52,17 @@ function allProjects(){
     });
 }
 
-var currentProject = null;
-var currentTask = null;
+var newProject = {
+	name:'',
+	description:'',
+	members:[]
+}
+
+function createProject(){
+	var proj = Projects.add()
+	proj.setName(name);
+	proj.setDescription(desc);
+}
 
 $(function(){
     milestonePage = $('#milestones-page');

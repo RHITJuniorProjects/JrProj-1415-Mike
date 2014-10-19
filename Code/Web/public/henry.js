@@ -33,14 +33,60 @@ Table.prototype = {
 	onItemRemoved:function(callback){
 		if(!this.__onChildRemoved){
 			this.__onChildRemoved = [];
+			var table = this;
 			this.__firebase.on('child_removed',function(snap){
-				var val = this.__factory(snap.val());
-				this.__onChildRemoved.forEach(function(callback){
+				var val = table.__factory(snap.ref());
+				table.__onChildRemoved.forEach(function(callback){
 					callback(val);
 				});
 			});
 		}
 		this.__onChildRemoved.push(callback);
+	},
+	add:function(){
+		return this.__factory(this.__firebase.push());
+	}
+};
+
+function ReferenceTable(referencedTable,firebase){
+	this.__firebase = firebase;
+	this.__referencedTable = referencedTable;
+}
+
+ReferenceTable.prototype = {
+	get:function(uid){
+		return this.__referencedTable.get(uid);
+	},
+	onItemAdded:function(callback){
+		if(!this.__onChildAdded){
+			this.__onChildAdded = [];
+			var table = this;
+			this.__firebase.on('child_added',function(snap){
+				//console.log(snap.val());
+				var val = table.__referencedTable.get(snap.val());
+				table.__onChildAdded.forEach(function(callback){
+					callback(val);
+				});
+			});
+		}
+		this.__onChildAdded.push(callback);
+	},
+	onItemRemoved:function(callback){
+		if(!this.__onChildRemoved){
+			this.__onChildRemoved = [];
+			var table = this;
+			this.__firebase.on('child_removed',function(snap){
+				var val = table.__referencedTable.get(snap.val());
+				table.__onChildRemoved.forEach(function(callback){
+					callback(val);
+				});
+			});
+		}
+		this.__onChildRemoved.push(callback);
+	},
+	add:function(item){
+		var itemId = item.name();
+		this.__firebase.set(itemId,itemId);
 	}
 };
 
@@ -50,7 +96,7 @@ function User(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
-	this.__email = firebase.chile('email');
+	this.__email = firebase.child('email');
 }
 
 User.prototype = {
@@ -82,6 +128,12 @@ Project.prototype = {
 			callback(dat.val());
 		});
 	},
+	setName:function(name){
+		this.__name.set(name);
+	},
+	setDescription:function(desc){
+		this.__description.set(description);
+	},
 	getButtonHtml:function(callback){
 		callback('<div class="row">'+
 		'<div class="small-4 columns small-offset-1">'+
@@ -103,7 +155,8 @@ Project.prototype = {
 	getMilestones:function() {
 		return new Table(function(fb){ return new Milestone(fb);},this.__firebase.child('milestones'));
 	
-	}
+	},
+	getMembers
 };
 
 function Milestone(firebase){
