@@ -6,31 +6,39 @@
 	</head>
 	<body>
 		<?php require 'topbar.php';?>
-		<div id="projects-page">
-			<div class="row text-center">
-				<h1>My Teams</h1>
-			</div>
-			<div class="small-10 columns small-offset-1 ">
-				<dl class="row collapse accordion" data-accordion>
-					<dd class="accordion-navigation">
-						<a href="#projects-panel" class="text-center">
-							<h3>Production</h3>
-						</a>
-						<div id="projects-panel" class="content active panel row">
-							
-						</div>
-					</dd>
-				</dl>
-				<dl class="row collapse accordion" data-accordion>
-					<dd class="accordion-navigation">
-						<a href="#finished-projects-panel" class="text-center">
-							<h3>Closed</h3>
-						</a>
-						<div id="finished-projects-panel" class="content active row panel">
-							<!-- pojects added by projects.js -->
-						</div>
-					</dd>
-				</dl>
+		<div id="projects-page" class="row">
+			<!--<?php
+				$tabs = array("My Projects","My Tasks","My Statistics");
+				require 'tabbar.php';
+			?>-->
+			<div class="tabs-content small-10 columns">
+				<div class="content active" id="MyProjects">
+					<div class="row text-center">
+						<h1>My Teams</h1>
+					</div>
+					<div class="small-10 columns small-offset-1 ">
+						<dl class="row collapse accordion" data-accordion>
+							<dd class="accordion-navigation">
+								<a href="#projects-panel" class="text-center">
+									<h3>Production</h3>
+								</a>
+								<div id="projects-panel" class="content active panel row">
+									
+								</div>
+							</dd>
+						</dl>
+						<dl class="row collapse accordion" data-accordion>
+							<dd class="accordion-navigation">
+								<a href="#finished-projects-panel" class="text-center">
+									<h3>Closed</h3>
+								</a>
+								<div id="finished-projects-panel" class="content active row panel">
+									<!-- pojects added by projects.js -->
+								</div>
+							</dd>
+						</dl>
+					</div>
+				<div>
 			</div>
 		</div>
 		<?php require 'Milestones.php'?>
