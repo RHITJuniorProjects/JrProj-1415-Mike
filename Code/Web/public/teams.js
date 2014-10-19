@@ -22,7 +22,6 @@ function selectProject(projectID){
 }
 
 
-    
 function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();

@@ -1,4 +1,6 @@
 
+var users = new Table(function(fb){return new User(fb);},firebase.child('users'));
+
 $(function(){
 	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
 	var $panel = $('#panel2');
@@ -26,5 +28,29 @@ $(function(){
 	}
 });
 
+function getAllUsers(){
+	
+	users.onItemAdded(function (user) {
+	var $select = = $('#member-select');
+
+	user.getAllUsers(function(html){
+            $select.append(html);
+        });
+	
+	$title = $('#user-name' + user.uid);
+		user.getName(function(name){
+            $title.html(name);
+        });
+		
+		
+			
+	}
+
+};
+
+$(function(){
+
+	getAllUsers();
+});
 
 
