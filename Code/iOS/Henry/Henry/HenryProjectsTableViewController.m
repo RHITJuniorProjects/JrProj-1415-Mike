@@ -7,6 +7,7 @@
 //
 
 #import "HenryProjectsTableViewController.h"
+#import "HenryProjectDetailViewController.h"
 #import "HenryMilestonesTableViewController.h"
 #import <Firebase/Firebase.h>
 
@@ -15,7 +16,7 @@
 @property NSMutableArray *projectDescriptions;
 @property NSArray *projectIDs;
 @property Firebase *fbUsers;
-@property (strong, nonatomic) NSArray *tasks;
+@property (strong, nonatomic) NSMutableArray *tasks;
 @end
 
 @implementation HenryProjectsTableViewController
@@ -58,10 +59,17 @@
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     self.projectIDs = [json allKeys];
     
-    NSURL *jsonURL2 = [NSURL URLWithString:@"https://henry-test.firebaseio.com/users/simplelogin%3A12/tasks.json"];
+    NSURL *jsonURL2 = [NSURL URLWithString:@"https://henry-test.firebaseio.com/users/simplelogin%3A12/projects.json"];
     NSData *data3 = [NSData dataWithContentsOfURL:jsonURL2];
     NSDictionary *json2 = [NSJSONSerialization JSONObjectWithData:data3 options:0 error:&error];
-    self.tasks = [[NSArray alloc] initWithArray:[json2 allKeys]];
+    NSArray *projectIDs = [json2 allKeys];
+    self.tasks = [[NSMutableArray alloc] init];
+    for (NSString *pid in projectIDs) {
+        NSArray *milestones = [[[json2 objectForKey:pid] objectForKey:@"milestones"] allKeys];
+        for (NSString *milestone in milestones) {
+            [self.tasks addObjectsFromArray:[[[[[json2 objectForKey:pid] objectForKey:@"milestones"] objectForKey:milestone] objectForKey:@"tasks"] allKeys]];
+        }
+    }
     
     NSURL *projectsURL = [NSURL URLWithString:@"https://henry-test.firebaseio.com/projects.json"];
     NSData *data2 = [NSData dataWithContentsOfURL:projectsURL];
@@ -167,9 +175,15 @@
     // Pass the selected object to the new view controller.
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
-    HenryMilestonesTableViewController *vc = [segue destinationViewController];
-    vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
-    vc.tasks = self.tasks;
+    if ([segue.identifier isEqualToString:@"PtoM"]) {
+        HenryMilestonesTableViewController *vc = [segue destinationViewController];
+        vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
+        vc.tasks = self.tasks;
+    } else {
+        HenryProjectDetailViewController *vc = [segue destinationViewController];
+        vc.projectID = [self.projectIDs objectAtIndex:indexPath.row];
+        vc.tasks = self.tasks;
+    }
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }

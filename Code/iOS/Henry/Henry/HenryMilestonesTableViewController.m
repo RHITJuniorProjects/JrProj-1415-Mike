@@ -8,6 +8,7 @@
 
 #import "HenryMilestonesTableViewController.h"
 #import "HenryTasksTableViewController.h"
+#import "HenryMilestoneDetailViewController.h"
 #import <Firebase/Firebase.h>
 
 @interface HenryMilestonesTableViewController ()
@@ -155,18 +156,27 @@
 
 
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
-    HenryTasksTableViewController *vc = [segue destinationViewController];
-    vc.ProjectID = self.ProjectID;
-    vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
-    vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-    vc.userTasks = self.tasks;
+    if ([segue.identifier isEqualToString:@"MtoT"]) {
+        HenryTasksTableViewController *vc = [segue destinationViewController];
+        
+        vc.ProjectID = self.ProjectID;
+        vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
+        vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
+        vc.userTasks = self.tasks;
+    } else {
+        HenryMilestoneDetailViewController *vc = [segue destinationViewController];
+        vc.ProjectID = self.ProjectID;
+        vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
+        vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
+        vc.userTasks = self.tasks;
+    }
+
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     // Get the new view controller using [segue destinationViewController].

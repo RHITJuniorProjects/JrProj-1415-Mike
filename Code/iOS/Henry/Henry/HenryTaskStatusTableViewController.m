@@ -7,6 +7,7 @@
 //
 
 #import "HenryTaskStatusTableViewController.h"
+#import <Firebase/Firebase.h>
 
 @interface HenryTaskStatusTableViewController ()
 @property NSArray *cellTitles;
@@ -14,6 +15,7 @@
 @property int selectedIndex;
 @property BOOL firstTime;
 @property BOOL clearChecksOnSelection;
+@property Firebase *fb;
 @end
 
 @implementation HenryTaskStatusTableViewController
@@ -21,6 +23,9 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.detailView.statusButton.titleLabel.text = [self.cellTitles objectAtIndex:_selectedIndex];
+    UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
+    NSDictionary *newValue = @{@"status":selectedCell.textLabel.text};
+    [self.fb updateChildValues:newValue];
 }
 
 - (void)viewDidLoad {
@@ -37,6 +42,9 @@
     self.selectedIndex = initialIndex;
     self.firstTime = YES;
     self.clearChecksOnSelection = NO;
+    
+    NSLog([NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]);
+    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -86,6 +94,7 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndex = indexPath.row;
 }
+
 
 /*
 // Override to support conditional editing of the table view.

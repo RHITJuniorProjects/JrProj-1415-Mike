@@ -14,7 +14,10 @@
 		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
 		87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */; };
 		87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4619EEEF12009D3906 /* HenryRightViewController.m */; };
+		908A972E19F4602F0070CD82 /* HenryProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 908A972D19F4602F0070CD82 /* HenryProjectDetailViewController.m */; };
 		90B8EAA419EEE4BF00DA57A8 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90B8EAA319EEE4BF00DA57A8 /* Firebase.framework */; };
+		90BB7ED719F447F10017AA5D /* HenryMilestoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90BB7ED619F447F10017AA5D /* HenryMilestoneDetailViewController.m */; };
+		90BB7ED919F448700017AA5D /* iPhoneStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90BB7ED819F448700017AA5D /* iPhoneStoryboard.storyboard */; };
 		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
 		93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
@@ -27,7 +30,6 @@
 		93447F5419C91C5600C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
 		93447F5C19C91C5600C2FC38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93447F5A19C91C5600C2FC38 /* InfoPlist.strings */; };
 		93447F5E19C91C5600C2FC38 /* HenryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F5D19C91C5600C2FC38 /* HenryTests.m */; };
-		93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */; };
 		93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */; };
 		93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */; };
 		93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */; };
@@ -62,7 +64,12 @@
 		87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeftTableViewController.m; sourceTree = "<group>"; };
 		87E54D4519EEEF12009D3906 /* HenryRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRightViewController.h; sourceTree = "<group>"; };
 		87E54D4619EEEF12009D3906 /* HenryRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRightViewController.m; sourceTree = "<group>"; };
+		908A972C19F4602F0070CD82 /* HenryProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectDetailViewController.h; sourceTree = "<group>"; };
+		908A972D19F4602F0070CD82 /* HenryProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectDetailViewController.m; sourceTree = "<group>"; };
 		90B8EAA319EEE4BF00DA57A8 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
+		90BB7ED519F447F10017AA5D /* HenryMilestoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMilestoneDetailViewController.h; sourceTree = "<group>"; };
+		90BB7ED619F447F10017AA5D /* HenryMilestoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestoneDetailViewController.m; sourceTree = "<group>"; };
+		90BB7ED819F448700017AA5D /* iPhoneStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhoneStoryboard.storyboard; sourceTree = "<group>"; };
 		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -79,7 +86,6 @@
 		93447F5919C91C5600C2FC38 /* HenryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HenryTests-Info.plist"; sourceTree = "<group>"; };
 		93447F5B19C91C5600C2FC38 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93447F5D19C91C5600C2FC38 /* HenryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HenryTests.m; sourceTree = "<group>"; };
-		93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhoneStoryboard.storyboard; sourceTree = "<group>"; };
 		93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectsTableViewController.h; sourceTree = "<group>"; };
 		93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectsTableViewController.m; sourceTree = "<group>"; };
 		93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMilestonesTableViewController.h; sourceTree = "<group>"; };
@@ -123,6 +129,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		908A972F19F460450070CD82 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
+				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
+				908A972C19F4602F0070CD82 /* HenryProjectDetailViewController.h */,
+				908A972D19F4602F0070CD82 /* HenryProjectDetailViewController.m */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		908A973019F460600070CD82 /* Milestones */ = {
+			isa = PBXGroup;
+			children = (
+				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
+				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
+				90BB7ED519F447F10017AA5D /* HenryMilestoneDetailViewController.h */,
+				90BB7ED619F447F10017AA5D /* HenryMilestoneDetailViewController.m */,
+			);
+			name = Milestones;
+			sourceTree = "<group>";
+		};
+		908A973119F460710070CD82 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */,
+				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
+				849C8DFB19F1BC28006B3194 /* HenryTaskDetailViewController.h */,
+				849C8DFC19F1BC28006B3194 /* HenryTaskDetailViewController.m */,
+				849C8DFE19F1F8B9006B3194 /* HenryTaskStatusTableViewController.h */,
+				849C8DFF19F1F8B9006B3194 /* HenryTaskStatusTableViewController.m */,
+			);
+			name = Tasks;
+			sourceTree = "<group>";
+		};
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
@@ -162,30 +203,23 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				908A973119F460710070CD82 /* Tasks */,
+				908A973019F460600070CD82 /* Milestones */,
+				908A972F19F460450070CD82 /* Projects */,
 				849C8E0419F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
 				849C8E0519F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
 				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
+				90BB7ED819F448700017AA5D /* iPhoneStoryboard.storyboard */,
 				93447F3F19C91C5500C2FC38 /* Supporting Files */,
-				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
-				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
 				849C8E0119F2C65F006B3194 /* TPKeyboardAvoidingScrollView.h */,
 				849C8E0219F2C65F006B3194 /* TPKeyboardAvoidingScrollView.m */,
-				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
-				93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */,
-				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
-				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
-				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
 				87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */,
 				87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */,
 				87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */,
 				87E54D4519EEEF12009D3906 /* HenryRightViewController.h */,
 				87E54D4619EEEF12009D3906 /* HenryRightViewController.m */,
-				849C8DFB19F1BC28006B3194 /* HenryTaskDetailViewController.h */,
-				849C8DFC19F1BC28006B3194 /* HenryTaskDetailViewController.m */,
-				849C8DFE19F1F8B9006B3194 /* HenryTaskStatusTableViewController.h */,
-				849C8DFF19F1F8B9006B3194 /* HenryTaskStatusTableViewController.m */,
 			);
 			path = Henry;
 			sourceTree = "<group>";
@@ -297,7 +331,7 @@
 			files = (
 				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
 				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
-				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
+				90BB7ED919F448700017AA5D /* iPhoneStoryboard.storyboard in Resources */,
 				87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,10 +358,12 @@
 				87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */,
 				849C8E0619F2C6BA006B3194 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
+				90BB7ED719F447F10017AA5D /* HenryMilestoneDetailViewController.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				849C8DFD19F1BC28006B3194 /* HenryTaskDetailViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
 				87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */,
+				908A972E19F4602F0070CD82 /* HenryProjectDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

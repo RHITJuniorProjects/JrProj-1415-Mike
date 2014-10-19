@@ -10,6 +10,9 @@
 #import "HenryTaskDetailViewController.h"
 
 @interface HenryTaskStatusTableViewController : UITableViewController
+@property NSString *projectID;
+@property NSString *milestoneID;
+@property NSString *taskID;
 @property NSString *initialSelection;
 @property HenryTaskDetailViewController *detailView;
 @end

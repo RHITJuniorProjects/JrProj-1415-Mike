@@ -46,7 +46,11 @@
         NSLog(@"%@", error.description);
     }];
     
-    self.title = self.milestoneName;
+    if ([self.milestoneName isKindOfClass:[UILabel class]]) {
+        self.title = @"error";
+    } else {
+        self.title = self.milestoneName;
+    }
 }
 
 -(void)updateTable {
