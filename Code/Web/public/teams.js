@@ -48,6 +48,61 @@ function allProjects(){
     });
 }
 
+function getAllUsers(){
+	
+	users.onItemAdded(function (user) {
+		var $select = $('#member-select');
+
+		user.popSelect(function(html){
+            $select.append(html);
+        });
+		var name = $('#username-' + user.uid);
+		
+		user.getName(function(nameStr){
+			name.html(nameStr);
+		});
+		
+	
+		$title = $('#username-' + user.uid);
+		user.getName(function(name){
+            $title.html(name);
+        });
+	
+	});
+
+}
+
+$(function(){
+	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
+	var $panel = $('#panel1');
+	for(var i = 0; i < 1; i++){
+		//var $tString = '#project-name' + i;
+		//var $dString = '#project-description' + i;
+		
+		$title = $('#milestone-name' + i);
+		//console.log($title);
+		$description = $('#milestone-description' + i);
+		//var projectId = $.cookie('project');
+		var projectId = projectIDs[i];
+		var project = projects.get(projectId);
+		
+		var milestoneTable = project.getMilestones();
+		
+		var milestone = milestoneTable.get('-JYc_9ZGEPFM8cjChyKl');
+		milestone.getButtonHtml(function(html){
+			$panel.append(html);
+
+		});
+		milestone.getName(function(name){
+			$title.html(name);
+		});
+		milestone.getDescription(function(description){
+			$description.html(description);
+		});
+	}
+});
+
+
 var currentProject = null;
 var currentTask = null;
 
@@ -56,5 +111,5 @@ $(function(){
     projectPage = $('#projects-page');
     taskPage = $('#tasks-page');
 	allProjects();
-}); 
-
+	getAllUsers();
+});

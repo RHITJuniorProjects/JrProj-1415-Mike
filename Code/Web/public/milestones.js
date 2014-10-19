@@ -28,29 +28,6 @@ $(function(){
 	}
 });
 
-function getAllUsers(){
-	
-	users.onItemAdded(function (user) {
-	var $select = = $('#member-select');
 
-	user.getAllUsers(function(html){
-            $select.append(html);
-        });
-	
-	$title = $('#user-name' + user.uid);
-		user.getName(function(name){
-            $title.html(name);
-        });
-		
-		
-			
-	}
-
-};
-
-$(function(){
-
-	getAllUsers();
-});
 
 

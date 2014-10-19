@@ -50,26 +50,23 @@ function User(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
 	this.__name = firebase.child('firstName');
-	this.__email = firebase.chile('email');
+	this.__email = firebase.child('email');
 }
 
 User.prototype = {
 	getName:function(callback){
-		this.__name
+		this.__name.on('value',function(dat){
+			callback(dat.val());
+		});
 	},
 	popSelect:function(callback){
-		callback('<button data-reveal-id="myModal">Add Member</button>'+
-				'<div id="myModal" class="reveal-modal" data-reveal>'+
-					'Users'+
-					'<select id="member-select">'+
-						
-					'</select>'+
-					'<button>Select</button>'+
-				'</div>');
-		var name = $('#user-name-'+this.uid);
+		callback('<option id="username-' + this.uid + '"></option>');
+		/*var name = $('#username-' + this.uid);
+		
 		this.getName(function(nameStr){
 			name.html(nameStr);
 		});
+		*/
 	}
 	
 	
