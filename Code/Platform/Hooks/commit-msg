@@ -7,9 +7,9 @@ from firebase import firebase
 
 
 ##
-#   These fields are populated by the installer
+#   These fields are populated by the initializer
 ##
-projectID = ''
+projectID = '-JYcg488tAYS5rJJT4Kh'
 githubID = 'aj-michael'
 
 prodUrl = 'https://henry-production.firebaseio.com'
@@ -58,23 +58,62 @@ def getEmail():
     return pipe.communicate()[0].strip()
     
 
-def getUID(gituser,ref):
+def getUserID(gituser,ref):
     users = ref.get('/users',None)
     filteredusers = {u:users[u] for u in users if 'github' in users[u]}
     try:
-        uid = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
+        userID = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
     except:
         raise Exception('HENRY: Invalid username, commit failed')
-    return uid
+    return userID
 
 
 def getTime():
-    return time.time()*1000
+    return int(time.time()*1000)
+
+def getMilestoneID(projectID,milestone):
+    pass
+
+
+def getTaskID(projectID,milestone,task):
+    pass
 
 
 def writeCommit(ref,msg,project,uid,hours,milestone,task,status,loc,ts):
     path = '/commits'
-    ref.post(path,{'hours':hours,'user':uid,'lines_of_code':loc,'message':msg,'timestamp':ts})
+    try:
+        result = ref.post(path,{'hours':hours,'user':uid,'lines_of_code':loc,'message':msg,'timestamp':ts})
+    except:
+        raise Exception('Connection to Firebase commits table denied')
+    return result.values()[0]
+
+
+def addCommitToUser(ref,uid,commitid):
+    path = '/users/' + uid + '/commits'
+    try:
+        ref.patch(path,{commitid:commitid})
+    except:
+        raise Exception('Connection to Firebase users table denied')
+
+
+def addCommitToProject(ref,projectid,commitid):
+    path = '/projects/'+projectid+'/commits'
+    try:
+        ref.patch(path,{commitid:commitid})
+    except:
+        raise Exception('Connection to Firebase projects table denied')
+    
+def promptAsNecessary(hours,milestone,task,status):
+    sys.stdin = open('/dev/tty')
+    if hours == None:
+        hours = raw_input('Hours: ')
+    if milestone == None:
+        milestone = raw_input('Milestone: ')
+    if task == None:
+        task = raw_input('Task: ')
+    if status == None:
+        status = raw_input('Status: ')
+    return hours,milestone,task,status
 
 
 if __name__ == '__main__':
@@ -82,11 +121,17 @@ if __name__ == '__main__':
     ref = firebase.FirebaseApplication(testUrl, None)
 
     email = getEmail()
-    uid = getUID(githubID,ref)
+    userID = getUserID(githubID,ref)
     msg = readCommit(sys.argv[1])
     [hours,milestone,task,status],loc = parse(msg),getLoC()
     ts = getTime()
+    hours,milestone,task,status = promptAsNecessary(hours,milestone,task,status)
 
-    writeCommit(ref,msg,None,uid,hours,milestone,task,status,loc,ts)
+    taskID = getTaskID(projectID,milestone,task)
+
+    commitID = writeCommit(ref,msg,None,userID,int(hours),milestone,task,status,loc,ts)
+
+    addCommitToProject(ref,projectID,commitID)
+    addCommitToUser(ref,userID,commitID)
     
-    #raise Exception('Reached end, prevents commit from executing')
+    raise Exception('Reached end, prevents commit from executing')
