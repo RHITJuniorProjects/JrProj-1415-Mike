@@ -2,6 +2,30 @@
 	height:1.8rem;
 }
 
+.wide {
+	width:100% !important;
+	min-width:100% !important;
+	max-width:100% !important;
+}
+
+
+.tabbar {
+	position:fixed;
+	z-index:1;
+	height:1000000px;
+	background-color:#EFEFEF;
+	padding-top:5rem;
+	padding-left:0 !important;
+	padding-right:0 !important;
+	overflow: hidden;
+}
+
+.tabbar * {
+	width:100% !important;
+	max-width:100% !important;
+	min-width:100% !important;
+}
+
 ul {
 	list-style-type: none;
 }
