@@ -169,8 +169,7 @@ Project.prototype = {
 	getMilestones:function() {
 		return new Table(function(fb){ return new Milestone(fb);},this.__firebase.child('milestones'));
 	
-	},
-	getMembers
+	}
 };
 
 function Milestone(firebase){
