@@ -106,20 +106,16 @@ User.prototype = {
 		this.__name.on('value',function(dat){
 			callback(dat.val());
 		});
-	},
-	popSelect:function(callback){
-		callback('<option id="username-' + this.uid + '"></option>');
-		/*var name = $('#username-' + this.uid);
-		
-		this.getName(function(nameStr){
-			name.html(nameStr);
-		});
-		*/
-	},
-	onSelect:function(callback){
-		var projectID = '-JYcg488tAYS5rJJT4Kh';
 	}
 };
+
+function addNewMember(){
+	var projectID = '-JYcg488tAYS5rJJT4Kh';
+	var selected = $("#member-select").val();
+	var id = $("#member-select").children(":selected").attr("id");
+	firebase.child('projects/'+projectID).child("members").set(id.substring(9));
+	console.log(id);
+}
 
 function Project(firebase){
 	this.__firebase = firebase;
