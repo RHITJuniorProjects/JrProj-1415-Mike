@@ -1,20 +1,24 @@
 $(function () {
-    $('#container').highcharts({
+    $('#projContainer1').highcharts({
         chart: {
+			events: {
+                click: function (event) {
+                //    this.chart.
+                }
+            },
+			
             type: 'column',
             margin: 75,
             options3d: {
-                enabled: true,
+                enabled: false,
                 alpha: 10,
                 beta: 25,
                 depth: 70
             }
         },
         title: {
-            text: '3D chart with null values'
-        },
-        subtitle: {
-            text: 'Notice the difference between a 0 value and a null point'
+            text: 'Project completeness based on hours',
+			style: { "color": "#333333", "fontSize": "30px" },
         },
         plotOptions: {
             column: {
@@ -22,16 +26,153 @@ $(function () {
             }
         },
         xAxis: {
-            categories: Highcharts.getOptions().lang.shortMonths
+            categories: ["Project 1", "Project 2", "Project 3"]
         },
         yAxis: {
-            opposite: true
+            opposite: false,
+			tickInterval: 20,
+			max: 100,
+            title: {
+                text: 'Percent Complete'
+            }
         },
         series: [{
-            name: 'Projects',
-            data: [2, 3, null, 4, 0, 5, 1, 4, 6, 3]
+            name: 'Percent Complete',
+			data:[{
+					y:50,
+					ownURL:'http://www.google.com'
+				},{
+					y:33,
+					ownURL:'http://www.espn.com'
+				},{
+					y:0,
+					ownURL:'http://www.weater.com'
+				}]
         }],
-		colors: ['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce', 
-   '#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']
+		colors: ['#ff69b4', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
+				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
+    });
+});
+
+$(function () {
+    $('#projContainer2').highcharts({
+        chart: {
+            type: 'column',
+            margin: 75,
+            options3d: {
+                enabled: false,
+                alpha: 10,
+                beta: 25,
+                depth: 70
+            }
+        },
+        title: {
+            text: 'Project completeness based on milestones',
+			style: { "color": "#333333", "fontSize": "30px" },
+        },
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+        xAxis: {
+            categories: ["Project 1", "Project 2", "Project 3"]
+        },
+        yAxis: {
+            opposite: false,
+			tickInterval: 20,
+			max: 100,
+            title: {
+                text: 'Percent Complete'
+            }
+        },
+        series: [{
+            name: 'Percent Complete',
+            data: [60, 25, 0]
+        }],
+		colors: ['#ff69b4', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
+				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
+    });
+});
+
+$(function () {
+    $('#mileContainer').highcharts({
+        chart: {
+            type: 'column',
+            margin: 75,
+            options3d: {
+                enabled: false,
+                alpha: 10,
+                beta: 25,
+                depth: 70
+            }
+        },
+        title: {
+            text: 'Progess of Milestones',
+			style: { "color": "#333333", "fontSize": "30px" },
+        },
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+        xAxis: {
+            categories: ["Milestone 1", "Milestone 2", "Milestone 3", "Milestone 4"]
+        },
+        yAxis: {
+            opposite: false,
+			tickInterval: 20,
+			max: 100,
+            title: {
+                text: 'Percent Complete'
+            }
+        },
+        series: [{
+            name: 'Percent Complete',
+            data: [100, 95, 50, 10]
+        }],
+		colors: ['#ff69b4', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
+				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
+    });
+});
+
+$(function () {
+    $('#container3').highcharts({
+        chart: {
+            type: 'column',
+            margin: 75,
+            options3d: {
+                enabled: false,
+                alpha: 10,
+                beta: 25,
+                depth: 70
+            }
+        },
+        title: {
+            text: 'Progress of Tasks',
+			style: { "color": "#333333", "fontSize": "30px" },
+        },
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+        xAxis: {
+            categories: ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
+        },
+        yAxis: {
+            opposite: false,
+			tickInterval: 20,
+			max: 100,
+            title: {
+                text: 'Percent Complete'
+            }
+        },
+        series: [{
+            name: 'Percent Complete',
+            data: [100, 100, 0, 91, 50]
+        }],
+		colors: ['#ff69b4', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
+				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
     });
 });
