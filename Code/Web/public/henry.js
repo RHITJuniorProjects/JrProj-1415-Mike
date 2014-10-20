@@ -104,6 +104,15 @@ function addNewMember(){
 	//}
 	//console.log(id);
 }
+function makeProgressBar(divClass,percentRef){
+	var progress = $('<div class="progress '+divClass+'">');
+	var span = $('<span class="meter">');
+	progress.append(span);
+	percentRef.on('value',function(snap){
+		span.width(String(snap.val())+"%");
+	});
+	return progress;
+}
 
 function Project(firebase){
 	this.__firebase = firebase;
@@ -112,6 +121,9 @@ function Project(firebase){
 	this.__description = firebase.child('description');
 	this.__milestones = firebase.child('milestones');
 	this.__members = firebase.child('members');
+	this.__taskPercent = firebase.child('task_percent');
+	this.__milestonePercent = firebase.child('milestone_percent');
+	this.__hoursPercent = firebase.child('hours_percent');
 };
 
 
@@ -132,21 +144,36 @@ Project.prototype = {
 	setDescription:function(desc){
 		this.__description.set(description);
 	},
-	getButtonHtml:function(callback){
-		callback('<div class="row">'+
-		'<div class="small-4 columns small-offset-1">'+
-		'<a class="button expand text-center" onclick="selectProject(\''+this.uid+'\')"><h3 id="project-name-'+this.uid+'"></h3></a>'+
-		'<div id="project-description-'+this.uid+'"></div>'+
-		'</div>'+
-		'</div>');
-		var name = $('#project-name-'+this.uid);
+	getButtonDiv:function(callback){
+		var project = $('<div class="row">'),
+			leftColumn = $('<div class="small-4 columns small-offset-1">'),
+			rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
+			button = $('<div class="button expand text-center">'),
+			a = $('<a>'),
+			nameH3 = $('<h3>'),
+			descDiv = $('<div>');
+
+		a.append(nameH3);
+		button.append(a);
+		leftColumn.append(button,descDiv);
+		rightColumn.append(
+			this.getMilestoneProgressBar(),
+			this.getTaskProgressBar(),
+			this.getHoursProgressBar()
+		);
+		project.append(leftColumn,rightColumn);
+		var p = this;
+		a.click(function(){
+			selectProject(p);
+		});
 		this.getName(function(nameStr){
-			name.html(nameStr);
+			nameH3.text(nameStr);
 		});
-		var description = $('#project-description-'+this.uid);
+
 		this.getDescription(function(descriptionStr){
-			description.html(descriptionStr);
+			descDiv.html(descriptionStr);
 		});
+		return project;
 	},
 	getMilestones:function() {
 		return new Table(function(fb){ return new Milestone(fb);},this.__firebase.child('milestones'));
@@ -160,6 +187,15 @@ Project.prototype = {
 			option.text(name);
 		});
 		return option;
+	},
+	getTaskProgressBar:function(){
+		return makeProgressBar('small-12',this.__taskPercent);
+	},
+	getHoursProgressBar:function(){
+		return makeProgressBar('small-12',this.__hoursPercent);
+	},
+	getMilestoneProgressBar:function(){
+		return makeProgressBar('small-12',this.__milestonePercent);
 	}
 };
 
@@ -168,7 +204,11 @@ function Milestone(firebase){
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
-	this.__task = firebase.child('tasks');
+	this.__tasks = firebase.child('tasks');
+	this.__members = firebase.child('members');
+	this.__hoursPercent = firebase.child('hours_percent');
+	this.__taskPercent = firebase.child('task_percent');
+	this.__milestonePercent = firebase.child('milestone_percent');
 };
 
 
@@ -183,27 +223,44 @@ Milestone.prototype = {
 			callback(dat.val());
 		});
 	},
-	getButtonHtml:function(callback){
-		callback('<div class="row">'+
-		'<div class="small-4 columns small-offset-1">'+
-		'<div class="button expand text-center">'+
-		'<a onclick="selectMilestone(\''+this.uid+'\')"><h3 id="milestone-name-'+this.uid+'"></h3></a>'+
-		'</div>'+
-		'<div id="milestone-description-'+this.uid+'"></div>'+
-		'</div>'+
-		'</div>');
-		var name = $('#milestone-name-'+this.uid);
+	getButtonDiv:function(){
+		var milestone = $('<div class="row">'),
+			leftColumn = $('<div class="small-4 columns small-offset-1">'),
+			rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
+			button = $('<div class="button expand text-center">'),
+			a = $('<a>'),
+			nameH3 = $('<h3>'),
+			descDiv = $('<div>');
+
+		a.append(nameH3);
+		button.append(a);
+		leftColumn.append(button,descDiv);
+		rightColumn.append(this.getTaskProgressBar(),this.getHoursProgressBar());
+		milestone.append(leftColumn,rightColumn);
+		var m = this;
+		a.click(function(){
+			selectMilestone(m);
+		});
 		this.getName(function(nameStr){
-			name.html(nameStr);
+			nameH3.text(nameStr);
 		});
-		var description = $('#milestone-description-'+this.uid);
+
 		this.getDescription(function(descriptionStr){
-			description.html(descriptionStr);
+			descDiv.html(descriptionStr);
 		});
+		return milestone;
 	}, 
 	getTasks:function() {
-		return new Table(function(fb){ return new Task(fb);},this.__firebase.child('tasks'));
-	
+		return new Table(function(fb){ return new Task(fb);},this.__tasks);
+	},
+	getMembers:function(){
+		return new ReferenceTable(users,this.__members);
+	},
+	getTaskProgressBar:function(){
+		return makeProgressBar('small-12',this.__taskPercent);
+	},
+	getHoursProgressBar:function(){
+		return makeProgressBar('small-12',this.__hoursPercent);
 	}
 };
 

@@ -4,25 +4,23 @@ var taskPage;
 var selectedProject;
 var selectedMilestone;
 
-function selectProject(projectID){
+function selectProject(project){
     milestonePage.show();
     projectPage.hide();
     taskPage.hide();
-	selectedProject = projects.get(projectID);
+	selectedProject = project;
 	var milestones = selectedProject.getMilestones();
 	var $panel = $('#milestones-panel');
 	milestones.onItemAdded(function(milestone){
-		milestone.getButtonHtml(function(html){
-			$panel.append(html);
-		});
+		$panel.append(milestone.getButtonDiv());
 	});
 }
 
-function selectMilestone(milestoneId){
+function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();
     taskPage.show();
-    currentMilestone = selectedProject.getMilestones().get(milestoneId);
+    currentMilestone = milestone;
 	var tasks = currentMilestone.getTasks();
 	var $panel = $('#tasks-table');
 	tasks.onItemAdded(function(task){
@@ -38,15 +36,7 @@ function allProjects(){
     projects.onItemAdded(function(project) {
         $title = $('#project-name' + project.uid);
         $description = $('#project-description' + project.uid);
-        project.getButtonHtml(function(html){
-            $panel.append(html);
-        });
-        project.getName(function(name){
-            $title.html(name);
-        });
-        project.getDescription(function(description){
-            $description.html(description);
-        });
+        $panel.append(project.getButtonDiv())
     });
 }
 
