@@ -80,7 +80,6 @@ public class ProjectListFragment extends ListFragment {
 		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
-		Log.i("NUMBER OF PROJECTS IN THE FRAGMENT:", new Integer(this.projects.size()).toString());
 		setListAdapter(arrayAdapter);
 		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
 				arrayAdapter);
@@ -94,8 +93,6 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
-		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState
@@ -106,21 +103,16 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-
-		// Activities containing this fragment must implement its callbacks.
 		if (!(activity instanceof Callbacks)) {
 			throw new IllegalStateException(
 					"Activity must implement fragment's callbacks.");
 		}
-
 		this.mCallbacks = (Callbacks) activity;
 	}
 
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
-		// Reset the active callbacks interface to the dummy implementation.
 		this.mCallbacks = sDummyCallbacks;
 	}
 
@@ -128,9 +120,6 @@ public class ProjectListFragment extends ListFragment {
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
 		super.onListItemClick(listView, view, position, id);
-
-		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected.
 		this.mCallbacks.onItemSelected(this.projects.get(position));
 	}
 
@@ -148,8 +137,6 @@ public class ProjectListFragment extends ListFragment {
 	 * given the 'activated' state when touched.
 	 */
 	public void setActivateOnItemClick(boolean activateOnItemClick) {
-		// When setting CHOICE_MODE_SINGLE, ListView will automatically
-		// give items the 'activated' state when touched.
 		getListView().setChoiceMode(
 				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
 						: ListView.CHOICE_MODE_NONE);

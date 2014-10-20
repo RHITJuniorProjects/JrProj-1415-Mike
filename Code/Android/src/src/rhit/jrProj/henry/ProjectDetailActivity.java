@@ -27,16 +27,8 @@ public class ProjectDetailActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_project_detail);
-
-		// Show the Up button in the action bar.
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
-		// savedInstanceState is non-null when there is fragment state
-		// saved from previous configurations of this activity
-		// http://developer.android.com/guide/components/fragments.html
 		if (savedInstanceState == null) {
-			// Create the detail fragment and add it to the activity
-			// using a fragment transaction.
 			Bundle arguments = new Bundle();
 			this.projectItem = getIntent().getParcelableExtra("Project");
 			arguments.putParcelable("Project", projectItem);
@@ -48,7 +40,7 @@ public class ProjectDetailActivity extends Activity {
 	}
 
 	/**
-	 * TODO
+	 * Opens a Milestone list activity and lists all the milestones for the selected project
 	 * 
 	 * @param view
 	 */
@@ -59,9 +51,6 @@ public class ProjectDetailActivity extends Activity {
 		this.startActivity(intent);
 	}
 
-	/**
-	 * TODO
-	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();

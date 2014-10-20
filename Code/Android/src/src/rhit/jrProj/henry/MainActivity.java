@@ -9,27 +9,24 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity {
-	public final static String firebaseLoc="https://shining-inferno-2277.firebaseio.com/";
-	
+	public final static String firebaseLoc = "https://shining-inferno-2277.firebaseio.com/";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Firebase.setAndroidContext(this);
 		setContentView(R.layout.activity_main);
-		
+
 		Firebase ref = new Firebase(firebaseLoc);
-		
+
 		AuthData authData = ref.getAuth();
 		if (authData != null) {
 			Intent intent = new Intent(this, ProjectListActivity.class);
-			intent.putExtra(
-					"user",
-					firebaseLoc+"users/"
-							+ authData.getUid());
+			intent.putExtra("user", firebaseLoc + "users/" + authData.getUid());
 			this.startActivity(intent);
 		} else {
-			 Intent intent = new Intent(this, LoginActivity.class);
-			 this.startActivity(intent);
+			Intent intent = new Intent(this, LoginActivity.class);
+			this.startActivity(intent);
 		}
 		this.finish();
 	}
@@ -39,9 +36,11 @@ public class MainActivity extends Activity {
 	 * 
 	 * @param view
 	 */
+
 	public void openLoginDialog(View view) {
 
-		 Intent intent = new Intent(this, LoginActivity.class);
-		 this.startActivity(intent);
+		Intent intent = new Intent(this, LoginActivity.class);
+		this.startActivity(intent);
+
 	}
 }

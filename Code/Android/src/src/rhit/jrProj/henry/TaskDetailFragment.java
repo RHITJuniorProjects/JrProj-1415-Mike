@@ -39,9 +39,6 @@ public class TaskDetailFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		if (getArguments().containsKey("Task")) {
-			// Load the List content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
 			taskItem = this.getArguments().getParcelable("Task");
 		}
 	}
@@ -51,7 +48,6 @@ public class TaskDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_task_detail,
 				container, false);
-
 		// Show the List content as text in a TextView.
 		if (taskItem != null) {
 			((TextView) rootView.findViewById(R.id.task_detail))

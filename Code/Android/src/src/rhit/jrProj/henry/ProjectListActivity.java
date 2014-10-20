@@ -71,16 +71,8 @@ public class ProjectListActivity extends Activity implements
 		} else {
 			setContentView(R.layout.activity_project_twopane);
 		}
-
 		if (findViewById(R.id.project_detail_container) != null) {
-
-			// The detail container view will be present only in the
-			// large-screen layouts (res/values-large and
-			// res/values-sw600dp). If this view is present, then the
-			// activity should be in two-pane mode.
 			this.mTwoPane = true;
-			// In two-pane mode, list items should be given the
-			// 'activated' state when touched.
 			((ProjectListFragment) getFragmentManager().findFragmentById(
 					R.id.project_list)).setActivateOnItemClick(true);
 		}
@@ -98,13 +90,6 @@ public class ProjectListActivity extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
 			finish();
 			return true;
 		}
@@ -112,6 +97,8 @@ public class ProjectListActivity extends Activity implements
 	}
 
 	/**
+	 * 
+	 * Get a list of Projects.
 	 * 
 	 * @return
 	 */
@@ -124,7 +111,7 @@ public class ProjectListActivity extends Activity implements
 	}
 
 	/**
-	 * 
+	 * Open the MilestoneList Activity for the selected milestone
 	 * @param view
 	 */
 	public void openMilestoneView(View view) {

@@ -46,10 +46,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	
 	// private UserLoginTask mAuthTask = null;
 	private ProgressDialog mAuthProgressDialog;
-	private String firebaseLoc=MainActivity.firebaseLoc;
 
 	/* A reference to the firebase */
-	private Firebase ref = new Firebase(firebaseLoc);
+	private Firebase ref = new Firebase(
+			"https://shining-inferno-2277.firebaseio.com/");
 
 	/* Data from the authenticated user */
 	private AuthData authData;
@@ -96,6 +96,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				attemptLogin();
 			}
 		});
+		
+		Button mEmailRegister = (Button) findViewById(R.id.register);
+		mEmailRegister.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				registerNewUser(view);
+			}
+		});
 
 		mLoginFormView = findViewById(R.id.login_form);
 		mProgressView = findViewById(R.id.login_progress);
@@ -119,6 +126,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
+		// if (mAuthTask != null) {
+		// return;
+		// }
 
 		// Reset errors.
 		mEmailView.setError(null);
@@ -158,9 +168,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// perform the user login attempt.
 			showProgress(true);
 			mAuthProgressDialog.show();
+			// mAuthTask = new UserLoginTask(email, password);
+			// mAuthTask.execute((Void) null);
 			loginWithPassword(email, password);
 			showProgress(false);
-			mAuthProgressDialog.hide();
+			// openProjectListView();
 		}
 	}
 
@@ -168,13 +180,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * Opens up a list list of projects after logging in. 
 	 * @param authdata
 	 */
-	public void openProjectListView() {
+	public void openProjectListView(AuthData authdata) {
 
 		mAuthProgressDialog.hide();
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putExtra(
-				"user", firebaseLoc+
-				"users/"
+				"user",
+				"https://shining-inferno-2277.firebaseio.com/users/"
 						+ authData.getUid());
 		this.startActivity(intent);
 		this.finish();
@@ -253,6 +265,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 
 	public void loginWithPassword(String username, String password) {
+		// mAuthProgressDialog.show();
+		Log.i("T", "T2");
 		ref.authWithPassword(username, password, new AuthResultHandler(
 				"password"));
 	}
@@ -314,7 +328,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		if (authData != null) {
 			String name = authData.getUid();
 			this.authData = authData;
-			openProjectListView();
+			openProjectListView(this.authData);
 
 		}
 
@@ -324,6 +338,61 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		/* invalidate options menu to hide/show the logout button */
 		// supportInvalidateOptionsMenu();
+	}
+	private void registerNewUser(View view){
+		Log.i("You pressed the register button", "Right?");
+		final String email = mEmailView.getText().toString();
+		final String password = mPasswordView.getText().toString();
+		boolean cancel = false;
+		View focusView = null;
+
+		// Check for a valid password, if the user entered one.
+		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+			mPasswordView.setError(getString(R.string.error_invalid_password));
+			focusView = mPasswordView;
+			cancel = true;
+		}
+
+		// Check for a valid email address.
+		if (TextUtils.isEmpty(email)) {
+			mEmailView.setError(getString(R.string.error_field_required));
+			focusView = mEmailView;
+			cancel = true;
+		} else if (!isEmailValid(email)) {
+			mEmailView.setError(getString(R.string.error_invalid_email));
+			focusView = mEmailView;
+			cancel = true;
+		}
+
+		if (cancel) {
+			// There was an error; don't attempt login and focus the first
+			// form field with an error.
+			focusView.requestFocus();
+		} else {
+			// Show a progress spinner, and kick off a background task to
+			// perform the user login attempt.
+			showProgress(true);
+			mAuthProgressDialog.show();
+			// mAuthTask = new UserLoginTask(email, password);
+			// mAuthTask.execute((Void) null);
+			ref.createUser(email, password, new Firebase.ResultHandler(){
+				@Override
+				public void onSuccess(){
+					loginWithPassword(email, password);
+					showProgress(false);
+				}
+				@Override
+				public void onError(FirebaseError firebaseError){
+					
+				}
+				
+				
+			});
+			
+			// openProjectListView();
+		}
+		
+		
 	}
 	
 	private class AuthResultHandler implements Firebase.AuthResultHandler {
@@ -335,11 +404,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 
 		public void onAuthenticated(AuthData authData) {
+			Log.i(TAG, provider + " auth successful");
+			Log.i(TAG, authData.toString());
 			setAuthenticatedUser(authData);
 		}
 
 		public void onAuthenticationError(FirebaseError firebaseError) {
+			Log.i("BAD LOGIN", "You messed up");
+			// mAuthProgressDialog.hide();
 			showErrorDialog(firebaseError.toString());
 		}
 	}
+	
 }

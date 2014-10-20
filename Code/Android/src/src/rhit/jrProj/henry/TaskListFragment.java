@@ -86,8 +86,7 @@ public class TaskListFragment extends ListFragment {
 		{
 			t.setListChangeNotifier(lcn);
 		}
-		setListAdapter(arrayAdapter);
-		
+		setListAdapter(arrayAdapter);		
 	}
 
 	@Override

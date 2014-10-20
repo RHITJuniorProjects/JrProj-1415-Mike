@@ -27,9 +27,6 @@ public class ProjectDetailFragment extends Fragment {
 	public ProjectDetailFragment() {
 	}
 
-	/**
-	 * TODO
-	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,9 +41,6 @@ public class ProjectDetailFragment extends Fragment {
 
 	}
 
-	/**
-	 * TODO
-	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
