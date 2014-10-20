@@ -148,36 +148,50 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     sys.stdin = open('/dev/tty')
     if hours == None:
         hours = raw_input('Hours: ')
+
+    # prompt for milestone if necessary
     if milestone == None:
         print 'Active milestones:'
-		activeMilestones = getActiveMilestones(ref,userID,projectID)
-        for i in range(len(activeMilestones)):
-            print ' - ' + (i + 1) + ': ', activeMilestones[i][1]
+        idsByIndex = [] ; index = 1
+        for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
+            print ' - '+str(index)+'. '+mName
+            idsByIndex = idsByIndex + [mID]
+            index = index + 1
         milestone = raw_input('Milestone: ')
-		if milestone.isdigit() and (int(milestone) <= len(activeMilestones)):
-			milestoneID = activeMilestones[int(milestone) - 1][0]
-	else:
-		milestoneID = getMilestoneID(projectID,milestone)
+        if milestone.isdigit() and int(milestone) <= len(idsByIndex):
+            mID = idsByIndex[int(milestone)-1]
+        else:
+            mID = getMilestoneID(projectID,milestone)
+    else:
+        mID = getMilestoneID(projectID,milestone)
+
+    # prompt for task if necessary
     if task == None:
         print 'Tasks assigned to you:'
-		assignedTasks = getAssignedTasks(ref,userID,projectID,milestoneID)
-        for i in range(len(assignedTasks)):
-            print ' - ' + (i + 1) + ': ', assignedTasks[i][1]
+        idsByIndex = [] ; index = 1
+        for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
+            print ' - '+str(index)+'. '+tName
+            idsByIndex = idsByIndex + [tID]
+            index = index + 1
         task = raw_input('Task: ')
-		if task.isdigit() and (int(task) <= len(assignedTasks)):
-			taskID = assignedTasks[int(task) - 1][0]
-	else:
-		taskID = getTaskID(projectID,milestoneID,task)
+        if task.isdigit() and int(task) <= len(idsByIndex):
+            tID = idsByIndex[int(task)-1]
+        else:
+            tID = getTaskID(projectID,mID,task)
+    else:
+        tID = getTaskID(projectID,mID,task)
+
+    # prompt for status if necessary
     if status == None:
         print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
-		possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
-		for i in range(len(possibleStatuses)):
-            print ' - ' + (i + 1) + ': ', possibleStatuses[i]
+	possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
+	for i in range(len(possibleStatuses)):
+            print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
         status = raw_input('Status: ')
-		if status.isdigit() and (int(status) <= len(possibleStatuses)):
-			status = possibleStatuses[int(status) - 1]
+        if status.isdigit() and (int(status) <= len(possibleStatuses)):
+	    status = possibleStatuses[int(status) - 1]
 		
-    return hours,milestoneID,taskID,status
+    return hours,mID,tID,status
 
 
 if __name__ == '__main__':
@@ -190,11 +204,9 @@ if __name__ == '__main__':
     [hours,milestone,task,status],loc = parse(msg),getLoC()
     ts = getTime()
     hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
-    #milestoneID = getMilestoneID(projectID,milestone)
-    #taskID = getTaskID(projectID,milestoneID,task)
 
     commitID =writeCommit(ref,msg,None,userID,int(hours),status,loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    #raise Exception('Reached end, prevents commit from executing')
+    raise Exception('Reached end, prevents commit from executing')
