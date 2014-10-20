@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  */
 
-public class ProjectMap<Key, Value> {
+public class Map<Key, Value> {
 
 	/**
 	 * ArrayList of projects. Parallel with user roles. 
@@ -30,6 +30,24 @@ public class ProjectMap<Key, Value> {
 		return this.values.get(index);
 	}
 
+	/**
+	 * 
+	 * Replaces the value of a preexisting key
+	 *
+	 * @param k
+	 * @param v
+	 * @return
+	 */
+	public boolean replaceValue(Key k, Value v)
+	{
+		if (!this.keys.contains(k)) {
+			return false;
+		}
+		int index = this.keys.indexOf(k);
+		this.values.set(index, v);
+		return true;
+	}
+	
 	/**
 	 * Return all roles for the user.
 	 */
