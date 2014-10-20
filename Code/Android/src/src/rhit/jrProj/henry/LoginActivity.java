@@ -182,6 +182,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				"https://shining-inferno-2277.firebaseio.com/users/"
 						+ authData.getUid());
 		this.startActivity(intent);
+		this.finish();
 	}
 
 	/**

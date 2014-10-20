@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
 			 Intent intent = new Intent(this, LoginActivity.class);
 			 this.startActivity(intent);
 		}
+		this.finish();
 	}
 
 	/**
