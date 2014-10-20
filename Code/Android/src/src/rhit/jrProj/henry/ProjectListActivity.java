@@ -1,27 +1,18 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
-import java.util.Map;
-
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
 
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 
 /**
  * An activity representing a list of Projects. This activity has different
@@ -41,6 +32,9 @@ import android.widget.LinearLayout;
  */
 public class ProjectListActivity extends Activity implements
 		ProjectListFragment.Callbacks {
+	/**
+	 * The logged in user
+	 */
 	public User user;
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -57,20 +51,15 @@ public class ProjectListActivity extends Activity implements
 	 */
 	private Project projectItem;
 
-	/**
-	 * A reference to the firebase
-	 */
-	private Firebase ref;
 	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.projects = this.getIntent()
-				.getParcelableArrayListExtra("projects");
-		Log.i("Count", user.getProjects().size()+"");
-		Log.i("Here", "ohj");
+		this.user = new User(this.getIntent().getStringExtra("user"));
+		this.projects = this.user.getProjects();
+		Log.i(this.user.toString(), this.projects.size()+"");
 		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		if (!tabletSize) {
 			setContentView(R.layout.activity_project_list);
@@ -122,7 +111,11 @@ public class ProjectListActivity extends Activity implements
 	 * @return
 	 */
 	public ArrayList<Project> getProjects() {
-		return projects;
+		return this.projects;
+	}
+	public User getUser()
+	{
+		return this.user;
 	}
 
 	/**

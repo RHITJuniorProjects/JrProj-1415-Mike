@@ -55,7 +55,6 @@ public class MilestoneDetailActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		this.milestoneItem = (Milestone) item;
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
 			// This ID represents the Home or Up button. In the case of this

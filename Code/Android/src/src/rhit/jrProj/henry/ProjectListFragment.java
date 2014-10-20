@@ -87,6 +87,8 @@ public class ProjectListFragment extends ListFragment {
 		setListAdapter(arrayAdapter);
 		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
 				arrayAdapter);
+		((ProjectListActivity) this.getActivity())
+		.getUser().setListChangeNotifier(lcn);
 		for (Project project : this.projects) {
 			project.setListChangeNotifier(lcn);
 		}

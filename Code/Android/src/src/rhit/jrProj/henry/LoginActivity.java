@@ -1,5 +1,8 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -7,20 +10,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,15 +30,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.Enums.Role;
-import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.User;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -94,7 +85,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
 					public boolean onEditorAction(TextView textView, int id,
 							KeyEvent keyEvent) {
 						if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -107,7 +97,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
 		mEmailSignInButton.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				attemptLogin();
 			}
@@ -196,21 +185,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// projects.add(new
 		// Project("https://shining-inferno-2277.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
 		// ArrayList<Project> projects = new ArrayList<Project>();
-		User user = new User(
-				"https://shining-inferno-2277.firebaseio.com/users/"
-						+ authData.getUid());
 		// Map<Project, Role> projectMap = user.getProjects();
-
-		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(this,
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, user.getProjects());
-		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
-				arrayAdapter);
-		user.setListChangeNotifier(lcn);
-		for (Project project : user.getProjects()) {
-			project.setListChangeNotifier(lcn);
-		}
-
 		// Log.i("Username", user.getKey());
 		// // while (this.authData==null){
 		// //
@@ -225,17 +200,15 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		mAuthProgressDialog.hide();
 		// Log.i("Num projects", new Integer(projects.size()).toString());
 		Intent intent = new Intent(this, ProjectListActivity.class);
-		intent.putParcelableArrayListExtra("projects", user.getProjects());
+		intent.putExtra("user", "https://shining-inferno-2277.firebaseio.com/users/"
+				+ authData.getUid());
 		this.startActivity(intent);
 	}
 
 	private void setAuthenticatedUser(AuthData authData) {
 		if (authData != null) {
 			String name = authData.getUid();
-			Log.i("Authenticated User set", "hi");
 			this.authData = authData;
-			Log.i("authData status",
-					new Boolean(this.authData == null).toString());
 			openProjectListView(this.authData);
 
 		}
@@ -299,7 +272,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 	}
 
-	@Override
 	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 		return new CursorLoader(this,
 				// Retrieve data rows for the device user's 'profile' contact.
@@ -316,7 +288,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
 	}
 
-	@Override
 	public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 		List<String> emails = new ArrayList<String>();
 		cursor.moveToFirst();
@@ -328,7 +299,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		addEmailsToAutoComplete(emails);
 	}
 
-	@Override
 	public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
 	}
@@ -367,17 +337,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			this.provider = provider;
 		}
 
-		@Override
 		public void onAuthenticated(AuthData authData) {
-			// mAuthProgressDialog.hide();
 			Log.i(TAG, provider + " auth successful");
 			Log.i(TAG, authData.toString());
 			setAuthenticatedUser(authData);
 		}
 
-		@Override
 		public void onAuthenticationError(FirebaseError firebaseError) {
-			Log.i("BAD LOGIN", "YOU FUCKED UP");
+			Log.i("BAD LOGIN", "YOU Messed UP");
 			// mAuthProgressDialog.hide();
 			showErrorDialog(firebaseError.toString());
 		}

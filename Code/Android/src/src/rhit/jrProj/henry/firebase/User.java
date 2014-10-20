@@ -49,7 +49,7 @@ public class User implements Parcelable, ChildEventListener {
 	/**
 	 * projects is a Set in the form: [project_key, this_Users_role]
 	 */
-	private ProjectMap projects = new ProjectMap();
+	private ProjectMap<Project, Enums.Role> projects = new ProjectMap<Project, Enums.Role>();
 	
 	/**
 	 * tasks is a Set in the form: task_key
@@ -136,7 +136,7 @@ public class User implements Parcelable, ChildEventListener {
 
 	@Override
 	public String toString() {
-		return this.name;
+		return this.firebase.toString();
 	}
 
 	public String getKey() {
@@ -194,6 +194,9 @@ public class User implements Parcelable, ChildEventListener {
 								+ project.getName());
 				this.projects.put(p, r);
 				p.setListChangeNotifier(this.listViewCallback);
+				if (this.listViewCallback != null) {
+					this.listViewCallback.onChange();
+				}
 			}
 		} else if (arg0.getName().equals("tasks")) {
 			for (DataSnapshot task : arg0.getChildren()) {

@@ -10,37 +10,37 @@ import java.util.ArrayList;
  *
  */
 
-public class ProjectMap {
+public class ProjectMap<Key, Value> {
 
 	/**
 	 * ArrayList of projects. Parallel with user roles. 
 	 */
-	private ArrayList<Project> keys = new ArrayList<Project>();
+	private ArrayList<Key> keys = new ArrayList<Key>();
 
 	/**
 	 * ArrayList of roles. Parallel with user projects.
 	 */
-	private ArrayList<Enums.Role> values = new ArrayList<Enums.Role>();
+	private ArrayList<Value> values = new ArrayList<Value>();
 
 	/**
 	 * Return the user's role for the given project.
 	 */
-	public Enums.Role getValue(Project key) {
-		int index = this.keys.indexOf(key);
+	public Value getValue(Key k) {
+		int index = this.keys.indexOf(k);
 		return this.values.get(index);
 	}
 
 	/**
 	 * Return all roles for the user.
 	 */
-	public ArrayList<Enums.Role> getAllValues() {
+	public ArrayList<Value> getAllValues() {
 		return this.values;
 	}
 	
 	/**
 	 * Return all projects for the user.
 	 */
-	public ArrayList<Project> getAllKeys() {
+	public ArrayList<Key> getAllKeys() {
 		return this.keys;
 	}
 
@@ -52,12 +52,12 @@ public class ProjectMap {
 	 * @param r
 	 * @return
 	 */
-	public boolean put(Project p, Enums.Role r) {
-		if (this.keys.contains(p)) {
+	public boolean put(Key k, Value v) {
+		if (this.keys.contains(k)) {
 			return false;
 		}
-		this.keys.add(p);
-		this.values.add(r);
+		this.keys.add(k);
+		this.values.add(v);
 		return true;
 	}
 
@@ -68,11 +68,11 @@ public class ProjectMap {
 	 * @param p
 	 * @return
 	 */
-	public boolean remove(Project p) {
-		if (!this.keys.contains(p)) {
+	public boolean remove(Key k) {
+		if (!this.keys.contains(k)) {
 			return false;
 		}
-		int index = this.keys.indexOf(p);
+		int index = this.keys.indexOf(k);
 		this.keys.remove(index);
 		this.values.remove(index);
 		return true;
