@@ -99,6 +99,9 @@ function addNewMember(){
 	});
 	*/
 	//firebase.child('projects/'+projectID).child("members").child(id).set(id);
+	//if(!firebase.child('projects/'+projectID).child("members").val().hasChild(id)){
+		firebase.child('projects/'+projectID).child("members").push(id);
+	//}
 	//console.log(id);
 }
 

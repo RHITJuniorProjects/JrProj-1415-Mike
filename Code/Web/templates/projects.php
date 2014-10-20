@@ -42,6 +42,16 @@
 							</dl>
 						</div>
 					</div>
+					<div class="content" id="MyStatistics">
+						<div class-"row">
+							<div class="small-6 columns">
+								<div id="projContainer1"></div>
+							</div>
+							<div class="small-6 columns">
+								<div id="projContainer2"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -13,20 +13,16 @@
 	<div class="small-10 columns small-offset-1">
 		<dl class="row collapse accordion" data-accordion>
 			<dd class="accordion-navigation">
-				<a href="#panel1" class="text-center">
+				<a href="#milestones-panel" class="text-center">
 					<h3>Production</h3>
 				</a>
-				<div id="panel1" class="content active row panel">
-					<div class="small-4 columns small-offset-1">
-							<div class="row">
-						</div>
-					</div>
+				<div id="milestones-panel" class="content active row panel">
 				</div>
 			</dd>
 		</dl>
 		<dl class="row collapse accordion" data-accordion>
 			<dd class="accordion-navigation">
-				<a href="#panel3" class="text-center">
+				<a href="panel3" class="text-center">
 					<h3>Completed</h3>
 				</a>
 			</dd>
