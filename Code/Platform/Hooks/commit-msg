@@ -93,7 +93,7 @@ def getTaskID(projectID,milestoneID,task):
     return tID
 
 
-def writeCommit(ref,msg,project,uid,hours,milestone,task,status,loc,ts,projectID,milestoneID,taskID):
+def writeCommit(ref,msg,project,uid,hours,status,loc,ts,projectID,milestoneID,taskID):
     path = '/commits/'+projectID+'/'
     try:
         result = ref.post(path,{
@@ -148,21 +148,50 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     sys.stdin = open('/dev/tty')
     if hours == None:
         hours = raw_input('Hours: ')
+
+    # prompt for milestone if necessary
     if milestone == None:
         print 'Active milestones:'
+        idsByIndex = [] ; index = 1
         for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
-            print ' - ', mName
+            print ' - '+str(index)+'. '+mName
+            idsByIndex = idsByIndex + [mID]
+            index = index + 1
         milestone = raw_input('Milestone: ')
-    if task == None:
+        if milestone.isdigit() and int(milestone) <= len(idsByIndex):
+            mID = idsByIndex[int(milestone)-1]
+        else:
+            mID = getMilestoneID(projectID,milestone)
+    else:
         mID = getMilestoneID(projectID,milestone)
+
+    # prompt for task if necessary
+    if task == None:
         print 'Tasks assigned to you:'
+        idsByIndex = [] ; index = 1
         for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
-            print ' - ', tName
+            print ' - '+str(index)+'. '+tName
+            idsByIndex = idsByIndex + [tID]
+            index = index + 1
         task = raw_input('Task: ')
+        if task.isdigit() and int(task) <= len(idsByIndex):
+            tID = idsByIndex[int(task)-1]
+        else:
+            tID = getTaskID(projectID,mID,task)
+    else:
+        tID = getTaskID(projectID,mID,task)
+
+    # prompt for status if necessary
     if status == None:
-        print 'Select status from: New, Implementation, Testing, Verify, Regression, Closed'
+        print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
+	possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
+	for i in range(len(possibleStatuses)):
+            print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
         status = raw_input('Status: ')
-    return hours,milestone,task,status
+        if status.isdigit() and (int(status) <= len(possibleStatuses)):
+	    status = possibleStatuses[int(status) - 1]
+		
+    return hours,mID,tID,status
 
 
 if __name__ == '__main__':
@@ -174,12 +203,10 @@ if __name__ == '__main__':
     msg = readCommit(sys.argv[1])
     [hours,milestone,task,status],loc = parse(msg),getLoC()
     ts = getTime()
-    hours,milestone,task,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
-    milestoneID = getMilestoneID(projectID,milestone)
-    taskID = getTaskID(projectID,milestoneID,task)
+    hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
 
-    commitID =writeCommit(ref,msg,None,userID,int(hours),milestone,task,status,loc,ts,projectID,milestoneID,taskID)
+    commitID =writeCommit(ref,msg,None,userID,int(hours),status,loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    #raise Exception('Reached end, prevents commit from executing')
+    raise Exception('Reached end, prevents commit from executing')

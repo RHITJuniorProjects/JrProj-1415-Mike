@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */; };
+		83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */; };
+		83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B26D9419F5B1B4001DEE31 /* menu@2x.png */; };
 		843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */; };
 		843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D240C19F476DF00DBC2CB /* HenryProjectDetailViewController.m */; };
 		843D241619F476DF00DBC2CB /* HenryTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D240E19F476DF00DBC2CB /* HenryTaskDetailViewController.m */; };
@@ -54,6 +57,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadLoginStoryboard.storyboard; sourceTree = "<group>"; };
+		83B26D9119F5AD98001DEE31 /* HenryHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryHomeViewController.h; sourceTree = "<group>"; };
+		83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryHomeViewController.m; sourceTree = "<group>"; };
+		83B26D9419F5B1B4001DEE31 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
 		843D240819F476BC00DBC2CB /* HenryMilestoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMilestoneDetailViewController.h; sourceTree = "<group>"; };
 		843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestoneDetailViewController.m; sourceTree = "<group>"; };
 		843D240B19F476DF00DBC2CB /* HenryProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectDetailViewController.h; sourceTree = "<group>"; };
@@ -183,14 +190,16 @@
 			name = Keyboard;
 			sourceTree = "<group>";
 		};
-		93054B0E19C9622900911AB4 /* Login */ = {
+		93054B0E19C9622900911AB4 /* Login/out */ = {
 			isa = PBXGroup;
 			children = (
+				83B26D9419F5B1B4001DEE31 /* menu@2x.png */,
+				83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */,
 				93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */,
 				93447F7419C92C0900C2FC38 /* LoginViewController.h */,
 				93447F7519C92C0900C2FC38 /* LoginViewController.m */,
 			);
-			name = Login;
+			name = Login/out;
 			sourceTree = "<group>";
 		};
 		93054B0F19C9623500911AB4 /* iPad */ = {
@@ -247,13 +256,15 @@
 			isa = PBXGroup;
 			children = (
 				93054B0F19C9623500911AB4 /* iPad */,
-				93054B0E19C9622900911AB4 /* Login */,
+				93054B0E19C9622900911AB4 /* Login/out */,
 				93054B0D19C9621D00911AB4 /* Keyboard */,
 				93054B0C19C961E500911AB4 /* Milestones */,
 				93054B0B19C961E000911AB4 /* Projects */,
 				93054B0A19C961D300911AB4 /* Tasks */,
 				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
+				83B26D9119F5AD98001DEE31 /* HenryHomeViewController.h */,
+				83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
 				93447F3F19C91C5500C2FC38 /* Supporting Files */,
 				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
@@ -367,8 +378,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				93447F7319C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard in Resources */,
+				83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */,
 				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
 				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
+				83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */,
 				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
 				87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */,
 			);
@@ -391,6 +404,7 @@
 			files = (
 				843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */,
 				84DD890A19F551F900839255 /* HenryRootNavigationController.m in Sources */,
 				93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */,
 				843D241919F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,

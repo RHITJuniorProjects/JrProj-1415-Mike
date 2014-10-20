@@ -26,7 +26,28 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
+    
+    
+    
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com"];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if([defaults objectForKey:@"id"] != nil) {
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadStoryboard" bundle:nil];
+            UIViewController *initialView = [sb instantiateInitialViewController];
+            [self presentViewController:initialView animated:YES completion:nil];
+        } else {
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
+            UIViewController *initialView = [sb instantiateInitialViewController];
+            [self presentViewController:initialView animated:YES completion:nil];
+        }
+    } else if ([defaults objectForKey:@"email"] != nil) {
+        self.emailText.text = [defaults objectForKey:@"email"];
+    }
 }
 
 - (IBAction)loginAction:(id)sender
@@ -37,16 +58,46 @@
     [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
         self.loginIndicator.hidden = YES;
         if (error) {
+            switch(error.code) {
+                case FAuthenticationErrorUserDoesNotExist:
+                    // Handle invalid user
+                    self.errorLabel.text = @"Invalid User";
+                    break;
+                case FAuthenticationErrorInvalidEmail:
+                    // Handle invalid email
+                    self.errorLabel.text = @"Invalid Email";
+                    break;
+                case FAuthenticationErrorInvalidPassword:
+                    // Handle invalid password
+                    self.errorLabel.text = @"Invalid Password";
+                    break;
+                default:
+                    self.errorLabel.text = @"Failed to Login";
+                    break;
+            }
             NSLog(@"Failed to login");
             self.errorLabel.hidden = NO;
-            self.errorLabel.text = @"Failed to login";
             return;
         }
         NSLog(@"Logged in");
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
-        HenryRootNavigationController *initialView = [sb instantiateInitialViewController];
-        initialView.uid = authData.uid;
-        [self presentViewController:initialView animated:YES completion:nil];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:authData.uid forKey:@"id"];
+        [defaults setObject:authData.token forKey:@"token"];
+        [defaults setObject:authData.providerData[@"email"] forKey:@"email"];
+        [defaults synchronize];
+         
+        
+        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+        {
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadStoryboard" bundle:nil];
+            UIViewController *initialView = [sb instantiateInitialViewController];
+            [self presentViewController:initialView animated:YES completion:nil];
+        } else {
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
+            UIViewController *initialView = [sb instantiateInitialViewController];
+            [self presentViewController:initialView animated:YES completion:nil];
+        }
 
     }];
     
