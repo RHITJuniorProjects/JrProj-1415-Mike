@@ -2,6 +2,8 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
@@ -166,5 +168,8 @@ public class ProjectListActivity extends Activity implements
 		Intent login = new Intent(this, LoginActivity.class);
 		this.startActivity(login);
 		this.finish();
+		
+		Firebase ref = new Firebase("https://shining-inferno-2277.firebaseio.com/");
+		ref.unauth();
 	}
 }

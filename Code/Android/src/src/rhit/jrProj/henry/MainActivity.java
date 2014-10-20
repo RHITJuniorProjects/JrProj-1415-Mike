@@ -26,20 +26,29 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		Firebase.setAndroidContext(this);
 		setContentView(R.layout.activity_main);
-		Log.i("Test", "Start");
+		
+		Firebase ref = new Firebase("https://shining-inferno-2277.firebaseio.com/");
+		
+		AuthData authData = ref.getAuth();
+		if (authData != null) {
+			openProjectListView(authData);
+		} else {
+			 Intent intent = new Intent(this, LoginActivity.class);
+			 this.startActivity(intent);
+		}
 	}
 
 	/**
-	 * The method that is called when the "Open Milestone" button is pressed.
+	 * The method that is called when the "Login" button is pressed.
 	 * 
 	 * @param view
 	 */
 	public void openLoginDialog(View view) {
 
 		 Intent intent = new Intent(this, LoginActivity.class);
-		// intent.putParcelableArrayListExtra("Projects", projects);
 		 this.startActivity(intent);
 	}
+	
 	// public void openProjectListView(View view)
 	// {
 	// ArrayList<Project> projects = new ArrayList<Project>();
@@ -53,5 +62,20 @@ public class MainActivity extends Activity {
 	// intent.putParcelableArrayListExtra("Projects", projects);
 	// this.startActivity(intent);
 	// }
+	
+	/**
+	 * Opens up a list list of projects after logging in. 
+	 * @param authdata
+	 */
+	public void openProjectListView(AuthData authdata) {
+
+//		mAuthProgressDialog.hide();
+		Intent intent = new Intent(this, ProjectListActivity.class);
+		intent.putExtra(
+				"user",
+				"https://shining-inferno-2277.firebaseio.com/users/"
+						+ authdata.getUid());
+		this.startActivity(intent);
+	}
 
 }

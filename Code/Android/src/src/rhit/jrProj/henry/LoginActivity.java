@@ -41,14 +41,9 @@ import com.firebase.client.FirebaseError;
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	/**
-	 * A dummy authentication store containing known user names and passwords.
-	 * TODO: remove after connecting to a real authentication system.
-	 */
-	// private static final String[] DUMMY_CREDENTIALS = new String[] {
-	// "foo@example.com:hello", "bar@example.com:world" };
-	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
+	
 	// private UserLoginTask mAuthTask = null;
 	private ProgressDialog mAuthProgressDialog;
 
@@ -58,10 +53,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	/* Data from the authenticated user */
 	private AuthData authData;
-	// private ArrayList<Project> projects;
 
 	/* A tag that is used for logging statements */
 	private static final String TAG = "LoginDemo";
+	
 	// UI references.
 	private AutoCompleteTextView mEmailView;
 	private EditText mPasswordView;
@@ -116,10 +111,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	private void populateAutoComplete() {
-		getLoaderManager().initLoader(0, null, this);
 	}
 
 	/**
@@ -178,57 +169,19 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 	}
 
+	/**
+	 * Opens up a list list of projects after logging in. 
+	 * @param authdata
+	 */
 	public void openProjectListView(AuthData authdata) {
-		// ArrayList<Project> projects = new ArrayList<Project>();
-		// projects.add(new
-		// Project("https://shining-inferno-2277.firebaseio.com/projects/-JYkWFRJRG5eZ1S85iKL"));
-		// projects.add(new
-		// Project("https://shining-inferno-2277.firebaseio.com/projects/-JYcg488tAYS5rJJT4Kh"));
-		// ArrayList<Project> projects = new ArrayList<Project>();
-		// Map<Project, Role> projectMap = user.getProjects();
-		// Log.i("Username", user.getKey());
-		// // while (this.authData==null){
-		// //
-		// Log.i("authData status2", new Boolean(this.authData ==
-		// null).toString());
-		// Log.i("authData", authData.toString());
-		// Log.i("authData status", new Boolean(authData==null).toString());
 
-		// Log.i("User creatiwhile ()
-
-		// this.user = this.getIntent().getParcelableExtra("user");
 		mAuthProgressDialog.hide();
-		// Log.i("Num projects", new Integer(projects.size()).toString());
 		Intent intent = new Intent(this, ProjectListActivity.class);
-		intent.putExtra("user", "https://shining-inferno-2277.firebaseio.com/users/"
-				+ authData.getUid());
+		intent.putExtra(
+				"user",
+				"https://shining-inferno-2277.firebaseio.com/users/"
+						+ authData.getUid());
 		this.startActivity(intent);
-	}
-
-	private void setAuthenticatedUser(AuthData authData) {
-		if (authData != null) {
-			String name = authData.getUid();
-			this.authData = authData;
-			openProjectListView(this.authData);
-
-		}
-
-		else {
-
-		}
-
-		/* invalidate options menu to hide/show the logout button */
-		// supportInvalidateOptionsMenu();
-	}
-
-	private boolean isEmailValid(String email) {
-		// TODO: Replace this with your own logic
-		return email.contains("@");
-	}
-
-	private boolean isPasswordValid(String password) {
-		// TODO: Replace this with your own logic
-		return password.length() > 4;
 	}
 
 	/**
@@ -303,14 +256,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	}
 
-	private interface ProfileQuery {
-		String[] PROJECTION = { ContactsContract.CommonDataKinds.Email.ADDRESS,
-				ContactsContract.CommonDataKinds.Email.IS_PRIMARY, };
-
-		int ADDRESS = 0;
-		int IS_PRIMARY = 1;
+	public void loginWithPassword(String username, String password) {
+		// mAuthProgressDialog.show();
+		Log.i("T", "T2");
+		ref.authWithPassword(username, password, new AuthResultHandler(
+				"password"));
+	}
+	
+	private void populateAutoComplete() {
+		getLoaderManager().initLoader(0, null, this);
 	}
 
+	private void showErrorDialog(String message) {
+		new AlertDialog.Builder(this).setTitle("Error").setMessage(message)
+				.setPositiveButton(android.R.string.ok, null)
+				.setIcon(android.R.drawable.ic_dialog_alert).show();
+	}
+	
 	private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
 		// Create adapter to tell the AutoCompleteTextView what to show in its
 		// dropdown list.
@@ -321,14 +283,55 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		mEmailView.setAdapter(adapter);
 	}
+	
+	private interface ProfileQuery {
+		String[] PROJECTION = { ContactsContract.CommonDataKinds.Email.ADDRESS,
+				ContactsContract.CommonDataKinds.Email.IS_PRIMARY, };
 
-	public void loginWithPassword(String username, String password) {
-		// mAuthProgressDialog.show();
-		Log.i("T", "T2");
-		ref.authWithPassword(username, password, new AuthResultHandler(
-				"password"));
+		int ADDRESS = 0;
+		int IS_PRIMARY = 1;
+	}
+	
+	/**
+	 * Verifies the user provided a valid email.
+	 * @param email
+	 * @return 
+	 */
+	private boolean isEmailValid(String email) {
+		// TODO: Replace this with your own logic
+		return email.contains("@");
 	}
 
+	/**
+	 * Verifies the password is longer than 4 characters.
+	 * @param password
+	 * @return
+	 */
+	private boolean isPasswordValid(String password) {
+		// TODO: Replace this with your own logic
+		return password.length() > 4;
+	}
+	
+	/**
+	 * Authenticates a user to allow them to login.
+	 * @param authData
+	 */
+	private void setAuthenticatedUser(AuthData authData) {
+		if (authData != null) {
+			String name = authData.getUid();
+			this.authData = authData;
+			openProjectListView(this.authData);
+
+		}
+
+		else {
+
+		}
+
+		/* invalidate options menu to hide/show the logout button */
+		// supportInvalidateOptionsMenu();
+	}
+	
 	private class AuthResultHandler implements Firebase.AuthResultHandler {
 
 		private final String provider;
@@ -344,73 +347,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 
 		public void onAuthenticationError(FirebaseError firebaseError) {
-			Log.i("BAD LOGIN", "YOU Messed UP");
+			Log.i("BAD LOGIN", "You messed up");
 			// mAuthProgressDialog.hide();
 			showErrorDialog(firebaseError.toString());
 		}
 	}
-
-	private void showErrorDialog(String message) {
-		new AlertDialog.Builder(this).setTitle("Error").setMessage(message)
-				.setPositiveButton(android.R.string.ok, null)
-				.setIcon(android.R.drawable.ic_dialog_alert).show();
-	}
-
-	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
-	 */
-	// public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-	//
-	// private final String mEmail;
-	// private final String mPassword;
-	//
-	// UserLoginTask(String email, String password) {
-	// mEmail = email;
-	// mPassword = password;
-	// }
-	//
-	// @Override
-	// protected Boolean doInBackground(Void... params) {
-	// // TODO: attempt authentication against a network service.
-	//
-	// try {
-	// // Simulate network access.
-	// Thread.sleep(2000);
-	// } catch (InterruptedException e) {
-	// return false;
-	// }
-	//
-	// for (String credential : DUMMY_CREDENTIALS) {
-	// String[] pieces = credential.split(":");
-	// if (pieces[0].equals(mEmail)) {
-	// // Account exists, return true if the password matches.
-	// return pieces[1].equals(mPassword);
-	// }
-	// }
-	//
-	// // TODO: register the new account here.
-	// return true;
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(final Boolean success) {
-	// mAuthTask = null;
-	// showProgress(false);
-	//
-	// if (success) {
-	// finish();
-	// } else {
-	// mPasswordView
-	// .setError(getString(R.string.error_incorrect_password));
-	// mPasswordView.requestFocus();
-	// }
-	// }
-	//
-	// @Override
-	// protected void onCancelled() {
-	// mAuthTask = null;
-	// showProgress(false);
-	// }
-	// }
 }
