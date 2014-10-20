@@ -64,7 +64,7 @@ public class TaskDetailFragment extends Fragment implements OnItemSelectedListen
 			((TextView) rootView.findViewById(R.id.task_name))
 					.setText(taskItem.getName());
 			((TextView) rootView.findViewById(R.id.task_assignee))
-				.setText(taskItem.getAssignedUserId());
+				.setText(taskItem.getAssignedUserName());
 			((TextView) rootView.findViewById(R.id.task_hours_complete))
 				.setText("" + taskItem.getHoursSpent() + " / " + taskItem.getCurrentHoursEstimate() + " hours");
 			((TextView) rootView.findViewById(R.id.task_description))

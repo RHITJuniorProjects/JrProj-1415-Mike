@@ -8,6 +8,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class Task implements Parcelable, ChildEventListener {
 
@@ -25,24 +26,29 @@ public class Task implements Parcelable, ChildEventListener {
 	 * A description of the task
 	 */
 	private String description;
-	
+
 	/**
 	 * A list of the user ids of the users assigned to the task
 	 */
 	private String assignedUserId;
-	
+
+	/**
+	 * The name of the user assigned to this task
+	 */
+	private String assignedUserName = "default";
+
 	/**
 	 * The status of the task.
 	 */
 	private String status;
-	
+
 	/**
 	 * The number of hours logged for this task
 	 */
 	private double hoursComplete;
-	
+
 	/**
-	 * The total number of hours currently estimated for this task 
+	 * The total number of hours currently estimated for this task
 	 */
 	private double hoursEstimatedCurrent;
 
@@ -50,7 +56,7 @@ public class Task implements Parcelable, ChildEventListener {
 	 * The total number of hours originally estimated for this task
 	 */
 	private double hoursEstimatedOriginal;
-	
+
 	/**
 	 * This is the class that onChange is called from to when a field in
 	 * Firebase is updated. This then notifies the object that is displaying the
@@ -146,6 +152,7 @@ public class Task implements Parcelable, ChildEventListener {
 	}
 
 	public void onChildAdded(DataSnapshot arg0, String arg1) {
+		
 		if (arg0.getName().equals("name")) {
 			this.name = arg0.getValue().toString();
 			if (this.listViewCallback != null) {
@@ -154,7 +161,43 @@ public class Task implements Parcelable, ChildEventListener {
 		} else if (arg0.getName().equals("description")) {
 			this.description = arg0.getValue().toString();
 		} else if (arg0.getName().equals("assignedTo")) {
+			this.assignedUserName = "test";
 			this.assignedUserId = arg0.getValue().toString();
+			//this.firebase.getRoot().getPath().toString();
+			// Set up a value event listener to get the assigned user's name
+			/*this.firebase.getRoot().child("users").child("simplelogin:10")
+					.addChildEventListener(new ChildEventListener() {
+						// Retrieve new posts as they are added to Firebase
+						@Override
+						public void onChildAdded(DataSnapshot snapshot,
+								String previousChildName) {
+							if (snapshot.getName().equals("firstName")) {
+								assignedUserName = snapshot.getValue().toString();
+							}
+						}
+
+						@Override
+						public void onCancelled(FirebaseError arg0) {
+							//do nothing
+						}
+
+						@Override
+						public void onChildChanged(DataSnapshot arg0,
+								String arg1) {
+							//do nothing
+						}
+
+						@Override
+						public void onChildMoved(DataSnapshot arg0, String arg1) {
+							//do nothing
+						}
+
+						@Override
+						public void onChildRemoved(DataSnapshot arg0) {
+							//do nothing
+						}
+					});*/
+
 		} else if (arg0.getName().equals("status")) {
 			this.status = arg0.getValue().toString();
 		}
@@ -178,6 +221,7 @@ public class Task implements Parcelable, ChildEventListener {
 	/**
 	 * 
 	 * Returns the description of the task
+	 * 
 	 * @return the description of the task
 	 */
 	public String getDescription() {
@@ -187,13 +231,23 @@ public class Task implements Parcelable, ChildEventListener {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public String getAssignedUserId() {
 		return this.assignedUserId;
 	}
 
 	/**
+	 * Returns the name of the user assigned to this task
+	 * 
+	 * @return the name of the user assigned to this task
+	 */
+	public String getAssignedUserName() {
+		return this.assignedUserName;
+	}
+
+	/**
 	 * Returns the number of hours logged for this task
+	 * 
 	 * @return the number of hours logged for this task
 	 */
 	public double getHoursSpent() {
@@ -202,14 +256,16 @@ public class Task implements Parcelable, ChildEventListener {
 
 	/**
 	 * Returns the number of hours currently estimated for this task
+	 * 
 	 * @return the number of hours currently estimated for this task
 	 */
 	public double getCurrentHoursEstimate() {
 		return this.hoursEstimatedCurrent;
 	}
-	
+
 	/**
 	 * Returns the status of this task
+	 * 
 	 * @return the status of this task
 	 */
 	public String getStatus() {
@@ -218,6 +274,7 @@ public class Task implements Parcelable, ChildEventListener {
 
 	/**
 	 * Returns the number of hours originally estimated for this task
+	 * 
 	 * @return the number of hours originally estimated for this task
 	 */
 	public double getOriginalHoursEstimate() {
