@@ -44,7 +44,7 @@ def parse(msg):
     hoursRE = r"\[hours:([0-9]+)\]"
     milestoneRE = r"\[milestone:([^\]]*)\]"
     taskRE = r"\[task:([^\]]*)\]"
-    statusRE = r"\[status:([0-9]+)\]"
+    statusRE = r"\[status:([^\]]*)\]"
 
     rexs = [hoursRE,milestoneRE,taskRE,statusRE]
     results = [re.search(rex,msg) for rex in rexs]
@@ -126,16 +126,41 @@ def addCommitToProject(ref,projectid,commitid):
         ref.patch(path,{commitid:commitid})
     except:
         raise Exception('Connection to Firebase projects table denied')
+   
+
+def getActiveMilestones(ref,userID,projectID):
+    path = '/projects/'+projectID+'/milestones'
+    milestones = ref.get(path,None)
+    filtered = {m:milestones[m]['name'] for m in milestones if 'name' in milestones[m]}
+    return filtered
+
+
+def getAssignedTasks(ref,userID,projectID,milestoneID):
+    path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    taskIDs = ref.get(path,None).keys()
+    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    allTasks = ref.get(path,None)
+    assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
+    return assignedTasks
     
-def promptAsNecessary(hours,milestone,task,status):
+
+def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     sys.stdin = open('/dev/tty')
     if hours == None:
         hours = raw_input('Hours: ')
     if milestone == None:
+        print 'Active milestones:'
+        for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
+            print ' - ', mName
         milestone = raw_input('Milestone: ')
     if task == None:
+        mID = getMilestoneID(projectID,milestone)
+        print 'Tasks assigned to you:'
+        for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
+            print ' - ', tName
         task = raw_input('Task: ')
     if status == None:
+        print 'Select status from: New, Implementation, Testing, Verify, Regression, Closed'
         status = raw_input('Status: ')
     return hours,milestone,task,status
 
@@ -149,13 +174,12 @@ if __name__ == '__main__':
     msg = readCommit(sys.argv[1])
     [hours,milestone,task,status],loc = parse(msg),getLoC()
     ts = getTime()
-    hours,milestone,task,status = promptAsNecessary(hours,milestone,task,status)
+    hours,milestone,task,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
     milestoneID = getMilestoneID(projectID,milestone)
     taskID = getTaskID(projectID,milestoneID,task)
 
-    commitID = writeCommit(ref,msg,None,userID,int(hours),milestone,task,status,loc,ts,projectID,milestoneID,taskID)
-
+    commitID =writeCommit(ref,msg,None,userID,int(hours),milestone,task,status,loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    raise Exception('Reached end, prevents commit from executing')
+    #raise Exception('Reached end, prevents commit from executing')
