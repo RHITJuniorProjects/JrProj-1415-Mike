@@ -48,8 +48,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	private ProgressDialog mAuthProgressDialog;
 
 	/* A reference to the firebase */
-	private Firebase ref = new Firebase(
-			"https://shining-inferno-2277.firebaseio.com/");
+	private final String firebaseLoc = MainActivity.firebaseLoc;
+	private Firebase ref = new Firebase(firebaseLoc);
 
 	/* Data from the authenticated user */
 	private AuthData authData;
@@ -186,7 +186,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putExtra(
 				"user",
-				"https://shining-inferno-2277.firebaseio.com/users/"
+				firebaseLoc+"users/"
 						+ authData.getUid());
 		this.startActivity(intent);
 		this.finish();
