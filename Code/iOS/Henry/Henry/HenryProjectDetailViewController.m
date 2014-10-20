@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@", self.projectID]];
+    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@", self.projectID]];
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -31,7 +31,7 @@
 
 -(void)updateInfo {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSString *urlString = [NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@.json", self.projectID];
+    NSString *urlString = [NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@.json", self.projectID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
@@ -66,6 +66,7 @@
     HenryMilestonesTableViewController *vc = [segue destinationViewController];
     vc.ProjectID = self.projectID;
     vc.tasks = self.tasks;
+    vc.uid = self.uid;
 }
 
 @end

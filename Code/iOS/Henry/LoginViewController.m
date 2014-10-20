@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "Henry/HenryRootNavigationController.h"
 
 @interface LoginViewController ()
 @end
@@ -25,7 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com/projects/"];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
 }
 
 - (IBAction)loginAction:(id)sender
@@ -43,7 +44,8 @@
         }
         NSLog(@"Logged in");
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
-        UIViewController *initialView = [sb instantiateInitialViewController];
+        HenryRootNavigationController *initialView = [sb instantiateInitialViewController];
+        initialView.uid = authData.uid;
         [self presentViewController:initialView animated:YES completion:nil];
 
     }];

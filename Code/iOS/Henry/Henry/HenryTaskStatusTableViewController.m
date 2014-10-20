@@ -43,8 +43,8 @@
     self.firstTime = YES;
     self.clearChecksOnSelection = NO;
     
-    NSLog([NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]);
-    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
+    NSLog([NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]);
+    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
 }
 
 - (void)didReceiveMemoryWarning {

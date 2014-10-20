@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/milestones/%@", self.ProjectID, self.MileStoneID]];
+    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@", self.ProjectID, self.MileStoneID]];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -32,7 +32,7 @@
 }
 
 -(void)updateInfo {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/projects/%@/milestones/%@.json", self.ProjectID, self.MileStoneID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones/%@.json", self.ProjectID, self.MileStoneID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
@@ -42,7 +42,7 @@
     self.dueDateLabel.text = @"Not/In/Database";
     self.descriptionView.text = [json objectForKey:@"description"];
     
-    urlString = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
+    urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
     jsonURL = [NSURL URLWithString:urlString];
     data = [NSData dataWithContentsOfURL:jsonURL];
     json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
@@ -76,6 +76,7 @@
     vc.MileStoneID = self.MileStoneID;
     vc.milestoneName = self.milestoneNameLabel.text;
     vc.userTasks = self.userTasks;
+    vc.uid = self.uid;
 }
 
 @end

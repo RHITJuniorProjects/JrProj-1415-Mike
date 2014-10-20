@@ -18,4 +18,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *tasksCompletedLabel;
 @property (strong, nonatomic) IBOutlet UIProgressView *tasksCompleteBar;
 @property NSArray *userTasks;
+@property NSString *uid;
 @end

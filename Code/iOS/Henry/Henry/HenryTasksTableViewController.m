@@ -35,7 +35,7 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com/projects/"];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -54,7 +54,8 @@
 }
 
 -(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
+    NSLog(@"%@", urlString);
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
@@ -67,7 +68,7 @@
     
     for (NSString *key in keys) {
         // Hardcoded user for now...
-        if (![[[json objectForKey:key] objectForKey:@"assignedTo"] isEqualToString:@"simplelogin:12"]) {
+        if (![[[json objectForKey:key] objectForKey:@"assignedTo"] isEqualToString:self.uid]) {
             continue;
         }
 //        if (![self.userTasks containsObject:key]) {

@@ -9,6 +9,7 @@
 #import "HenryProjectsTableViewController.h"
 #import "HenryProjectDetailViewController.h"
 #import "HenryMilestonesTableViewController.h"
+#import "HenryRootNavigationController.h"
 #import <Firebase/Firebase.h>
 
 @interface HenryProjectsTableViewController ()
@@ -33,14 +34,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    HenryRootNavigationController *parentVC = (HenryRootNavigationController *)[self navigationController];
+    self.uid = parentVC.uid;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.cellText = [[NSMutableArray alloc] init];
-    self.fbUsers = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com/users/simplelogin%3A12/projects"];
+    self.fbUsers = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects", self.uid]];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -53,13 +55,13 @@
 }
 
 -(void)updateTable {
-    NSURL *jsonURL = [NSURL URLWithString:@"https://henry-test.firebaseio.com/users/simplelogin%3A12/projects.json"];
+    NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects.json", self.uid]];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     self.projectIDs = [json allKeys];
     
-    NSURL *jsonURL2 = [NSURL URLWithString:@"https://henry-test.firebaseio.com/users/simplelogin%3A12/projects.json"];
+    NSURL *jsonURL2 = [NSURL URLWithString:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects.json", self.uid]];
     NSData *data3 = [NSData dataWithContentsOfURL:jsonURL2];
     NSDictionary *json2 = [NSJSONSerialization JSONObjectWithData:data3 options:0 error:&error];
     NSArray *projectIDs = [json2 allKeys];
@@ -71,7 +73,7 @@
         }
     }
     
-    NSURL *projectsURL = [NSURL URLWithString:@"https://henry-test.firebaseio.com/projects.json"];
+    NSURL *projectsURL = [NSURL URLWithString:@"https://henry-staging.firebaseio.com/projects.json"];
     NSData *data2 = [NSData dataWithContentsOfURL:projectsURL];
     NSDictionary *projectsJSON = [NSJSONSerialization JSONObjectWithData:data2 options:0 error:&error];
     NSArray *projects = [projectsJSON allKeys];
@@ -179,10 +181,12 @@
         HenryMilestonesTableViewController *vc = [segue destinationViewController];
         vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
         vc.tasks = self.tasks;
+        vc.uid = self.uid;
     } else {
         HenryProjectDetailViewController *vc = [segue destinationViewController];
         vc.projectID = [self.projectIDs objectAtIndex:indexPath.row];
         vc.tasks = self.tasks;
+        vc.uid = self.uid;
     }
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];

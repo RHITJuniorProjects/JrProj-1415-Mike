@@ -43,7 +43,7 @@
         [self.staticData addObject:@"Milestone P-2-2"];
     }
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com/projects/"];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -62,7 +62,7 @@
 }
 
 -(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
@@ -169,12 +169,14 @@
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
         vc.userTasks = self.tasks;
+        vc.uid = self.uid;
     } else {
         HenryMilestoneDetailViewController *vc = [segue destinationViewController];
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
         vc.userTasks = self.tasks;
+        vc.uid = self.uid;
     }
 
     

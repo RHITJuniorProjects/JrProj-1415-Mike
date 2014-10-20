@@ -25,7 +25,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MileStoneID, self.taskID]];
+    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MileStoneID, self.taskID]];
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateInfo];
@@ -46,13 +46,13 @@
 }
 
 -(void)updateInfo {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/projects/%@/milestones/%@/tasks/%@.json", self.ProjectID, self.MileStoneID, self.taskID];
+    NSString *urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@.json", self.ProjectID, self.MileStoneID, self.taskID];
     NSURL *jsonURL = [NSURL URLWithString:urlString];
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
     NSError *error;
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     
-    NSString *urlStringForName = [NSString stringWithFormat:@"https:henry-test.firebaseio.com/users/%@.json", [json objectForKey:@"assignedTo"]];
+    NSString *urlStringForName = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/users/%@.json", [json objectForKey:@"assignedTo"]];
     NSURL *jsonURLForName = [NSURL URLWithString:urlStringForName];
     NSData *dataForName = [NSData dataWithContentsOfURL:jsonURLForName];
     NSDictionary *jsonForName = [NSJSONSerialization JSONObjectWithData:dataForName options:0 error:&error];

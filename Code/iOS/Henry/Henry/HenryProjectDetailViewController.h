@@ -20,4 +20,5 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *tasksCompletedProgressBar;
 @property (weak, nonatomic) IBOutlet UIProgressView *milestonesCompletedProgressBar;
 @property NSArray *tasks;
+@property NSString *uid;
 @end
