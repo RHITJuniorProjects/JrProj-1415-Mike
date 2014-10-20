@@ -3,7 +3,6 @@ var projectPage;
 var taskPage;
 var selectedProject;
 var selectedMilestone;
-var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 
 function selectProject(projectID){
     milestonePage.show();
@@ -27,9 +26,7 @@ function selectMilestone(milestoneId){
 	var tasks = currentMilestone.getTasks();
 	var $panel = $('#tasks-table');
 	tasks.onItemAdded(function(task){
-		task.getTableHtml(function(html){
-			$panel.append(html);
-		});
+		$panel.append(task.getTableRow());
 	});
 }
 
@@ -65,15 +62,6 @@ function getAllUsers(){
 	});
 
 }
-// milestone
-/*$(function(){
-	var projectIDs = ['-JYcg488tAYS5rJJT4Kh'];
-
-});
-*/
-
-var selectedProject = null;
-var currentTask = null;
 
 $(function(){
     milestonePage = $('#milestones-page');

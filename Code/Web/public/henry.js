@@ -30,62 +30,44 @@ Table.prototype = {
 			callback(val);
 		});
 	},
-	add:function(){
-		return this.__factory(this.__firebase.push());
+	add:function(id){
+		var ref;
+		if(id){
+			ref = this.__firebase.child(id);
+		} else {
+			ref = this.__firebase.push();
+		}
+		return this.__factory(ref);
 	},
-	getSelectHtml:function(){
-		
+	getSelect:function(onselect){
+		this.__selectCount = (this.__selectCount || 0) + 1;
+		var select = $('<select>');
+		if(onselect){
+			var table = this;
+			select.change(function(){
+				onselect(table.get(select.val()));
+			});
+		}
+		this.onItemAdded(function(item){
+			select.append(item.getOption());
+		});
+		return select;
 	}
 };
 
 function ReferenceTable(referencedTable,firebase){
+	this.__factory = function(ref){
+		return referencedTable.get(ref.name());
+	};
 	this.__firebase = firebase;
-	this.__referencedTable = referencedTable;
 }
 
-ReferenceTable.prototype = {
-	get:function(uid){
-		return this.__referencedTable.get(uid);
-	},
-	onItemAdded:function(callback){
-		if(!this.__onChildAdded){
-			this.__onChildAdded = [];
-			var table = this;
-			this.__firebase.on('child_added',function(snap){
-				//console.log(snap.val());
-				var val = table.__referencedTable.get(snap.val());
-				table.__onChildAdded.forEach(function(callback){
-					callback(val);
-				});
-			});
-		}
-		this.__onChildAdded.push(callback);
-	},
-	onItemRemoved:function(callback){
-		if(!this.__onChildRemoved){
-			this.__onChildRemoved = [];
-			var table = this;
-			this.__firebase.on('child_removed',function(snap){
-				var val = table.__referencedTable.get(snap.val());
-				table.__onChildRemoved.forEach(function(callback){
-					callback(val);
-				});
-			});
-		}
-		this.__onChildRemoved.push(callback);
-	},
-	add:function(item){
-		var itemId = item.name();
-		this.__firebase.set(itemId,itemId);
-	}
-};
-
-var users = new Table(function(fb){return new User(fb);},firebase.child('users'));
+ReferenceTable.prototype = Table.prototype;
 
 function User(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
-	this.__name = firebase.child('firstName');
+	this.__name = firebase.child('name');
 	this.__email = firebase.child('email');
 }
 
@@ -94,6 +76,13 @@ User.prototype = {
 		this.__name.on('value',function(dat){
 			callback(dat.val());
 		});
+	},
+	getOption:function(){
+		var option = $('<option value="'+this.uid+'"></option>');
+		this.getName(function(name){
+			option.text(name);
+		});
+		return option;
 	}
 };
 
@@ -101,7 +90,7 @@ function addNewMember(){
 	var projectID = '-JYcg488tAYS5rJJT4Kh';
 	var selected = $("#member-select").val();
 	var id = $("#member-select").children(":selected").attr("id").substring(9);
-	console.log(firebase.child('projects/'+projectID).child("members").name());
+	//console.log(firebase.child('projects/'+projectID).child("members").name());
 	/*firebase.child('projects/'+projectID).child("members").forEach(function(cs) {
 		var name = cs.name();
 		console.log(name);
@@ -109,9 +98,7 @@ function addNewMember(){
 		cs.push(id);
 	});
 	*/
-	if(!firebase.child('projects/'+projectID).child("members").val().hasChild(id)){
-		firebase.child('projects/'+projectID).child("members").push(id);
-	}
+	//firebase.child('projects/'+projectID).child("members").child(id).set(id);
 	//console.log(id);
 }
 
@@ -163,6 +150,13 @@ Project.prototype = {
 	},
 	addUser:function(id){
 		this.__members.set(id,id);
+	},
+	getOption:function(){
+		var option = $('<option value="'+this.uid+'"></option>');
+		this.getName(function(name){
+			option.text(name);
+		});
+		return option;
 	}
 };
 
@@ -254,44 +248,64 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
-	getTableHtml:function(callback){
-		callback('<tr>'+
-			'<td id="task-name-'+this.uid+'"></td>'+
-			'<td id="task-description-'+this.uid+'"></td>'+
-			'<td id="task-category-'+this.uid+'"></td>'+
-			'<td id="task-assignedTo-'+this.uid+'"></td>'+
-			'<td id="task-original_time_estimate-'+this.uid+'"></td>'+
-			'<td id="task-updated_time_estimate-'+this.uid+'"></td>'+
-			'</tr>');
-		
-		var name = $('#task-name-'+this.uid);
+	getTableRow:function(){
+		var row = $('<tr>');
+		var name = $('<td>');
+		var desc = $('<td>');
+		var cat = $('<td>');
+		var user = $('<td>');
+		var originalTime = $('<td>');
+		var updatedTime = $('<td>');
+		var task = this;
+		row.append(name,desc,cat,user,originalTime,updatedTime);
 		this.getName(function(nameStr){
 			name.html(nameStr);
 		});
-		var description = $('#task-description-'+this.uid);
+
 		this.getDescription(function(descriptionStr){
-			description.html(descriptionStr);
-		});
-		var $assignedUser = $('#task-assignedTo-'+this.uid);
-		this.getAssignedUser(function(assignedUser){
-			assignedUser.getName(function(name){
-				$assignedUser.html(name);
-			});
-		});
-		var category= $('#task-category-'+this.uid);
-		this.getCategory(function(categoryStr){
-			category.html(categoryStr);
+			desc.html(descriptionStr);
 		});
 
-		var originalTime = $('#task-original_time_estimate-'+this.uid);
+		var userName = $('<span>');
+		var userSelect = users.getSelect(function(user){
+			console.log('select');
+			task.setUser(user);
+			userSelect.hide();
+			userName.show();
+		});
+		userSelect.hide();
+		user.append(userSelect);
+		user.append(userName);
+		user.click(function(){
+			userSelect.show();
+			userName.hide();
+		});
+
+		this.getAssignedUser(function(assignedUser){
+			assignedUser.getName(function(name){
+				userName.text(name);
+			});
+		});
+
+		this.getCategory(function(categoryStr){
+			cat.html(categoryStr);
+		});
+
 		this.getOriginalTime(function(original_time_estimateStr){
 			originalTime.html(original_time_estimateStr);
 		});
 
-		var updatedTime= $('#task-updated_time_estimate-'+this.uid);
 		this.getUpdatedTime(function(updated_time_estimateStr){
 			updatedTime.html(updated_time_estimateStr);
 		});
+		return row;
+	},
+	setUser:function(user){
+		var id = user;
+		if(typeof id != 'string'){
+			id = user.uid;
+		}
+		this.__assigned_user.set(id);
 	}
 };
 
@@ -344,6 +358,9 @@ function logout() {
 	window.location.replace("/");
 };
 
+var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
+var users = new Table(function(fb){ return new User(fb);},firebase.child('users'));
+
 firebase.onAuth(
 	function(authData){
 		userData = authData;
@@ -364,6 +381,4 @@ firebase.onAuth(
 		);
 	}
 );
-
-var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 
