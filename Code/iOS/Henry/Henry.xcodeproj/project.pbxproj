@@ -137,6 +137,76 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		93054B0A19C961D300911AB4 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */,
+				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
+				843D240D19F476DF00DBC2CB /* HenryTaskDetailViewController.h */,
+				843D240E19F476DF00DBC2CB /* HenryTaskDetailViewController.m */,
+				843D240F19F476DF00DBC2CB /* HenryTaskStatusTableViewController.h */,
+				843D241019F476DF00DBC2CB /* HenryTaskStatusTableViewController.m */,
+			);
+			name = Tasks;
+			sourceTree = "<group>";
+		};
+		93054B0B19C961E000911AB4 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
+				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
+				843D240B19F476DF00DBC2CB /* HenryProjectDetailViewController.h */,
+				843D240C19F476DF00DBC2CB /* HenryProjectDetailViewController.m */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		93054B0C19C961E500911AB4 /* Milestones */ = {
+			isa = PBXGroup;
+			children = (
+				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
+				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
+				843D240819F476BC00DBC2CB /* HenryMilestoneDetailViewController.h */,
+				843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */,
+			);
+			name = Milestones;
+			sourceTree = "<group>";
+		};
+		93054B0D19C9621D00911AB4 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				843D241119F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.h */,
+				843D241219F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m */,
+				843D241319F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+			);
+			name = Keyboard;
+			sourceTree = "<group>";
+		};
+		93054B0E19C9622900911AB4 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */,
+				93447F7419C92C0900C2FC38 /* LoginViewController.h */,
+				93447F7519C92C0900C2FC38 /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		93054B0F19C9623500911AB4 /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */,
+				87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */,
+				87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */,
+				87E54D4519EEEF12009D3906 /* HenryRightViewController.h */,
+				87E54D4619EEEF12009D3906 /* HenryRightViewController.m */,
+				84DD890819F551F900839255 /* HenryRootNavigationController.h */,
+				84DD890919F551F900839255 /* HenryRootNavigationController.m */,
+			);
+			name = iPad;
+			sourceTree = "<group>";
+		};
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
@@ -176,39 +246,17 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
-				843D240B19F476DF00DBC2CB /* HenryProjectDetailViewController.h */,
-				843D240C19F476DF00DBC2CB /* HenryProjectDetailViewController.m */,
-				843D240D19F476DF00DBC2CB /* HenryTaskDetailViewController.h */,
-				843D240E19F476DF00DBC2CB /* HenryTaskDetailViewController.m */,
-				843D240F19F476DF00DBC2CB /* HenryTaskStatusTableViewController.h */,
-				843D241019F476DF00DBC2CB /* HenryTaskStatusTableViewController.m */,
-				843D241119F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.h */,
-				843D241219F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m */,
-				843D241319F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
-				843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
-				843D240819F476BC00DBC2CB /* HenryMilestoneDetailViewController.h */,
-				843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */,
-				93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */,
-				93447F7419C92C0900C2FC38 /* LoginViewController.h */,
-				93447F7519C92C0900C2FC38 /* LoginViewController.m */,
+				93054B0F19C9623500911AB4 /* iPad */,
+				93054B0E19C9622900911AB4 /* Login */,
+				93054B0D19C9621D00911AB4 /* Keyboard */,
+				93054B0C19C961E500911AB4 /* Milestones */,
+				93054B0B19C961E000911AB4 /* Projects */,
+				93054B0A19C961D300911AB4 /* Tasks */,
 				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
 				93447F3F19C91C5500C2FC38 /* Supporting Files */,
 				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
-				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
-				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
-				93447F6F19C91F0500C2FC38 /* HenryTasksTableViewController.h */,
-				93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */,
-				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
-				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
-				87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */,
-				87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */,
-				87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */,
-				87E54D4519EEEF12009D3906 /* HenryRightViewController.h */,
-				87E54D4619EEEF12009D3906 /* HenryRightViewController.m */,
-				84DD890819F551F900839255 /* HenryRootNavigationController.h */,
-				84DD890919F551F900839255 /* HenryRootNavigationController.m */,
 			);
 			path = Henry;
 			sourceTree = "<group>";
