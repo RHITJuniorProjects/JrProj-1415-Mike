@@ -75,11 +75,8 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// this.projects =
-		// this.getArguments().getParcelableArrayList("Projects");
 		this.projects = ((ProjectListActivity) this.getActivity())
 				.getProjects();
-		// Done: replace with a real list adapter.
 		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);

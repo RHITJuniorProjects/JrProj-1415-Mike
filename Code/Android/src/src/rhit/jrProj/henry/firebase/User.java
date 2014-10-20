@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import rhit.jrProj.henry.MainActivity;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import android.os.Parcel;
@@ -15,7 +16,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 public class User implements Parcelable {
-
+	/**
+	 * A reference to the Main URL of the Firebase being used.
+	 */
+	private String firebaseURL= MainActivity.firebaseLoc;
+	
 	/**
 	 * A reference to firebase to keep the data up to date.
 	 */
@@ -78,9 +83,7 @@ public class User implements Parcelable {
 		}
 	};
 
-	// public void setKey(String s){
-	// this.key=s;
-	// }
+	
 
 	/**
 	 * Creates a new User from a parcel
@@ -89,13 +92,14 @@ public class User implements Parcelable {
 	 */
 
 	User(Parcel pc) {
-		this.firebase = new Firebase(pc.readString());
+		String firebaseURL=pc.readString();
+		this.firebase = new Firebase(firebaseURL);
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.firebase.child("projects").addChildEventListener(new GrandChildrenListener(this));
 		this.name = pc.readString();
 		this.gitName = pc.readString();
 		this.email = pc.readString();
-		// this.key=pc.readString();
+		this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
 	}
 
 	public User(String firebaseURL) {
@@ -132,7 +136,6 @@ public class User implements Parcelable {
 		dest.writeString(this.name);
 		dest.writeString(this.gitName);
 		dest.writeString(this.email);
-		// dest.writeString(this.key);
 	}
 
 	/**
@@ -232,7 +235,7 @@ public class User implements Parcelable {
 		}
 
 		/**
-		 * TODO
+		 * Implement the onChildAdded method which is called once for each existing child and once for every added child.
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("name")) {
@@ -245,7 +248,7 @@ public class User implements Parcelable {
 		}
 
 		/**
-		 * TODO
+		 * Implement the onChildChanged method which is called once for every changed child.
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("name")) {
@@ -297,9 +300,8 @@ public class User implements Parcelable {
 			if (arg0.getValue().equals("lead")) {
 				r = Role.Lead;
 			}
-			// TODO fix this hard coded string
 			Project p = new Project(
-					"https://shining-inferno-2277.firebaseio.com/projects/"
+					firebaseURL+"projects/"
 							+ arg0.getName());
 			this.user.getMap().put(p, r);
 			p.setListChangeNotifier(this.user.getListChangeNotifier());
@@ -313,9 +315,8 @@ public class User implements Parcelable {
 			if (arg0.getValue().equals("lead")) {
 				r = Role.Lead;
 			}
-			// TODO fix this hard coded string
 			Project p = new Project(
-					"https://shining-inferno-2277.firebaseio.com/projects/"
+					firebaseURL+"projects/"
 							+ arg0.getName());
 			this.user.getMap().replaceValue(p, r);
 		}
@@ -327,7 +328,7 @@ public class User implements Parcelable {
 
 		public void onChildRemoved(DataSnapshot arg0) {
 			Project p = new Project(
-					"https://shining-inferno-2277.firebaseio.com/projects/"
+					firebaseURL+"projects/"
 							+ arg0.getName());
 			this.user.getMap().remove(p);
 			if (this.user.getListChangeNotifier() != null) {

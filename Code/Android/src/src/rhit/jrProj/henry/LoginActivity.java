@@ -46,10 +46,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	
 	// private UserLoginTask mAuthTask = null;
 	private ProgressDialog mAuthProgressDialog;
+	private String firebaseLoc=MainActivity.firebaseLoc;
 
 	/* A reference to the firebase */
-	private Firebase ref = new Firebase(
-			"https://shining-inferno-2277.firebaseio.com/");
+	private Firebase ref = new Firebase(firebaseLoc);
 
 	/* Data from the authenticated user */
 	private AuthData authData;
@@ -119,9 +119,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
-		// if (mAuthTask != null) {
-		// return;
-		// }
 
 		// Reset errors.
 		mEmailView.setError(null);
@@ -161,11 +158,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// perform the user login attempt.
 			showProgress(true);
 			mAuthProgressDialog.show();
-			// mAuthTask = new UserLoginTask(email, password);
-			// mAuthTask.execute((Void) null);
 			loginWithPassword(email, password);
 			showProgress(false);
-			// openProjectListView();
+			mAuthProgressDialog.hide();
 		}
 	}
 
@@ -173,13 +168,13 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * Opens up a list list of projects after logging in. 
 	 * @param authdata
 	 */
-	public void openProjectListView(AuthData authdata) {
+	public void openProjectListView() {
 
 		mAuthProgressDialog.hide();
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putExtra(
-				"user",
-				"https://shining-inferno-2277.firebaseio.com/users/"
+				"user", firebaseLoc+
+				"users/"
 						+ authData.getUid());
 		this.startActivity(intent);
 		this.finish();
@@ -258,8 +253,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 
 	public void loginWithPassword(String username, String password) {
-		// mAuthProgressDialog.show();
-		Log.i("T", "T2");
 		ref.authWithPassword(username, password, new AuthResultHandler(
 				"password"));
 	}
@@ -321,7 +314,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		if (authData != null) {
 			String name = authData.getUid();
 			this.authData = authData;
-			openProjectListView(this.authData);
+			openProjectListView();
 
 		}
 
@@ -342,14 +335,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 
 		public void onAuthenticated(AuthData authData) {
-			Log.i(TAG, provider + " auth successful");
-			Log.i(TAG, authData.toString());
 			setAuthenticatedUser(authData);
 		}
 
 		public void onAuthenticationError(FirebaseError firebaseError) {
-			Log.i("BAD LOGIN", "You messed up");
-			// mAuthProgressDialog.hide();
 			showErrorDialog(firebaseError.toString());
 		}
 	}

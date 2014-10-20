@@ -39,6 +39,10 @@ public class ProjectListActivity extends Activity implements
 	 */
 	public User user;
 	/**
+	 * The string to the firebase URL
+	 */
+	private String firebaseLoc= MainActivity.firebaseLoc;
+	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
 	 */
@@ -61,7 +65,6 @@ public class ProjectListActivity extends Activity implements
 
 		this.user = new User(this.getIntent().getStringExtra("user"));
 		this.projects = this.user.getProjects();
-		Log.i(this.user.toString(), this.projects.size()+"");
 		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		if (!tabletSize) {
 			setContentView(R.layout.activity_project_list);
@@ -169,7 +172,7 @@ public class ProjectListActivity extends Activity implements
 		this.startActivity(login);
 		this.finish();
 		
-		Firebase ref = new Firebase("https://shining-inferno-2277.firebaseio.com/");
+		Firebase ref = new Firebase(firebaseLoc);
 		ref.unauth();
 	}
 }
