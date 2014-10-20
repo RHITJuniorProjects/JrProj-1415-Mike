@@ -14,7 +14,7 @@ var metricsTest = "https://henry-metrics-test.firebaseio.com/";
 
 // TODO: set this to the appropriate database, potentially with commandline override
 // commandline version could also have a flag for which DB to use?
-var firebaseUrl = metricsTest;
+var firebaseUrl = test;
 
 var commitsRef = new Firebase(firebaseUrl+'/commits');
 var usersRef = new Firebase(firebaseUrl+'/users');
