@@ -42,8 +42,8 @@ def getLoC():
 
 def parse(msg):
     hoursRE = r"\[hours:([0-9]+)\]"
-    milestoneRE = r"\[milestone:([0-9]+)\]"
-    taskRE = r"\[task:([0-9]+)\]"
+    milestoneRE = r"\[milestone:([^\]]*)\]"
+    taskRE = r"\[task:([^\]]*)\]"
     statusRE = r"\[status:([0-9]+)\]"
 
     rexs = [hoursRE,milestoneRE,taskRE,statusRE]
@@ -68,21 +68,45 @@ def getUserID(gituser,ref):
     return userID
 
 
-def getTime():
-    return int(time.time()*1000)
+getTime = lambda: int(time.time()*1000)
+
 
 def getMilestoneID(projectID,milestone):
-    pass
-
-
-def getTaskID(projectID,milestone,task):
-    pass
-
-
-def writeCommit(ref,msg,project,uid,hours,milestone,task,status,loc,ts):
-    path = '/commits'
+    path = '/projects/'+projectID+'/milestones'
+    milestones = ref.get(path,None)
+    filtered = {m:milestones[m] for m in milestones if 'name' in milestones[m]}
     try:
-        result = ref.post(path,{'hours':hours,'user':uid,'lines_of_code':loc,'message':msg,'timestamp':ts})
+        mID = [m for m in filtered if filtered[m]['name']==milestone][0]
+    except:
+        raise Exception('HENRY: Nonexistent milestone, commit failed')
+    return mID
+
+
+def getTaskID(projectID,milestoneID,task):
+    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    tasks = ref.get(path,None)
+    filtered = {t:tasks[t] for t in tasks if 'name' in tasks[t]}
+    try:
+        tID = [t for t in filtered if filtered[t]['name']==task][0]
+    except:
+        raise Exception('HENRY: Nonexistent task, commit failed')
+    return tID
+
+
+def writeCommit(ref,msg,project,uid,hours,milestone,task,status,loc,ts,projectID,milestoneID,taskID):
+    path = '/commits/'+projectID+'/'
+    try:
+        result = ref.post(path,{
+            'hours':hours,
+            'user':uid,
+            'lines_of_code':loc,
+            'message':msg,
+            'timestamp':ts,
+            'milestone':milestoneID,
+            'task':taskID,
+            'status':status,
+            'project':projectID
+        })
     except:
         raise Exception('Connection to Firebase commits table denied')
     return result.values()[0]
@@ -126,12 +150,12 @@ if __name__ == '__main__':
     [hours,milestone,task,status],loc = parse(msg),getLoC()
     ts = getTime()
     hours,milestone,task,status = promptAsNecessary(hours,milestone,task,status)
+    milestoneID = getMilestoneID(projectID,milestone)
+    taskID = getTaskID(projectID,milestoneID,task)
 
-    taskID = getTaskID(projectID,milestone,task)
-
-    commitID = writeCommit(ref,msg,None,userID,int(hours),milestone,task,status,loc,ts)
+    commitID = writeCommit(ref,msg,None,userID,int(hours),milestone,task,status,loc,ts,projectID,milestoneID,taskID)
 
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
-    
+
     raise Exception('Reached end, prevents commit from executing')
