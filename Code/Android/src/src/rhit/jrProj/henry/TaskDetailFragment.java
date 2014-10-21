@@ -20,7 +20,6 @@ public class TaskDetailFragment extends Fragment {
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
 	 */
-	public static final String ARG_ITEM_ID = "item_id";
 
 	/**
 	 * The List content this fragment is presenting.
