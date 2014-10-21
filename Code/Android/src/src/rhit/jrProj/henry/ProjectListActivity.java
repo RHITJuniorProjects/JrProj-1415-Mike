@@ -2,18 +2,19 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 
 /**
  * An activity representing a list of Projects. This activity has different
@@ -33,7 +34,14 @@ import android.widget.LinearLayout;
  */
 public class ProjectListActivity extends Activity implements
 		ProjectListFragment.Callbacks {
-
+	/**
+	 * The logged in user
+	 */
+	public User user;
+	/**
+	 * The string to the firebase URL
+	 */
+	private String firebaseLoc= MainActivity.firebaseLoc;
 	/**
 	 * Whether or not the activity is in two-pane mode, i.e. running on a tablet
 	 * device.
@@ -49,13 +57,14 @@ public class ProjectListActivity extends Activity implements
 	 */
 	private Project projectItem;
 
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.projects = this.getIntent()
-				.getParcelableArrayListExtra("Projects");
-
+		this.user = new User(this.getIntent().getStringExtra("user"));
+		this.projects = this.user.getProjects();
 		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		if (!tabletSize) {
 			setContentView(R.layout.activity_project_list);
@@ -67,6 +76,14 @@ public class ProjectListActivity extends Activity implements
 			((ProjectListFragment) getFragmentManager().findFragmentById(
 					R.id.project_list)).setActivateOnItemClick(true);
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.project, menu);
+
+		return true;
 	}
 
 	@Override
@@ -86,7 +103,11 @@ public class ProjectListActivity extends Activity implements
 	 * @return
 	 */
 	public ArrayList<Project> getProjects() {
-		return projects;
+		return this.projects;
+	}
+	public User getUser()
+	{
+		return this.user;
 	}
 
 	/**
@@ -124,8 +145,21 @@ public class ProjectListActivity extends Activity implements
 			Intent detailIntent = new Intent(this, ProjectDetailActivity.class);
 			// detailIntent.putExtra(ProjectDetailFragment.ARG_ITEM_ID, id);
 			detailIntent.putExtra("Project", p);
-			startActivity(detailIntent);
+			this.startActivity(detailIntent);
 		}
 
+	}
+	
+	/**
+	 * Logout the user.
+	 */
+	public void logOut(MenuItem item) {
+
+		Intent login = new Intent(this, LoginActivity.class);
+		this.startActivity(login);
+		this.finish();
+		
+		Firebase ref = new Firebase(firebaseLoc);
+		ref.unauth();
 	}
 }

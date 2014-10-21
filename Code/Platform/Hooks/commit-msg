@@ -42,9 +42,9 @@ def getLoC():
 
 def parse(msg):
     hoursRE = r"\[hours:([0-9]+)\]"
-    milestoneRE = r"\[milestone:([0-9]+)\]"
-    taskRE = r"\[task:([0-9]+)\]"
-    statusRE = r"\[status:([0-9]+)\]"
+    milestoneRE = r"\[milestone:([^\]]*)\]"
+    taskRE = r"\[task:([^\]]*)\]"
+    statusRE = r"\[status:([^\]]*)\]"
 
     rexs = [hoursRE,milestoneRE,taskRE,statusRE]
     results = [re.search(rex,msg) for rex in rexs]
@@ -68,21 +68,45 @@ def getUserID(gituser,ref):
     return userID
 
 
-def getTime():
-    return int(time.time()*1000)
+getTime = lambda: int(time.time()*1000)
+
 
 def getMilestoneID(projectID,milestone):
-    pass
-
-
-def getTaskID(projectID,milestone,task):
-    pass
-
-
-def writeCommit(ref,msg,project,uid,hours,milestone,task,status,loc,ts):
-    path = '/commits'
+    path = '/projects/'+projectID+'/milestones'
+    milestones = ref.get(path,None)
+    filtered = {m:milestones[m] for m in milestones if 'name' in milestones[m]}
     try:
-        result = ref.post(path,{'hours':hours,'user':uid,'lines_of_code':loc,'message':msg,'timestamp':ts})
+        mID = [m for m in filtered if filtered[m]['name']==milestone][0]
+    except:
+        raise Exception('HENRY: Nonexistent milestone, commit failed')
+    return mID
+
+
+def getTaskID(projectID,milestoneID,task):
+    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    tasks = ref.get(path,None)
+    filtered = {t:tasks[t] for t in tasks if 'name' in tasks[t]}
+    try:
+        tID = [t for t in filtered if filtered[t]['name']==task][0]
+    except:
+        raise Exception('HENRY: Nonexistent task, commit failed')
+    return tID
+
+
+def writeCommit(ref,msg,project,uid,hours,status,loc,ts,projectID,milestoneID,taskID):
+    path = '/commits/'+projectID+'/'
+    try:
+        result = ref.post(path,{
+            'hours':hours,
+            'user':uid,
+            'lines_of_code':loc,
+            'message':msg,
+            'timestamp':ts,
+            'milestone':milestoneID,
+            'task':taskID,
+            'status':status,
+            'project':projectID
+        })
     except:
         raise Exception('Connection to Firebase commits table denied')
     return result.values()[0]
@@ -102,18 +126,72 @@ def addCommitToProject(ref,projectid,commitid):
         ref.patch(path,{commitid:commitid})
     except:
         raise Exception('Connection to Firebase projects table denied')
+   
+
+def getActiveMilestones(ref,userID,projectID):
+    path = '/projects/'+projectID+'/milestones'
+    milestones = ref.get(path,None)
+    filtered = {m:milestones[m]['name'] for m in milestones if 'name' in milestones[m]}
+    return filtered
+
+
+def getAssignedTasks(ref,userID,projectID,milestoneID):
+    path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    taskIDs = ref.get(path,None).keys()
+    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    allTasks = ref.get(path,None)
+    assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
+    return assignedTasks
     
-def promptAsNecessary(hours,milestone,task,status):
+
+def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     sys.stdin = open('/dev/tty')
     if hours == None:
         hours = raw_input('Hours: ')
+
+    # prompt for milestone if necessary
     if milestone == None:
+        print 'Active milestones:'
+        idsByIndex = [] ; index = 1
+        for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
+            print ' - '+str(index)+'. '+mName
+            idsByIndex = idsByIndex + [mID]
+            index = index + 1
         milestone = raw_input('Milestone: ')
+        if milestone.isdigit() and int(milestone) <= len(idsByIndex):
+            mID = idsByIndex[int(milestone)-1]
+        else:
+            mID = getMilestoneID(projectID,milestone)
+    else:
+        mID = getMilestoneID(projectID,milestone)
+
+    # prompt for task if necessary
     if task == None:
+        print 'Tasks assigned to you:'
+        idsByIndex = [] ; index = 1
+        for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
+            print ' - '+str(index)+'. '+tName
+            idsByIndex = idsByIndex + [tID]
+            index = index + 1
         task = raw_input('Task: ')
+        if task.isdigit() and int(task) <= len(idsByIndex):
+            tID = idsByIndex[int(task)-1]
+        else:
+            tID = getTaskID(projectID,mID,task)
+    else:
+        tID = getTaskID(projectID,mID,task)
+
+    # prompt for status if necessary
     if status == None:
+        print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
+	possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
+	for i in range(len(possibleStatuses)):
+            print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
         status = raw_input('Status: ')
-    return hours,milestone,task,status
+        if status.isdigit() and (int(status) <= len(possibleStatuses)):
+	    status = possibleStatuses[int(status) - 1]
+		
+    return hours,mID,tID,status
 
 
 if __name__ == '__main__':
@@ -125,13 +203,10 @@ if __name__ == '__main__':
     msg = readCommit(sys.argv[1])
     [hours,milestone,task,status],loc = parse(msg),getLoC()
     ts = getTime()
-    hours,milestone,task,status = promptAsNecessary(hours,milestone,task,status)
+    hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
 
-    taskID = getTaskID(projectID,milestone,task)
-
-    commitID = writeCommit(ref,msg,None,userID,int(hours),milestone,task,status,loc,ts)
-
+    commitID =writeCommit(ref,msg,None,userID,int(hours),status,loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
-    
+
     raise Exception('Reached end, prevents commit from executing')
