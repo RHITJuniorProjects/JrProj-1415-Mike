@@ -6,7 +6,7 @@
 			require 'tabbar.php';
 		?>
 	</div>
-		<div class="small-9 columns">
+		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
 					<div class="row text-center">

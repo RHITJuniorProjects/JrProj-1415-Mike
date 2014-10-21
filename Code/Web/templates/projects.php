@@ -13,7 +13,7 @@
 					require 'tabbar.php';
 				?>
 			</div>
-			<div id="content" class="small-9 columns small-offset-3">
+			<div class="small-9 columns main-content">
 				<div class="tabs-content">
 					<div class="content active" id="MyProjects">
 						<div class="small-10 columns small-offset-1 ">
@@ -54,9 +54,9 @@
 					</div>
 				</div>
 			</div>
-			<?php require 'Milestones.php'?>
-			<?php require 'tasks.php'?>
 		</div>
+		<?php require 'Milestones.php'?>
+		<?php require 'tasks.php'?>
 	</body>
 </html>
 
