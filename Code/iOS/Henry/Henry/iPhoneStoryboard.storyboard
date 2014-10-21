@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="mlx-gP-SSI">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RgH-C7-oZ2">
     <dependencies>
         <deployment defaultVersion="1808" identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
@@ -501,6 +501,22 @@
             </objects>
             <point key="canvasLocation" x="1856" y="687"/>
         </scene>
+        <!--Henry Root Navigation Controller-->
+        <scene sceneID="8vJ-ko-Jzu">
+            <objects>
+                <navigationController id="RgH-C7-oZ2" customClass="HenryRootNavigationController" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="MZy-kd-diG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="9Xe-sD-d7k" kind="relationship" relationship="rootViewController" id="XGR-eT-W12"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zU4-sL-neT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-395" y="67"/>
+        </scene>
         <!--Henry Home View Controller-->
         <scene sceneID="6SF-N1-bvM">
             <objects>
@@ -541,21 +557,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kfz-3T-9Bl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="91" y="75"/>
-        </scene>
-        <!--Henry Root Navigation Controller-->
-        <scene sceneID="Kqx-PX-g6i">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="mlx-gP-SSI" customClass="HenryRootNavigationController" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CNN-dl-AIG">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="9Xe-sD-d7k" kind="relationship" relationship="rootViewController" id="bTn-Un-SC1"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yfR-T4-ELu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-400" y="75"/>
         </scene>
     </scenes>
     <resources>

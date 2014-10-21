@@ -34,8 +34,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    HenryRootNavigationController *parentVC = (HenryRootNavigationController *)[self navigationController];
-    self.uid = parentVC.uid;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.uid = [defaults objectForKey:@"id"];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     

@@ -29,7 +29,7 @@
     
     
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com"];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com"];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
