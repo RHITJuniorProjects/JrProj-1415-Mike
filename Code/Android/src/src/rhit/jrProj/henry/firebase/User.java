@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import rhit.jrProj.henry.MainActivity;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -16,10 +16,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 public class User implements Parcelable {
-	/**
-	 * A reference to the Main URL of the Firebase being used.
-	 */
-	private String firebaseURL= MainActivity.firebaseLoc;
 	
 	/**
 	 * A reference to firebase to keep the data up to date.
@@ -92,14 +88,13 @@ public class User implements Parcelable {
 	 */
 
 	User(Parcel pc) {
-		String firebaseURL=pc.readString();
-		this.firebase = new Firebase(firebaseURL);
+		this.firebase = new Firebase(pc.readString());
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.firebase.child("projects").addChildEventListener(new GrandChildrenListener(this));
 		this.name = pc.readString();
 		this.gitName = pc.readString();
 		this.email = pc.readString();
-		this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
+		this.key = this.firebase.toString().substring(this.firebase.toString().lastIndexOf("/") + 1);
 	}
 
 	public User(String firebaseURL) {
@@ -300,8 +295,9 @@ public class User implements Parcelable {
 			if (arg0.getValue().equals("lead")) {
 				r = Role.Lead;
 			}
+			Log.i("REPO",arg0.getRef().getRepo().toString());
 			Project p = new Project(
-					firebaseURL+"projects/"
+					arg0.getRef().getRepo().toString()+"/projects/"
 							+ arg0.getName());
 			this.user.getMap().put(p, r);
 			p.setListChangeNotifier(this.user.getListChangeNotifier());
@@ -316,7 +312,7 @@ public class User implements Parcelable {
 				r = Role.Lead;
 			}
 			Project p = new Project(
-					firebaseURL+"projects/"
+					arg0.getRef().getRepo().toString()+"/projects/"
 							+ arg0.getName());
 			this.user.getMap().replaceValue(p, r);
 		}
@@ -328,7 +324,7 @@ public class User implements Parcelable {
 
 		public void onChildRemoved(DataSnapshot arg0) {
 			Project p = new Project(
-					firebaseURL+"projects/"
+					arg0.getRef().getRepo().toString()+"/projects/"
 							+ arg0.getName());
 			this.user.getMap().remove(p);
 			if (this.user.getListChangeNotifier() != null) {
