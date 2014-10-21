@@ -23,6 +23,7 @@
     {
         [self.navButton setTarget: self.revealViewController];
         [self.navButton setAction: @selector( revealToggle: )];
+        [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     }
 }
 
