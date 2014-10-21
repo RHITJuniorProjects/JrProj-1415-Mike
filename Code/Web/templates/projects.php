@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Henry - Teams</title>
+		<title>Henry - Projects</title>
 		<?php require 'header.php';?>
 		<script type="text/javascript" src="/teams.js"></script>
 	</head>
@@ -13,12 +13,12 @@
 					require 'tabbar.php';
 				?>
 			</div>
-			<div class="small-9 columns">
+			<div id="content" class="small-9 columns small-offset-3">
 				<div class="tabs-content">
 					<div class="content active" id="MyProjects">
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
-								<h1>My Teams</h1>
+								<h1>My Projects</h1>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
 								<dd class="accordion-navigation">
@@ -54,9 +54,9 @@
 					</div>
 				</div>
 			</div>
+			<?php require 'Milestones.php'?>
+			<?php require 'tasks.php'?>
 		</div>
-		<?php require 'Milestones.php'?>
-		<?php require 'tasks.php'?>
 	</body>
 </html>
 
