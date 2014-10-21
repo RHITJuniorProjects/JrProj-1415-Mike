@@ -7,6 +7,7 @@ import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,7 +24,7 @@ import android.widget.ListView;
 public class ProjectListFragment extends ListFragment {
 
 	ArrayList<Project> projects;
-	
+
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -60,7 +61,7 @@ public class ProjectListFragment extends ListFragment {
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 
 		public void onItemSelected(Project p) {
-		// Do nothing
+			// Do nothing
 		}
 	};
 
@@ -74,12 +75,16 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.projects = ((ProjectListActivity)this.getActivity()).getProjects();
-		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
+		this.projects = ((ProjectListActivity) this.getActivity())
+				.getProjects();
+		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
+				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
 		setListAdapter(arrayAdapter);
-		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(arrayAdapter);
+		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
+				arrayAdapter);
+		((ProjectListActivity) this.getActivity())
+		.getUser().setListChangeNotifier(lcn);
 		for (Project project : this.projects) {
 			project.setListChangeNotifier(lcn);
 		}

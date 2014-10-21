@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface HenryProjectsTableViewController : UITableViewController
-
+@property NSString *uid;
 @end

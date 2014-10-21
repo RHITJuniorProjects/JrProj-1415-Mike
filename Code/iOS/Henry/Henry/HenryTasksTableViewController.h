@@ -14,5 +14,5 @@
 @property NSString *milestoneName;
 @property NSString *MileStoneID;
 @property NSArray *userTasks;
-
+@property NSString *uid;
 @end

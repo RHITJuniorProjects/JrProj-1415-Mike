@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface HenryMilestonesTableViewController : UITableViewController
-
-
+@property NSString *MilestoneID;
+@property NSString *taskID;
 @property NSString *ProjectID;
 @property NSArray *tasks;
+@property NSString *uid;
 @end

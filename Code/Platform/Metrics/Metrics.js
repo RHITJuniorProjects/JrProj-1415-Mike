@@ -1,51 +1,118 @@
 /**
  * Metric collection script for CSSE371 Henry project
+ * @author Sean Carter, Abby Mann
  */
 
 var Firebase = require("firebase");
-var commitsRef = new Firebase("https://henry-test.firebaseio.com/commits");
-var metrics = new Firebase("https://henry-test.firebaseio.com/metrics");
 
-var projects = null;
-var commits = null;
+var production = "https://henry-production.firebaseio.com";
+var staging = "https://henry-staging.firebaseio.com";
+var test = "https://henry-test.firebaseio.com";
 
-metrics.on('value', function(metric) {
-    projects = metric;
-});
+// used to test changes to the script so we don't damage the real DB. 
+var metricsTest = "https://henry-metrics-test.firebaseio.com/"; 
 
-commitsRef.on('value', function(commitsData) {
-    commits = commitsData;
-});
+// TODO: set this to the appropriate database, potentially with commandline override
+// commandline version could also have a flag for which DB to use?
+var firebaseUrl = test;
 
-commitsRef.on('child_added', function(commit) {
-    if (projects !== null && commits !== null) {
+var commitsRef = new Firebase(firebaseUrl+'/commits');
+var usersRef = new Firebase(firebaseUrl+'/users');
+var projectsRef = new Firebase(firebaseUrl+'/projects');
+
+
+// add a listener to commits for new projects
+commitsRef.on('child_added', function(project) {
+    var isFirstRunThrough = true;
+    // ignore description
+    if (project.name() == 'description') return;
+    
+    
+    // add a listener to each project for new commits
+    project.ref().on('child_added', function(commit) {
+        // ignore description
+        if (commit.name() == 'description') return;
         
-        var project = projects.child(commit.child("project").val());
+        if (isFirstRunThrough) return;
+        
+        calculateMetrics(project.name(), commit);
+    });
+    isFirstRunThrough = false;
+    console.log("added listener for project " + project.name());
+});
 
-        var averageTime = project.child("average_time").val();
-        var numCommits = project.child("number_of_commits").val();
-        var commitTime = commit.child("time_spent").val();
 
-        numCommits++;
+function calculateMetrics(projectName, commit) {
+    console.log("Calculating metrics for: " + projectName + ", " + commit.name());
+    var hours = commit.child('hours').val();
+    var lines_of_code = commit.child('lines_of_code').val();
+    var milestone = commit.child('milestone').val();
+    var user = commit.child('user').val();
+    var task = commit.child('task').val();
 
-        averageTime = (averageTime * (numCommits - 1) + commitTime) / numCommits;
+    // metrics data for users
+    usersRef.child(user)
+            .child('projects')
+            .child(projectName)
+            .once('value', function(userProject) {
 
-        project.ref().update({
-            average_time : averageTime,
-            number_of_commits : numCommits
+        var userMilestone = userProject.child('milestones').child(milestone);
+        var userMilestoneHours = userMilestone.child('total_hours').val();
+        var userMilestoneLOC = userMilestone.child('total_lines_of_code').val();
+        
+        userMilestoneHours += hours;
+        userMilestoneLOC += lines_of_code;
+        
+        // update milestone data
+        userMilestone.ref().update({
+            'total_hours' : userMilestoneHours,
+            'total_lines_of_code' : userMilestoneLOC
         });
-    }
-});
-/*
-commitsRef.on('child_removed', function(commit) {
-    if (projects !== null && commits !== null) {
-        var project = projects.child(commit.child("project").val());
         
-        var numCommits = project.child("number_of_commits").val() - 1;
+        var userProjectHours = userProject.child('total_hours').val();
+        var userProjectLOC = userProject.child('total_lines_of_code').val();
         
-        project.ref().update({
-            number_of_commits : numCommits
+        userProjectHours += hours;
+        userProjectLOC += lines_of_code;
+        
+        // update project data
+        userProject.ref().update({
+            'total_hours' : userProjectHours,
+            'total_lines_of_code' : userProjectLOC
         });
-    }
-});
-*/
+        
+    });
+    
+    // metrics data for projects and milestones
+    projectsRef.child(projectName)
+            .once('value', function(projectBranch) {
+
+        var projectLOC = projectBranch.child('total_lines_of_code').val();
+        var projectHours = projectBranch.child('total_hours').val();
+        
+        projectLOC += lines_of_code;
+        projectHours += hours;
+        
+        // update project
+        projectBranch.ref().update({
+            'total_hours' : projectHours,
+            'total_lines_of_code' : projectLOC
+        });
+        
+        // TODO: need to update completeness percentages
+        
+        var milestoneBranch = projectBranch.child('milestones').child(milestone);
+        
+        var milestoneLOC = milestoneBranch.child('total_lines_of_code').val();
+        var milestoneHours = milestoneBranch.child('total_hours').val();
+        
+        milestoneLOC += lines_of_code;
+        milestoneHours += hours;
+        
+        // update milestone
+        milestoneBranch.ref().update({
+            'total_hours' : milestoneHours,
+            'total_lines_of_code' : milestoneLOC
+        });
+    });
+}
