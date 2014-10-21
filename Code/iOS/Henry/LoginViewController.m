@@ -26,9 +26,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    
     self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com"];
 }
 

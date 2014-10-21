@@ -7,6 +7,7 @@
 //
 
 #import "HenryHomeViewController.h"
+#import "SWRevealViewController.h"
 
 @interface HenryHomeViewController ()
 
@@ -16,7 +17,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    SWRevealViewController *revealViewController = self.revealViewController;
+    if ( revealViewController )
+    {
+        [self.navButton setTarget: self.revealViewController];
+        [self.navButton setAction: @selector( revealToggle: )];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
