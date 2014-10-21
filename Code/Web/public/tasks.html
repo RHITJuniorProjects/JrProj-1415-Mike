@@ -1,75 +1,12 @@
-<html>
-<head>
-	<title>Henry - Teams</title>
-	<meta charset="utf-8">
-<meta name="description" content="Henry project management tool">
-<link rel="stylesheet" type="text/css" href="/foundation.css">
-<link rel="stylesheet" type="text/css" href="/henry.css">
-<script type="text/javascript" src="/firebase.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
-<script type="text/javascript" src="/henry.js"></script>
-<script type="text/javascript" src="/foundation.js"></script>
-<script type="text/javascript">
-	$(function(){ $(document).foundation()});
-</script>
-</head>
-<body>
-	<!-- topbar -->
-<nav class="top-bar" data-topbar role="navigation">
-	<ul class="title-area">
-		<li class="name">
-			<h1><a href="/">Henry</a></h1>
-		</li>
-		<li class="menu-icon">
-			<!-- put icon here -->
-		</li>
-	</ul>
-
-	<section class="top-bar-section">
-		<ul class="left">
-			<li><a href="teams">Teams</a></li>
-			<li><a href="Milestones">Milestones</a></li>
-			<li><a href="tasks">Tasks</a></li>
-			<!-- add top bar links here> -->
-		</ul>
-		<ul class="right">
-			<li class="has-form">
-				<div class="row collapse">
-					<div class="small-8 columns">
-						<input type="text" placeholder="search bar">
-					</div>
-					<div class="small-4 columns">
-						<a href="#" class="button expand">Search</a>
-					</div>
-				</div>
-			</li>
-		</ul>
-	</section>
-</nav>
-	<div class="row text-center">
-		<h1>My Tasks</h1>
-	</div>
-	<table style="width:100%">
+<div id='tasks-page' hidden>
+	<table id="tasks-table" style="width:100%">
 		<tr>
 			<td>Task Name</td>
+			<td>Description</td>
+			<td>Category</td>
 			<td>Assigned User</td> 
-			<td>Points</td>
-		</tr>
-		<tr>
-			<td>Change html pages</td>
-			<td>Jeff</td> 
-			<td>3</td>
-		</tr>
-		<tr>
-			<td>Update database</td>
-			<td>Fred</td> 
-			<td>5</td>
-		</tr>
-		<tr>
-			<td>Delete unused code</td>
-			<td>Claire</td> 
-			<td>2</td>
+			<td>Estimated Hours</td>
+			<td>Actual Hours</td>
 		</tr>
 	</table>
-</body>
-</html>
+</div>

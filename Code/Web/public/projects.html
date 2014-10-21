@@ -1,0 +1,175 @@
+<html>
+	<head>
+		<title>Henry - Projects</title>
+		<meta charset="utf-8">
+<meta http-equiv="cache-control" content="no-store" />
+<meta name="description" content="Henry project management tool">
+<link rel="stylesheet" type="text/css" href="/foundation.css">
+<link rel="stylesheet" type="text/css" href="/henry.css">
+<link rel="stylesheet" type="text/css" href="home-test.css">
+<script type="text/javascript" src="/firebase.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+<script type="text/javascript" src="/henry.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script type="text/javascript" src="home-test.js"></script>
+<script type="text/javascript" src="/foundation.js"></script>
+<script type="text/javascript">
+	$(function(){ $(document).foundation()});
+</script>
+		<script type="text/javascript" src="/teams.js"></script>
+	</head>
+	<body class="wide">
+		<!-- topbar -->
+<nav class="top-bar" data-topbar role="navigation">
+	<ul class="title-area">
+		<li class="name">
+			<h1><a href="/">Henry</a></h1>
+		</li>
+		<li class="menu-icon">
+			<!-- put icon here -->
+		</li>
+	</ul>
+
+	<section class="top-bar-section">
+		<ul class="left">
+			<li><a href="projects">Projects</a></li>
+			<!-- add top bar links here> -->
+		</ul>
+		<ul class="right">
+			<li><a id="currentUser"></a></li>
+			<li id="logoutButton" hidden><a href="javascript:logout()">Logout</a></li>
+			<li id="loginButton" hidden><a href="login">Login</a></li>
+			<li class="has-form">
+				<div class="row collapse">
+					<div class="small-8 columns">
+						<input type="text" placeholder="search bar">
+					</div>
+					<div class="small-4 columns">
+						<a href="#" class="button expand">Search</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</section>
+</nav>
+		<div id="projects-page" class="wide row">
+			<div class="small-2 columns small-offset-1 tabbar">
+				
+<dl class="tabs vertical" data-tab>
+	<dd class="active"><a href="#MyProjects">My Projects</a></dd><dd><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd></dl>
+
+			</div>
+			<div id="content" class="small-9 columns small-offset-3">
+				<div class="tabs-content">
+					<div class="content active" id="MyProjects">
+						<div class="small-10 columns small-offset-1 ">
+							<div class="row collapse text-center outlined">
+								<h1>My Projects</h1>
+							</div>
+							<dl class="row collapse accordion outlined" data-accordion>
+								<dd class="accordion-navigation">
+									<a href="#projects-panel" class="text-center outlined">
+										<h3>Production</h3>
+									</a>
+									<div id="projects-panel" class="content active panel row">
+										
+									</div>
+								</dd>
+							</dl>
+							<dl class="row collapse accordion" data-accordion>
+								<dd class="accordion-navigation">
+									<a href="#finished-projects-panel" class="text-center outlined">
+										<h3>Closed</h3>
+									</a>
+									<div id="finished-projects-panel" class="content active row panel">
+										<!-- pojects added by projects.js -->
+									</div>
+								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="content" id="ProjectStatistics">
+						<div class-"row">
+							<div class="small-6 columns">
+								<div id="projContainer1"></div>
+							</div>
+							<div class="small-6 columns">
+								<div id="projContainer2"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+<div id="milestones-page" hidden>
+	<div class="small-2 columns small-offset-1 tabbar">
+		
+<dl class="tabs vertical" data-tab>
+	<dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd></dl>
+
+	</div>
+		<div class="small-9 columns">
+			<div class="tabs-content">
+				<div class="content active" id="ProjectMilestones">
+					<div class="row text-center">
+											</div>
+					<div class="small-10 columns small-offset-1">
+						<div class="row collapse text-center outlined">
+							<h1><a id="project-name" onclick="allProjects()"></a></h1>
+							<button data-reveal-id="myModal">Add Member</button>
+							<div id="myModal" class="reveal-modal" data-reveal>
+								Users
+								<select id="member-select"></select>
+								<button onclick="addNewMember();">Add</button>
+							</div>
+						</div>
+						<dl class="row collapse accordion" data-accordion>
+							<dd class="accordion-navigation">
+								<a href="#milestones-panel" class="text-center">
+									<h3>Production</h3>
+								</a>
+								<div id="milestones-panel" class="content active row panel">
+									<!-- milestones inserted by javascript -->
+								</div>
+							</dd>
+						</dl>
+						<dl class="row collapse accordion" data-accordion>
+							<dd class="accordion-navigation">
+								<a href="panel3" class="text-center">
+									<h3>Completed</h3>
+								</a>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="content" id="TeamMembers">
+				</div>
+				<div class="content" id="ProjectStatistics">
+					<div class="row">
+						<div class="small-12 column">
+							<div id="mileContainer"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+</div>
+			<div id='tasks-page' hidden>
+	<table id="tasks-table" style="width:100%">
+		<tr>
+			<td>Task Name</td>
+			<td>Description</td>
+			<td>Category</td>
+			<td>Assigned User</td> 
+			<td>Estimated Hours</td>
+			<td>Actual Hours</td>
+		</tr>
+	</table>
+</div>
+		</div>
+	</body>
+</html>
+

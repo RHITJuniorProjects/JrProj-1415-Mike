@@ -1,8 +1,56 @@
+
+.top-bar {
+	position:fixed; 
+	width:100%;
+	z-index: 10;
+}
+
+#content {
+	position:relative;
+	top:45px;
+}
+
 .top-bar a.button {
 	height:1.8rem;
+}
+
+.outlined {
+	border:1px solid #d8d8d8;
+}
+
+#MyProjects,
+#ProjectMilestones {
+	padding-top:0;
+}
+
+.wide {
+	width:100% !important;
+	min-width:100% !important;
+	max-width:100% !important;
+}
+
+
+.tabbar {
+	position:fixed;
+	top: 45px;
+	z-index:1;
+	height:1000000px;
+	background-color:#EFEFEF;
+	padding-top:5rem;
+	padding-left:0 !important;
+	padding-right:0 !important;
+	overflow: hidden;
+}
+
+.tabbar * {
+	width:100% !important;
+	max-width:100% !important;
+	min-width:100% !important;
 }
 
 ul {
 	list-style-type: none;
 }
-
+h2 {
+	height:.5rem;
+}
