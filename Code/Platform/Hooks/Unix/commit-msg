@@ -209,4 +209,4 @@ if __name__ == '__main__':
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    raise Exception('Reached end, prevents commit from executing')
+    #raise Exception('Reached end, prevents commit from executing')
