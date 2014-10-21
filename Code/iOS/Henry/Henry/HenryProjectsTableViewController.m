@@ -10,6 +10,7 @@
 #import "HenryProjectDetailViewController.h"
 #import "HenryMilestonesTableViewController.h"
 #import "HenryRootNavigationController.h"
+#import "SWRevealViewController.h"
 #import <Firebase/Firebase.h>
 
 @interface HenryProjectsTableViewController ()
@@ -36,6 +37,15 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
+    
+    SWRevealViewController *revealViewController = self.revealViewController;
+    if ( revealViewController )
+    {
+        [self.navButton setTarget: self.revealViewController];
+        [self.navButton setAction: @selector( revealToggle: )];
+        [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
+    }
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -193,4 +203,6 @@
 }
 
 
+- (IBAction)navButton:(id)sender {
+}
 @end
