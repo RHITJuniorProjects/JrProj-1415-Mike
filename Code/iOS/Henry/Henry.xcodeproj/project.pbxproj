@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		832BDD5119F6CD8100642CD8 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832BDD5019F6CD8100642CD8 /* SWRevealViewController.m */; };
+		832BDD5619F6D89000642CD8 /* exit-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 832BDD5519F6D89000642CD8 /* exit-25.png */; };
+		832BDD5819F6D8F400642CD8 /* design-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 832BDD5719F6D8F400642CD8 /* design-25.png */; };
+		832BDD5A19F6D90100642CD8 /* combo_chart-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 832BDD5919F6D90100642CD8 /* combo_chart-25.png */; };
 		83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */; };
 		83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */; };
 		83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B26D9419F5B1B4001DEE31 /* menu@2x.png */; };
@@ -39,6 +43,7 @@
 		93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7019C91F0500C2FC38 /* HenryTasksTableViewController.m */; };
 		93447F7319C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */; };
 		93447F7619C92C0900C2FC38 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F7519C92C0900C2FC38 /* LoginViewController.m */; };
+		93A50E7519F7078200645F54 /* SideNavTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93A50E7419F7078200645F54 /* SideNavTableTableViewController.m */; };
 		ADB3A4DE19E48A1F00C687D5 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4DD19E48A1F00C687D5 /* libicucore.dylib */; };
 		ADB3A4E019E48A2A00C687D5 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4DF19E48A2A00C687D5 /* libc++.dylib */; };
 		ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */; };
@@ -57,6 +62,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		832BDD4F19F6CD8100642CD8 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		832BDD5019F6CD8100642CD8 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		832BDD5519F6D89000642CD8 /* exit-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "exit-25.png"; sourceTree = "<group>"; };
+		832BDD5719F6D8F400642CD8 /* design-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "design-25.png"; sourceTree = "<group>"; };
+		832BDD5919F6D90100642CD8 /* combo_chart-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "combo_chart-25.png"; sourceTree = "<group>"; };
 		83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadLoginStoryboard.storyboard; sourceTree = "<group>"; };
 		83B26D9119F5AD98001DEE31 /* HenryHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryHomeViewController.h; sourceTree = "<group>"; };
 		83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryHomeViewController.m; sourceTree = "<group>"; };
@@ -107,6 +117,8 @@
 		93447F7219C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = iPhoneLoginStoryboard.storyboard; path = ../iPhoneLoginStoryboard.storyboard; sourceTree = "<group>"; };
 		93447F7419C92C0900C2FC38 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = ../LoginViewController.h; sourceTree = "<group>"; };
 		93447F7519C92C0900C2FC38 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = ../LoginViewController.m; sourceTree = "<group>"; };
+		93A50E7319F7078200645F54 /* SideNavTableTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideNavTableTableViewController.h; sourceTree = "<group>"; };
+		93A50E7419F7078200645F54 /* SideNavTableTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideNavTableTableViewController.m; sourceTree = "<group>"; };
 		ADB3A4DD19E48A1F00C687D5 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		ADB3A4DF19E48A2A00C687D5 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -144,6 +156,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		832BDD4C19F6CC7800642CD8 /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				832BDD4E19F6CD4B00642CD8 /* Sidenav */,
+				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
+				83B26D9119F5AD98001DEE31 /* HenryHomeViewController.h */,
+				83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */,
+				93054B0B19C961E000911AB4 /* Projects */,
+				93054B0A19C961D300911AB4 /* Tasks */,
+				93054B0C19C961E500911AB4 /* Milestones */,
+			);
+			name = iPhone;
+			sourceTree = "<group>";
+		};
+		832BDD4E19F6CD4B00642CD8 /* Sidenav */ = {
+			isa = PBXGroup;
+			children = (
+				832BDD5919F6D90100642CD8 /* combo_chart-25.png */,
+				832BDD5719F6D8F400642CD8 /* design-25.png */,
+				832BDD5519F6D89000642CD8 /* exit-25.png */,
+				832BDD4F19F6CD8100642CD8 /* SWRevealViewController.h */,
+				832BDD5019F6CD8100642CD8 /* SWRevealViewController.m */,
+				93A50E7319F7078200645F54 /* SideNavTableTableViewController.h */,
+				93A50E7419F7078200645F54 /* SideNavTableTableViewController.m */,
+			);
+			name = Sidenav;
+			sourceTree = "<group>";
+		};
 		93054B0A19C961D300911AB4 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,10 +211,10 @@
 		93054B0C19C961E500911AB4 /* Milestones */ = {
 			isa = PBXGroup;
 			children = (
-				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
-				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
 				843D240819F476BC00DBC2CB /* HenryMilestoneDetailViewController.h */,
 				843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */,
+				93447F6C19C91EFB00C2FC38 /* HenryMilestonesTableViewController.h */,
+				93447F6D19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m */,
 			);
 			name = Milestones;
 			sourceTree = "<group>";
@@ -255,19 +295,14 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				832BDD4C19F6CC7800642CD8 /* iPhone */,
 				93054B0F19C9623500911AB4 /* iPad */,
 				93054B0E19C9622900911AB4 /* Login/out */,
 				93054B0D19C9621D00911AB4 /* Keyboard */,
-				93054B0C19C961E500911AB4 /* Milestones */,
-				93054B0B19C961E000911AB4 /* Projects */,
-				93054B0A19C961D300911AB4 /* Tasks */,
 				93447F4719C91C5500C2FC38 /* HenryAppDelegate.h */,
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
-				83B26D9119F5AD98001DEE31 /* HenryHomeViewController.h */,
-				83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
 				93447F3F19C91C5500C2FC38 /* Supporting Files */,
-				93447F6719C91C8400C2FC38 /* iPhoneStoryboard.storyboard */,
 			);
 			path = Henry;
 			sourceTree = "<group>";
@@ -377,10 +412,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				832BDD5819F6D8F400642CD8 /* design-25.png in Resources */,
 				93447F7319C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard in Resources */,
 				83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */,
 				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
+				832BDD5A19F6D90100642CD8 /* combo_chart-25.png in Resources */,
 				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
+				832BDD5619F6D89000642CD8 /* exit-25.png in Resources */,
 				83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */,
 				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
 				87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */,
@@ -413,7 +451,9 @@
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
 				87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */,
+				832BDD5119F6CD8100642CD8 /* SWRevealViewController.m in Sources */,
 				843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */,
+				93A50E7519F7078200645F54 /* SideNavTableTableViewController.m in Sources */,
 				843D241619F476DF00DBC2CB /* HenryTaskDetailViewController.m in Sources */,
 				843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */,
 				87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */,

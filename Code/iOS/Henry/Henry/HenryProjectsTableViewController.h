@@ -10,4 +10,5 @@
 
 @interface HenryProjectsTableViewController : UITableViewController
 @property NSString *uid;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *navButton;
 @end

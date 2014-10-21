@@ -7,6 +7,7 @@
 //
 
 #import "HenryHomeViewController.h"
+#import "SWRevealViewController.h"
 
 @interface HenryHomeViewController ()
 
@@ -16,7 +17,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    SWRevealViewController *revealViewController = self.revealViewController;
+    if ( revealViewController )
+    {
+        [self.navButton setTarget: self.revealViewController];
+        [self.navButton setAction: @selector( revealToggle: )];
+        [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,22 +42,4 @@
 }
 */
 
-- (IBAction)logout:(id)sender {
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"id"];
-    [defaults removeObjectForKey:@"token"];
-    [defaults synchronize];
-    
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadLoginStoryboard" bundle:nil];
-        UIViewController *initialView = [sb instantiateInitialViewController];
-        [self presentViewController:initialView animated:YES completion:nil];
-    } else {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneLoginStoryboard" bundle:nil];
-        UIViewController *initialView = [sb instantiateInitialViewController];
-        [self presentViewController:initialView animated:YES completion:nil];
-    }
-}
 @end

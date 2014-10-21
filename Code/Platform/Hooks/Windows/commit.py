@@ -152,8 +152,8 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     sys.stdin = open('CON')
 
     if hours == None:
-    	sys.stdout.write('Hours: ')
-	sys.stdout.flush()
+        sys.stdout.write('Hours: ')
+        sys.stdout.flush()
         hours = raw_input()
 
     # prompt for milestone if necessary
@@ -223,4 +223,4 @@ if __name__ == '__main__':
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    raise Exception('Reached end, prevents commit from executing')
+    #raise Exception('Reached end, prevents commit from executing')

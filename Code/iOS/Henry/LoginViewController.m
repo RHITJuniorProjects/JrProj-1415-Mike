@@ -26,10 +26,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    
-    
     self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com"];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -53,6 +54,7 @@
 - (IBAction)loginAction:(id)sender
 {
     NSLog(@"Attempting login");
+    [self.view endEditing:YES];
     self.errorLabel.hidden = YES;
     self.loginIndicator.hidden = NO;
     [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
