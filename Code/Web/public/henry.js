@@ -30,6 +30,10 @@ Table.prototype = {
 			callback(val);
 		});
 	},
+	off:function(){
+		this.__firebase.off('child_added');
+		this.__firebase.off('child_removed');
+	},
 	add:function(id){
 		var ref;
 		if(id){
@@ -83,6 +87,9 @@ User.prototype = {
 			option.text(name);
 		});
 		return option;
+	},
+	off:function(){
+		this.__firebase.off();
 	}
 };
 
@@ -104,14 +111,17 @@ function addNewMember(){
 	//}
 	//console.log(id);
 }
-function makeProgressBar(divClass,percentRef){
+function makeProgressBar(divClass,text,percentRef){
+	var div = $('<div>');
+	var label = $('<h4>'+text+'</h4>');
 	var progress = $('<div class="progress '+divClass+'">');
 	var span = $('<span class="meter">');
+	div.append(label,progress);
 	progress.append(span);
 	percentRef.on('value',function(snap){
 		span.width(String(snap.val())+"%");
 	});
-	return progress;
+	return div;
 }
 
 function Project(firebase){
@@ -189,13 +199,16 @@ Project.prototype = {
 		return option;
 	},
 	getTaskProgressBar:function(){
-		return makeProgressBar('small-12',this.__taskPercent);
+		return makeProgressBar('small-12','Tasks Completed',this.__taskPercent);
 	},
 	getHoursProgressBar:function(){
-		return makeProgressBar('small-12',this.__hoursPercent);
+		return makeProgressBar('small-12','Hours Completed',this.__hoursPercent);
 	},
 	getMilestoneProgressBar:function(){
-		return makeProgressBar('small-12',this.__milestonePercent);
+		return makeProgressBar('small-12','Milestones Completed',this.__milestonePercent);
+	},
+	off:function(){
+		this.__firebase.off();
 	}
 };
 
@@ -257,10 +270,13 @@ Milestone.prototype = {
 		return new ReferenceTable(users,this.__members);
 	},
 	getTaskProgressBar:function(){
-		return makeProgressBar('small-12',this.__taskPercent);
+		return makeProgressBar('small-12','Tasks Completed',this.__taskPercent);
 	},
 	getHoursProgressBar:function(){
-		return makeProgressBar('small-12',this.__hoursPercent);
+		return makeProgressBar('small-12','Hours Completed',this.__hoursPercent);
+	},
+	off:function(){
+		this.__firebase.off();
 	}
 };
 
@@ -366,6 +382,9 @@ Task.prototype = {
 			id = user.uid;
 		}
 		this.__assigned_user.set(id);
+	},
+	off:function(){
+		this.__firebase.off();
 	}
 };
 

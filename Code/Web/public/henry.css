@@ -3,6 +3,10 @@
 	height:1.8rem;
 }
 
+.outlined {
+	border:1px solid #d8d8d8;
+}
+
 .wide {
 	width:100% !important;
 	min-width:100% !important;

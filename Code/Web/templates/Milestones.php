@@ -10,16 +10,17 @@
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
 					<div class="row text-center">
-						<h1 id="project-name">
+											</div>
+					<div class="small-10 columns small-offset-1">
+						<div class="row collapse text-center outlined">
+							<h1><a id="project-name" onclick="allProjects()"></a></h1>
 							<button data-reveal-id="myModal">Add Member</button>
 							<div id="myModal" class="reveal-modal" data-reveal>
 								Users
 								<select id="member-select"></select>
 								<button onclick="addNewMember();">Add</button>
 							</div>
-						</h1>
-					</div>
-					<div class="small-10 columns small-offset-1">
+						</div>
 						<dl class="row collapse accordion" data-accordion>
 							<dd class="accordion-navigation">
 								<a href="#milestones-panel" class="text-center">
