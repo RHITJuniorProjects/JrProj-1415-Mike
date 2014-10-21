@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+python .git/hooks/commit.py $1

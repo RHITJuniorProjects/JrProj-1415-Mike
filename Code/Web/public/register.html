@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Henry</title>
+		<title>Henry: Registering</title>
 		<meta charset="utf-8">
 <meta http-equiv="cache-control" content="no-store" />
 <meta name="description" content="Henry project management tool">
@@ -54,10 +54,11 @@
 	</section>
 </nav>
 		<div>
-			<h1>Henry</h1>
-			<a href="/login">Login</a>
-			<a href="/register">Register</a>
-			<a href="/projects">Projects</a>
+			<h1>Henry: Register New Account</h1>
+			Username: <input type="text" id="user">
+			Password: <input type="password" id="pass">
+			<input type="submit" value="Submit" onclick="register()">
+			<span style="color:red" id="registerError" hidden>Email already in use</span>
 		</div>
 	</body>
 </html>
