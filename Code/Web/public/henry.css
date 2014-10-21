@@ -7,6 +7,10 @@
 	border:1px solid #d8d8d8;
 }
 
+.content {
+	padding-top:0 !important;
+}
+
 .wide {
 	width:100% !important;
 	min-width:100% !important;

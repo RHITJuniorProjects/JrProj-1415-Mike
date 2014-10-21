@@ -28,7 +28,7 @@ function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();
     taskPage.show();
-	if(currentMilestone){
+	if(selectedMilestone){
 		currentMilestone.off();
 	}
     currentMilestone = milestone;

@@ -44,8 +44,7 @@ Table.prototype = {
 		return this.__factory(ref);
 	},
 	getSelect:function(onselect){
-		this.__selectCount = (this.__selectCount || 0) + 1;
-		var select = $('<select>');
+	var select = $('<select>');
 		if(onselect){
 			var table = this;
 			select.change(function(){
@@ -111,6 +110,7 @@ function addNewMember(){
 	//}
 	//console.log(id);
 }
+
 function makeProgressBar(divClass,text,percentRef){
 	var div = $('<div>');
 	var label = $('<h4>'+text+'</h4>');
@@ -135,7 +135,6 @@ function Project(firebase){
 	this.__milestonePercent = firebase.child('milestone_percent');
 	this.__hoursPercent = firebase.child('hours_percent');
 };
-
 
 Project.prototype = {
 	getName:function(callback){
@@ -291,6 +290,15 @@ function Task(firebase){
 	this.__updatedTime = firebase.child('updated_time_estimate');
 };
 
+Task.Categories = [
+	'New',
+	'Implementation',
+	'Testing',
+	'Verify',
+	'Regression',
+	'Closed'
+];
+
 Task.prototype = {
 	getName:function(callback){
 		this.__name.on('value',function(dat){
@@ -313,7 +321,18 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
-	
+	getCategorySelect:function(onselect){
+		var select = $('<select>');
+		Task.Categories.forEach(function(category){
+			select.append('<option value="'+category+'">'+category+'</option>');
+		});
+		if(onselect){
+			select.change(function(){
+				onselect(select.val());
+			});
+		}
+		return select;
+	},
 	getOriginalTime:function(callback){
 		this.__originalTime.on('value',function(dat){
 			callback(dat.val());
@@ -344,18 +363,17 @@ Task.prototype = {
 
 		var userName = $('<span>');
 		var userSelect = users.getSelect(function(user){
-			console.log('select');
 			task.setUser(user);
+			userSelect.blur();
 			userSelect.hide();
 			userName.show();
 		});
 		userSelect.hide();
-		user.append(userSelect);
-		user.append(userName);
 		user.click(function(){
-			userSelect.show();
 			userName.hide();
+			userSelect.show();
 		});
+		user.append(userName,userSelect);
 
 		this.getAssignedUser(function(assignedUser){
 			assignedUser.getName(function(name){
@@ -363,8 +381,21 @@ Task.prototype = {
 			});
 		});
 
+		var catLabel = $('<span>');
+		var catSelect = this.getCategorySelect(function(category){
+			task.setCategory(category);
+			catSelect.blur();
+			catSelect.hide();
+			catLabel.show();
+		});
+		catSelect.hide();
+		catLabel.click(function(){
+			catLabel.hide();
+			catSelect.show();
+		});
+		cat.append(catLabel,catSelect);
 		this.getCategory(function(categoryStr){
-			cat.html(categoryStr);
+			catLabel.text(categoryStr);
 		});
 
 		this.getOriginalTime(function(original_time_estimateStr){
@@ -382,6 +413,9 @@ Task.prototype = {
 			id = user.uid;
 		}
 		this.__assigned_user.set(id);
+	},
+	setCategory:function(cat){
+		this.__category.set(cat);
 	},
 	off:function(){
 		this.__firebase.off();
