@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -47,10 +48,31 @@ public class ProjectDetailFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_project_detail,
 				container, false);
 		if (this.projectItem != null) {
-			((TextView) rootView.findViewById(R.id.project_detail))
-					.setText(this.projectItem.toString());
+			((TextView) rootView.findViewById(R.id.project_name))
+				.setText(this.projectItem.getName());
+			((TextView) rootView.findViewById(R.id.project_due_date))
+				.setText(this.projectItem.getDueDate());
 			((TextView) rootView.findViewById(R.id.project_description))
-					.setText(this.projectItem.getDescription());
+				.setText(this.projectItem.getDescription());
+			
+			//Progress Bars for Hours, Tasks, and Milestones
+			((TextView) rootView.findViewById(R.id.project_hours_percent))
+				.setText("Hours Completed: " + this.projectItem.getHoursPercent() + "%");
+			ProgressBar hoursCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_hours_progress_bar));
+			hoursCompleteBar.setMax(100);
+			hoursCompleteBar.setProgress(this.projectItem.getHoursPercent());
+			
+			((TextView) rootView.findViewById(R.id.project_tasks_percent))
+				.setText("Tasks Completed: " + this.projectItem.getTasksPercent() + "%");
+			ProgressBar tasksCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_tasks_progress_bar));
+			tasksCompleteBar.setMax(100);
+			tasksCompleteBar.setProgress(this.projectItem.getTasksPercent());
+			
+			((TextView) rootView.findViewById(R.id.project_milestones_percent))
+				.setText("Milestones Completed: " + this.projectItem.getMilestonesPercent() + "%");
+			ProgressBar milestonesCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_milestones_progress_bar));
+			milestonesCompleteBar.setMax(100);
+			milestonesCompleteBar.setProgress(this.projectItem.getMilestonesPercent());
 		}
 
 		return rootView;

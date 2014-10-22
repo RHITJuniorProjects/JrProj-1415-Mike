@@ -10,4 +10,8 @@
 
 @implementation HenryDevDisplayObject
 
+-(void)setFalse{
+    self.isAssignedDev = false;
+}
+
 @end

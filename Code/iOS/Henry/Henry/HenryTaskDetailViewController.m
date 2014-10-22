@@ -11,6 +11,7 @@
 #import "HenryTaskDetailViewController.h"
 #import "HenryTaskStatusTableViewController.h"
 #import <Firebase/Firebase.h>
+#import "HenryAssignDevsTableViewController.h"
 
 @interface HenryTaskDetailViewController ()
 @property Firebase *fb;
@@ -24,7 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MileStoneID, self.taskID]];
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -34,6 +34,8 @@
     }];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -69,6 +71,13 @@
     self.currentEstimateField.text = [NSString stringWithFormat:@"%.2f", (double)self.currentTimeEstimate];
     self.hoursLabel.text = [NSString stringWithFormat:@"%.2f/%.2f hours", (double)self.hoursSpent, (double)self.currentTimeEstimate];
     
+    if(!self.primaryDev){
+        self.assigneeNameLabel.text = @"None";
+        
+    }else{
+        self.assigneeNameLabel.text = self.primaryDev.devName;
+    }
+    
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -81,15 +90,24 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    HenryTaskStatusTableViewController *vc = [segue destinationViewController];
-    vc.initialSelection = self.statusButton.titleLabel.text;
-    vc.detailView = self;
-    vc.taskID = self.taskID;
-    vc.milestoneID = self.MileStoneID;
-    vc.taskID = self.taskID;
-    vc.projectID = self.ProjectID;
+    if([segue.identifier isEqualToString:@"projectStatus"]){
+        HenryTaskStatusTableViewController *vc = [segue destinationViewController];
+        vc.initialSelection = self.statusButton.titleLabel.text;
+        vc.detailView = self;
+        vc.taskID = self.taskID;
+        vc.milestoneID = self.MileStoneID;
+        vc.taskID = self.taskID;
+        vc.projectID = self.ProjectID;
+    }else{
+        HenryAssignDevsTableViewController *vc = [segue destinationViewController];
+        //vc.initialSelection = self.statusButton.titleLabel.text;
+        //vc.detailView = self;
+        vc.taskID = self.taskID;
+        vc.milestoneID = self.MileStoneID;
+        vc.taskID = self.taskID;
+        vc.projectID = self.ProjectID;
+    }
+    
 }
 
 @end

@@ -4,14 +4,12 @@ import java.util.ArrayList;
 
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
+import android.view.View;
 
 /**
  * An activity representing a list of Items. This activity has different
@@ -37,6 +35,8 @@ public class TaskListActivity extends FragmentActivity implements
 	 */
 	private boolean mTwoPane;
 	private ArrayList<Task> tasks;
+	
+	private Task taskItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,15 @@ public class TaskListActivity extends FragmentActivity implements
 		}
 	}
 
+	/**
+	 * Returns the list of tasks
+	 * 
+	 * @return
+	 */
+	public ArrayList<Task> getTasks() {
+		return this.tasks;
+	}
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -69,26 +78,19 @@ public class TaskListActivity extends FragmentActivity implements
 	}
 
 	/**
-	 * Returns the list of tasks
-	 * 
-	 * @return
-	 */
-	public ArrayList<Task> getTasks() {
-		return this.tasks;
-	}
-
-	/**
 	 * Callback method from {@link ItemListFragment.Callbacks} indicating that
 	 * the item with the given ID was selected.
 	 */
 	public void onItemSelected(Task t) {
+		this.taskItem = t;
 		if (this.mTwoPane) {
 			Bundle arguments = new Bundle();
 			arguments.putParcelable("Task", t);
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.task_detail_container, fragment).commit();
+			getFragmentManager().beginTransaction()
+				.replace(R.id.task_detail_container, fragment)
+				.commit();
 
 		} else {
 			Intent detailIntent = new Intent(this, TaskDetailActivity.class);

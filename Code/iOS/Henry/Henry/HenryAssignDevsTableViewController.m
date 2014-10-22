@@ -69,9 +69,6 @@
     NSString *stringVersionOfDevName = dev.devName;
     cell.devNameLabel.text = stringVersionOfDevName;
     cell.devName = stringVersionOfDevName;
-    if(dev.isAssignedDev){
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
  
     return cell;
 }
@@ -128,12 +125,13 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     HenryTaskDetailViewController *tasksVC = [segue destinationViewController];
-    for(HenryDevDisplayObject *d in self.developers){
-        if(d.isAssignedDev){
-            tasksVC.primaryDev = d;
-            break;
-        }
-    }
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+    
+    HenryTaskDetailViewController *vc = [segue destinationViewController];
+    vc.primaryDev = [self.developers objectAtIndex:indexPath.row];
+    vc.ProjectID = self.ProjectID;
+    vc.MileStoneID = self.MilestoneID;
+    vc.taskID = self.taskID;
 }
 
 

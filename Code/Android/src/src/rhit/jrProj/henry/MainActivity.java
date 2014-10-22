@@ -9,7 +9,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity {
-	public final static String firebaseLoc = "https://shining-inferno-2277.firebaseio.com/";
+	public final static String firebaseLoc = "https://henry-test.firebaseio.com/";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

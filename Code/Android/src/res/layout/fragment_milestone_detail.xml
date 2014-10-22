@@ -6,7 +6,15 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/milestone_detail"
+        android:id="@+id/milestone_name"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+    <TextView
+        android:id="@+id/milestone_due_date"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,13 +28,33 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp" >
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/milestone_task_percent"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+    <ProgressBar
+        android:id="@+id/milestone_task_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:onClick="openTaskView"
+        android:layout_gravity="center_horizontal"
         android:text="@string/ViewTasks" />
 
 </LinearLayout>

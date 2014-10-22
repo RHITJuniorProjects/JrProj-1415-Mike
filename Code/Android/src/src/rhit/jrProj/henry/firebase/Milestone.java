@@ -26,9 +26,20 @@ public class Milestone implements Parcelable {
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 
 	/**
-	 * The milestone name within the project
+	 * The name of the milestone
 	 */
 	private String name;
+	
+	/**
+	 * The due date of a milestone
+	 */
+	private String dueDate = "10/19/1996";
+	
+	/**
+	 * The percentage of tasks completed for this milestone
+	 */
+	private int taskPercent;
+	
 
 	/**
 	 * A description of the work that needs to happen in this milestone.
@@ -87,7 +98,9 @@ public class Milestone implements Parcelable {
 		this.firebase.child("tasks").addChildEventListener(
 				new GrandChildrenListener(this));
 		this.setName(in.readString());
+		this.setDueDate(in.readString());
 		this.setDescription(in.readString());
+		this.setTaskPercent(in.readInt());
 		in.readTypedList(this.tasks, Task.CREATOR);
 	}
 
@@ -144,18 +157,14 @@ public class Milestone implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.getName());
+		dest.writeString(this.getDueDate());
 		dest.writeString(this.getDescription());
+		dest.writeInt(this.getTaskPercent());
 		dest.writeTypedList(this.tasks);
 	}
-
-	/**
-	 * Replaces the name of the milestone
-	 * 
-	 * @param name
-	 */
+	
 	public void replaceName(String name) {
 		this.name = name;
-
 	}
 
 	/**
@@ -167,6 +176,22 @@ public class Milestone implements Parcelable {
 		this.description = description;
 
 	}
+	
+	/**
+	 * Returns the due date of the milestone
+	 * @return the due date of the milestone
+	 */
+	public String getDueDate() {
+		return this.dueDate;
+	}
+	
+	/**
+	 * Sets the due date of the milestone
+	 * @param dueDate the due date of the milestone
+	 */
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
+	}
 
 	/**
 	 * Gets the description of the milestone
@@ -177,6 +202,22 @@ public class Milestone implements Parcelable {
 		return this.description;
 	}
 
+	/**
+	 * Gets the percentage of tasks completed in this milestone
+	 * @return the percentage of tasks completed in this milestone
+	 */
+	public int getTaskPercent() {
+		return this.taskPercent;
+	}
+	
+	/**
+	 * Sets the percentage of tasks completed in this milestone
+	 * @param taskPercent the percentage of tasks completed in this milestone
+	 */
+	public void setTaskPercent(int taskPercent) {
+		this.taskPercent = taskPercent;
+	}
+	
 	/**
 	 * sets a milestone description
 	 * 
@@ -263,6 +304,10 @@ public class Milestone implements Parcelable {
 				}
 			} else if (arg0.getName().equals("description")) {
 				this.milestone.setDescription(arg0.getValue(String.class));
+			} else if (arg0.getName().equals("dueDate")) { 
+				this.milestone.setDueDate(arg0.getValue(String.class));
+			}  else if (arg0.getName().equals("task_percent")) {
+				this.milestone.setTaskPercent(arg0.getValue(Integer.class));
 			} else if (arg0.getName().equals("tasks")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Task t = new Task(child.getRef().toString());
@@ -319,7 +364,9 @@ public class Milestone implements Parcelable {
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Task t = new Task(arg0.getRef().toString());
-			this.milestone.getTasks().add(t);
+			if (!this.milestone.getTasks().contains(t)) {
+				this.milestone.getTasks().add(t);
+			}
 			t.setListChangeNotifier(this.milestone.getTaskListViewCallback());
 			if (this.milestone.listViewCallback != null) {
 				this.milestone.listViewCallback.onChange();
@@ -352,5 +399,4 @@ public class Milestone implements Parcelable {
 			}
 		}
 	}
-
 }
