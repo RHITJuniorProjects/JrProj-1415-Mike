@@ -1,5 +1,5 @@
 #valid login check
-click("1414001399748.png")
+click("1414005987057.png")
 type("test1@test.com" + Key.TAB + "test")
 click("1414001448736.png")
 sleep(10)
