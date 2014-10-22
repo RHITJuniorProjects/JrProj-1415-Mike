@@ -49,7 +49,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	/* A reference to the firebase */
 	private final String firebaseLoc = MainActivity.firebaseLoc;
-	private Firebase ref = new Firebase(firebaseLoc);
+	private Firebase ref = new Firebase(this.firebaseLoc);
 
 	/* Data from the authenticated user */
 	private AuthData authData;
@@ -68,17 +68,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		super.onCreate(savedInstanceState);
 		Firebase.setAndroidContext(this);
 		setContentView(R.layout.activity_login);
-		mAuthProgressDialog = new ProgressDialog(this);
-		mAuthProgressDialog.setTitle("Loading");
-		mAuthProgressDialog.setMessage("Authenticating with Firebase...");
-		mAuthProgressDialog.setCancelable(false);
+		this.mAuthProgressDialog = new ProgressDialog(this);
+		this.mAuthProgressDialog.setTitle("Loading");
+		this.mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+		this.mAuthProgressDialog.setCancelable(false);
 
 		// Set up the login form.
-		mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+		this.mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 		populateAutoComplete();
 
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
+		this.mPasswordView = (EditText) findViewById(R.id.password);
+		this.mPasswordView
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					public boolean onEditorAction(TextView textView, int id,
 							KeyEvent keyEvent) {
@@ -104,8 +104,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			}
 		});
 
-		mLoginFormView = findViewById(R.id.login_form);
-		mProgressView = findViewById(R.id.login_progress);
+		this.mLoginFormView = findViewById(R.id.login_form);
+		this.mProgressView = findViewById(R.id.login_progress);
 	}
 
 	@Override
@@ -131,31 +131,31 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// }
 
 		// Reset errors.
-		mEmailView.setError(null);
-		mPasswordView.setError(null);
+		this.mEmailView.setError(null);
+		this.mPasswordView.setError(null);
 
 		// Store values at the time of the login attempt.
-		String email = mEmailView.getText().toString();
-		String password = mPasswordView.getText().toString();
+		String email = this.mEmailView.getText().toString();
+		String password = this.mPasswordView.getText().toString();
 
 		boolean cancel = false;
 		View focusView = null;
 
 		// Check for a valid password, if the user entered one.
 		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
+			this.mPasswordView.setError(getString(R.string.error_invalid_password));
+			focusView = this.mPasswordView;
 			cancel = true;
 		}
 
 		// Check for a valid email address.
 		if (TextUtils.isEmpty(email)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
+			this.mEmailView.setError(getString(R.string.error_field_required));
+			focusView = this.mEmailView;
 			cancel = true;
 		} else if (!isEmailValid(email)) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
+			this.mEmailView.setError(getString(R.string.error_invalid_email));
+			focusView = this.mEmailView;
 			cancel = true;
 		}
 
@@ -167,11 +167,14 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
 			showProgress(true);
-			mAuthProgressDialog.show();
+			this.mAuthProgressDialog.show();
 			// mAuthTask = new UserLoginTask(email, password);
 			// mAuthTask.execute((Void) null);
 			loginWithPassword(email, password);
 			showProgress(false);
+			if (authData!=null){
+				this.mAuthProgressDialog.hide();
+			}
 			// openProjectListView();
 		}
 	}
@@ -182,12 +185,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 */
 	public void openProjectListView(AuthData authdata) {
 
-		mAuthProgressDialog.hide();
+		this.mAuthProgressDialog.hide();
 		Intent intent = new Intent(this, ProjectListActivity.class);
 		intent.putExtra(
 				"user",
-				firebaseLoc+"users/"
-						+ authData.getUid());
+				this.firebaseLoc+"users/"
+						+ this.authData.getUid());
 		this.startActivity(intent);
 		this.finish();
 	}
@@ -204,32 +207,32 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			int shortAnimTime = getResources().getInteger(
 					android.R.integer.config_shortAnimTime);
 
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime)
+			this.mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+			this.mLoginFormView.animate().setDuration(shortAnimTime)
 					.alpha(show ? 0 : 1)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
+							LoginActivity.this.mLoginFormView.setVisibility(show ? View.GONE
 									: View.VISIBLE);
 						}
 					});
 
-			mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mProgressView.animate().setDuration(shortAnimTime)
+			this.mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+			this.mProgressView.animate().setDuration(shortAnimTime)
 					.alpha(show ? 1 : 0)
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							mProgressView.setVisibility(show ? View.VISIBLE
+							LoginActivity.this.mProgressView.setVisibility(show ? View.VISIBLE
 									: View.GONE);
 						}
 					});
 		} else {
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
-			mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+			this.mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
+			this.mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 
@@ -267,7 +270,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	public void loginWithPassword(String username, String password) {
 		// mAuthProgressDialog.show();
 		Log.i("T", "T2");
-		ref.authWithPassword(username, password, new AuthResultHandler(
+		this.ref.authWithPassword(username, password, new AuthResultHandler(
 				"password"));
 	}
 	
@@ -289,7 +292,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				android.R.layout.simple_dropdown_item_1line,
 				emailAddressCollection);
 
-		mEmailView.setAdapter(adapter);
+		this.mEmailView.setAdapter(adapter);
 	}
 	
 	private interface ProfileQuery {
@@ -341,26 +344,26 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 	private void registerNewUser(View view){
 		Log.i("You pressed the register button", "Right?");
-		final String email = mEmailView.getText().toString();
-		final String password = mPasswordView.getText().toString();
+		final String email = this.mEmailView.getText().toString();
+		final String password = this.mPasswordView.getText().toString();
 		boolean cancel = false;
 		View focusView = null;
 
 		// Check for a valid password, if the user entered one.
 		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
+			this.mPasswordView.setError(getString(R.string.error_invalid_password));
+			focusView = this.mPasswordView;
 			cancel = true;
 		}
 
 		// Check for a valid email address.
 		if (TextUtils.isEmpty(email)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
+			this.mEmailView.setError(getString(R.string.error_field_required));
+			focusView = this.mEmailView;
 			cancel = true;
 		} else if (!isEmailValid(email)) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
+			this.mEmailView.setError(getString(R.string.error_invalid_email));
+			focusView = this.mEmailView;
 			cancel = true;
 		}
 
@@ -372,18 +375,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
 			showProgress(true);
-			mAuthProgressDialog.show();
+			this.mAuthProgressDialog.show();
 			// mAuthTask = new UserLoginTask(email, password);
 			// mAuthTask.execute((Void) null);
-			ref.createUser(email, password, new Firebase.ResultHandler(){
-				@Override
+			this.ref.createUser(email, password, new Firebase.ResultHandler(){
 				public void onSuccess(){
-					loginWithPassword(email, password);
+					ref.authWithPassword(email, password, new FirstTimeAuthResultHandler(
+							"password", email));
 					showProgress(false);
+					mAuthProgressDialog.hide();
 				}
-				@Override
 				public void onError(FirebaseError firebaseError){
-					
+					showErrorDialog(firebaseError.toString());
+					showProgress(false);
+					mAuthProgressDialog.hide();
 				}
 				
 				
@@ -393,6 +398,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 		
 		
+	}
+	private void pushNewUser(AuthData authData, String email){
+		ref.child("users/"+authData.getUid()+"/email/").setValue(email);
 	}
 	
 	private class AuthResultHandler implements Firebase.AuthResultHandler {
@@ -404,9 +412,33 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 
 		public void onAuthenticated(AuthData authData) {
-			Log.i(TAG, provider + " auth successful");
+			Log.i(TAG, this.provider + " auth successful");
 			Log.i(TAG, authData.toString());
 			setAuthenticatedUser(authData);
+		}
+
+		public void onAuthenticationError(FirebaseError firebaseError) {
+			Log.i("BAD LOGIN", "You messed up");
+			// mAuthProgressDialog.hide();
+			showErrorDialog(firebaseError.toString());
+			showProgress(false);
+			mAuthProgressDialog.hide();
+		}
+	}
+	private class FirstTimeAuthResultHandler implements Firebase.AuthResultHandler {
+
+		private final String provider;
+		private final String email;
+
+		public FirstTimeAuthResultHandler(String provider, String email) {
+			this.provider = provider;
+			this.email=email;
+		}
+
+		public void onAuthenticated(AuthData authData) {
+			Log.i(TAG, this.provider + " auth successful");
+			Log.i(TAG, authData.toString());
+			pushNewUser(authData, email);
 		}
 
 		public void onAuthenticationError(FirebaseError firebaseError) {

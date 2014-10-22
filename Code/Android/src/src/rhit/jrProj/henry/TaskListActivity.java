@@ -126,4 +126,6 @@ public class TaskListActivity extends FragmentActivity implements
 		Firebase ref = new Firebase(firebaseLoc);
 		ref.unauth();
 	}
+	
+	
 }
