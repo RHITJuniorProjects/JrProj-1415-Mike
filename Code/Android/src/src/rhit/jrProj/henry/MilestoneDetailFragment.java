@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 /**
@@ -42,10 +43,18 @@ public class MilestoneDetailFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_milestone_detail,
 				container, false);
 		if (this.milestoneItem != null) {
-			((TextView) rootView.findViewById(R.id.milestone_detail))
-					.setText(this.milestoneItem.toString());
+			((TextView) rootView.findViewById(R.id.milestone_name))
+				.setText(this.milestoneItem.getName());
+			((TextView) rootView.findViewById(R.id.milestone_due_date))
+				.setText(this.milestoneItem.getDueDate());
 			((TextView) rootView.findViewById(R.id.milestone_description))
-			.setText(this.milestoneItem.getDescription());
+				.setText(this.milestoneItem.getDescription());
+			
+			((TextView) rootView.findViewById(R.id.milestone_task_percent))
+				.setText("Tasks Completed: " + this.milestoneItem.getTaskPercent() + "%");
+			ProgressBar taskCompleteBar = ((ProgressBar) rootView.findViewById(R.id.milestone_task_progress_bar));
+			taskCompleteBar.setMax(100);
+			taskCompleteBar.setProgress(this.milestoneItem.getTaskPercent());
 		}
 
 		return rootView;
