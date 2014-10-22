@@ -98,6 +98,7 @@ public class Milestone implements Parcelable {
 		this.firebase.child("tasks").addChildEventListener(
 				new GrandChildrenListener(this));
 		this.setName(in.readString());
+		this.setDueDate(in.readString());
 		this.setDescription(in.readString());
 		this.setTaskPercent(in.readInt());
 		in.readTypedList(this.tasks, Task.CREATOR);
