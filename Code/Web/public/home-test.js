@@ -1,12 +1,6 @@
 $(function () {
     $('#projContainer1').highcharts({
         chart: {
-			events: {
-                click: function (event) {
-                //    this.chart.
-                }
-            },
-			
             type: 'column',
             margin: 75,
             options3d: {
@@ -108,7 +102,7 @@ $(function () {
             }
         },
         title: {
-            text: 'Progess of Milestones',
+            text: 'Progress of Milestones',
 			style: { "color": "#333333", "fontSize": "30px" },
         },
         plotOptions: {
@@ -150,7 +144,6 @@ $(function () {
     $('#taskContainer').highcharts({
         chart: {
             type: 'column',
-            margin: 120,
             options3d: {
                 enabled: false,
                 alpha: 10,
@@ -171,8 +164,10 @@ $(function () {
             categories: ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
         },
         yAxis: {
+			alternate:'#F0F0F0',
             opposite: false,
 			tickInterval: 20,
+			margin: 120,
 			max: 120,
 			labels: {
 					formatter: function() {
