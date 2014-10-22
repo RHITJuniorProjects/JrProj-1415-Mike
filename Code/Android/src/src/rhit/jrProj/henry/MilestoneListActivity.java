@@ -2,6 +2,8 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -11,6 +13,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -45,6 +48,11 @@ public class MilestoneListActivity extends Activity implements
 	 * The list of milestones
 	 */
 	private ArrayList<Milestone> milestones;
+	
+	/**
+	 * The string to the firebase URL
+	 */
+	private String firebaseLoc= MainActivity.firebaseLoc;
 
 	private Milestone milestoneItem;
 
@@ -67,6 +75,14 @@ public class MilestoneListActivity extends Activity implements
 			((MilestoneListFragment) getFragmentManager().findFragmentById(
 					R.id.milestone_list)).setActivateOnItemClick(true);
 		}
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.project, menu);
+
+		return true;
 	}
 
 	/**
@@ -123,5 +139,18 @@ public class MilestoneListActivity extends Activity implements
 			detailIntent.putExtra("Milestone", m);
 			startActivity(detailIntent);
 		}
+	}
+	
+	/**
+	 * Logout the user.
+	 */
+	public void logOut(MenuItem item) {
+
+		Intent login = new Intent(this, LoginActivity.class);
+		this.startActivity(login);
+		this.finish();
+		
+		Firebase ref = new Firebase(firebaseLoc);
+		ref.unauth();
 	}
 }
