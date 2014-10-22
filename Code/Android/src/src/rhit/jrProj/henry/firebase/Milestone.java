@@ -364,7 +364,9 @@ public class Milestone implements Parcelable {
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Task t = new Task(arg0.getRef().toString());
-			this.milestone.getTasks().add(t);
+			if (!this.milestone.getTasks().contains(t)) {
+				this.milestone.getTasks().add(t);
+			}
 			t.setListChangeNotifier(this.milestone.getTaskListViewCallback());
 			if (this.milestone.listViewCallback != null) {
 				this.milestone.listViewCallback.onChange();

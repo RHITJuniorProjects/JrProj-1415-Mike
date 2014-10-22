@@ -333,7 +333,9 @@ public class Project implements Parcelable {
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Milestone m = new Milestone(arg0.getRef().toString());
-			this.project.getMilestones().add(m);
+			if (!this.project.getMilestones().contains(m)) {
+				this.project.getMilestones().add(m);
+			}
 			m.setListChangeNotifier(milestoneListViewCallback);
 			if (this.project.listViewCallback != null) {
 				this.project.listViewCallback.onChange();
