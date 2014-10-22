@@ -42,22 +42,4 @@
 }
 */
 
-- (IBAction)logout:(id)sender {
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"id"];
-    [defaults removeObjectForKey:@"token"];
-    [defaults synchronize];
-    
-    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-    {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadLoginStoryboard" bundle:nil];
-        UIViewController *initialView = [sb instantiateInitialViewController];
-        [self presentViewController:initialView animated:YES completion:nil];
-    } else {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneLoginStoryboard" bundle:nil];
-        UIViewController *initialView = [sb instantiateInitialViewController];
-        [self presentViewController:initialView animated:YES completion:nil];
-    }
-}
 @end

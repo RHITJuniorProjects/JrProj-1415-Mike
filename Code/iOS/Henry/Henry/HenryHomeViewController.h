@@ -10,7 +10,6 @@
 
 @interface HenryHomeViewController : UIViewController
 
-- (IBAction)logout:(id)sender;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *navButton;
 
 @end
