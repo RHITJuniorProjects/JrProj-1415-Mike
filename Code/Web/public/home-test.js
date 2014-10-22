@@ -108,7 +108,7 @@ $(function () {
             }
         },
         title: {
-            text: 'Progess of Milestones',
+            text: 'Progress of Milestones',
 			style: { "color": "#333333", "fontSize": "30px" },
         },
         plotOptions: {
