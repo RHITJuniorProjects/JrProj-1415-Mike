@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "HenryDevDisplayObject.h"
 @interface HenryTaskDetailViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *taskNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *assigneeNameLabel;
@@ -19,4 +19,5 @@
 @property NSString *ProjectID;
 @property NSString *MileStoneID;
 @property NSString *taskID;
+@property HenryDevDisplayObject *primaryDev;
 @end

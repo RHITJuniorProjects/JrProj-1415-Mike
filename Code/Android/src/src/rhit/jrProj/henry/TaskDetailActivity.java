@@ -1,8 +1,10 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 /**
  * An activity representing a single Item detail screen. This activity is only
@@ -13,6 +15,8 @@ import android.view.MenuItem;
  * a {@link ItemDetailFragment}.
  */
 public class TaskDetailActivity extends Activity {
+	
+	private Task taskItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +27,14 @@ public class TaskDetailActivity extends Activity {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		if (savedInstanceState == null) {
 			Bundle arguments = new Bundle();
-			arguments.putParcelable("Task", getIntent()
-					.getParcelableExtra("Task"));
+			this.taskItem = getIntent().getParcelableExtra("Task");
+			arguments.putParcelable("Task", this.taskItem);
 			TaskDetailFragment fragment = new TaskDetailFragment();
+			fragment.setContext(this);
 			fragment.setArguments(arguments);
-			//getFragmentManager().beginTransaction().add(R.id.task_detail_container, fragment).commit();
+			getFragmentManager().beginTransaction()
+				.add(R.id.task_detail_container, fragment).commit();
+
 		}
 	}
 

@@ -8,6 +8,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class Task implements Parcelable {
 
@@ -25,6 +26,36 @@ public class Task implements Parcelable {
 	 * A description of the task
 	 */
 	private String description;
+
+	/**
+	 * A list of the user ids of the users assigned to the task
+	 */
+	private String assignedUserId;
+
+	/**
+	 * The name of the user assigned to this task
+	 */
+	private String assignedUserName = "default";
+
+	/**
+	 * The status of the task.
+	 */
+	private String status;
+
+	/**
+	 * The number of hours logged for this task
+	 */
+	private double hoursComplete;
+
+	/**
+	 * The total number of hours currently estimated for this task
+	 */
+	private double hoursEstimatedCurrent;
+
+	/**
+	 * The total number of hours originally estimated for this task
+	 */
+	private double hoursEstimatedOriginal;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -67,6 +98,8 @@ public class Task implements Parcelable {
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.name = pc.readString();
 		this.description = pc.readString();
+		this.assignedUserId = pc.readString();
+		this.status = pc.readString();
 	}
 
 	public Task(String firebaseURL) {
@@ -96,6 +129,8 @@ public class Task implements Parcelable {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.name);
 		dest.writeString(this.description);
+		dest.writeString(this.assignedUserId);
+		dest.writeString(this.status);
 	}
 
 	/**
@@ -121,12 +156,75 @@ public class Task implements Parcelable {
 	/**
 	 * Gets the description of the task
 	 * 
-	 * @return
+	 * @return the description of the task
 	 */
 	public String getDescription() {
 		return this.description;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
+	public String getAssignedUserId() {
+		return this.assignedUserId;
+	}
+
+	/**
+	 * Returns the name of the user assigned to this task
+	 * 
+	 * @return the name of the user assigned to this task
+	 */
+	public String getAssignedUserName() {
+		return this.assignedUserName;
+	}
+
+	/**
+	 * Returns the number of hours logged for this task
+	 * 
+	 * @return the number of hours logged for this task
+	 */
+	public double getHoursSpent() {
+		return this.hoursComplete;
+	}
+
+	/**
+	 * Returns the number of hours currently estimated for this task
+	 * 
+	 * @return the number of hours currently estimated for this task
+	 */
+	public double getCurrentHoursEstimate() {
+		return this.hoursEstimatedCurrent;
+	}
+
+	/**
+	 * Returns the status of this task
+	 * 
+	 * @return the status of this task
+	 */
+	public String getStatus() {
+		return this.status;
+	}
+
+	/**
+	 * Returns the number of hours originally estimated for this task
+	 * 
+	 * @return the number of hours originally estimated for this task
+	 */
+	public double getOriginalHoursEstimate() {
+		return this.hoursEstimatedOriginal;
+	}
+
+	public void updateStatus(String taskStatus) {
+		this.status = taskStatus;
+		firebase.child("status").setValue(taskStatus);
+		if (taskStatus.equals("Closed")) {
+			firebase.child("is_completed").setValue(true);
+		} else {
+			firebase.child("is_completed").setValue(false);
+		}
+	}
+	
 	/**
 	 * Task listener
 	 */
@@ -161,6 +259,11 @@ public class Task implements Parcelable {
 				}
 			} else if (arg0.getName().equals("description")) {
 				this.task.description = arg0.getValue().toString();
+			} else if (arg0.getName().equals("assignedTo")) {
+				this.task.assignedUserName = "test";
+				this.task.assignedUserId = arg0.getValue().toString();
+			} else if (arg0.getName().equals("status")) {
+				this.task.status = arg0.getValue().toString();
 			}
 		}
 
@@ -187,5 +290,4 @@ public class Task implements Parcelable {
 
 		}
 	}
-
 }

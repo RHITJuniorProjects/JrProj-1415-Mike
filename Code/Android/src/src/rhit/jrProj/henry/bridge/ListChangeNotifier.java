@@ -1,6 +1,6 @@
 package rhit.jrProj.henry.bridge;
 
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 
 /**
  * 
@@ -10,9 +10,9 @@ import android.widget.ArrayAdapter;
  */
 public class ListChangeNotifier<T> {
 
-	private ArrayAdapter<T> adapter;
+	private BaseAdapter adapter;
 
-	public ListChangeNotifier(ArrayAdapter<T> adapter) {
+	public ListChangeNotifier(BaseAdapter adapter) {
 		this.adapter = adapter;
 	}
 	/**
