@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
 
 		Firebase ref = new Firebase(firebaseLoc);
 
-		AuthData authData = ref.getAuth();
+		AuthData authData = null;
 		if (authData != null) {
 			Intent intent = new Intent(this, ProjectListActivity.class);
 			intent.putExtra("user", firebaseLoc + "users/" + authData.getUid());

@@ -34,10 +34,7 @@ public class TaskDetailActivity extends Activity {
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
 				.add(R.id.task_detail_container, fragment).commit();
-			/*arguments.putString(TaskDetailFragment.ARG_ITEM_ID, getIntent()
-					.getStringExtra(TaskDetailFragment.ARG_ITEM_ID));
-			TaskDetailFragment fragment = new TaskDetailFragment();
-			fragment.setArguments(arguments);*/
+
 		}
 	}
 

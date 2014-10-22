@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import rhit.jrProj.henry.MainActivity;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -16,13 +16,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 public class User implements Parcelable {
+
 	/**
-	 * A reference to the Main URL of the Firebase being used.
-	 */
-	private String firebaseURL= MainActivity.firebaseLoc;
-	
-	/**
-	 * A reference to firebase to keep the data up to date.
+	 * A reference to Firebase to keep the data up to date.
 	 */
 	private Firebase firebase;
 
@@ -83,8 +79,6 @@ public class User implements Parcelable {
 		}
 	};
 
-	
-
 	/**
 	 * Creates a new User from a parcel
 	 * 
@@ -92,33 +86,35 @@ public class User implements Parcelable {
 	 */
 
 	User(Parcel pc) {
-		String firebaseURL=pc.readString();
-		this.firebase = new Firebase(firebaseURL);
+		this.firebase = new Firebase(pc.readString());
 		this.firebase.addChildEventListener(new ChildrenListener(this));
-		this.firebase.child("projects").addChildEventListener(new GrandChildrenListener(this));
+		this.firebase.child("projects").addChildEventListener(
+				new GrandChildrenListener(this));
 		this.name = pc.readString();
 		this.gitName = pc.readString();
 		this.email = pc.readString();
-		this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
+		this.key = this.firebase.toString().substring(
+				this.firebase.toString().lastIndexOf("/") + 1);
 	}
 
+	/**
+	 * Creates a user from a Firebase url
+	 * 
+	 * @param firebaseURL
+	 */
 	public User(String firebaseURL) {
 		this.firebase = new Firebase(firebaseURL);
 		this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
 		this.firebase.addChildEventListener(new ChildrenListener(this));
-		this.firebase.child("projects").addChildEventListener(new GrandChildrenListener(this));
+		this.firebase.child("projects").addChildEventListener(
+				new GrandChildrenListener(this));
 	}
 
 	public int describeContents() {
-		return 0;
-	}
-
-	public Set<String> getTasks() {
-		return this.tasks;
+		return 0; // do nothing
 	}
 
 	/**
-	 * 
 	 * Sets a new list changed notifier
 	 * 
 	 * @param lcn
@@ -147,9 +143,8 @@ public class User implements Parcelable {
 	}
 
 	/**
+	 * Returns the Firebase key of the user
 	 * 
-	 * returns the Firebase key of the user
-	 *
 	 * @return
 	 */
 	public String getKey() {
@@ -157,9 +152,8 @@ public class User implements Parcelable {
 	}
 
 	/**
-	 * 
 	 * Returns a list of the projects
-	 *
+	 * 
 	 * @return
 	 */
 	public ArrayList<Project> getProjects() {
@@ -167,9 +161,8 @@ public class User implements Parcelable {
 	}
 
 	/**
-	 * 
 	 * Returns a role of a project
-	 *
+	 * 
 	 * @param p
 	 * @return
 	 */
@@ -187,22 +180,45 @@ public class User implements Parcelable {
 		return this.email;
 	}
 
+	/**
+	 * Sets the email associated with a user
+	 */
 	void setEmail(String email) {
 		this.email = email;
 	}
 
+	/**
+	 * Sets a user's name
+	 * 
+	 * @param name
+	 */
 	void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Sets the user's git name
+	 * 
+	 * @param git
+	 */
 	void setGitName(String git) {
 		this.gitName = git;
 	}
 
+	/**
+	 * Returns a map of projects associated with the user
+	 * 
+	 * @return
+	 */
 	Map<Project, Role> getMap() {
 		return this.projects;
 	}
 
+	/**
+	 * Gets the listChangeNotifier associated with a User
+	 * 
+	 * @return
+	 */
 	ListChangeNotifier<Project> getListChangeNotifier() {
 		return this.listViewCallback;
 	}
@@ -235,7 +251,8 @@ public class User implements Parcelable {
 		}
 
 		/**
-		 * Implement the onChildAdded method which is called once for each existing child and once for every added child.
+		 * Implement the onChildAdded method which is called once for each
+		 * existing child and once for every added child.
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("name")) {
@@ -248,7 +265,8 @@ public class User implements Parcelable {
 		}
 
 		/**
-		 * Implement the onChildChanged method which is called once for every changed child.
+		 * Implement the onChildChanged method which is called once for every
+		 * changed child.
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("name")) {
@@ -275,34 +293,42 @@ public class User implements Parcelable {
 			// TODO Auto-generated method stub.
 		}
 	}
-/**
- * 
- * TODO waiting for updated Firebase information
- *
- * @author rockwotj.
- *         Created Oct 19, 2014.
- */
+
+	/**
+	 * 
+	 * TODO waiting for updated Firebase information
+	 * 
+	 * @author rockwotj. Created Oct 19, 2014.
+	 */
 	class GrandChildrenListener implements ChildEventListener {
 
 		private User user;
 
+		/**
+		 * Creates a Grandchildren listener for Projects
+		 * 
+		 * @param user
+		 */
 		public GrandChildrenListener(User user) {
 			this.user = user;
 		}
 
 		public void onCancelled(FirebaseError arg0) {
-			// TODO Auto-generated method stub.
+			// do nothing here
 
 		}
 
+		/**
+		 * Adds a Project to a user's list of projects
+		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Role r = Role.Developer;
 			if (arg0.getValue().equals("lead")) {
 				r = Role.Lead;
 			}
-			Project p = new Project(
-					firebaseURL+"projects/"
-							+ arg0.getName());
+			Log.i("REPO", arg0.getRef().getRepo().toString());
+			Project p = new Project(arg0.getRef().getRepo().toString()
+					+ "/projects/" + arg0.getName());
 			this.user.getMap().put(p, r);
 			p.setListChangeNotifier(this.user.getListChangeNotifier());
 			if (this.user.getListChangeNotifier() != null) {
@@ -310,26 +336,30 @@ public class User implements Parcelable {
 			}
 		}
 
+		/**
+		 * Updates a user's information after a change
+		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			Role r = Role.Developer;
 			if (arg0.getValue().equals("lead")) {
 				r = Role.Lead;
 			}
-			Project p = new Project(
-					firebaseURL+"projects/"
-							+ arg0.getName());
+			Project p = new Project(arg0.getRef().getRepo().toString()
+					+ "/projects/" + arg0.getName());
 			this.user.getMap().replaceValue(p, r);
 		}
 
 		public void onChildMoved(DataSnapshot arg0, String arg1) {
-			// TODO Auto-generated method stub.
+			// do nothing
 
 		}
 
+		/**
+		 * Removes a project from a user's project list
+		 */
 		public void onChildRemoved(DataSnapshot arg0) {
-			Project p = new Project(
-					firebaseURL+"projects/"
-							+ arg0.getName());
+			Project p = new Project(arg0.getRef().getRepo().toString()
+					+ "/projects/" + arg0.getName());
 			this.user.getMap().remove(p);
 			if (this.user.getListChangeNotifier() != null) {
 				this.user.getListChangeNotifier().onChange();

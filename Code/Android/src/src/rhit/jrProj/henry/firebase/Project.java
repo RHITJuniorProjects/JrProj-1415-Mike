@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -14,7 +15,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable, ChildEventListener {
+public class Project implements Parcelable {
 
 	/**
 	 * A reference to Firebase to keep the data up to date.
@@ -30,7 +31,6 @@ public class Project implements Parcelable, ChildEventListener {
 	 * The project's name
 	 */
 	private String name;
-	
 	/**
 	 * The due date of the project
 	 */
@@ -73,7 +73,7 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
 
-
+	private ListChangeNotifier<Milestone> milestoneListViewCallback;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -87,7 +87,7 @@ public class Project implements Parcelable, ChildEventListener {
 			return new Project[size];
 		}
 	};
-	
+
 	/**
 	 * 
 	 * This constructor builds a new project that updates its self from
@@ -99,7 +99,9 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	public Project(String firebaseUrl) {
 		this.firebase = new Firebase(firebaseUrl);
-		this.firebase.addChildEventListener(this);
+		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.firebase.child("milestones").addChildEventListener(
+				new GrandChildrenListener(this));
 	}
 
 	/**
@@ -110,7 +112,9 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	Project(Parcel in) {
 		this.firebase = new Firebase(in.readString());
-		this.firebase.addChildEventListener(this);
+		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.firebase.child("milestones").addChildEventListener(
+				new GrandChildrenListener(this));
 		this.name = in.readString();
 		this.dueDate = in.readString();
 		this.description = in.readString();
@@ -120,7 +124,6 @@ public class Project implements Parcelable, ChildEventListener {
 		// this.members = new HashMap<User, Role>(); // How to transport? Loop?
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
-
 
 	/**
 	 * Gets an ArrayList of milestones associated with this project.
@@ -178,77 +181,11 @@ public class Project implements Parcelable, ChildEventListener {
 		// TODO Members?
 		// number for the loop and then loop through it all?
 	}
-
+	
 	/**
-	 * Nothing to do here
+	 * Returns the name of this project
+	 * @return the name of this project
 	 */
-	public void onCancelled(FirebaseError arg0) {
-		// TODO Auto-generated method stub.
-		// nothing to do here
-	}
-
-	/**
-	 * Method that is called when a project is added to the list
-	 * 
-	 */
-	public void onChildAdded(DataSnapshot arg0, String arg1) {
-		Log.i("Project::",arg0.getName().toString());
-		if (arg0.getName().equals("name")) {
-			this.name = arg0.getValue(String.class);
-			if (this.listViewCallback != null) {
-				this.listViewCallback.onChange();
-			}
-		} else if (arg0.getName().equals("due_date")) {
-			this.dueDate = arg0.getValue(String.class);
-		} else if (arg0.getName().equals("description")) {
-			this.description = arg0.getValue(String.class);
-		}
-		
-		//Percentage completes
-		else if (arg0.getName().equals("hours_percent")) {
-			this.hoursPercent = arg0.getValue(Integer.class);
-		} else if (arg0.getName().equals("task_percent")) {
-			this.tasksPercent = arg0.getValue(Integer.class);
-		} else if (arg0.getName().equals("milestone_percent")) {
-			this.milestonesPercent = arg0.getValue(Integer.class);
-		}
-		
-		else if (arg0.getName().equals("milestones")) {
-			for (DataSnapshot child : arg0.getChildren()) {
-				Milestone m = new Milestone(child.getRef().toString());
-				if (!this.milestones.contains(m)) {
-					this.milestones.add(m);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Will be called when any project value is changed
-	 */
-	public void onChildChanged(DataSnapshot arg0, String arg1) {
-		// TODO Auto-generated method stub.
-	}
-
-	/**
-	 * Nothing to do here
-	 */
-	public void onChildMoved(DataSnapshot arg0, String arg1) {
-		// TODO Auto-generated method stub.
-
-	}
-
-	/**
-	 * Until further notice from Mike: do nothing
-	 */
-	public void onChildRemoved(DataSnapshot arg0) {
-		// TODO Auto-generated method stub.
-
-	}
-	 /**
-	  * Returns the name of the project
-	  * @return the name of the project
-	  */
 	public String getName() {
 		return this.name;
 	}
@@ -292,6 +229,142 @@ public class Project implements Parcelable, ChildEventListener {
 	 */
 	public int getMilestonesPercent() {
 		return this.milestonesPercent;
+	}
+
+	class ChildrenListener implements ChildEventListener {
+		Project project;
+
+		public ChildrenListener(Project project) {
+			this.project = project;
+		}
+
+		/**
+		 * Nothing to do here
+		 */
+		public void onCancelled(FirebaseError arg0) {
+			// TODO Auto-generated method stub.
+			// nothing to do here
+		}
+
+		/**
+		 * Method that is called when a project is added to the list
+		 * 
+		 */
+		public void onChildAdded(DataSnapshot arg0, String arg1) {
+			if (arg0.getName().equals("name")) {
+				this.project.name = arg0.getValue(String.class);
+				if (this.project.listViewCallback != null) {
+					this.project.listViewCallback.onChange();
+				}
+			} else if (arg0.getName().equals("description")) {
+				this.project.description = arg0.getValue(String.class);
+			} else if (arg0.getName().equals("due_date")) {
+				this.project.dueDate = arg0.getValue(String.class);
+			} else if (arg0.getName().equals("hours_percent")) {
+				this.project.hoursPercent = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("task_percent")) {
+				this.project.tasksPercent = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("milestone_percent")) {
+				this.project.milestonesPercent = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("milestones")) {
+				for (DataSnapshot child : arg0.getChildren()) {
+					Milestone m = new Milestone(child.getRef().toString());
+					if (!this.project.milestones.contains(m)) {
+						this.project.milestones.add(m);
+					}
+				}
+			}
+		}
+
+		/**
+		 * Will be called when any project value is changed
+		 */
+		public void onChildChanged(DataSnapshot arg0, String arg1) {
+			if (arg0.getName().equals("name")) {
+				this.project.name = arg0.getValue(String.class);
+				if (this.project.listViewCallback != null) {
+					this.project.listViewCallback.onChange();
+				}
+			} else if (arg0.getName().equals("description")) {
+				this.project.description = arg0.getValue(String.class);
+			} else if (arg0.getName().equals("milestones")) {
+				Log.i("Henry", "Milestone Changed!?!");
+			}
+		}
+
+		/**
+		 * Nothing to do here
+		 */
+		public void onChildMoved(DataSnapshot arg0, String arg1) {
+			Log.i("Henry", "Something Moved!?!");
+		}
+
+		/**
+		 * Until further notice from Mike: do nothing
+		 */
+		public void onChildRemoved(DataSnapshot arg0) {
+			Log.i("Henry", arg0.getName());
+		}
+	}
+
+	/**
+	 * Listener for Tasks
+	 * 
+	 * @author johnsoaa
+	 * 
+	 */
+	class GrandChildrenListener implements ChildEventListener {
+		private Project project;
+
+		public GrandChildrenListener(Project project) {
+			this.project = project;
+		}
+
+		/**
+		 * Do nothing
+		 */
+		public void onCancelled(FirebaseError arg0) {
+			// nothing to do
+		}
+
+		/**
+		 * Fills in the new milestone's properties including the milestone name,
+		 * description and list of tasks for that milestone
+		 */
+		public void onChildAdded(DataSnapshot arg0, String arg1) {
+			Milestone m = new Milestone(arg0.getRef().toString());
+			this.project.getMilestones().add(m);
+			m.setListChangeNotifier(milestoneListViewCallback);
+			if (this.project.listViewCallback != null) {
+				this.project.listViewCallback.onChange();
+			}
+		}
+
+		/**
+		 * This will be called when the milestone data in Firebased is updated
+		 */
+		public void onChildChanged(DataSnapshot arg0, String arg1) {
+			// All changes done within Milestone
+
+		}
+
+		/**
+		 * Might do something here for the tablet
+		 */
+		public void onChildMoved(DataSnapshot arg0, String arg1) {
+			// Nada- yet
+		}
+
+		/**
+		 * Removes a task from a milestone
+		 */
+		public void onChildRemoved(DataSnapshot arg0) {
+			Milestone m = new Milestone(arg0.getRef().toString());
+			this.project.getMilestones().remove(m);
+			if (this.project.listViewCallback != null) {
+				this.project.listViewCallback.onChange();
+			}
+		}
 	}
 
 }

@@ -6,10 +6,10 @@
 	<body>
 		<?php require 'topbar.php';?>
 		<div>
-			<h2>Henry</h2>
-			<a href="/teams">Teams</a>
-			<a href="/Milestones">Milestones</a>
-			<a href="/tasks">Tasks</a>
+			<h1>Henry</h1>
+			<a href="/login">Login</a>
+			<a href="/register">Register</a>
+			<a href="/projects">Projects</a>
 		</div>
 	</body>
 </html>
