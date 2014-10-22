@@ -2,12 +2,15 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -36,6 +39,11 @@ public class TaskListActivity extends FragmentActivity implements
 	private boolean mTwoPane;
 	private ArrayList<Task> tasks;
 	
+	/**
+	 * The string to the firebase URL
+	 */
+	private String firebaseLoc= MainActivity.firebaseLoc;
+
 	private Task taskItem;
 
 	@Override
@@ -58,6 +66,14 @@ public class TaskListActivity extends FragmentActivity implements
 		}
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.project, menu);
+
+		return true;
+	}
+
 	/**
 	 * Returns the list of tasks
 	 * 
@@ -66,7 +82,7 @@ public class TaskListActivity extends FragmentActivity implements
 	public ArrayList<Task> getTasks() {
 		return this.tasks;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -89,13 +105,25 @@ public class TaskListActivity extends FragmentActivity implements
 			TaskDetailFragment fragment = new TaskDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
-				.replace(R.id.task_detail_container, fragment)
-				.commit();
+					.replace(R.id.task_detail_container, fragment).commit();
 
 		} else {
 			Intent detailIntent = new Intent(this, TaskDetailActivity.class);
 			detailIntent.putExtra("Task", t);
 			startActivity(detailIntent);
 		}
+	}
+
+	/**
+	 * Logout the user.
+	 */
+	public void logOut(MenuItem item) {
+
+		Intent login = new Intent(this, LoginActivity.class);
+		this.startActivity(login);
+		this.finish();
+
+		Firebase ref = new Firebase(firebaseLoc);
+		ref.unauth();
 	}
 }
