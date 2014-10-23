@@ -38,7 +38,7 @@ def getLoC():
     else:
         vals = ['0','0']
     nums = map(lambda x: int(x[0]),vals) 
-    return nums[0] - nums[1]
+    return nums[0],nums[1]
 
 
 def parse(msg):
@@ -94,13 +94,14 @@ def getTaskID(projectID,milestoneID,task):
     return tID
 
 
-def writeCommit(ref,msg,project,uid,hours,status,loc,ts,projectID,milestoneID,taskID):
+def writeCommit(ref,msg,project,uid,hours,status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID):
     path = '/commits/'+projectID+'/'
     try:
         result = ref.post(path,{
             'hours':hours,
             'user':uid,
-            'lines_of_code':loc,
+            'added_lines_of_code':pos_loc,
+            'removed_lines_of_code':neg_loc,
             'message':msg,
             'timestamp':ts,
             'milestone':milestoneID,
@@ -235,13 +236,14 @@ if __name__ == '__main__':
     email = getEmail()
     userID = getUserID(githubID,ref)
     msg = readCommit(sys.argv[1])
-    [hours,milestone,task,status],loc = parse(msg),getLoC()
+    [hours,milestone,task,status] = parse(msg)
+    pos_loc,neg_loc = getLoC()
     ts = getTime()
     hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
 
     updateDefaults(milestoneID,taskID,status)
 
-    commitID =writeCommit(ref,msg,None,userID,int(hours),status,loc,ts,projectID,milestoneID,taskID)
+    commitID =writeCommit(ref,msg,None,userID,int(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
