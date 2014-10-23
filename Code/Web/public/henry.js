@@ -422,14 +422,16 @@ Task.prototype = {
 	}
 };
 
-function getLoginData(){
+function getLoginData(){ // Takes the login data from the form and places it into variables
 	var user = $("#user").val();
 	var pass = $("#pass").val();
 	document.getElementById("pass").value = "";
 	login(user, pass);
 }
 
-function login(user, pass){
+function login(user, pass){ // Authenticates with Firebase, giving a callback that will 
+							// cause the window to go to projects if it was successful, 
+							// else go back to login and show the invalid input message.
 	firebase.authWithPassword({
 		email: user,
 		password: pass
@@ -444,7 +446,8 @@ function login(user, pass){
 	});
 };
 
-function register(){
+function register(){ 		// Registers a new user with Firebase, and also adds that user
+							// to our local database (making a new developer/manager)
 	var user = $("#user").val();
 	var pass = $("#pass").val();
 	firebase.createUser(
@@ -462,7 +465,7 @@ function register(){
 	);
 }
 
-function logout() {
+function logout() { 		// Shows the login button and hides the current user and logout
 	firebase.unauth();
 	$("#currentUser").hide();
 	$("#logoutButton").hide();
