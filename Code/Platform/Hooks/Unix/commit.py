@@ -1,6 +1,5 @@
 #!/usr/bin/python
 import sys
-import os
 import re
 import subprocess
 import time
@@ -163,14 +162,14 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     # prompt for milestone if necessary
     if milestone == None:
         print 'Active milestones:'
-	sys.stdout.flush()
+        sys.stdout.flush()
         idsByIndex = [] ; index = 1
         for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
             print ' - '+str(index)+'. '+mName
             idsByIndex = idsByIndex + [mID]
             index = index + 1
-	sys.stdout.write('Milestone: ')
-	sys.stdout.flush()
+        sys.stdout.write('Milestone: ')
+        sys.stdout.flush()
         milestone = raw_input()
         if milestone.isdigit() and int(milestone) <= len(idsByIndex):
             mID = idsByIndex[int(milestone)-1]
@@ -189,8 +188,8 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             print ' - '+str(index)+'. '+tName
             idsByIndex = idsByIndex + [tID]
             index = index + 1
-	sys.stdout.write('Task: ')
-	sys.stdout.flush()
+        sys.stdout.write('Task: ')
+        sys.stdout.flush()
         task = raw_input()
         if task.isdigit() and int(task) <= len(idsByIndex):
             tID = idsByIndex[int(task)-1]
@@ -204,17 +203,17 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     # prompt for status if necessary
     if status == None:
         print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
-	possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
-	for i in range(len(possibleStatuses)):
+        possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
+        for i in range(len(possibleStatuses)):
             print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
-	sys.stdout.write('Status: ')
-	sys.stdout.flush()
+        sys.stdout.write('Status: ')
+        sys.stdout.flush()
         status = raw_input()
         if status.isdigit() and (int(status) <= len(possibleStatuses)):
-	    status = possibleStatuses[int(status) - 1]
+            status = possibleStatuses[int(status) - 1]
         elif status == '':
             status = def_status
-		
+
     return hours,mID,tID,status
 
 
