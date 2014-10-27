@@ -427,14 +427,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYe-u4-Z2g" customClass="DLPieChart">
-                                <rect key="frame" x="16" y="247" width="288" height="170"/>
+                                <rect key="frame" x="16" y="215" width="288" height="202"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-d5-4FJ">
-                                <rect key="frame" x="54" y="189" width="212" height="29"/>
+                                <rect key="frame" x="108" y="179" width="104" height="29"/>
                                 <segments>
-                                    <segment title="Lines Of Code"/>
-                                    <segment title="Generic Analysis"/>
+                                    <segment title="LOC"/>
+                                    <segment title="Hidden"/>
                                 </segments>
                                 <connections>
                                     <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>

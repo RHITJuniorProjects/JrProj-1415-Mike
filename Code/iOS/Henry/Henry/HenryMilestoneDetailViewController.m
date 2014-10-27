@@ -34,8 +34,8 @@
     
     NSMutableArray *dataArray = [[NSMutableArray alloc] init];
     
-    for(int i =0;i<5;i++){
-        NSNumber *num = [NSNumber numberWithInt:rand()%60+20];
+    for(int i =0;i<15;i++){
+        NSNumber *num = [NSNumber numberWithInt:1];
         [dataArray addObject:num];
     }
     
