@@ -16,6 +16,8 @@
 
 @implementation HenryMilestoneDetailViewController
 
+@synthesize pieChart;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -29,6 +31,44 @@
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
+    
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    
+    for(int i =0;i<5;i++){
+        NSNumber *num = [NSNumber numberWithInt:rand()%60+20];
+        [dataArray addObject:num];
+    }
+    
+    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray];
+}
+
+- (IBAction)segControlClicked:(id)sender
+{
+
+    //Figures out the last clicked segment.
+    int clickedSegment = [sender selectedSegmentIndex];
+    if(clickedSegment == 0){
+        [self.pieChart reloadData];
+        NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+        
+        for(int i =0;i<5;i++){
+            NSNumber *num = [NSNumber numberWithInt:rand()%60+20];
+            [dataArray addObject:num];
+        }
+        
+        
+    }else{
+        
+        NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+        
+        for(int i =0;i<5;i++){
+            NSNumber *num = [NSNumber numberWithInt:rand()%60+20];
+            [dataArray addObject:num];
+        }
+        
+        [self.pieChart reloadData];
+    }
+    
 }
 
 -(void)updateInfo {

@@ -21,7 +21,8 @@
 		843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241219F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m */; };
 		843D241919F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		84DD890A19F551F900839255 /* HenryRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DD890919F551F900839255 /* HenryRootNavigationController.m */; };
-		87A6163019F73B06006F574E /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A6162F19F73B06006F574E /* Firebase.framework */; };
+		8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 8731945C19FDCEC100CE82ED /* DLPieChart.m */; };
+		8770EDB519F9759000A12DE2 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8770EDB419F9759000A12DE2 /* Firebase.framework */; };
 		87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163219F73D4C006F574E /* HenryDevDisplayObject.m */; };
 		87A6163619F73D63006F574E /* HenryAssignDevsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163519F73D63006F574E /* HenryAssignDevsTableViewController.m */; };
 		87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163819F73D78006F574E /* HenryAssignDevTableViewCell.m */; };
@@ -88,7 +89,9 @@
 		843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
 		84DD890819F551F900839255 /* HenryRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRootNavigationController.h; sourceTree = "<group>"; };
 		84DD890919F551F900839255 /* HenryRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRootNavigationController.m; sourceTree = "<group>"; };
-		87A6162F19F73B06006F574E /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
+		8731945B19FDCEC100CE82ED /* DLPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPieChart.h; sourceTree = "<group>"; };
+		8731945C19FDCEC100CE82ED /* DLPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPieChart.m; sourceTree = "<group>"; };
+		8770EDB419F9759000A12DE2 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		87A6163119F73D4C006F574E /* HenryDevDisplayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryDevDisplayObject.h; sourceTree = "<group>"; };
 		87A6163219F73D4C006F574E /* HenryDevDisplayObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryDevDisplayObject.m; sourceTree = "<group>"; };
 		87A6163419F73D63006F574E /* HenryAssignDevsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryAssignDevsTableViewController.h; sourceTree = "<group>"; };
@@ -141,7 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB3A4E619E48A4C00C687D5 /* SystemConfiguration.framework in Frameworks */,
-				87A6163019F73B06006F574E /* Firebase.framework in Frameworks */,
+				8770EDB519F9759000A12DE2 /* Firebase.framework in Frameworks */,
 				ADB3A4E419E48A4300C687D5 /* Security.framework in Frameworks */,
 				ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */,
 				ADB3A4E019E48A2A00C687D5 /* libc++.dylib in Frameworks */,
@@ -191,6 +194,15 @@
 				93A50E7419F7078200645F54 /* SideNavTableTableViewController.m */,
 			);
 			name = Sidenav;
+			sourceTree = "<group>";
+		};
+		8731945A19FDCEC100CE82ED /* Pie Chart Library */ = {
+			isa = PBXGroup;
+			children = (
+				8731945B19FDCEC100CE82ED /* DLPieChart.h */,
+				8731945C19FDCEC100CE82ED /* DLPieChart.m */,
+			);
+			path = "Pie Chart Library";
 			sourceTree = "<group>";
 		};
 		93054B0A19C961D300911AB4 /* Tasks */ = {
@@ -274,7 +286,7 @@
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
-				87A6162F19F73B06006F574E /* Firebase.framework */,
+				8770EDB419F9759000A12DE2 /* Firebase.framework */,
 				93447F3E19C91C5500C2FC38 /* Henry */,
 				93447F5719C91C5600C2FC38 /* HenryTests */,
 				93447F3719C91C5500C2FC38 /* Frameworks */,
@@ -310,6 +322,7 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				8731945A19FDCEC100CE82ED /* Pie Chart Library */,
 				832BDD4C19F6CC7800642CD8 /* iPhone */,
 				93054B0F19C9623500911AB4 /* iPad */,
 				93054B0E19C9622900911AB4 /* Login/out */,
@@ -457,6 +470,7 @@
 			files = (
 				843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */,
 				83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */,
 				87A6163619F73D63006F574E /* HenryAssignDevsTableViewController.m in Sources */,
 				84DD890A19F551F900839255 /* HenryRootNavigationController.m in Sources */,
@@ -595,7 +609,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/**",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
 				INFOPLIST_FILE = "Henry/Henry-Info.plist";
@@ -611,7 +628,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/**";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/**",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
 				INFOPLIST_FILE = "Henry/Henry-Info.plist";

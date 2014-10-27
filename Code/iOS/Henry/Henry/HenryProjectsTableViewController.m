@@ -38,6 +38,9 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
     
+    
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
     SWRevealViewController *revealViewController = self.revealViewController;
     if ( revealViewController )
     {
@@ -137,6 +140,43 @@
     return cell;
 }
 
+
+- (IBAction)segControlClicked:(id)sender
+{
+    //Figures out the last clicked segment.
+    int clickedSegment = [sender selectedSegmentIndex];
+    switch(clickedSegment)
+    {
+        //Segment 1 is A-Z
+        case 1:
+            [self sortByAlphabeticalAToZ];
+            break;
+            
+        //Segment 2 is Z-A
+        case 2:
+            [self sortByAlphabeticalZToA];
+            break;
+            
+        //Segment 3 is Due Date
+        case 3:
+            [self sortByDueDate];
+            break;
+    }
+}
+
+-(void)sortByAlphabeticalAToZ
+{
+    
+}
+
+-(void)sortByAlphabeticalZToA
+{
+    
+}
+-(void)sortByDueDate
+{
+    
+}
 
 /*
 // Override to support conditional editing of the table view.

@@ -45,6 +45,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <segmentedControl key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="hEb-hh-cFv">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="A-Z"/>
+                                <segment title="Z-A"/>
+                                <segment title="Due Date"/>
+                            </segments>
+                        </segmentedControl>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProjectCell" textLabel="3zz-Ac-wbs" detailTextLabel="V6N-Cr-eSu" style="IBUITableViewCellStyleSubtitle" id="Wk6-4t-BJe">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
@@ -84,6 +93,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="navButton" destination="5JG-hA-lnx" id="HZX-jp-bfz"/>
+                        <outlet property="sortSelector" destination="hEb-hh-cFv" id="8Jj-AE-TEo"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Smo-In-Cte" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -382,17 +392,17 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Milestone Description" translatesAutoresizingMaskIntoConstraints="NO" id="OEm-ed-V2y">
                                 <rect key="frame" x="11" y="137" width="293" height="94"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tasks Completed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jmv-SC-tbs">
-                                <rect key="frame" x="16" y="239" width="138" height="21"/>
+                                <rect key="frame" x="16" y="445" width="138" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="y6M-f7-yQu">
-                                <rect key="frame" x="16" y="268" width="288" height="9"/>
+                                <rect key="frame" x="21" y="474" width="288" height="9"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="8" id="BiU-xu-3Ba"/>
                                     <constraint firstAttribute="height" constant="8" id="hXd-15-Gaw"/>
@@ -401,7 +411,7 @@
                                 <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </progressView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ymm-2d-46b">
-                                <rect key="frame" x="11" y="315" width="293" height="48"/>
+                                <rect key="frame" x="14" y="490" width="293" height="48"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="View Tasks">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -411,11 +421,25 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bd8-Ha-SLz">
-                                <rect key="frame" x="162" y="239" width="291" height="21"/>
+                                <rect key="frame" x="162" y="445" width="291" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYe-u4-Z2g" customClass="DLPieChart">
+                                <rect key="frame" x="16" y="261" width="288" height="156"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-d5-4FJ">
+                                <rect key="frame" x="19" y="203" width="283" height="29"/>
+                                <segments>
+                                    <segment title="Lines Of Code"/>
+                                    <segment title="Generic Analysis"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -427,12 +451,15 @@
                     </view>
                     <navigationItem key="navigationItem" id="mgc-ot-s9P"/>
                     <connections>
+                        <outlet property="dataSelector" destination="UHN-d5-4FJ" id="KdU-Hu-ftl"/>
                         <outlet property="descriptionView" destination="OEm-ed-V2y" id="ois-ro-FhC"/>
                         <outlet property="dueDateLabel" destination="etw-cn-nv5" id="fAf-Xa-TtY"/>
                         <outlet property="milestoneName" destination="zau-mB-96S" id="Rnn-eh-oJq"/>
                         <outlet property="milestoneNameLabel" destination="zau-mB-96S" id="KP9-7l-yf1"/>
+                        <outlet property="pieChart" destination="HYe-u4-Z2g" id="Rk4-fu-JCJ"/>
                         <outlet property="tasksCompleteBar" destination="y6M-f7-yQu" id="6Wm-JG-pl5"/>
                         <outlet property="tasksCompletedLabel" destination="bd8-Ha-SLz" id="cVX-QO-6Xr"/>
+                        <outlet property="view" destination="HYe-u4-Z2g" id="3va-q5-ABv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMD-wX-8Vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -771,10 +798,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="of7-3T-Meh"/>
         <segue reference="Fwr-B4-Jg0"/>
         <segue reference="N3w-Us-8Fy"/>
         <segue reference="Jkc-DS-FtK"/>
-        <segue reference="TUL-V0-Fep"/>
         <segue reference="fRM-m9-T5z"/>
     </inferredMetricsTieBreakers>
 </document>
