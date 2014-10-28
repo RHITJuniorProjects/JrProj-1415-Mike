@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -51,6 +54,10 @@ public class ProjectListFragment extends ListFragment {
 		 * Callback for when an item has been selected.
 		 */
 		public void onItemSelected(Project p);
+		
+		public ArrayList<Project> getProjects();
+		
+		public User getUser();
 	}
 
 	/**
@@ -62,6 +69,14 @@ public class ProjectListFragment extends ListFragment {
 		public void onItemSelected(Project p) {
 			// Do nothing
 		}
+
+		public ArrayList<Project> getProjects() {
+			return null;
+		}
+
+		public User getUser() {
+			return null;
+		}
 	};
 
 	/**
@@ -72,10 +87,9 @@ public class ProjectListFragment extends ListFragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.projects = ((MainActivity) this.getActivity())
-				.getProjects();
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		this.projects = ((MainActivity) this.getActivity()).getProjects();
 		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
@@ -87,8 +101,10 @@ public class ProjectListFragment extends ListFragment {
 		for (Project project : this.projects) {
 			project.setListChangeNotifier(lcn);
 		}
+		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+
 	}
-	
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
@@ -97,6 +113,7 @@ public class ProjectListFragment extends ListFragment {
 			setActivatedPosition(savedInstanceState
 					.getInt(STATE_ACTIVATED_POSITION));
 		}
+
 	}
 
 	@Override
@@ -125,7 +142,7 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (this.mActivatedPosition != ListView.INVALID_POSITION) {
+		if (this.mActivatedPosition != AdapterView.INVALID_POSITION) {
 			// Serialize and persist the activated item position.
 			outState.putInt(STATE_ACTIVATED_POSITION, this.mActivatedPosition);
 		}
@@ -137,17 +154,16 @@ public class ProjectListFragment extends ListFragment {
 	 */
 	public void setActivateOnItemClick(boolean activateOnItemClick) {
 		getListView().setChoiceMode(
-				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-						: ListView.CHOICE_MODE_NONE);
+				activateOnItemClick ? AbsListView.CHOICE_MODE_SINGLE
+						: AbsListView.CHOICE_MODE_NONE);
 	}
 
 	private void setActivatedPosition(int position) {
-		if (position == ListView.INVALID_POSITION) {
+		if (position == AdapterView.INVALID_POSITION) {
 			getListView().setItemChecked(this.mActivatedPosition, false);
 		} else {
 			getListView().setItemChecked(position, true);
 		}
-
 		this.mActivatedPosition = position;
 	}
 }

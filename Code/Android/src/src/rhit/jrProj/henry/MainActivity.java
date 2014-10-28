@@ -18,7 +18,8 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity implements
-		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks {
+		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
+		TaskListFragment.Callbacks {
 	/**
 	 * TODO something here
 	 */
@@ -39,6 +40,11 @@ public class MainActivity extends Activity implements
 	 * The milestone selected by the user
 	 */
 	private Milestone selectedMilestone;
+
+	/**
+	 * The task that is currently selected by the user
+	 */
+	private Task selectedTask;
 
 	/**
 	 * Determines what page to fill in when the application starts
@@ -79,18 +85,20 @@ public class MainActivity extends Activity implements
 	 * the fragment to display a list of projects.
 	 */
 	private void createProjectList() {
-		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-		if (!tabletSize) {
+		this.mTwoPane = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", false);
+		ProjectListFragment fragment = new ProjectListFragment();
+		fragment.setArguments(args);
+		if (!this.mTwoPane) {
 			setContentView(R.layout.activity_main);
-			ProjectListFragment fragment = new ProjectListFragment();
-			getFragmentManager().beginTransaction().add(R.id.main_fragment_container, fragment).commit();
+			getFragmentManager().beginTransaction()
+					.add(R.id.main_fragment_container, fragment).commit();
+			
 		} else {
 			setContentView(R.layout.activity_project_twopane);
-		}
-		if (findViewById(R.id.project_detail_container) != null) {
-			this.mTwoPane = true;
-			((ProjectListFragment) getFragmentManager().findFragmentById(
-					R.id.project_list)).setActivateOnItemClick(true);
+			getFragmentManager().beginTransaction()
+					.add(R.id.twopane_list, fragment).commit();
 		}
 	}
 
@@ -123,10 +131,20 @@ public class MainActivity extends Activity implements
 	 * @param view
 	 */
 	public void openTaskView(View view) {
-		Intent intent = new Intent(this, TaskListActivity.class);
-		ArrayList<Task> tasks = this.selectedMilestone.getTasks();
-		intent.putParcelableArrayListExtra("Tasks", tasks);
-		this.startActivity(intent);
+		int container = this.mTwoPane ? R.id.twopane_list
+				: R.id.main_fragment_container;
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", this.mTwoPane);
+		TaskListFragment fragment = new TaskListFragment();
+		fragment.setArguments(args);
+		getFragmentManager().beginTransaction().replace(container, fragment)
+				.commit();
+		if (this.mTwoPane) {
+			getFragmentManager()
+					.beginTransaction()
+					.remove(getFragmentManager().findFragmentById(
+							R.id.twopane_detail_container)).commit();
+		}
 	}
 
 	/**
@@ -135,10 +153,20 @@ public class MainActivity extends Activity implements
 	 * @param view
 	 */
 	public void openMilestoneView(View view) {
-		Intent intent = new Intent(this, MilestoneListActivity.class);
-		ArrayList<Milestone> milestones = this.selectedProject.getMilestones();
-		intent.putParcelableArrayListExtra("Milestones", milestones);
-		this.startActivity(intent);
+		int container = this.mTwoPane ? R.id.twopane_list
+				: R.id.main_fragment_container;
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", this.mTwoPane);
+		MilestoneListFragment fragment = new MilestoneListFragment();
+		fragment.setArguments(args);
+		getFragmentManager().beginTransaction().replace(container, fragment)
+				.commit();
+		if (this.mTwoPane) {
+			getFragmentManager()
+					.beginTransaction()
+					.remove(getFragmentManager().findFragmentById(
+							R.id.twopane_detail_container)).commit();
+		}
 	}
 
 	/**
@@ -147,27 +175,16 @@ public class MainActivity extends Activity implements
 	 */
 	public void onItemSelected(Project p) {
 		this.selectedProject = p;
-		if (this.mTwoPane) {
-			// In two-pane mode, show the detail view in this activity by
-			// adding or replacing the detail fragment using a
-			// fragment transaction.
-			Bundle arguments = new Bundle();
-			// arguments.putString(ProjectDetailFragment.ARG_ITEM_ID, id);
-			arguments.putParcelable("Project", p);
-			ProjectDetailFragment fragment = new ProjectDetailFragment();
-			fragment.setArguments(arguments);
-			getFragmentManager().beginTransaction()
-					.replace(R.id.project_detail_container, fragment).commit();
-
-		} else {
-			Bundle arguments = new Bundle();
-			// arguments.putString(ProjectDetailFragment.ARG_ITEM_ID, id);
-			arguments.putParcelable("Project", p);
-			ProjectDetailFragment fragment = new ProjectDetailFragment();
-			fragment.setArguments(arguments);
-			getFragmentManager().beginTransaction()
-					.replace(R.id.main_fragment_container, fragment).commit();
-		}
+		Bundle arguments = new Bundle();
+		arguments.putParcelable("Project", p);
+		ProjectDetailFragment fragment = new ProjectDetailFragment();
+		fragment.setArguments(arguments);
+		getFragmentManager()
+				.beginTransaction()
+				.replace(
+						this.mTwoPane ? R.id.twopane_detail_container
+								: R.id.main_fragment_container, fragment)
+				.commit();
 
 	}
 
@@ -177,21 +194,35 @@ public class MainActivity extends Activity implements
 	 */
 	public void onItemSelected(Milestone m) {
 		this.selectedMilestone = m;
-		if (this.mTwoPane) {
-			Bundle arguments = new Bundle();
-			arguments.putParcelable("Milestone", m);
-			MilestoneDetailFragment fragment = new MilestoneDetailFragment();
-			fragment.setArguments(arguments);
-			getFragmentManager().beginTransaction()
-					.replace(R.id.milestone_detail_container, fragment)
-					.commit();
+		Bundle arguments = new Bundle();
+		arguments.putParcelable("Milestone", m);
+		MilestoneDetailFragment fragment = new MilestoneDetailFragment();
+		fragment.setArguments(arguments);
+		getFragmentManager()
+				.beginTransaction()
+				.replace(
+						this.mTwoPane ? R.id.twopane_detail_container
+								: R.id.main_fragment_container, fragment)
+				.commit();
 
-		} else {
-			Intent detailIntent = new Intent(this,
-					MilestoneDetailActivity.class);
-			detailIntent.putExtra("Milestone", m);
-			startActivity(detailIntent);
-		}
+	}
+
+	/**
+	 * Callback method from {@link ItemListFragment.Callbacks} indicating that
+	 * the item with the given ID was selected.
+	 */
+	public void onItemSelected(Task t) {
+		this.selectedTask = t;
+		Bundle arguments = new Bundle();
+		arguments.putParcelable("Task", t);
+		TaskDetailFragment fragment = new TaskDetailFragment();
+		fragment.setArguments(arguments);
+		getFragmentManager()
+				.beginTransaction()
+				.replace(
+						this.mTwoPane ? R.id.twopane_detail_container
+								: R.id.main_fragment_container, fragment)
+				.commit();
 	}
 
 	/**
@@ -234,6 +265,10 @@ public class MainActivity extends Activity implements
 	 */
 	public ArrayList<Milestone> getMilestones() {
 		return this.selectedProject.getMilestones();
+	}
+	
+	public ArrayList<Task> getTasks() {
+		return this.selectedMilestone.getTasks();
 	}
 
 	/**

@@ -4,10 +4,8 @@ import java.util.ArrayList;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.app.ListFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -53,6 +51,9 @@ public class MilestoneListFragment extends ListFragment {
 		 * Callback for when an item has been selected.
 		 */
 		public void onItemSelected(Milestone m);
+		
+
+		public ArrayList<Milestone> getMilestones();
 	}
 
 	/**
@@ -62,6 +63,10 @@ public class MilestoneListFragment extends ListFragment {
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 		public void onItemSelected(Milestone m) {
 			// Do nothing
+		}
+
+		public ArrayList<Milestone> getMilestones() {
+			return null;
 		}
 	};
 
@@ -76,11 +81,10 @@ public class MilestoneListFragment extends ListFragment {
  * 
  */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		// Done: replace with a real list adapter.
-		this.milestones = ((MainActivity) this.getActivity())
-				.getMilestones();
+		this.milestones = ((MainActivity) this.getActivity()).getMilestones();
 
 		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
@@ -91,6 +95,7 @@ public class MilestoneListFragment extends ListFragment {
 			m.setListChangeNotifier(lcn);
 		}
 		setListAdapter(arrayAdapter);
+		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
 	}
 
 	@Override
@@ -156,7 +161,6 @@ public class MilestoneListFragment extends ListFragment {
 				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
 						: ListView.CHOICE_MODE_NONE);
 	}
-
 
 	/**
 	 * 
