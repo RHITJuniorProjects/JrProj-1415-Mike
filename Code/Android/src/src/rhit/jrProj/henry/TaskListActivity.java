@@ -2,9 +2,6 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import com.firebase.client.Firebase;
-
-import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -12,7 +9,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+
+import com.firebase.client.Firebase;
 
 /**
  * An activity representing a list of Items. This activity has different

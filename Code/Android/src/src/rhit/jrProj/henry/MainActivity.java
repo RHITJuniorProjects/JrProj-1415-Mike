@@ -7,13 +7,9 @@ import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.RecoverySystem.ProgressListener;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,7 +81,9 @@ public class MainActivity extends Activity implements
 	private void createProjectList() {
 		boolean tabletSize = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		if (!tabletSize) {
-			setContentView(R.layout.activity_project_list);
+			setContentView(R.layout.activity_main);
+			ProjectListFragment fragment = new ProjectListFragment();
+			getFragmentManager().beginTransaction().add(R.id.main_fragment_container, fragment).commit();
 		} else {
 			setContentView(R.layout.activity_project_twopane);
 		}
@@ -168,7 +166,7 @@ public class MainActivity extends Activity implements
 			ProjectDetailFragment fragment = new ProjectDetailFragment();
 			fragment.setArguments(arguments);
 			getFragmentManager().beginTransaction()
-					.replace(R.id.project_list, fragment).commit();
+					.replace(R.id.main_fragment_container, fragment).commit();
 		}
 
 	}

@@ -2,19 +2,17 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import com.firebase.client.Firebase;
-
-import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.firebase.client.Firebase;
 
 /**
  * An activity representing a list of Projects. This activity has different
@@ -78,6 +76,8 @@ public class ProjectListActivity extends Activity implements
 		}
 	}
 
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
