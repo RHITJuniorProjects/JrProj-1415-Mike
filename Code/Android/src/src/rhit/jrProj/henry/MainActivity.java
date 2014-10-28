@@ -28,14 +28,17 @@ public class MainActivity extends Activity implements
 	 * The two pane determining boolean
 	 */
 	private boolean mTwoPane;
-	/**
-	 * The project that has been selected from the list
-	 */
-	private Project selectedProject;
+
 	/**
 	 * Created user after login
 	 */
 	private User user;
+
+	/**
+	 * The project that has been selected from the list
+	 */
+	private Project selectedProject;
+
 	/**
 	 * The milestone selected by the user
 	 */
@@ -87,16 +90,16 @@ public class MainActivity extends Activity implements
 	private void createProjectList() {
 		this.mTwoPane = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 		Bundle args = new Bundle();
-		args.putBoolean("TwoPane", false);
+		args.putBoolean("TwoPane", this.mTwoPane);
 		ProjectListFragment fragment = new ProjectListFragment();
 		fragment.setArguments(args);
 		if (!this.mTwoPane) {
-			setContentView(R.layout.activity_main);
+			setContentView(R.layout.activity_onepane);
 			getFragmentManager().beginTransaction()
 					.add(R.id.main_fragment_container, fragment).commit();
-			
+
 		} else {
-			setContentView(R.layout.activity_project_twopane);
+			setContentView(R.layout.activity_twopane);
 			getFragmentManager().beginTransaction()
 					.add(R.id.twopane_list, fragment).commit();
 		}
@@ -120,7 +123,12 @@ public class MainActivity extends Activity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == android.R.id.home) {
-			finish();
+			// Hit the back button!
+			if (this.mTwoPane) {
+
+			} else {
+
+			}
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -145,6 +153,7 @@ public class MainActivity extends Activity implements
 					.remove(getFragmentManager().findFragmentById(
 							R.id.twopane_detail_container)).commit();
 		}
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	/**
@@ -167,6 +176,30 @@ public class MainActivity extends Activity implements
 					.remove(getFragmentManager().findFragmentById(
 							R.id.twopane_detail_container)).commit();
 		}
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	/**
+	 * Open the MilestoneList Activity for the selected milestone
+	 * 
+	 * @param view
+	 */
+	public void openProjectView(View view) {
+		int container = this.mTwoPane ? R.id.twopane_list
+				: R.id.main_fragment_container;
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", this.mTwoPane);
+		ProjectListFragment fragment = new ProjectListFragment();
+		fragment.setArguments(args);
+		getFragmentManager().beginTransaction().replace(container, fragment)
+				.commit();
+		if (this.mTwoPane) {
+			getFragmentManager()
+					.beginTransaction()
+					.remove(getFragmentManager().findFragmentById(
+							R.id.twopane_detail_container)).commit();
+		}
+		getActionBar().setDisplayHomeAsUpEnabled(false);
 	}
 
 	/**
@@ -185,7 +218,8 @@ public class MainActivity extends Activity implements
 						this.mTwoPane ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
-
+		// If in two pane mode, we cannot go up.
+		getActionBar().setDisplayHomeAsUpEnabled(!this.mTwoPane);
 	}
 
 	/**
@@ -204,7 +238,7 @@ public class MainActivity extends Activity implements
 						this.mTwoPane ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
-
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	/**
@@ -223,6 +257,7 @@ public class MainActivity extends Activity implements
 						this.mTwoPane ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	/**
@@ -266,7 +301,12 @@ public class MainActivity extends Activity implements
 	public ArrayList<Milestone> getMilestones() {
 		return this.selectedProject.getMilestones();
 	}
-	
+
+	/**
+	 * Returns the Tasks for the selected Milestone
+	 * 
+	 * @return
+	 */
 	public ArrayList<Task> getTasks() {
 		return this.selectedMilestone.getTasks();
 	}
