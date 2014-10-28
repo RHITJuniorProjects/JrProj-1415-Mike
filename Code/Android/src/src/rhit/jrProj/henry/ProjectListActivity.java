@@ -115,10 +115,10 @@ public class ProjectListActivity extends Activity implements
 	 * @param view
 	 */
 	public void openMilestoneView(View view) {
-		Intent intent = new Intent(this, MilestoneListActivity.class);
-		ArrayList<Milestone> milestones = this.projectItem.getMilestones();
-		intent.putParcelableArrayListExtra("Milestones", milestones);
-		this.startActivity(intent);
+//		Intent intent = new Intent(this, MilestoneListActivity.class);
+//		ArrayList<Milestone> milestones = this.projectItem.getMilestones();
+//		intent.putParcelableArrayListExtra("Milestones", milestones);
+//		this.startActivity(intent);
 	}
 
 	/**
@@ -131,21 +131,21 @@ public class ProjectListActivity extends Activity implements
 			// In two-pane mode, show the detail view in this activity by
 			// adding or replacing the detail fragment using a
 			// fragment transaction.
-			Bundle arguments = new Bundle();
-			// arguments.putString(ProjectDetailFragment.ARG_ITEM_ID, id);
-			arguments.putParcelable("Project", p);
-			ProjectDetailFragment fragment = new ProjectDetailFragment();
-			fragment.setArguments(arguments);
-			getFragmentManager().beginTransaction()
-					.replace(R.id.project_detail_container, fragment).commit();
+//			Bundle arguments = new Bundle();
+//			// arguments.putString(ProjectDetailFragment.ARG_ITEM_ID, id);
+//			arguments.putParcelable("Project", p);
+//			ProjectDetailFragment fragment = new ProjectDetailFragment();
+//			fragment.setArguments(arguments);
+//			getFragmentManager().beginTransaction()
+//					.replace(R.id.project_detail_container, fragment).commit();
 
 		} else {
 			// In single-pane mode, simply start the detail activity
 			// for the selected item ID.
-			Intent detailIntent = new Intent(this, ProjectDetailActivity.class);
+			//Intent detailIntent = new Intent(this, ProjectDetailActivity.class);
 			// detailIntent.putExtra(ProjectDetailFragment.ARG_ITEM_ID, id);
-			detailIntent.putExtra("Project", p);
-			this.startActivity(detailIntent);
+			//detailIntent.putExtra("Project", p);
+			//this.startActivity(detailIntent);
 		}
 
 	}

@@ -79,7 +79,7 @@ public class MilestoneListFragment extends ListFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// Done: replace with a real list adapter.
-		this.milestones = ((MilestoneListActivity) this.getActivity())
+		this.milestones = ((MainActivity) this.getActivity())
 				.getMilestones();
 
 		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(

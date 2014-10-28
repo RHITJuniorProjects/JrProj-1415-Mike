@@ -172,9 +172,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// mAuthTask.execute((Void) null);
 			loginWithPassword(email, password);
 			showProgress(false);
-			if (authData!=null){
-				this.mAuthProgressDialog.hide();
-			}
 			// openProjectListView();
 		}
 	}
@@ -186,7 +183,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	public void openProjectListView(AuthData authdata) {
 
 		this.mAuthProgressDialog.hide();
-		Intent intent = new Intent(this, ProjectListActivity.class);
+		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra(
 				"user",
 				this.firebaseLoc+"users/"
@@ -380,15 +377,11 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// mAuthTask.execute((Void) null);
 			this.ref.createUser(email, password, new Firebase.ResultHandler(){
 				public void onSuccess(){
-					ref.authWithPassword(email, password, new FirstTimeAuthResultHandler(
-							"password", email));
+					loginWithPassword(email, password);
 					showProgress(false);
-					mAuthProgressDialog.hide();
 				}
 				public void onError(FirebaseError firebaseError){
-					showErrorDialog(firebaseError.toString());
-					showProgress(false);
-					mAuthProgressDialog.hide();
+					
 				}
 				
 				
@@ -398,9 +391,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		}
 		
 		
-	}
-	private void pushNewUser(AuthData authData, String email){
-		ref.child("users/"+authData.getUid()+"/email/").setValue(email);
 	}
 	
 	private class AuthResultHandler implements Firebase.AuthResultHandler {
@@ -415,30 +405,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			Log.i(TAG, this.provider + " auth successful");
 			Log.i(TAG, authData.toString());
 			setAuthenticatedUser(authData);
-		}
-
-		public void onAuthenticationError(FirebaseError firebaseError) {
-			Log.i("BAD LOGIN", "You messed up");
-			// mAuthProgressDialog.hide();
-			showErrorDialog(firebaseError.toString());
-			showProgress(false);
-			mAuthProgressDialog.hide();
-		}
-	}
-	private class FirstTimeAuthResultHandler implements Firebase.AuthResultHandler {
-
-		private final String provider;
-		private final String email;
-
-		public FirstTimeAuthResultHandler(String provider, String email) {
-			this.provider = provider;
-			this.email=email;
-		}
-
-		public void onAuthenticated(AuthData authData) {
-			Log.i(TAG, this.provider + " auth successful");
-			Log.i(TAG, authData.toString());
-			pushNewUser(authData, email);
 		}
 
 		public void onAuthenticationError(FirebaseError firebaseError) {

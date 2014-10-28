@@ -28,11 +28,11 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
-    
+    <!--
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="200dp" >
-    </FrameLayout>
+    </FrameLayout>-->
 
     <TextView
         android:id="@+id/project_hours_percent"
