@@ -21,11 +21,11 @@ public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
 		TaskListFragment.Callbacks {
 	/**
-	 * TODO something here
+	 * The Url to the firebase repository
 	 */
-	public final static String firebaseLoc = "https://henry-test.firebaseio.com/";
+	public final static String firebaseUrl = "https://henry-test.firebaseio.com/";
 	/**
-	 * The two pane determining boolean
+	 * If the application is in tablet mode or not.
 	 */
 	private boolean mTwoPane;
 
@@ -58,16 +58,11 @@ public class MainActivity extends Activity implements
 
 		Firebase.setAndroidContext(this);
 
-		Firebase ref = new Firebase(firebaseLoc);
+		Firebase ref = new Firebase(firebaseUrl);
 
 		AuthData authData = ref.getAuth();
 		if (authData != null) {
-			// Replaced with fragment TODO delete this
-			// Intent intent = new Intent(this, ProjectListActivity.class);
-			// intent.putExtra("user", firebaseLoc + "users/" +
-			// authData.getUid());
-			// this.startActivity(intent);
-			this.user = new User(firebaseLoc + "users/" + authData.getUid());
+			this.user = new User(firebaseUrl + "users/" + authData.getUid());
 			createProjectList();
 		} else if (this.getIntent().getStringExtra("user") != null) {
 			// If logged in get the user's project list
@@ -125,9 +120,9 @@ public class MainActivity extends Activity implements
 		if (id == android.R.id.home) {
 			// Hit the back button!
 			if (this.mTwoPane) {
-
+				
 			} else {
-
+				
 			}
 			return true;
 		}
@@ -268,8 +263,7 @@ public class MainActivity extends Activity implements
 		Intent login = new Intent(this, LoginActivity.class);
 		this.startActivity(login);
 		this.finish();
-
-		Firebase ref = new Firebase(firebaseLoc);
+		Firebase ref = new Firebase(firebaseUrl);
 		ref.unauth();
 	}
 
