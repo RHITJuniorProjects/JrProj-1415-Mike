@@ -426,10 +426,10 @@ function getLoginData(){ // Takes the login data from the form and places it int
 	var user = $("#user").val();
 	var pass = $("#pass").val();
 	document.getElementById("pass").value = "";
-	login(user, pass);
+	login(user, pass, false);
 }
 
-function login(user, pass){ // Authenticates with Firebase, giving a callback that will 
+function login(user, pass, registering){ // Authenticates with Firebase, giving a callback that will 
 							// cause the window to go to projects if it was successful, 
 							// else go back to login and show the invalid input message.
 	firebase.authWithPassword({
@@ -438,6 +438,15 @@ function login(user, pass){ // Authenticates with Firebase, giving a callback th
 	}, function(error, authData) {
 		if (error === null) {
 			userData = authData;
+			if(registering){
+				firebase.child('users/'+userData.uid).set(
+					{
+						email: userData.password.email,
+						github: $("#githubuser").val(),
+						name: $("#name").val()
+					}
+				);
+			}
 			window.location.replace("projects");
 		} else {
 			logout();
@@ -453,11 +462,11 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 	firebase.createUser(
 		{
 			email: user,
-			password: pass
+			password: pass,
 		}, 
 		function(error) {
 			if (error === null) {
-				login(user, pass);
+				login(user, pass, true);
 			} else {
 				$("#registerError").show();
 			}
@@ -488,7 +497,6 @@ firebase.onAuth(
 					$("#loginButton").show();
 				} else {
 					$("#currentUser").html("Currently logged in as " + userData.password.email);
-					firebase.child('users/'+userData.uid).child("email").set(userData.password.email);
 					$("#currentUser").show();
 					$("#logoutButton").show();
 					$("#loginButton").hide();
