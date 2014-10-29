@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Firebase/Firebase.h>
+#import "HenryFirebase.h"
 
 @interface LoginViewController : UIViewController
 

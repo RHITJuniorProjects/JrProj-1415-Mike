@@ -8,7 +8,7 @@
 
 #import "HenryTasksTableViewController.h"
 #import "HenryTaskDetailViewController.h"
-#import <Firebase/Firebase.h>
+#import "HenryFirebase.h"
 
 @interface HenryTasksTableViewController ()
 
@@ -35,7 +35,7 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/"];
+    self.fb = [HenryFirebase getFirebaseObject];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     

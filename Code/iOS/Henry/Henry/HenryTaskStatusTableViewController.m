@@ -7,7 +7,7 @@
 //
 
 #import "HenryTaskStatusTableViewController.h"
-#import <Firebase/Firebase.h>
+#import "HenryFirebase.h"
 
 @interface HenryTaskStatusTableViewController ()
 @property NSArray *cellTitles;
@@ -44,7 +44,8 @@
     self.clearChecksOnSelection = NO;
     
     NSLog([NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]);
-    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
+    self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
+    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -11,6 +11,7 @@
 		832BDD5619F6D89000642CD8 /* exit-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 832BDD5519F6D89000642CD8 /* exit-25.png */; };
 		832BDD5819F6D8F400642CD8 /* design-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 832BDD5719F6D8F400642CD8 /* design-25.png */; };
 		832BDD5A19F6D90100642CD8 /* combo_chart-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 832BDD5919F6D90100642CD8 /* combo_chart-25.png */; };
+		83A0BDBB1A017A8000CC9190 /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A0BDBA1A017A8000CC9190 /* HenryFirebase.m */; };
 		83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */; };
 		83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */; };
 		83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B26D9419F5B1B4001DEE31 /* menu@2x.png */; };
@@ -71,6 +72,8 @@
 		832BDD5519F6D89000642CD8 /* exit-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "exit-25.png"; sourceTree = "<group>"; };
 		832BDD5719F6D8F400642CD8 /* design-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "design-25.png"; sourceTree = "<group>"; };
 		832BDD5919F6D90100642CD8 /* combo_chart-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "combo_chart-25.png"; sourceTree = "<group>"; };
+		83A0BDB91A017A8000CC9190 /* HenryFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryFirebase.h; sourceTree = "<group>"; };
+		83A0BDBA1A017A8000CC9190 /* HenryFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryFirebase.m; sourceTree = "<group>"; };
 		83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadLoginStoryboard.storyboard; sourceTree = "<group>"; };
 		83B26D9119F5AD98001DEE31 /* HenryHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryHomeViewController.h; sourceTree = "<group>"; };
 		83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryHomeViewController.m; sourceTree = "<group>"; };
@@ -331,6 +334,8 @@
 				93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */,
 				93447F4A19C91C5500C2FC38 /* Images.xcassets */,
 				93447F3F19C91C5500C2FC38 /* Supporting Files */,
+				83A0BDB91A017A8000CC9190 /* HenryFirebase.h */,
+				83A0BDBA1A017A8000CC9190 /* HenryFirebase.m */,
 			);
 			path = Henry;
 			sourceTree = "<group>";
@@ -477,6 +482,7 @@
 				93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */,
 				843D241919F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				93447F7619C92C0900C2FC38 /* LoginViewController.m in Sources */,
+				83A0BDBB1A017A8000CC9190 /* HenryFirebase.m in Sources */,
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
 				87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
