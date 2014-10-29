@@ -439,7 +439,7 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 		if (error === null) {
 			userData = authData;
 			if(registering){
-				firebase.child('users/'+userData.uid).set(
+				firebase.child('users/'+userData.uid).update(
 					{
 						email: userData.password.email,
 						github: $("#githubuser").val(),
