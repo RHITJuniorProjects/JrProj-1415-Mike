@@ -187,7 +187,13 @@
                             <outlet property="delegate" destination="8CP-Lh-3kU" id="3u7-hJ-qE8"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Tasks" id="yxf-yl-ER2"/>
+                    <navigationItem key="navigationItem" title="Tasks" id="yxf-yl-ER2">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="YdK-f4-VJM">
+                            <connections>
+                                <action selector="addTask:" destination="8CP-Lh-3kU" id="5QK-1H-iCU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QkA-Br-ap3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -798,10 +804,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="of7-3T-Meh"/>
-        <segue reference="Fwr-B4-Jg0"/>
-        <segue reference="N3w-Us-8Fy"/>
+        <segue reference="hr0-Sg-r1P"/>
         <segue reference="Jkc-DS-FtK"/>
-        <segue reference="fRM-m9-T5z"/>
+        <segue reference="Fwr-B4-Jg0"/>
+        <segue reference="TUL-V0-Fep"/>
+        <segue reference="5b4-0E-tfw"/>
     </inferredMetricsTieBreakers>
 </document>

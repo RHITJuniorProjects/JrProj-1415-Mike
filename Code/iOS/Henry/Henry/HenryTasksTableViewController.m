@@ -35,7 +35,7 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
+    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/"];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -68,9 +68,9 @@
     
     for (NSString *key in keys) {
         // Hardcoded user for now...
-        if (![[[json objectForKey:key] objectForKey:@"assignedTo"] isEqualToString:self.uid]) {
-            continue;
-        }
+//        if (![[[json objectForKey:key] objectForKey:@"assignedTo"] isEqualToString:self.uid]) {
+//            continue;
+//        }
 //        if (![self.userTasks containsObject:key]) {
 //            continue;
 //        }
@@ -173,4 +173,44 @@
  
 }
  
+- (IBAction)addTask:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Task"
+                                                      message:nil
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:@"Add", nil];
+    [alert setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
+    [alert textFieldAtIndex:0].placeholder = @"Task Name";
+    [alert textFieldAtIndex:1].secureTextEntry = false;
+    [alert textFieldAtIndex:1].placeholder = @"Description";
+    
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSString *taskName = [alertView textFieldAtIndex:0].text;
+        NSString *description = [alertView textFieldAtIndex:1].text;
+        if ([taskName length] > 0 && [description length] > 0) {
+            NSString *urlString = [NSString stringWithFormat:@"projects/%@/milestones/%@/tasks", self.ProjectID, self.MileStoneID];
+            Firebase *tasksRef = [self.fb childByAppendingPath: urlString];
+            Firebase *newTask = [tasksRef childByAutoId];
+            
+            NSDictionary *task = @{
+                                   @"name": taskName,
+                                   @"description": description,
+                                   @"assignedTo": self.uid
+                                   };
+            [newTask setValue:task];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
+                                                            message:@"You have an empty field."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+}
+
 @end
