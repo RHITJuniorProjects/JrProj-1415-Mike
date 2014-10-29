@@ -8,7 +8,6 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 public class Task implements Parcelable {
 
@@ -166,6 +165,10 @@ public class Task implements Parcelable {
 		return this.name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getAssignedUserId() {
 		return this.assignedUserId;
 	}
@@ -177,6 +180,10 @@ public class Task implements Parcelable {
 	 */
 	public String getAssignedUserName() {
 		return this.assignedUserName;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
@@ -197,6 +204,19 @@ public class Task implements Parcelable {
 		return this.hoursEstimatedCurrent;
 	}
 
+	public void setAssignedUserName(String username) {
+		this.assignedUserName = username;
+
+	}
+
+	public void setAssignedUserId(String userId) {
+		this.assignedUserId = userId;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	/**
 	 * Returns the status of this task
 	 * 
@@ -204,6 +224,10 @@ public class Task implements Parcelable {
 	 */
 	public String getStatus() {
 		return this.status;
+	}
+
+	public ListChangeNotifier<Task> getListChangeNotifier() {
+		return this.listViewCallback;
 	}
 
 	/**
@@ -217,14 +241,10 @@ public class Task implements Parcelable {
 
 	public void updateStatus(String taskStatus) {
 		this.status = taskStatus;
-		firebase.child("status").setValue(taskStatus);
-		if (taskStatus.equals("Closed")) {
-			firebase.child("is_completed").setValue(true);
-		} else {
-			firebase.child("is_completed").setValue(false);
-		}
+		this.firebase.child("status").setValue(taskStatus);
+		this.firebase.child("is_completed").setValue(Boolean.valueOf(taskStatus.equals("Closed")));
 	}
-	
+
 	/**
 	 * Task listener
 	 */
@@ -253,17 +273,17 @@ public class Task implements Parcelable {
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("name")) {
-				this.task.name = arg0.getValue().toString();
-				if (this.task.listViewCallback != null) {
-					this.task.listViewCallback.onChange();
+				this.task.setName(arg0.getValue().toString());
+				if (this.task.getListChangeNotifier() != null) {
+					this.task.getListChangeNotifier().onChange();
 				}
 			} else if (arg0.getName().equals("description")) {
-				this.task.description = arg0.getValue().toString();
+				this.task.setDescription(arg0.getValue().toString());
 			} else if (arg0.getName().equals("assignedTo")) {
-				this.task.assignedUserName = "test";
-				this.task.assignedUserId = arg0.getValue().toString();
+				this.task.setAssignedUserName("test");
+				this.task.setAssignedUserId(arg0.getValue().toString());
 			} else if (arg0.getName().equals("status")) {
-				this.task.status = arg0.getValue().toString();
+				this.task.setStatus(arg0.getValue().toString());
 			}
 		}
 
@@ -290,4 +310,5 @@ public class Task implements Parcelable {
 
 		}
 	}
+
 }
