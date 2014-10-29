@@ -136,10 +136,12 @@ public class MainActivity extends Activity implements
 			if (this.mTwoPane) {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.twopane_list, beforeFragment).commit();
-				getFragmentManager()
-						.beginTransaction()
-						.remove(getFragmentManager().findFragmentById(
-								R.id.twopane_detail_container)).commit();
+				Fragment fragmentID = getFragmentManager().findFragmentById(
+						R.id.twopane_detail_container);
+				if (fragmentID != null) {
+					getFragmentManager().beginTransaction().remove(fragmentID)
+							.commit();
+				}
 
 			} else {
 				getFragmentManager().beginTransaction()
@@ -160,8 +162,8 @@ public class MainActivity extends Activity implements
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
 		args.putBoolean("TwoPane", this.mTwoPane);
-
 		TaskListFragment fragment = new TaskListFragment();
+		fragmentStack.push(fragment);
 		fragment.setArguments(args);
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
@@ -170,8 +172,6 @@ public class MainActivity extends Activity implements
 					.beginTransaction()
 					.remove(getFragmentManager().findFragmentById(
 							R.id.twopane_detail_container)).commit();
-		} else {
-			fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
@@ -187,6 +187,7 @@ public class MainActivity extends Activity implements
 		Bundle args = new Bundle();
 		args.putBoolean("TwoPane", this.mTwoPane);
 		MilestoneListFragment fragment = new MilestoneListFragment();
+		fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Milestone_List")
 				.addToBackStack("Milestone_List");
 		fragment.setArguments(args);
@@ -197,8 +198,6 @@ public class MainActivity extends Activity implements
 					.beginTransaction()
 					.remove(getFragmentManager().findFragmentById(
 							R.id.twopane_detail_container)).commit();
-		} else {
-			fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
@@ -214,6 +213,7 @@ public class MainActivity extends Activity implements
 		Bundle args = new Bundle();
 		args.putBoolean("TwoPane", this.mTwoPane);
 		ProjectListFragment fragment = new ProjectListFragment();
+		fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Project_View")
 				.addToBackStack("Project_View");
 		fragment.setArguments(args);
@@ -224,8 +224,6 @@ public class MainActivity extends Activity implements
 					.beginTransaction()
 					.remove(getFragmentManager().findFragmentById(
 							R.id.twopane_detail_container)).commit();
-		} else {
-			fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 	}
@@ -239,7 +237,7 @@ public class MainActivity extends Activity implements
 		Bundle arguments = new Bundle();
 		arguments.putParcelable("Project", p);
 		ProjectDetailFragment fragment = new ProjectDetailFragment();
-		fragmentStack.push(fragment);
+
 		fragment.setArguments(arguments);
 		getFragmentManager()
 				.beginTransaction()
@@ -248,6 +246,10 @@ public class MainActivity extends Activity implements
 								: R.id.main_fragment_container, fragment)
 				.commit();
 		// If in two pane mode, we cannot go up.
+
+		if (!this.mTwoPane) {
+			fragmentStack.push(fragment);
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(!this.mTwoPane);
 	}
 
@@ -260,7 +262,6 @@ public class MainActivity extends Activity implements
 		Bundle arguments = new Bundle();
 		arguments.putParcelable("Milestone", m);
 		MilestoneDetailFragment fragment = new MilestoneDetailFragment();
-		fragmentStack.push(fragment);
 		fragment.setArguments(arguments);
 		getFragmentManager()
 				.beginTransaction()
@@ -268,6 +269,9 @@ public class MainActivity extends Activity implements
 						this.mTwoPane ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
+		if (!this.mTwoPane) {
+			fragmentStack.push(fragment);
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
@@ -280,7 +284,6 @@ public class MainActivity extends Activity implements
 		Bundle arguments = new Bundle();
 		arguments.putParcelable("Task", t);
 		TaskDetailFragment fragment = new TaskDetailFragment();
-		fragmentStack.push(fragment);
 		fragment.setArguments(arguments);
 		getFragmentManager()
 				.beginTransaction()
@@ -288,6 +291,9 @@ public class MainActivity extends Activity implements
 						this.mTwoPane ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
+		if (!this.mTwoPane) {
+			fragmentStack.push(fragment);
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
