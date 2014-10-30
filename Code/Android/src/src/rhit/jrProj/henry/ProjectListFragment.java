@@ -89,14 +89,14 @@ public class ProjectListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.projects = ((MainActivity) this.getActivity()).getProjects();
+		this.projects = this.mCallbacks.getProjects();
 		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
 		setListAdapter(arrayAdapter);
 		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
 				arrayAdapter);
-		((MainActivity) this.getActivity()).getUser()
+		this.mCallbacks.getUser()
 				.setListChangeNotifier(lcn);
 		for (Project project : this.projects) {
 			project.setListChangeNotifier(lcn);

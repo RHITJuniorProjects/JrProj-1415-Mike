@@ -84,7 +84,7 @@ public class MilestoneListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		// Done: replace with a real list adapter.
-		this.milestones = ((MainActivity) this.getActivity()).getMilestones();
+		this.milestones = this.mCallbacks.getMilestones();
 
 		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,

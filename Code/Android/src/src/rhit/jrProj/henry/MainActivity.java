@@ -7,16 +7,11 @@ import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentManager.BackStackEntry;
-import android.app.FragmentTransaction;
+import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -68,7 +63,7 @@ public class MainActivity extends Activity implements
 		Firebase.setAndroidContext(this);
 
 		Firebase ref = new Firebase(firebaseUrl);
-		fragmentStack = new Stack<Fragment>();
+		this.fragmentStack = new Stack<Fragment>();
 		AuthData authData = ref.getAuth();
 		if (authData != null) {
 			this.user = new User(firebaseUrl + "users/" + authData.getUid());
@@ -96,7 +91,7 @@ public class MainActivity extends Activity implements
 		Bundle args = new Bundle();
 		args.putBoolean("TwoPane", this.mTwoPane);
 		ProjectListFragment fragment = new ProjectListFragment();
-		fragmentStack.push(fragment);
+		this.fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Project_List")
 				.addToBackStack("Project_List");
 		fragment.setArguments(args);
@@ -129,10 +124,10 @@ public class MainActivity extends Activity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		if (id == android.R.id.home && fragmentStack.size() > 1) {
-			fragmentStack.pop();
-			Fragment beforeFragment = fragmentStack.peek();
-			getActionBar().setDisplayHomeAsUpEnabled(fragmentStack.size() > 1);
+		if (id == android.R.id.home && this.fragmentStack.size() > 1) {
+			this.fragmentStack.pop();
+			Fragment beforeFragment = this.fragmentStack.peek();
+			getActionBar().setDisplayHomeAsUpEnabled(this.fragmentStack.size() > 1);
 			if (this.mTwoPane) {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.twopane_list, beforeFragment).commit();
@@ -163,7 +158,7 @@ public class MainActivity extends Activity implements
 		Bundle args = new Bundle();
 		args.putBoolean("TwoPane", this.mTwoPane);
 		TaskListFragment fragment = new TaskListFragment();
-		fragmentStack.push(fragment);
+		this.fragmentStack.push(fragment);
 		fragment.setArguments(args);
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
@@ -187,7 +182,7 @@ public class MainActivity extends Activity implements
 		Bundle args = new Bundle();
 		args.putBoolean("TwoPane", this.mTwoPane);
 		MilestoneListFragment fragment = new MilestoneListFragment();
-		fragmentStack.push(fragment);
+		this.fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Milestone_List")
 				.addToBackStack("Milestone_List");
 		fragment.setArguments(args);
@@ -213,7 +208,7 @@ public class MainActivity extends Activity implements
 		Bundle args = new Bundle();
 		args.putBoolean("TwoPane", this.mTwoPane);
 		ProjectListFragment fragment = new ProjectListFragment();
-		fragmentStack.push(fragment);
+		this.fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Project_View")
 				.addToBackStack("Project_View");
 		fragment.setArguments(args);
@@ -248,7 +243,7 @@ public class MainActivity extends Activity implements
 		// If in two pane mode, we cannot go up.
 
 		if (!this.mTwoPane) {
-			fragmentStack.push(fragment);
+			this.fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(!this.mTwoPane);
 	}
@@ -270,7 +265,7 @@ public class MainActivity extends Activity implements
 								: R.id.main_fragment_container, fragment)
 				.commit();
 		if (!this.mTwoPane) {
-			fragmentStack.push(fragment);
+			this.fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
@@ -292,7 +287,7 @@ public class MainActivity extends Activity implements
 								: R.id.main_fragment_container, fragment)
 				.commit();
 		if (!this.mTwoPane) {
-			fragmentStack.push(fragment);
+			this.fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}

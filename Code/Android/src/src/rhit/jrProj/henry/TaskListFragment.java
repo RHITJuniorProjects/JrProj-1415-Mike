@@ -84,7 +84,7 @@ public class TaskListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		super.onActivityCreated(savedInstanceState);
-		this.tasks = ((MainActivity) this.getActivity()).getTasks();
+		this.tasks = this.mCallbacks.getTasks();
 
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 		for (Task task : this.tasks) {
