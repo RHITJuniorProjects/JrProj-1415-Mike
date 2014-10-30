@@ -8,6 +8,7 @@ import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -180,19 +181,19 @@ public class ProjectListFragment extends ListFragment {
 			int gt=hi;
 			Project v=projList.get(lo);
 			int i= lo;
-			while (i <= gt){
+			while (i < gt){
 				int comp=projList.get(i).getName().compareTo(v.getName());
 				if (comp<0){
 					swap(projList, lt, i);
-					lt++;
-					i++;
+					++lt;
+					++i;
 				}
 				else if(comp>0){
 					swap(projList, gt, i);
-					gt++;
+					++gt;
 				}
 				else{
-					i++;
+					++i;
 				}
 			}
 			sortProjects(projList, lo, lt-1);
@@ -208,6 +209,7 @@ public class ProjectListFragment extends ListFragment {
 	 * @param j
 	 */
 	private void swap(ArrayList<Project> projList, int i, int j){
+		Log.i("SWAP", ""+projList.size());
 		Project x= projList.get(i);
 		Project y=projList.get(j);
 		projList.set(j, x);
