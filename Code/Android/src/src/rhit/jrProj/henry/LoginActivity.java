@@ -417,6 +417,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			Log.i("BAD LOGIN", "You messed up");
 			// mAuthProgressDialog.hide();
 			showErrorDialog(firebaseError.toString());
+			mAuthProgressDialog.hide();
 		}
 	}
 
