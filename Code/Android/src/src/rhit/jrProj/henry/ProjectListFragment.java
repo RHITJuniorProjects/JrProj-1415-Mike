@@ -8,6 +8,7 @@ import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -90,6 +91,7 @@ public class ProjectListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.projects = this.mCallbacks.getProjects();
+		sortProjects(this.projects, 0, this.projects.size()-1);
 		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
@@ -165,5 +167,52 @@ public class ProjectListFragment extends ListFragment {
 			getListView().setItemChecked(position, true);
 		}
 		this.mActivatedPosition = position;
+	}
+	/**
+	 * This method sorts the project list using a 2-pivot quicksort algorithm for maximum efficency
+	 * The initial parameters for lo and hi should ALWAYS be 0 and projList.size()-1
+	 * @param projList
+	 * @param lo
+	 * @param hi
+	 */
+	private void sortProjects(ArrayList<Project> projList, int lo, int hi){
+		if (hi > lo){
+			int lt=lo;
+			int gt=hi;
+			Project v=projList.get(lo);
+			int i= lo;
+			while (i < gt){
+				int comp=projList.get(i).getName().compareTo(v.getName());
+				if (comp<0){
+					swap(projList, lt, i);
+					++lt;
+					++i;
+				}
+				else if(comp>0){
+					swap(projList, gt, i);
+					++gt;
+				}
+				else{
+					++i;
+				}
+			}
+			sortProjects(projList, lo, lt-1);
+			sortProjects(projList, gt+1, hi);
+		}
+			
+		
+	}
+	/**
+	 * This method is used by the sortProjects method to swap two elements of an ArrayList<Project>
+	 * @param projList
+	 * @param i
+	 * @param j
+	 */
+	private void swap(ArrayList<Project> projList, int i, int j){
+		Log.i("SWAP", ""+projList.size());
+		Project x= projList.get(i);
+		Project y=projList.get(j);
+		projList.set(j, x);
+		projList.set(i, y);
 	}
 }
