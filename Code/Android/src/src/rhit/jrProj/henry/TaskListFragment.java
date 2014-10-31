@@ -11,7 +11,6 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -55,6 +54,8 @@ public class TaskListFragment extends ListFragment {
 		 * Callback for when an item has been selected.
 		 */
 		public void onItemSelected(Task t);
+		
+		public ArrayList<Task> getTasks();
 	}
 
 	/**
@@ -64,7 +65,11 @@ public class TaskListFragment extends ListFragment {
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 
 		public void onItemSelected(Task t) {
-			//do nothing
+			// do nothing
+		}
+
+		public ArrayList<Task> getTasks() {
+			return null;
 		}
 	};
 
@@ -74,33 +79,31 @@ public class TaskListFragment extends ListFragment {
 	 */
 	public TaskListFragment() {
 	}
-	
+
 	@Override
-	
-	public void onCreate(Bundle savedInstanceState) {
-		
-		super.onCreate(savedInstanceState);
-		this.tasks = ((TaskListActivity)this.getActivity()).getTasks();	
-		
+	public void onActivityCreated(Bundle savedInstanceState) {
+
+		super.onActivityCreated(savedInstanceState);
+		this.tasks = this.mCallbacks.getTasks();
+
 		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 		for (Task task : this.tasks) {
-		    Map<String, String> datum = new HashMap<String, String>(2);
-		    datum.put("title", task.getName());
-		    datum.put("assignee", task.getAssignedUserId());
-		    data.add(datum);
+			Map<String, String> datum = new HashMap<String, String>(2);
+			datum.put("title", task.getName());
+			datum.put("assignee", task.getAssignedUserId());
+			data.add(datum);
 		}
 		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
-                android.R.layout.simple_list_item_2,
-                new String[] {"title", "assignee"},
-                new int[] {android.R.id.text1,
-                           android.R.id.text2});
+				android.R.layout.simple_list_item_2, new String[] { "title",
+						"assignee" }, new int[] { android.R.id.text1,
+						android.R.id.text2 });
 		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
-		
-		for(Task t : this.tasks)
-		{
+
+		for (Task t : this.tasks) {
 			t.setListChangeNotifier(lcn);
 		}
-		setListAdapter(adapter);		
+		setListAdapter(adapter);
+		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
 	}
 
 	@Override
@@ -176,5 +179,5 @@ public class TaskListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-	
+
 }

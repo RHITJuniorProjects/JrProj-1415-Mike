@@ -3,10 +3,9 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 
 /**
- * 
+ * Mapping data structure used to associate projects with a user's role. 
  * @author Tyler Rockwood
  * 
- *  Mapping data structure used to associate projects with a user's role. 
  *
  */
 
@@ -94,5 +93,28 @@ public class Map<Key, Value> {
 		this.keys.remove(index);
 		this.values.remove(index);
 		return true;
+	}
+	
+	/**
+	 * 
+	 * Gets the size of the map.
+	 *
+	 * @return
+	 */
+	public int size()
+	{
+		return this.keys.size();
+	}
+	
+	/**
+	 * 
+	 *  That no keys or values were added of removed on the underlying lists (via the getAll methods).
+	 *  However if values where replaced than this will return true.
+	 * 	
+	 * @return
+	 */
+	public boolean verify()
+	{
+		return this.keys.size() == this.values.size();
 	}
 }

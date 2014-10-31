@@ -43,20 +43,20 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
-	
+
 	// private UserLoginTask mAuthTask = null;
 	private ProgressDialog mAuthProgressDialog;
 
 	/* A reference to the firebase */
-	private final String firebaseLoc = MainActivity.firebaseLoc;
-	private Firebase ref = new Firebase(this.firebaseLoc);
+	private final String firebaseUrl = MainActivity.firebaseUrl;
+	private Firebase ref = new Firebase(this.firebaseUrl);
 
 	/* Data from the authenticated user */
 	private AuthData authData;
 
 	/* A tag that is used for logging statements */
 	private static final String TAG = "LoginDemo";
-	
+
 	// UI references.
 	private AutoCompleteTextView mEmailView;
 	private EditText mPasswordView;
@@ -96,7 +96,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				attemptLogin();
 			}
 		});
-		
+
 		Button mEmailRegister = (Button) findViewById(R.id.register);
 		mEmailRegister.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
@@ -143,7 +143,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		// Check for a valid password, if the user entered one.
 		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-			this.mPasswordView.setError(getString(R.string.error_invalid_password));
+			this.mPasswordView
+					.setError(getString(R.string.error_invalid_password));
 			focusView = this.mPasswordView;
 			cancel = true;
 		}
@@ -177,17 +178,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 
 	/**
-	 * Opens up a list list of projects after logging in. 
+	 * Opens up a list list of projects after logging in.
+	 * 
 	 * @param authdata
 	 */
 	public void openProjectListView(AuthData authdata) {
 
 		this.mAuthProgressDialog.hide();
-		Intent intent = new Intent(this, ProjectListActivity.class);
-		intent.putExtra(
-				"user",
-				this.firebaseLoc+"users/"
-						+ this.authData.getUid());
+		Intent intent = new Intent(this, MainActivity.class);
+		intent.putExtra("user",
+				this.firebaseUrl + "users/" + this.authData.getUid());
 		this.startActivity(intent);
 		this.finish();
 	}
@@ -210,8 +210,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							LoginActivity.this.mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
+							LoginActivity.this.mLoginFormView
+									.setVisibility(show ? View.GONE
+											: View.VISIBLE);
 						}
 					});
 
@@ -221,8 +222,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 					.setListener(new AnimatorListenerAdapter() {
 						@Override
 						public void onAnimationEnd(Animator animation) {
-							LoginActivity.this.mProgressView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
+							LoginActivity.this.mProgressView
+									.setVisibility(show ? View.VISIBLE
+											: View.GONE);
 						}
 					});
 		} else {
@@ -270,7 +272,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		this.ref.authWithPassword(username, password, new AuthResultHandler(
 				"password"));
 	}
-	
+
 	private void populateAutoComplete() {
 		getLoaderManager().initLoader(0, null, this);
 	}
@@ -280,7 +282,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				.setPositiveButton(android.R.string.ok, null)
 				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
-	
+
 	private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
 		// Create adapter to tell the AutoCompleteTextView what to show in its
 		// dropdown list.
@@ -291,7 +293,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		this.mEmailView.setAdapter(adapter);
 	}
-	
+
 	private interface ProfileQuery {
 		String[] PROJECTION = { ContactsContract.CommonDataKinds.Email.ADDRESS,
 				ContactsContract.CommonDataKinds.Email.IS_PRIMARY, };
@@ -299,11 +301,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		int ADDRESS = 0;
 		int IS_PRIMARY = 1;
 	}
-	
+
 	/**
 	 * Verifies the user provided a valid email.
+	 * 
 	 * @param email
-	 * @return 
+	 * @return
 	 */
 	private boolean isEmailValid(String email) {
 		// TODO: Replace this with your own logic
@@ -312,6 +315,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	/**
 	 * Verifies the password is longer than 4 characters.
+	 * 
 	 * @param password
 	 * @return
 	 */
@@ -319,9 +323,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		// TODO: Replace this with your own logic
 		return password.length() > 4;
 	}
-	
+
 	/**
 	 * Authenticates a user to allow them to login.
+	 * 
 	 * @param authData
 	 */
 	private void setAuthenticatedUser(AuthData authData) {
@@ -339,7 +344,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		/* invalidate options menu to hide/show the logout button */
 		// supportInvalidateOptionsMenu();
 	}
-	private void registerNewUser(View view){
+
+	private void registerNewUser(View view) {
 		Log.i("You pressed the register button", "Right?");
 		final String email = this.mEmailView.getText().toString();
 		final String password = this.mPasswordView.getText().toString();
@@ -348,7 +354,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		// Check for a valid password, if the user entered one.
 		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-			this.mPasswordView.setError(getString(R.string.error_invalid_password));
+			this.mPasswordView
+					.setError(getString(R.string.error_invalid_password));
 			focusView = this.mPasswordView;
 			cancel = true;
 		}
@@ -375,24 +382,23 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			this.mAuthProgressDialog.show();
 			// mAuthTask = new UserLoginTask(email, password);
 			// mAuthTask.execute((Void) null);
-			this.ref.createUser(email, password, new Firebase.ResultHandler(){
-				public void onSuccess(){
+			this.ref.createUser(email, password, new Firebase.ResultHandler() {
+				public void onSuccess() {
 					loginWithPassword(email, password);
 					showProgress(false);
 				}
-				public void onError(FirebaseError firebaseError){
-					
+
+				public void onError(FirebaseError firebaseError) {
+
 				}
-				
-				
+
 			});
-			
+
 			// openProjectListView();
 		}
-		
-		
+
 	}
-	
+
 	private class AuthResultHandler implements Firebase.AuthResultHandler {
 
 		private final String provider;
@@ -411,7 +417,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			Log.i("BAD LOGIN", "You messed up");
 			// mAuthProgressDialog.hide();
 			showErrorDialog(firebaseError.toString());
+			mAuthProgressDialog.hide();
 		}
 	}
-	
+
 }

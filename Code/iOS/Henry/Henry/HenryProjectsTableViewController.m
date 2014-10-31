@@ -11,7 +11,7 @@
 #import "HenryMilestonesTableViewController.h"
 #import "HenryRootNavigationController.h"
 #import "SWRevealViewController.h"
-#import <Firebase/Firebase.h>
+#import "HenryFirebase.h"
 
 @interface HenryProjectsTableViewController ()
 @property NSMutableArray *cellText;
@@ -38,6 +38,9 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
     
+    
+    //self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
     SWRevealViewController *revealViewController = self.revealViewController;
     if ( revealViewController )
     {
@@ -52,7 +55,8 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.cellText = [[NSMutableArray alloc] init];
-    self.fbUsers = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects", self.uid]];
+    self.fbUsers = [HenryFirebase getFirebaseObject];// [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects", self.uid]];
+    self.fbUsers = [self.fbUsers childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects", self.uid]];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
@@ -137,6 +141,43 @@
     return cell;
 }
 
+
+- (IBAction)segControlClicked:(id)sender
+{
+    //Figures out the last clicked segment.
+    int clickedSegment = [sender selectedSegmentIndex];
+    switch(clickedSegment)
+    {
+        //Segment 1 is A-Z
+        case 1:
+            [self sortByAlphabeticalAToZ];
+            break;
+            
+        //Segment 2 is Z-A
+        case 2:
+            [self sortByAlphabeticalZToA];
+            break;
+            
+        //Segment 3 is Due Date
+        case 3:
+            [self sortByDueDate];
+            break;
+    }
+}
+
+-(void)sortByAlphabeticalAToZ
+{
+    
+}
+
+-(void)sortByAlphabeticalZToA
+{
+    
+}
+-(void)sortByDueDate
+{
+    
+}
 
 /*
 // Override to support conditional editing of the table view.

@@ -7,7 +7,7 @@
 //
 
 #import "HenryProjectDetailViewController.h"
-#import <Firebase/Firebase.h>
+#import "HenryFirebase.h"
 #import "HenryMilestonesTableViewController.h"
 
 @interface HenryProjectDetailViewController ()
@@ -19,7 +19,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@", self.projectID]];
+    self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@", self.projectID]];
+    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@", self.projectID]];
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
