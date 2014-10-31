@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<?php require 'topbar.php';?>
-		<div>
+		<div class="columns main-content">
 			<h1>Henry: Register New Account</h1>
 			Email: <input type="text" id="user">
 			Password: <input type="password" id="pass">
