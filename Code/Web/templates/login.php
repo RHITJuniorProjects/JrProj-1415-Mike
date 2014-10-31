@@ -11,6 +11,7 @@
 			Password: <input type="password" id="pass">
 			<input type="submit" value="Submit" onclick="getLoginData()">
 			<span style="color:red" id="loginError" hidden>Incorrect Username or Password</span>
+			<a href="register">Register an account</a>
 		</div>
 	</body>
 </html>
