@@ -211,7 +211,7 @@
     if ([segue.identifier isEqualToString:@"PtoM"]) {
         HenryMilestonesTableViewController *vc = [segue destinationViewController];
         vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
-        vc.tasks = self.tasks;
+  //      vc.tasks = self.tasks;
         vc.uid = self.uid;
     } else {
         HenryProjectDetailViewController *vc = [segue destinationViewController];
