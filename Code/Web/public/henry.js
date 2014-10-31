@@ -459,6 +459,12 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 							// to our local database (making a new developer/manager)
 	var user = $("#user").val();
 	var pass = $("#pass").val();
+	var githubName = $("#githubuser").val();
+	var name = $("#name").val();
+	if(!user || !pass || !githubName || !name){
+		$("#registerError").show();
+		return;
+	} 
 	firebase.createUser(
 		{
 			email: user,
@@ -468,7 +474,7 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 			if (error === null) {
 				login(user, pass, true);
 			} else {
-				$("#registerError").show();
+				$("#emailError").show();
 			}
 		}
 	);
