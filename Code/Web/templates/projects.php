@@ -19,6 +19,15 @@
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
 								<h1>My Projects</h1>
+								<button data-reveal-id="myProjectModal">Add Project</button>
+								<div id="myProjectModal" class="reveal-modal" data-reveal>
+								<h2>New Project</h2><br>
+								Project Name: <input type="text" id="projectName"></br>
+								Description: <input type="text"id="projectDescription"></br>
+								Due Date: <input type="text" id="projectDueDate"></br>
+								Total Estimated Hours: <input type="text" id="projectEstimatedHours"></br>
+								<button onclick="addNewProject()">Submit</button>
+							</div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
 								<dd class="accordion-navigation">

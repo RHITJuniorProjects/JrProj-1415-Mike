@@ -211,6 +211,19 @@ Project.prototype = {
 	}
 };
 
+function addNewProject(){
+	var docName = $("#projectName").val();
+	var docDescription = $("#projectDescription").val();
+	var docDueDate = $("#projectDueDate").val();
+	var docEstimatedHours = $("#projectEstimatedHours").val();
+
+	var project = firebase.child('projects').push(
+		{ 'name': docName, 'description': docDescription, 
+		'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours});
+	
+
+}
+
 function Milestone(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
@@ -278,6 +291,21 @@ Milestone.prototype = {
 		this.__firebase.off();
 	}
 };
+
+function addNewMilestone(){
+	var docName = $("#milestoneName").val();
+	var docDescription = $("#milestoneDescription").val();
+	var docDueDate = $("#milestoneDueDate").val();
+	var docEstimatedHours = $("#milestoneEstimatedHours").val();
+
+	var projectid = '-JYcg488tAYS5rJJT4Kh';
+
+	var milestone = firebase.child('projects/'+ projectid).child('milestones').push(
+		{ 'name': docName, 'description': docDescription, 
+		'due_date': docDueDate, 'estimated_hours': docEstimatedHours});
+	
+
+}
 
 function Task(firebase){
 	this.__firebase = firebase;
