@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Henry</title>
+		<title>Henry - Homepage</title>
 		<meta charset="utf-8">
 <meta http-equiv="cache-control" content="no-store" />
 <meta name="description" content="Henry project management tool">
@@ -19,7 +19,7 @@
 	$(function(){ $(document).foundation()});
 </script>
 	</head>
-	<body>
+	<body class="wide">
 		<!-- topbar -->
 <nav class="top-bar" data-topbar role="navigation">
 	<ul class="title-area">
@@ -53,11 +53,27 @@
 		</ul>
 	</section>
 </nav>
-		<div>
-			<h1>Henry</h1>
-			<a href="/login">Login</a>
-			<a href="/register">Register</a>
-			<a href="/projects">Projects</a>
+		<div class="columns main-content">
+			<ul class="example-orbit" data-orbit>
+			  <li>
+			    <img src="i3.jpg" alt="slide 1" />
+			    <div class="orbit-caption">
+			      Caption One.
+			    </div>
+			  </li>
+			  <li class="active">
+			    <img src="i2.jpg" alt="slide 2" />
+			    <div class="orbit-caption">
+			      Caption Two.
+			    </div>
+			  </li>
+			  <li>
+			    <img src="i1.jpg" alt="slide 3" />
+			    <div class="orbit-caption">
+			      Caption Three.
+			    </div>
+			  </li>
+			</ul>
 		</div>
 	</body>
 </html>
