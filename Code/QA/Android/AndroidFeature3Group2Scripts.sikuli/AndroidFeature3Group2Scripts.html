@@ -1,0 +1,168 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>AndroidFeature3Group2Scripts.sikuli\AndroidFeature3Group2Scripts.sikuli</h2> <a href="AndroidFeature3Group2Scripts.sikuli\AndroidFeature3Group2Scripts.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">## Android test scripts
+</span><span class="cmt">## Test ability to see status of milestones of the project
+</span><span class="skw">find</span>(<img src="1413993915191.png" />)
+<span class="skw">click</span>(<img src="1413993915191.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">type</span>(<span class="str">"rockwotj@rose-hulman.edu"</span> + Key.TAB + <span class="str">"qqqqqq6"</span>)
+<span class="skw">click</span>(<img src="1413994040202.png" />)
+<span class="skw">sleep</span>(<span class="dig">10</span>)
+<span class="skw">click</span>(<img src="1413994136190.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">find</span>(<img src="1413937690035.png" />)
+<span class="skw">click</span>(<img src="1413937698349.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">find</span>(<img src="1413937918263.png" />)
+<span class="skw">click</span>(<img src="1413937925090.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="kw">if</span> exists(<img src="1413937956682.png" />):
+    <span class="kw">print</span>(<span class="str">"It worked"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"It didn't work"</span>)
+
+<span class="skw">click</span>(<img src="1413941202351.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">find</span>(<img src="1413941239128.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">click</span>(<img src="1413941246237.png" />)
+<span class="skw">click</span>(<img src="1413941263289.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">click</span>(<img src="1413941270617.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">click</span>(<img src="1413993855607.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+
+
+<span class="cmt">## Test ability to see status of the project
+</span><span class="skw">find</span>(<img src="1413993915191.png" />)
+<span class="skw">click</span>(<img src="1413993915191.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">type</span>(<span class="str">"rockwotj@rose-hulman.edu"</span> + Key.TAB + <span class="str">"qqqqqq6"</span>)
+<span class="skw">click</span>(<img src="1413994040202.png" />)
+<span class="skw">wait</span>(<span class="dig">10</span>)
+<span class="skw">find</span>(<img src="1413935779601.png" />)
+<span class="skw">click</span>(<img src="1413935786186.png" />)
+<span class="kw">if</span> exists(<img src="1413935809730.png" />):
+    <span class="kw">print</span>(<span class="str">"It worked"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"It didn't work"</span>)
+
+
+<span class="skw">click</span>(<img src="1413941202351.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">find</span>(<img src="1413941239128.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">click</span>(<img src="1413941246237.png" />)
+<span class="skw">click</span>(<img src="1413941263289.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">click</span>(<img src="1413941270617.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">click</span>(<img src="1413993855607.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+
+<span class="cmt">## Test the ability to update the status of a feature
+</span><span class="skw">find</span>(<img src="1413993915191.png" />)
+<span class="skw">click</span>(<img src="1413993915191.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">type</span>(<span class="str">"rockwotj@rose-hulman.edu"</span> + Key.TAB + <span class="str">"qqqqqq6"</span>)
+<span class="skw">click</span>(<img src="1413994040202.png" />)
+<span class="skw">wait</span>(<span class="dig">10</span>)
+<span class="skw">find</span>(<img src="1413935779601.png" />)
+<span class="skw">click</span>(<img src="1413935786186.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">find</span>(<img src="1413937690035.png" />)
+<span class="skw">click</span>(<img src="1413937698349.png" />)
+<span class="skw">wait</span>(<span class="dig">7</span>)
+<span class="skw">find</span>(<img src="1413937918263.png" />)
+<span class="skw">click</span>(<img src="1413937925090.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">find</span>(<img src="1413938516555.png" />)
+<span class="skw">click</span>(<img src="1413938523397.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">click</span>(<img src="1413938536741.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="skw">find</span>(<img src="1413938557144.png" />)
+<span class="skw">click</span>(<img src="1413938557144.png" />)
+<span class="skw">wait</span>(<span class="dig">2</span>)
+<span class="skw">find</span>(<img src="1413938799187.png" />)
+<span class="skw">click</span>(<img src="1413938806937.png" />)
+<span class="kw">if</span> exists(<img src="1413938967238.png" />):
+    <span class="kw">print</span>(<span class="str">"It worked"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"It didn't work"</span>)
+
+<span class="kw">print</span>(<span class="str">"Finished"</span>)
+</pre>
+</body>
+</html>

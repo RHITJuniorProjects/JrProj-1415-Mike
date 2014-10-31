@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DLPieChart.h"
 @interface HenryMilestoneDetailViewController : UIViewController
 @property NSString *ProjectID;
 @property NSString *MileStoneID;
@@ -19,4 +19,9 @@
 @property (strong, nonatomic) IBOutlet UIProgressView *tasksCompleteBar;
 @property NSArray *userTasks;
 @property NSString *uid;
+@property (nonatomic, retain) IBOutlet DLPieChart *pieChart;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *dataSelector;
+- (IBAction)segControlClicked:(id)sender;
+
+
 @end

@@ -10,5 +10,6 @@
 
 @interface HenryProjectsTableViewController : UITableViewController
 @property NSString *uid;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *sortSelector;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *navButton;
 @end

@@ -8,7 +8,7 @@
 
 #import "HenryMilestoneDetailViewController.h"
 #import "HenryTasksTableViewController.h"
-#import <Firebase/Firebase.h>
+#import "HenryFirebase.h"
 
 @interface HenryMilestoneDetailViewController ()
 @property Firebase *fb;
@@ -16,11 +16,13 @@
 
 @implementation HenryMilestoneDetailViewController
 
+@synthesize pieChart;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.fb = [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@", self.ProjectID, self.MileStoneID]];
-    
+    self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@", self.ProjectID, self.MileStoneID]];
+    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@", self.ProjectID, self.MileStoneID]];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
@@ -29,6 +31,31 @@
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
+    
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    
+    for(int i =0;i<15;i++){
+        NSNumber *num = [NSNumber numberWithInt:1];
+        [dataArray addObject:num];
+    }
+    
+    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray];
+}
+
+- (IBAction)segControlClicked:(id)sender
+{
+
+    //Figures out the last clicked segment.
+    int clickedSegment = [sender selectedSegmentIndex];
+    if(clickedSegment == 0){
+        if(self.pieChart.hidden){
+            self.pieChart.hidden = NO;
+        }
+    }else{
+        
+        self.pieChart.hidden = YES;
+    }
+    
 }
 
 -(void)updateInfo {

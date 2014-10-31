@@ -9,7 +9,7 @@
 #import "HenryMilestonesTableViewController.h"
 #import "HenryTasksTableViewController.h"
 #import "HenryMilestoneDetailViewController.h"
-#import <Firebase/Firebase.h>
+#import "HenryFirebase.h"
 
 @interface HenryMilestonesTableViewController ()
 @property NSMutableArray *staticData;
@@ -43,7 +43,8 @@
         [self.staticData addObject:@"Milestone P-2-2"];
     }
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
+    self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
+    self.fb = [self.fb childByAppendingPath:@"projects"];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
