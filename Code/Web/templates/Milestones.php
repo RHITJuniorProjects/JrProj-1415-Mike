@@ -2,7 +2,7 @@
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
 		<?php
-			$tabs = array("Project Milestones","Team Members","Project Statistics");
+			$tabs = array("Project Milestones","Team Members","Milestone Statistics");
 			require 'tabbar.php';
 		?>
 	</div>
@@ -42,7 +42,7 @@
 				</div>
 				<div class="content" id="TeamMembers">
 				</div>
-				<div class="content" id="ProjectStatistics">
+				<div class="content" id="MilestoneStatistics">
 					<div class="row">
 						<div class="small-12 column">
 							<div id="mileContainer"></div>
