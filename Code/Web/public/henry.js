@@ -422,20 +422,31 @@ Task.prototype = {
 	}
 };
 
-function getLoginData(){
+function getLoginData(){ // Takes the login data from the form and places it into variables
 	var user = $("#user").val();
 	var pass = $("#pass").val();
 	document.getElementById("pass").value = "";
-	login(user, pass);
+	login(user, pass, false);
 }
 
-function login(user, pass){
+function login(user, pass, registering){ // Authenticates with Firebase, giving a callback that will 
+							// cause the window to go to projects if it was successful, 
+							// else go back to login and show the invalid input message.
 	firebase.authWithPassword({
 		email: user,
 		password: pass
 	}, function(error, authData) {
 		if (error === null) {
 			userData = authData;
+			if(registering){
+				firebase.child('users/'+userData.uid).update(
+					{
+						email: userData.password.email,
+						github: $("#githubuser").val(),
+						name: $("#name").val()
+					}
+				);
+			}
 			window.location.replace("projects");
 		} else {
 			logout();
@@ -444,17 +455,18 @@ function login(user, pass){
 	});
 };
 
-function register(){
+function register(){ 		// Registers a new user with Firebase, and also adds that user
+							// to our local database (making a new developer/manager)
 	var user = $("#user").val();
 	var pass = $("#pass").val();
 	firebase.createUser(
 		{
 			email: user,
-			password: pass
+			password: pass,
 		}, 
 		function(error) {
 			if (error === null) {
-				login(user, pass);
+				login(user, pass, true);
 			} else {
 				$("#registerError").show();
 			}
@@ -462,7 +474,7 @@ function register(){
 	);
 }
 
-function logout() {
+function logout() { 		// Shows the login button and hides the current user and logout
 	firebase.unauth();
 	$("#currentUser").hide();
 	$("#logoutButton").hide();
@@ -485,7 +497,6 @@ firebase.onAuth(
 					$("#loginButton").show();
 				} else {
 					$("#currentUser").html("Currently logged in as " + userData.password.email);
-					firebase.child('users/'+userData.uid).child("email").set(userData.password.email);
 					$("#currentUser").show();
 					$("#logoutButton").show();
 					$("#loginButton").hide();
