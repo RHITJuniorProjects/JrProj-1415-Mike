@@ -17,7 +17,7 @@
 @property NSMutableArray *cellText;
 @property NSMutableArray *projectDescriptions;
 @property NSArray *projectIDs;
-@property Firebase *fbUsers;
+@property Firebase *fb;
 @property (strong, nonatomic) NSMutableArray *tasks;
 @end
 
@@ -55,42 +55,21 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.cellText = [[NSMutableArray alloc] init];
-    self.fbUsers = [HenryFirebase getFirebaseObject];// [[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects", self.uid]];
-    self.fbUsers = [self.fbUsers childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects", self.uid]];
+    self.fb = [HenryFirebase getFirebaseObject];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
-    // Attach a block to read the data at our posts reference
-    [self.fbUsers observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable];
+    // Table will be updated when the projects a user is assigned to changes
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable:snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
 }
 
--(void)updateTable {
-    NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects.json", self.uid]];
-    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    self.projectIDs = [json allKeys];
-    
-    NSURL *jsonURL2 = [NSURL URLWithString:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/users/%@/projects.json", self.uid]];
-    NSData *data3 = [NSData dataWithContentsOfURL:jsonURL2];
-    NSDictionary *json2 = [NSJSONSerialization JSONObjectWithData:data3 options:0 error:&error];
-    NSArray *projectIDs = [json2 allKeys];
-    self.tasks = [[NSMutableArray alloc] init];
-    for (NSString *pid in projectIDs) {
-        NSArray *milestones = [[[json2 objectForKey:pid] objectForKey:@"milestones"] allKeys];
-        for (NSString *milestone in milestones) {
-            [self.tasks addObjectsFromArray:[[[[[json2 objectForKey:pid] objectForKey:@"milestones"] objectForKey:milestone] objectForKey:@"tasks"] allKeys]];
-        }
-    }
-    
-    NSURL *projectsURL = [NSURL URLWithString:@"https://henry-staging.firebaseio.com/projects.json"];
-    NSData *data2 = [NSData dataWithContentsOfURL:projectsURL];
-    NSDictionary *projectsJSON = [NSJSONSerialization JSONObjectWithData:data2 options:0 error:&error];
-    NSArray *projects = [projectsJSON allKeys];
+-(void)updateTable:(FDataSnapshot *)snapshot {
+    self.projectIDs = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
+    NSArray *projects = [snapshot.value[@"projects"] allKeys];
     
     //Empty out hard-coded values
     self.cellText = [[NSMutableArray alloc] init];
@@ -98,9 +77,10 @@
     
     for (NSString *project in projects) {
         if ([self.projectIDs containsObject:project]) {
-            NSString *name = [[projectsJSON objectForKey:project] objectForKey:@"name"];
-            NSString *description = [[projectsJSON objectForKey:project] objectForKey:@"description"];
-            [self.projectDescriptions addObject:description];
+            NSString *name = snapshot.value[@"projects"][project][@"name"];
+            NSString *description = snapshot.value[@"projects"][project][@"due_date"];
+            if (description != nil)
+                [self.projectDescriptions addObject:description];
             [self.cellText addObject:name];
         }
     }
