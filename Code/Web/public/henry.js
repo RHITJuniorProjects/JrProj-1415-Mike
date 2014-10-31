@@ -154,11 +154,11 @@ Project.prototype = {
 		this.__description.set(description);
 	},
 	getButtonDiv:function(callback){
-		var project = $('<div class="row">'),
+		var project = $('<div class="row project">'),
 			leftColumn = $('<div class="small-4 columns small-offset-1">'),
 			rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
-			button = $('<div class="button expand text-center">'),
-			a = $('<a>'),
+			button = $('<div>'),
+			a = $('<a class="button expand text-center">'),
 			nameH3 = $('<h3>'),
 			descDiv = $('<div>');
 
@@ -236,11 +236,11 @@ Milestone.prototype = {
 		});
 	},
 	getButtonDiv:function(){
-		var milestone = $('<div class="row">'),
+		var milestone = $('<div class="row milestone">'),
 			leftColumn = $('<div class="small-4 columns small-offset-1">'),
 			rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
-			button = $('<div class="button expand text-center">'),
-			a = $('<a>'),
+			button = $('<div>'),
+			a = $('<a class="button expand text-center">'),
 			nameH3 = $('<h3>'),
 			descDiv = $('<div>');
 

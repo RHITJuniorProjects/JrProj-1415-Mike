@@ -5,6 +5,14 @@
 	z-index: 10;
 }
 
+.project,
+.milestone {
+	border-bottom: 1px solid #d8d8d8;
+	margin-bottom: 0.9375rem !important;
+	margin-left: -0.9375rem !important;
+	margin-right: -0.9375rem !important;
+}
+
 .main-content {
 	position:relative;
 	top:45px;
