@@ -34,6 +34,7 @@ public class MilestoneDetailFragment extends Fragment {
 
 		if (getArguments().containsKey("Milestone")) {
 			this.milestoneItem = this.getArguments().getParcelable("Milestone");
+			
 		}
 	}
 
