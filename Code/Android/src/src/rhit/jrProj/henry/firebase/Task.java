@@ -8,6 +8,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class Task implements Parcelable {
 
@@ -328,8 +329,8 @@ public class Task implements Parcelable {
 			} else if (arg0.getName().equals("description")) {
 				this.task.setDescription(arg0.getValue().toString());
 			} else if (arg0.getName().equals("assignedTo")) {
-				this.task.setAssignedUserName("test");
 				this.task.setAssignedUserId(arg0.getValue().toString());
+				this.getUserNameFromId(this.task.getAssignedUserId());
 			} else if (arg0.getName().equals("status")) {
 				this.task.setStatus(arg0.getValue().toString());
 			} else if (arg0.getName().equals("added_lines_of_code")) {
@@ -339,6 +340,20 @@ public class Task implements Parcelable {
 			} else if (arg0.getName().equals("total_lines_of_code")) {
 				this.task.totalLines = arg0.getValue(Integer.class);
 			}
+		}
+			
+		private void getUserNameFromId(String id) {
+			Firebase userBase = firebase.getRoot().child("users").child(id).child("name");
+			userBase.addValueEventListener(new ValueEventListener() {
+				
+				  @Override
+				  public void onDataChange(DataSnapshot snapshot) {
+					  task.setAssignedUserName((String) snapshot.getValue());
+				  }
+
+				  @Override public void onCancelled(FirebaseError error) { }
+
+			});
 		}
 
 		/**

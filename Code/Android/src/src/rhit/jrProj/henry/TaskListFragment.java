@@ -90,7 +90,7 @@ public class TaskListFragment extends ListFragment {
 		for (Task task : this.tasks) {
 			Map<String, String> datum = new HashMap<String, String>(2);
 			datum.put("title", task.getName());
-			datum.put("assignee", task.getAssignedUserId());
+			datum.put("assignee", task.getAssignedUserName());
 			data.add(datum);
 		}
 		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,

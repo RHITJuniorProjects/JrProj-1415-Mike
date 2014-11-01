@@ -44,21 +44,23 @@ public class MilestoneDetailFragment extends Fragment {
 				container, false);
 		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_name))
-				.setText(this.milestoneItem.getName());
+					.setText(this.milestoneItem.getName());
 			((TextView) rootView.findViewById(R.id.milestone_due_date))
-				.setText(this.milestoneItem.getDueDate());
+					.setText(this.milestoneItem.getDueDate());
 			((TextView) rootView.findViewById(R.id.milestone_description))
-				.setText(this.milestoneItem.getDescription());
-			
+					.setText(this.milestoneItem.getDescription());
+
 			((TextView) rootView.findViewById(R.id.milestone_task_percent))
-				.setText("Tasks Completed: " + this.milestoneItem.getTaskPercent() + "%");
-			ProgressBar taskCompleteBar = ((ProgressBar) rootView.findViewById(R.id.milestone_task_progress_bar));
+					.setText("Tasks Completed: "
+							+ this.milestoneItem.getTaskPercent() + "%");
+			ProgressBar taskCompleteBar = ((ProgressBar) rootView
+					.findViewById(R.id.milestone_task_progress_bar));
 			taskCompleteBar.setMax(100);
 			taskCompleteBar.setProgress(this.milestoneItem.getTaskPercent());
+
 		}
 
 		return rootView;
 	}
-	
-	
+
 }

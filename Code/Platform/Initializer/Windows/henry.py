@@ -6,6 +6,7 @@ import json
 import os
 import requests
 import sys
+import traceback
 
 VERSION = 0.1
 firebase_url = 'https://henry-test.firebaseio.com'
@@ -13,10 +14,13 @@ firebase_url = 'https://henry-test.firebaseio.com'
 def initialize(projectID,github_username,opsys):
     # github API 3.0
     base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Hooks'
-    base_url = base_url + ('/Unix' if opsys == 'unix' else '/Windows')
+    if opsys == 'unix':
+        base_url = base_url + '/Unix'
+    else:
+        base_url = base_url + '/Windows'
 
     sh_url = base_url+'/commit-msg'
-    py_url = base_url+'/commit.py'
+    py_url = base_url+'/henry/commit.py'
 
     hook_dir = os.getcwd()+'/.git/hooks'
     henry_dir = hook_dir+'/henry'
@@ -126,28 +130,42 @@ def getUserID(github_username):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        usage()
-    elif sys.argv[1] == 'init':
-        try:
-            pID = getProjectID(sys.argv[2]) 
-        except:
-            print 'HENRY Error: Invalid or nonexistant Henry project name'
-            print '   henry init <project name> <github username>'
-            exit(1)
-        try:
-            github_username = sys.argv[3]
-            userID = getUserID(github_username)
-        except:
-            print 'HENRY Error: Invalid Github username'
-            print '   henry init <project name> <github username>'
-            exit(1)
-        initialize(pID,github_username,'unix')
-    elif sys.argv[1] in {'version','-version','--version','-v'}:
-        version()
-    elif sys.argv[1] in {'help','-help','--help','-h'}:
-        helpmenu()
-    elif sys.argv[1] in {'status'}:
-        status()
-    else:
-        usage()
+    try:
+	    if len(sys.argv) == 1:
+		usage()
+	    elif sys.argv[1] == 'init':
+		try:
+		    pID = getProjectID(sys.argv[2]) 
+		except:
+		    print 'HENRY Error: Invalid or nonexistant Henry project name'
+		    print '   henry init <project name> <github username>'
+		    exit(1)
+		try:
+		    github_username = sys.argv[3]
+		    userID = getUserID(github_username)
+		except:
+		    print 'HENRY Error: Invalid Github username'
+		    print '   henry init <project name> <github username>'
+		    exit(1)
+		initialize(pID,github_username,'windows')
+	    elif sys.argv[1] in {'version','-version','--version','-v'}:
+		version()
+	    elif sys.argv[1] in {'help','-help','--help','-h'}:
+		helpmenu()
+	    elif sys.argv[1] in {'status'}:
+		status()
+	    else:
+		usage()
+
+	    """
+	    This line causes the script to exit abruptly and bypass all
+	    exit handlers. This is necessary because the Python Firebase
+	    API does not play nice with the Windows Python Multithreading
+	    library. Maybe someday they will fix it and this won't be
+	    necessary.
+
+	    """
+    except Exception as e:
+        #traceback.print_exc(file=sys.stdout)
+	os._exit(0)
+    os._exit(0)
