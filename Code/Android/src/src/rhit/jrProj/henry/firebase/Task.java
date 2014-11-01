@@ -55,6 +55,21 @@ public class Task implements Parcelable {
 	 * The total number of hours originally estimated for this task
 	 */
 	private double hoursEstimatedOriginal;
+	
+	/**
+	 * The number of lines of code added to this task
+	 */
+	private int addedLines;
+
+	/**
+	 * The number of lines of code removed from this task
+	 */
+	private int removedLines;
+
+	/**
+	 * The total number of lines of code for this task
+	 */
+	private int totalLines;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -99,6 +114,9 @@ public class Task implements Parcelable {
 		this.description = pc.readString();
 		this.assignedUserId = pc.readString();
 		this.status = pc.readString();
+		this.addedLines = pc.readInt();
+		this.removedLines = pc.readInt();
+		this.totalLines = pc.readInt();
 	}
 
 	public Task(String firebaseURL) {
@@ -130,6 +148,9 @@ public class Task implements Parcelable {
 		dest.writeString(this.description);
 		dest.writeString(this.assignedUserId);
 		dest.writeString(this.status);
+		dest.writeInt(this.addedLines);
+		dest.writeInt(this.removedLines);
+		dest.writeInt(this.totalLines);
 	}
 
 	/**
@@ -225,6 +246,33 @@ public class Task implements Parcelable {
 	public String getStatus() {
 		return this.status;
 	}
+	
+	/**
+	 * Returns the number of lines of code added to this task
+	 * 
+	 * @return the number of lines of code added to this task
+	 */
+	public int getAddedLines() {
+		return this.addedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code removed from this task
+	 * 
+	 * @return the number of lines of code removed from this task
+	 */
+	public int getRemovedLines() {
+		return this.removedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code for this task
+	 * 
+	 * @return the number of lines of code for this task
+	 */
+	public int getTotalLines() {
+		return this.totalLines;
+	}
 
 	public ListChangeNotifier<Task> getListChangeNotifier() {
 		return this.listViewCallback;
@@ -284,6 +332,12 @@ public class Task implements Parcelable {
 				this.task.setAssignedUserId(arg0.getValue().toString());
 			} else if (arg0.getName().equals("status")) {
 				this.task.setStatus(arg0.getValue().toString());
+			} else if (arg0.getName().equals("added_lines_of_code")) {
+				this.task.addedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.task.removedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.task.totalLines = arg0.getValue(Integer.class);
 			}
 		}
 
@@ -291,7 +345,13 @@ public class Task implements Parcelable {
 		 * This will be called when the milestone data in Firebased is updated
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			// TODO Auto-generated method stub.
+			if (arg0.getName().equals("added_lines_of_code")) {
+				this.task.addedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.task.removedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.task.totalLines = arg0.getValue(Integer.class);
+			}
 
 		}
 

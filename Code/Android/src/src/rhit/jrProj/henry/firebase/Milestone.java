@@ -29,22 +29,36 @@ public class Milestone implements Parcelable {
 	 * The name of the milestone
 	 */
 	private String name;
-	
+
 	/**
 	 * The due date of a milestone
 	 */
 	private String dueDate = "10/19/1996";
-	
+
 	/**
 	 * The percentage of tasks completed for this milestone
 	 */
 	private int taskPercent;
-	
 
 	/**
 	 * A description of the work that needs to happen in this milestone.
 	 */
 	private String description;
+
+	/**
+	 * The number of lines of code added to this milestone
+	 */
+	private int addedLines;
+
+	/**
+	 * The number of lines of code removed from this milestone
+	 */
+	private int removedLines;
+
+	/**
+	 * The total number of lines of code for this milestone
+	 */
+	private int totalLines;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -101,6 +115,9 @@ public class Milestone implements Parcelable {
 		this.setDueDate(in.readString());
 		this.setDescription(in.readString());
 		this.setTaskPercent(in.readInt());
+		this.addedLines = in.readInt();
+		this.removedLines = in.readInt();
+		this.totalLines = in.readInt();
 		in.readTypedList(this.tasks, Task.CREATOR);
 	}
 
@@ -160,9 +177,12 @@ public class Milestone implements Parcelable {
 		dest.writeString(this.getDueDate());
 		dest.writeString(this.getDescription());
 		dest.writeInt(this.getTaskPercent());
+		dest.writeInt(this.addedLines);
+		dest.writeInt(this.removedLines);
+		dest.writeInt(this.totalLines);
 		dest.writeTypedList(this.tasks);
 	}
-	
+
 	public void replaceName(String name) {
 		this.name = name;
 	}
@@ -176,18 +196,21 @@ public class Milestone implements Parcelable {
 		this.description = description;
 
 	}
-	
+
 	/**
 	 * Returns the due date of the milestone
+	 * 
 	 * @return the due date of the milestone
 	 */
 	public String getDueDate() {
 		return this.dueDate;
 	}
-	
+
 	/**
 	 * Sets the due date of the milestone
-	 * @param dueDate the due date of the milestone
+	 * 
+	 * @param dueDate
+	 *            the due date of the milestone
 	 */
 	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
@@ -204,20 +227,23 @@ public class Milestone implements Parcelable {
 
 	/**
 	 * Gets the percentage of tasks completed in this milestone
+	 * 
 	 * @return the percentage of tasks completed in this milestone
 	 */
 	public int getTaskPercent() {
 		return this.taskPercent;
 	}
-	
+
 	/**
 	 * Sets the percentage of tasks completed in this milestone
-	 * @param taskPercent the percentage of tasks completed in this milestone
+	 * 
+	 * @param taskPercent
+	 *            the percentage of tasks completed in this milestone
 	 */
 	public void setTaskPercent(int taskPercent) {
 		this.taskPercent = taskPercent;
 	}
-	
+
 	/**
 	 * sets a milestone description
 	 * 
@@ -243,6 +269,33 @@ public class Milestone implements Parcelable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Returns the number of lines of code added to this milestone
+	 * 
+	 * @return the number of lines of code added to this milestone
+	 */
+	public int getAddedLines() {
+		return this.addedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code removed from this milestone
+	 * 
+	 * @return the number of lines of code removed from this milestone
+	 */
+	public int getRemovedLines() {
+		return this.removedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code for this milestone
+	 * 
+	 * @return the number of lines of code for this milestone
+	 */
+	public int getTotalLines() {
+		return this.totalLines;
 	}
 
 	/**
@@ -304,9 +357,9 @@ public class Milestone implements Parcelable {
 				}
 			} else if (arg0.getName().equals("description")) {
 				this.milestone.setDescription(arg0.getValue(String.class));
-			} else if (arg0.getName().equals("dueDate")) { 
+			} else if (arg0.getName().equals("dueDate")) {
 				this.milestone.setDueDate(arg0.getValue(String.class));
-			}  else if (arg0.getName().equals("task_percent")) {
+			} else if (arg0.getName().equals("task_percent")) {
 				this.milestone.setTaskPercent(arg0.getValue(Integer.class));
 			} else if (arg0.getName().equals("tasks")) {
 				for (DataSnapshot child : arg0.getChildren()) {
@@ -315,6 +368,12 @@ public class Milestone implements Parcelable {
 						this.milestone.tasks.add(t);
 					}
 				}
+			} else if (arg0.getName().equals("added_lines_of_code")) {
+				this.milestone.addedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.milestone.removedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.milestone.totalLines = arg0.getValue(Integer.class);
 			}
 		}
 
@@ -322,7 +381,13 @@ public class Milestone implements Parcelable {
 		 * This will be called when the milestone data in Firebased is updated
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			// TODO Auto-generated method stub.
+			if (arg0.getName().equals("added_lines_of_code")) {
+				this.milestone.addedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.milestone.removedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.milestone.totalLines = arg0.getValue(Integer.class);
+			}
 
 		}
 
