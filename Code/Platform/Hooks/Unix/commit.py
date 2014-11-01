@@ -174,7 +174,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
         milestone = raw_input()
         if milestone.isdigit() and int(milestone) <= len(idsByIndex):
             mID = idsByIndex[int(milestone)-1]
-        elif milestone == '':
+        elif milestone == '' and def_mID != 0:
             mID = def_mID
         else:
             mID = getMilestoneID(projectID,milestone)
@@ -194,7 +194,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
         task = raw_input()
         if task.isdigit() and int(task) <= len(idsByIndex):
             tID = idsByIndex[int(task)-1]
-        elif task == '':
+        elif task == '' and def_tID != 0:
             tID = def_tID
         else:
             tID = getTaskID(projectID,mID,task)
@@ -212,7 +212,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
         status = raw_input()
         if status.isdigit() and (int(status) <= len(possibleStatuses)):
             status = possibleStatuses[int(status) - 1]
-        elif status == '':
+        elif status == '' and def_status != 0:
             status = def_status
 
     return hours,mID,tID,status
@@ -225,8 +225,11 @@ def updateDefaults(milestoneID,taskID,status):
 
 # returns milestoneID, taskID, status
 def getDefaults():
-    with open(defaultpath,'r') as f:
-        return f.read().strip().split('\t')
+    try:
+        with open(defaultpath,'r') as f:
+            return f.read().strip().split('\t')
+    except:
+        return 0,0,0
 
 
 if __name__ == '__main__':
