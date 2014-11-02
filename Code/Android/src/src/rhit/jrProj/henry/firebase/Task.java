@@ -346,12 +346,11 @@ public class Task implements Parcelable {
 			Firebase userBase = firebase.getRoot().child("users").child(id).child("name");
 			userBase.addValueEventListener(new ValueEventListener() {
 				
-				  @Override
 				  public void onDataChange(DataSnapshot snapshot) {
 					  task.setAssignedUserName((String) snapshot.getValue());
 				  }
 
-				  @Override public void onCancelled(FirebaseError error) { }
+				  public void onCancelled(FirebaseError error) { }
 
 			});
 		}
@@ -361,11 +360,11 @@ public class Task implements Parcelable {
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("added_lines_of_code")) {
-				this.task.addedLines = arg0.getValue(Integer.class);
+				this.task.addedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.task.removedLines = arg0.getValue(Integer.class);
+				this.task.removedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.task.totalLines = arg0.getValue(Integer.class);
+				this.task.totalLines = arg0.getValue(Integer.class).intValue();
 			}
 
 		}
