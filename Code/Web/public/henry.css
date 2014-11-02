@@ -18,9 +18,34 @@
 	top:45px;
 }
 
-.pictures {
+.bg {
+	width:100%;
 	position:fixed;
-	top:45px;
+	top:-50%;
+	left:-50%;
+	min-width:200%;
+	min-height:200%;
+	overflow: hidden;
+}
+
+#footer {
+	z-index:92384023840234344802 !important;
+	position:fixed !important;
+	left:0 !important;
+	width:100% !important;
+	min-width:100% !important;
+	opacity:0.8;
+}
+
+#pictures .example-orbit {
+	position: absolute;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	margin:auto;
+	min-width:50%;
+	min-height:50%;
 }
 
 .top-bar a.button {
@@ -68,8 +93,8 @@ h2 {
 	height:.5rem;
 }
 
-/*.project-button {
-	margin-bottom: 0;
-	position: relative;
+#project-submit, #milestone-submit, #member-submit {
+	font-size: 20px;
+	position: relative !important;
 	bottom: 5px;
-}*/
+}

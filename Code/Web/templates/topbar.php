@@ -11,7 +11,9 @@
 
 	<section class="top-bar-section">
 		<ul class="left">
-			<li><a href="projects">Projects</a></li>
+			<li><a href="projects">My Projects</a></li>
+			<li><a>My Tasks</a></li>
+			<li><a>My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">

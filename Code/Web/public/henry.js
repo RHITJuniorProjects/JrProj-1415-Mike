@@ -7,6 +7,7 @@ var currentProject;
 
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
+
 function Table(factory,firebase){
 	this.__factory = factory;
 	this.__firebase = firebase;
@@ -32,8 +33,7 @@ Table.prototype = {
 		});
 	},
 	off:function(){
-		this.__firebase.off('child_added');
-		this.__firebase.off('child_removed');
+		this.__firebase.off();
 	},
 	add:function(id){
 		var ref;
@@ -56,6 +56,9 @@ Table.prototype = {
 			select.append(item.getOption());
 		});
 		return select;
+	},
+	sort:function(comparator){
+
 	}
 };
 
@@ -71,6 +74,7 @@ ReferenceTable.prototype = Table.prototype;
 function User(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
+	this.__projects = firebase.child('projects');
 	this.__name = firebase.child('name');
 	this.__email = firebase.child('email');
 }
@@ -88,18 +92,137 @@ User.prototype = {
 		});
 		return option;
 	},
+	getProjects:function(){
+		return new ReferenceTable(projects,this.__projects);
+	},
+	getProjectStats:function(){
+		var user = this;
+		return new Table(
+			function(ref){ return new ProjectStats(ref);});
+	},
+	getRole:function(project,callback){
+		return project.getRole(callback);
+	},
+	getMilestoneTasks:function(milestone){
+
+	},
+	onProjectTaskAdded:function(project,callback){
+		var projectData = this.__projects.child(project.uid),
+			milestones = project.getMilestones(),
+			milestoneData = projectData.child('milestones');
+
+		console.log('check 1');
+		milestoneData.on('child_added',function(snap){
+			var milestoneData = snap.ref(),
+				milestone = milestones.get(snap.name()),
+				taskData = milestoneData.child('tasks'),
+				tasks = milestone.getTasks();
+			console.log('check 2');
+			taskData.on('child_added',function(snap){
+				taskid = snap.name();
+				callback(tasks.get(taskid));
+			});
+		});
+	},
+	getAllTasks:function(){
+
+	},
+	getMemberTile:function(project){
+		var tile = $(
+				'<dl class="row collapse accordian outlined" data-accordion>'
+			),
+			memberDD = $(
+				'<dd class="accordion-navigation">'
+			),
+			memberA = $(
+				'<a href="#member-'+this.uid+'">'
+			),
+			nameH4 = $('<h4>'),
+			roleSpan = $('<span>'),
+			milestonePanel = $(
+				'<div id="member-'+this.uid+'" class="content panel row">'
+			);
+
+		this.getName(function(name){
+			nameH4.text(name);
+		});
+
+		project.getRole(this,function(role){
+			roleSpan.text(role);
+		});
+
+		this.milestones.onItemAdded(function(milestone){
+			
+		});
+
+		this.onProjectTaskAdded(project,function(task){
+			taskPanel.append(task.getDescriptionDiv());
+		});
+		memberA.append(nameH4,roleSpan);
+		memberDD.append(memberA,taskPanel);
+		tile.append(memberDD);
+		return tile;
+	},
 	off:function(){
 		this.__firebase.off();
 	}
 };
+
+
 // A function that is used to add memebers
 function addNewMember(){
 	var projectID =  currentProject.uid;
 	var selected = $("#member-select").val();
+
 	var id = $("#member-select").children(":selected").attr("id").substring(9);//+ ": " + "developer";
 	firebase.child('projects/'+projectID).child("members").push(id);
 	
 }
+
+
+User.ProjectData = function(user,ref){
+	this.user = user;
+	this.__firebase = ref;
+	this.uid = ref.name();
+	this.__added_lines_of_code = ref.child('added_lines_of_code');
+	this.__removed_lines_of_code = ref.child('removed_lines_of_code');
+	this.__total_lines_of_code = ref.child('total_lines_of_code');
+	this.__milestones = ref.child('milestones');
+};
+
+User.ProjectData.prototype = {
+	getProject:function(){
+		return projects.get(this.uid);
+	},
+	getMilestoneData:function(){
+		return new Table(
+			function(ref){return new User.MilestoneData(this.user,ref)},
+			this.__milestones
+		);
+	},
+	getMilestones:function(){
+		return new ReferenceTable(
+			this.getProject().getMilestones,
+			this.__milestones
+		);
+	}
+};
+
+User.MilestoneData = function(user,ref){
+	this.user = user;
+	this.__firebase = ref;
+	this.uid = ref.name();
+	this.__added_lines_of_code = ref.child('added_lines_of_code');
+	this.__removed_lines_of_code = ref.child('removed_lines_of_code');
+	this.__total_lines_of_code = ref.child('total_lines_of_code');
+	this.__tasks = ref.child('tasks');
+};
+
+User.MilestoneData.prototype = {
+	getMilestone:function(){
+
+	}
+};
 
 function makeProgressBar(divClass,text,percentRef){
 	var div = $('<div>');
@@ -120,6 +243,7 @@ function Project(firebase){
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
 	this.__milestones = firebase.child('milestones');
+	this.__dueDate = firebase.child('due_date');
 	this.__members = firebase.child('members');
 	this.__taskPercent = firebase.child('task_percent');
 	this.__milestonePercent = firebase.child('milestone_percent');
@@ -140,6 +264,14 @@ Project.prototype = {
 	setName:function(name){
 		this.__name.set(name);
 	},
+	getDueDate:function(callback){
+		this.__dueDate.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	setDueDate:function(due){
+		this.__dueDate.set(due);
+	},
 	setDescription:function(desc){
 		this.__description.set(description);
 	},
@@ -150,11 +282,12 @@ Project.prototype = {
 			button = $('<div>'),
 			a = $('<a class="button expand text-center">'),
 			nameH3 = $('<h3>'),
-			descDiv = $('<div>');
+			descDiv = $('<div>'),
+			dueDiv = $('<div>');
 
 		a.append(nameH3);
 		button.append(a);
-		leftColumn.append(button,descDiv);
+		leftColumn.append(button,descDiv,dueDiv);
 		rightColumn.append(
 			this.getMilestoneProgressBar(),
 			this.getTaskProgressBar(),
@@ -173,13 +306,26 @@ Project.prototype = {
 		this.getDescription(function(descriptionStr){
 			descDiv.html(descriptionStr);
 		});
+		this.getDueDate(function(dateStr){
+			if(dateStr){
+				dueDiv.html('Due:' + dateStr);
+			}
+		});
 		return project;
 	},
 	getMilestones:function() {
 		return new Table(function(fb){ return new Milestone(fb);},this.__firebase.child('milestones'));
 	},
-	addUser:function(id){
-		this.__members.set(id,id);
+	// adds the user specified by either a user object or the uid of the user in the database,
+	// the role by default is "Developer", this function can also be used to change a role of a user
+	addMember:function(user,role){
+		if(!role){
+			role = "Developer";
+		}
+		if(typeof user == "object"){
+			user = user.uid;
+		}
+		this.__members.set(user,role);
 	},
 	getOption:function(){
 		var option = $('<option value="'+this.uid+'"></option>');
@@ -199,6 +345,14 @@ Project.prototype = {
 	},
 	off:function(){
 		this.__firebase.off();
+	},
+	getRole:function(member,callback){
+		this.__members.child(member.uid).on('value',function(snap){
+			callback(snap.val());
+		});
+	},
+	getMembers:function(){
+		return new ReferenceTable(users,this.__members);
 	}
 };
 // creates new projects and are added in to the firebase database
@@ -222,6 +376,7 @@ function Milestone(firebase){
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
+	this.__dueDate = firebase.child('due_date');
 	this.__tasks = firebase.child('tasks');
 	this.__members = firebase.child('members');
 	this.__hoursPercent = firebase.child('hours_percent');
@@ -233,6 +388,11 @@ function Milestone(firebase){
 Milestone.prototype = {
 	getName:function(callback){
 		this.__name.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getDueDate:function(callback){
+		this.__dueDate.on('value',function(dat){
 			callback(dat.val());
 		});
 	},
@@ -248,11 +408,12 @@ Milestone.prototype = {
 			button = $('<div>'),
 			a = $('<a class="button expand text-center">'),
 			nameH3 = $('<h3>'),
-			descDiv = $('<div>');
+			descDiv = $('<div>'),
+			dueDiv = $('<div>');
 
 		a.append(nameH3);
 		button.append(a);
-		leftColumn.append(button,descDiv);
+		leftColumn.append(button,descDiv,dueDiv);
 		rightColumn.append(this.getTaskProgressBar(),this.getHoursProgressBar());
 		milestone.append(leftColumn,rightColumn);
 		var m = this;
@@ -265,6 +426,11 @@ Milestone.prototype = {
 
 		this.getDescription(function(descriptionStr){
 			descDiv.html(descriptionStr);
+		});
+		this.getDueDate(function(dueStr){
+			if(dueStr){
+				dueDiv.html('Due:' + dueStr);
+			}
 		});
 		return milestone;
 	}, 
@@ -362,8 +528,25 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
+	getDescriptionDiv:function(){
+		var task = $('<div>'),
+			nameH4 = $('<h4>'),
+			descSpan = $('<span>'),
+			catSpan = $('<span>');
+		this.getName(function(name){
+			nameH4.text(name);
+		});
+		this.getDescription(function(description){
+			descSpan.text(description);
+		});
+		this.getCategory(function(cat){
+			catSpan.text(cat);
+		});
+		task.append(nameH4,descSpan,catSpan);
+		return task;
+	},
 	getTableRow:function(){
-		var row = $('<tr>');
+		var row = $('<tr class="task-row">');
 		var name = $('<td>');
 		var desc = $('<td>');
 		var cat = $('<td>');

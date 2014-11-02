@@ -34,7 +34,9 @@
 
 	<section class="top-bar-section">
 		<ul class="left">
-			<li><a href="projects">Projects</a></li>
+			<li><a href="projects">My Projects</a></li>
+			<li><a>My Tasks</a></li>
+			<li><a>My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
@@ -74,7 +76,7 @@
 								Description: <input type="text"id="projectDescription"></br>
 								Due Date: <input type="text" id="projectDueDate"></br>
 								Total Estimated Hours: <input type="text" id="projectEstimatedHours"></br>
-								<button class="close-reveal-modal project-button" onclick="addNewProject()">Submit</button>
+								<div class="row"><button id="project-submit" class="close-reveal-modal" onclick="addNewProject()">Submit</button></div>
 							</div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
@@ -123,8 +125,6 @@
 		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
-					<div class="row text-center">
-											</div>
 					<div class="small-10 columns small-offset-1">
 						<div class="row collapse text-center outlined">
 							<h1><a id="project-name" onclick="allProjects()"></a></h1>
@@ -132,7 +132,7 @@
 							<div id="myModal" class="reveal-modal" data-reveal>
 								Users
 								<select id="member-select"></select>
-								<button class="close-reveal-modal" onclick="addNewMember();">Add</button>
+								<div class="row"><button id="member-submit"<button class="close-reveal-modal" onclick="addNewMember();">Add</button></div>
 							</div>
 							<button data-reveal-id="myMilestoneModal">Add Milestone</button>
 							<div id="myMilestoneModal" class="reveal-modal" data-reveal>
@@ -141,7 +141,7 @@
 								Description: <input type="text" id="milestoneDescription"></br>
 								Due Date: <input type="text" id="milestoneDueDate"></br>
 								Estimated Hours: <input type="text" id="milestoneEstimatedHours"></br>
-								<button class="close-reveal-modal" onclick="addNewMilestone()">Submit</button>
+								<div class="row"><button id="milestone-submit" <button class="close-reveal-modal" onclick="addNewMilestone()">Submit</button></div>
 							</div>
 						</div>
 						<dl class="row collapse accordion" data-accordion>
@@ -164,6 +164,13 @@
 					</div>
 				</div>
 				<div class="content" id="TeamMembers">
+					<div class="small-10 columns small-offset-1">
+						<div class="row text-center">
+							<h1>Team Members</h1>
+						</div>
+						<div class="row" id="member-container">
+						</div>
+					</div>
 				</div>
 				<div class="content" id="MilestoneStatistics">
 					<div class="row">
