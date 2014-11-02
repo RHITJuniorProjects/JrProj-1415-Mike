@@ -18,6 +18,15 @@
 								<select id="member-select"></select>
 								<button onclick="addNewMember();">Add</button>
 							</div>
+							<button data-reveal-id="myMilestoneModal">Add Milestone</button>
+							<div id="myMilestoneModal" class="reveal-modal" data-reveal>
+								<h2>New Milestone</h2><br>
+								Milestone Name: <input type="text" id="milestoneName"></br>
+								Description: <input type="text" id="milestoneDescription"></br>
+								Due Date: <input type="text" id="milestoneDueDate"></br>
+								Estimated Hours: <input type="text" id="milestoneEstimatedHours"></br>
+								<button onclick="addNewMilestone()">Submit</button>
+							</div>
 						</div>
 						<dl class="row collapse accordion" data-accordion>
 							<dd class="accordion-navigation">

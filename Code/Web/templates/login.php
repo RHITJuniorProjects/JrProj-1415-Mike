@@ -7,6 +7,8 @@
 		<?php require 'topbar.php';?>
 		<div class="columns main-content">
 			<h1>Henry: Login with Your Account</h1>
+		</div>
+		<div class="large-3 columns main-content left">
 			Email: <input type="text" id="user">
 			Password: <input type="password" id="pass">
 			<input type="submit" value="Submit" onclick="getLoginData()">
