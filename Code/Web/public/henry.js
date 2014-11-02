@@ -96,7 +96,7 @@ User.prototype = {
 function addNewMember(){
 	var projectID =  currentProject.uid;
 	var selected = $("#member-select").val();
-	var id = $("#member-select").children(":selected").attr("id").substring(9)+ ":" + '"developer"';
+	var id = $("#member-select").children(":selected").attr("id").substring(9);//+ ": " + "developer";
 	firebase.child('projects/'+projectID).child("members").push(id);
 	
 }
@@ -203,16 +203,17 @@ Project.prototype = {
 };
 // creates new projects and are added in to the firebase database
 function addNewProject(){
-	if(userData != null) {
+	// if(userData != null) {
 		var docName = $("#projectName").val();
 		var docDescription = $("#projectDescription").val();
 		var docDueDate = $("#projectDueDate").val();
 		var docEstimatedHours = $("#projectEstimatedHours").val();
-		var currentUser = userData.uid + ":" + '"lead"';
+		var currentUser = userData.uid; //+ ": " + "lead";
 		var project = firebase.child('projects').push(
 			{ 'name': docName, 'description': docDescription, 
-			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours});
-	}	
+			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': currentUser});
+		$('#myProjectModal').trigger('reveal:close');
+	//}	
 
 }
 
@@ -439,6 +440,7 @@ Task.prototype = {
 		this.__firebase.off();
 	}
 };
+
 
 function getLoginData(){ // Takes the login data from the form and places it into variables
 	var user = $("#user").val();

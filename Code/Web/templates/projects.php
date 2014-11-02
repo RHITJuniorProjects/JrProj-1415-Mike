@@ -26,7 +26,7 @@
 								Description: <input type="text"id="projectDescription"></br>
 								Due Date: <input type="text" id="projectDueDate"></br>
 								Total Estimated Hours: <input type="text" id="projectEstimatedHours"></br>
-								<button onclick="addNewProject()">Submit</button>
+								<button class="close-reveal-modal project-button" onclick="addNewProject()">Submit</button>
 							</div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
