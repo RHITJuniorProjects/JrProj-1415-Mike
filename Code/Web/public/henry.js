@@ -3,6 +3,7 @@
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
 var userData;
+var currentProject;
 
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
@@ -91,24 +92,13 @@ User.prototype = {
 		this.__firebase.off();
 	}
 };
-
+// A function that is used to add memebers
 function addNewMember(){
-	var projectID = '-JYcg488tAYS5rJJT4Kh';
+	var projectID =  currentProject.uid;
 	var selected = $("#member-select").val();
-	var id = $("#member-select").children(":selected").attr("id").substring(9);
-	//console.log(firebase.child('projects/'+projectID).child("members").name());
-	/*firebase.child('projects/'+projectID).child("members").forEach(function(cs) {
-		var name = cs.name();
-		console.log(name);
-		if(name != id)
-		cs.push(id);
-	});
-	*/
-	//firebase.child('projects/'+projectID).child("members").child(id).set(id);
-	//if(!firebase.child('projects/'+projectID).child("members").val().hasChild(id)){
-		firebase.child('projects/'+projectID).child("members").push(id);
-	//}
-	//console.log(id);
+	var id = $("#member-select").children(":selected").attr("id").substring(9)+ ":" + '"developer"';
+	firebase.child('projects/'+projectID).child("members").push(id);
+	
 }
 
 function makeProgressBar(divClass,text,percentRef){
@@ -174,6 +164,7 @@ Project.prototype = {
 		var p = this;
 		a.click(function(){
 			selectProject(p);
+			currentProject = p;
 		});
 		this.getName(function(nameStr){
 			nameH3.text(nameStr);
@@ -210,17 +201,18 @@ Project.prototype = {
 		this.__firebase.off();
 	}
 };
-
+// creates new projects and are added in to the firebase database
 function addNewProject(){
-	var docName = $("#projectName").val();
-	var docDescription = $("#projectDescription").val();
-	var docDueDate = $("#projectDueDate").val();
-	var docEstimatedHours = $("#projectEstimatedHours").val();
-
-	var project = firebase.child('projects').push(
-		{ 'name': docName, 'description': docDescription, 
-		'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours});
-	
+	if(userData != null) {
+		var docName = $("#projectName").val();
+		var docDescription = $("#projectDescription").val();
+		var docDueDate = $("#projectDueDate").val();
+		var docEstimatedHours = $("#projectEstimatedHours").val();
+		var currentUser = userData.uid + ":" + '"lead"';
+		var project = firebase.child('projects').push(
+			{ 'name': docName, 'description': docDescription, 
+			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours});
+	}	
 
 }
 
@@ -297,9 +289,7 @@ function addNewMilestone(){
 	var docDescription = $("#milestoneDescription").val();
 	var docDueDate = $("#milestoneDueDate").val();
 	var docEstimatedHours = $("#milestoneEstimatedHours").val();
-
-	var projectid = '-JYcg488tAYS5rJJT4Kh';
-
+	var projectid = currentProject.uid;
 	var milestone = firebase.child('projects/'+ projectid).child('milestones').push(
 		{ 'name': docName, 'description': docDescription, 
 		'due_date': docDueDate, 'estimated_hours': docEstimatedHours});
