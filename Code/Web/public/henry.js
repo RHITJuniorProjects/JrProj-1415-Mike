@@ -8,12 +8,6 @@ var currentProject;
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
 
-HenryObject.prototype = {
-	off:function(){
-		this.__firebase.off();
-	}
-};
-
 function Table(factory,firebase){
 	this.__factory = factory;
 	this.__firebase = firebase;
@@ -104,8 +98,7 @@ User.prototype = {
 	getProjectStats:function(){
 		var user = this;
 		return new Table(
-			function(ref){ return new ProjectStats(ref)},
-
+			function(ref){ return new ProjectStats(ref);});
 	},
 	getRole:function(project,callback){
 		return project.getRole(callback);
