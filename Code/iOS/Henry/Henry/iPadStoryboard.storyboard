@@ -1,37 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Henry Right View Controller-->
-        <scene sceneID="ZY4-Dd-VOf">
-            <objects>
-                <viewController id="iTd-gC-0td" customClass="HenryRightViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fhW-cN-we6"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ray-cj-MaG"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="qK3-L1-weF">
-                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Testing" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w6U-Tr-dKv">
-                                <rect key="frame" x="16" y="20" width="55" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1Oa-o3-DjC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1347.8399999999999" y="1310.72"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="m9a-iy-6eA">
             <objects>
@@ -56,7 +31,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
                         <segue destination="ykW-PA-p95" kind="relationship" relationship="masterViewController" id="oJD-4s-6mb"/>
-                        <segue destination="iTd-gC-0td" kind="relationship" relationship="detailViewController" id="kWU-Jy-u6r"/>
+                        <segue destination="gPv-Gd-2m3" kind="relationship" relationship="detailViewController" id="CEB-Mj-fYP"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pYU-fY-15f" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -104,6 +79,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="PZD-WM-de4" kind="push" id="R93-yA-DiV"/>
+                                    <segue destination="gPv-Gd-2m3" kind="replace" trigger="accessoryAction" splitViewControllerTargetIndex="1" id="QjU-ay-DG2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -156,6 +132,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="udv-aC-UXP" kind="replace" splitViewControllerTargetIndex="1" id="054-KL-O2a"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -207,6 +186,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="tQi-r2-IdO" kind="push" id="1xx-Bj-ecu"/>
+                                    <segue destination="vye-Er-iTH" kind="replace" trigger="accessoryAction" splitViewControllerTargetIndex="1" id="XBg-1h-RJ4"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -221,6 +201,389 @@
             </objects>
             <point key="canvasLocation" x="2547" y="174"/>
         </scene>
+        <!--Henry Project Detail View Controller-->
+        <scene sceneID="sfU-Wr-9le">
+            <objects>
+                <viewController id="gPv-Gd-2m3" customClass="HenryProjectDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wq3-kk-qK6"/>
+                        <viewControllerLayoutGuide type="bottom" id="jK2-lS-roE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="v7d-Y8-EcA">
+                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Project Team 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Tq-to-R3I">
+                                <rect key="frame" x="16" y="72" width="299" height="28"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Due:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zdH-Pn-BeA">
+                                <rect key="frame" x="16" y="108" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="13/13/13" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fg3-nr-FIU">
+                                <rect key="frame" x="60" y="108" width="244" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours Logged:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WU2-XC-eQl">
+                                <rect key="frame" x="16" y="239" width="114" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="u4i-WG-PG9">
+                                <rect key="frame" x="16" y="268" width="288" height="9"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="Un8-uj-ItY"/>
+                                    <constraint firstAttribute="height" constant="8" id="WdF-BI-Ux7"/>
+                                    <constraint firstAttribute="height" constant="8" id="xmG-5V-SBg"/>
+                                </constraints>
+                                <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tasks Completed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uUo-0C-EYH">
+                                <rect key="frame" x="16" y="297" width="138" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="100-8u-teY">
+                                <rect key="frame" x="16" y="326" width="288" height="9"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="NlZ-Vu-UM4"/>
+                                    <constraint firstAttribute="height" constant="8" id="l1L-XK-EnK"/>
+                                    <constraint firstAttribute="height" constant="8" id="p0t-w2-qoz"/>
+                                </constraints>
+                                <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Milestones Completed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="reL-vj-hQ1">
+                                <rect key="frame" x="16" y="352" width="178" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="uPB-Jf-F4e">
+                                <rect key="frame" x="16" y="381" width="288" height="9"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="b20-Xf-HF8"/>
+                                    <constraint firstAttribute="height" constant="8" id="eI2-TX-BgC"/>
+                                    <constraint firstAttribute="height" constant="8" id="pmh-a5-mau"/>
+                                </constraints>
+                                <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lkm-nl-Sz8">
+                                <rect key="frame" x="138" y="239" width="291" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avb-Kg-gf6">
+                                <rect key="frame" x="162" y="297" width="142" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DkP-hn-iNP">
+                                <rect key="frame" x="202" y="352" width="291" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL9-YD-oWy">
+                                <rect key="frame" x="14" y="421" width="293" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="View Milestones">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="1VJ-nS-G7V">
+                                <rect key="frame" x="16" y="137" width="288" height="94"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="fQy-up-pCU"/>
+                    <connections>
+                        <outlet property="dueDateLabel" destination="Fg3-nr-FIU" id="WZZ-GH-XDZ"/>
+                        <outlet property="hoursLoggedLabel" destination="lkm-nl-Sz8" id="PCo-WC-iGp"/>
+                        <outlet property="hoursLoggedProgressBar" destination="u4i-WG-PG9" id="Rhi-Rg-rnC"/>
+                        <outlet property="milestonesCompletedLabel" destination="DkP-hn-iNP" id="bnH-62-ujr"/>
+                        <outlet property="milestonesCompletedProgressBar" destination="uPB-Jf-F4e" id="Rhh-si-EqL"/>
+                        <outlet property="projectDescriptionView" destination="1VJ-nS-G7V" id="RVy-of-pgg"/>
+                        <outlet property="projectNameLabel" destination="1Tq-to-R3I" id="Dcw-Dj-I3C"/>
+                        <outlet property="tasksCompletedLabel" destination="avb-Kg-gf6" id="lDl-nQ-hD5"/>
+                        <outlet property="tasksCompletedProgressBar" destination="100-8u-teY" id="Pe1-Qc-rvV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C7T-hU-LaR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1475" y="1455"/>
+        </scene>
+        <!--Henry Milestone Detail View Controller-->
+        <scene sceneID="vgL-Wv-vjT">
+            <objects>
+                <viewController id="vye-Er-iTH" customClass="HenryMilestoneDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="S8s-Ei-P2N"/>
+                        <viewControllerLayoutGuide type="bottom" id="gu3-7w-sOd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="JIj-RV-oVn">
+                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Milestone 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1MZ-d6-PYs">
+                                <rect key="frame" x="16" y="72" width="299" height="28"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Due:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gae-g1-YTg">
+                                <rect key="frame" x="16" y="108" width="36" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="13/13/13" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xUA-Su-avy">
+                                <rect key="frame" x="60" y="108" width="244" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Milestone Description" translatesAutoresizingMaskIntoConstraints="NO" id="sqc-NF-OdP">
+                                <rect key="frame" x="11" y="137" width="293" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tasks Completed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jwx-KC-EQA">
+                                <rect key="frame" x="16" y="445" width="138" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tsX-XS-kSD">
+                                <rect key="frame" x="21" y="474" width="288" height="9"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="VEL-jL-wOT"/>
+                                    <constraint firstAttribute="height" constant="8" id="ehX-Sy-6nV"/>
+                                    <constraint firstAttribute="height" constant="8" id="rzX-Ax-mgm"/>
+                                </constraints>
+                                <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGh-kI-Ljx">
+                                <rect key="frame" x="14" y="490" width="293" height="48"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="View Tasks">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iz4-4z-EOo">
+                                <rect key="frame" x="162" y="445" width="291" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rZQ-zZ-KvD">
+                                <rect key="frame" x="108" y="179" width="104" height="29"/>
+                                <segments>
+                                    <segment title="LOC"/>
+                                    <segment title="Hidden"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segControlClicked:" destination="vye-Er-iTH" eventType="valueChanged" id="EOM-9C-SJT"/>
+                                </connections>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WXn-oy-FXt" customClass="DLPieChart">
+                                <rect key="frame" x="27" y="215" width="288" height="202"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="202" id="FUg-jl-F0g"/>
+                                    <constraint firstAttribute="width" constant="288" id="oo6-oY-Haf"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="WXn-oy-FXt" firstAttribute="leading" secondItem="JIj-RV-oVn" secondAttribute="leadingMargin" constant="11" id="8cT-aX-9bl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="WXn-oy-FXt" secondAttribute="trailing" constant="372" id="LW3-bT-mu0"/>
+                            <constraint firstItem="tsX-XS-kSD" firstAttribute="leading" secondItem="JIj-RV-oVn" secondAttribute="leadingMargin" id="QeZ-5E-MU8"/>
+                            <constraint firstItem="tsX-XS-kSD" firstAttribute="leading" secondItem="JIj-RV-oVn" secondAttribute="leadingMargin" id="Sub-qS-c4g"/>
+                            <constraint firstItem="tsX-XS-kSD" firstAttribute="trailing" secondItem="JIj-RV-oVn" secondAttribute="trailingMargin" id="dTC-PW-Obm"/>
+                            <constraint firstItem="tsX-XS-kSD" firstAttribute="trailing" secondItem="JIj-RV-oVn" secondAttribute="trailingMargin" id="ikL-BU-fce"/>
+                            <constraint firstItem="WXn-oy-FXt" firstAttribute="leading" secondItem="JIj-RV-oVn" secondAttribute="leadingMargin" id="k4Z-kE-2B8"/>
+                            <constraint firstItem="iz4-4z-EOo" firstAttribute="top" secondItem="WXn-oy-FXt" secondAttribute="bottom" constant="28" id="ks7-P3-ZCO"/>
+                            <constraint firstItem="WXn-oy-FXt" firstAttribute="top" secondItem="rZQ-zZ-KvD" secondAttribute="bottom" constant="8" id="mqy-WP-CRH"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="J6W-yZ-oXy"/>
+                    <connections>
+                        <outlet property="dataSelector" destination="rZQ-zZ-KvD" id="7jS-17-Tlq"/>
+                        <outlet property="descriptionView" destination="sqc-NF-OdP" id="1yC-15-eh0"/>
+                        <outlet property="dueDateLabel" destination="xUA-Su-avy" id="7W8-R9-DDV"/>
+                        <outlet property="milestoneName" destination="1MZ-d6-PYs" id="xOt-IC-Fe1"/>
+                        <outlet property="milestoneNameLabel" destination="1MZ-d6-PYs" id="bm1-b5-lep"/>
+                        <outlet property="pieChart" destination="WXn-oy-FXt" id="RrG-1S-bx7"/>
+                        <outlet property="tasksCompleteBar" destination="tsX-XS-kSD" id="CzP-Bz-NqZ"/>
+                        <outlet property="tasksCompletedLabel" destination="iz4-4z-EOo" id="55q-Of-UMZ"/>
+                        <outlet property="view" destination="WXn-oy-FXt" id="1Ow-Pf-pk5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ctb-YG-31n" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2416.5" y="1381"/>
+        </scene>
+        <!--Task Details-->
+        <scene sceneID="fzL-Q3-zhk">
+            <objects>
+                <viewController id="udv-aC-UXP" customClass="HenryTaskDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="d9v-CO-d47"/>
+                        <viewControllerLayoutGuide type="bottom" id="E9L-7B-i9j"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Fmb-Oh-I6x">
+                        <rect key="frame" x="0.0" y="94" width="703" height="674"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PKJ-5x-JeU" customClass="TPKeyboardAvoidingScrollView">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3.00/5.00 hrs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2qK-BW-FaJ">
+                                        <rect key="frame" x="8" y="70" width="291" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="2oH-Gy-gb6">
+                                        <rect key="frame" x="8" y="99" width="299" height="94"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5.00 hrs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vmT-Ev-jdj">
+                                        <rect key="frame" x="152" y="239" width="147" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Original Estimate:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-Uw-88G">
+                                        <rect key="frame" x="8" y="239" width="136" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Uw-d6-GHO">
+                                        <rect key="frame" x="8" y="210" width="55" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="4.00 hrs" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="rjm-Ed-f4R">
+                                        <rect key="frame" x="145" y="268" width="162" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                        <connections>
+                                            <action selector="updateCurrentTimeEstimate:" destination="udv-aC-UXP" eventType="editingDidEnd" id="g29-Am-6EY"/>
+                                        </connections>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Estimate:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jMr-xc-QzJ">
+                                        <rect key="frame" x="8" y="271" width="134" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Developer Dan" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qqK-5r-6qF">
+                                        <rect key="frame" x="91" y="41" width="208" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Assignee:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jPm-wm-eo8">
+                                        <rect key="frame" x="8" y="41" width="75" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ye-p5-WxQ">
+                                        <rect key="frame" x="64" y="339" width="192" height="30"/>
+                                        <state key="normal" title="Set a Developer to this Task">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Task" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Awd-rC-Ezf">
+                                        <rect key="frame" x="8" y="8" width="299" height="25"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w9X-xV-f1o">
+                                        <rect key="frame" x="64" y="206" width="235" height="30"/>
+                                        <state key="normal" title="Implementation!">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="2Td-lT-4X1" kind="popover" popoverAnchorView="w9X-xV-f1o" id="TCw-oi-1ww">
+                                                <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                            </segue>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Awd-rC-Ezf" firstAttribute="top" secondItem="PKJ-5x-JeU" secondAttribute="top" constant="8" id="Fxf-T0-lc8"/>
+                                </constraints>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Task Details" id="6US-6w-tBy"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
+                    <connections>
+                        <outlet property="assigneeNameLabel" destination="qqK-5r-6qF" id="Vv6-EA-gJb"/>
+                        <outlet property="currentEstimateField" destination="rjm-Ed-f4R" id="UsL-YP-UHM"/>
+                        <outlet property="descriptionView" destination="2oH-Gy-gb6" id="T2Q-Qn-1F1"/>
+                        <outlet property="hoursLabel" destination="2qK-BW-FaJ" id="q4k-kV-T9P"/>
+                        <outlet property="originalEstimateLabel" destination="vmT-Ev-jdj" id="11w-tP-g3j"/>
+                        <outlet property="statusButton" destination="w9X-xV-f1o" id="gyO-Eq-btE"/>
+                        <outlet property="taskNameLabel" destination="Awd-rC-Ezf" id="dGv-6b-Ztk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jd4-Ep-EaP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3199" y="1169"/>
+        </scene>
+        <!--projectStatus-->
+        <scene sceneID="mfg-GD-CnP">
+            <objects>
+                <tableViewController title="projectStatus" id="2Td-lT-4X1" customClass="HenryTaskStatusTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="try-jf-OkS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StatusCellIdentifier" id="kjb-7t-a9T">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kjb-7t-a9T" id="VTj-mE-7vY">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="2Td-lT-4X1" id="Dlc-4O-R8a"/>
+                            <outlet property="delegate" destination="2Td-lT-4X1" id="yHF-Lv-FoD"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Project Status" id="eMX-fd-rIg"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="300"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZvX-tg-V7e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3998" y="1297"/>
+        </scene>
     </scenes>
     <resources>
         <image name="menu.png" width="28" height="20"/>
@@ -230,4 +593,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="QjU-ay-DG2"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -16,7 +16,7 @@
 @interface HenryProjectsTableViewController ()
 @property NSMutableArray *cellText;
 @property NSMutableArray *projectDescriptions;
-@property NSArray *projectIDs;
+@property NSMutableArray *projectIDs;
 @property Firebase *fb;
 @property (strong, nonatomic) NSMutableArray *tasks;
 @end
@@ -68,20 +68,21 @@
 }
 
 -(void)updateTable:(FDataSnapshot *)snapshot {
-    self.projectIDs = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
+    NSArray *userProjects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
     NSArray *projects = [snapshot.value[@"projects"] allKeys];
     
     //Empty out hard-coded values
     self.cellText = [[NSMutableArray alloc] init];
     self.projectDescriptions = [[NSMutableArray alloc] init];
-    
+    self.projectIDs = [[NSMutableArray alloc] init];
     for (NSString *project in projects) {
-        if ([self.projectIDs containsObject:project]) {
+        if ([userProjects containsObject:project]) {
             NSString *name = snapshot.value[@"projects"][project][@"name"];
             NSString *description = snapshot.value[@"projects"][project][@"due_date"];
             if (description != nil)
                 [self.projectDescriptions addObject:description];
             [self.cellText addObject:name];
+            [self.projectIDs addObject:project];
         }
     }
     
