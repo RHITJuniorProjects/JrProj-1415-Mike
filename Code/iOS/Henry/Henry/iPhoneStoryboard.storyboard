@@ -204,7 +204,7 @@
             <objects>
                 <tableViewController title="Assign Devs" id="4YB-1b-mqY" customClass="HenryAssignDevsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="43" sectionHeaderHeight="22" sectionFooterHeight="22" id="sCf-ea-prz">
-                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -806,8 +806,8 @@
     <inferredMetricsTieBreakers>
         <segue reference="hr0-Sg-r1P"/>
         <segue reference="Jkc-DS-FtK"/>
-        <segue reference="Fwr-B4-Jg0"/>
+        <segue reference="YHE-Lu-0pf"/>
         <segue reference="TUL-V0-Fep"/>
-        <segue reference="5b4-0E-tfw"/>
+        <segue reference="fRM-m9-T5z"/>
     </inferredMetricsTieBreakers>
 </document>
