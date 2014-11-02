@@ -251,6 +251,7 @@ function Project(firebase){
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
 	this.__milestones = firebase.child('milestones');
+	this.__dueDate = firebase.child('due_date');
 	this.__members = firebase.child('members');
 	this.__taskPercent = firebase.child('task_percent');
 	this.__milestonePercent = firebase.child('milestone_percent');
@@ -271,6 +272,14 @@ Project.prototype = {
 	setName:function(name){
 		this.__name.set(name);
 	},
+	getDueDate:function(callback){
+		this.__dueDate.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	setDueDate:function(due){
+		this.__dueDate.set(due);
+	},
 	setDescription:function(desc){
 		this.__description.set(description);
 	},
@@ -281,11 +290,12 @@ Project.prototype = {
 			button = $('<div>'),
 			a = $('<a class="button expand text-center">'),
 			nameH3 = $('<h3>'),
-			descDiv = $('<div>');
+			descDiv = $('<div>'),
+			dueDiv = $('<div>');
 
 		a.append(nameH3);
 		button.append(a);
-		leftColumn.append(button,descDiv);
+		leftColumn.append(button,descDiv,dueDiv);
 		rightColumn.append(
 			this.getMilestoneProgressBar(),
 			this.getTaskProgressBar(),
@@ -303,6 +313,11 @@ Project.prototype = {
 
 		this.getDescription(function(descriptionStr){
 			descDiv.html(descriptionStr);
+		});
+		this.getDueDate(function(dateStr){
+			if(dateStr){
+				dueDiv.html('Due:' + dateStr);
+			}
 		});
 		return project;
 	},
@@ -368,6 +383,7 @@ function Milestone(firebase){
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
+	this.__dueDate = firebase.child('due_date');
 	this.__tasks = firebase.child('tasks');
 	this.__members = firebase.child('members');
 	this.__hoursPercent = firebase.child('hours_percent');
@@ -379,6 +395,11 @@ function Milestone(firebase){
 Milestone.prototype = {
 	getName:function(callback){
 		this.__name.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getDueDate:function(callback){
+		this.__dueDate.on('value',function(dat){
 			callback(dat.val());
 		});
 	},
@@ -394,11 +415,12 @@ Milestone.prototype = {
 			button = $('<div>'),
 			a = $('<a class="button expand text-center">'),
 			nameH3 = $('<h3>'),
-			descDiv = $('<div>');
+			descDiv = $('<div>'),
+			dueDiv = $('<div>');
 
 		a.append(nameH3);
 		button.append(a);
-		leftColumn.append(button,descDiv);
+		leftColumn.append(button,descDiv,dueDiv);
 		rightColumn.append(this.getTaskProgressBar(),this.getHoursProgressBar());
 		milestone.append(leftColumn,rightColumn);
 		var m = this;
@@ -411,6 +433,11 @@ Milestone.prototype = {
 
 		this.getDescription(function(descriptionStr){
 			descDiv.html(descriptionStr);
+		});
+		this.getDueDate(function(dueStr){
+			if(dueStr){
+				dueDiv.html('Due:' + dueStr);
+			}
 		});
 		return milestone;
 	}, 
@@ -526,7 +553,7 @@ Task.prototype = {
 		return task;
 	},
 	getTableRow:function(){
-		var row = $('<tr>');
+		var row = $('<tr class="task-row">');
 		var name = $('<td>');
 		var desc = $('<td>');
 		var cat = $('<td>');

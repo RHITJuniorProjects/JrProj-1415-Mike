@@ -39,7 +39,7 @@ function selectMilestone(milestone){
     currentMilestone = milestone;
 	var tasks = currentMilestone.getTasks();
 	var $panel = $('#tasks-table');
-	$panel.children().remove();
+	$('.task-row').remove();
 	tasks.onItemAdded(function(task){
 		$panel.append(task.getTableRow());
 	});
