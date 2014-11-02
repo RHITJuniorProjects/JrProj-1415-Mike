@@ -1,7 +1,9 @@
 /**
  * Metric collection script for CSSE371 Henry project
- * @author Sean Carter, Abby Mann, Andrew Davidson
+ * @author Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
  */
+
+// TODO: Winter term: extract child getters/updates to string vars
 
 var Firebase = require("firebase");
 
@@ -53,26 +55,30 @@ projectsRef.on('value', function(projects) {
         // When activated, checks status of task and updates if needed, then recalculates and updates the total hours, 
         // percent hours, percent task, percent milestone 
         project.child('milestones').ref().on('value', function(milestones) {
+            //sets up vars for task listener
+            
             var milestoneCount = 0,
                 milestonesCompleted = 0,
                 totalProjectTasks = 0,
                 totalProjectTasksComplete = 0,
                 projectHours = 0,
                 totalProjectEstimatedHours = 0,
-                projectAddedLines = 0,
-                projectRemovedLOC = 0,
-                projectMilestonePercent = 0;
+                projectAddedLOC = 0,
+                projectTotalLOC = 0,
+                projectRemovedLOC = 0;
 
             milestones.forEach(function(milestone) {
                 milestoneCount++;
                 var milestoneEstimatedHours = 0,
                     milestoneID = milestone.name(),
                     milestoneHours = 0,
-                    milestoneAddedLines = 0,
+                    milestoneAddedLOC = 0,
                     milestoneRemovedLOC = 0,
+                    milestoneTotalLOC = 0,
                     taskCount = 0,
                     completedTasks = 0;
                 milestone.child('tasks').ref().on('value', function(tasks) {
+                    
                     tasks.forEach(function(task) {
 
                         taskCount++;
@@ -83,7 +89,8 @@ projectsRef.on('value', function(projects) {
                         milestoneEstimatedHours += task.child('updated_time_estimate').val();
                         var taskID = task.name();
                         milestoneRemovedLOC += task.child('removed_lines_of_code').val();
-                        milestoneAddedLines += task.child('added_lines_of_code').val();
+                        milestoneAddedLOC += task.child('added_lines_of_code').val();
+                        milestoneTotalLOC += task.child('total_lines_of_code').val();
 
                         // update user with task info
                         var assignee = task.child("assignedTo").val();
@@ -92,7 +99,8 @@ projectsRef.on('value', function(projects) {
                             taskNode.update({
                                 "total_hours": task.child('total_hours').val(),
                                 "added_lines_of_code": task.child('added_lines_of_code').val(),
-                                "removed_lines_of_code": task.child('removed_lines_of_code').val()
+                                "removed_lines_of_code": task.child('removed_lines_of_code').val(),
+                                "total_lines_of_code": task.child('total_lines_of_code').val()
                             });
                         }
 
@@ -126,20 +134,13 @@ projectsRef.on('value', function(projects) {
                         var totalHours = task.child('total_hours').val();
 
                         //Calculates percent hours completed
-                        var taskHrPercent = 0;
-                        if (updatedHourEstimate !== 0) {
-                            taskHrPercent = Math.round(Number(totalHours * 100 / updatedHourEstimate))
-                        }
-                        if (taskHrPercent != Infinity) {
-                            task.ref().update({
-                                'percent_complete': taskHrPercent
-                            });
-                        }
-                        else {
-                            task.ref().update({
-                                'percent_complete': 0
-                            });
-                        }
+                        var taskHrPercent = calculatePercentage(totalHours, updatedHourEstimate);
+
+                        //TODO: workaround
+                        //check calculatePercentage. should error check for all percetange calculations
+                        task.ref().update({
+                            'percent_complete': taskHrPercent
+                        });
 
                         //if the status is closed, but it isn't marked as complete, this means that it was a new update, 
                         //and 'is_completed' needs to be updated as well
@@ -150,8 +151,8 @@ projectsRef.on('value', function(projects) {
                             var milestoneTasksCompleted = milestone.child('tasks_completed').val();
                             milestoneTasksCompleted += 1;
                             var milestoneTotalTasks = project.child('total_tasks').val();
-                            var milestoneTaskPercent = (milestoneTasksCompleted * 100) / milestone.child('total_tasks').val();
-                            var projectTaskPercent = (projectTasksCompleted * 100) / milestoneTotalTasks;
+                            var milestoneTaskPercent = calculatePercentage(milestoneTasksCompleted, milestone.child('total_tasks').val());
+                            var projectTaskPercent = calculatePercentage(projectTasksCompleted, milestoneTotalTasks);
 
                             //moved outside of task listener
                             // milestone.ref().update({
@@ -161,7 +162,7 @@ projectsRef.on('value', function(projects) {
                             //});
 
                             var milestonesCompleted = project.child('milestones_completed').val();
-                            if (milestoneTasksCompleted == milestoneTotalTasks) {
+                            if (milestoneTotalTasks !== 0 && milestoneTasksCompleted == milestoneTotalTasks) {
                                 milestonesCompleted += 1;
                             };
                             //project.ref().update({
@@ -180,18 +181,8 @@ projectsRef.on('value', function(projects) {
                         }
                     });
                 });
-                var taskPercentage;
-                if (taskCount !== 0) {
-                    taskPercentage = completedTasks / taskCount * 100;
-                }
-                else {
-                    taskPercentage = 0;
-                }
-                var hoursPercent = 0;
-                if (milestoneEstimatedHours !== 0) {
-                    hoursPercent = Math.round(milestoneHours / milestoneEstimatedHours * 100);
-                }
-
+                var taskPercentage = calculatePercentage(completedTasks, taskCount);
+                var hoursPercent = calculatePercentage(milestoneHours, milestoneEstimatedHours);
                 milestone.ref().update({
                     "task_percent": taskPercentage,
                     "total_tasks": taskCount,
@@ -199,7 +190,8 @@ projectsRef.on('value', function(projects) {
                     "total_hours": milestoneHours,
                     "total_estimated_hours": milestoneEstimatedHours,
                     "removed_lines_of_code": milestoneRemovedLOC,
-                    "added_lines_of_code": milestoneAddedLines,
+                    "added_lines_of_code": milestoneAddedLOC,
+                    "total_lines_of_code": milestoneTotalLOC,
                     "hours_percent": hoursPercent
 
                 });
@@ -210,29 +202,17 @@ projectsRef.on('value', function(projects) {
                 totalProjectTasksComplete += completedTasks;
                 projectHours += milestoneHours;
                 totalProjectEstimatedHours += milestoneEstimatedHours;
-                projectAddedLines += milestoneAddedLines;
+                projectAddedLOC += milestoneAddedLOC;
                 projectRemovedLOC += milestoneRemovedLOC;
+                projectTotalLOC += milestoneTotalLOC;
             });
 
             totalProjectTasks += totalProjectBacklogTask;
-            var projectTaskPercent = 0;
-            if (totalProjectTasks !== 0) {
-                projectTaskPercent = Math.round(Number(totalProjectTasksComplete * 100 / totalProjectTasks))
-            }
 
-            if (milestoneCount !== 0) {
-                projectMilestonePercent = Math.round((milestonesCompleted * 100) / milestoneCount);
-            }
-            var projectHoursPercent = 0;
-            if (totalProjectEstimatedHours !== 0) {
-                projectHoursPercent = Math.round(projectHours / totalProjectEstimatedHours * 100);
-            }
+            var projectTaskPercent = calculatePercentage(totalProjectTasksComplete, totalProjectTasks);
+            var projectMilestonePercent = calculatePercentage(milestonesCompleted, milestoneCount);
+            var projectHoursPercent = calculatePercentage(projectHours, totalProjectEstimatedHours);
 
-
-
-            //  if ( !== 0) {
-            //             taskHrPercent = Math.round(Number(totalHours * 100 / updatedHourEstimate))
-            //         }    
 
             project.ref().update({
                 "total_milestones": milestoneCount,
@@ -243,7 +223,8 @@ projectsRef.on('value', function(projects) {
                 "task_percent": projectTaskPercent,
                 "total_estimated_hours": totalProjectEstimatedHours,
                 "removed_lines_of_code": projectRemovedLOC,
-                "added_lines_of_code": projectAddedLines,
+                "added_lines_of_code": projectAddedLOC,
+                "total_lines_of_code" : projectTotalLOC,
                 'milestone_percent': projectMilestonePercent,
                 'hours_percent': projectHoursPercent
             });
@@ -274,67 +255,74 @@ usersRef.on("value", function(users) {
             var totalProjectHours = 0;
             var totalProjectAddedLOC = 0;
             var totalProjectRemovedLOC = 0;
+            var totalProjectLOC = 0;
 
             project.child("milestones").forEach(function(milestone) {
                 //  console.log(milestone.name())
                 var totalMilestoneHours = 0;
                 var totalAddedMilestoneLOC = 0;
                 var totalRemovedMilestoneLOC = 0;
+                var totalMilestoneLOC = 0;
 
                 milestone.child("tasks").forEach(function(task) {
                     //       console.log(task + "milestoneloop")
                     totalMilestoneHours += task.child("total_hours").val();
                     totalAddedMilestoneLOC += task.child("added_lines_of_code").val();
                     totalRemovedMilestoneLOC += task.child("removed_lines_of_code").val();
+                    totalMilestoneLOC += task.child("total_lines_of_code").val();
                 });
 
                 milestone.ref().update({
                     "total_hours": totalMilestoneHours,
                     "added_lines_of_code": totalAddedMilestoneLOC,
-                    "removed_lines_of_code": totalRemovedMilestoneLOC
+                    "removed_lines_of_code": totalRemovedMilestoneLOC,
+                    "total_lines_of_code": totalMilestoneLOC
                 });
 
                 totalProjectHours += totalMilestoneHours;
                 totalProjectAddedLOC += totalAddedMilestoneLOC;
                 totalProjectRemovedLOC += totalRemovedMilestoneLOC;
+                totalProjectLOC += totalMilestoneLOC;
 
             });
             project.ref().update({
                 "total_hours": totalProjectHours,
                 "added_lines_of_code": totalProjectAddedLOC,
-                "removed_lines_of_code": totalProjectRemovedLOC
+                "removed_lines_of_code": totalProjectRemovedLOC,
+                "total_lines_of_code" : totalProjectLOC
             });
         });
     });
 });
 
-// calculates 
-function calculateMetrics(projectName, commit) {
-    console.log("Calculating metrics for: " + projectName + ", " + commit.name());
+// calculates metrics which need to be updated on a commit
+function calculateMetrics(projectID, commit) {
+    console.log("Calculating metrics for: " + projectID + ", " + commit.name());
 
     // TODO: add null checks later in code for these
     var hours = commit.child('hours').val();
     var added_lines_of_code = commit.child('added_lines_of_code').val();
     var removed_lines_of_code = commit.child('removed_lines_of_code').val();
+    var total_lines_of_code = commit.child('total_lines_of_code').val();
     var milestone = commit.child('milestone').val();
     var user = commit.child('user').val();
     var task = commit.child('task').val();
-    var projectId = commit.ref().parent()
-    projectId = projectId.name();
 
-    projectsRef.child(projectId + "/milestones/" + milestone + "/tasks/" + task).once('value', function(taskBranch) {
+    projectsRef.child(projectID + "/milestones/" + milestone + "/tasks/" + task)
+        .once('value', function(taskBranch) {
 
 
             var currentHours = taskBranch.child("total_hours").val();
             var newHours = currentHours + commit.child("hours").val();
-            var currentLOC = taskBranch.child("total_lines_of_code").val();
+
+            var totalLOC = taskBranch.child("total_lines_of_code").val();
             var addedLOC = commit.child("added_lines_of_code").val();
             var removedLOC = commit.child("removed_lines_of_code").val();
-            var totalLOC = currentLOC + addedLOC - removedLOC;
-            var currentAddedLOC = taskBranch.child("added_lines_of_code").val();
-            var totalAddedLOC = currentAddedLOC + addedLOC;
-            var totalRemovedLOC = taskBranch.child("removed_lines_of_code").val();
-            totalRemovedLOC += removedLOC
+            
+            totalLOC += addedLOC - removedLOC;
+            var totalAddedLOC = taskBranch.child("added_lines_of_code").val() + addedLOC;
+            var totalRemovedLOC = taskBranch.child("removed_lines_of_code").val() + removedLOC;
+            
 
             taskBranch.ref().update({
                 'total_hours': newHours,
@@ -342,13 +330,15 @@ function calculateMetrics(projectName, commit) {
                 'added_lines_of_code': totalAddedLOC,
                 'removed_lines_of_code': totalRemovedLOC,
             });
-        })
-        // calculates all metrics data for the user
-        // TODO: do this as a transaction in case we get a nonexistent task
-        // usersRef.child(user)
-        //     .child('projects')
-        //     .child(projectName)
-        //     .once('value', function(userProject) {
+        });
+    updateLocAndHoursContribs(projectID, milestone);
+
+    // calculates all metrics data for the user
+    // TODO: do this as a transaction in case we get a nonexistent task
+    // usersRef.child(user)
+    //     .child('projects')
+    //     .child(projectName)
+    //     .once('value', function(userProject) {
 
     //         //retrieves the user's current milestone metrics
     //         var userProjectHours = userProject.child('total_hours').val();
@@ -493,67 +483,87 @@ function calculateMetrics(projectName, commit) {
     //update task
 
     // });
-    updateLocAndHoursContribs(projectName, milestone);
 }
 
 
-//on a commit, updates the percentage of each user's percentage of contributed LOC and hours on the project and milestone associated with the commit
+function calculatePercentage(current, total) {
+        var percentage = 0;
+        if (total !== 0 && current !== 0) {
+            percentage = Math.round(current / total * 100)
+        }
+        if (percentage != Infinity && !isNaN(percentage)) {
+            return percentage;
+        }
+        else {
+            return 0;
+        }
+    }
+    //on a commit, updates the percentage of each user's percentage of contributed LOC and hours on the project and milestone associated with the commit
+
 function updateLocAndHoursContribs(projectID, milestoneID) {
-    // console.log("inside of updateHoursAndLocContribs!!!\n project: " + projectID + "\n milestone: " + milestoneID + "\n");
-    // projectsRef.child(projectID).once('value',function(project){
-    // var projAddedLOC = projectsRef.child('/'+ projectID + '/added_lines_of_code').val();
-    // var projRemovedLOC = projectsRef.child('/' + projectID + '/removed_lines_of_code').val();
-    // var projTotalLOC = projectsRef.child('/' + projectID + '/total_lines_of_code').val();
-    // var projHours = projectsRef.child('/' + projectID + '/total_hours').val();
+    console.log("inside of updateHoursAndLocContribs!!!\n project: " + projectID + "\n milestone: " + milestoneID + "\n");
 
-    // var mileAddedLOC = projectsRef.child('/' + projectID + '/milestones' + '/' + milestoneID + '/added_lines_of_code').val();
-    // var mileRemovedLOC = projectsRef.child('/' + projectID + '/milestones' + '/' + milestoneID + '/removed_lines_of_code').val();
-    // var mileTotalLOC = projectsRef.child('/' + projectID + '/milestones' + '/' + milestoneID + '/total_lines_of_code').val();
-    // var mileHours = projectsRef.child('/' + projectID + '/milestones' + '/' + milestoneID + '/total_hours').val();
+    projectsRef.child(projectID).once('value', function(project) {
+        var projAddedLOC = project.child('added_lines_of_code').val();
+        var projRemovedLOC = project.child('removed_lines_of_code').val();
+        var projTotalLOC = project.child('total_lines_of_code').val();
+        var projHours = project.child('total_hours').val();
 
-
-    // projectsRef.child(projectID + '/members').forEach(function(member) {
-    //     var projContribAddedLOC = usersRef.child('/' + member + '/projects' + '/' + projectID + '/added_lines_of_code').val();
-    //     var projContribRemovedLOC = usersRef.child('/' + member + '/projects' + '/' + projectID + '/removed_lines_of_code').val();
-    //     var projContribTotalLOC = usersRef.child('/' + member + '/projects' + '/' + projectID + '/total_lines_of_code').val();
-    //     var projContribHours = usersRef.child('/' + member + '/projects' + '/' + projectID + '/total_hours').val();
-
-    //     // update project stuff
-    //     var projAddedLOCPercent = (projContribAddedLOC * 100) / projAddedLOC;
-    //     var projRemovedLOCPercent = (projContribRemovedLOC * 100) / projRemovedLOC;
-    //     var projTotalLOCPercent = (projContribTotalLOC * 100) / projTotalLOC;
-    //     var projHoursPercent = (projContribHours * 100) / projHours;
-
-    //     member.child('/projects' + '/' + projectID).ref().update({
-    //         'hours_percent': projHoursPercent,
-    //         'removed_loc_percent': projRemovedLOCPercent,
-    //         'added_loc_percent': projAddedLOCPercent,
-    //         'loc_percent': projTotalLOCPercent
-
-    //     });
+        var mileAddedLOC = project.child('milestones/' + milestoneID + '/added_lines_of_code').val();
+        var mileRemovedLOC = project.child('milestones/' + milestoneID + '/removed_lines_of_code').val();
+        var mileTotalLOC = project.child('milestones/' + milestoneID + '/total_lines_of_code').val();
+        var mileHours = project.child('milestones/' + milestoneID + '/total_hours').val();
 
 
-    //     member.child('/projects/' + projectID + '/milestones').forEach(function(milestone) {
-    //         if (milestone == milestoneID) {
-    //             var mileContribAddedLOC = milestone.child('added_lines_of_code').val();
-    //             var mileContribRemovedLOC = milestone.child('removed_lines_of_code').val();
-    //             var mileContribHours = milestone.child('/total_lines_of_code').val();
-    //             var mileContribTotalLOC = milestone.child('total_hours').val();
+        project.child('members').forEach(function(memberSnapshot) {
+            var memberRef = usersRef.child(memberSnapshot.name());
+            memberRef.once('value', function(member) {
+                var projContribAddedLOC = member.child('projects/' + projectID + '/added_lines_of_code').val();
 
-    //             // update milestone stuff 
-    //             var mileAddPercent = (mileContribAddedLOC * 100) / mileAddedLOC;
-    //             var mileRemPercent = (mileContribRemovedLOC * 100) / mileRemovedLOC;
-    //             var mileLOCPercent = (mileContribTotalLOC * 100) / mileTotalLOC;
-    //             var mileHourPercent = (mileContribHours * 100) / mileHours;
+                var projContribRemovedLOC = member.child('projects/' + projectID + '/removed_lines_of_code').val();
+                var projContribTotalLOC = member.child('projects/' + projectID + '/total_lines_of_code').val();
+                var projContribHours = member.child('projects/' + projectID + '/total_hours').val();
 
-    //             member.child('/projects/' + projectID + '/milestones/' + milestoneID).ref().update({
-    //                 "added_loc_percent": mileAddPercent,
-    //                 "removed_loc_percent": mileRemPercent,
-    //                 "loc_percent": mileLOCPercent,
-    //                 "hours_percent": mileHourPercent
-    //             });
-    //         }
-    //     });
-    // });
-   // })
+                // update project stuff
+                var projAddedLOCPercent = calculatePercentage(projContribAddedLOC, projAddedLOC);
+                var projRemovedLOCPercent = calculatePercentage(projContribRemovedLOC, projRemovedLOC);
+                var projTotalLOCPercent = calculatePercentage(projContribTotalLOC, projTotalLOC);
+                var projHoursPercent = calculatePercentage(projContribHours, projHours);
+
+                console.log("added loc percent : " + projAddedLOCPercent + "\n projContribAddedLOC: " + projContribAddedLOC + "\n projTotAddedLOC: " + projAddedLOC + "\n");
+
+                member.child('projects/' + projectID).ref().update({
+                    'hours_percent': projHoursPercent,
+                    'removed_loc_percent': projRemovedLOCPercent,
+                    'added_loc_percent': projAddedLOCPercent,
+                    'loc_percent': projTotalLOCPercent
+
+                });
+                if (member.hasChild('projects/' + projectID + '/milestones/' + milestoneID)) {
+                    var milestone = member.child('projects/' + projectID + '/milestones/' + milestoneID);
+                    // if (milestone == milestoneID) {
+
+                    var mileContribAddedLOC = milestone.child('added_lines_of_code').val();
+                    var mileContribRemovedLOC = milestone.child('removed_lines_of_code').val();
+                    var mileContribHours = milestone.child('total_hours').val();
+                    var mileContribTotalLOC = milestone.child('total_lines_of_code').val();
+
+                    // update milestone stuff 
+                    var mileAddPercent = calculatePercentage(mileContribAddedLOC, mileAddedLOC);
+                    var mileRemPercent = calculatePercentage(mileContribRemovedLOC, mileRemovedLOC);
+                    var mileLOCPercent = calculatePercentage(mileContribTotalLOC, mileTotalLOC);
+                    var mileHourPercent = calculatePercentage(mileContribHours, mileHours);
+
+                    member.child('projects/' + projectID + '/milestones/' + milestoneID).ref().update({
+                        "added_loc_percent": mileAddPercent,
+                        "removed_loc_percent": mileRemPercent,
+                        "loc_percent": mileLOCPercent,
+                        "hours_percent": mileHourPercent
+                    });
+
+
+                }
+            });
+        });
+    });
 }
