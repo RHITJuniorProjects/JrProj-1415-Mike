@@ -20,35 +20,37 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@", self.projectID]];
-    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@", self.projectID]];
+    
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo];
+        [self updateInfo: snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
 }
 
--(void)updateInfo {
+-(void)updateInfo:(FDataSnapshot *)snapshot {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSString *urlString = [NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@.json", self.projectID];
-    NSURL *jsonURL = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+//    NSString *urlString = [NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@.json", self.projectID];
+//    NSURL *jsonURL = [NSURL URLWithString:urlString];
+//    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
+//    NSError *error;
+//    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    
+    NSDictionary *json = snapshot.value[@"projects"][self.projectID];
     
     self.projectNameLabel.text = [json objectForKey:@"name"];
     self.projectDescriptionView.text = [json objectForKey:@"description"];
-    self.dueDateLabel.text = @"Not/In/Database";
+    self.dueDateLabel.text = [json objectForKey:@"due_date"];
     double totalHours = [[json objectForKey:@"total_hours"] doubleValue];
     double estimatedHours = [[json objectForKey:@"total_estimated_hours"] doubleValue];
     self.hoursLoggedLabel.text = [NSString stringWithFormat:@"%0.2f/%0.2f", totalHours, estimatedHours];
     NSLog(@"%0.2f", totalHours/estimatedHours);
     self.hoursLoggedProgressBar.progress = totalHours/estimatedHours;
-    self.tasksCompletedLabel.text = @"Ask/Platform";
+    self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
     self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] intValue] / 100;
-    self.milestonesCompletedLabel.text = @"Ask/Platform";
+    self.milestonesCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"milestones_completed"],[json objectForKey:@"total_milestones"]];
     self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestonePercent"] intValue] / 100;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }

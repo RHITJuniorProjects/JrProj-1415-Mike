@@ -45,7 +45,7 @@
     
     NSLog([NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]);
     self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
-    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
+    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="6aW-Qc-JrE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="6aW-Qc-JrE">
     <dependencies>
-        <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -132,7 +131,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="8CP-Lh-3kU" kind="push" identifier="MtoT" id="TUL-V0-Fep"/>
-                                    <segue destination="mNG-p1-7Vr" kind="push" trigger="accessoryAction" id="ZGb-ol-XJv"/>
+                                    <segue destination="mNG-p1-7Vr" kind="push" trigger="accessoryAction" id="juN-os-mIG"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -204,7 +203,7 @@
             <objects>
                 <tableViewController title="Assign Devs" id="4YB-1b-mqY" customClass="HenryAssignDevsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="43" sectionHeaderHeight="22" sectionFooterHeight="22" id="sCf-ea-prz">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -267,12 +266,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="eZ1-cp-SrC">
-                                <rect key="frame" x="16" y="137" width="288" height="94"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours Logged:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tf3-v9-Me5">
                                 <rect key="frame" x="16" y="239" width="114" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -346,6 +339,12 @@
                                     <segue destination="ekY-7Z-Ep6" kind="push" identifier="PDtoM" id="YHE-Lu-0pf"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="eZ1-cp-SrC">
+                                <rect key="frame" x="16" y="137" width="288" height="94"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -426,17 +425,13 @@
                                     <segue destination="8CP-Lh-3kU" kind="push" identifier="MDtoT" id="of7-3T-Meh"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bd8-Ha-SLz">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bd8-Ha-SLz">
                                 <rect key="frame" x="162" y="445" width="291" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYe-u4-Z2g" customClass="DLPieChart">
-                                <rect key="frame" x="16" y="215" width="288" height="202"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-d5-4FJ">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-d5-4FJ">
                                 <rect key="frame" x="108" y="179" width="104" height="29"/>
                                 <segments>
                                     <segment title="LOC"/>
@@ -446,13 +441,25 @@
                                     <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>
                                 </connections>
                             </segmentedControl>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYe-u4-Z2g" customClass="DLPieChart">
+                                <rect key="frame" x="16" y="215" width="288" height="202"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="288" id="C3U-0c-A9U"/>
+                                    <constraint firstAttribute="height" constant="202" id="cAu-bu-ENu"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="y6M-f7-yQu" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" id="0dL-cI-H9w"/>
+                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="top" secondItem="UHN-d5-4FJ" secondAttribute="bottom" constant="8" id="147-vb-kxR"/>
                             <constraint firstItem="y6M-f7-yQu" firstAttribute="trailing" secondItem="LjP-dc-CVe" secondAttribute="trailingMargin" id="3gx-hp-XIq"/>
                             <constraint firstItem="y6M-f7-yQu" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" id="8kb-xO-m3U"/>
+                            <constraint firstItem="bd8-Ha-SLz" firstAttribute="top" secondItem="HYe-u4-Z2g" secondAttribute="bottom" constant="28" id="8rO-Dn-KzA"/>
+                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="trailing" secondItem="LjP-dc-CVe" secondAttribute="trailingMargin" id="BpC-C7-kwc"/>
                             <constraint firstItem="y6M-f7-yQu" firstAttribute="trailing" secondItem="LjP-dc-CVe" secondAttribute="trailingMargin" id="CAW-Br-e81"/>
+                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" id="wVl-Jy-BoQ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mgc-ot-s9P"/>
@@ -511,7 +518,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="YLy-Sx-ePQ" kind="push" id="VWD-Yk-ywg"/>
+                                            <segue destination="YLy-Sx-ePQ" kind="push" identifier="projectStatus" id="VWD-Yk-ywg"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Original Estimate:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EbW-hB-1Ug">
@@ -577,7 +584,7 @@
                     <navigationItem key="navigationItem" title="Task Details" id="FXT-cP-L2q"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <connections>
-                        <outlet property="assigneeNameLabel" destination="p8e-jt-aim" id="hVm-FT-PVP"/>
+                        <outlet property="assigneeNameLabel" destination="p8e-jt-aim" id="qlA-BU-Nda"/>
                         <outlet property="currentEstimateField" destination="9lS-Bu-8si" id="c7F-de-OUb"/>
                         <outlet property="descriptionView" destination="aZf-oO-Mcq" id="Mmh-yT-8cj"/>
                         <outlet property="hoursLabel" destination="jJp-wA-F7o" id="ayH-TL-HJ6"/>
@@ -804,8 +811,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="hr0-Sg-r1P"/>
         <segue reference="Jkc-DS-FtK"/>
+        <segue reference="hr0-Sg-r1P"/>
         <segue reference="YHE-Lu-0pf"/>
         <segue reference="TUL-V0-Fep"/>
         <segue reference="fRM-m9-T5z"/>
