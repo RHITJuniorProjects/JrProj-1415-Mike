@@ -22,6 +22,11 @@ function selectProject(project){
 	selectedProject.getName(function(name){
 		nameA.text(name);
 	});
+
+	var memberCont = $('#member-container');
+	selectedProject.getMembers().onItemAdded(function(user){
+		memberCont.append(user.getMemberTile(selectedProject));
+	});
 }
 
 function selectMilestone(milestone){

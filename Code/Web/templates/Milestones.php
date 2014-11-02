@@ -9,8 +9,6 @@
 		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
-					<div class="row text-center">
-											</div>
 					<div class="small-10 columns small-offset-1">
 						<div class="row collapse text-center outlined">
 							<h1><a id="project-name" onclick="allProjects()"></a></h1>
@@ -41,7 +39,13 @@
 					</div>
 				</div>
 				<div class="content" id="TeamMembers">
-
+					<div class="small-10 columns small-offset-1">
+						<div class="row text-center">
+							<h1>Team Members</h1>
+						</div>
+						<div class="row" id="member-container">
+						</div>
+					</div>
 				</div>
 				<div class="content" id="MilestoneStatistics">
 					<div class="row">
