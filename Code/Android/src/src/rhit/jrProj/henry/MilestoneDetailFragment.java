@@ -1,5 +1,8 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
@@ -7,6 +10,7 @@ import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.helpers.GraphHelper;
 import android.app.Fragment;
 import android.graphics.Color;
@@ -72,14 +76,31 @@ public class MilestoneDetailFragment extends Fragment {
 
 			FrameLayout chartView = (FrameLayout) rootView
 					.findViewById(R.id.pieChart);
-			GraphicalView pieChart = GraphHelper.makePieChart(this
-					.getActivity());
+			GraphHelper.PieChartInfo chartInfo = getLocAddedInfo();
+			GraphicalView pieChart = GraphHelper.makePieChart(
+					"Lines Added for " + this.milestoneItem.getName(),
+					chartInfo.getValues(), chartInfo.getKeys(),
+					this.getActivity());
 			Log.i("Henry", chartView.toString());
 			chartView.addView(pieChart, new LayoutParams(
-					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			pieChart.repaint();
 		}
 
 		return rootView;
+	}
+
+	public GraphHelper.PieChartInfo getLocAddedInfo() {
+		GraphHelper.PieChartInfo chartInfo = new GraphHelper.PieChartInfo();
+
+		for (Task task : this.milestoneItem.getTasks()) {
+			if (!task.getAssignedUserName().equals(
+					Task.getDefaultAssignedUserName())) {
+				chartInfo.addValueKey(task.getAddedLines(),
+						task.getAssignedUserName());
+			}
+		}
+
+		return chartInfo;
 	}
 }

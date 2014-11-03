@@ -1,5 +1,8 @@
 package rhit.jrProj.henry.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
@@ -14,24 +17,19 @@ public class GraphHelper {
 	static int[] COLORS = new int[] { Color.GREEN, Color.BLUE,
 			Color.MAGENTA, Color.CYAN };
 	
-	public static GraphicalView makePieChart(Activity activity) {
-		
-		
-		double[] VALUES = new double[] { 10, 11, 12, 13 };
-		
-		String[] NAME_LIST = new String[] { "A", "B", "C", "D" };
-		
+	public static GraphicalView makePieChart(String title, List<Integer> values, List<String> keys, Activity activity) {		
 		DefaultRenderer mRenderer = new DefaultRenderer();
-		mRenderer.setChartTitle("Lines of Code Added");
+		mRenderer.setChartTitle(title);
 		mRenderer.setChartTitleTextSize(35);
 		mRenderer.setLabelsTextSize(30);
 		mRenderer.setLegendTextSize(30);
 		mRenderer.setLabelsColor(Color.BLACK);
+		mRenderer.setStartAngle(90);
 		
 		CategorySeries mSeries = new CategorySeries("");
 		
-		for (int i = 0; i < VALUES.length; i++) {
-			mSeries.add(NAME_LIST[i] + " " + VALUES[i], VALUES[i]);
+		for (int i = 0; i < values.size(); i++) {
+			mSeries.add(keys.get(i) + " " + values.get(i), values.get(i));
 			SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
 			renderer.setColor(COLORS[(mSeries.getItemCount() - 1)
 					% COLORS.length]);
@@ -42,6 +40,31 @@ public class GraphHelper {
 				activity, mSeries, mRenderer);
 		
 		return mChartView;
+	}
+	
+	public static class PieChartInfo {
+		
+		private List<Integer> values;
+		private List<String> keys;
+		
+		public PieChartInfo() {
+			values = new ArrayList<Integer>();
+			keys = new ArrayList<String>();
+		}
+		
+		public void addValueKey(int value, String key) {
+			values.add(value);
+			keys.add(key);
+		}
+		
+		public List<Integer> getValues() {
+			return values;
+		}
+		
+		public List<String> getKeys() {
+			return keys;
+		}
+		
 	}
 	
 	/*mRenderer.setApplyBackgroundColor(true);
