@@ -124,7 +124,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    HenryTaskDetailViewController *tasksVC = [segue destinationViewController];
+    //HenryTaskDetailViewController *tasksVC = [segue destinationViewController];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
     HenryTaskDetailViewController *vc = [segue destinationViewController];

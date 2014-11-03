@@ -35,7 +35,11 @@ public class Task implements Parcelable {
 	/**
 	 * The name of the user assigned to this task
 	 */
-	private String assignedUserName = "default";
+	private String assignedUserName = Task.getDefaultAssignedUserName();
+	
+	public static String getDefaultAssignedUserName() {
+		return "default";
+	}
 
 	/**
 	 * The status of the task.

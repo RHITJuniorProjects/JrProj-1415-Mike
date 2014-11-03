@@ -1,10 +1,12 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.User.ChildrenListener;
 import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
+import rhit.jrProj.henry.helpers.GraphHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -463,5 +465,25 @@ public class Milestone implements Parcelable {
 				this.milestone.listViewCallback.onChange();
 			}
 		}
+	}
+
+	public GraphHelper.PieChartInfo getLocAddedInfo() {
+		GraphHelper.PieChartInfo chartInfo = new GraphHelper.PieChartInfo();
+
+		for (Task task : this.getTasks()) {
+			String userName = task.getAssignedUserName();
+			if (!userName.equals(Task.getDefaultAssignedUserName())) {
+				
+				if (chartInfo.getKeys().contains(userName)) {
+					chartInfo.addValueToKey(userName, task.getAddedLines());
+				} else {
+					chartInfo.addValueKey(task.getAddedLines(),
+							task.getAssignedUserName());
+				}
+				
+			}
+		}
+
+		return chartInfo;
 	}
 }

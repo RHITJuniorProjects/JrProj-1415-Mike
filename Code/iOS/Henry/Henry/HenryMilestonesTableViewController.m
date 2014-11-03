@@ -16,6 +16,7 @@
 @property Firebase *fb;
 @property NSMutableArray *milestoneIDs;
 @property NSMutableArray *milestoneDescriptions;
+@property NSMutableArray *milestoneDueDates;
 @end
 
 @implementation HenryMilestonesTableViewController
@@ -52,17 +53,20 @@
 }
 
 -(void)updateTable:(FDataSnapshot *)snapshot {
-    NSDictionary *milestones = snapshot.value[@"projects"][self.ProjectID][@"milestones"];
-    NSArray *keys = [milestones allKeys];
+    self.milestones = snapshot.value[@"projects"][self.ProjectID][@"milestones"];
+    NSArray *keys = [self.milestones allKeys];
     self.staticData = [[NSMutableArray alloc] init];
     self.milestoneDescriptions = [[NSMutableArray alloc] init];
     self.milestoneIDs = [[NSMutableArray alloc] init];
+    self.milestoneDueDates = [[NSMutableArray alloc] init];
     for (NSString *key in keys) {
-        NSString *name = [[milestones objectForKey:key] objectForKey:@"name"];
-        NSString *description = [[milestones objectForKey:key] objectForKey:@"description"];
+        NSString *name = [[self.milestones objectForKey:key] objectForKey:@"name"];
+        NSString *description = [[self.milestones objectForKey:key] objectForKey:@"description"];
+        NSString *dueDate = [[self.milestones objectForKey:key] objectForKey:@"due_date"];
         [self.staticData addObject:name];
         [self.milestoneIDs addObject:key];
         [self.milestoneDescriptions addObject:description];
+        [self.milestoneDueDates addObject:dueDate];
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -93,10 +97,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MilestoneCell" forIndexPath:indexPath];
-    
     // Configure the cell...
+    
     cell.textLabel.text = [self.staticData objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [self.milestoneDescriptions objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.milestoneDueDates objectAtIndex:indexPath.row];;
     
     return cell;
 }

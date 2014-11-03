@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HenryTaskDetailViewController.h"
 
 @interface HenryAssignDevsTableViewController : UITableViewController
 @property NSMutableArray *developers;
 @property NSString *ProjectID;
 @property NSString *MilestoneID;
 @property NSString *taskID;
+@property NSString *initialSelection;
+@property HenryTaskDetailViewController *detailView;
+@property NSDictionary *assignableDevs;
 @end
