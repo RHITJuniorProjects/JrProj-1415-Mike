@@ -1,3 +1,4 @@
+package tests;
 import junit.framework.TestCase;
 import rhit.jrProj.henry.firebase.Map;
 
