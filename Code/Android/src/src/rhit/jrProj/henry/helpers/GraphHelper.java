@@ -65,6 +65,12 @@ public class GraphHelper {
 			return keys;
 		}
 		
+		public void addValueToKey(String key, int addValue) {
+			int index = keys.indexOf(key);
+			int oldValue = values.get(index);
+			values.set(index, oldValue + addValue);
+		}
+		
 	}
 	
 	/*mRenderer.setApplyBackgroundColor(true);

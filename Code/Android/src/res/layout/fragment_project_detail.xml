@@ -28,11 +28,12 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
-    <!--
+
     <FrameLayout
+        android:id="@+id/pieChart"
         android:layout_width="match_parent"
         android:layout_height="200dp" >
-    </FrameLayout>-->
+    </FrameLayout>
 
     <TextView
         android:id="@+id/project_hours_percent"
@@ -48,7 +49,7 @@
         android:layout_width="311dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
-    
+
     <TextView
         android:id="@+id/project_tasks_percent"
         style="?android:attr/textAppearanceLarge"
@@ -63,7 +64,7 @@
         android:layout_width="311dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
-    
+
     <TextView
         android:id="@+id/project_milestones_percent"
         style="?android:attr/textAppearanceLarge"

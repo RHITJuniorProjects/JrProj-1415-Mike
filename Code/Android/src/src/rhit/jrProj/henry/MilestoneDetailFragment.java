@@ -76,7 +76,7 @@ public class MilestoneDetailFragment extends Fragment {
 
 			FrameLayout chartView = (FrameLayout) rootView
 					.findViewById(R.id.pieChart);
-			GraphHelper.PieChartInfo chartInfo = getLocAddedInfo();
+			GraphHelper.PieChartInfo chartInfo = this.milestoneItem.getLocAddedInfo();
 			GraphicalView pieChart = GraphHelper.makePieChart(
 					"Lines Added for " + this.milestoneItem.getName(),
 					chartInfo.getValues(), chartInfo.getKeys(),
@@ -88,19 +88,5 @@ public class MilestoneDetailFragment extends Fragment {
 		}
 
 		return rootView;
-	}
-
-	public GraphHelper.PieChartInfo getLocAddedInfo() {
-		GraphHelper.PieChartInfo chartInfo = new GraphHelper.PieChartInfo();
-
-		for (Task task : this.milestoneItem.getTasks()) {
-			if (!task.getAssignedUserName().equals(
-					Task.getDefaultAssignedUserName())) {
-				chartInfo.addValueKey(task.getAddedLines(),
-						task.getAssignedUserName());
-			}
-		}
-
-		return chartInfo;
 	}
 }
