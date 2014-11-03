@@ -1,11 +1,8 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.User.ChildrenListener;
-import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
 import rhit.jrProj.henry.helpers.GraphHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -359,10 +356,10 @@ public class Milestone implements Parcelable {
 				}
 			} else if (arg0.getName().equals("description")) {
 				this.milestone.setDescription(arg0.getValue(String.class));
-			} else if (arg0.getName().equals("dueDate")) {
+			} else if (arg0.getName().equals("due_date")) {
 				this.milestone.setDueDate(arg0.getValue(String.class));
 			} else if (arg0.getName().equals("task_percent")) {
-				this.milestone.setTaskPercent(arg0.getValue(Integer.class));
+				this.milestone.setTaskPercent(arg0.getValue(Integer.class).intValue());
 			} else if (arg0.getName().equals("tasks")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Task t = new Task(child.getRef().toString());

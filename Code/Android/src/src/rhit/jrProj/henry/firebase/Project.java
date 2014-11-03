@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -314,11 +313,11 @@ public class Project implements Parcelable {
 			} else if (arg0.getName().equals("due_date")) {
 				this.project.dueDate = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("hours_percent")) {
-				this.project.hoursPercent = arg0.getValue(Integer.class);
+				this.project.hoursPercent = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("task_percent")) {
-				this.project.tasksPercent = arg0.getValue(Integer.class);
+				this.project.tasksPercent = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("milestone_percent")) {
-				this.project.milestonesPercent = arg0.getValue(Integer.class);
+				this.project.milestonesPercent = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("milestones")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Milestone m = new Milestone(child.getRef().toString());
@@ -327,13 +326,12 @@ public class Project implements Parcelable {
 					}
 				}
 			} else if (arg0.getName().equals("added_lines_of_code")) {
-				this.project.addedLines = arg0.getValue(Integer.class);
+				this.project.addedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.project.removedLines = arg0.getValue(Integer.class);
+				this.project.removedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.project.totalLines = arg0.getValue(Integer.class);
+				this.project.totalLines = arg0.getValue(Integer.class).intValue();
 			}
-
 		}
 
 		/**
@@ -350,11 +348,11 @@ public class Project implements Parcelable {
 			} else if (arg0.getName().equals("milestones")) {
 				Log.i("Henry", "Milestone Changed!?!");
 			} else if (arg0.getName().equals("added_lines_of_code")) {
-				this.project.addedLines = arg0.getValue(Integer.class);
+				this.project.addedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.project.removedLines = arg0.getValue(Integer.class);
+				this.project.removedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.project.totalLines = arg0.getValue(Integer.class);
+				this.project.totalLines = arg0.getValue(Integer.class).intValue();
 			}
 		}
 
