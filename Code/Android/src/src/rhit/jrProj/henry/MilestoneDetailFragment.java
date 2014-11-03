@@ -1,11 +1,23 @@
 package rhit.jrProj.henry;
 
+import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
+import org.achartengine.model.CategorySeries;
+import org.achartengine.renderer.DefaultRenderer;
+import org.achartengine.renderer.SimpleSeriesRenderer;
+
 import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.helpers.GraphHelper;
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -58,9 +70,16 @@ public class MilestoneDetailFragment extends Fragment {
 			taskCompleteBar.setMax(100);
 			taskCompleteBar.setProgress(this.milestoneItem.getTaskPercent());
 
+			FrameLayout chartView = (FrameLayout) rootView
+					.findViewById(R.id.pieChart);
+			GraphicalView pieChart = GraphHelper.makePieChart(this
+					.getActivity());
+			Log.i("Henry", chartView.toString());
+			chartView.addView(pieChart, new LayoutParams(
+					LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			pieChart.repaint();
 		}
 
 		return rootView;
 	}
-
 }

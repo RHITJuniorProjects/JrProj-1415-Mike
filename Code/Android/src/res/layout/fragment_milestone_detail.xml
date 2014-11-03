@@ -30,6 +30,7 @@
         tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
     
     <FrameLayout
+        android:id="@+id/pieChart"
         android:layout_width="match_parent"
         android:layout_height="200dp" >
     </FrameLayout>
