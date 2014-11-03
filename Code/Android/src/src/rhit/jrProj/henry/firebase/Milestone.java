@@ -22,51 +22,51 @@ public class Milestone implements Parcelable {
 	/**
 	 * A List of tasks that are contained within the Milestone
 	 */
-	private ArrayList<Task> tasks = new ArrayList<Task>();
+	ArrayList<Task> tasks = new ArrayList<Task>();
 
 	/**
 	 * The name of the milestone
 	 */
-	private String name;
+	String name;
 
 	/**
 	 * The due date of a milestone
 	 */
-	private String dueDate = "10/19/1996";
+	String dueDate = "10/19/1996";
 
 	/**
 	 * The percentage of tasks completed for this milestone
 	 */
-	private int taskPercent;
+	int taskPercent;
 
 	/**
 	 * A description of the work that needs to happen in this milestone.
 	 */
-	private String description;
+	String description;
 
 	/**
 	 * The number of lines of code added to this milestone
 	 */
-	private int addedLines;
+	int addedLines;
 
 	/**
 	 * The number of lines of code removed from this milestone
 	 */
-	private int removedLines;
+	int removedLines;
 
 	/**
 	 * The total number of lines of code for this milestone
 	 */
-	private int totalLines;
+	int totalLines;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
 	 * Firebase is updated. This then notifies the object that is displaying the
 	 * Milestone that this object has been updated.
 	 */
-	private ListChangeNotifier<Milestone> listViewCallback;
+	ListChangeNotifier<Milestone> listViewCallback;
 
-	private ListChangeNotifier<Task> taskListViewCallback;
+	ListChangeNotifier<Task> taskListViewCallback;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -350,16 +350,17 @@ public class Milestone implements Parcelable {
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 
 			if (arg0.getName().equals("name")) {
-				this.milestone.setName(arg0.getValue(String.class));
+				this.milestone.name = arg0.getValue(String.class);
 				if (this.milestone.getListViewCallback() != null) {
 					this.milestone.getListViewCallback().onChange();
 				}
 			} else if (arg0.getName().equals("description")) {
-				this.milestone.setDescription(arg0.getValue(String.class));
+				this.milestone.description = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("due_date")) {
-				this.milestone.setDueDate(arg0.getValue(String.class));
+				this.milestone.dueDate = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("task_percent")) {
-				this.milestone.setTaskPercent(arg0.getValue(Integer.class).intValue());
+				this.milestone.taskPercent = arg0.getValue(Integer.class)
+						.intValue();
 			} else if (arg0.getName().equals("tasks")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Task t = new Task(child.getRef().toString());
@@ -381,11 +382,14 @@ public class Milestone implements Parcelable {
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("added_lines_of_code")) {
-				this.milestone.addedLines = arg0.getValue(Integer.class);
+				this.milestone.addedLines = arg0.getValue(Integer.class)
+						.intValue();
 			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.milestone.removedLines = arg0.getValue(Integer.class);
+				this.milestone.removedLines = arg0.getValue(Integer.class)
+						.intValue();
 			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.milestone.totalLines = arg0.getValue(Integer.class);
+				this.milestone.totalLines = arg0.getValue(Integer.class)
+						.intValue();
 			}
 
 		}
@@ -470,14 +474,14 @@ public class Milestone implements Parcelable {
 		for (Task task : this.getTasks()) {
 			String userName = task.getAssignedUserName();
 			if (!userName.equals(Task.getDefaultAssignedUserName())) {
-				
+
 				if (chartInfo.getKeys().contains(userName)) {
 					chartInfo.addValueToKey(userName, task.getAddedLines());
 				} else {
 					chartInfo.addValueKey(task.getAddedLines(),
 							task.getAssignedUserName());
 				}
-				
+
 			}
 		}
 

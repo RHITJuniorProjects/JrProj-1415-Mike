@@ -17,23 +17,24 @@ public class ProjectTest extends TestCase {
 	 * The first Project in the FirebaseURL Repo
 	 */
 	private JSONObject project;
+	private String itemUrl;
 
 	public ProjectTest(String name) {
 		super(name);
 		try {
 			JSONObject json = TestHelpers
-					.callFirebaseSync(MainActivity.firebaseUrl
+					.getFirebaseSync(MainActivity.firebaseUrl
 							+ ".json?shallow=true");
 			assertEquals(json.get("projects"), Boolean.TRUE);
-			json = TestHelpers.callFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
 					+ "projects.json?shallow=true");
 			String projectKey = TestHelpers.getFirstKey(json);
-			this.project = TestHelpers
-					.callFirebaseSync(MainActivity.firebaseUrl
-							+ String.format("projects/%s/.json?shallow=true",
-									projectKey));
+			this.itemUrl = MainActivity.firebaseUrl
+					+ String.format("projects/%s/", projectKey);
+			this.project = TestHelpers.getFirebaseSync(this.itemUrl
+					+ ".json?shallow=true");
 		} catch (Exception e) {
-			//Do nothing, the tests will catch	
+			// Do nothing, the tests will catch
 		}
 	}
 

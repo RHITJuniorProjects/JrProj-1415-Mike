@@ -17,33 +17,33 @@ public class MilestoneTest extends TestCase {
 	 * The first milestone of the first Project in the FirebaseURL Repo
 	 */
 	private JSONObject milestone;
+	private String itemUrl;
 
 	public MilestoneTest(String name) {
 		super(name);
 		try {
 			JSONObject json = TestHelpers
-					.callFirebaseSync(MainActivity.firebaseUrl
+					.getFirebaseSync(MainActivity.firebaseUrl
 							+ ".json?shallow=true");
 			assertEquals(json.get("projects"), Boolean.TRUE);
-			json = TestHelpers.callFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
 					+ "projects.json?shallow=true");
 			String projectKey = TestHelpers.getFirstKey(json);
-			json = TestHelpers
-					.callFirebaseSync(MainActivity.firebaseUrl
-							+ String.format("projects/%s/.json?shallow=true",
-									projectKey));
+			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+					+ String.format("projects/%s/.json?shallow=true",
+							projectKey));
 			assertEquals(json.get("milestones"), Boolean.TRUE);
-			json = TestHelpers
-					.callFirebaseSync(MainActivity.firebaseUrl
-							+ String.format("projects/%s/milestones.json?shallow=true",
-									projectKey));
+			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+					+ String.format("projects/%s/milestones.json?shallow=true",
+							projectKey));
 			String milestoneKey = TestHelpers.getFirstKey(json);
-			this.milestone = TestHelpers
-					.callFirebaseSync(MainActivity.firebaseUrl
-							+ String.format("projects/%s/milestones/%s.json?shallow=true",
-									projectKey, milestoneKey));
+			this.itemUrl = MainActivity.firebaseUrl
+					+ String.format("projects/%s/milestones/%s", projectKey,
+							milestoneKey);
+			this.milestone = TestHelpers.getFirebaseSync(this.itemUrl
+					+ ".json?shallow=true");
 		} catch (Exception e) {
-			//Do nothing, the tests will catch	
+			// Do nothing, the tests will catch
 		}
 	}
 
@@ -53,11 +53,11 @@ public class MilestoneTest extends TestCase {
 	}
 
 	public void testReplaceName() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	public void testReplaceDescription() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	public void testGetDueDate() {
@@ -66,7 +66,7 @@ public class MilestoneTest extends TestCase {
 	}
 
 	public void testSetDueDate() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	public void testGetDescription() {
@@ -80,11 +80,11 @@ public class MilestoneTest extends TestCase {
 	}
 
 	public void testSetTaskPercent() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	public void testSetDescription() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	public void testGetName() {
@@ -93,7 +93,7 @@ public class MilestoneTest extends TestCase {
 	}
 
 	public void testSetName() {
-		//fail("Not yet implemented");
+		// fail("Not yet implemented");
 	}
 
 	public void testGetAddedLines() {

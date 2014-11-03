@@ -24,56 +24,56 @@ public class Project implements Parcelable {
 	/**
 	 * A List of milestones that are contained within the project
 	 */
-	private ArrayList<Milestone> milestones = new ArrayList<Milestone>();
+	ArrayList<Milestone> milestones = new ArrayList<Milestone>();
 
 	/**
 	 * The project's name
 	 */
-	private String name;
+	String name;
 	/**
 	 * The due date of the project
 	 */
-	private String dueDate = "10/16/2005";
+	String dueDate = "10/16/2005";
 
 	/**
 	 * The members that are working on the project
 	 */
-	private Map<User, Enums.Role> members = new HashMap<User, Enums.Role>();
+	Map<User, Enums.Role> members = new HashMap<User, Enums.Role>();
 
 	/**
 	 * A description of the project.
 	 */
-	private String description;
+	String description;
 
 	/**
 	 * The percentage of hours complete for this project
 	 */
-	private int hoursPercent;
+	int hoursPercent;
 
 	/**
 	 * The percentage of tasks complete for this project
 	 */
-	private int tasksPercent;
+	int tasksPercent;
 
 	/**
 	 * The percentage of milestones complete for this project
 	 */
-	private int milestonesPercent;
+	int milestonesPercent;
 
 	/**
 	 * The number of lines of code added to this project
 	 */
-	private int addedLines;
+	int addedLines;
 
 	/**
 	 * The number of lines of code removed from this project
 	 */
-	private int removedLines;
+	int removedLines;
 
 	/**
 	 * The total number of lines of code for this project
 	 */
-	private int totalLines;
+	int totalLines;
 
 	/**
 	 * Do we need to do anything with the backlog?
@@ -85,9 +85,9 @@ public class Project implements Parcelable {
 	 * Firebase is updated. This then notifies the object that is displaying the
 	 * project that this object has been updated.
 	 */
-	private ListChangeNotifier<Project> listViewCallback;
+	ListChangeNotifier<Project> listViewCallback;
 
-	private ListChangeNotifier<Milestone> milestoneListViewCallback;
+	ListChangeNotifier<Milestone> milestoneListViewCallback;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -400,7 +400,7 @@ public class Project implements Parcelable {
 			if (!this.project.getMilestones().contains(m)) {
 				this.project.getMilestones().add(m);
 			}
-			m.setListChangeNotifier(milestoneListViewCallback);
+			m.setListChangeNotifier(this.project.milestoneListViewCallback);
 			if (this.project.listViewCallback != null) {
 				this.project.listViewCallback.onChange();
 			}
