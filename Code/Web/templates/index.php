@@ -15,6 +15,8 @@
 			    </div>
 			  </li>
 			  <!-- li>
+              :a
+              :q
 			  	<div class="bg">
 			    	<img src="forest2.jpg" alt="slide 2" />
 			  	</div>
