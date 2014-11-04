@@ -3,8 +3,8 @@ var fb = new Firebase("https://henry-test.firebaseIO.com");
 var projectID = '-JYcg488tAYS5rJJT4Kh'
 var linesOfCodeArray = [];
 var nameArray = [];
-
-
+var what;
+					
 
 //fills workerArray and linesOfCodeArray
 fb.child("projects/" + projectID +"/members").on('value', function (snapshot) {
@@ -19,14 +19,12 @@ fb.child("projects/" + projectID +"/members").on('value', function (snapshot) {
 	for(i = 0; i<workerArray.length; i++){
 		getLinesOfCode(workerArray[i], workerArray);
 	}
-	
-	console.log(linesOfCodeArray);
 });
 
 var getLinesOfCode = function(item, array){
 						fb.child("users/" + item + "/projects/" + projectID + "/total_lines_of_code").on('value', function(snapshot){
 							linesOfCodeArray.push(snapshot.val());
-							console.log(linesOfCodeArray);
+	
 							if(array.length == linesOfCodeArray.length){
 								for(i = 0; i<array.length; i++){
 									getNameAndDraw(array[i], array, linesOfCodeArray);
@@ -40,14 +38,12 @@ var getNameAndDraw = function(current, userArray, linesArray){
 						
 						fb.child("users/" + current + "/name").on('value', function(snapshot){
 							nameArray.push(snapshot.val());
-							console.log(nameArray.length);
 							
 							if(nameArray.length == userArray.length){
 								for(i = 0; i<linesArray.length; i++){
 									totalArray.push(new Array(nameArray[i], linesArray[i]));
 								}
 								
-								console.log(totalArray[0]);
 								pieChartDrawer(totalArray);
 							}
 						});

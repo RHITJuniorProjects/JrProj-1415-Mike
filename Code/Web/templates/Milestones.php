@@ -60,6 +60,7 @@
 					<div class="row">
 						<div class="small-12 column">
 							<div id="mileContainer"></div>
+							<div id="linesOfCode"></div>
 						</div>
 					</div>
 				</div>
