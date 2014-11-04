@@ -1,5 +1,3 @@
-
-
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
 var userData;
@@ -169,13 +167,14 @@ User.prototype = {
 };
 
 
-// A function that is used to add memebers
+// Adds the currently member selected in the "Add member" modal to the project
 function addNewMember(){
 	var projectID =  currentProject.uid;
 	var selected = $("#member-select").val();
 
+	//Gets the selected user
 	var id = $("#member-select").children(":selected").attr("id").substring(9);//+ ": " + "developer";
-	firebase.child('projects/'+projectID).child("members").push(id);
+	firebase.child('projects/' + projectID).child("members").push(id);
 	
 }
 
@@ -237,6 +236,7 @@ function makeProgressBar(divClass,text,percentRef){
 	return div;
 }
 
+//Initializes the Project object
 function Project(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
@@ -355,7 +355,7 @@ Project.prototype = {
 		return new ReferenceTable(users,this.__members);
 	}
 };
-// creates new projects and are added in to the firebase database
+// creates new projects and are added into firebase
 function addNewProject(){
 	// if(userData != null) {
 		var docName = $("#projectName").val();
@@ -371,6 +371,7 @@ function addNewProject(){
 
 }
 
+//Initializes the Milestone object
 function Milestone(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
@@ -451,17 +452,18 @@ Milestone.prototype = {
 	}
 };
 
+//Adds a new milestone to firebase based on the values of the modal's textfield inputs
 function addNewMilestone(){
 	var docName = $("#milestoneName").val();
 	var docDescription = $("#milestoneDescription").val();
 	var docDueDate = $("#milestoneDueDate").val();
 	var docEstimatedHours = $("#milestoneEstimatedHours").val();
 	var projectid = currentProject.uid;
-	var milestone = firebase.child('projects/'+ projectid).child('milestones').push(
+	//Adds the milestone
+	var milestone = firebase.child('projects/' + projectid).child('milestones').push(
 		{ 'name': docName, 'description': docDescription, 
 		'due_date': docDueDate, 'estimated_hours': docEstimatedHours});
 	
-
 }
 
 function Task(firebase){
