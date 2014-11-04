@@ -348,6 +348,20 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Go0-zU-qnV">
+                                <rect key="frame" x="118" y="180" width="85" height="29"/>
+                                <segments>
+                                    <segment title="Bars"/>
+                                    <segment title="Pie"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segControlClicked:" destination="igH-6v-tal" eventType="valueChanged" id="Dhi-ad-fvw"/>
+                                </connections>
+                            </segmentedControl>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pip-fK-1CV" customClass="DLPieChart">
+                                <rect key="frame" x="6" y="224" width="309" height="197"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -358,8 +372,10 @@
                         <outlet property="hoursLoggedProgressBar" destination="ue6-P9-dlr" id="COY-jM-bHF"/>
                         <outlet property="milestonesCompletedLabel" destination="inb-hp-mpd" id="3Ov-SP-Zj6"/>
                         <outlet property="milestonesCompletedProgressBar" destination="2q9-5y-roJ" id="gbs-2F-i46"/>
+                        <outlet property="pieChart" destination="Pip-fK-1CV" id="XWe-ub-OJr"/>
                         <outlet property="projectDescriptionView" destination="eZ1-cp-SrC" id="f3l-C2-aGM"/>
                         <outlet property="projectNameLabel" destination="w1U-Gx-A4J" id="GC5-U6-FLZ"/>
+                        <outlet property="segmentControl" destination="Go0-zU-qnV" id="ZNT-GP-sOl"/>
                         <outlet property="tasksCompletedLabel" destination="EUC-8y-ieU" id="JfO-iL-2m5"/>
                         <outlet property="tasksCompletedProgressBar" destination="nQI-jB-TH4" id="r1p-Ud-zdu"/>
                     </connections>
