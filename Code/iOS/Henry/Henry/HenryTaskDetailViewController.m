@@ -103,12 +103,13 @@
         vc.projectID = self.ProjectID;
     }else{
         HenryAssignDevsTableViewController *vc = [segue destinationViewController];
-        //vc.initialSelection = self.statusButton.titleLabel.text;
+        vc.initialSelection = self.statusButton.titleLabel.text;
         //vc.detailView = self;
         vc.taskID = self.taskID;
         vc.milestoneID = self.MileStoneID;
         vc.taskID = self.taskID;
         vc.projectID = self.ProjectID;
+        vc.initialSelection = self.assigneeNameLabel.text;
     }
     
 }

@@ -11,10 +11,12 @@
 
 @interface HenryAssignDevsTableViewController : UITableViewController
 @property NSMutableArray *developers;
+@property NSMutableArray *names;
 @property NSString *ProjectID;
 @property NSString *MilestoneID;
 @property NSString *taskID;
-@property NSString *initialSelection;
 @property HenryTaskDetailViewController *detailView;
 @property NSDictionary *assignableDevs;
+@property NSDictionary *allDevs;
+@property NSString *initialSelection;
 @end

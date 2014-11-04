@@ -27,6 +27,7 @@
 		87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163219F73D4C006F574E /* HenryDevDisplayObject.m */; };
 		87A6163619F73D63006F574E /* HenryAssignDevsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163519F73D63006F574E /* HenryAssignDevsTableViewController.m */; };
 		87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163819F73D78006F574E /* HenryAssignDevTableViewCell.m */; };
+		87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E464701A085D9300A18BF7 /* HenryProjectObject.m */; };
 		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
 		87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */; };
 		87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4619EEEF12009D3906 /* HenryRightViewController.m */; };
@@ -101,6 +102,8 @@
 		87A6163519F73D63006F574E /* HenryAssignDevsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryAssignDevsTableViewController.m; sourceTree = "<group>"; };
 		87A6163719F73D78006F574E /* HenryAssignDevTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryAssignDevTableViewCell.h; sourceTree = "<group>"; };
 		87A6163819F73D78006F574E /* HenryAssignDevTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryAssignDevTableViewCell.m; sourceTree = "<group>"; };
+		87E4646F1A085D9300A18BF7 /* HenryProjectObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectObject.h; sourceTree = "<group>"; };
+		87E464701A085D9300A18BF7 /* HenryProjectObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectObject.m; sourceTree = "<group>"; };
 		87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
 		87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeftTableViewController.h; sourceTree = "<group>"; };
 		87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeftTableViewController.m; sourceTree = "<group>"; };
@@ -234,6 +237,8 @@
 				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
 				843D240B19F476DF00DBC2CB /* HenryProjectDetailViewController.h */,
 				843D240C19F476DF00DBC2CB /* HenryProjectDetailViewController.m */,
+				87E4646F1A085D9300A18BF7 /* HenryProjectObject.h */,
+				87E464701A085D9300A18BF7 /* HenryProjectObject.m */,
 			);
 			name = Projects;
 			sourceTree = "<group>";
@@ -484,6 +489,7 @@
 				93447F7619C92C0900C2FC38 /* LoginViewController.m in Sources */,
 				83A0BDBB1A017A8000CC9190 /* HenryFirebase.m in Sources */,
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
+				87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */,
 				87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
