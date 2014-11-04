@@ -33,7 +33,7 @@
     
     NSMutableArray *dataArray = [[NSMutableArray alloc] init];
     
-    for(int i =0;i<15;i++){
+    for(int i =0;i<4;i++){
         NSNumber *num = [NSNumber numberWithInt:1];
         [dataArray addObject:num];
     }

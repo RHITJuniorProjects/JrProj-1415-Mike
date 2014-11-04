@@ -10,14 +10,36 @@
 #import "HenryAssignDevTableViewCell.h"
 #import "HenryDevDisplayObject.h"
 #import "HenryTaskDetailViewController.h"
+#import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
-
+@property Firebase* fb;
 @end
 
 @implementation HenryAssignDevsTableViewController
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //self.detailView.statusButton.titleLabel.text = [self.cellTitles objectAtIndex:_selectedIndex];
+    //UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
+    //NSDictionary *newValue = @{@"status":selectedCell.textLabel.text};
+    //[self.fb updateChildValues:newValue];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    self.fb = [HenryFirebase getFirebaseObject];
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    // Attach a block to read the data at our posts reference
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+    
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -41,6 +63,25 @@
     
 }
 
+-(void)updateTable:(FDataSnapshot *)snapshot {
+    self.assignableDevs = snapshot.value[@"projects"][self.ProjectID][@"members"];
+    
+    self.allDevs = snapshot.value[@"users"];
+    NSArray *keys = [self.assignableDevs allKeys];
+    //NSArray *memberKeys = [self.allDevs allKeys];
+    self.names = [[NSMutableArray alloc] init];
+    for (NSString *key in keys) {
+        NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
+        NSLog(name);
+        if(name != NULL){
+            [self.names addObject:name];
+        }
+    }
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self.tableView reloadData];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -57,7 +98,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 //#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return self.developers.count;
+    return self.names.count;
 }
 
 
@@ -65,10 +106,8 @@
     HenryAssignDevTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DevCell" forIndexPath:indexPath];
 
  // Configure the cell...
-    HenryDevDisplayObject *dev = [self.developers objectAtIndex:indexPath.row];
-    NSString *stringVersionOfDevName = dev.devName;
-    cell.devNameLabel.text = stringVersionOfDevName;
-    cell.devName = stringVersionOfDevName;
+    NSString *dev = [self.names objectAtIndex:indexPath.row];
+    cell.devNameLabel.text = dev;
  
     return cell;
 }

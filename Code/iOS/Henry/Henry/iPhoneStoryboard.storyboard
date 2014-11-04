@@ -53,6 +53,9 @@
                                 <segment title="Z-A"/>
                                 <segment title="Due Date"/>
                             </segments>
+                            <connections>
+                                <action selector="segControlClicked:" destination="NPP-VP-xsr" eventType="valueChanged" id="OpI-hS-To3"/>
+                            </connections>
                         </segmentedControl>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProjectCell" textLabel="3zz-Ac-wbs" detailTextLabel="V6N-Cr-eSu" style="IBUITableViewCellStyleSubtitle" id="Wk6-4t-BJe">
@@ -208,7 +211,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="DevCell" rowHeight="43" id="fD5-Bj-KoT" customClass="HenryAssignDevTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DevCell" rowHeight="43" id="fD5-Bj-KoT" customClass="HenryAssignDevTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fD5-Bj-KoT" id="NdV-be-nec">
                                     <autoresizingMask key="autoresizingMask"/>
