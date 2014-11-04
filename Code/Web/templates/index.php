@@ -4,6 +4,9 @@
 		<?php require 'header.php';?>
 	</head>
 	<body class="wide">
+		<div id="title">
+			<h1>Henry</h1>
+		</div>
 		<div id="pictures" class="main-content">
 			<ul class="example-orbit" data-orbit>
 			  <li>

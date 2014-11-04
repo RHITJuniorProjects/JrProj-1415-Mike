@@ -5,6 +5,20 @@
 	z-index: 10;
 }
 
+#title {
+	position: fixed;
+	z-index:2398749873214;
+	font-size:100rem;
+	top: 30%;
+	width: 100%;
+	background: white;
+	opacity:0.5;
+}
+
+#title h1 {
+	opacity:1;
+}
+
 .project,
 .milestone {
 	border-bottom: 1px solid #d8d8d8;
