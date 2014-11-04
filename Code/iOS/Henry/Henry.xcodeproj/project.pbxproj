@@ -29,8 +29,6 @@
 		87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163819F73D78006F574E /* HenryAssignDevTableViewCell.m */; };
 		87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E464701A085D9300A18BF7 /* HenryProjectObject.m */; };
 		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
-		87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */; };
-		87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E54D4619EEEF12009D3906 /* HenryRightViewController.m */; };
 		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
 		93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
@@ -105,10 +103,6 @@
 		87E4646F1A085D9300A18BF7 /* HenryProjectObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectObject.h; sourceTree = "<group>"; };
 		87E464701A085D9300A18BF7 /* HenryProjectObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectObject.m; sourceTree = "<group>"; };
 		87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
-		87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeftTableViewController.h; sourceTree = "<group>"; };
-		87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeftTableViewController.m; sourceTree = "<group>"; };
-		87E54D4519EEEF12009D3906 /* HenryRightViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRightViewController.h; sourceTree = "<group>"; };
-		87E54D4619EEEF12009D3906 /* HenryRightViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRightViewController.m; sourceTree = "<group>"; };
 		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -281,10 +275,6 @@
 			isa = PBXGroup;
 			children = (
 				87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */,
-				87E54D4219EEED51009D3906 /* HenryLeftTableViewController.h */,
-				87E54D4319EEED51009D3906 /* HenryLeftTableViewController.m */,
-				87E54D4519EEEF12009D3906 /* HenryRightViewController.h */,
-				87E54D4619EEEF12009D3906 /* HenryRightViewController.m */,
 				84DD890819F551F900839255 /* HenryRootNavigationController.h */,
 				84DD890919F551F900839255 /* HenryRootNavigationController.m */,
 			);
@@ -493,14 +483,12 @@
 				87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
-				87E54D4719EEEF12009D3906 /* HenryRightViewController.m in Sources */,
 				832BDD5119F6CD8100642CD8 /* SWRevealViewController.m in Sources */,
 				843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */,
 				87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */,
 				93A50E7519F7078200645F54 /* SideNavTableTableViewController.m in Sources */,
 				843D241619F476DF00DBC2CB /* HenryTaskDetailViewController.m in Sources */,
 				843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */,
-				87E54D4419EEED51009D3906 /* HenryLeftTableViewController.m in Sources */,
 				843D241719F476DF00DBC2CB /* HenryTaskStatusTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
