@@ -92,3 +92,9 @@ ul {
 h2 {
 	height:.5rem;
 }
+
+#project-submit, #milestone-submit, #member-submit {
+	font-size: 20px;
+	position: relative !important;
+	bottom: 5px;
+}

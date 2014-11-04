@@ -1,11 +1,11 @@
-#projContainer1, #projContainer2, #taskContainer, #mileContainer {
+#projContainer1, #projContainer2, #taskContainer, #mileContainer , #linesOfCode1{
 	min-width: 310px; 
 	max-width: 800px;
 	height: 400px;
 	margin: 0 auto;
 }
 
-#taskContainer  {
+#taskContainer #linesOfCode1 {
 	height: 500px;
 }
 
