@@ -46,7 +46,9 @@
 
 - (IBAction)updateCurrentTimeEstimate:(id)sender {
     NSDictionary *newValue = @{@"updated_time_estimate":[NSNumber numberWithDouble:[self.currentEstimateField.text doubleValue]]};
+    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MileStoneID, self.taskID]];
     [self.fb updateChildValues:newValue];
+    self.fb = [HenryFirebase getFirebaseObject];
 }
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
