@@ -41,7 +41,6 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
     
-    
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     SWRevealViewController *revealViewController = self.revealViewController;
