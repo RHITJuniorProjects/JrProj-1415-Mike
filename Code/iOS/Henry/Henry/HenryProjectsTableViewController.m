@@ -160,7 +160,6 @@
 {
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
     [self.projects sortUsingDescriptors:[NSArray arrayWithObject:sort]];
-    NSLog(@"Sorted a to z");
     [self.tableView reloadData];
 }
 
@@ -168,7 +167,6 @@
 {
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:NO];
     [self.projects sortUsingDescriptors:[NSArray arrayWithObject:sort]];
-    NSLog(@"Sorted z to a");
     [self.tableView reloadData];
     
 }
@@ -176,7 +174,6 @@
 {
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"dueDate" ascending:YES];
     [self.projects sortUsingDescriptors:[NSArray arrayWithObject:sort]];
-    NSLog(@"Sorted by due date");
     [self.tableView reloadData];
     
 }

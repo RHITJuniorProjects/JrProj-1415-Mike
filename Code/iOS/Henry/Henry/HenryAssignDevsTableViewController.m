@@ -26,12 +26,8 @@
     [super viewWillDisappear:animated];
     if(self.hasClicked){
         self.detailView.statusButton.titleLabel.text = [self.names objectAtIndex:self.selectedIndex];
-        UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
         NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
-        NSLog([NSString stringWithFormat:@"I'm about to assign %@",[self.developers objectAtIndex:self.selectedIndex]]);
         [self.fb updateChildValues:newValue];
-    }else{
-        NSLog(@"Selected index not set...returning");
     }
     
 }
@@ -39,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.firstTime = YES;
     self.fb = [HenryFirebase getFirebaseObject];
     self.hasClicked = NO;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -107,6 +103,11 @@
  // Configure the cell...
     NSString *dev = [self.names objectAtIndex:indexPath.row];
     cell.devNameLabel.text = dev;
+    if ([cell.devNameLabel.text isEqualToString:self.initialSelection] && self.firstTime) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        self.firstTime = NO;
+        self.clearChecksOnSelection = YES;
+    }
  
     return cell;
 }
