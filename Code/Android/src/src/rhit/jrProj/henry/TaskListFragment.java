@@ -5,11 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -54,8 +59,10 @@ public class TaskListFragment extends ListFragment {
 		 * Callback for when an item has been selected.
 		 */
 		public void onItemSelected(Task t);
-		
+
 		public ArrayList<Task> getTasks();
+		
+		public Project getSelectedProject();
 	}
 
 	/**
@@ -71,6 +78,10 @@ public class TaskListFragment extends ListFragment {
 		public ArrayList<Task> getTasks() {
 			return null;
 		}
+		
+		public Project getSelectedProject() {
+			return null;
+		}
 	};
 
 	/**
@@ -78,6 +89,12 @@ public class TaskListFragment extends ListFragment {
 	 * fragment (e.g. upon screen orientation changes).
 	 */
 	public TaskListFragment() {
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 
 	@Override
@@ -90,7 +107,7 @@ public class TaskListFragment extends ListFragment {
 		for (Task task : this.tasks) {
 			Map<String, String> datum = new HashMap<String, String>(2);
 			datum.put("title", task.getName());
-			datum.put("assignee", task.getAssignedUserName());
+			datum.put("assignee", task.getAssignedUserId());
 			data.add(datum);
 		}
 		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
@@ -116,6 +133,27 @@ public class TaskListFragment extends ListFragment {
 			setActivatedPosition(savedInstanceState
 					.getInt(STATE_ACTIVATED_POSITION));
 		}
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		// This code shows the "Create Task" option when
+		// viewing tasks.
+		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+		createMilestone.setVisible(false);
+		createMilestone.setEnabled(false);
+		
+		Firebase ref = new Firebase(MainActivity.firebaseUrl);
+		
+		if (this.mCallbacks.getSelectedProject().getMembers()
+				.get(ref.getAuth().getUid()).toString().equals("lead")) {
+		MenuItem createTask = menu.findItem(R.id.action_task);
+		createTask.setVisible(true);
+		createTask.setEnabled(true);
+		}
+
 	}
 
 	@Override
