@@ -1,0 +1,13 @@
+First, you need to place a test file in the same folder as the script to test.
+Most likely, you will just want to grab the Unix commit.py file.
+
+cp ../Unix/henry/commit.py ./
+
+Then you can run these tests can be run as
+
+python -m unittest commit-msg_T
+
+You might need the unittest module if you don't already have it.
+You can probably get that (although I haven't tried it) with 
+
+pip install unittest

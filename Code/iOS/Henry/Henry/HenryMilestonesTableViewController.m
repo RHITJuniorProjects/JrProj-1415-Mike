@@ -16,6 +16,7 @@
 @property Firebase *fb;
 @property NSMutableArray *milestoneIDs;
 @property NSMutableArray *milestoneDescriptions;
+@property NSMutableArray *milestoneDueDates;
 @end
 
 @implementation HenryMilestonesTableViewController
@@ -33,24 +34,13 @@
 {
     [super viewDidLoad];
     
-        
-    self.staticData = [[NSMutableArray alloc] init];
-    if([self.ProjectID  isEqual: @"Project 1"]){
-        [self.staticData addObject:@"Milestone P-1-1"];
-        [self.staticData addObject:@"Milestone P-1-2"];
-    }else if ([self.ProjectID  isEqual: @"Project 2"]){
-        [self.staticData addObject:@"Milestone P-2-1"];
-        [self.staticData addObject:@"Milestone P-2-2"];
-    }
-    
-    self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:@"https://henry-staging.firebaseio.com/projects/"];
-    self.fb = [self.fb childByAppendingPath:@"projects"];
+    self.fb = [HenryFirebase getFirebaseObject];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable];
+        [self updateTable:snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
@@ -62,22 +52,21 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
--(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones.json", self.ProjectID];
-    NSURL *jsonURL = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    NSArray *keys = [json allKeys];
+-(void)updateTable:(FDataSnapshot *)snapshot {
+    self.milestones = snapshot.value[@"projects"][self.ProjectID][@"milestones"];
+    NSArray *keys = [self.milestones allKeys];
     self.staticData = [[NSMutableArray alloc] init];
     self.milestoneDescriptions = [[NSMutableArray alloc] init];
     self.milestoneIDs = [[NSMutableArray alloc] init];
+    self.milestoneDueDates = [[NSMutableArray alloc] init];
     for (NSString *key in keys) {
-        NSString *name = [[json objectForKey:key] objectForKey:@"name"];
-        NSString *description = [[json objectForKey:key] objectForKey:@"description"];
+        NSString *name = [[self.milestones objectForKey:key] objectForKey:@"name"];
+        NSString *description = [[self.milestones objectForKey:key] objectForKey:@"description"];
+        NSString *dueDate = [[self.milestones objectForKey:key] objectForKey:@"due_date"];
         [self.staticData addObject:name];
         [self.milestoneIDs addObject:key];
         [self.milestoneDescriptions addObject:description];
+        [self.milestoneDueDates addObject:dueDate];
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -108,10 +97,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MilestoneCell" forIndexPath:indexPath];
-    
     // Configure the cell...
+    
     cell.textLabel.text = [self.staticData objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [self.milestoneDescriptions objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.milestoneDueDates objectAtIndex:indexPath.row];;
     
     return cell;
 }
@@ -169,14 +158,14 @@
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-        vc.userTasks = self.tasks;
+    //    vc.userTasks = self.tasks;
         vc.uid = self.uid;
     } else {
         HenryMilestoneDetailViewController *vc = [segue destinationViewController];
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-        vc.userTasks = self.tasks;
+    //    vc.userTasks = self.tasks;
         vc.uid = self.uid;
     }
 

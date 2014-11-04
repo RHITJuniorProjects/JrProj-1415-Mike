@@ -16,6 +16,7 @@
 @property Firebase *fb;
 @property NSMutableArray *tasksDescriptions;
 @property NSMutableArray *taskIDs;
+@property NSMutableArray *taskDueDates;
 @end
 
 @implementation HenryTasksTableViewController
@@ -41,7 +42,7 @@
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable];
+        [self updateTable:snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
@@ -53,32 +54,23 @@
     }
 }
 
--(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
-    NSLog(@"%@", urlString);
-    NSURL *jsonURL = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    NSArray *keys = [json allKeys];
+-(void)updateTable:(FDataSnapshot *)snapshot {
+    NSDictionary *tasks = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID][@"tasks"];
+    NSArray *keys = [tasks allKeys];
     
     self.tasks = [[NSMutableArray alloc] init];
     self.tasksDescriptions = [[NSMutableArray alloc] init];
+    self.taskDueDates = [[NSMutableArray alloc] init];
     self.taskIDs = [[NSMutableArray alloc] init];
     
     for (NSString *key in keys) {
-        // Hardcoded user for now...
-//        if (![[[json objectForKey:key] objectForKey:@"assignedTo"] isEqualToString:self.uid]) {
-//            continue;
-//        }
-//        if (![self.userTasks containsObject:key]) {
-//            continue;
-//        }
-        NSString *name = [[json objectForKey:key] objectForKey:@"name"];
-        NSString *description = [[json objectForKey:key] objectForKey:@"description"];
+        NSString *name = [[tasks objectForKey:key] objectForKey:@"name"];
+        NSString *description = [[tasks objectForKey:key] objectForKey:@"description"];
+        NSString *dueDate = [[tasks objectForKey:key] objectForKey:@"due_date"];
         [self.tasks addObject:name];
         [self.tasksDescriptions addObject:description];
         [self.taskIDs addObject:key];
+        [self.taskDueDates addObject:dueDate];
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -113,7 +105,7 @@
     
     // Configure the cell...
     cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [self.tasksDescriptions objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.taskDueDates objectAtIndex:indexPath.row];
     
     return cell;
 }

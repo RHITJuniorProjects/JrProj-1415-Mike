@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:background="@color/baseBackground"
     android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -13,10 +14,10 @@
 	<!-- Login progress -->
     <ProgressBar
         android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:background="@color/cyan"
         android:visibility="gone" />
 
     <ScrollView
@@ -58,6 +59,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/sign_in"
+                android:shadowColor="@color/base02"
+                android:background="@color/cyan"
+                android:textColor="@color/magenta"
+                android:textColorHighlight="@color/blue"
                 android:textStyle="bold" />
             
              <Button

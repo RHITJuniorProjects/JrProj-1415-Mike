@@ -14,4 +14,5 @@
 @property NSString *ProjectID;
 @property NSArray *tasks;
 @property NSString *uid;
+@property NSDictionary *milestones;
 @end

@@ -16,6 +16,7 @@ prodUrl = 'https://henry-production.firebaseio.com'
 stagUrl = 'https://henry-staging.firebaseio.com'
 testUrl = 'https://henry-test.firebaseio.com'
 
+defaultpath = '.git/.henrydefaults'
 
 def readCommit(path):
     with open(path,'r') as msgfile:
@@ -37,7 +38,7 @@ def getLoC():
     else:
         vals = ['0','0']
     nums = map(lambda x: int(x[0]),vals) 
-    return nums[0] - nums[1]
+    return nums[0],nums[1]
 
 
 def parse(msg):
@@ -93,13 +94,14 @@ def getTaskID(projectID,milestoneID,task):
     return tID
 
 
-def writeCommit(ref,msg,project,uid,hours,status,loc,ts,projectID,milestoneID,taskID):
+def writeCommit(ref,msg,project,uid,hours,status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID):
     path = '/commits/'+projectID+'/'
     try:
         result = ref.post(path,{
             'hours':hours,
             'user':uid,
-            'lines_of_code':loc,
+            'added_lines_of_code':pos_loc,
+            'removed_lines_of_code':neg_loc,
             'message':msg,
             'timestamp':ts,
             'milestone':milestoneID,
@@ -142,24 +144,38 @@ def getAssignedTasks(ref,userID,projectID,milestoneID):
     allTasks = ref.get(path,None)
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
     return assignedTasks
-    
 
+    
 def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
+    # mac/linux
     sys.stdin = open('/dev/tty')
+
+    # windows
+    #sys.stdin = open('CON')
+
+    def_mID, def_tID, def_status = getDefaults()
+
     if hours == None:
-        hours = raw_input('Hours: ')
+        sys.stdout.write('Hours: ')
+        sys.stdout.flush()
+        hours = raw_input()
 
     # prompt for milestone if necessary
     if milestone == None:
         print 'Active milestones:'
+        sys.stdout.flush()
         idsByIndex = [] ; index = 1
         for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
             print ' - '+str(index)+'. '+mName
             idsByIndex = idsByIndex + [mID]
             index = index + 1
-        milestone = raw_input('Milestone: ')
+        sys.stdout.write('Milestone: ')
+        sys.stdout.flush()
+        milestone = raw_input()
         if milestone.isdigit() and int(milestone) <= len(idsByIndex):
             mID = idsByIndex[int(milestone)-1]
+        elif milestone == '' and def_mID != 0:
+            mID = def_mID
         else:
             mID = getMilestoneID(projectID,milestone)
     else:
@@ -173,9 +189,13 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             print ' - '+str(index)+'. '+tName
             idsByIndex = idsByIndex + [tID]
             index = index + 1
-        task = raw_input('Task: ')
+        sys.stdout.write('Task: ')
+        sys.stdout.flush()
+        task = raw_input()
         if task.isdigit() and int(task) <= len(idsByIndex):
             tID = idsByIndex[int(task)-1]
+        elif task == '' and def_tID != 0:
+            tID = def_tID
         else:
             tID = getTaskID(projectID,mID,task)
     else:
@@ -184,14 +204,32 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     # prompt for status if necessary
     if status == None:
         print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
-	possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
-	for i in range(len(possibleStatuses)):
+        possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
+        for i in range(len(possibleStatuses)):
             print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
-        status = raw_input('Status: ')
+        sys.stdout.write('Status: ')
+        sys.stdout.flush()
+        status = raw_input()
         if status.isdigit() and (int(status) <= len(possibleStatuses)):
-	    status = possibleStatuses[int(status) - 1]
-		
+            status = possibleStatuses[int(status) - 1]
+        elif status == '' and def_status != 0:
+            status = def_status
+
     return hours,mID,tID,status
+
+
+def updateDefaults(milestoneID,taskID,status):
+    with open(defaultpath,'w+') as f:
+        f.write(milestoneID+'\t'+taskID+'\t'+status)
+
+
+# returns milestoneID, taskID, status
+def getDefaults():
+    try:
+        with open(defaultpath,'r') as f:
+            return f.read().strip().split('\t')
+    except:
+        return 0,0,0
 
 
 if __name__ == '__main__':
@@ -201,11 +239,14 @@ if __name__ == '__main__':
     email = getEmail()
     userID = getUserID(githubID,ref)
     msg = readCommit(sys.argv[1])
-    [hours,milestone,task,status],loc = parse(msg),getLoC()
+    [hours,milestone,task,status] = parse(msg)
+    pos_loc,neg_loc = getLoC()
     ts = getTime()
     hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
 
-    commitID =writeCommit(ref,msg,None,userID,int(hours),status,loc,ts,projectID,milestoneID,taskID)
+    updateDefaults(milestoneID,taskID,status)
+
+    commitID =writeCommit(ref,msg,None,userID,int(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 

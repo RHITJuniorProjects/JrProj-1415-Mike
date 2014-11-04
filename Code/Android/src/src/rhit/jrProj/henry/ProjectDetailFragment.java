@@ -1,13 +1,23 @@
 package rhit.jrProj.henry;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.achartengine.GraphicalView;
+
+import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.helpers.GraphHelper;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
@@ -73,6 +83,24 @@ public class ProjectDetailFragment extends Fragment {
 			ProgressBar milestonesCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_milestones_progress_bar));
 			milestonesCompleteBar.setMax(100);
 			milestonesCompleteBar.setProgress(this.projectItem.getMilestonesPercent());
+			
+			FrameLayout chartView = (FrameLayout) rootView
+					.findViewById(R.id.pieChart);
+			List<Integer> values = new ArrayList<Integer>();
+			List<String> keys = new ArrayList<String>();
+			for (Milestone milestone : this.projectItem.getMilestones()) {
+				GraphHelper.PieChartInfo chartInfo = milestone.getLocAddedInfo();
+				values.addAll(chartInfo.getValues());
+				keys.addAll(chartInfo.getKeys());
+			}
+			GraphicalView pieChart = GraphHelper.makePieChart(
+					"Lines Added for " + this.projectItem.getName(),
+					values, keys,
+					this.getActivity());
+			Log.i("Henry", chartView.toString());
+			chartView.addView(pieChart, new LayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			pieChart.repaint();
 		}
 
 		return rootView;

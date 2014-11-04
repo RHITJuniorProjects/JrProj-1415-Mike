@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DLPieChart.h"
 @interface HenryProjectDetailViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *projectNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dueDateLabel;
@@ -19,6 +19,9 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *hoursLoggedProgressBar;
 @property (weak, nonatomic) IBOutlet UIProgressView *tasksCompletedProgressBar;
 @property (weak, nonatomic) IBOutlet UIProgressView *milestonesCompletedProgressBar;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
+-(IBAction)segControlClicked:(id)sender;
 @property NSArray *tasks;
 @property NSString *uid;
+@property (weak, nonatomic) IBOutlet DLPieChart *pieChart;
 @end
