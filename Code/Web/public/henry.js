@@ -175,7 +175,6 @@ function addNewMember(){
 	//Gets the selected user
 	var id = $("#member-select").children(":selected").attr("id").substring(9);//+ ": " + "developer";
 	firebase.child('projects/' + projectID).child("members").push(id);
-	
 }
 
 
@@ -365,7 +364,7 @@ function addNewProject(){
 		var currentUser = userData.uid; //+ ": " + "lead";
 		var project = firebase.child('projects').push(
 			{ 'name': docName, 'description': docDescription, 
-			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': currentUser});
+			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': {currentUser:'developer'}});
 		$('#myProjectModal').trigger('reveal:close');
 	//}	
 
