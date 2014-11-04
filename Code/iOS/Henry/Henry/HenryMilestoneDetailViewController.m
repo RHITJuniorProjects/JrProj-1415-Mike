@@ -37,7 +37,7 @@
         NSNumber *num = [NSNumber numberWithInt:1];
         [dataArray addObject:num];
     }
-    
+
     [self.pieChart renderInLayer:self.pieChart dataArray:dataArray];
 }
 

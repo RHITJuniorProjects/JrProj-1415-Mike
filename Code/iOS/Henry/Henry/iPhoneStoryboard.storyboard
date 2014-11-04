@@ -226,7 +226,6 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="devNameLabel" destination="6jh-uy-p0b" id="jZz-R0-7O8"/>
-                                    <segue destination="t9A-hg-iUZ" kind="push" id="Klt-QC-vig"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -815,10 +814,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Klt-QC-vig"/>
-        <segue reference="of7-3T-Meh"/>
-        <segue reference="YHE-Lu-0pf"/>
         <segue reference="hr0-Sg-r1P"/>
         <segue reference="Jkc-DS-FtK"/>
+        <segue reference="YHE-Lu-0pf"/>
+        <segue reference="of7-3T-Meh"/>
     </inferredMetricsTieBreakers>
 </document>

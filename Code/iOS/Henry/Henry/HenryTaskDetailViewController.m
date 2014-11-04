@@ -109,6 +109,7 @@
         vc.milestoneID = self.MileStoneID;
         vc.taskID = self.taskID;
         vc.projectID = self.ProjectID;
+        vc.initialSelection = self.assigneeNameLabel.text;
     }
     
 }

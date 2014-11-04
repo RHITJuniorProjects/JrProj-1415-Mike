@@ -13,16 +13,27 @@
 #import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
 @property Firebase* fb;
+@property UITableViewCell *previouslySelected;
+@property int selectedIndex;
+@property BOOL firstTime;
+@property BOOL clearChecksOnSelection;
+@property BOOL hasClicked;
 @end
 
 @implementation HenryAssignDevsTableViewController
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    //self.detailView.statusButton.titleLabel.text = [self.cellTitles objectAtIndex:_selectedIndex];
-    //UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
-    //NSDictionary *newValue = @{@"status":selectedCell.textLabel.text};
-    //[self.fb updateChildValues:newValue];
+    if(self.hasClicked){
+        self.detailView.statusButton.titleLabel.text = [self.names objectAtIndex:self.selectedIndex];
+        UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
+        NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
+        NSLog([NSString stringWithFormat:@"I'm about to assign %@",[self.developers objectAtIndex:self.selectedIndex]]);
+        [self.fb updateChildValues:newValue];
+    }else{
+        NSLog(@"Selected index not set...returning");
+    }
+    
 }
 
 - (void)viewDidLoad {
@@ -30,36 +41,23 @@
     
     
     self.fb = [HenryFirebase getFirebaseObject];
-    
+    self.hasClicked = NO;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
+    
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateTable:snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
     
-    
+    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MilestoneID, self.taskID]];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    self.developers = [[NSMutableArray alloc] init];
-    HenryDevDisplayObject *devOne = [[HenryDevDisplayObject alloc] init];
-    HenryDevDisplayObject *devTwo = [[HenryDevDisplayObject alloc] init];
-    HenryDevDisplayObject *devThree = [[HenryDevDisplayObject alloc] init];
-    devOne.devName = @"Dev one";
-    devOne.isAssignedDev = false;
-    devTwo.devName = @"Dev two";
-    devTwo.isAssignedDev = false;
-    devThree.devName = @"Dev Three";
-    devThree.isAssignedDev = false;
-    [self.developers addObject:devOne];
-    [self.developers addObject:devTwo];
-    [self.developers addObject:devThree];
     
 }
 
@@ -67,14 +65,15 @@
     self.assignableDevs = snapshot.value[@"projects"][self.ProjectID][@"members"];
     
     self.allDevs = snapshot.value[@"users"];
+    self.developers = [[NSMutableArray alloc] init];
     NSArray *keys = [self.assignableDevs allKeys];
-    //NSArray *memberKeys = [self.allDevs allKeys];
     self.names = [[NSMutableArray alloc] init];
     for (NSString *key in keys) {
         NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
-        NSLog(name);
+        //NSLog(key);
         if(name != NULL){
             [self.names addObject:name];
+            [self.developers addObject:key];
         }
     }
     
@@ -114,12 +113,21 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    for(HenryDevDisplayObject *d in self.developers){
-        d.isAssignedDev = false;
+    self.hasClicked = YES;
+    if (self.clearChecksOnSelection) {
+        NSArray *cells = [self.tableView visibleCells];
+        for (UITableViewCell *cell in cells) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        self.clearChecksOnSelection = NO;
+    } else if (self.previouslySelected != nil) {
+        self.previouslySelected.accessoryType = UITableViewCellAccessoryNone;
     }
-    HenryDevDisplayObject *newAssignedDev = [self.developers objectAtIndex:indexPath.row];
-    newAssignedDev.isAssignedDev = true;
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:indexPath];
+    selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    self.previouslySelected = selectedCell;
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.selectedIndex = indexPath.row;
     
 }
 /*
