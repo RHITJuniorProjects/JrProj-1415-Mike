@@ -191,7 +191,9 @@
             NSDictionary *task = @{
                                    @"name": taskName,
                                    @"description": description,
-                                   @"assignedTo": self.uid
+                                   @"assignedTo": self.uid,
+                                   @"due_date": @"",
+                                   @"status": @"New"
                                    };
             [newTask setValue:task];
         } else {
