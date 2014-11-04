@@ -4,7 +4,7 @@ package rhit.jrProj.henry.firebase;
 
 public class Enums {
 	public enum Role {
-		Developer, Lead,
+		developer, lead,
 	}
 
 	public enum Category {
