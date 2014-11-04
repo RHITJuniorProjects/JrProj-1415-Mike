@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -38,7 +38,7 @@
             </objects>
             <point key="canvasLocation" x="298.24000000000001" y="745.81333333333339"/>
         </scene>
-        <!--Project Teams-->
+        <!--Projects-->
         <scene sceneID="98T-fq-ODV">
             <objects>
                 <tableViewController id="8qy-II-zvj" customClass="HenryProjectsTableViewController" sceneMemberID="viewController">
@@ -89,7 +89,7 @@
                             <outlet property="delegate" destination="8qy-II-zvj" id="u2K-wL-FHn"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Project Teams" id="4DP-Md-GsO">
+                    <navigationItem key="navigationItem" title="Projects" id="4DP-Md-GsO">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" style="plain" id="CRp-Tp-RYT"/>
                     </navigationItem>
                     <value key="contentSizeForViewInPopover" type="size" width="320" height="1024"/>
@@ -195,7 +195,13 @@
                             <outlet property="delegate" destination="PZD-WM-de4" id="aSN-RI-R5g"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Milestones" id="ASa-h7-NPc"/>
+                    <navigationItem key="navigationItem" title="Milestones" id="ASa-h7-NPc">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Vtg-gS-K1r">
+                            <connections>
+                                <action selector="addMilestones:" destination="PZD-WM-de4" id="09O-Te-tJH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wmw-K3-2Iy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -627,6 +633,23 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2OC-Oi-Uyy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3998" y="929"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="ODy-r0-mIw">
+            <objects>
+                <viewController id="h4k-kf-xoM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ykt-Tb-Uue"/>
+                        <viewControllerLayoutGuide type="bottom" id="Gv2-m7-j8j"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="e9W-dD-XHO">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l6J-5h-zDb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
         </scene>
     </scenes>
     <resources>
