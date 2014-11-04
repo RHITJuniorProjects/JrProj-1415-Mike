@@ -3,8 +3,7 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.User.ChildrenListener;
-import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
+import rhit.jrProj.henry.helpers.GraphHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -23,37 +22,51 @@ public class Milestone implements Parcelable {
 	/**
 	 * A List of tasks that are contained within the Milestone
 	 */
-	private ArrayList<Task> tasks = new ArrayList<Task>();
+	ArrayList<Task> tasks = new ArrayList<Task>();
 
 	/**
 	 * The name of the milestone
 	 */
-	private String name;
-	
+	String name;
+
 	/**
 	 * The due date of a milestone
 	 */
-	private String dueDate = "10/19/1996";
-	
+	String dueDate = "10/19/1996";
+
 	/**
 	 * The percentage of tasks completed for this milestone
 	 */
-	private int taskPercent;
-	
+	int taskPercent;
 
 	/**
 	 * A description of the work that needs to happen in this milestone.
 	 */
-	private String description;
+	String description;
+
+	/**
+	 * The number of lines of code added to this milestone
+	 */
+	int addedLines;
+
+	/**
+	 * The number of lines of code removed from this milestone
+	 */
+	int removedLines;
+
+	/**
+	 * The total number of lines of code for this milestone
+	 */
+	int totalLines;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
 	 * Firebase is updated. This then notifies the object that is displaying the
 	 * Milestone that this object has been updated.
 	 */
-	private ListChangeNotifier<Milestone> listViewCallback;
+	ListChangeNotifier<Milestone> listViewCallback;
 
-	private ListChangeNotifier<Task> taskListViewCallback;
+	ListChangeNotifier<Task> taskListViewCallback;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -101,6 +114,9 @@ public class Milestone implements Parcelable {
 		this.setDueDate(in.readString());
 		this.setDescription(in.readString());
 		this.setTaskPercent(in.readInt());
+		this.addedLines = in.readInt();
+		this.removedLines = in.readInt();
+		this.totalLines = in.readInt();
 		in.readTypedList(this.tasks, Task.CREATOR);
 	}
 
@@ -160,9 +176,12 @@ public class Milestone implements Parcelable {
 		dest.writeString(this.getDueDate());
 		dest.writeString(this.getDescription());
 		dest.writeInt(this.getTaskPercent());
+		dest.writeInt(this.addedLines);
+		dest.writeInt(this.removedLines);
+		dest.writeInt(this.totalLines);
 		dest.writeTypedList(this.tasks);
 	}
-	
+
 	public void replaceName(String name) {
 		this.name = name;
 	}
@@ -176,18 +195,21 @@ public class Milestone implements Parcelable {
 		this.description = description;
 
 	}
-	
+
 	/**
 	 * Returns the due date of the milestone
+	 * 
 	 * @return the due date of the milestone
 	 */
 	public String getDueDate() {
 		return this.dueDate;
 	}
-	
+
 	/**
 	 * Sets the due date of the milestone
-	 * @param dueDate the due date of the milestone
+	 * 
+	 * @param dueDate
+	 *            the due date of the milestone
 	 */
 	public void setDueDate(String dueDate) {
 		this.dueDate = dueDate;
@@ -204,20 +226,23 @@ public class Milestone implements Parcelable {
 
 	/**
 	 * Gets the percentage of tasks completed in this milestone
+	 * 
 	 * @return the percentage of tasks completed in this milestone
 	 */
 	public int getTaskPercent() {
 		return this.taskPercent;
 	}
-	
+
 	/**
 	 * Sets the percentage of tasks completed in this milestone
-	 * @param taskPercent the percentage of tasks completed in this milestone
+	 * 
+	 * @param taskPercent
+	 *            the percentage of tasks completed in this milestone
 	 */
 	public void setTaskPercent(int taskPercent) {
 		this.taskPercent = taskPercent;
 	}
-	
+
 	/**
 	 * sets a milestone description
 	 * 
@@ -243,6 +268,33 @@ public class Milestone implements Parcelable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Returns the number of lines of code added to this milestone
+	 * 
+	 * @return the number of lines of code added to this milestone
+	 */
+	public int getAddedLines() {
+		return this.addedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code removed from this milestone
+	 * 
+	 * @return the number of lines of code removed from this milestone
+	 */
+	public int getRemovedLines() {
+		return this.removedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code for this milestone
+	 * 
+	 * @return the number of lines of code for this milestone
+	 */
+	public int getTotalLines() {
+		return this.totalLines;
 	}
 
 	/**
@@ -298,16 +350,17 @@ public class Milestone implements Parcelable {
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 
 			if (arg0.getName().equals("name")) {
-				this.milestone.setName(arg0.getValue(String.class));
+				this.milestone.name = arg0.getValue(String.class);
 				if (this.milestone.getListViewCallback() != null) {
 					this.milestone.getListViewCallback().onChange();
 				}
 			} else if (arg0.getName().equals("description")) {
-				this.milestone.setDescription(arg0.getValue(String.class));
-			} else if (arg0.getName().equals("dueDate")) { 
-				this.milestone.setDueDate(arg0.getValue(String.class));
-			}  else if (arg0.getName().equals("task_percent")) {
-				this.milestone.setTaskPercent(arg0.getValue(Integer.class));
+				this.milestone.description = arg0.getValue(String.class);
+			} else if (arg0.getName().equals("due_date")) {
+				this.milestone.dueDate = arg0.getValue(String.class);
+			} else if (arg0.getName().equals("task_percent")) {
+				this.milestone.taskPercent = arg0.getValue(Integer.class)
+						.intValue();
 			} else if (arg0.getName().equals("tasks")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Task t = new Task(child.getRef().toString());
@@ -315,6 +368,12 @@ public class Milestone implements Parcelable {
 						this.milestone.tasks.add(t);
 					}
 				}
+			} else if (arg0.getName().equals("added_lines_of_code")) {
+				this.milestone.addedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.milestone.removedLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.milestone.totalLines = arg0.getValue(Integer.class);
 			}
 		}
 
@@ -322,7 +381,16 @@ public class Milestone implements Parcelable {
 		 * This will be called when the milestone data in Firebased is updated
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			// TODO Auto-generated method stub.
+			if (arg0.getName().equals("added_lines_of_code")) {
+				this.milestone.addedLines = arg0.getValue(Integer.class)
+						.intValue();
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.milestone.removedLines = arg0.getValue(Integer.class)
+						.intValue();
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.milestone.totalLines = arg0.getValue(Integer.class)
+						.intValue();
+			}
 
 		}
 
@@ -398,5 +466,25 @@ public class Milestone implements Parcelable {
 				this.milestone.listViewCallback.onChange();
 			}
 		}
+	}
+
+	public GraphHelper.PieChartInfo getLocAddedInfo() {
+		GraphHelper.PieChartInfo chartInfo = new GraphHelper.PieChartInfo();
+
+		for (Task task : this.getTasks()) {
+			String userName = task.getAssignedUserName();
+			if (!userName.equals(Task.getDefaultAssignedUserName())) {
+
+				if (chartInfo.getKeys().contains(userName)) {
+					chartInfo.addValueToKey(userName, task.getAddedLines());
+				} else {
+					chartInfo.addValueKey(task.getAddedLines(),
+							task.getAssignedUserName());
+				}
+
+			}
+		}
+
+		return chartInfo;
 	}
 }

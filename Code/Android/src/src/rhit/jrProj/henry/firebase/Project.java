@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -25,41 +24,56 @@ public class Project implements Parcelable {
 	/**
 	 * A List of milestones that are contained within the project
 	 */
-	private ArrayList<Milestone> milestones = new ArrayList<Milestone>();
+	ArrayList<Milestone> milestones = new ArrayList<Milestone>();
 
 	/**
 	 * The project's name
 	 */
-	private String name;
+	String name;
 	/**
 	 * The due date of the project
 	 */
-	private String dueDate = "10/16/2005";
+	String dueDate = "10/16/2005";
 
 	/**
 	 * The members that are working on the project
 	 */
-	private Map<User, Enums.Role> members = new HashMap<User, Enums.Role>();
+	Map<User, Enums.Role> members = new HashMap<User, Enums.Role>();
 
 	/**
 	 * A description of the project.
 	 */
-	private String description;
-	
+	String description;
+
 	/**
 	 * The percentage of hours complete for this project
 	 */
-	private int hoursPercent;
-	
+	int hoursPercent;
+
 	/**
 	 * The percentage of tasks complete for this project
 	 */
-	private int tasksPercent;
-	
+	int tasksPercent;
+
 	/**
-	 * The percentage of milestones compelte for this project
+	 * The percentage of milestones complete for this project
 	 */
-	private int milestonesPercent;
+	int milestonesPercent;
+
+	/**
+	 * The number of lines of code added to this project
+	 */
+	int addedLines;
+
+	/**
+	 * The number of lines of code removed from this project
+	 */
+	int removedLines;
+
+	/**
+	 * The total number of lines of code for this project
+	 */
+	int totalLines;
 
 	/**
 	 * Do we need to do anything with the backlog?
@@ -71,9 +85,9 @@ public class Project implements Parcelable {
 	 * Firebase is updated. This then notifies the object that is displaying the
 	 * project that this object has been updated.
 	 */
-	private ListChangeNotifier<Project> listViewCallback;
+	ListChangeNotifier<Project> listViewCallback;
 
-	private ListChangeNotifier<Milestone> milestoneListViewCallback;
+	ListChangeNotifier<Milestone> milestoneListViewCallback;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -121,6 +135,9 @@ public class Project implements Parcelable {
 		this.hoursPercent = in.readInt();
 		this.tasksPercent = in.readInt();
 		this.milestonesPercent = in.readInt();
+		this.addedLines = in.readInt();
+		this.removedLines = in.readInt();
+		this.totalLines = in.readInt();
 		// this.members = new HashMap<User, Role>(); // How to transport? Loop?
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
@@ -177,13 +194,17 @@ public class Project implements Parcelable {
 		dest.writeInt(this.hoursPercent);
 		dest.writeInt(this.tasksPercent);
 		dest.writeInt(this.milestonesPercent);
+		dest.writeInt(this.addedLines);
+		dest.writeInt(this.removedLines);
+		dest.writeInt(this.totalLines);
 		dest.writeTypedList(this.milestones);
 		// TODO Members?
 		// number for the loop and then loop through it all?
 	}
-	
+
 	/**
 	 * Returns the name of this project
+	 * 
 	 * @return the name of this project
 	 */
 	public String getName() {
@@ -201,6 +222,7 @@ public class Project implements Parcelable {
 
 	/**
 	 * Returns the due date of the project
+	 * 
 	 * @return the due date of the project
 	 */
 	public String getDueDate() {
@@ -209,6 +231,7 @@ public class Project implements Parcelable {
 
 	/**
 	 * Returns the percentage of hours complete for this project
+	 * 
 	 * @return the percentage of hours complete for this project
 	 */
 	public int getHoursPercent() {
@@ -217,6 +240,7 @@ public class Project implements Parcelable {
 
 	/**
 	 * Returns the percentage of tasks complete for this project
+	 * 
 	 * @return the percentage of tasks complete for this project
 	 */
 	public int getTasksPercent() {
@@ -225,10 +249,38 @@ public class Project implements Parcelable {
 
 	/**
 	 * Returns the percentage of milestones complete for this project
+	 * 
 	 * @return the percentage of milestones complete for this project
 	 */
 	public int getMilestonesPercent() {
 		return this.milestonesPercent;
+	}
+
+	/**
+	 * Returns the number of lines of code added to this project
+	 * 
+	 * @return the number of lines of code added to this project
+	 */
+	public int getAddedLines() {
+		return this.addedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code removed from this project
+	 * 
+	 * @return the number of lines of code removed from this project
+	 */
+	public int getRemovedLines() {
+		return this.removedLines;
+	}
+
+	/**
+	 * Returns the number of lines of code for this project
+	 * 
+	 * @return the number of lines of code for this project
+	 */
+	public int getTotalLines() {
+		return this.totalLines;
 	}
 
 	class ChildrenListener implements ChildEventListener {
@@ -261,11 +313,11 @@ public class Project implements Parcelable {
 			} else if (arg0.getName().equals("due_date")) {
 				this.project.dueDate = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("hours_percent")) {
-				this.project.hoursPercent = arg0.getValue(Integer.class);
+				this.project.hoursPercent = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("task_percent")) {
-				this.project.tasksPercent = arg0.getValue(Integer.class);
+				this.project.tasksPercent = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("milestone_percent")) {
-				this.project.milestonesPercent = arg0.getValue(Integer.class);
+				this.project.milestonesPercent = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("milestones")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Milestone m = new Milestone(child.getRef().toString());
@@ -273,6 +325,12 @@ public class Project implements Parcelable {
 						this.project.milestones.add(m);
 					}
 				}
+			} else if (arg0.getName().equals("added_lines_of_code")) {
+				this.project.addedLines = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.project.removedLines = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.project.totalLines = arg0.getValue(Integer.class).intValue();
 			}
 		}
 
@@ -289,6 +347,12 @@ public class Project implements Parcelable {
 				this.project.description = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("milestones")) {
 				Log.i("Henry", "Milestone Changed!?!");
+			} else if (arg0.getName().equals("added_lines_of_code")) {
+				this.project.addedLines = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getName().equals("removed_lines_of_code")) {
+				this.project.removedLines = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getName().equals("total_lines_of_code")) {
+				this.project.totalLines = arg0.getValue(Integer.class).intValue();
 			}
 		}
 
@@ -336,7 +400,7 @@ public class Project implements Parcelable {
 			if (!this.project.getMilestones().contains(m)) {
 				this.project.getMilestones().add(m);
 			}
-			m.setListChangeNotifier(milestoneListViewCallback);
+			m.setListChangeNotifier(this.project.milestoneListViewCallback);
 			if (this.project.listViewCallback != null) {
 				this.project.listViewCallback.onChange();
 			}

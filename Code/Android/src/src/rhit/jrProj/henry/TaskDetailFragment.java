@@ -56,8 +56,12 @@ public class TaskDetailFragment extends Fragment implements
 		if (this.taskItem != null) {
 			((TextView) rootView.findViewById(R.id.task_name))
 					.setText(this.taskItem.getName());
+			
 			((TextView) rootView.findViewById(R.id.task_assignee))
-					.setText(this.taskItem.getAssignedUserName());
+					.setText(this.taskItem.getAssignedUserName() +
+							" - +" + this.taskItem.getAddedLines() + "/" + 
+							"-" + this.taskItem.getRemovedLines() + " lines of code");
+			
 			((TextView) rootView.findViewById(R.id.task_hours_complete))
 					.setText("" + this.taskItem.getHoursSpent() + " / "
 							+ this.taskItem.getCurrentHoursEstimate()

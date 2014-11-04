@@ -21,24 +21,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.fb = [HenryFirebase getFirebaseObject]; //[[Firebase alloc] initWithUrl:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@", self.ProjectID, self.MileStoneID]];
-    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@/milestones/%@", self.ProjectID, self.MileStoneID]];
+    self.fb = [HenryFirebase getFirebaseObject];
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo];
+        [self updateInfo: snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
     
     NSMutableArray *dataArray = [[NSMutableArray alloc] init];
     
-    for(int i =0;i<15;i++){
+    for(int i =0;i<4;i++){
         NSNumber *num = [NSNumber numberWithInt:1];
         [dataArray addObject:num];
     }
-    
+
     [self.pieChart renderInLayer:self.pieChart dataArray:dataArray];
 }
 
@@ -52,39 +51,21 @@
             self.pieChart.hidden = NO;
         }
     }else{
-        
         self.pieChart.hidden = YES;
     }
     
 }
 
--(void)updateInfo {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones/%@.json", self.ProjectID, self.MileStoneID];
-    NSURL *jsonURL = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+-(void)updateInfo:(FDataSnapshot *)snapshot {
+    NSDictionary *json = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID];
     
     self.milestoneNameLabel.text = [json objectForKey:@"name"];
-    self.dueDateLabel.text = @"Not/In/Database";
+    self.dueDateLabel.text = [json objectForKey:@"due_date"];
     self.descriptionView.text = [json objectForKey:@"description"];
+    self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@", [json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
+    self.tasksCompleteBar.progress = [[json objectForKey:@"task_percent"] floatValue];
     
-    urlString = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
-    jsonURL = [NSURL URLWithString:urlString];
-    data = [NSData dataWithContentsOfURL:jsonURL];
-    json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    
-    NSArray *taskIDs = [json allKeys];
-    int completed = 0;
-    int total = 0;
-    for (NSString *taskID in taskIDs) {
-        if ([[[json objectForKey:taskID] objectForKey:@"status"] isEqualToString:@"Closed"]) {
-            completed++;
-        }
-        total++;
-    }
-    self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%d/%d", completed, total];
-    self.tasksCompleteBar.progress = completed/total;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)didReceiveMemoryWarning {
