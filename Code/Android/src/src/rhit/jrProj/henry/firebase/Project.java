@@ -16,7 +16,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable {
+public class Project implements Parcelable, Comparable {
 
 	/**
 	 * A reference to Firebase to keep the data up to date.
@@ -406,6 +406,15 @@ public class Project implements Parcelable {
 				this.project.listViewCallback.onChange();
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(Object another) {
+		if (another instanceof Project) {
+			Project anotherProject = (Project)another;
+			return this.getName().compareTo(anotherProject.getName());
+		}
+		return 1;
 	}
 
 }
