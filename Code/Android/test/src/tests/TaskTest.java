@@ -106,9 +106,6 @@ public class TaskTest extends TestCase {
 	}
 
 	public void testSetStatus() {
-		// this.firebase.child("status").setValue(taskStatus);
-		// this.firebase.child("is_completed").setValue(
-		// Boolean.valueOf(taskStatus.equals("Closed")));
 		try {
 			String originalStatus = TestHelpers.getFirebaseSync(
 					this.itemUrl + ".json").getString("status");

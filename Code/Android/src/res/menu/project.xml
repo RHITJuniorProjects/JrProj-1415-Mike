@@ -12,5 +12,15 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/action_milestone"
+        android:showAsAction="never"
+        android:onClick="createMilestone"
+        android:title="Create Milestone"/>
+    <item
+        android:id="@+id/action_task"
+        android:showAsAction="never"
+        android:onClick="createTask"
+        android:title="Create Task"/>
 
 </menu>

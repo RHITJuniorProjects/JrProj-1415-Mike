@@ -158,14 +158,12 @@
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-    //    vc.userTasks = self.tasks;
         vc.uid = self.uid;
     } else {
         HenryMilestoneDetailViewController *vc = [segue destinationViewController];
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-    //    vc.userTasks = self.tasks;
         vc.uid = self.uid;
     }
 
@@ -173,6 +171,47 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
+
+
+- (IBAction)addMilestones:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Milestone"
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Add", nil];
+    [alert setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
+    [alert textFieldAtIndex:0].placeholder = @"Milestone Name";
+    [alert textFieldAtIndex:1].secureTextEntry = false;
+    [alert textFieldAtIndex:1].placeholder = @"Description";
+    
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSString *milestoneName = [alertView textFieldAtIndex:0].text;
+        NSString *description = [alertView textFieldAtIndex:1].text;
+        if ([milestoneName length] > 0 && [description length] > 0) {
+            NSString *urlString = [NSString stringWithFormat:@"projects/%@/milestones", self.ProjectID];
+            Firebase *milestonesRef = [self.fb childByAppendingPath: urlString];
+            Firebase *newMilestone = [milestonesRef childByAutoId];
+            
+            NSDictionary *milestone = @{
+                                   @"name": milestoneName,
+                                   @"description": description,
+                                   @"due_date": @""
+                                   };
+            [newMilestone setValue:milestone];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
+                                                            message:@"You have an empty field."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
 }
 
 

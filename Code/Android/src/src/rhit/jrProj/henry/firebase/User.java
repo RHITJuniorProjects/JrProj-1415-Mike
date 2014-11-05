@@ -25,20 +25,20 @@ public class User implements Parcelable {
 	/**
 	 * The User's name
 	 */
-	private String name;
+	private String name = "No Name Assigned";
 
 	/**
 	 * The User's gitname
 	 */
-	private String gitName;
+	private String gitName = "No Name assigned";
 	/**
 	 * Email of the User
 	 */
-	private String email;
+	private String email = "No e-mail assigned";
 	/**
 	 * Key is the Firebase Key of the user.
 	 */
-	private String key;
+	private String key = "no key assigned";
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -322,9 +322,9 @@ public class User implements Parcelable {
 		 * Adds a Project to a user's list of projects
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			Role r = Role.Developer;
+			Role r = Role.developer;
 			if (arg0.getValue().equals("lead")) {
-				r = Role.Lead;
+				r = Role.lead;
 			}
 			Log.i("REPO", arg0.getRef().getRepo().toString());
 			Project p = new Project(arg0.getRef().getRepo().toString()
@@ -340,9 +340,9 @@ public class User implements Parcelable {
 		 * Updates a user's information after a change
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			Role r = Role.Developer;
+			Role r = Role.developer;
 			if (arg0.getValue().equals("lead")) {
-				r = Role.Lead;
+				r = Role.lead;
 			}
 			Project p = new Project(arg0.getRef().getRepo().toString()
 					+ "/projects/" + arg0.getName());

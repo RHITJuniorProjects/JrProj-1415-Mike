@@ -32,7 +32,7 @@
 #pragma mark - Table view data source
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 3) {
+    if (indexPath.row == 5) {
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults removeObjectForKey:@"id"];
         [defaults removeObjectForKey:@"token"];
@@ -58,7 +58,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 4;
+    return 6;
 }
 
 /*

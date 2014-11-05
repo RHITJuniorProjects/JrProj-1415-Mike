@@ -31,19 +31,12 @@
         NSLog(@"%@", error.description);
     }];
     
-    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
     
-    for(int i =0;i<4;i++){
-        NSNumber *num = [NSNumber numberWithInt:1];
-        [dataArray addObject:num];
-    }
-
-    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray];
 }
 
 - (IBAction)segControlClicked:(id)sender
 {
-
+    
     //Figures out the last clicked segment.
     int clickedSegment = [sender selectedSegmentIndex];
     if(clickedSegment == 0){
@@ -63,9 +56,29 @@
     self.dueDateLabel.text = [json objectForKey:@"due_date"];
     self.descriptionView.text = [json objectForKey:@"description"];
     self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@", [json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
-    self.tasksCompleteBar.progress = [[json objectForKey:@"task_percent"] floatValue];
+    self.tasksCompleteBar.progress = [[json objectForKey:@"task_percent"] floatValue]/100;
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    self.assignableDevs = snapshot.value[@"projects"][self.ProjectID][@"members"];
+    self.allDevs = snapshot.value[@"users"];
+    NSMutableArray *developers = [[NSMutableArray alloc] init];
+    NSArray *keys = [self.assignableDevs allKeys];
+    self.names = [[NSMutableArray alloc] init];
+    for (NSString *key in keys) {
+        NSNumber *lines = [[[[[[self.allDevs objectForKey:key] objectForKey:@"projects"] objectForKey:self.ProjectID] objectForKey:@"milestones"] objectForKey:self.MileStoneID] objectForKey:@"added_lines_of_code"];
+        
+        NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
+        if(name != NULL && lines!=0){
+            [self.names addObject:name];
+            [dataArray addObject:lines];
+            [developers addObject:key];
+        }
+    }
+    
+    
+    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
 }
 
 - (void)didReceiveMemoryWarning {

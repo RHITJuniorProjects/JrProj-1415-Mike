@@ -17,6 +17,7 @@
 @property NSMutableArray *tasksDescriptions;
 @property NSMutableArray *taskIDs;
 @property NSMutableArray *taskDueDates;
+@property NSIndexPath *previousIndex;
 @end
 
 @implementation HenryTasksTableViewController
@@ -28,6 +29,18 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        if (self.previousIndex != nil) {
+            [self.tableView deselectRowAtIndexPath:self.previousIndex animated:YES];
+        }
+        
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:YES];
+        self.previousIndex = indexPath;
+    }
 }
 
 - (void)viewDidLoad
@@ -191,7 +204,9 @@
             NSDictionary *task = @{
                                    @"name": taskName,
                                    @"description": description,
-                                   @"assignedTo": self.uid
+                                   @"assignedTo": self.uid,
+                                   @"due_date": @"",
+                                   @"status": @"New"
                                    };
             [newTask setValue:task];
         } else {

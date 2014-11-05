@@ -25,6 +25,16 @@
 
 @implementation HenryProjectsTableViewController
 
+-(IBAction)logoutButtonPressed:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"id"];
+    [defaults removeObjectForKey:@"token"];
+    [defaults synchronize];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadLoginStoryboard" bundle:nil];
+    UIViewController *initialView = [sb instantiateInitialViewController];
+    [self presentViewController:initialView animated:YES completion:nil];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -40,7 +50,6 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
-    
     
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -74,10 +83,6 @@
     NSArray *userProjects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
     NSArray *projects = [snapshot.value[@"projects"] allKeys];
     self.projects = [[NSMutableArray alloc] init];
-    //Empty out hard-coded values
-    //self.cellText = [[NSMutableArray alloc] init];
-    //self.projectDescriptions = [[NSMutableArray alloc] init];
-    //self.projectIDs = [[NSMutableArray alloc] init];
     for (NSString *project in projects) {
         if ([userProjects containsObject:project]) {
             HenryProjectObject *projectObject = [[HenryProjectObject alloc] init];
@@ -87,10 +92,6 @@
             projectObject.dueDate = dueDate;
             projectObject.projectID = project;
             [self.projects addObject:projectObject];
-            //if (dueDate != nil)
-            //    [self.projectDescriptions addObject:dueDate];
-            //[self.cellText addObject:name];
-            //[self.projectIDs addObject:project];
         }
     }
     
@@ -231,7 +232,6 @@
         HenryMilestonesTableViewController *vc = [segue destinationViewController];
         HenryProjectObject *hpo = [self.projects objectAtIndex:indexPath.row];
         vc.ProjectID = hpo.projectID;
-        //vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
         vc.tasks = self.tasks;
         vc.uid = self.uid;
     } else {
