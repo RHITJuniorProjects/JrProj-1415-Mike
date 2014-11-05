@@ -101,21 +101,28 @@ public class GraphHelper {
 			}
 		}
 		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, values.get(0).size() + 0.5, yMin * 1.25,
-				yMax * 1.25, Color.BLUE, Color.BLUE);
+				yMax * 1.25, Color.BLACK, Color.BLACK);
 		for (int i = 0; i < values.size(); i++) {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 					.setDisplayChartValues(true);
 		}
-		renderer.setXLabels(values.get(0).size());
+		renderer.setXLabels(0);
+		for (int i = 0; i < barLabels.size(); i++) {
+			renderer.addXTextLabel(i + 0.75, barLabels.get(i));
+		}
 		renderer.setYLabels(10);
 		renderer.setXLabelsAlign(Align.LEFT);
+		renderer.setXLabelsColor(Color.BLACK);
 		renderer.setYLabelsAlign(Align.LEFT);
+		renderer.setYLabelsColor(0, Color.BLACK);
 		renderer.setPanEnabled(true, false);
 		renderer.setZoomEnabled(false);
 		renderer.setZoomRate(1.1f);
 		renderer.setBarSpacing(0.25f);
 		renderer.setApplyBackgroundColor(true);
-		renderer.setBackgroundColor(Color.GRAY);
+		renderer.setBackgroundColor(Color.WHITE);
+		renderer.setMarginsColor(Color.WHITE);
+		renderer.setShowGridX(false);
 
 		return ChartFactory.getBarChartView(activity,
 				buildBarDataset(keys, values), renderer, Type.STACKED);
