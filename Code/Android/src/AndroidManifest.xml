@@ -119,6 +119,14 @@
         <fragment 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/fragment_milestone_create"/>
+         <fragment 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragment_task_create"/>
+        <fragment 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:id="@+id/fragment_task_detail"/>
         <fragment 
             android:layout_width="match_parent"

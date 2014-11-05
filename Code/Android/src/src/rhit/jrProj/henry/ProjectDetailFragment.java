@@ -93,14 +93,13 @@ public class ProjectDetailFragment extends Fragment {
 				values.addAll(chartInfo.getValues());
 				keys.addAll(chartInfo.getKeys());
 			}
-			GraphicalView pieChart = GraphHelper.makePieChart(
+			GraphicalView chart = GraphHelper.makePieChart(
 					"Lines Added for " + this.projectItem.getName(),
 					values, keys,
 					this.getActivity());
-			Log.i("Henry", chartView.toString());
-			chartView.addView(pieChart, new LayoutParams(
+			chartView.addView(chart, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			pieChart.repaint();
+			chart.repaint();
 		}
 
 		return rootView;

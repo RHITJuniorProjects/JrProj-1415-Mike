@@ -346,56 +346,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 
 	private void registerNewUser(View view) {
-		Log.i("You pressed the register button", "Right?");
-		final String email = this.mEmailView.getText().toString();
-		final String password = this.mPasswordView.getText().toString();
-		boolean cancel = false;
-		View focusView = null;
-
-		// Check for a valid password, if the user entered one.
-		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-			this.mPasswordView
-					.setError(getString(R.string.error_invalid_password));
-			focusView = this.mPasswordView;
-			cancel = true;
-		}
-
-		// Check for a valid email address.
-		if (TextUtils.isEmpty(email)) {
-			this.mEmailView.setError(getString(R.string.error_field_required));
-			focusView = this.mEmailView;
-			cancel = true;
-		} else if (!isEmailValid(email)) {
-			this.mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = this.mEmailView;
-			cancel = true;
-		}
-
-		if (cancel) {
-			// There was an error; don't attempt login and focus the first
-			// form field with an error.
-			focusView.requestFocus();
-		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			showProgress(true);
-			this.mAuthProgressDialog.show();
-			// mAuthTask = new UserLoginTask(email, password);
-			// mAuthTask.execute((Void) null);
-			this.ref.createUser(email, password, new Firebase.ResultHandler() {
-				public void onSuccess() {
-					loginWithPassword(email, password);
-					showProgress(false);
-				}
-
-				public void onError(FirebaseError firebaseError) {
-
-				}
-
-			});
-
-			// openProjectListView();
-		}
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://henry-staging.firebaseio.com"));
+		startActivity(browserIntent);
 
 	}
 

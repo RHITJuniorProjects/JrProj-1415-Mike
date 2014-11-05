@@ -12,4 +12,6 @@
 @property NSString *uid;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *sortSelector;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *navButton;
+- (IBAction)segControlClicked:(id)sender;
+- (IBAction)logoutButtonPressed:(id)sender;
 @end

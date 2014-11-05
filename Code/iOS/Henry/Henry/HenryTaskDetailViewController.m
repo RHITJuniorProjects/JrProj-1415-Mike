@@ -45,8 +45,25 @@
 }
 
 - (IBAction)updateCurrentTimeEstimate:(id)sender {
-    NSDictionary *newValue = @{@"updated_time_estimate":[NSNumber numberWithDouble:[self.currentEstimateField.text doubleValue]]};
-    [self.fb updateChildValues:newValue];
+    bool status;
+    NSScanner *scanner;
+    double result;
+    
+    scanner = [NSScanner scannerWithString:self.currentEstimateField.text];
+    status = [scanner scanDouble:&result];
+    status = status && scanner.scanLocation == self.currentEstimateField.text.length;
+    
+    if (status) {
+        NSDictionary *newValue = @{@"updated_time_estimate":[NSNumber numberWithDouble:[self.currentEstimateField.text doubleValue]]};
+        self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MileStoneID, self.taskID]];
+        [self.fb updateChildValues:newValue];
+        self.fb = [HenryFirebase getFirebaseObject];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Estimated hours must be a number" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+
 }
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
@@ -103,12 +120,13 @@
         vc.projectID = self.ProjectID;
     }else{
         HenryAssignDevsTableViewController *vc = [segue destinationViewController];
-        //vc.initialSelection = self.statusButton.titleLabel.text;
+        vc.initialSelection = self.statusButton.titleLabel.text;
         //vc.detailView = self;
         vc.taskID = self.taskID;
         vc.milestoneID = self.MileStoneID;
         vc.taskID = self.taskID;
         vc.projectID = self.ProjectID;
+        vc.initialSelection = self.assigneeNameLabel.text;
     }
     
 }

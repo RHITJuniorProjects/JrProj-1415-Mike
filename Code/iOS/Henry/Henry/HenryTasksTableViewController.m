@@ -16,6 +16,8 @@
 @property Firebase *fb;
 @property NSMutableArray *tasksDescriptions;
 @property NSMutableArray *taskIDs;
+@property NSMutableArray *taskDueDates;
+@property NSIndexPath *previousIndex;
 @end
 
 @implementation HenryTasksTableViewController
@@ -27,6 +29,18 @@
         // Custom initialization
     }
     return self;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        if (self.previousIndex != nil) {
+            [self.tableView deselectRowAtIndexPath:self.previousIndex animated:YES];
+        }
+        
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:YES];
+        self.previousIndex = indexPath;
+    }
 }
 
 - (void)viewDidLoad
@@ -59,14 +73,17 @@
     
     self.tasks = [[NSMutableArray alloc] init];
     self.tasksDescriptions = [[NSMutableArray alloc] init];
+    self.taskDueDates = [[NSMutableArray alloc] init];
     self.taskIDs = [[NSMutableArray alloc] init];
     
     for (NSString *key in keys) {
         NSString *name = [[tasks objectForKey:key] objectForKey:@"name"];
         NSString *description = [[tasks objectForKey:key] objectForKey:@"description"];
+        NSString *dueDate = [[tasks objectForKey:key] objectForKey:@"due_date"];
         [self.tasks addObject:name];
         [self.tasksDescriptions addObject:description];
         [self.taskIDs addObject:key];
+        [self.taskDueDates addObject:dueDate];
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -101,7 +118,7 @@
     
     // Configure the cell...
     cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [self.tasksDescriptions objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.taskDueDates objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -187,7 +204,9 @@
             NSDictionary *task = @{
                                    @"name": taskName,
                                    @"description": description,
-                                   @"assignedTo": self.uid
+                                   @"assignedTo": self.uid,
+                                   @"due_date": @"",
+                                   @"status": @"New"
                                    };
             [newTask setValue:task];
         } else {

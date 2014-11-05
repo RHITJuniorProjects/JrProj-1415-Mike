@@ -8,16 +8,21 @@ import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
@@ -115,19 +120,28 @@ public class MainActivity extends Activity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.project, menu);
 
+		// This code hides the "Create Milestone" and "Create Task" options when
+		// viewing projects.
+		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+		createMilestone.setVisible(false);
+		createMilestone.setEnabled(false);
+
+		MenuItem createTask = menu.findItem(R.id.action_task);
+		createTask.setVisible(false);
+		createTask.setEnabled(false);
+
 		return true;
 	}
 
-	/**
-	 * TODO
-	 */
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 		if (id == android.R.id.home && this.fragmentStack.size() > 1) {
 			this.fragmentStack.pop();
 			Fragment beforeFragment = this.fragmentStack.peek();
-			getActionBar().setDisplayHomeAsUpEnabled(this.fragmentStack.size() > 1);
+			getActionBar().setDisplayHomeAsUpEnabled(
+					this.fragmentStack.size() > 1);
 			if (this.mTwoPane) {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.twopane_list, beforeFragment).commit();
@@ -305,6 +319,42 @@ public class MainActivity extends Activity implements
 	}
 
 	/**
+	 * Allows the project manager to create a new milestone.
+	 */
+	public void createMilestone(MenuItem item) {
+		if (this.selectedProject != null
+				&& this.selectedProject.getProjectId() != null) {
+
+			CreateMilestoneFragment msFrag = new CreateMilestoneFragment();
+
+			Bundle arguments = new Bundle();
+			arguments.putString("projectid",
+					this.selectedProject.getProjectId());
+			msFrag.setArguments(arguments);
+			msFrag.show(getFragmentManager(), "Diag");
+		}
+		
+	}
+
+	/**
+	 * Allows the project manager to create a new task.
+	 */
+	public void createTask(MenuItem item) {
+
+		if (this.selectedMilestone != null
+				&& this.selectedMilestone.getMilestoneId() != null) {
+			CreateTaskFragment taskFrag = new CreateTaskFragment();
+			Bundle arguments = new Bundle();
+			arguments.putString("milestoneId",
+					this.selectedMilestone.getMilestoneId());
+			arguments.putString("projectId",
+					this.selectedProject.getProjectId());
+			taskFrag.setArguments(arguments);
+			taskFrag.show(getFragmentManager(), "Diag");
+		}
+	}
+
+	/**
 	 * The method that is called when the "Login" button is pressed.
 	 * 
 	 * @param view
@@ -349,5 +399,11 @@ public class MainActivity extends Activity implements
 	 */
 	public User getUser() {
 		return this.user;
+	}
+
+	@Override
+	public Project getSelectedProject() {
+		// TODO Auto-generated method stub
+		return this.selectedProject;
 	}
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
+import android.R.string;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -15,7 +16,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable {
+public class Project implements Parcelable, Comparable {
 
 	/**
 	 * A reference to Firebase to keep the data up to date.
@@ -30,51 +31,40 @@ public class Project implements Parcelable {
 	/**
 	 * The project's name
 	 */
-	private String name;
+	private String name = "No name assigned";
 	/**
 	 * The due date of the project
 	 */
-	private String dueDate = "10/16/2005";
+	private String dueDate = "No Due date assigned";
 
 	/**
 	 * The members that are working on the project
 	 */
-	private Map<User, Enums.Role> members = new HashMap<User, Enums.Role>();
+	private Map<String, Enums.Role> members = new HashMap<String, Enums.Role>();
 
 	/**
 	 * A description of the project.
 	 */
-	private String description;
+	private String description = "No Description Assigned";
 
 	/**
 	 * The percentage of hours complete for this project
 	 */
-	private int hoursPercent;
+	private int hoursPercent = 0;
 
 	/**
 	 * The percentage of tasks complete for this project
 	 */
-	private int tasksPercent;
+	private int tasksPercent = 0;
 
 	/**
-	 * The percentage of milestones complete for this project
+	 * The percentage of milestones compelte for this project
 	 */
-	private int milestonesPercent;
-
+	private int milestonesPercent = 0;
 	/**
-	 * The number of lines of code added to this project
+	 * The project id for this project
 	 */
-	private int addedLines;
-
-	/**
-	 * The number of lines of code removed from this project
-	 */
-	private int removedLines;
-
-	/**
-	 * The total number of lines of code for this project
-	 */
-	private int totalLines;
+	private String projectId = "No ProjectID Assigned";
 
 	/**
 	 * Do we need to do anything with the backlog?
@@ -117,6 +107,8 @@ public class Project implements Parcelable {
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.firebase.child("milestones").addChildEventListener(
 				new GrandChildrenListener(this));
+		this.projectId = firebaseUrl
+				.substring(firebaseUrl.lastIndexOf('/') + 1);
 	}
 
 	/**
@@ -126,7 +118,10 @@ public class Project implements Parcelable {
 	 * @param in
 	 */
 	Project(Parcel in) {
-		this.firebase = new Firebase(in.readString());
+		String firebaseURL = in.readString();
+		int lastindex = firebaseURL.lastIndexOf("/");
+		this.projectId = firebaseURL.substring(lastindex + 1);
+		this.firebase = new Firebase(firebaseURL);
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.firebase.child("milestones").addChildEventListener(
 				new GrandChildrenListener(this));
@@ -136,10 +131,7 @@ public class Project implements Parcelable {
 		this.hoursPercent = in.readInt();
 		this.tasksPercent = in.readInt();
 		this.milestonesPercent = in.readInt();
-		this.addedLines = in.readInt();
-		this.removedLines = in.readInt();
-		this.totalLines = in.readInt();
-		// this.members = new HashMap<User, Role>(); // How to transport? Loop?
+		this.members = new HashMap<String, Enums.Role>(); // How to transport? Loop?
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
 
@@ -195,9 +187,6 @@ public class Project implements Parcelable {
 		dest.writeInt(this.hoursPercent);
 		dest.writeInt(this.tasksPercent);
 		dest.writeInt(this.milestonesPercent);
-		dest.writeInt(this.addedLines);
-		dest.writeInt(this.removedLines);
-		dest.writeInt(this.totalLines);
 		dest.writeTypedList(this.milestones);
 		// TODO Members?
 		// number for the loop and then loop through it all?
@@ -258,30 +247,21 @@ public class Project implements Parcelable {
 	}
 
 	/**
-	 * Returns the number of lines of code added to this project
+	 * Returns the project id for this project.
 	 * 
-	 * @return the number of lines of code added to this project
+	 * @return the project id
+	 * 
 	 */
-	public int getAddedLines() {
-		return this.addedLines;
+	public String getProjectId() {
+		return this.projectId;
 	}
-
+	
 	/**
-	 * Returns the number of lines of code removed from this project
-	 * 
-	 * @return the number of lines of code removed from this project
+	 * Returns the list of members in a project.
+	 * @return
 	 */
-	public int getRemovedLines() {
-		return this.removedLines;
-	}
-
-	/**
-	 * Returns the number of lines of code for this project
-	 * 
-	 * @return the number of lines of code for this project
-	 */
-	public int getTotalLines() {
-		return this.totalLines;
+	public Map<String, Enums.Role> getMembers() {
+		return this.members;
 	}
 
 	class ChildrenListener implements ChildEventListener {
@@ -326,14 +306,13 @@ public class Project implements Parcelable {
 						this.project.milestones.add(m);
 					}
 				}
-			} else if (arg0.getName().equals("added_lines_of_code")) {
-				this.project.addedLines = arg0.getValue(Integer.class);
-			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.project.removedLines = arg0.getValue(Integer.class);
-			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.project.totalLines = arg0.getValue(Integer.class);
+			} else if (arg0.getName().equals("members")) {
+				for (DataSnapshot member : arg0.getChildren()) {
+					if (!this.project.members.containsValue(member.getValue())) {
+						this.project.members.put(member.getName(), Enums.Role.valueOf(member.getValue(String.class).toLowerCase()));
+					}
+				}
 			}
-
 		}
 
 		/**
@@ -349,12 +328,6 @@ public class Project implements Parcelable {
 				this.project.description = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("milestones")) {
 				Log.i("Henry", "Milestone Changed!?!");
-			} else if (arg0.getName().equals("added_lines_of_code")) {
-				this.project.addedLines = arg0.getValue(Integer.class);
-			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.project.removedLines = arg0.getValue(Integer.class);
-			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.project.totalLines = arg0.getValue(Integer.class);
 			}
 		}
 
@@ -433,6 +406,15 @@ public class Project implements Parcelable {
 				this.project.listViewCallback.onChange();
 			}
 		}
+	}
+
+	@Override
+	public int compareTo(Object another) {
+		if (another instanceof Project) {
+			Project anotherProject = (Project)another;
+			return this.getName().compareTo(anotherProject.getName());
+		}
+		return 1;
 	}
 
 }

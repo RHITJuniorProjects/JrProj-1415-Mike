@@ -15,28 +15,28 @@ public class Task implements Parcelable {
 	/**
 	 * A reference to firebase to keep the data up to date.
 	 */
-	private Firebase firebase;
+	Firebase firebase;
 
 	/**
 	 * The task's name
 	 */
-	private String name;
+	String name = "No name assigned";
 
 	/**
 	 * A description of the task
 	 */
-	private String description;
+	String description = "No description assigned";
 
 	/**
 	 * A list of the user ids of the users assigned to the task
 	 */
-	private String assignedUserId;
+	String assignedUserId = "No User ID assigned";
 
 	/**
 	 * The name of the user assigned to this task
 	 */
-	private String assignedUserName = Task.getDefaultAssignedUserName();
-	
+	String assignedUserName = Task.getDefaultAssignedUserName();
+
 	public static String getDefaultAssignedUserName() {
 		return "default";
 	}
@@ -44,37 +44,37 @@ public class Task implements Parcelable {
 	/**
 	 * The status of the task.
 	 */
-	private String status;
+	String status = "No Status Assigned";
 
 	/**
 	 * The number of hours logged for this task
 	 */
-	private double hoursComplete;
+	double hoursComplete = 0;
 
 	/**
 	 * The total number of hours currently estimated for this task
 	 */
-	private double hoursEstimatedCurrent;
+	private double hoursEstimatedCurrent = 0;
 
 	/**
 	 * The total number of hours originally estimated for this task
 	 */
-	private double hoursEstimatedOriginal;
-	
+	private double hoursEstimatedOriginal = 0;
+
 	/**
 	 * The number of lines of code added to this task
 	 */
-	private int addedLines;
+	int addedLines = 0;
 
 	/**
 	 * The number of lines of code removed from this task
 	 */
-	private int removedLines;
+	int removedLines = 0;
 
 	/**
 	 * The total number of lines of code for this task
 	 */
-	private int totalLines;
+	int totalLines = 0;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -251,7 +251,7 @@ public class Task implements Parcelable {
 	public String getStatus() {
 		return this.status;
 	}
-	
+
 	/**
 	 * Returns the number of lines of code added to this task
 	 * 
@@ -295,7 +295,8 @@ public class Task implements Parcelable {
 	public void updateStatus(String taskStatus) {
 		this.status = taskStatus;
 		this.firebase.child("status").setValue(taskStatus);
-		this.firebase.child("is_completed").setValue(Boolean.valueOf(taskStatus.equals("Closed")));
+		this.firebase.child("is_completed").setValue(
+				Boolean.valueOf(taskStatus.equals("Closed")));
 	}
 
 	/**
@@ -305,7 +306,7 @@ public class Task implements Parcelable {
 		/**
 		 * Task Object
 		 */
-		private Task task;
+		Task task;
 
 		/**
 		 * Creates a new ChildrenListener
@@ -326,35 +327,40 @@ public class Task implements Parcelable {
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			if (arg0.getName().equals("name")) {
-				this.task.setName(arg0.getValue().toString());
+				this.task.name = arg0.getValue().toString();
 				if (this.task.getListChangeNotifier() != null) {
 					this.task.getListChangeNotifier().onChange();
 				}
 			} else if (arg0.getName().equals("description")) {
-				this.task.setDescription(arg0.getValue().toString());
+				this.task.description = arg0.getValue().toString();
 			} else if (arg0.getName().equals("assignedTo")) {
-				this.task.setAssignedUserId(arg0.getValue().toString());
+				this.task.assignedUserId = arg0.getValue().toString();
 				this.getUserNameFromId(this.task.getAssignedUserId());
 			} else if (arg0.getName().equals("status")) {
-				this.task.setStatus(arg0.getValue().toString());
+				this.task.status = arg0.getValue().toString();
 			} else if (arg0.getName().equals("added_lines_of_code")) {
-				this.task.addedLines = arg0.getValue(Integer.class);
+				this.task.addedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.task.removedLines = arg0.getValue(Integer.class);
+				this.task.removedLines = arg0.getValue(Integer.class)
+						.intValue();
 			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.task.totalLines = arg0.getValue(Integer.class);
+				this.task.totalLines = arg0.getValue(Integer.class).intValue();
 			}
 		}
-			
-		private void getUserNameFromId(String id) {
-			Firebase userBase = firebase.getRoot().child("users").child(id).child("name");
-			userBase.addValueEventListener(new ValueEventListener() {
-				
-				  public void onDataChange(DataSnapshot snapshot) {
-					  task.setAssignedUserName((String) snapshot.getValue());
-				  }
 
-				  public void onCancelled(FirebaseError error) { }
+		private void getUserNameFromId(String id) {
+			Firebase userBase = Task.this.firebase.getRoot().child("users")
+					.child(id).child("name");
+			userBase.addValueEventListener(new ValueEventListener() {
+
+				public void onDataChange(DataSnapshot snapshot) {
+					ChildrenListener.this.task.assignedUserName = snapshot
+							.getValue(String.class);
+				}
+
+				public void onCancelled(FirebaseError error) {
+					// Do nothing.
+				}
 
 			});
 		}
@@ -366,7 +372,8 @@ public class Task implements Parcelable {
 			if (arg0.getName().equals("added_lines_of_code")) {
 				this.task.addedLines = arg0.getValue(Integer.class).intValue();
 			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.task.removedLines = arg0.getValue(Integer.class).intValue();
+				this.task.removedLines = arg0.getValue(Integer.class)
+						.intValue();
 			} else if (arg0.getName().equals("total_lines_of_code")) {
 				this.task.totalLines = arg0.getValue(Integer.class).intValue();
 			}
