@@ -16,7 +16,8 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     	<item name="android:background">@color/baseBackground</item>
-    	<item name="android:textColor">@color/base02</item>
+    	<item name="android:textColor">@color/black</item>
+    	
     </style>
  <style name="ButtonTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
