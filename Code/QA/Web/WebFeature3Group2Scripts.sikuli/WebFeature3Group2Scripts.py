@@ -21,9 +21,9 @@ else:
 click("1413836181760.png")
 find("1413834175850.png")
 click("1413834184376.png")
-find("1413836030795.png")
-click("1413836047701.png")
-if exists("1413836085141.png"):
+find("1415210022969.png")
+click("1415210022969.png")
+if exists("1415210039242.png"):
     print("It worked")
 else:
     print("It didn't work");
@@ -32,15 +32,15 @@ else:
 click("1413836181760.png");
 find("1413834175850.png")
 click("1413834184376.png")
-find("1413916721723.png")
-click("1413916727908.png")
-find("1415040680478.png")
-click("1415040690013.png")
-find("1413927687300.png")
+find("1415210107661.png")
+click("1415210107661.png")
+find("1415210139519.png")
+click("1415210139519.png")
+find("1415210158698.png")
 click("1415040760485.png")
 find("1413927542743.png")
 click("1413927569377.png")
-if exists("1415040403501.png"):
+if exists("1415210179618.png"):
         print("It worked")
 else:
         print("It didn't work")
