@@ -154,6 +154,7 @@ public class TaskListFragment extends ListFragment {
 			createTask.setEnabled(true);
 		//}
 
+
 	}
 
 	@Override

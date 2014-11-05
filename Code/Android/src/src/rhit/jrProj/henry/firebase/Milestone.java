@@ -30,23 +30,23 @@ public class Milestone implements Parcelable {
 	/**
 	 * The name of the milestone
 	 */
-	private String name;
+	private String name = "No Name assigned";
 	
 	/**
 	 * The due date of a milestone
 	 */
-	private String dueDate = "10/19/1996";
+	private String dueDate = "No due date assigned";
 	
 	/**
 	 * The percentage of tasks completed for this milestone
 	 */
-	private int taskPercent;
+	private int taskPercent = 0;
 	
 
 	/**
 	 * A description of the work that needs to happen in this milestone.
 	 */
-	private String description;
+	private String description = "No description assigned";
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -58,7 +58,7 @@ public class Milestone implements Parcelable {
 	/**
 	 * A string of the milestone's firebase id.
 	 */
-	private String milestoneId;
+	private String milestoneId = "No ID assigned";
 
 	private ListChangeNotifier<Task> taskListViewCallback;
 	/**

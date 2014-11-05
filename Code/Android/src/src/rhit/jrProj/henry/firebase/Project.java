@@ -31,11 +31,11 @@ public class Project implements Parcelable, Comparable {
 	/**
 	 * The project's name
 	 */
-	private String name;
+	private String name = "No name assigned";
 	/**
 	 * The due date of the project
 	 */
-	private String dueDate = "10/16/2005";
+	private String dueDate = "No Due date assigned";
 
 	/**
 	 * The members that are working on the project
@@ -45,26 +45,26 @@ public class Project implements Parcelable, Comparable {
 	/**
 	 * A description of the project.
 	 */
-	private String description;
+	private String description = "No Description Assigned";
 
 	/**
 	 * The percentage of hours complete for this project
 	 */
-	private int hoursPercent;
+	private int hoursPercent = 0;
 
 	/**
 	 * The percentage of tasks complete for this project
 	 */
-	private int tasksPercent;
+	private int tasksPercent = 0;
 
 	/**
 	 * The percentage of milestones compelte for this project
 	 */
-	private int milestonesPercent;
+	private int milestonesPercent = 0;
 	/**
 	 * The project id for this project
 	 */
-	private String projectId;
+	private String projectId = "No ProjectID Assigned";
 
 	/**
 	 * Do we need to do anything with the backlog?

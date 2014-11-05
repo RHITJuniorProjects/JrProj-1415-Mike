@@ -25,20 +25,20 @@ public class User implements Parcelable {
 	/**
 	 * The User's name
 	 */
-	private String name;
+	private String name = "No Name Assigned";
 
 	/**
 	 * The User's gitname
 	 */
-	private String gitName;
+	private String gitName = "No Name assigned";
 	/**
 	 * Email of the User
 	 */
-	private String email;
+	private String email = "No e-mail assigned";
 	/**
 	 * Key is the Firebase Key of the user.
 	 */
-	private String key;
+	private String key = "no key assigned";
 
 	/**
 	 * This is the class that onChange is called from to when a field in
