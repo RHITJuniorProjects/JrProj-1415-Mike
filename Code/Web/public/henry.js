@@ -373,7 +373,7 @@ function addNewProject(){
 		var currentUser = userData.uid; //+ ": " + "lead";
 		var project = firebase.child('projects').push(
 			{ 'name': docName, 'description': docDescription, 
-			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': {currentUser:'developer'}});
+			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': currentUser});
 		$('#myProjectModal').trigger('reveal:close');
 	//}	
 
