@@ -5,19 +5,25 @@ import java.util.List;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
+import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.achartengine.renderer.XYMultipleSeriesRenderer;
+import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 public class GraphHelper {
-	
-	static int[] COLORS = new int[] { Color.GREEN, Color.BLUE,
-			Color.MAGENTA, Color.CYAN };
-	
-	public static GraphicalView makePieChart(String title, List<Integer> values, List<String> keys, Activity activity) {		
+
+	static int[] COLORS = new int[] { Color.GREEN, Color.BLUE, Color.MAGENTA,
+			Color.CYAN };
+
+	public static GraphicalView makePieChart(String title,
+			List<Integer> values, List<String> keys, Activity activity) {
 		DefaultRenderer mRenderer = new DefaultRenderer();
 		mRenderer.setChartTitle(title);
 		mRenderer.setChartTitleTextSize(35);
@@ -25,9 +31,9 @@ public class GraphHelper {
 		mRenderer.setLegendTextSize(30);
 		mRenderer.setLabelsColor(Color.BLACK);
 		mRenderer.setStartAngle(90);
-		
+
 		CategorySeries mSeries = new CategorySeries("");
-		
+
 		for (int i = 0; i < values.size(); i++) {
 			mSeries.add(keys.get(i) + " " + values.get(i), values.get(i));
 			SimpleSeriesRenderer renderer = new SimpleSeriesRenderer();
@@ -35,114 +41,152 @@ public class GraphHelper {
 					% COLORS.length]);
 			mRenderer.addSeriesRenderer(renderer);
 		}
-		
-		GraphicalView mChartView = ChartFactory.getPieChartView(
-				activity, mSeries, mRenderer);
-		
+
+		GraphicalView mChartView = ChartFactory.getPieChartView(activity,
+				mSeries, mRenderer);
+
 		return mChartView;
 	}
-	
+
 	public static class PieChartInfo {
-		
+
 		private List<Integer> values;
 		private List<String> keys;
-		
+
 		public PieChartInfo() {
 			values = new ArrayList<Integer>();
 			keys = new ArrayList<String>();
 		}
-		
+
 		public void addValueKey(int value, String key) {
 			values.add(value);
 			keys.add(key);
 		}
-		
+
 		public List<Integer> getValues() {
 			return values;
 		}
-		
+
 		public List<String> getKeys() {
 			return keys;
 		}
-		
+
 		public void addValueToKey(String key, int addValue) {
 			int index = keys.indexOf(key);
 			int oldValue = values.get(index);
 			values.set(index, oldValue + addValue);
 		}
-		
+
 	}
-	
-	/*mRenderer.setApplyBackgroundColor(true);
-	mRenderer.setBackgroundColor(Color.argb(100, 50, 50, 50));
-	mRenderer.setChartTitleTextSize(20);
-	mRenderer.setLabelsTextSize(15);
-	mRenderer.setLegendTextSize(15);
-	mRenderer.setMargins(new int[] { 20, 30, 15, 0 });
-	mRenderer.setZoomButtonsVisible(true);
-	mRenderer.setStartAngle(90);*/
 
-	
+	public static GraphicalView makeStackedBarChart(String title,
+			String xAxisLabel, String yAxisLabel, List<List<Double>> values,
+			List<String> barLabels, List<String> keys, Activity activity) {
 
-	/*if (mChartView != null) {
-		mChartView.repaint();
-	}*/
+		int[] COLORS = new int[] { Color.GREEN, Color.BLUE};
+		XYMultipleSeriesRenderer renderer = buildBarRenderer(COLORS);
+		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, values.get(0).size() + 0.5, -10,
+				10, Color.GRAY, Color.LTGRAY);
+		for (int i = 0; i < values.size(); i++) {
+			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
+					.setDisplayChartValues(true);
+		}
+		renderer.setXLabels(values.get(0).size());
+		renderer.setYLabels(10);
+		renderer.setXLabelsAlign(Align.LEFT);
+		renderer.setYLabelsAlign(Align.LEFT);
+		renderer.setPanEnabled(true, false);
+		renderer.setZoomEnabled(false);
+		renderer.setZoomRate(1.1f);
+		renderer.setBarSpacing(0.25f);
 
-/*@Override
-protected void onResume() {
-	super.onResume();
-	if (mChartView == null) {
-		
-		mRenderer.setClickEnabled(true);
-		mRenderer.setSelectableBuffer(10);
-
-		mChartView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				SeriesSelection seriesSelection = mChartView
-						.getCurrentSeriesAndPoint();
-
-				if (seriesSelection == null) {
-					Toast.makeText(AChartEnginePieChartActivity.this,
-							"No chart element was clicked",
-							Toast.LENGTH_SHORT).show();
-				} else {
-					Toast.makeText(
-							AChartEnginePieChartActivity.this,
-							"Chart element data point index "
-									+ (seriesSelection.getPointIndex() + 1)
-									+ " was clicked" + " point value="
-									+ seriesSelection.getValue(),
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
-
-		mChartView.setOnLongClickListener(new View.OnLongClickListener() {
-			@Override
-			public boolean onLongClick(View v) {
-				SeriesSelection seriesSelection = mChartView
-						.getCurrentSeriesAndPoint();
-				if (seriesSelection == null) {
-					Toast.makeText(AChartEnginePieChartActivity.this,
-							"No chart element was long pressed",
-							Toast.LENGTH_SHORT);
-					return false;
-				} else {
-					Toast.makeText(AChartEnginePieChartActivity.this,
-							"Chart element data point index "
-									+ seriesSelection.getPointIndex()
-									+ " was long pressed",
-							Toast.LENGTH_SHORT);
-					return true;
-				}
-			}
-		});
-		layout.addView(mChartView, new LayoutParams(
-				LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-	} else {
-		mChartView.repaint();
+		return ChartFactory.getBarChartView(activity,
+				buildBarDataset(keys, values), renderer, Type.STACKED);
 	}
-}*/
+
+	/**
+	 * Builds a bar multiple series dataset using the provided values.
+	 * 
+	 * @param titles
+	 *            the series titles
+	 * @param values
+	 *            the values
+	 * @return the XY multiple bar dataset
+	 */
+	protected static XYMultipleSeriesDataset buildBarDataset(
+			List<String> titles, List<List<Double>> values) {
+		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
+		for (int i = 0; i < values.size(); i++) {
+			CategorySeries series = new CategorySeries(titles.get(i));
+			List<Double> v = values.get(i);
+			int seriesLength = v.size();
+			for (int k = 0; k < seriesLength; k++) {
+				series.add(v.get(k));
+			}
+			dataset.addSeries(series.toXYSeries());
+		}
+		return dataset;
+	}
+
+	/**
+	 * Builds a bar multiple series renderer to use the provided colors.
+	 * 
+	 * @param colors
+	 *            the series renderers colors
+	 * @return the bar multiple series renderer
+	 */
+	protected static XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
+		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+		renderer.setAxisTitleTextSize(16);
+		renderer.setChartTitleTextSize(20);
+		renderer.setLabelsTextSize(15);
+		renderer.setLegendTextSize(15);
+		int length = colors.length;
+		for (int i = 0; i < length; i++) {
+			XYSeriesRenderer r = new XYSeriesRenderer();
+			r.setColor(colors[i]);
+			renderer.addSeriesRenderer(r);
+		}
+		return renderer;
+	}
+
+	/**
+	 * Sets a few of the series renderer settings.
+	 * 
+	 * @param renderer
+	 *            the renderer to set the properties to
+	 * @param title
+	 *            the chart title
+	 * @param xTitle
+	 *            the title for the X axis
+	 * @param yTitle
+	 *            the title for the Y axis
+	 * @param xMin
+	 *            the minimum value on the X axis
+	 * @param xMax
+	 *            the maximum value on the X axis
+	 * @param yMin
+	 *            the minimum value on the Y axis
+	 * @param yMax
+	 *            the maximum value on the Y axis
+	 * @param axesColor
+	 *            the axes color
+	 * @param labelsColor
+	 *            the labels color
+	 */
+	protected static void setChartSettings(XYMultipleSeriesRenderer renderer,
+			String title, String xTitle, String yTitle, double xMin,
+			double xMax, double yMin, double yMax, int axesColor,
+			int labelsColor) {
+		renderer.setChartTitle(title);
+		renderer.setXTitle(xTitle);
+		renderer.setYTitle(yTitle);
+		renderer.setXAxisMin(xMin);
+		renderer.setXAxisMax(xMax);
+		renderer.setYAxisMin(yMin);
+		renderer.setYAxisMax(yMax);
+		renderer.setAxesColor(axesColor);
+		renderer.setLabelsColor(labelsColor);
+	}
 
 }
