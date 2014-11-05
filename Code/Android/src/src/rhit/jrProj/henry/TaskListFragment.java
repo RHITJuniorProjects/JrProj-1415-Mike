@@ -147,9 +147,12 @@ public class TaskListFragment extends ListFragment {
 		
 		Firebase ref = new Firebase(MainActivity.firebaseUrl);
 		
+		this.mCallbacks.getSelectedProject().getMembers().get(ref.getAuth().getUid()).toString().equals("lead");
+		
+		
 		if (this.mCallbacks.getSelectedProject().getMembers()
 				.get(ref.getAuth().getUid()).toString().equals("lead")) {
-		MenuItem createTask = menu.findItem(R.id.action_task);
+		MenuItem createTask = menu.findItem(R.id.action_task); 
 		createTask.setVisible(true);
 		createTask.setEnabled(true);
 		}
