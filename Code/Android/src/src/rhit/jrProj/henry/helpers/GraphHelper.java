@@ -1,6 +1,7 @@
 package rhit.jrProj.henry.helpers;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -31,6 +32,8 @@ public class GraphHelper {
 		mRenderer.setLegendTextSize(30);
 		mRenderer.setLabelsColor(Color.BLACK);
 		mRenderer.setStartAngle(90);
+		mRenderer.setApplyBackgroundColor(true);
+		mRenderer.setBackgroundColor(Color.WHITE);
 
 		CategorySeries mSeries = new CategorySeries("");
 
@@ -83,10 +86,22 @@ public class GraphHelper {
 			String xAxisLabel, String yAxisLabel, List<List<Double>> values,
 			List<String> barLabels, List<String> keys, Activity activity) {
 
-		int[] COLORS = new int[] { Color.GREEN, Color.BLUE};
+		int[] COLORS = new int[] { Color.GREEN, Color.RED, Color.BLUE};
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(COLORS);
-		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, values.get(0).size() + 0.5, -10,
-				10, Color.GRAY, Color.LTGRAY);
+		double yMax = 0;
+		double yMin = 0;
+		for (int i = 0; i < values.size(); i++) {
+			double max = Collections.max(values.get(i));
+			if (max > yMax) {
+				yMax = max;
+			}
+			double min = Collections.min(values.get(i));
+			if (min < yMin) {
+				yMin = min;
+			}
+		}
+		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, values.get(0).size() + 0.5, yMin * 1.25,
+				yMax * 1.25, Color.BLUE, Color.BLUE);
 		for (int i = 0; i < values.size(); i++) {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 					.setDisplayChartValues(true);
@@ -99,9 +114,57 @@ public class GraphHelper {
 		renderer.setZoomEnabled(false);
 		renderer.setZoomRate(1.1f);
 		renderer.setBarSpacing(0.25f);
+		renderer.setApplyBackgroundColor(true);
+		renderer.setBackgroundColor(Color.GRAY);
 
 		return ChartFactory.getBarChartView(activity,
 				buildBarDataset(keys, values), renderer, Type.STACKED);
+	}
+	
+	public static class StackedBarChartInfo {
+
+		private List<List<Double>> values;
+		private List<String> keys;
+		private List<String> barLabels;
+
+		public StackedBarChartInfo() {
+			values = new ArrayList<List<Double>>();
+			keys = new ArrayList<String>();
+			barLabels = new ArrayList<String>();
+		}
+		
+		public void addKey(String key) {
+			keys.add(key);
+			values.add(new ArrayList<Double>());
+		}
+
+		public void addValueSeriesBarLabel(List<Double> valueSeries, String barLabel) {
+			barLabels.add(barLabel);
+			for (int i = 0; i < valueSeries.size(); i++) {
+				values.get(i).add(valueSeries.get(i));
+			}
+		}
+
+		public List<List<Double>> getValues() {
+			return values;
+		}
+
+		public List<String> getKeys() {
+			return keys;
+		}
+		
+		public List<String> getBarLabels() {
+			return barLabels;
+		}
+
+		public void addValueToKeyBarLabel(String key, String barLabel, double addValue) {
+			int keyIndex = keys.indexOf(key);
+			int labelsIndex = barLabels.indexOf(barLabel);
+			List<Double> valueSeries = values.get(keyIndex);
+			double oldValue = valueSeries.get(labelsIndex);
+			valueSeries.set(labelsIndex, oldValue + addValue);
+		}
+
 	}
 
 	/**
@@ -137,10 +200,10 @@ public class GraphHelper {
 	 */
 	protected static XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
 		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.setAxisTitleTextSize(16);
-		renderer.setChartTitleTextSize(20);
-		renderer.setLabelsTextSize(15);
-		renderer.setLegendTextSize(15);
+		renderer.setAxisTitleTextSize(20);
+		renderer.setChartTitleTextSize(30);
+		renderer.setLabelsTextSize(20);
+		renderer.setLegendTextSize(20);
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();

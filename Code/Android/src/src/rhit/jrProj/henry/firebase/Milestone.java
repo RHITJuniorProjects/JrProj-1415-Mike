@@ -1,6 +1,7 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.User.ChildrenListener;
@@ -300,6 +301,34 @@ public class Milestone implements Parcelable {
 				} else {
 					chartInfo.addValueKey(task.getAddedLines(),
 							task.getAssignedUserName());
+				}
+
+			}
+		}
+
+		return chartInfo;
+	}
+	
+	public GraphHelper.StackedBarChartInfo getLocTotalInfo() {
+		GraphHelper.StackedBarChartInfo chartInfo = new GraphHelper.StackedBarChartInfo();
+		chartInfo.addKey("Added");
+		chartInfo.addKey("Removed");
+		chartInfo.addKey("Net");
+
+		for (Task task : this.getTasks()) {
+			String userName = task.getAssignedUserName();
+			if (!userName.equals(Task.getDefaultAssignedUserName())) {
+
+				if (chartInfo.getBarLabels().contains(userName)) {
+					chartInfo.addValueToKeyBarLabel(chartInfo.getKeys().get(0), userName, task.getAddedLines());
+					chartInfo.addValueToKeyBarLabel(chartInfo.getKeys().get(1), userName, -1 * task.getRemovedLines());
+					chartInfo.addValueToKeyBarLabel(chartInfo.getKeys().get(2), userName, task.getAddedLines() - task.getRemovedLines());
+				} else {
+					List<Double> valueSeries = new ArrayList<Double>();
+					valueSeries.add(0.0 + task.getAddedLines());
+					valueSeries.add(0.0 - task.getRemovedLines());
+					valueSeries.add(0.0 + task.getAddedLines() - task.getRemovedLines());
+					chartInfo.addValueSeriesBarLabel(valueSeries, userName);
 				}
 
 			}

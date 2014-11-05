@@ -29,6 +29,11 @@
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
     
+    <Spinner
+        android:id="@+id/milestone_chart_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
     <FrameLayout
         android:id="@+id/pieChart"
         android:layout_width="match_parent"
