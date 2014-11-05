@@ -342,6 +342,9 @@ Project.prototype = {
 	getTaskProgressBar:function(){
 		return makeProgressBar('small-12','Tasks Completed',this.__taskPercent);
 	},
+	getUid:function(){
+		return this.uid;
+	},	
 	getHoursProgressBar:function(){
 		return makeProgressBar('small-12','Hours Completed',this.__hoursPercent);
 	},

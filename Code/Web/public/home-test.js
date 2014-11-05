@@ -1,16 +1,23 @@
 
-var fb = new Firebase("https://henry-test.firebaseIO.com");
-var projectID = '-JYcg488tAYS5rJJT4Kh'
+var projectID;
 var linesOfCodeArray = [];
 var nameArray = [];
-var what;
-					
+var getLinesOfCode;
+var getNameAndDraw;
+var pieChartDrawer;
+
+
+function drawStuff(projId){		
+	
+var fb = new Firebase("https://henry-test.firebaseIO.com");
+projectID = projId.toString();
+
 
 //fills workerArray and linesOfCodeArray
 fb.child("projects/" + projectID +"/members").on('value', function (snapshot) {
 	//var userData = snapshot.val();
 	var workerArray = [];
-	
+
 	for(var item in snapshot.val()){
 	//	console.log(item);
 		workerArray.push(item);
@@ -21,7 +28,7 @@ fb.child("projects/" + projectID +"/members").on('value', function (snapshot) {
 	}
 });
 
-var getLinesOfCode = function(item, array){
+function getLinesOfCode(item, array){
 						fb.child("users/" + item + "/projects/" + projectID + "/total_lines_of_code").on('value', function(snapshot){
 							linesOfCodeArray.push(snapshot.val());
 	
@@ -33,7 +40,7 @@ var getLinesOfCode = function(item, array){
 						});
 };
 
-var getNameAndDraw = function(current, userArray, linesArray){
+function getNameAndDraw(current, userArray, linesArray){
 						var totalArray = [];
 						
 						fb.child("users/" + current + "/name").on('value', function(snapshot){
@@ -254,7 +261,7 @@ $(function () {
     });
 });
 
-var pieChartDrawer = function(temp){
+function pieChartDrawer(temp){
 						$(function () {
 							$('#linesOfCode1').highcharts({
 								chart: {
@@ -285,4 +292,5 @@ var pieChartDrawer = function(temp){
 								}]
 							});
 						});
+};
 };

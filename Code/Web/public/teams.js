@@ -13,6 +13,9 @@ function selectProject(project){
 	}
 	selectedProject = project;
 	var milestones = selectedProject.getMilestones();
+	
+	drawStuff(selectedProject.getUid());
+	
 	var $panel = $('#milestones-panel');
 	$panel.children().remove();
 	milestones.onItemAdded(function(milestone){
