@@ -263,7 +263,7 @@ $(function () {
 
 function pieChartDrawer(temp){
 						$(function () {
-							$('#linesOfCode1').highcharts({
+							$('#linesOfCode').highcharts({
 								chart: {
 									plotBackgroundColor: null,
 									plotBorderWidth: 1,//null,
