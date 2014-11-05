@@ -16,6 +16,23 @@
 
 @implementation HenryProjectDetailViewController
 
+-(void)viewWillAppear:(BOOL)animated {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (self.projectID == nil) {
+            self.fb = [HenryFirebase getFirebaseObject];
+            [self.fb observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                self.uid = [defaults objectForKey:@"id"];
+                NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
+                self.projectID = [projects objectAtIndex:0];
+                [self updateInfo:snapshot];
+            } withCancelBlock:^(NSError *error) {
+                NSLog(@"%@", error.description);
+            }];
+        }
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
