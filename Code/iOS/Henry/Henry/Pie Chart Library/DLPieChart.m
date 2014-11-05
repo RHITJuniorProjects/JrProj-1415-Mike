@@ -736,7 +736,7 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
     NSLog(@"hosting:%@ centre:%@ radius:%f",NSStringFromCGRect(layerHostingView.frame),NSStringFromCGPoint(layerHostingView.pieCenter),(layerHostingView.pieRadius));
     legendX = layerHostingView.pieCenter.x+layerHostingView.pieRadius+OFFSET*2;
     legendY = OFFSET*2;
-    legendWidth = layerHostingView.frame.size.width - OFFSET*4 - (layerHostingView.pieRadius*2);
+    legendWidth = layerHostingView.frame.size.width - OFFSET - (layerHostingView.pieRadius*2);
     legendHeight = layerHostingView.pieRadius * 2 - OFFSET;
     
     legendsView.frame = CGRectMake(legendX, legendY, legendWidth, legendHeight);
@@ -747,16 +747,17 @@ static CGPathRef CGPathCreateArc(CGPoint center, CGFloat radius, CGFloat startAn
     for (int i=0;i<nameArray.count;i++)
     {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(5, y, 25, 25);
+        btn.frame = CGRectMake(5, y, 15, 15);
         btn.tag = i;
         [btn addTarget:self action:@selector(legendClicked:) forControlEvents:UIControlEventTouchUpInside];
         btn.backgroundColor = [DLColorsArray objectAtIndex:i];
         [legendsScrollView addSubview:btn];
         
-        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(40, y, legendWidth-OFFSET*2, 25)];
-        lbl.text = [nameArray objectAtIndex:i];
+        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(25, y, legendWidth-2*OFFSET, 22)];
+        NSString *name = [nameArray objectAtIndex:i];
+        lbl.text = name;
         lbl.backgroundColor = [UIColor clearColor];
-        [lbl setAdjustsFontSizeToFitWidth:YES];
+        [lbl setFont: [UIFont systemFontOfSize:10]];
         [legendsScrollView addSubview:lbl];
         
         y += lbl.frame.size.height+5;
