@@ -63,7 +63,7 @@
     self.dueDateLabel.text = [json objectForKey:@"due_date"];
     self.descriptionView.text = [json objectForKey:@"description"];
     self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@", [json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
-    self.tasksCompleteBar.progress = [[json objectForKey:@"task_percent"] floatValue];
+    self.tasksCompleteBar.progress = [[json objectForKey:@"task_percent"] floatValue]/100;
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }

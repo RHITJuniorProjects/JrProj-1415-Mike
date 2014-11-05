@@ -55,11 +55,6 @@
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    NSString *urlString = [NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@.json", self.projectID];
-//    NSURL *jsonURL = [NSURL URLWithString:urlString];
-//    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-//    NSError *error;
-//    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     
     NSDictionary *json = snapshot.value[@"projects"][self.projectID];
     
@@ -72,9 +67,9 @@
     NSLog(@"%0.2f", totalHours/estimatedHours);
     self.hoursLoggedProgressBar.progress = totalHours/estimatedHours;
     self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
-    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] intValue] / 100;
+    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] doubleValue] / 100;
     self.milestonesCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"milestones_completed"],[json objectForKey:@"total_milestones"]];
-    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestonePercent"] intValue] / 100;
+    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestone_percent"] doubleValue] / 100.0;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
