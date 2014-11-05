@@ -8,6 +8,7 @@ import java.util.Map;
 import com.firebase.client.Firebase;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
@@ -146,9 +147,10 @@ public class TaskListFragment extends ListFragment {
 		createMilestone.setEnabled(false);
 
 		Firebase ref = new Firebase(MainActivity.firebaseUrl);
+		Enums.Role role = this.mCallbacks.getSelectedProject().getMembers()
+				.get(ref.getAuth().getUid());
 
-		if (this.mCallbacks.getSelectedProject().getMembers()
-				.get(ref.getAuth().getUid()).toString().equals("lead")) {
+		if (role != null && role.equals(Enums.Role.lead)) {
 			MenuItem createTask = menu.findItem(R.id.action_task);
 			createTask.setVisible(true);
 			createTask.setEnabled(true);
