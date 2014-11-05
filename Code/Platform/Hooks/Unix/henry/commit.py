@@ -257,7 +257,7 @@ if __name__ == '__main__':
 
     updateDefaults(milestoneID,taskID,status)
 
-    commitID =writeCommit(ref,msg,None,userID,int(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
+    commitID =writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
