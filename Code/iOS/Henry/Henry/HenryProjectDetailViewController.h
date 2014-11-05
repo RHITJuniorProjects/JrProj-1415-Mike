@@ -24,4 +24,13 @@
 @property NSArray *tasks;
 @property NSString *uid;
 @property (weak, nonatomic) IBOutlet DLPieChart *pieChart;
+
+
+
+
+@property NSMutableArray *names;
+@property NSMutableArray *devs;
+@property NSDictionary *assignableDevs;
+@property NSDictionary *allDevs;
+@property NSMutableArray *linesOfCode;
 @end

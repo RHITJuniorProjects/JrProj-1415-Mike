@@ -16,23 +16,6 @@
 
 @implementation HenryProjectDetailViewController
 
--(void)viewWillAppear:(BOOL)animated {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        if (self.projectID == nil) {
-            self.fb = [HenryFirebase getFirebaseObject];
-            [self.fb observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                self.uid = [defaults objectForKey:@"id"];
-                NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
-                self.projectID = [projects objectAtIndex:0];
-                [self updateInfo:snapshot];
-            } withCancelBlock:^(NSError *error) {
-                NSLog(@"%@", error.description);
-            }];
-        }
-    }
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -46,14 +29,7 @@
         NSLog(@"%@", error.description);
     }];
     
-    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
     
-    for(int i =0;i<4;i++){
-        NSNumber *num = [NSNumber numberWithInt:1];
-        [dataArray addObject:num];
-    }
-    
-    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray];
     
 }
 
@@ -72,6 +48,11 @@
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //    NSString *urlString = [NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@.json", self.projectID];
+    //    NSURL *jsonURL = [NSURL URLWithString:urlString];
+    //    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
+    //    NSError *error;
+    //    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     
     NSDictionary *json = snapshot.value[@"projects"][self.projectID];
     
@@ -84,10 +65,33 @@
     NSLog(@"%0.2f", totalHours/estimatedHours);
     self.hoursLoggedProgressBar.progress = totalHours/estimatedHours;
     self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
-    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] doubleValue] / 100;
+    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] intValue] / 100;
     self.milestonesCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"milestones_completed"],[json objectForKey:@"total_milestones"]];
-    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestone_percent"] doubleValue] / 100.0;
+    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestonePercent"] intValue] / 100;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+    self.assignableDevs = snapshot.value[@"projects"][self.projectID][@"members"];
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    
+    self.allDevs = snapshot.value[@"users"];
+    NSMutableArray *developers = [[NSMutableArray alloc] init];
+    NSArray *keys = [self.assignableDevs allKeys];
+    self.names = [[NSMutableArray alloc] init];
+    for (NSString *key in keys) {
+        NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
+        NSNumber *lines = [[[[self.allDevs objectForKey:key] objectForKey:@"projects"] objectForKey:self.projectID] objectForKey:@"added_lines_of_code"];
+        //NSLog(key);
+        if(name != NULL && lines!=0){
+            [self.names addObject:name];
+            [dataArray addObject:lines];
+            [developers addObject:key];
+        }
+    }
+    
+    
+    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
+    
 }
 
 - (void)didReceiveMemoryWarning {
