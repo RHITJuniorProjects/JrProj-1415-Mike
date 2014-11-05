@@ -42,6 +42,7 @@ public class MilestoneTest extends TestCase {
 							milestoneKey);
 			this.milestone = TestHelpers.getFirebaseSync(this.itemUrl
 					+ ".json?shallow=true");
+			System.out.println(this.itemUrl);
 		} catch (Exception e) {
 			// Do nothing, the tests will catch
 		}

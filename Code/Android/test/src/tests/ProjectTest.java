@@ -33,6 +33,7 @@ public class ProjectTest extends TestCase {
 					+ String.format("projects/%s/", projectKey);
 			this.project = TestHelpers.getFirebaseSync(this.itemUrl
 					+ ".json?shallow=true");
+			System.out.println(this.itemUrl);
 		} catch (Exception e) {
 			// Do nothing, the tests will catch
 		}
