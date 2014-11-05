@@ -65,7 +65,9 @@ def getUserID(gituser,ref):
     try:
         userID = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
     except:
-        raise Exception('HENRY: Invalid username, commit failed')
+        #raise Exception('HENRY: Invalid username, commit failed')
+        print 'HENRY: Invalid or nonexistant username, commit failed'
+        exit(1)
     return userID
 
 
@@ -79,7 +81,8 @@ def getMilestoneID(projectID,milestone):
     try:
         mID = [m for m in filtered if filtered[m]['name']==milestone][0]
     except:
-        raise Exception('HENRY: Nonexistent milestone, commit failed')
+        print 'HENRY: Invalid or nonexistent milestone, commit failed'
+        exit(1)
     return mID
 
 
@@ -90,7 +93,8 @@ def getTaskID(projectID,milestoneID,task):
     try:
         tID = [t for t in filtered if filtered[t]['name']==task][0]
     except:
-        raise Exception('HENRY: Nonexistent task, commit failed')
+        print 'HENRY: Invalid or nonexistant task, commit failed'
+        exit(1)
     return tID
 
 
@@ -139,7 +143,11 @@ def getActiveMilestones(ref,userID,projectID):
 
 def getAssignedTasks(ref,userID,projectID,milestoneID):
     path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
-    taskIDs = ref.get(path,None).keys()
+    try:
+        taskIDs = ref.get(path,None).keys()
+    except:
+        print 'HENRY: You have no assigned tasks for this milestone, commit failed'
+        exit(1)
     path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     allTasks = ref.get(path,None)
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
@@ -214,6 +222,9 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             status = possibleStatuses[int(status) - 1]
         elif status == '' and def_status != 0:
             status = def_status
+        else:
+            print 'HENRY: Invalid status, commit failed'
+            exit(1)
 
     return hours,mID,tID,status
 

@@ -36,6 +36,7 @@ class CreateProjecTestCase(unittest.TestCase):
         util.createProject(self.ref,'integration test project 1','ignore this')
         final_num_projects = self.number_of_projects()
         self.assertEqual(init_num_projects+1,final_num_projects)
+        os.system('git commit');
         
 class CreateUserTestCase(unittest.TestCase):
 
