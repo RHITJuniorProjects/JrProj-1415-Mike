@@ -67,7 +67,7 @@
     NSArray *keys = [self.assignableDevs allKeys];
     self.names = [[NSMutableArray alloc] init];
     for (NSString *key in keys) {
-        NSNumber *lines = [[[[self.allDevs objectForKey:key] objectForKey:@"projects"] objectForKey:self.ProjectID] objectForKey:@"added_lines_of_code"];
+        NSNumber *lines = [[[[[[self.allDevs objectForKey:key] objectForKey:@"projects"] objectForKey:self.ProjectID] objectForKey:@"milestones"] objectForKey:self.MileStoneID] objectForKey:@"added_lines_of_code"];
         
         NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
         //NSLog(key);
