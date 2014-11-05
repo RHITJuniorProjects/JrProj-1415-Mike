@@ -204,6 +204,9 @@ User.ProjectData.prototype = {
 			this.getProject().getMilestones,
 			this.__milestones
 		);
+	},
+	getLinesOfCode:function(){
+		return this.__total_lines_of_code;
 	}
 };
 
@@ -220,6 +223,9 @@ User.MilestoneData = function(user,ref){
 User.MilestoneData.prototype = {
 	getMilestone:function(){
 
+	},
+	getLinesOfCode:function(){
+		return this.__total_lines_of_code;
 	}
 };
 
@@ -470,9 +476,10 @@ function Task(firebase){
 	this.__firebase = firebase;
 	this.uid = firebase.name();
 	this.__name = firebase.child('name');
-	this.__description = firebase.child('description');
+	this.__description= firebase.child('description');
 	this.__assigned_user = firebase.child('assignedTo');
 	this.__category = firebase.child('category');
+	this.__lines_of_code = firebase.child('total_lines_of_code');
 	this.__originalTime = firebase.child('original_time_estimate');
 	this.__updatedTime = firebase.child('updated_time_estimate');
 };
@@ -519,6 +526,11 @@ Task.prototype = {
 			});
 		}
 		return select;
+	},
+	getTotalLinesOfCode:function(callback){
+		this.__total_lines_of_code.on('value',function(dat){
+			callback(dat.val());
+		});
 	},
 	getOriginalTime:function(callback){
 		this.__originalTime.on('value',function(dat){
