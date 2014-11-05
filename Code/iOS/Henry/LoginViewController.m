@@ -61,16 +61,9 @@
         if (error) {
             switch(error.code) {
                 case FAuthenticationErrorUserDoesNotExist:
-                    // Handle invalid user
-                    errorMsg = @"Invalid User";
-                    break;
                 case FAuthenticationErrorInvalidEmail:
-                    // Handle invalid email
-                    errorMsg = @"Invalid Email";
-                    break;
                 case FAuthenticationErrorInvalidPassword:
-                    // Handle invalid password
-                    errorMsg = @"Invalid Password";
+                    errorMsg = @"Username or password is incorrect.";
                     break;
                 default:
                     errorMsg = @"Failed to Login";

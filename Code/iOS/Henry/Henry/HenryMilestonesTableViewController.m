@@ -158,14 +158,12 @@
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-    //    vc.userTasks = self.tasks;
         vc.uid = self.uid;
     } else {
         HenryMilestoneDetailViewController *vc = [segue destinationViewController];
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
-    //    vc.userTasks = self.tasks;
         vc.uid = self.uid;
     }
 

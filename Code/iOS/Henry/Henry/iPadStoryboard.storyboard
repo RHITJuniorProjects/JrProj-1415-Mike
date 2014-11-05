@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
+        <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -307,13 +307,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FL9-YD-oWy">
-                                <rect key="frame" x="14" y="421" width="293" height="48"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="View Milestones">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="1VJ-nS-G7V">
                                 <rect key="frame" x="16" y="137" width="288" height="94"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -390,13 +383,6 @@
                                 </constraints>
                                 <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </progressView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rGh-kI-Ljx">
-                                <rect key="frame" x="14" y="490" width="293" height="48"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="View Tasks">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iz4-4z-EOo">
                                 <rect key="frame" x="162" y="445" width="291" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -549,6 +535,12 @@
                                             </segue>
                                         </connections>
                                     </button>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="S3k-2Z-V9Y">
+                                        <rect key="frame" x="11" y="151" width="299" height="94"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="jMr-xc-QzJ" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="8" id="12g-hn-gkO"/>
@@ -705,7 +697,7 @@
                     <connections>
                         <outlet property="assigneeNameLabel" destination="qqK-5r-6qF" id="Vv6-EA-gJb"/>
                         <outlet property="currentEstimateField" destination="rjm-Ed-f4R" id="UsL-YP-UHM"/>
-                        <outlet property="descriptionView" destination="2oH-Gy-gb6" id="T2Q-Qn-1F1"/>
+                        <outlet property="descriptionView" destination="S3k-2Z-V9Y" id="T92-9j-bwJ"/>
                         <outlet property="hoursLabel" destination="2qK-BW-FaJ" id="q4k-kV-T9P"/>
                         <outlet property="originalEstimateLabel" destination="vmT-Ev-jdj" id="11w-tP-g3j"/>
                         <outlet property="statusButton" destination="w9X-xV-f1o" id="gyO-Eq-btE"/>

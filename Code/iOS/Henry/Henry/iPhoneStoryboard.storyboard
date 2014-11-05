@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="6aW-Qc-JrE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="6aW-Qc-JrE">
     <dependencies>
+        <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -850,21 +851,21 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lJn-oa-EyM">
-                                <rect key="frame" x="132" y="287" width="56" height="30"/>
-                                <state key="normal" title="Projects">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="g3A-2o-XFD" kind="modal" id="hr0-Sg-r1P"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="wsE-Xd-IZK"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Home" id="S23-nn-rfF">
                         <barButtonItem key="leftBarButtonItem" image="menu.png" style="plain" id="1CK-Ku-Tm4"/>
+                        <barButtonItem key="rightBarButtonItem" title="Projects" id="nMv-qV-VDI">
+                            <connections>
+                                <segue destination="g3A-2o-XFD" kind="modal" id="1nN-Tc-TbS"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="navButton" destination="1CK-Ku-Tm4" id="n5J-ZD-gDi"/>
                     </connections>
@@ -888,9 +889,9 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="1nN-Tc-TbS"/>
         <segue reference="DJc-dz-GE7"/>
         <segue reference="Jkc-DS-FtK"/>
-        <segue reference="N3w-Us-8Fy"/>
         <segue reference="y6A-s5-3um"/>
         <segue reference="TUL-V0-Fep"/>
     </inferredMetricsTieBreakers>

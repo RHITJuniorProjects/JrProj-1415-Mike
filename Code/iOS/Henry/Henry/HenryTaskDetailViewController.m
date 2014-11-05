@@ -71,11 +71,6 @@
     
     NSDictionary *json = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID][@"tasks"][self.taskID];
     
-//    NSString *urlStringForName = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/users/%@.json", [json objectForKey:@"assignedTo"]];
-//    NSURL *jsonURLForName = [NSURL URLWithString:urlStringForName];
-//    NSData *dataForName = [NSData dataWithContentsOfURL:jsonURLForName];
-//    NSDictionary *jsonForName = [NSJSONSerialization JSONObjectWithData:dataForName options:0 error:&error];
-    
     NSDictionary *jsonForName = snapshot.value[@"users"][[json objectForKey:@"assignedTo"]];
     
     self.taskNameLabel.text = [json objectForKey:@"name"];
@@ -90,14 +85,7 @@
     self.originalEstimateLabel.text = [NSString stringWithFormat:@"%.2f", (double)self.originalTimeEstimate];
     self.currentEstimateField.text = [NSString stringWithFormat:@"%.2f", (double)self.currentTimeEstimate];
     self.hoursLabel.text = [NSString stringWithFormat:@"%.2f/%.2f hours", (double)self.hoursSpent, (double)self.currentTimeEstimate];
-    
-//    if(!self.primaryDev){
-//        self.assigneeNameLabel.text = @"None";
-//        
-//    }else{
-//        self.assigneeNameLabel.text = self.primaryDev.devName;
-//    }
-    
+
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 

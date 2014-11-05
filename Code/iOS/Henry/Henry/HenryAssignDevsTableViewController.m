@@ -85,13 +85,11 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return self.names.count;
 }
@@ -172,7 +170,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    //HenryTaskDetailViewController *tasksVC = [segue destinationViewController];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
     HenryTaskDetailViewController *vc = [segue destinationViewController];
