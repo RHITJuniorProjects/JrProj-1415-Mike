@@ -13,7 +13,7 @@
 #import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
 @property Firebase* fb;
-@property UITableViewCell *previouslySelected;
+@property UITableViewCell *previouslySelected; 
 @property int selectedIndex;
 @property BOOL firstTime;
 @property BOOL clearChecksOnSelection;

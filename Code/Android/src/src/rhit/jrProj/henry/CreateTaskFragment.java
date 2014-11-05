@@ -124,16 +124,7 @@ public class CreateTaskFragment extends DialogFragment {
 
 		Firebase newTask = new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/").push();
-		
-		String newId = newTask.getName();
-		Firebase newName = new Firebase(MainActivity.firebaseUrl + "projects/"
-				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + newId
-				+ "/name/");
-		newName.setValue(name);
-		Firebase newDes = new Firebase(MainActivity.firebaseUrl + "projects/"
-				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + newId
-				+ "/description/");
-		newDes.setValue(des);
-
+		newTask.child("name").setValue(name);
+		newTask.child("description").setValue(des);
 	}
 }

@@ -118,15 +118,10 @@ public class CreateMilestoneFragment extends DialogFragment {
 	private void createMilestone() {
 		String name = this.mNameField.getText().toString();
 		String des = this.mDescriptionField.getText().toString();
-		Firebase f = new Firebase(MainActivity.firebaseUrl + "projects/"
+		
+		Firebase ref = new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectid + "/milestones/").push();
-		String newId = f.getName();
-		Firebase f2 = new Firebase(MainActivity.firebaseUrl + "projects/"
-				+ this.projectid + "/milestones/" + newId + "/name/");
-		f2.setValue(name);
-		Firebase f3 = new Firebase(MainActivity.firebaseUrl + "projects/"
-				+ this.projectid + "/milestones/" + newId + "/description/");
-		f3.setValue(des);
-
+		ref.child("name").setValue(name);
+		ref.child("description").setValue(des);
 	}
 }

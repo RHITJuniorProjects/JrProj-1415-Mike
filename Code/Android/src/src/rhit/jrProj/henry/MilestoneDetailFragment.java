@@ -12,6 +12,7 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.helpers.GraphHelper;
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -77,10 +78,32 @@ public class MilestoneDetailFragment extends Fragment {
 			FrameLayout chartView = (FrameLayout) rootView
 					.findViewById(R.id.pieChart);
 			GraphHelper.PieChartInfo chartInfo = this.milestoneItem.getLocAddedInfo();
-			GraphicalView pieChart = GraphHelper.makePieChart(
+			/*GraphicalView pieChart = GraphHelper.makePieChart(
 					"Lines Added for " + this.milestoneItem.getName(),
 					chartInfo.getValues(), chartInfo.getKeys(),
-					this.getActivity());
+					this.getActivity());*/
+			
+			List<List<Double>> values = new ArrayList<List<Double>>();
+			List<Double> value1 = new ArrayList<Double>();
+			value1.add(3.0);
+			value1.add(4.0);
+			value1.add(5.0);
+			value1.add(2.0);
+			values.add(value1);
+			List<Double> value2 = new ArrayList<Double>();
+			value2.add(-2.0);
+			value2.add(-4.0);
+			value2.add(-2.0);
+			value2.add(-3.0);
+			values.add(value2);
+			
+			List<String> keys = new ArrayList<String>();
+			keys.add("Lines Added");
+			keys.add("Lines Removed");
+			
+			GraphicalView pieChart = GraphHelper.makeStackedBarChart("Chart Title",
+					"X Axis Label", "Y Axis Label", values, new ArrayList<String>(),
+					keys, this.getActivity());
 			Log.i("Henry", chartView.toString());
 			chartView.addView(pieChart, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));

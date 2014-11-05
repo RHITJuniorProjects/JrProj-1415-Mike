@@ -86,7 +86,7 @@ projectsRef.on('value', function(projects) {
                             completedTasks++;
                         }
                         milestoneHours += task.child('total_hours').val();
-                        milestoneEstimatedHours += task.child('updated_time_estimate').val();
+                        milestoneEstimatedHours += task.child('updated_hour_estimate').val();
                         var taskID = task.name();
                         milestoneRemovedLOC += task.child('removed_lines_of_code').val();
                         milestoneAddedLOC += task.child('added_lines_of_code').val();
@@ -112,7 +112,7 @@ projectsRef.on('value', function(projects) {
                         var currentMilestoneHours = milestone.child('total_hours').val();
 
                         milestone.child('tasks').forEach(function(taskToSum) {
-                            milestoneEstHoursSum += taskToSum.child('updated_time_estimate').val();
+                            milestoneEstHoursSum += taskToSum.child('updated_hour_estimate').val();
                             milestoneTotalHours += taskToSum.child('total_hours').val();
                         });
 
@@ -130,16 +130,49 @@ projectsRef.on('value', function(projects) {
                         var isDone = task.child('is_completed').val();
                         var taskStatus = task.child('status').val();
                         var isStatusDone = (taskStatus == 'Closed');
-                        var updatedHourEstimate = task.child('updated_time_estimate').val();
+                        var updatedHourEstimate = task.child('updated_hour_estimate').val();
                         var totalHours = task.child('total_hours').val();
+                        var totalLinesOfCode = task.child('total_lines_of_code').val();
+                        var addedLOC = task.child('added_lines_of_code').val();
+                        var removedLOC =task.child('removed_lines_of_code').val();
 
+                        if(isDone === null){
+                            isDone = false;
+                        }
+                        if(taskStatus === null){
+                            taskStatus = "new";
+                        }
+                        if(isStatusDone === null){
+                            isStatusDone = false;
+                        }
+                        if(updatedHourEstimate === null){
+                            updatedHourEstimate = task.child('original_hour_estimate').val();
+                        }
+                        if(totalHours === null){
+                          totalHours = 0;  
+                        }
+                        if(totalLinesOfCode === null){
+                          totalLinesOfCode = 0;  
+                        }
+                        if(addedLOC === null){
+                          addedLOC = 0;  
+                        }
+                        if(removedLOC === null){
+                          removedLOC = 0;  
+                        }
                         //Calculates percent hours completed
                         var taskHrPercent = calculatePercentage(totalHours, updatedHourEstimate);
-
                         //TODO: workaround
                         //check calculatePercentage. should error check for all percetange calculations
                         task.ref().update({
-                            'percent_complete': taskHrPercent
+                            'percent_complete': taskHrPercent,
+                            'is_completed': isDone,
+                            'status': taskStatus,
+                            'updated_hour_estimate': updatedHourEstimate,
+                            'total_hours': totalHours,
+                            'total_lines_of_code': totalLinesOfCode,
+                            'added_lines_of_code': addedLOC,
+                            'removed_lines_of_code': removedLOC
                         });
 
                         //if the status is closed, but it isn't marked as complete, this means that it was a new update, 
@@ -164,7 +197,7 @@ projectsRef.on('value', function(projects) {
                             var milestonesCompleted = project.child('milestones_completed').val();
                             if (milestoneTotalTasks !== 0 && milestoneTasksCompleted == milestoneTotalTasks) {
                                 milestonesCompleted += 1;
-                            };
+                            }
                             //project.ref().update({
                             //    'tasks_completed': projectTasksCompleted,
                             //    'task_percent': projectTaskPercent,
@@ -332,164 +365,13 @@ function calculateMetrics(projectID, commit) {
             });
         });
     updateLocAndHoursContribs(projectID, milestone);
-
-    // calculates all metrics data for the user
-    // TODO: do this as a transaction in case we get a nonexistent task
-    // usersRef.child(user)
-    //     .child('projects')
-    //     .child(projectName)
-    //     .once('value', function(userProject) {
-
-    //         //retrieves the user's current milestone metrics
-    //         var userProjectHours = userProject.child('total_hours').val();
-    //         var userProjectAddedLOC = userProject.child('added_lines_of_code').val();
-    //         var userProjectRemovedLOC = userProject.child('removed_lines_of_code').val();
-
-    //         //calculates their new values
-    //         userProjectHours += hours;
-    //         userProjectAddedLOC += added_lines_of_code;
-    //         userProjectRemovedLOC += removed_lines_of_code;
-
-    //         //retrieves the user's current milestone metrics
-    //         var userMilestone = null;
-    //         try {
-    //             userMilestone = userProject.child('milestones').child(milestone);
-    //         }
-    //         catch (e) {
-    //             // if a milestone was null, reject changes to milestone (TODO: encompass project as well?)
-    //             console.log("Milestone \"" + milestone + "\" does not exist for User \"" + user + "\"" + " and Project \"" + userProject.name() + "\"");
-    //             return;
-    //         }
-    //         var userMilestoneHours = userMilestone.child('total_hours').val();
-    //         var userMilestoneAddedLOC = userMilestone.child('added_lines_of_code').val();
-    //         var userMilestoneRemovedLOC = userMilestone.child('removed_lines_of_code').val();
-
-    //         //calculates new values
-    //         userMilestoneHours += hours;
-    //         userMilestoneAddedLOC += added_lines_of_code;
-    //         userMilestoneRemovedLOC += removed_lines_of_code;
-
-    //         //retrieves the user's current metrics for the task
-    //         var userTask = null;
-    //         try {
-    //             userTask = userMilestone.child("tasks").child(task);
-    //         }
-    //         catch (e) {
-    //             console.log("Task \"" + task + "\" does not exist for User \"" + user + "\" and Project \"" + userProject.name() + "\" and Milestone \"" + userMilestone.name() + "\"");
-    //             return;
-    //         }
-    //         var userTaskHours = userTask.child('total_hours').val();
-    //         var userTaskAddedLOC = userTask.child('added_lines_of_code').val();
-    //         var userTaskRemovedLOC = userTask.child('removed_lines_of_code').val();
-
-    //         //calculates new values
-    //         userTaskHours += hours;
-    //         userTaskAddedLOC += added_lines_of_code;
-    //         userTaskRemovedLOC += removed_lines_of_code;
-
-
-
-    // // updates the user's project data
-    // userProject.ref().update({
-    //     'total_hours': userProjectHours,
-    //     'total_lines_of_code' : userProjectAddedLOC - userProjectRemovedLOC,
-    //     'added_lines_of_code': userProjectAddedLOC,
-    //     'removed_lines_of_code': userProjectRemovedLOC
-    // });
-
-    // // updates the user's milestone data
-    // userMilestone.ref().update({
-    //     'total_hours': userMilestoneHours,
-    //     'total_lines_of_code' : userMilestoneAddedLOC - userMilestoneRemovedLOC,
-    //     'added_lines_of_code': userMilestoneAddedLOC,
-    //     'removed_lines_of_code': userMilestoneRemovedLOC
-    // });
-
-    // // updates the user's task data
-    // userTask.ref().update({
-    //     'total_hours': userTaskHours,
-    //     'total_lines_of_code': userTaskAddedLOC - userTaskRemovedLOC,
-    //     'added_lines_of_code': userTaskAddedLOC,
-    //     'removed_lines_of_code': userTaskRemovedLOC
-    // });
-
-    //      });
-
-    // metrics data for projects, milestones, and tasks
-    // projectsRef.child(projectName)
-    //     .once('value', function(projectBranch) {
-    //         var projectHours = projectBranch.child('total_hours').val();
-    //         var projectAddedLOC = projectBranch.child('added_lines_of_code').val();
-    //         var projectRemovedLOC = projectBranch.child('removed_lines_of_code').val();
-    //         var projectHoursProjected = projectBranch.child('total_estimated_hours').val();
-
-    //         projectHours += hours;
-    //         projectAddedLOC += added_lines_of_code;
-    //         projectRemovedLOC += removed_lines_of_code;
-
-    //         var projectHoursPercent = (projectHours * 100) / projectHoursProjected;
-
-    //         var milestoneBranch = null;
-    //         try {
-    //             milestoneBranch = projectBranch.child('milestones').child(milestone);
-    //         }
-    //         catch (e) {
-    //             console.log("Milestone \"" + milestone + "\" does not exist for Project \"" + projectBranch.name() + "\"");
-    //             return;
-    //         }
-    //         var milestoneHours = milestoneBranch.child('total_hours').val();
-    //         var milestoneAddedLOC = milestoneBranch.child('added_lines_of_code').val();
-    //         var milestoneRemovedLOC = milestoneBranch.child('removed_lines_of_code').val();
-    //         var milestoneHoursProjected = milestoneBranch.child('estimated_hours').val();
-
-
-    //         milestoneHours += hours;
-    //         milestoneAddedLOC += added_lines_of_code;
-    //         milestoneRemovedLOC += removed_lines_of_code;
-
-    //         var milestoneHoursPercent = (milestoneHours * 100) / milestoneHoursProjected;
-
-
-    //         var taskHours = taskBranch.child('total_hours').val();
-    //         var taskAddedLOC = taskBranch.child('added_lines_of_code').val();
-    //         var taskRemovedLOC = taskBranch.child('removed_lines_of_code').val();
-    //         var taskHoursProjected = taskBranch.child('updated_time_estimate').val();
-
-    //         taskHours += hours;
-    //         taskAddedLOC += added_lines_of_code;
-    //         taskRemovedLOC += removed_lines_of_code;
-
-    //         var taskHoursPercent = (taskHours * 100) / taskHoursProjected;
-
-
-    // //update project
-    // projectBranch.ref().update({
-    //     'total_hours': projectHours,
-    //     'total_lines_of_code': projectAddedLOC - projectRemovedLOC,
-    //     'added_lines_of_code': projectAddedLOC,
-    //     'removed_lines_of_code': projectRemovedLOC,
-    //     'hours_percent': projectHoursPercent
-    // });
-
-    // // update milestone
-    // milestoneBranch.ref().update({
-    //     'total_hours': milestoneHours,
-    //     'total_lines_of_code': milestoneAddedLOC - milestoneRemovedLOC,
-    //     'added_lines_of_code': milestoneAddedLOC,
-    //     'removed_lines_of_code': milestoneRemovedLOC,
-    //     'hours_percent': milestoneHoursPercent
-    // });
-
-    //update task
-
-    // });
 }
 
 
 function calculatePercentage(current, total) {
         var percentage = 0;
         if (total !== 0 && current !== 0) {
-            percentage = Math.round(current / total * 100)
+            percentage = Math.round(current / total * 100);
         }
         if (percentage != Infinity && !isNaN(percentage)) {
             return percentage;
@@ -560,8 +442,6 @@ function updateLocAndHoursContribs(projectID, milestoneID) {
                         "loc_percent": mileLOCPercent,
                         "hours_percent": mileHourPercent
                     });
-
-
                 }
             });
         });

@@ -23,7 +23,6 @@
 		843D241719F476DF00DBC2CB /* HenryTaskStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241019F476DF00DBC2CB /* HenryTaskStatusTableViewController.m */; };
 		843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241219F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m */; };
 		843D241919F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
-		84D4E3931A03E55C000176E2 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84D4E3921A03E55C000176E2 /* Firebase.framework */; };
 		84DD890A19F551F900839255 /* HenryRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DD890919F551F900839255 /* HenryRootNavigationController.m */; };
 		8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 8731945C19FDCEC100CE82ED /* DLPieChart.m */; };
 		87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163219F73D4C006F574E /* HenryDevDisplayObject.m */; };
@@ -31,6 +30,7 @@
 		87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163819F73D78006F574E /* HenryAssignDevTableViewCell.m */; };
 		87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E464701A085D9300A18BF7 /* HenryProjectObject.m */; };
 		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
+		907F60CB1A09AF85008DF0CF /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 907F60CA1A09AF85008DF0CF /* Firebase.framework */; };
 		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
 		93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
@@ -93,7 +93,6 @@
 		843D241219F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		843D241319F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
-		84D4E3921A03E55C000176E2 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		84DD890819F551F900839255 /* HenryRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRootNavigationController.h; sourceTree = "<group>"; };
 		84DD890919F551F900839255 /* HenryRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRootNavigationController.m; sourceTree = "<group>"; };
 		8731945B19FDCEC100CE82ED /* DLPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPieChart.h; sourceTree = "<group>"; };
@@ -107,6 +106,7 @@
 		87E4646F1A085D9300A18BF7 /* HenryProjectObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectObject.h; sourceTree = "<group>"; };
 		87E464701A085D9300A18BF7 /* HenryProjectObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectObject.m; sourceTree = "<group>"; };
 		87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
+		907F60CA1A09AF85008DF0CF /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -148,7 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB3A4E619E48A4C00C687D5 /* SystemConfiguration.framework in Frameworks */,
-				84D4E3931A03E55C000176E2 /* Firebase.framework in Frameworks */,
+				907F60CB1A09AF85008DF0CF /* Firebase.framework in Frameworks */,
 				ADB3A4E419E48A4300C687D5 /* Security.framework in Frameworks */,
 				ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */,
 				ADB3A4E019E48A2A00C687D5 /* libc++.dylib in Frameworks */,
@@ -290,7 +290,7 @@
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
-				84D4E3921A03E55C000176E2 /* Firebase.framework */,
+				907F60CA1A09AF85008DF0CF /* Firebase.framework */,
 				93447F3E19C91C5500C2FC38 /* Henry */,
 				93447F5719C91C5600C2FC38 /* HenryTests */,
 				93447F3719C91C5500C2FC38 /* Frameworks */,
