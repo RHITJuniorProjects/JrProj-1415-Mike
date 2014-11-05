@@ -368,7 +368,7 @@ public class Milestone implements Parcelable {
 				}
 			} else if (arg0.getName().equals("description")) {
 				this.milestone.setDescription(arg0.getValue(String.class));
-			} else if (arg0.getName().equals("dueDate")) { 
+			} else if (arg0.getName().equals("due_date")) { 
 				this.milestone.setDueDate(arg0.getValue(String.class));
 			}  else if (arg0.getName().equals("task_percent")) {
 				this.milestone.setTaskPercent(arg0.getValue(Integer.class));

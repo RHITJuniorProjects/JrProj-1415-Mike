@@ -258,5 +258,4 @@ public class GraphHelper {
 		renderer.setAxesColor(axesColor);
 		renderer.setLabelsColor(labelsColor);
 	}
-
 }

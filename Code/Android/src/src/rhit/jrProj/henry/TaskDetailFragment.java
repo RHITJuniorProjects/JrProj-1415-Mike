@@ -55,11 +55,11 @@ public class TaskDetailFragment extends Fragment implements
 		// Show the List content as text in a TextView.
 		if (this.taskItem != null) {
 			((TextView) rootView.findViewById(R.id.task_name))
-					.setText(this.taskItem.getName());
+					.setText("Name of task: " + this.taskItem.getName());
 			
 			((TextView) rootView.findViewById(R.id.task_assignee))
-					.setText(this.taskItem.getAssignedUserName() +
-							" - +" + this.taskItem.getAddedLines() + "/" + 
+					.setText("Assigned to:" + this.taskItem.getAssignedUserName() +
+							" \n +" + this.taskItem.getAddedLines() + "/" + 
 							"-" + this.taskItem.getRemovedLines() + " lines of code");
 			
 			((TextView) rootView.findViewById(R.id.task_hours_complete))
@@ -67,7 +67,11 @@ public class TaskDetailFragment extends Fragment implements
 							+ this.taskItem.getCurrentHoursEstimate()
 							+ " hours");
 			((TextView) rootView.findViewById(R.id.task_description))
-					.setText(this.taskItem.getDescription());
+					.setText("Description: " + this.taskItem.getDescription());
+			
+			((TextView) rootView.findViewById(R.id.status_descriptor))
+			.setText("The current task status is: \t\t (Click to change) ");
+		
 
 			// //////
 			// Task status spinner
