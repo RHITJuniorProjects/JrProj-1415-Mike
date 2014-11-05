@@ -5,39 +5,32 @@
 	</head>
 	<body class="wide">
 		<div id="title">
-			<h1>Henry</h1>
+			<h1 id="henry">Henry</h1>
 		</div>
 		<div id="pictures" class="main-content">
 			<ul class="example-orbit" data-orbit>
 			  <li>
 			  	<div class="bg">
-			    	<img src="forest1.jpg" alt="slide 1" />
-			    </div>
+			    	<!--<img src="forest1.jpg" alt="slide 1" />-->
+			    	<img id="one" alt="slide 1" />
+				</div>
 			    <div class="orbit-caption">
 			      Henry is a cross-platform user experience for a multi-user webscale application.
 			    </div>
 			  </li>
-			  <!-- li>
-              :a
-              :q
-			  	<div class="bg">
-			    	<img src="forest2.jpg" alt="slide 2" />
-			  	</div>
-			    <div class="orbit-caption">
-			      Users can create projects, tasks, milestones, and much more.
-			    </div>
-			  </li>-->
 			  <li>
  				<div class="bg">
-			    	<img src="water.jpg" alt="slide 2" />
+			    	<!--<img src="grass.JPG" alt="slide 3" />-->
+			    	<img id="two" alt="slide 2" />
 				</div>
 			    <div class="orbit-caption">
-			      Henry lets teams work together for the future.
+			      Henry is a project management tool.
 			    </div>
 			  </li>
 			  <li>
  				<div class="bg">
-			    	<img src="grass.JPG" alt="slide 3" />
+			    	<!--<img src="grass.JPG" alt="slide 3" />-->
+			    	<img id="three" alt="slide 3" />
 				</div>
 			    <div class="orbit-caption">
 			      Henry is a project management tool.
@@ -60,9 +53,9 @@
 			var addedResize = false;
 			$(window).bind("load",function(){
 				var footer = $('#footer');
-				var orbit = $('li');
+				var orbit = $('#pictures');
 				function adjust(){
-					var height = $(window).height()-150;
+					var height = $(window).height()-250;
 					if(height > 0){
 						footer.css({'top':height+'px'});
 					}
@@ -72,6 +65,9 @@
 					$(window).bind("resize",adjust);
 				}
 				adjust();
+				$('#one').attr('src','forest1.jpg');
+				$('#two').attr('src','grass.JPG');
+				$('#three').attr('src','water.jpg');
 			});
 		</script>
 	</body>
