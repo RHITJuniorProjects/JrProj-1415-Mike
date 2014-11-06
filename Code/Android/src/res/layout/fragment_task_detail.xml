@@ -41,6 +41,14 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" >
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/status_descriptor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:context="rhit.jrProj.henry.TaskDetailFragment" />
     
     <Spinner
         android:id="@+id/task_status_spinner"

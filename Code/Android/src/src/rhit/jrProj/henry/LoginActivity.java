@@ -48,6 +48,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 */
 
 	// private UserLoginTask mAuthTask = null;
+	
 	private ProgressDialog mAuthProgressDialog;
 
 	/* A reference to the firebase */

@@ -131,7 +131,8 @@ public class Project implements Parcelable, Comparable {
 		this.hoursPercent = in.readInt();
 		this.tasksPercent = in.readInt();
 		this.milestonesPercent = in.readInt();
-		this.members = new HashMap<String, Enums.Role>(); // How to transport? Loop?
+		this.members = new HashMap<String, Enums.Role>(); // How to transport?
+															// Loop?
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
 
@@ -255,9 +256,10 @@ public class Project implements Parcelable, Comparable {
 	public String getProjectId() {
 		return this.projectId;
 	}
-	
+
 	/**
 	 * Returns the list of members in a project.
+	 * 
 	 * @return
 	 */
 	public Map<String, Enums.Role> getMembers() {
@@ -309,7 +311,16 @@ public class Project implements Parcelable, Comparable {
 			} else if (arg0.getName().equals("members")) {
 				for (DataSnapshot member : arg0.getChildren()) {
 					if (!this.project.members.containsValue(member.getValue())) {
-						this.project.members.put(member.getName(), Enums.Role.valueOf(member.getValue(String.class).toLowerCase()));
+						try {
+							this.project.members.put(
+									member.getName(),
+									Enums.Role.valueOf(member.getValue(
+											String.class).toLowerCase()));
+						} catch (Exception e) {
+							Log.i("FAILED",
+									"Adding a role to a member failed: "
+											+ e.getMessage());
+						}
 					}
 				}
 			}
@@ -411,7 +422,7 @@ public class Project implements Parcelable, Comparable {
 	@Override
 	public int compareTo(Object another) {
 		if (another instanceof Project) {
-			Project anotherProject = (Project)another;
+			Project anotherProject = (Project) another;
 			return this.getName().compareTo(anotherProject.getName());
 		}
 		return 1;
