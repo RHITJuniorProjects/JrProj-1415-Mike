@@ -94,12 +94,15 @@ public class ProjectListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.projects = this.mCallbacks.getProjects();
+		
 		ProjectArrayAdapter<Project> arrayAdapter = new ProjectArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
 		setListAdapter(arrayAdapter);
+		
 		ProjectListChangeNotifier<Project> lcn = new ProjectListChangeNotifier<Project>(
 				arrayAdapter);
+		
 		this.mCallbacks.getUser()
 				.setListChangeNotifier(lcn);
 		for (Project project : this.projects) {

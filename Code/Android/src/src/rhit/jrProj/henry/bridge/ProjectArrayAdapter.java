@@ -1,9 +1,7 @@
 package rhit.jrProj.henry.bridge;
 
-import java.util.Comparator;
 import java.util.List;
 
-import rhit.jrProj.henry.firebase.Project;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 /**

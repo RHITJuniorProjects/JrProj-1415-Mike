@@ -13,11 +13,10 @@ import android.widget.BaseAdapter;
  */
 public class ProjectListChangeNotifier<T> extends ListChangeNotifier<T> {
 
-	private ProjectArrayAdapter<T> adapter;
-
 	public ProjectListChangeNotifier(ProjectArrayAdapter<T> adapter) {
 		super(adapter);
 	}
+	
 	/**
 	 * 
 	 * The method that will be triggered when data is changed in the object. This method sorts on every change.
