@@ -6,7 +6,12 @@ import java.util.List;
 import rhit.jrProj.henry.firebase.Project;
 import android.content.Context;
 import android.widget.ArrayAdapter;
-
+/**
+ * 
+ * An ArrayAdapter subclass designed for the project list. It is used for sorting.
+ *
+ * @author daveyle. Created Nov 6, 2014.
+ */
 public class ProjectArrayAdapter<T> extends ArrayAdapter<T> {
 
 	public ProjectArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects) {

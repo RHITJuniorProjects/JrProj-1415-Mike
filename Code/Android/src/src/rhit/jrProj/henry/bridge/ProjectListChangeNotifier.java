@@ -7,9 +7,9 @@ import android.widget.BaseAdapter;
 
 /**
  * 
- * The callback for a dynamic item in an android listview container
+ * The callback for a dynamic item in an android listview container designed for sorting of projects.
  *
- * @author rockwotj and daveyle. Created Oct 10, 2014.
+ * @author daveyle. Created Nov 6, 2014.
  */
 public class ProjectListChangeNotifier<T> extends ListChangeNotifier<T> {
 
@@ -20,7 +20,7 @@ public class ProjectListChangeNotifier<T> extends ListChangeNotifier<T> {
 	}
 	/**
 	 * 
-	 * The method that will be triggered when data is changed in the object.
+	 * The method that will be triggered when data is changed in the object. This method sorts on every change.
 	 *
 	 */
 	public void onChange() {
