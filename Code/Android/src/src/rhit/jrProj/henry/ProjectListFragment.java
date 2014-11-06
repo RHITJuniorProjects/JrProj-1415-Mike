@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.ProjectArrayAdapter;
+import rhit.jrProj.henry.bridge.ProjectListChangeNotifier;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
@@ -92,13 +94,15 @@ public class ProjectListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.projects = this.mCallbacks.getProjects();
-		Collections.sort(this.projects);
-		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
+		
+		ProjectArrayAdapter<Project> arrayAdapter = new ProjectArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
 		setListAdapter(arrayAdapter);
-		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
+		
+		ProjectListChangeNotifier<Project> lcn = new ProjectListChangeNotifier<Project>(
 				arrayAdapter);
+		
 		this.mCallbacks.getUser()
 				.setListChangeNotifier(lcn);
 		for (Project project : this.projects) {
