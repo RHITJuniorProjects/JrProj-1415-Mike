@@ -34,7 +34,7 @@ public class MainActivity extends Activity implements
 	/**
 	 * The Url to the firebase repository
 	 */
-	public final static String firebaseUrl = "https://henry-test.firebaseio.com/";
+	public final static String firebaseUrl = "https://shining-inferno-2277.firebaseio.com/";
 	/**
 	 * If the application is in tablet mode or not.
 	 */
