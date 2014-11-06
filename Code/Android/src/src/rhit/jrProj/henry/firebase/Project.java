@@ -427,5 +427,8 @@ public class Project implements Parcelable, Comparable {
 		}
 		return 1;
 	}
+	public int compareToIgnoreCase(Project p){
+		return this.getName().compareTo(p.getName());
+	}
 
 }
