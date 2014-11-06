@@ -7,7 +7,7 @@
 
 #title {
 	position: fixed;
-	z-index:2398749873214;
+	z-index:23;
 	top: 30%;
 	width: 100%;
 	background: white;
@@ -42,7 +42,7 @@
 }
 
 #footer {
-	z-index:92384023840234344802 !important;
+	z-index:92 !important;
 	position:fixed !important;
 	left:0 !important;
 	width:100% !important;
@@ -110,4 +110,8 @@ h2 {
 	font-size: 20px;
 	position: relative !important;
 	bottom: 5px;
+}
+
+#loginError, #registerError, #emailError{
+    color: red;
 }

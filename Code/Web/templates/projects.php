@@ -21,13 +21,13 @@
 								<h1>My Projects</h1>
 								<button data-reveal-id="myProjectModal">Add Project</button>
 								<div id="myProjectModal" class="reveal-modal" data-reveal>
-								<h2>New Project</h2><br>
-								Project Name: <input type="text" id="projectName"></br>
-								Description: <input type="text"id="projectDescription"></br>
-								Due Date: <input type="text" id="projectDueDate"></br>
-								Total Estimated Hours: <input type="text" id="projectEstimatedHours"></br>
-								<div class="row"><button id="project-submit" class="close-reveal-modal" onclick="addNewProject()">Submit</button></div>
-							</div>
+                                    <h2>New Project</h2><br>
+                                    Project Name: <input type="text" id="projectName"></br>
+                                    Description: <input type="text"id="projectDescription"></br>
+                                    Due Date: <input type="text" id="projectDueDate"></br>
+                                    Total Estimated Hours: <input type="text" id="projectEstimatedHours"></br>
+                                    <div class="row"><button id="project-submit" class="close-reveal-modal" onclick="addNewProject()">Submit</button></div>
+							    </div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
 								<dd class="accordion-navigation">

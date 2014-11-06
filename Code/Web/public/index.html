@@ -56,10 +56,31 @@
 		</div>
 		<div id="footer" class="row panel">
 			<div class="small-4 columns">
-				<a href="/register" class="button expand">Register</a>
+                <button data-reveal-id="myRegisterModal" class="expand">Register</button>
+                <div id="myRegisterModal" class="reveal-modal" data-reveal>
+                    <h2>Register</h2> <br />
+                    <form action="" onsubmit="register(); return false;">
+                        <label for="registerUser">Email:</label> <input type="text" id="registerUser" />
+                        <label for="registerPass">Password:</label> <input type="password" id="registerPass" />
+                        <label for="githubuser">Github User Name:</label> <input type="text" id="githubuser" />
+                        <label for="name">Name:</label> <input type="text" id="name"><br />
+                        <input class="button" type="submit" value="Register" />
+                    </form>
+                    <span id="registerError" hidden>Error registering, make sure all the fields are filled in.</span>
+                    <span id="emailError" hidden>Invalid Email</span>
+                </div>
 			</div>
 			<div class="small-4 columns">
-				<a href="/login" class="button expand">Login</a>
+				<button data-reveal-id="myLoginModal" class="expand">Login</button>
+                <div id="myLoginModal" class="reveal-modal" data-reveal>
+                	<h2>Login</h2> <br />
+                    <form action="" onsubmit="getLoginData(); return false;">
+                	    <label for="loginUser">Email:</label> <input type="text" id="loginUser" />
+                	    <label for="loginPass">Password:</label> <input type="password" id="loginPass" />
+                	    <input class="button" type="submit" value="Login" />
+                        <span id="loginError" hidden>Incorrect Username or Password</span>
+                     </form>
+                </div>
 			</div>
 			<div class="small-4 columns">
 				<a class="button expand">About</a>

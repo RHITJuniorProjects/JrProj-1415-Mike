@@ -642,9 +642,9 @@ Task.prototype = {
 
 
 function getLoginData(){ // Takes the login data from the form and places it into variables
-	var user = $("#user").val();
-	var pass = $("#pass").val();
-	document.getElementById("pass").value = "";
+	var user = $("#loginUser").val();
+	var pass = $("#loginPass").val();
+	document.getElementById("loginPass").value = "";
 	login(user, pass, false);
 }
 
@@ -668,7 +668,6 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 			}
 			window.location.replace("projects");
 		} else {
-			logout();
 			$("#loginError").show();
 		}
 	});
@@ -676,23 +675,25 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 
 function register(){ 		// Registers a new user with Firebase, and also adds that user
 							// to our local database (making a new developer/manager)
-	var user = $("#user").val();
-	var pass = $("#pass").val();
+	var user = $("#registerUser").val();
+	var pass = $("#registerPass").val();
 	var githubName = $("#githubuser").val();
 	var name = $("#name").val();
 	if(!user || !pass || !githubName || !name){
 		$("#registerError").show();
+        $("#emailError").hide();
 		return;
 	} 
 	firebase.createUser(
 		{
 			email: user,
-			password: pass,
+			password: pass
 		}, 
 		function(error) {
 			if (error === null) {
 				login(user, pass, true);
 			} else {
+                $("#registerError").hide();
 				$("#emailError").show();
 			}
 		}
@@ -701,9 +702,6 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 
 function logout() { 		// Shows the login button and hides the current user and logout
 	firebase.unauth();
-	$("#currentUser").hide();
-	$("#logoutButton").hide();
-	$("#loginButton").show();
 	userData = null;
 	window.location.replace("/");
 };
@@ -717,14 +715,16 @@ firebase.onAuth(
 		$(document).ready(
 			function(){
 				if(userData == null){
-					$("#currentUser").hide();
-					$("#logoutButton").hide();
-					$("#loginButton").show();
+					if(window.location.pathname !== "/"){
+                        window.location.replace("/");
+                    }
 				} else {
-					$("#currentUser").html("Currently logged in as " + userData.password.email);
-					$("#currentUser").show();
-					$("#logoutButton").show();
-					$("#loginButton").hide();
+                    if(window.location.pathname === "/projects") {
+                        $("#currentUser").html("Currently logged in as " + userData.password.email);
+                        $("#logoutButton").show();
+                    } else {
+                       window.location.replace("/projects");
+                    }
 				}
 			}
 		);
