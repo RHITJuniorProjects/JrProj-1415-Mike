@@ -6,78 +6,63 @@ find("1413993915191.png")
 click("1413993915191.png")
 wait(5)
 type("test2@test.com" + Key.TAB + "test")
-click("1415306750004.png")
+click("1415309656716.png")
 sleep(10)
-click("1413994136190.png")
+click("1415309819206.png")
 wait(5)
 find("1413937690035.png")
 click("1413937698349.png")
 wait(5)
-find("1415306929140.png")
-click("1415306943664.png")
+find("1415309875565.png")
+click("1415309881154.png")
 wait(5)
-if exists("1413937956682.png"):
+if exists("1415309895947.png"):
     print("It worked")
 else:
     print("It didn't work")
-
-find("1415308071645.png")
-click("1415308079474.png")
-click("1415308092275.png")
-    
+for x in range(0,3):
+    click("1415310085914.png") 
 
 
 wait(5)
 
 
 ## Test ability to see status of the project
-find("1413993915191.png")
-click("1413993915191.png")
-wait(5)
-type("test2@test.com" + Key.TAB + "test")
-click("1415306750004.png")
-wait(10)
-find("1413935779601.png")
-click("1413935786186.png")
-if exists("1413935809730.png"):
+
+find("1415309819206.png")
+click("1415309819206.png")
+if exists("1415310130987.png"):
     print("It worked")
 else:
     print("It didn't work")
 wait(3)
 
-find("1415308071645.png")
-click("1415308079474.png")
-click("1415308092275.png")
+click("1415310142817.png")
 
 wait(5)
 
 ## Test the ability to update the status of a feature
-find("1413993915191.png")
-click("1413993915191.png")
-wait(5)
-type("test2@test.com" + Key.TAB + "test")
-click("1413994040202.png")
-wait(10)
-find("1413935779601.png")
-click("1413935786186.png")
+
+find("1415309819206.png")
+click("1415309819206.png")
 wait(5)
 find("1413937690035.png")
 click("1413937698349.png")
 wait(7)
-find("1415308265161.png")
-click("1415308270336.png")
+find("1415310194585.png")
+click("1415310194585.png")
 wait(5)
-find("1413938516555.png")
-click("1413938523397.png")
+find("1415310212774.png")
+click("1415310212774.png")
 wait(5)
-click("1415308313732.png")
+click("1415310252326.png")
 wait(5)
 find("1413938557144.png")
 click("1413938557144.png")
 wait(2)
-find("1413938799187.png")
-click("1413938806937.png")
-if exists("1413938967238.png"):
+find("1415310282241.png")
+click("1415310288811.png")
+if exists("1415310319977.png"):
     print("It worked")
 else:
     print("It didn't work")
