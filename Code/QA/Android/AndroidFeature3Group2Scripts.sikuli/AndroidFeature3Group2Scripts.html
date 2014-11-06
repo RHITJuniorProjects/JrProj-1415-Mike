@@ -72,35 +72,33 @@
 <pre class="sikuli-code">
 <span class="cmt">## Android test scripts
 </span><span class="cmt">## Test ability to see status of milestones of the project
-</span><span class="skw">find</span>(<img src="1413993915191.png" />)
+</span><span class="cmt">## Only works by manually changing isPasswordValid function in LoginActivity.java to &gt;1
+</span>
+<span class="skw">find</span>(<img src="1413993915191.png" />)
 <span class="skw">click</span>(<img src="1413993915191.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">type</span>(<span class="str">"rockwotj@rose-hulman.edu"</span> + Key.TAB + <span class="str">"qqqqqq6"</span>)
-<span class="skw">click</span>(<img src="1413994040202.png" />)
+<span class="skw">type</span>(<span class="str">"test2@test.com"</span> + Key.TAB + <span class="str">"test"</span>)
+<span class="skw">click</span>(<img src="1415306750004.png" />)
 <span class="skw">sleep</span>(<span class="dig">10</span>)
 <span class="skw">click</span>(<img src="1413994136190.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
 <span class="skw">find</span>(<img src="1413937690035.png" />)
 <span class="skw">click</span>(<img src="1413937698349.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">find</span>(<img src="1413937918263.png" />)
-<span class="skw">click</span>(<img src="1413937925090.png" />)
+<span class="skw">find</span>(<img src="1415306929140.png" />)
+<span class="skw">click</span>(<img src="1415306943664.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
 <span class="kw">if</span> exists(<img src="1413937956682.png" />):
     <span class="kw">print</span>(<span class="str">"It worked"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"It didn't work"</span>)
 
-<span class="skw">click</span>(<img src="1413941202351.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">find</span>(<img src="1413941239128.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1413941246237.png" />)
-<span class="skw">click</span>(<img src="1413941263289.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1413941270617.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1413993855607.png" />)
+<span class="skw">find</span>(<img src="1415308071645.png" />)
+<span class="skw">click</span>(<img src="1415308079474.png" />)
+<span class="skw">click</span>(<img src="1415308092275.png" />)
+
+
+
 <span class="skw">wait</span>(<span class="dig">5</span>)
 
 
@@ -108,8 +106,8 @@
 </span><span class="skw">find</span>(<img src="1413993915191.png" />)
 <span class="skw">click</span>(<img src="1413993915191.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">type</span>(<span class="str">"rockwotj@rose-hulman.edu"</span> + Key.TAB + <span class="str">"qqqqqq6"</span>)
-<span class="skw">click</span>(<img src="1413994040202.png" />)
+<span class="skw">type</span>(<span class="str">"test2@test.com"</span> + Key.TAB + <span class="str">"test"</span>)
+<span class="skw">click</span>(<img src="1415306750004.png" />)
 <span class="skw">wait</span>(<span class="dig">10</span>)
 <span class="skw">find</span>(<img src="1413935779601.png" />)
 <span class="skw">click</span>(<img src="1413935786186.png" />)
@@ -117,25 +115,19 @@
     <span class="kw">print</span>(<span class="str">"It worked"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"It didn't work"</span>)
+<span class="skw">wait</span>(<span class="dig">3</span>)
 
+<span class="skw">find</span>(<img src="1415308071645.png" />)
+<span class="skw">click</span>(<img src="1415308079474.png" />)
+<span class="skw">click</span>(<img src="1415308092275.png" />)
 
-<span class="skw">click</span>(<img src="1413941202351.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">find</span>(<img src="1413941239128.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1413941246237.png" />)
-<span class="skw">click</span>(<img src="1413941263289.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1413941270617.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1413993855607.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
 
 <span class="cmt">## Test the ability to update the status of a feature
 </span><span class="skw">find</span>(<img src="1413993915191.png" />)
 <span class="skw">click</span>(<img src="1413993915191.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">type</span>(<span class="str">"rockwotj@rose-hulman.edu"</span> + Key.TAB + <span class="str">"qqqqqq6"</span>)
+<span class="skw">type</span>(<span class="str">"test2@test.com"</span> + Key.TAB + <span class="str">"test"</span>)
 <span class="skw">click</span>(<img src="1413994040202.png" />)
 <span class="skw">wait</span>(<span class="dig">10</span>)
 <span class="skw">find</span>(<img src="1413935779601.png" />)
@@ -144,13 +136,13 @@
 <span class="skw">find</span>(<img src="1413937690035.png" />)
 <span class="skw">click</span>(<img src="1413937698349.png" />)
 <span class="skw">wait</span>(<span class="dig">7</span>)
-<span class="skw">find</span>(<img src="1413937918263.png" />)
-<span class="skw">click</span>(<img src="1413937925090.png" />)
+<span class="skw">find</span>(<img src="1415308265161.png" />)
+<span class="skw">click</span>(<img src="1415308270336.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
 <span class="skw">find</span>(<img src="1413938516555.png" />)
 <span class="skw">click</span>(<img src="1413938523397.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1413938536741.png" />)
+<span class="skw">click</span>(<img src="1415308313732.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
 <span class="skw">find</span>(<img src="1413938557144.png" />)
 <span class="skw">click</span>(<img src="1413938557144.png" />)
