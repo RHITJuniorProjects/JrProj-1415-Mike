@@ -7,11 +7,13 @@ import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -66,7 +68,8 @@ public class MainActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 
 		Firebase.setAndroidContext(this);
-
+		ActionBar actionBar = getActionBar();
+		actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
 		Firebase ref = new Firebase(firebaseUrl);
 		this.fragmentStack = new Stack<Fragment>();
 		AuthData authData = ref.getAuth();
