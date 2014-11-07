@@ -3,7 +3,6 @@ package rhit.jrProj.henry;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.R.drawable;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -44,11 +43,8 @@ import com.firebase.client.FirebaseError;
 public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 	/**
-	 * Keep track of the login task to ensure we can cancel it if requested.
+	 * A dialog that displays during the authentication process saying "Authenticating with Firebase..."
 	 */
-
-	// private UserLoginTask mAuthTask = null;
-	
 	private ProgressDialog mAuthProgressDialog;
 
 	/* A reference to the firebase */
@@ -134,10 +130,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
-		// if (mAuthTask != null) {
-		// return;
-		// }
-
 		// Reset errors.
 		this.mEmailView.setError(null);
 		this.mPasswordView.setError(null);
@@ -177,11 +169,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			// perform the user login attempt.
 			showProgress(true);
 			this.mAuthProgressDialog.show();
-			// mAuthTask = new UserLoginTask(email, password);
-			// mAuthTask.execute((Void) null);
 			loginWithPassword(email, password);
 			showProgress(false);
-			// openProjectListView();
 		}
 	}
 
@@ -242,7 +231,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 			this.mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
-
+	
+	/**
+	 * Shows the user's primary email address stores on their Android, used for autocomplete
+	 */
 	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 		return new CursorLoader(this,
 				// Retrieve data rows for the device user's 'profile' contact.
@@ -259,6 +251,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 				ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
 	}
 
+	/**
+	 * sets up autocomplete for email addresses
+	 */
 	public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
 		List<String> emails = new ArrayList<String>();
 		cursor.moveToFirst();
@@ -269,31 +264,45 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		addEmailsToAutoComplete(emails);
 	}
-
+	/**
+	 * does nothing right now
+	 */
 	public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
 	}
 
+	/**
+	 * Authenticates the user with Firebase, using the specified email address and password
+	 * @param username
+	 * @param password
+	 */
 	public void loginWithPassword(String username, String password) {
-		// mAuthProgressDialog.show();
-		Log.i("T", "T2");
 		this.ref.authWithPassword(username, password, new AuthResultHandler(
 				"password"));
 	}
 
+	/**
+	 * Populates the autocomplete feature
+	 */
 	private void populateAutoComplete() {
 		getLoaderManager().initLoader(0, null, this);
 	}
+	/**
+	 * Displays an alert dialog that contains the specified error message
+	 * @param message
+	 */
 
 	private void showErrorDialog(String message) {
 		new AlertDialog.Builder(this).setTitle("Error").setMessage(message)
 				.setPositiveButton(android.R.string.ok, null)
 				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
-
+	/**
+	 * Create adapter to tell the AutoCompleteTextView what to show in its
+	 * dropdown list.
+	 * @param emailAddressCollection
+	 */
 	private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
-		// Create adapter to tell the AutoCompleteTextView what to show in its
-		// dropdown list.
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				LoginActivity.this,
 				android.R.layout.simple_dropdown_item_1line,
@@ -301,7 +310,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		this.mEmailView.setAdapter(adapter);
 	}
-
+	/**
+	 * Gets the primary email address associated with this phone in order to add it to the autocomplete list
+	 *
+	 */
 	private interface ProfileQuery {
 		String[] PROJECTION = { ContactsContract.CommonDataKinds.Email.ADDRESS,
 				ContactsContract.CommonDataKinds.Email.IS_PRIMARY, };
@@ -317,7 +329,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * @return
 	 */
 	private boolean isEmailValid(String email) {
-		// TODO: Replace this with your own logic
 		return email.contains("@");
 	}
 
@@ -328,7 +339,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 * @return
 	 */
 	private boolean isPasswordValid(String password) {
-		// TODO: Replace this with your own logic
 		return password.length() > 4;
 	}
 
@@ -339,43 +349,48 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 */
 	private void setAuthenticatedUser(AuthData authData) {
 		if (authData != null) {
-			String name = authData.getUid();
 			this.authData = authData;
 			openProjectListView(this.authData);
-
 		}
-
-		else {
-
-		}
-
-		/* invalidate options menu to hide/show the logout button */
-		// supportInvalidateOptionsMenu();
 	}
 
+	/**
+	 * Opens a browser activity that loads the page that allows the user to create a new account
+	 * @param view
+	 */
 	private void registerNewUser(View view) {
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://henry-staging.firebaseio.com"));
 		startActivity(browserIntent);
 
 	}
+	/**
+	 * A custom AuthResultHandler 
+	 * @author daveyle
+	 *
+	 */
 
 	private class AuthResultHandler implements Firebase.AuthResultHandler {
 
 		private final String provider;
-
+		
+		/**
+		 * Creates a new AuthResultHandler
+		 * @param provider
+		 */
 		public AuthResultHandler(String provider) {
 			this.provider = provider;
 		}
-
+		/**
+		 * On successful authentication, calls the setAuthenticatedUser method
+		 */
 		public void onAuthenticated(AuthData authData) {
-			Log.i(TAG, this.provider + " auth successful");
-			Log.i(TAG, authData.toString());
 			setAuthenticatedUser(authData);
 		}
 
+		/**
+		 * On failed login, displays an error message
+		 */
 		public void onAuthenticationError(FirebaseError firebaseError) {
-			Log.i("BAD LOGIN", "You messed up");
-			// mAuthProgressDialog.hide();
 			showErrorDialog(firebaseError.toString());
 			mAuthProgressDialog.hide();
 		}
