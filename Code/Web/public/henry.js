@@ -174,7 +174,17 @@ function addNewMember(){
 
 	//Gets the selected user
 	var id = $("#member-select").children(":selected").attr("id").substring(9);//+ ": " + "developer";
-	firebase.child('projects/' + projectID).child("members").push(id);
+
+    // validate data
+    if(!projectID || !selected || !id){
+        $("#member-error").show();
+        return;
+    } else {
+        $("#member-error").hide();
+    }
+
+    firebase.child('projects/' + projectID).child("members").push(id);
+    $("#member-submit").foundation('reveal', 'close');
 }
 
 
@@ -371,10 +381,16 @@ function addNewProject(){
 		var docDueDate = $("#projectDueDate").val();
 		var docEstimatedHours = $("#projectEstimatedHours").val();
 		var currentUser = userData.uid; //+ ": " + "lead";
+        if(!docName || !docDescription || !docDueDate || !docEstimatedHours || !currentUser){
+            $("#project-error").show();
+            return;
+        } else {
+            $("#project-error").hide();
+        }
 		var project = firebase.child('projects').push(
 			{ 'name': docName, 'description': docDescription, 
 			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': currentUser});
-		$('#myProjectModal').trigger('reveal:close');
+        $("#project-submit").foundation('reveal', 'close');
 	//}	
 
 }
@@ -468,10 +484,16 @@ function addNewMilestone(){
 	var docEstimatedHours = $("#milestoneEstimatedHours").val();
 	var projectid = currentProject.uid;
 	//Adds the milestone
+    if(!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid){
+        $("#milestone-error").show();
+        return;
+    } else {
+        $("#milestone-error").hide();
+    }
 	var milestone = firebase.child('projects/' + projectid).child('milestones').push(
 		{ 'name': docName, 'description': docDescription, 
 		'due_date': docDueDate, 'estimated_hours': docEstimatedHours});
-	
+    $("#milestone-submit").foundation('reveal', 'close');
 }
 
 function Task(firebase){
@@ -644,7 +666,7 @@ Task.prototype = {
 function getLoginData(){ // Takes the login data from the form and places it into variables
 	var user = $("#loginUser").val();
 	var pass = $("#loginPass").val();
-	document.getElementById("loginPass").value = "";
+	$("loginPass").val("");
 	login(user, pass, false);
 }
 

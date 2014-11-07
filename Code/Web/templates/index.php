@@ -49,9 +49,9 @@
                         <label for="githubuser">Github User Name:</label> <input type="text" id="githubuser" />
                         <label for="name">Name:</label> <input type="text" id="name"><br />
                         <input class="button" type="submit" value="Register" />
+                        <div id="registerError" class="my-error" hidden>Error registering, make sure all the fields are filled in.</div>
+                        <div id="emailError" class="my-error" hidden>Invalid Email</div>
                     </form>
-                    <span id="registerError" hidden>Error registering, make sure all the fields are filled in.</span>
-                    <span id="emailError" hidden>Invalid Email</span>
                 </div>
 			</div>
 			<div class="small-4 columns">
@@ -62,7 +62,7 @@
                 	    <label for="loginUser">Email:</label> <input type="text" id="loginUser" />
                 	    <label for="loginPass">Password:</label> <input type="password" id="loginPass" />
                 	    <input class="button" type="submit" value="Login" />
-                        <span id="loginError" hidden>Incorrect Username or Password</span>
+                        <div id="loginError" class="my-error" hidden>Incorrect Username or Password</div>
                      </form>
                 </div>
 			</div>
