@@ -22,5 +22,13 @@
         android:showAsAction="never"
         android:onClick="createTask"
         android:title="Create Task"/>
+    <item android:id="@+id/action_sorting" android:title="Sort List">
+        <menu>
+            <item android:id="@+id/sortAZ" android:title="A-Z" android:onClick="sortingMode"/>
+            <item android:id="@+id/sortZA" android:title="Z-A" android:onClick="sortingMode"/>
+            <item android:id="@+id/sortOldest" android:title="Oldest First" android:onClick="sortingMode"/>
+            <item android:id="@+id/sortNewest" android:title="Newest First" android:onClick="sortingMode"/>
+        </menu>
+    </item>
 
 </menu>

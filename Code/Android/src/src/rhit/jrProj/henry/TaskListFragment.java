@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
+import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
+import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
@@ -31,7 +34,7 @@ import com.firebase.client.Firebase;
  * interface.
  */
 public class TaskListFragment extends ListFragment {
-
+	private String sortMode="A-Z";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -65,6 +68,8 @@ public class TaskListFragment extends ListFragment {
 		public ArrayList<Task> getTasks();
 
 		public Project getSelectedProject();
+		
+		public String getSortMode();
 	}
 
 	/**
@@ -83,6 +88,10 @@ public class TaskListFragment extends ListFragment {
 
 		public Project getSelectedProject() {
 			return null;
+		}
+		
+		public String getSortMode(){
+			return "A-Z";
 		}
 	};
 
@@ -125,6 +134,7 @@ public class TaskListFragment extends ListFragment {
 
 		super.onActivityCreated(savedInstanceState);
 		this.tasks = this.mCallbacks.getTasks();
+		this.sortMode=this.mCallbacks.getSortMode();
 		//This still doesn't account for dynamically adding and removing tasks
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		for (Task task : this.tasks) {
@@ -137,7 +147,11 @@ public class TaskListFragment extends ListFragment {
 				android.R.layout.simple_list_item_2, new String[] { "title",
 						"assignee" }, new int[] { android.R.id.text1,
 						android.R.id.text2 });
-		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
+//		SortedArrayAdapter adapter=new SortedArrayAdapter(getActivity(), data,
+//				android.R.layout.simple_list_item_2, new String[] { "title",
+//						"assignee" }, new int[] { android.R.id.text1,
+//						android.R.id.text2 });
+		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter,this.sortMode);
 
 		for (Task t : this.tasks) {
 			t.setListChangeNotifier(lcn);
@@ -243,6 +257,12 @@ public class TaskListFragment extends ListFragment {
 		}
 
 		mActivatedPosition = position;
+	}
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		for (Task p : this.tasks){
+			((SortedListChangeNotifier) p.getListChangeNotifier()).changeSorting(this.sortMode);
+		}
 	}
 
 }

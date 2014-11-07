@@ -10,13 +10,11 @@ import android.widget.ArrayAdapter;
  *
  * @author daveyle. Created Nov 6, 2014.
  */
-public class ProjectArrayAdapter<T> extends ArrayAdapter<T> {
-
-	public ProjectArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects) {
-		
+public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
+	public SortedArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects) {
 		super(context, resource, textViewResourceId, objects);
-		// TODO Auto-generated constructor stub
 	}
+	@Override
 	public void notifyDataSetChanged(){
 		super.notifyDataSetChanged();
 	}
