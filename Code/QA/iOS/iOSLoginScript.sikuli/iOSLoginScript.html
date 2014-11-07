@@ -72,9 +72,9 @@
 <pre class="sikuli-code">
 <span class="cmt">#valid login check
 </span><span class="skw">click</span>(<img src="1414005987057.png" />)
-<span class="skw">type</span>(<span class="str">"test1@test.com"</span> + Key.TAB + <span class="str">"test"</span>)
+<span class="skw">type</span>(<span class="str">"test2@test.com"</span> + Key.TAB + <span class="str">"test"</span>)
 <span class="skw">click</span>(<img src="1414001448736.png" />)
-<span class="skw">sleep</span>(<span class="dig">10</span>)
+<span class="skw">wait</span>(<span class="dig">10</span>)
 <span class="kw">if</span> exists(<img src="1414001491047.png" />):
     <span class="kw">print</span>(<span class="str">"Login Successful"</span>)
 <span class="kw">else</span>:
@@ -82,22 +82,22 @@
 
 <span class="cmt">#logout check
 </span><span class="skw">click</span>(<img src="1414001575740.png" />)
-<span class="skw">sleep</span>(<span class="dig">3</span>)
+<span class="skw">wait</span>(<span class="dig">3</span>)
 <span class="skw">click</span>(<img src="1414001657851.png" />)
-<span class="skw">sleep</span>(<span class="dig">10</span>)
+<span class="skw">wait</span>(<span class="dig">10</span>)
 <span class="kw">if</span> exists(<img src="1414001750444.png" />):
     <span class="kw">print</span>(<span class="str">"Logout successful"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Logout unsuccessful"</span>)
 
 <span class="cmt">#saving credentials check
-</span><span class="kw">if</span> exists(<img src="1414001792915.png" />):
+</span><span class="kw">if</span> exists(<img src="1415321345982.png" />):
     <span class="kw">print</span>(<span class="str">"Credentials correctly saved"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Credentials not saved"</span>)
 
 <span class="cmt">#invalid login check
-</span><span class="skw">click</span>(<img src="1414001973975.png" />)
+</span><span class="skw">click</span>(<img src="1415321345982.png" />)
 <span class="skw">type</span>(Key.BACKSPACE + Key.BACKSPACE + Key.BACKSPACE + Key.BACKSPACE +
         Key.BACKSPACE + Key.BACKSPACE + Key.BACKSPACE + Key.BACKSPACE +
         Key.BACKSPACE + Key.BACKSPACE + Key.BACKSPACE + Key.BACKSPACE +
@@ -105,8 +105,8 @@
 <span class="cmt">#14 backspaces...
 </span><span class="skw">type</span>(<span class="str">"foo@foo.com"</span> + Key.TAB + <span class="str">"foo1"</span>)
 <span class="skw">click</span>(<img src="1414002769171.png" />)
-<span class="skw">sleep</span>(<span class="dig">5</span>)
-<span class="kw">if</span> exists(<img src="1414002796001.png" />):
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="kw">if</span> exists(<img src="1415321455842.png" />):
     <span class="kw">print</span>(<span class="str">"Invalid user check successful"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Invalid user check unsuccessful"</span>)
