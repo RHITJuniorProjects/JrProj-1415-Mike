@@ -20,6 +20,41 @@
 </script>
 	</head>
 	<body class="wide">
+        <!-- topbar -->
+<nav class="top-bar" data-topbar role="navigation">
+	<ul class="title-area">
+		<li class="name">
+			<h1><a href="/">Henry</a></h1>
+		</li>
+		<li class="menu-icon">
+			<!-- put icon here -->
+		</li>
+	</ul>
+
+	<section class="top-bar-section">
+		<ul class="left loginRequired" hidden>
+			<li><a href="projects">My Projects</a></li>
+			<li><a>My Tasks</a></li>
+			<li><a>My Statistics</a></li>
+			<!-- add top bar links here> -->
+		</ul>
+		<ul class="right">
+            <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
+			<li class="loginRequired" hidden><a id="currentUser"></a></li>
+			<li class="loginRequired" hidden><a href="javascript:logout()">Logout</a></li>
+			<li class="has-form">
+				<div class="row collapse">
+					<div class="small-8 columns">
+						<input type="text" placeholder="search bar">
+					</div>
+					<div class="small-4 columns">
+						<a href="#" class="button expand">Search</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</section>
+</nav>
 		<div id="title">
 			<h1 id="henry">Henry</h1>
 		</div>
@@ -62,9 +97,11 @@
                     <form action="" onsubmit="register(); return false;">
                         <label for="registerUser">Email:</label> <input type="text" id="registerUser" />
                         <label for="registerPass">Password:</label> <input type="password" id="registerPass" />
+                        <label for="registerPassCheck">Retype password:</label> <input type="password" id="registerPassCheck" />
                         <label for="githubuser">Github User Name:</label> <input type="text" id="githubuser" />
                         <label for="name">Name:</label> <input type="text" id="name"><br />
                         <input class="button" type="submit" value="Register" />
+                        <div id="passwordError" class="my-error" hidden>Please check that the passwords are the same.</div>
                         <div id="registerError" class="my-error" hidden>Error registering, make sure all the fields are filled in.</div>
                         <div id="emailError" class="my-error" hidden>Invalid Email</div>
                     </form>

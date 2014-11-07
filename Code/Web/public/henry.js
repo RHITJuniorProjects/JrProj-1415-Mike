@@ -1,5 +1,5 @@
 /* this file contains classes and utility functions that are used everywhere on the website */
-var firebase = new Firebase("https://henry-staging.firebaseIO.com");
+var firebase = new Firebase("https://henry-test.firebaseio.com");
 var userData;
 var currentProject;
 
@@ -679,16 +679,25 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 	}, function(error, authData) {
 		if (error === null) { // no login error
 			userData = authData;
+            console.log(authData);
 			if(registering){ // is registering
 				firebase.child('users/'+userData.uid).update(
 					{
 						email: userData.password.email,
 						github: $("#githubuser").val(),
 						name: $("#name").val()
-					}
+					}, function (error){
+                        if(error){
+                            $("#loginError").show();
+                        } else {
+                            $("#loginError").hide();
+                            $("#myLoginModal").foundation('reveal', 'close');
+                        }
+                    }
 				);
-			}
-			window.location.replace("projects"); // Redirect the page to projects
+			} else {
+                $("#myLoginModal").foundation('reveal', 'close');
+            }
 		} else {
 			$("#loginError").show();
 		}
@@ -699,12 +708,20 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 							// to our local database (making a new developer/manager)
 	var user = $("#registerUser").val();
 	var pass = $("#registerPass").val();
+    var passCheck = $("#registerPassCheck").val();
 	var githubName = $("#githubuser").val();
 	var name = $("#name").val();
 
+    if(pass !== passCheck){
+        $("#passwordError").show();
+        $("#registerError").hide();
+        $("#emailError").hide();
+        return;
+    }
     // Validate all fields are filled in
-	if(!user || !pass || !githubName || !name){
-		$("#registerError").show();
+	if(!user || !pass || !passCheck || !githubName || !name){
+		$("#passwordError").show();
+        $("#registerError").show();
         $("#emailError").hide();
 		return;
 	} 
@@ -713,9 +730,10 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 			email: user,
 			password: pass
 		}, 
-		function(error) {
+		function(error, userData) {
 			if (error === null) { // if an error is throw
-				login(user, pass, true);
+                console.log("User Data:" + userData);
+                login(user, pass, true);
 			} else {
                 $("#registerError").hide();
 				$("#emailError").show();
@@ -723,14 +741,16 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 		}
 	);
 }
-
+function showLoginModal(){
+    $("#myLoginModal").foundation('reveal', 'open');
+}
 function logout() { // get rid all user data
 	firebase.unauth();
 	userData = null;
     projects = null;
     users = null;
 	window.location.replace("/");
-};
+}
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 var users = new Table(function(fb){ return new User(fb);},firebase.child('users'));
@@ -741,16 +761,12 @@ firebase.onAuth( // called on page load to auth users
 		$(document).ready(
 			function(){
 				if(userData == null){ // isn't authed
-					if(window.location.pathname !== "/"){
-                        window.location.replace("/");
-                    }
+                    $(".notLoggedIn").show();
+                    $(".loginRequired").hide();
 				} else {
-                    if(window.location.pathname === "/projects") { // is authed
-                        $("#currentUser").html("Currently logged in as " + userData.password.email);
-                        $("#logoutButton").show();
-                    } else {
-                       window.location.replace("/projects");
-                    }
+                    $("#currentUser").html("Currently logged in as " + userData.password.email);
+                    $(".notLoggedIn").hide();
+                    $(".loginRequired").show();
 				}
 			}
 		);

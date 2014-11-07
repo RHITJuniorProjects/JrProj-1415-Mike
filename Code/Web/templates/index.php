@@ -4,6 +4,7 @@
 		<?php require 'header.php';?>
 	</head>
 	<body class="wide">
+        <?php require 'topbar.php'; ?>
 		<div id="title">
 			<h1 id="henry">Henry</h1>
 		</div>
@@ -46,9 +47,11 @@
                     <form action="" onsubmit="register(); return false;">
                         <label for="registerUser">Email:</label> <input type="text" id="registerUser" />
                         <label for="registerPass">Password:</label> <input type="password" id="registerPass" />
+                        <label for="registerPassCheck">Retype password:</label> <input type="password" id="registerPassCheck" />
                         <label for="githubuser">Github User Name:</label> <input type="text" id="githubuser" />
                         <label for="name">Name:</label> <input type="text" id="name"><br />
                         <input class="button" type="submit" value="Register" />
+                        <div id="passwordError" class="my-error" hidden>Please check that the passwords are the same.</div>
                         <div id="registerError" class="my-error" hidden>Error registering, make sure all the fields are filled in.</div>
                         <div id="emailError" class="my-error" hidden>Invalid Email</div>
                     </form>
