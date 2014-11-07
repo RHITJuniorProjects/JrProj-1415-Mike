@@ -3,9 +3,7 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 
 /**
- * Mapping data structure used to associate projects with a user's role. 
- * @author Tyler Rockwood
- * 
+ * Mapping data structure used to associate projects with a user's role.  
  *
  */
 
@@ -116,5 +114,13 @@ public class Map<Key, Value> {
 	public boolean verify()
 	{
 		return this.keys.size() == this.values.size();
+	}
+/**
+ * Returns true if the key is in the collection.
+ * @param k
+ * @return
+ */
+	public boolean containsKey(Key k) {
+		return this.keys.contains(k);
 	}
 }

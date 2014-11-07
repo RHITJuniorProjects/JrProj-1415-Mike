@@ -1,5 +1,6 @@
 package rhit.jrProj.henry.bridge;
 
+import android.util.Log;
 import android.widget.BaseAdapter;
 
 /**
@@ -21,6 +22,7 @@ public class ListChangeNotifier<T> {
 	 *
 	 */
 	public void onChange() {
+		Log.i("ListCN called", "true");
 		this.adapter.notifyDataSetChanged();
 	}
 

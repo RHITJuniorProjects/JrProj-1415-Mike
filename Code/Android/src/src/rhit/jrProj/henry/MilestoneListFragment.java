@@ -6,6 +6,7 @@ import com.firebase.client.Firebase;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import android.R.menu;
@@ -138,16 +139,19 @@ public class MilestoneListFragment extends ListFragment {
 		// This code shows the "Create Milestone" option when
 		// viewing milestones.
 		Firebase ref = new Firebase(MainActivity.firebaseUrl);
-		Enums.Role role = this.mCallbacks.getSelectedProject().getMembers()
-				.get(ref.getAuth().getUid());
+		Enums.Role role = this.mCallbacks
+				.getSelectedProject()
+				.getMembers()
+				.getValue(
+						new Member(ref.getRoot().toString() + "/users/"
+								+ ref.getAuth().getUid()));
 
 		if (this.getArguments().getBoolean("TwoPane")) {
 			if (role != null && role.equals(Enums.Role.lead)) {
-					MenuItem createMilestone = menu
-							.findItem(R.id.action_milestone);
-					createMilestone.setVisible(true);
-					createMilestone.setEnabled(true);
-			} 
+				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+				createMilestone.setVisible(true);
+				createMilestone.setEnabled(true);
+			}
 		}
 	}
 

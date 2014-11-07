@@ -1,8 +1,7 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import  rhit.jrProj.henry.firebase.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
@@ -40,7 +39,7 @@ public class Project implements Parcelable, Comparable {
 	/**
 	 * The members that are working on the project
 	 */
-	private Map<String, Enums.Role> members = new HashMap<String, Enums.Role>();
+	private Map<Member, Enums.Role> members = new Map<Member, Enums.Role>();
 
 	/**
 	 * A description of the project.
@@ -131,8 +130,8 @@ public class Project implements Parcelable, Comparable {
 		this.hoursPercent = in.readInt();
 		this.tasksPercent = in.readInt();
 		this.milestonesPercent = in.readInt();
-		this.members = new HashMap<String, Enums.Role>(); // How to transport?
-															// Loop?
+		this.members = new Map<Member, Enums.Role>(); // How to transport?
+		//TODO Transport members
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
 
@@ -262,10 +261,14 @@ public class Project implements Parcelable, Comparable {
 	 * 
 	 * @return
 	 */
-	public Map<String, Enums.Role> getMembers() {
+	public Map<Member, Enums.Role> getMembers() {
 		return this.members;
 	}
-
+	
+	/**
+	 * Child Listener to handle the Project & its changes
+	 * 
+	 */
 	class ChildrenListener implements ChildEventListener {
 		Project project;
 
@@ -310,10 +313,12 @@ public class Project implements Parcelable, Comparable {
 				}
 			} else if (arg0.getName().equals("members")) {
 				for (DataSnapshot member : arg0.getChildren()) {
-					if (!this.project.members.containsValue(member.getValue())) {
+					Log.i("Member Url", arg0.getRef().getRoot().toString() + "/users/"+member.getName());
+					Member toAdd = new Member(arg0.getRef().getRoot().toString() + "/users/"+member.getName());
+					if (!this.project.members.containsKey(toAdd)) {
 						try {
 							this.project.members.put(
-									member.getName(),
+									toAdd,
 									Enums.Role.valueOf(member.getValue(
 											String.class).toLowerCase()));
 						} catch (Exception e) {

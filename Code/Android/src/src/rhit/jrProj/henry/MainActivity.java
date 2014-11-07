@@ -3,34 +3,30 @@ package rhit.jrProj.henry;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Map;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
-		TaskListFragment.Callbacks {
+		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks {
 	/**
 	 * The Url to the firebase repository
 	 */
@@ -68,7 +64,7 @@ public class MainActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		Firebase.setAndroidContext(this);
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
@@ -137,7 +133,6 @@ public class MainActivity extends Activity implements
 
 		return true;
 	}
-
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -296,7 +291,7 @@ public class MainActivity extends Activity implements
 	public void onItemSelected(Task t) {
 		this.selectedTask = t;
 		Bundle arguments = new Bundle();
-		arguments.putParcelable("Task", t);
+		arguments.putBoolean("Two Pane", this.mTwoPane);
 		TaskDetailFragment fragment = new TaskDetailFragment();
 		fragment.setArguments(arguments);
 		getFragmentManager()
@@ -338,7 +333,7 @@ public class MainActivity extends Activity implements
 			msFrag.setArguments(arguments);
 			msFrag.show(getFragmentManager(), "Diag");
 		}
-		
+
 	}
 
 	/**
@@ -398,6 +393,15 @@ public class MainActivity extends Activity implements
 	}
 
 	/**
+	 * Returns the Tasks for the selected Milestone
+	 * 
+	 * @return
+	 */
+	public Map<Member, Enums.Role> getProjectMembers() {
+		return this.selectedProject.getMembers();
+	}
+
+	/**
 	 * Returns the current user
 	 * 
 	 * @return
@@ -408,7 +412,13 @@ public class MainActivity extends Activity implements
 
 	@Override
 	public Project getSelectedProject() {
-		// TODO Auto-generated method stub
 		return this.selectedProject;
+	}
+	
+	/**
+	 * Returns the currently selected task.
+	 */
+	public Task getSelectedTask(){
+		return this.selectedTask;
 	}
 }
