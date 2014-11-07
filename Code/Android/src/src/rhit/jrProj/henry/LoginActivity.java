@@ -264,6 +264,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		addEmailsToAutoComplete(emails);
 	}
+	
 	/**
 	 * does nothing right now
 	 */
@@ -287,16 +288,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	private void populateAutoComplete() {
 		getLoaderManager().initLoader(0, null, this);
 	}
+	
 	/**
 	 * Displays an alert dialog that contains the specified error message
 	 * @param message
 	 */
-
 	private void showErrorDialog(String message) {
 		new AlertDialog.Builder(this).setTitle("Error").setMessage(message)
 				.setPositiveButton(android.R.string.ok, null)
 				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
+	
 	/**
 	 * Create adapter to tell the AutoCompleteTextView what to show in its
 	 * dropdown list.
@@ -310,6 +312,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
 		this.mEmailView.setAdapter(adapter);
 	}
+	
 	/**
 	 * Gets the primary email address associated with this phone in order to add it to the autocomplete list
 	 *
@@ -363,12 +366,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		startActivity(browserIntent);
 
 	}
+	
 	/**
 	 * A custom AuthResultHandler 
 	 * @author daveyle
 	 *
 	 */
-
 	private class AuthResultHandler implements Firebase.AuthResultHandler {
 
 		private final String provider;
