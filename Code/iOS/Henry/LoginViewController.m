@@ -55,6 +55,11 @@
 {
     [self.view endEditing:YES];
     self.loginIndicator.hidden = NO;
+    if(![self.emailText.text containsString:@"@"] || ![self.emailText.text containsString:@"."] || [self.emailText.text containsString:@" "]){
+        UIAlertView *badEmailAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Incorrect E-mail Format" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [badEmailAlert show];
+        return;
+    }else{
     [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
         self.loginIndicator.hidden = YES;
         NSString *errorMsg = [[NSString alloc] init];
@@ -94,6 +99,7 @@
         }
 
     }];
+    }
     
 }
 
