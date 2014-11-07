@@ -410,7 +410,6 @@ public class MainActivity extends Activity implements
 		return this.user;
 	}
 
-	@Override
 	public Project getSelectedProject() {
 		return this.selectedProject;
 	}

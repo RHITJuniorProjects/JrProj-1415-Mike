@@ -1,11 +1,8 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
-import  rhit.jrProj.henry.firebase.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
-import android.R.string;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;

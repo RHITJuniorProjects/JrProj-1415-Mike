@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.firebase.client.Firebase;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
@@ -20,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.firebase.client.Firebase;
 
 /**
  * A list fragment representing a list of Items. This fragment also supports
@@ -87,6 +87,27 @@ public class TaskListFragment extends ListFragment {
 	};
 
 	/**
+	 * 
+	 * The wrapper class for the list's assignee.
+	 *
+	 * @author rockwotj.
+	 *         Created Nov 7, 2014.
+	 */
+	private class Assignee {
+		Task task;
+		
+		public Assignee(Task task)
+		{
+			this.task = task;
+		}
+		
+		@Override
+		public String toString() {
+			return "Assigned to: " + this.task.getAssignedUserName();
+		}
+	}
+	
+	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
@@ -104,12 +125,12 @@ public class TaskListFragment extends ListFragment {
 
 		super.onActivityCreated(savedInstanceState);
 		this.tasks = this.mCallbacks.getTasks();
-
-		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+		//This still doesn't account for dynamically adding and removing tasks
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		for (Task task : this.tasks) {
-			Map<String, String> datum = new HashMap<String, String>(2);
-			datum.put("title", task.getName());
-			datum.put("assignee", "Assigned to: " + task.getAssignedUserName());
+			Map<String, Object> datum = new HashMap<String, Object>(2);
+			datum.put("title", task);
+			datum.put("assignee", new Assignee(task));
 			data.add(datum);
 		}
 		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,

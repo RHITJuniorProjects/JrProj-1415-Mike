@@ -2,23 +2,21 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import com.firebase.client.Firebase;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
-import android.R.menu;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.firebase.client.Firebase;
 
 /**
  * A list fragment representing a list of Milestones. This fragment also
@@ -79,7 +77,6 @@ public class MilestoneListFragment extends ListFragment {
 			return null;
 		}
 
-		@Override
 		public Project getSelectedProject() {
 			return null;
 		}

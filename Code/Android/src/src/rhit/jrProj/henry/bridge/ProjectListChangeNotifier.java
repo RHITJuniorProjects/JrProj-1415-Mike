@@ -3,7 +3,6 @@ package rhit.jrProj.henry.bridge;
 import java.util.Comparator;
 
 import rhit.jrProj.henry.firebase.Project;
-import android.widget.BaseAdapter;
 
 /**
  * 
@@ -24,7 +23,7 @@ public class ProjectListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 */
 	public void onChange() {
 		((ProjectArrayAdapter<T>) super.getAdapter()).sort(new Comparator<T>(){
-			@Override
+
 			public int compare(T lhs, T rhs) {
 				if (lhs instanceof Project && rhs instanceof Project){
 					return ((Project) lhs).compareToIgnoreCase((Project) rhs);

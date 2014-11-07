@@ -4,7 +4,9 @@ import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Map;
 import rhit.jrProj.henry.firebase.Member;
+import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
+import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -48,16 +50,27 @@ public class TaskDetailFragment extends Fragment {
 		public Map<Member, Enums.Role> getProjectMembers();
 
 		public Task getSelectedTask();
+
+		public Project getSelectedProject();
+
+		public User getUser();
 	}
 
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 
-		@Override
 		public Map<Member, Role> getProjectMembers() {
 			return null;
 		}
 
+		public Project getSelectedProject() {
+			return null;
+		}
+
 		public Task getSelectedTask() {
+			return null;
+		}
+
+		public User getUser() {
 			return null;
 		}
 
@@ -80,7 +93,13 @@ public class TaskDetailFragment extends Fragment {
 		if (this.taskItem != null) {
 			((TextView) rootView.findViewById(R.id.task_name))
 					.setText("Name of task: " + this.taskItem.getName());
-			if (this.getArguments().getBoolean("Two Pane")) {
+			Enums.Role role = this.mCallbacks
+					.getSelectedProject()
+					.getMembers()
+					.getValue(new Member(MainActivity.firebaseUrl + "/users/"
+									+ this.mCallbacks.getUser().getKey()));
+			if (this.getArguments().getBoolean("Two Pane")
+					&& role == Enums.Role.lead) {
 				((TextView) rootView.findViewById(R.id.task_assignee))
 						.setText("Assigned to: \t\t (Click to change)");
 
@@ -112,7 +131,7 @@ public class TaskDetailFragment extends Fragment {
 						+ this.taskItem.getRemovedLines() + " lines of code");
 			} else {
 				((TextView) rootView.findViewById(R.id.task_assignee))
-						.setText("Assigned to:"
+						.setText("Assigned to: "
 								+ this.taskItem.getAssignedUserName() + " \n +"
 								+ this.taskItem.getAddedLines() + "/" + "-"
 								+ this.taskItem.getRemovedLines()
