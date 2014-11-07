@@ -483,7 +483,7 @@ function addNewMilestone(){
 	var docDueDate = $("#milestoneDueDate").val();
 	var docEstimatedHours = $("#milestoneEstimatedHours").val();
 	var projectid = currentProject.uid;
-	//Adds the milestone
+	// Validate fields
     if(!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid){
         $("#milestone-error").show();
         return;
@@ -677,9 +677,9 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 		email: user,
 		password: pass
 	}, function(error, authData) {
-		if (error === null) {
+		if (error === null) { // no login error
 			userData = authData;
-			if(registering){
+			if(registering){ // is registering
 				firebase.child('users/'+userData.uid).update(
 					{
 						email: userData.password.email,
@@ -688,7 +688,7 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 					}
 				);
 			}
-			window.location.replace("projects");
+			window.location.replace("projects"); // Redirect the page to projects
 		} else {
 			$("#loginError").show();
 		}
@@ -701,6 +701,8 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 	var pass = $("#registerPass").val();
 	var githubName = $("#githubuser").val();
 	var name = $("#name").val();
+
+    // Validate all fields are filled in
 	if(!user || !pass || !githubName || !name){
 		$("#registerError").show();
         $("#emailError").hide();
@@ -712,7 +714,7 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 			password: pass
 		}, 
 		function(error) {
-			if (error === null) {
+			if (error === null) { // if an error is throw
 				login(user, pass, true);
 			} else {
                 $("#registerError").hide();
@@ -722,7 +724,7 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 	);
 }
 
-function logout() { 		// Shows the login button and hides the current user and logout
+function logout() { // get rid all user data
 	firebase.unauth();
 	userData = null;
     projects = null;
@@ -733,17 +735,17 @@ function logout() { 		// Shows the login button and hides the current user and l
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 var users = new Table(function(fb){ return new User(fb);},firebase.child('users'));
 
-firebase.onAuth(
+firebase.onAuth( // called on page load to auth users
 	function(authData){
 		userData = authData;
 		$(document).ready(
 			function(){
-				if(userData == null){
+				if(userData == null){ // isn't authed
 					if(window.location.pathname !== "/"){
                         window.location.replace("/");
                     }
 				} else {
-                    if(window.location.pathname === "/projects") {
+                    if(window.location.pathname === "/projects") { // is authed
                         $("#currentUser").html("Currently logged in as " + userData.password.email);
                         $("#logoutButton").show();
                     } else {
