@@ -1,4 +1,5 @@
 ##Test android for the ability to see lines of Code
+##Must manually change inPasswordValid() in LoginActivity to >`1
 click("1415310830433.png")
 type("test2@test.com" + Key.TAB + "test")
 click("1415310894936.png")
