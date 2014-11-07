@@ -2,8 +2,10 @@ package rhit.jrProj.henry;
 
 import com.firebase.client.Firebase;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -72,8 +74,28 @@ public class CreateTaskFragment extends DialogFragment {
 		addTask.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				createTask();
-				CreateTaskFragment.this.dismiss();
+
+				String name = CreateTaskFragment.this.mNameField.getText()
+						.toString();
+				String des = CreateTaskFragment.this.mDescriptionField
+						.getText().toString();
+
+				boolean create = true;
+
+				// Check for a valid description, if the user entered one.
+				if (TextUtils.isEmpty(des)) {
+					showErrorDialog(getString(R.string.invalidTaskDescription));
+					create = false;
+				}
+				// Check for a valid name, if the user entered one. 
+				else if (TextUtils.isEmpty(name)) {
+					showErrorDialog(getString(R.string.invalidTaskName));
+					create = false;
+				}
+				if (create) {
+					createTask();
+					CreateTaskFragment.this.dismiss();
+				} 
 			}
 		});
 
@@ -112,6 +134,16 @@ public class CreateTaskFragment extends DialogFragment {
 					}
 				});
 		return v;
+	}
+	
+	/**
+	 * Opens a dialog window that displays the given error message. 
+	 * @param message
+	 */
+	private void showErrorDialog(String message) {
+		new AlertDialog.Builder(this.getActivity()).setTitle("Error").setMessage(message)
+				.setPositiveButton(android.R.string.ok, null)
+				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
 
 	/**
