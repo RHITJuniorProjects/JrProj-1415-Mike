@@ -1,5 +1,5 @@
 /* this file contains classes and utility functions that are used everywhere on the website */
-var firebase = new Firebase("https://henry-test.firebaseIO.com");
+var firebase = new Firebase("https://henry-staging.firebaseIO.com");
 var userData;
 var currentProject;
 

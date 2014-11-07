@@ -1,5 +1,5 @@
 {
-  "firebase": "henry-test",
+  "firebase": "henry-staging",
   "public": "public",
   "ignore": [
     "**/.*"
