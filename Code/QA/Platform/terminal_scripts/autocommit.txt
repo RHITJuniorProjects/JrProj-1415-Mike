@@ -1,0 +1,10 @@
+# Written by: morganac
+# $1 # hours
+# $2 # active milestones
+# $3 # tasks
+# $4 # status
+#args=("$@")
+echo "this is an automatically generated test commit [hours:$1] [milestone:$2] [task:$3] [status:$4]"
+if grep -q 'day' readme; then sed -i 's/day/night/' readme; elif grep -q 'day' readme; then sed -i 's/night/day/' readme; else printf 'This is a test file for making commits\nday' > readme; fi
+git add readme
+git commit -m "this is an automatically generated test commit [hours:$1] [milestone:$2] [task:$3] [status:$4]"

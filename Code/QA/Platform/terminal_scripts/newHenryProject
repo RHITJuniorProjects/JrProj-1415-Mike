@@ -1,0 +1,35 @@
+# Written by: morganac
+
+printf 'creating another git repository on same level as this git project'
+
+cd ../../../../..
+git init tempTestProject
+cd tempTestProject
+
+printf 'initilizing it as a henry repository'
+
+henry init "Henry - Platform" "morganac"
+
+printf 'creating readme file to commit'
+
+touch readme
+
+printf 'Begin autocommit testing:'
+
+printf 'autocommit 1:'
+if grep -q 'day' readme; then sed -i 's/day/night/' readme; elif grep -q 'day' readme; then sed -i 's/night/day/' readme; else printf 'This is a test file for making commits\nday' > readme; fi
+git add readme
+git commit -m "this is an automatically generated test commit without including the fields in the commit message [hours:7] [milestone:Milestone 1] [task:Code Review] [status:New]"
+
+printf 'autocommit 2:'
+if grep -q 'day' readme; then sed -i 's/day/night/' readme; elif grep -q 'day' readme; then sed -i 's/night/day/' readme; else printf 'This is a test file for making commits\nday' > readme; fi
+git add readme
+git commit -m "this is an automatically generated test commit without including the fields in the commit message [hours:2] [milestone:Milestone 1] [task:Code Review] [status:Implementation]"
+
+printf 'done autocommit testing, cleaning up...'
+
+# clean up by deleting tempTestProject
+cd ..
+#rm -rf tempTestProject
+
+#printf "cleanup complete"

@@ -15,7 +15,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable, Comparable {
+public class Project implements Parcelable {
 
 	/**
 	 * A reference to Firebase to keep the data up to date.
@@ -423,14 +423,15 @@ public class Project implements Parcelable, Comparable {
 			}
 		}
 	}
-
-	@Override
-	public int compareTo(Object another) {
-		if (another instanceof Project) {
-			Project anotherProject = (Project) another;
-			return this.getName().compareTo(anotherProject.getName());
-		}
-		return 1;
+	
+	/**
+	 *  Compares this project with the other given project. This implementation treats lower 
+	 *  case latters the same as upper case letters.
+	 * @param p
+	 * @return
+	 */
+	public int compareToIgnoreCase(Project p){
+		return this.getName().compareToIgnoreCase(p.getName());
 	}
 
 }

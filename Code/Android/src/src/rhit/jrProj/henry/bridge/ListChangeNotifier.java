@@ -25,5 +25,8 @@ public class ListChangeNotifier<T> {
 		Log.i("ListCN called", "true");
 		this.adapter.notifyDataSetChanged();
 	}
+	public BaseAdapter getAdapter(){
+		return this.adapter;
+	}
 
 }

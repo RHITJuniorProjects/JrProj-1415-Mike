@@ -71,19 +71,23 @@
 </div>
 <pre class="sikuli-code">
 <span class="cmt">#valid login check
+</span><span class="cmt">#android is checking to make sure password is longer than 4 but
+</span><span class="cmt">#they seem to be the only ones checking for that
+</span><span class="cmt">#so before I ran this script, I had to alter their valid login check
 </span><span class="skw">click</span>(<img src="1413941604021.png" />)
-<span class="skw">type</span>(<span class="str">"t@g.com"</span> + Key.TAB + <span class="str">"test1"</span>)
-<span class="skw">click</span>(<img src="1413955651324.png" />)
-<span class="skw">sleep</span>(<span class="dig">10</span>)
-<span class="kw">if</span> exists(<img src="1413943908924.png" />):
+<span class="skw">type</span>(<span class="str">"test2@test.com"</span> + Key.TAB + <span class="str">"test"</span>)
+<span class="skw">click</span>(<img src="1415303013465.png" />)
+<span class="skw">wait</span>(<span class="dig">10</span>)
+<span class="kw">if</span> exists(<img src="1415306687711.png" />):
     <span class="kw">print</span>(<span class="str">"Login Successful"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Login Unsuccessful"</span>)
 
 <span class="cmt">#logout sheck
-</span><span class="skw">click</span>(<img src="1413954886338.png" />)
-<span class="skw">click</span>(<img src="1413954932916.png" />)
-<span class="kw">if</span> exists(<img src="1413955008480.png" />):
+</span><span class="skw">click</span>(<img src="1415306104147.png" />)
+<span class="skw">click</span>(<img src="1415306124687.png" />)
+<span class="skw">wait</span>(<span class="dig">5</span>)
+<span class="kw">if</span> exists(<img src="1415306242470.png" />):
     <span class="kw">print</span>(<span class="str">"Logout successful"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Logout Unsuccessful"</span>)
@@ -91,9 +95,12 @@
 <span class="cmt">#check login with invalid user
 </span><span class="skw">click</span>(<img src="1413955218009.png" />)
 <span class="skw">type</span>(<span class="str">"foo@foo.com"</span> + Key.TAB + <span class="str">"foo11"</span>)
-<span class="skw">click</span>(<img src="1413955301527.png" />)
 
-<span class="kw">if</span> exists(<img src="1413955388815.png" />):
+<span class="skw">click</span>(<img src="1415303013465.png" />)
+<span class="cmt">#sign in button
+</span><span class="skw">wait</span>(<span class="dig">5</span>)
+
+<span class="kw">if</span> exists(<img src="1415306435661.png" />):
     <span class="kw">print</span>(<span class="str">"Invalid credentials check successful"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Invalid credentials check unsuccessful"</span>)
