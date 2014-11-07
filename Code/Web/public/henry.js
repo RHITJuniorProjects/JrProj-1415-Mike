@@ -749,7 +749,9 @@ function logout() { // get rid all user data
 	userData = null;
     projects = null;
     users = null;
-	window.location.replace("/");
+    if(window.location.pathname !== "/") {
+        window.location.replace("/");
+    }
 }
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
