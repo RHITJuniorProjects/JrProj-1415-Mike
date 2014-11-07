@@ -59,11 +59,11 @@ public class ProjectDetailFragment extends Fragment {
 				container, false);
 		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_name))
-				.setText(this.projectItem.getName());
+				.setText("Name of project: " + this.projectItem.getName());
 			((TextView) rootView.findViewById(R.id.project_due_date))
-				.setText(this.projectItem.getDueDate());
+				.setText("Due on: " + this.projectItem.getDueDate());
 			((TextView) rootView.findViewById(R.id.project_description))
-				.setText(this.projectItem.getDescription());
+				.setText("Description: " + this.projectItem.getDescription());
 			
 			//Progress Bars for Hours, Tasks, and Milestones
 			((TextView) rootView.findViewById(R.id.project_hours_percent))
@@ -93,14 +93,13 @@ public class ProjectDetailFragment extends Fragment {
 				values.addAll(chartInfo.getValues());
 				keys.addAll(chartInfo.getKeys());
 			}
-			GraphicalView pieChart = GraphHelper.makePieChart(
+			GraphicalView chart = GraphHelper.makePieChart(
 					"Lines Added for " + this.projectItem.getName(),
 					values, keys,
 					this.getActivity());
-			Log.i("Henry", chartView.toString());
-			chartView.addView(pieChart, new LayoutParams(
+			chartView.addView(chart, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			pieChart.repaint();
+			chart.repaint();
 		}
 
 		return rootView;

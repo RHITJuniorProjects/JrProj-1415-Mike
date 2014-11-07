@@ -59,10 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/sign_in"
-                android:shadowColor="@color/base02"
-                android:background="@color/cyan"
-                android:textColor="@color/magenta"
-                android:textColorHighlight="@color/blue"
+                android:textColor="@color/blue"
                 android:textStyle="bold" />
             
              <Button
@@ -72,6 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/register"
+                android:textColor="@color/blue"
                 android:textStyle="bold" 
                 android:onClick="registerNewUser"/>
             

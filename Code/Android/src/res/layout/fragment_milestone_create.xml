@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    tools:context="rhit.jrProj.henry.MilestoneCreateFragment" >
+
+        <EditText
+            android:id="@+id/milestoneDescriptionField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="100dp"
+            android:ems="10"
+            android:hint="@string/MilestoneDescriptionHint"
+            android:inputType="textMultiLine"
+            android:shadowColor="@color/black"
+            android:singleLine="false" >
+
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:id="@+id/milestoneNameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="50dp"
+            android:ems="10"
+            android:hint="@string/MilestoneStringHint" />
+
+        <Button
+            android:id="@+id/MilestoneAddButton"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/milestoneDescriptionField"
+            android:layout_below="@+id/milestoneDescriptionField"
+            android:layout_marginTop="44dp"
+            android:text="@string/MilestoneAddString" />
+
+        <Button
+            android:id="@+id/MilestoneCancelButton"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/MilestoneAddButton"
+            android:layout_alignBottom="@+id/MilestoneAddButton"
+            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@+id/MilestoneAddButton"
+            android:text="@string/MilestoneCreateCancelString" />
+
+</RelativeLayout>

@@ -10,35 +10,71 @@
 #import "HenryAssignDevTableViewCell.h"
 #import "HenryDevDisplayObject.h"
 #import "HenryTaskDetailViewController.h"
+#import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
-
+@property Firebase* fb;
+@property UITableViewCell *previouslySelected; 
+@property int selectedIndex;
+@property BOOL firstTime;
+@property BOOL clearChecksOnSelection;
+@property BOOL hasClicked;
 @end
 
 @implementation HenryAssignDevsTableViewController
 
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if(self.hasClicked){
+        self.detailView.statusButton.titleLabel.text = [self.names objectAtIndex:self.selectedIndex];
+        NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
+        [self.fb updateChildValues:newValue];
+    }
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.firstTime = YES;
+    self.fb = [HenryFirebase getFirebaseObject];
+    self.hasClicked = NO;
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    // Attach a block to read the data at our posts reference
+    
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+    
+    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MilestoneID, self.taskID]];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    self.developers = [[NSMutableArray alloc] init];
-    HenryDevDisplayObject *devOne = [[HenryDevDisplayObject alloc] init];
-    HenryDevDisplayObject *devTwo = [[HenryDevDisplayObject alloc] init];
-    HenryDevDisplayObject *devThree = [[HenryDevDisplayObject alloc] init];
-    devOne.devName = @"Dev one";
-    devOne.isAssignedDev = false;
-    devTwo.devName = @"Dev two";
-    devTwo.isAssignedDev = false;
-    devThree.devName = @"Dev Three";
-    devThree.isAssignedDev = false;
-    [self.developers addObject:devOne];
-    [self.developers addObject:devTwo];
-    [self.developers addObject:devThree];
+}
+
+-(void)updateTable:(FDataSnapshot *)snapshot {
+    self.assignableDevs = snapshot.value[@"projects"][self.ProjectID][@"members"];
     
+    self.allDevs = snapshot.value[@"users"];
+    self.developers = [[NSMutableArray alloc] init];
+    NSArray *keys = [self.assignableDevs allKeys];
+    self.names = [[NSMutableArray alloc] init];
+    for (NSString *key in keys) {
+        NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
+        //NSLog(key);
+        if(name != NULL){
+            [self.names addObject:name];
+            [self.developers addObject:key];
+        }
+    }
+    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,15 +85,13 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
     // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return self.developers.count;
+    return self.names.count;
 }
 
 
@@ -65,22 +99,34 @@
     HenryAssignDevTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DevCell" forIndexPath:indexPath];
 
  // Configure the cell...
-    HenryDevDisplayObject *dev = [self.developers objectAtIndex:indexPath.row];
-    NSString *stringVersionOfDevName = dev.devName;
-    cell.devNameLabel.text = stringVersionOfDevName;
-    cell.devName = stringVersionOfDevName;
+    NSString *dev = [self.names objectAtIndex:indexPath.row];
+    cell.devNameLabel.text = dev;
+    if ([cell.devNameLabel.text isEqualToString:self.initialSelection] && self.firstTime) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+        self.firstTime = NO;
+        self.clearChecksOnSelection = YES;
+    }
  
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    for(HenryDevDisplayObject *d in self.developers){
-        d.isAssignedDev = false;
+    self.hasClicked = YES;
+    if (self.clearChecksOnSelection) {
+        NSArray *cells = [self.tableView visibleCells];
+        for (UITableViewCell *cell in cells) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
+        self.clearChecksOnSelection = NO;
+    } else if (self.previouslySelected != nil) {
+        self.previouslySelected.accessoryType = UITableViewCellAccessoryNone;
     }
-    HenryDevDisplayObject *newAssignedDev = [self.developers objectAtIndex:indexPath.row];
-    newAssignedDev.isAssignedDev = true;
-    [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:indexPath];
+    selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    self.previouslySelected = selectedCell;
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    self.selectedIndex = indexPath.row;
     
 }
 /*
@@ -124,7 +170,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    //HenryTaskDetailViewController *tasksVC = [segue destinationViewController];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
     HenryTaskDetailViewController *vc = [segue destinationViewController];

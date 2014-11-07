@@ -21,7 +21,11 @@ public class ListChangeNotifier<T> {
 	 *
 	 */
 	public void onChange() {
+		
 		this.adapter.notifyDataSetChanged();
+	}
+	public BaseAdapter getAdapter(){
+		return this.adapter;
 	}
 
 }

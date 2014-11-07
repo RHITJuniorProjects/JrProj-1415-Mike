@@ -12,16 +12,28 @@
 #import "HenryRootNavigationController.h"
 #import "SWRevealViewController.h"
 #import "HenryFirebase.h"
+#import "HenryProjectObject.h"
 
 @interface HenryProjectsTableViewController ()
 @property NSMutableArray *cellText;
 @property NSMutableArray *projectDescriptions;
 @property NSMutableArray *projectIDs;
+@property NSMutableArray *projects;
 @property Firebase *fb;
 @property (strong, nonatomic) NSMutableArray *tasks;
 @end
 
 @implementation HenryProjectsTableViewController
+
+-(IBAction)logoutButtonPressed:(id)sender {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:@"id"];
+    [defaults removeObjectForKey:@"token"];
+    [defaults synchronize];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadLoginStoryboard" bundle:nil];
+    UIViewController *initialView = [sb instantiateInitialViewController];
+    [self presentViewController:initialView animated:YES completion:nil];
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -32,12 +44,12 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
-    
     
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
@@ -70,23 +82,21 @@
 -(void)updateTable:(FDataSnapshot *)snapshot {
     NSArray *userProjects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
     NSArray *projects = [snapshot.value[@"projects"] allKeys];
-    
-    //Empty out hard-coded values
-    self.cellText = [[NSMutableArray alloc] init];
-    self.projectDescriptions = [[NSMutableArray alloc] init];
-    self.projectIDs = [[NSMutableArray alloc] init];
+    self.projects = [[NSMutableArray alloc] init];
     for (NSString *project in projects) {
         if ([userProjects containsObject:project]) {
+            HenryProjectObject *projectObject = [[HenryProjectObject alloc] init];
             NSString *name = snapshot.value[@"projects"][project][@"name"];
-            NSString *description = snapshot.value[@"projects"][project][@"due_date"];
-            if (description != nil)
-                [self.projectDescriptions addObject:description];
-            [self.cellText addObject:name];
-            [self.projectIDs addObject:project];
+            projectObject.name = name;
+            NSString *dueDate = snapshot.value[@"projects"][project][@"due_date"];
+            projectObject.dueDate = dueDate;
+            projectObject.projectID = project;
+            [self.projects addObject:projectObject];
         }
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self sortByAlphabeticalAToZ];
     [self.tableView reloadData];
 }
 
@@ -107,7 +117,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.cellText count];
+    return self.projects.count;
 }
 
 
@@ -116,8 +126,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProjectCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = [self.cellText objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [self.projectDescriptions objectAtIndex:indexPath.row];
+    HenryProjectObject *hpo = [self.projects objectAtIndex:indexPath.row];
+    cell.textLabel.text = hpo.name;
+    cell.detailTextLabel.text = hpo.dueDate;
     
     return cell;
 }
@@ -130,17 +141,17 @@
     switch(clickedSegment)
     {
         //Segment 1 is A-Z
-        case 1:
+        case 0:
             [self sortByAlphabeticalAToZ];
             break;
             
         //Segment 2 is Z-A
-        case 2:
+        case 1:
             [self sortByAlphabeticalZToA];
             break;
             
         //Segment 3 is Due Date
-        case 3:
+        case 2:
             [self sortByDueDate];
             break;
     }
@@ -148,15 +159,23 @@
 
 -(void)sortByAlphabeticalAToZ
 {
-    
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
+    [self.projects sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+    [self.tableView reloadData];
 }
 
 -(void)sortByAlphabeticalZToA
 {
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:NO];
+    [self.projects sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+    [self.tableView reloadData];
     
 }
 -(void)sortByDueDate
 {
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"dueDate" ascending:YES];
+    [self.projects sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+    [self.tableView reloadData];
     
 }
 
@@ -211,12 +230,14 @@
     
     if ([segue.identifier isEqualToString:@"PtoM"]) {
         HenryMilestonesTableViewController *vc = [segue destinationViewController];
-        vc.ProjectID = [self.projectIDs objectAtIndex:indexPath.row];
-  //      vc.tasks = self.tasks;
+        HenryProjectObject *hpo = [self.projects objectAtIndex:indexPath.row];
+        vc.ProjectID = hpo.projectID;
+        vc.tasks = self.tasks;
         vc.uid = self.uid;
     } else {
         HenryProjectDetailViewController *vc = [segue destinationViewController];
-        vc.projectID = [self.projectIDs objectAtIndex:indexPath.row];
+        HenryProjectObject *hpo = [self.projects objectAtIndex:indexPath.row];
+        vc.projectID = hpo.projectID;
         vc.tasks = self.tasks;
         vc.uid = self.uid;
     }

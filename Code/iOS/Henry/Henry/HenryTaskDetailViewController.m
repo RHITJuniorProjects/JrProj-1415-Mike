@@ -45,19 +45,31 @@
 }
 
 - (IBAction)updateCurrentTimeEstimate:(id)sender {
-    NSDictionary *newValue = @{@"updated_time_estimate":[NSNumber numberWithDouble:[self.currentEstimateField.text doubleValue]]};
-    [self.fb updateChildValues:newValue];
+    bool status;
+    NSScanner *scanner;
+    double result;
+    
+    scanner = [NSScanner scannerWithString:self.currentEstimateField.text];
+    status = [scanner scanDouble:&result];
+    status = status && scanner.scanLocation == self.currentEstimateField.text.length;
+    
+    if (status) {
+        NSDictionary *newValue = @{@"updated_time_estimate":[NSNumber numberWithDouble:[self.currentEstimateField.text doubleValue]]};
+        self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MileStoneID, self.taskID]];
+        [self.fb updateChildValues:newValue];
+        self.fb = [HenryFirebase getFirebaseObject];
+    } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Estimated hours must be a number" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+    }
+
 }
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
 
     
     NSDictionary *json = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID][@"tasks"][self.taskID];
-    
-//    NSString *urlStringForName = [NSString stringWithFormat:@"https:henry-staging.firebaseio.com/users/%@.json", [json objectForKey:@"assignedTo"]];
-//    NSURL *jsonURLForName = [NSURL URLWithString:urlStringForName];
-//    NSData *dataForName = [NSData dataWithContentsOfURL:jsonURLForName];
-//    NSDictionary *jsonForName = [NSJSONSerialization JSONObjectWithData:dataForName options:0 error:&error];
     
     NSDictionary *jsonForName = snapshot.value[@"users"][[json objectForKey:@"assignedTo"]];
     
@@ -73,14 +85,7 @@
     self.originalEstimateLabel.text = [NSString stringWithFormat:@"%.2f", (double)self.originalTimeEstimate];
     self.currentEstimateField.text = [NSString stringWithFormat:@"%.2f", (double)self.currentTimeEstimate];
     self.hoursLabel.text = [NSString stringWithFormat:@"%.2f/%.2f hours", (double)self.hoursSpent, (double)self.currentTimeEstimate];
-    
-//    if(!self.primaryDev){
-//        self.assigneeNameLabel.text = @"None";
-//        
-//    }else{
-//        self.assigneeNameLabel.text = self.primaryDev.devName;
-//    }
-    
+
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
@@ -103,12 +108,13 @@
         vc.projectID = self.ProjectID;
     }else{
         HenryAssignDevsTableViewController *vc = [segue destinationViewController];
-        //vc.initialSelection = self.statusButton.titleLabel.text;
+        vc.initialSelection = self.statusButton.titleLabel.text;
         //vc.detailView = self;
         vc.taskID = self.taskID;
         vc.milestoneID = self.MileStoneID;
         vc.taskID = self.taskID;
         vc.projectID = self.ProjectID;
+        vc.initialSelection = self.assigneeNameLabel.text;
     }
     
 }

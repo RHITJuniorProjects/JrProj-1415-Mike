@@ -3,9 +3,11 @@ package rhit.jrProj.henry;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.drawable;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -14,6 +16,7 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +48,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 */
 
 	// private UserLoginTask mAuthTask = null;
+	
 	private ProgressDialog mAuthProgressDialog;
 
 	/* A reference to the firebase */
@@ -66,6 +70,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		ActionBar actionBar = getActionBar();
+		actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
+		
 		Firebase.setAndroidContext(this);
 		setContentView(R.layout.activity_login);
 		this.mAuthProgressDialog = new ProgressDialog(this);
@@ -346,56 +354,8 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	}
 
 	private void registerNewUser(View view) {
-		Log.i("You pressed the register button", "Right?");
-		final String email = this.mEmailView.getText().toString();
-		final String password = this.mPasswordView.getText().toString();
-		boolean cancel = false;
-		View focusView = null;
-
-		// Check for a valid password, if the user entered one.
-		if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-			this.mPasswordView
-					.setError(getString(R.string.error_invalid_password));
-			focusView = this.mPasswordView;
-			cancel = true;
-		}
-
-		// Check for a valid email address.
-		if (TextUtils.isEmpty(email)) {
-			this.mEmailView.setError(getString(R.string.error_field_required));
-			focusView = this.mEmailView;
-			cancel = true;
-		} else if (!isEmailValid(email)) {
-			this.mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = this.mEmailView;
-			cancel = true;
-		}
-
-		if (cancel) {
-			// There was an error; don't attempt login and focus the first
-			// form field with an error.
-			focusView.requestFocus();
-		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			showProgress(true);
-			this.mAuthProgressDialog.show();
-			// mAuthTask = new UserLoginTask(email, password);
-			// mAuthTask.execute((Void) null);
-			this.ref.createUser(email, password, new Firebase.ResultHandler() {
-				public void onSuccess() {
-					loginWithPassword(email, password);
-					showProgress(false);
-				}
-
-				public void onError(FirebaseError firebaseError) {
-
-				}
-
-			});
-
-			// openProjectListView();
-		}
+		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://henry-staging.firebaseio.com"));
+		startActivity(browserIntent);
 
 	}
 

@@ -53,35 +53,27 @@
 
 - (IBAction)loginAction:(id)sender
 {
-    NSLog(@"Attempting login");
     [self.view endEditing:YES];
-    self.errorLabel.hidden = YES;
     self.loginIndicator.hidden = NO;
     [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
         self.loginIndicator.hidden = YES;
+        NSString *errorMsg = [[NSString alloc] init];
         if (error) {
             switch(error.code) {
                 case FAuthenticationErrorUserDoesNotExist:
-                    // Handle invalid user
-                    self.errorLabel.text = @"Invalid User";
-                    break;
                 case FAuthenticationErrorInvalidEmail:
-                    // Handle invalid email
-                    self.errorLabel.text = @"Invalid Email";
-                    break;
                 case FAuthenticationErrorInvalidPassword:
-                    // Handle invalid password
-                    self.errorLabel.text = @"Invalid Password";
+                    errorMsg = @"Username or password is incorrect.";
                     break;
                 default:
-                    self.errorLabel.text = @"Failed to Login";
+                    errorMsg = @"Failed to Login";
                     break;
             }
-            NSLog(@"Failed to login");
-            self.errorLabel.hidden = NO;
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:errorMsg delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+            [alert show];
             return;
         }
-        NSLog(@"Logged in");
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:authData.uid forKey:@"id"];

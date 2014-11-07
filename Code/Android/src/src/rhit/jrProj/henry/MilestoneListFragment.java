@@ -1,20 +1,23 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import com.firebase.client.Firebase;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.Task;
+import rhit.jrProj.henry.firebase.Project;
+import android.R.menu;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 /**
  * A list fragment representing a list of Milestones. This fragment also
@@ -56,9 +59,10 @@ public class MilestoneListFragment extends ListFragment {
 		 * Callback for when an item has been selected.
 		 */
 		public void onItemSelected(Milestone m);
-		
 
 		public ArrayList<Milestone> getMilestones();
+
+		public Project getSelectedProject();
 	}
 
 	/**
@@ -73,6 +77,11 @@ public class MilestoneListFragment extends ListFragment {
 		public ArrayList<Milestone> getMilestones() {
 			return null;
 		}
+
+		@Override
+		public Project getSelectedProject() {
+			return null;
+		}
 	};
 
 	/**
@@ -85,28 +94,28 @@ public class MilestoneListFragment extends ListFragment {
 	/**
  * 
  */
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		// Done: replace with a real list adapter.
 		this.milestones = this.mCallbacks.getMilestones();
-		
-		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-		for (Milestone milestone : this.milestones) {
-			Map<String, String> datum = new HashMap<String, String>(2);
-			datum.put("title", milestone.getName());
-			datum.put("dueDate", milestone.getDueDate());
-			data.add(datum);
-		}
-		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
-				android.R.layout.simple_list_item_2, new String[] { "title",
-						"dueDate" }, new int[] { android.R.id.text1,
-						android.R.id.text2 });
+
+		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(
+				getActivity(), android.R.layout.simple_list_item_activated_1,
+				android.R.id.text1, this.milestones);
 		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(
-				adapter);
+				arrayAdapter);
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
 		}
-		setListAdapter(adapter);
+		setListAdapter(arrayAdapter);
 		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
 	}
 
@@ -119,6 +128,26 @@ public class MilestoneListFragment extends ListFragment {
 				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
 			setActivatedPosition(savedInstanceState
 					.getInt(STATE_ACTIVATED_POSITION));
+		}
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		// This code shows the "Create Milestone" option when
+		// viewing milestones.
+		Firebase ref = new Firebase(MainActivity.firebaseUrl);
+		Enums.Role role = this.mCallbacks.getSelectedProject().getMembers()
+				.get(ref.getAuth().getUid());
+
+		if (this.getArguments().getBoolean("TwoPane")) {
+			if (role != null && role.equals(Enums.Role.lead)) {
+					MenuItem createMilestone = menu
+							.findItem(R.id.action_milestone);
+					createMilestone.setVisible(true);
+					createMilestone.setEnabled(true);
+			} 
 		}
 	}
 

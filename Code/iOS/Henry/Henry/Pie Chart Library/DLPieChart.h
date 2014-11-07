@@ -50,14 +50,14 @@
 - (void)setSliceDeselectedAtIndex:(NSInteger)index;
 
 //My methods
-- (void)renderInLayer:(DLPieChart *)layerHostingView dataArray:(NSMutableArray*)dataArray;
+- (void)renderInLayer:(DLPieChart *)layerHostingView dataArray:(NSMutableArray*)dataArray nameArray:(NSMutableArray*)nameArray;
 
 - (void)customamizeDraw:(DLPieChart*)pieChart
               pieCentre:(CGPoint)pieCentre
-            animationSpeed:(CGFloat)speed
+         animationSpeed:(CGFloat)speed
             labelRadius:(CGFloat)labelRadius;
 
--(void)drawLegends:(DLPieChart *)layerHostingView dataArray:(NSMutableArray*)dataArray;
+-(void)drawLegends:(DLPieChart *)layerHostingView nameArray:(NSMutableArray*)nameArray;
 
 @property (nonatomic ,retain) NSMutableArray *DLDataArray;
 @property (nonatomic, retain) NSMutableArray *DLColorsArray;
