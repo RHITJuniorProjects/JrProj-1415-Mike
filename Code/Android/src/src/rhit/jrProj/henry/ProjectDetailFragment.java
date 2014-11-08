@@ -14,8 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -82,6 +84,26 @@ public class ProjectDetailFragment extends Fragment {
 		ProgressBar milestonesCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_milestones_progress_bar));
 		milestonesCompleteBar.setMax(100);
 		milestonesCompleteBar.setProgress(this.projectItem.getMilestonesPercent());
+		
+		
+		Spinner spinner = (Spinner) rootView
+				.findViewById(R.id.project_chart_spinner);
+		// Create an ArrayAdapter using the string array and a default
+		// spinner layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter
+				.createFromResource(this.getActivity(),
+						R.array.milestone_charts,
+						android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+
+		// Set the default for the spinner
+		spinner.setSelection(0);
+		// /////
+		
+		
 		
 		FrameLayout chartView = (FrameLayout) rootView
 				.findViewById(R.id.pieChart);
