@@ -460,7 +460,7 @@ public class Task implements Parcelable {
 				}
 				
 			}
-		return 0;
+		return s1len-s2len;
 		}
 		
 	}
