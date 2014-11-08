@@ -71,38 +71,40 @@ public class ProjectDetailFragment extends Fragment {
 			ProgressBar hoursCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_hours_progress_bar));
 			hoursCompleteBar.setMax(100);
 			hoursCompleteBar.setProgress(this.projectItem.getHoursPercent());
-			
 			((TextView) rootView.findViewById(R.id.project_tasks_percent))
-				.setText("Tasks Completed: " + this.projectItem.getTasksPercent() + "%");
-			ProgressBar tasksCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_tasks_progress_bar));
-			tasksCompleteBar.setMax(100);
-			tasksCompleteBar.setProgress(this.projectItem.getTasksPercent());
+			.setText("Tasks Completed: " + this.projectItem.getTasksPercent() + "%");
+		ProgressBar tasksCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_tasks_progress_bar));
+		tasksCompleteBar.setMax(100);
+		tasksCompleteBar.setProgress(this.projectItem.getTasksPercent());
+		
+		((TextView) rootView.findViewById(R.id.project_milestones_percent))
+			.setText("Milestones Completed: " + this.projectItem.getMilestonesPercent() + "%");
+		ProgressBar milestonesCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_milestones_progress_bar));
+		milestonesCompleteBar.setMax(100);
+		milestonesCompleteBar.setProgress(this.projectItem.getMilestonesPercent());
+		
+		FrameLayout chartView = (FrameLayout) rootView
+				.findViewById(R.id.pieChart);
+		List<Integer> values = new ArrayList<Integer>();
+		List<String> keys = new ArrayList<String>();
+		for (Milestone milestone : this.projectItem.getMilestones()) {
+			GraphHelper.PieChartInfo chartInfo = milestone.getLocAddedInfo();
+			values.addAll(chartInfo.getValues());
+			keys.addAll(chartInfo.getKeys());
+		}
+		GraphicalView chart = GraphHelper.makePieChart(
+				"Lines Added for " + this.projectItem.getName(),
+				values, keys,
+				this.getActivity());
+		chartView.addView(chart, new LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		chart.repaint();
 			
-			((TextView) rootView.findViewById(R.id.project_milestones_percent))
-				.setText("Milestones Completed: " + this.projectItem.getMilestonesPercent() + "%");
-			ProgressBar milestonesCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_milestones_progress_bar));
-			milestonesCompleteBar.setMax(100);
-			milestonesCompleteBar.setProgress(this.projectItem.getMilestonesPercent());
-			
-			FrameLayout chartView = (FrameLayout) rootView
-					.findViewById(R.id.pieChart);
-			List<Integer> values = new ArrayList<Integer>();
-			List<String> keys = new ArrayList<String>();
-			for (Milestone milestone : this.projectItem.getMilestones()) {
-				GraphHelper.PieChartInfo chartInfo = milestone.getLocAddedInfo();
-				values.addAll(chartInfo.getValues());
-				keys.addAll(chartInfo.getKeys());
-			}
-			GraphicalView chart = GraphHelper.makePieChart(
-					"Lines Added for " + this.projectItem.getName(),
-					values, keys,
-					this.getActivity());
-			chartView.addView(chart, new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			chart.repaint();
 		}
 
 		return rootView;
 	}
+	
+	
 
 }

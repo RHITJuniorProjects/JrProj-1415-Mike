@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.bridge.ProjectArrayAdapter;
-import rhit.jrProj.henry.bridge.ProjectListChangeNotifier;
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
+import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
@@ -30,6 +30,8 @@ import android.widget.ListView;
 public class ProjectListFragment extends ListFragment {
 
 	ArrayList<Project> projects;
+	
+	String sortMode="A-Z";
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -62,6 +64,8 @@ public class ProjectListFragment extends ListFragment {
 		public ArrayList<Project> getProjects();
 		
 		public User getUser();
+		
+		public String getSortMode();
 	}
 
 	/**
@@ -81,6 +85,9 @@ public class ProjectListFragment extends ListFragment {
 		public User getUser() {
 			return null;
 		}
+		public String getSortMode(){
+			return "A-Z";
+		}
 	};
 
 	/**
@@ -94,14 +101,16 @@ public class ProjectListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.projects = this.mCallbacks.getProjects();
+		this.sortMode = this.mCallbacks.getSortMode();
 		
-		ProjectArrayAdapter<Project> arrayAdapter = new ProjectArrayAdapter<Project>(
+		
+		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
 		setListAdapter(arrayAdapter);
 		
-		ProjectListChangeNotifier<Project> lcn = new ProjectListChangeNotifier<Project>(
-				arrayAdapter);
+		SortedListChangeNotifier<Project> lcn = new SortedListChangeNotifier<Project>(
+				arrayAdapter, this.sortMode);
 		
 		this.mCallbacks.getUser()
 				.setListChangeNotifier(lcn);
@@ -143,7 +152,7 @@ public class ProjectListFragment extends ListFragment {
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
 		super.onListItemClick(listView, view, position, id);
-		this.mCallbacks.onItemSelected(this.projects.get(position));
+		this.mCallbacks.onItemSelected(this.mCallbacks.getProjects().get(position));
 	}
 
 	@Override
@@ -172,5 +181,11 @@ public class ProjectListFragment extends ListFragment {
 			getListView().setItemChecked(position, true);
 		}
 		this.mActivatedPosition = position;
+	}
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		for (Project p : this.projects){
+			((SortedListChangeNotifier<Project>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+		}
 	}
 }

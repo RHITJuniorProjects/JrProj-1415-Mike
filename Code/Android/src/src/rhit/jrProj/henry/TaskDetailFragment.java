@@ -1,6 +1,13 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Enums.Role;
+import rhit.jrProj.henry.firebase.Map;
+import rhit.jrProj.henry.firebase.Member;
+import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
+import rhit.jrProj.henry.firebase.User;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,18 +16,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-//import com.example.firebasetest.List.ListContent;
 
 /**
  * A fragment representing a single Item detail screen. This fragment is either
  * contained in a {@link ItemListActivity} in two-pane mode (on tablets) or a
  * {@link ItemDetailActivity} on handsets.
  */
-public class TaskDetailFragment extends Fragment implements
-		OnItemSelectedListener {
+public class TaskDetailFragment extends Fragment {
+
 	/**
 	 * The fragment argument representing the item ID that this fragment
 	 * represents.
@@ -31,6 +37,8 @@ public class TaskDetailFragment extends Fragment implements
 	 */
 	private Task taskItem;
 
+	private Callbacks mCallbacks = sDummyCallbacks;
+
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -38,13 +46,42 @@ public class TaskDetailFragment extends Fragment implements
 	public TaskDetailFragment() {
 	}
 
+	public interface Callbacks {
+		public Map<Member, Enums.Role> getProjectMembers();
+
+		public Task getSelectedTask();
+
+		public Project getSelectedProject();
+
+		public User getUser();
+	}
+
+	private static Callbacks sDummyCallbacks = new Callbacks() {
+
+		public Map<Member, Role> getProjectMembers() {
+			return null;
+		}
+
+		public Project getSelectedProject() {
+			return null;
+		}
+
+		public Task getSelectedTask() {
+			return null;
+		}
+
+		public User getUser() {
+			return null;
+		}
+
+	};
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey("Task")) {
-			this.taskItem = this.getArguments().getParcelable("Task");
-		}
+		this.taskItem = this.mCallbacks.getSelectedTask();
+
 	}
 
 	@Override
@@ -56,22 +93,60 @@ public class TaskDetailFragment extends Fragment implements
 		if (this.taskItem != null) {
 			((TextView) rootView.findViewById(R.id.task_name))
 					.setText("Name of task: " + this.taskItem.getName());
-			
-			((TextView) rootView.findViewById(R.id.task_assignee))
-					.setText("Assigned to: " + this.taskItem.getAssignedUserName() +
-							" \n +" + this.taskItem.getAddedLines() + "/" + 
-							"-" + this.taskItem.getRemovedLines() + " lines of code");
-			
+			Enums.Role role = this.mCallbacks
+					.getSelectedProject()
+					.getMembers()
+					.getValue(new Member(MainActivity.firebaseUrl + "/users/"
+									+ this.mCallbacks.getUser().getKey()));
+			if (this.getArguments().getBoolean("Two Pane")
+					&& role == Enums.Role.lead) {
+				((TextView) rootView.findViewById(R.id.task_assignee))
+						.setText("Assigned to: \t\t (Click to change)");
+
+				Spinner spinny = new Spinner(this.getActivity());
+				this.mCallbacks.getProjectMembers().getAllKeys();
+
+				ArrayAdapter<Member> adapter = new ArrayAdapter<Member>(
+						this.getActivity(),
+						android.R.layout.simple_spinner_item, this.mCallbacks
+								.getProjectMembers().getAllKeys());
+				// Specify the layout to use when the list of choices appears
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				// Apply the adapter to the spinner
+				spinny.setAdapter(adapter);
+
+				int spinnerDefaultPos = adapter.getPosition(new Member(
+						MainActivity.firebaseUrl + "/users/"
+								+ this.taskItem.getAssignedUserId()));
+				spinny.setSelection(spinnerDefaultPos);
+
+				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
+						this.taskItem));
+				((LinearLayout) rootView).addView(spinny, 2);
+
+				TextView textLines = new TextView(this.getActivity());
+
+				((LinearLayout) rootView).addView(textLines, 3);
+				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
+						+ this.taskItem.getRemovedLines() + " lines of code");
+			} else {
+				((TextView) rootView.findViewById(R.id.task_assignee))
+						.setText("Assigned to: "
+								+ this.taskItem.getAssignedUserName() + " \n +"
+								+ this.taskItem.getAddedLines() + "/" + "-"
+								+ this.taskItem.getRemovedLines()
+								+ " lines of code");
+			}
 			((TextView) rootView.findViewById(R.id.task_hours_complete))
 					.setText("" + this.taskItem.getHoursSpent() + " / "
 							+ this.taskItem.getCurrentHoursEstimate()
 							+ " hours");
 			((TextView) rootView.findViewById(R.id.task_description))
 					.setText("Description: " + this.taskItem.getDescription());
-			
+
 			((TextView) rootView.findViewById(R.id.status_descriptor))
-			.setText("The current task status is: \t\t (Click to change) ");
-		
+					.setText("The current task status is: \t\t (Click to change) ");
+
 			// Task status spinner
 			Spinner spinner = (Spinner) rootView
 					.findViewById(R.id.task_status_spinner);
@@ -90,9 +165,8 @@ public class TaskDetailFragment extends Fragment implements
 			String myString = this.taskItem.getStatus();
 			int spinnerDefaultPos = adapter.getPosition(myString);
 			spinner.setSelection(spinnerDefaultPos);
-
-			spinner.setOnItemSelectedListener(this);
-			// /////
+			spinner.setOnItemSelectedListener(new StatusSpinnerListener(
+					this.taskItem));
 
 			((TextView) rootView
 					.findViewById(R.id.task_hours_original_estimate))
@@ -109,13 +183,77 @@ public class TaskDetailFragment extends Fragment implements
 		return rootView;
 	}
 
-	public void onItemSelected(AdapterView<?> parent, View view, int position,
-			long id) {
-		String taskStatus = (String) parent.getItemAtPosition(position);
-		this.taskItem.updateStatus(taskStatus);
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (!(activity instanceof Callbacks)) {
+			throw new IllegalStateException(
+					"Activity must implement fragment's callbacks.");
+		}
+		this.mCallbacks = (Callbacks) activity;
 	}
 
-	public void onNothingSelected(AdapterView<?> parent) {
-		// do nothing
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		this.mCallbacks = sDummyCallbacks;
+	}
+
+	/**
+	 * Status Spinner Listener class
+	 */
+	class StatusSpinnerListener implements OnItemSelectedListener {
+		/**
+		 * The selected task item
+		 */
+		private Task taskItem;
+
+		/**
+		 * Creates a new Status Listener
+		 * 
+		 * @param taskItem
+		 */
+		public StatusSpinnerListener(Task taskItem) {
+			this.taskItem = taskItem;
+		}
+
+		public void onItemSelected(AdapterView<?> parent, View view,
+				int position, long id) {
+			String taskStatus = parent.getItemAtPosition(position).toString();
+			this.taskItem.updateStatus(taskStatus);
+		}
+
+		public void onNothingSelected(AdapterView<?> parent) {
+			// do nothing
+		}
+	}
+
+	/**
+	 * Status Spinner Listener class
+	 */
+	class AssigneeSpinnerListener implements OnItemSelectedListener {
+		/**
+		 * The selected task item
+		 */
+		private Task taskItem;
+
+		/**
+		 * Creates a new Status Listener
+		 * 
+		 * @param taskItem
+		 */
+		public AssigneeSpinnerListener(Task taskItem) {
+			this.taskItem = taskItem;
+		}
+
+		public void onItemSelected(AdapterView<?> parent, View view,
+				int position, long id) {
+			Member member = (Member) parent.getItemAtPosition(position);
+			this.taskItem.updateAssignee(member);
+		}
+
+		public void onNothingSelected(AdapterView<?> parent) {
+			// do nothing
+		}
 	}
 }

@@ -2,8 +2,10 @@ package rhit.jrProj.henry;
 
 import com.firebase.client.Firebase;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,8 +72,28 @@ public class CreateMilestoneFragment extends DialogFragment {
 		addMilestone.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				createMilestone();
-				CreateMilestoneFragment.this.dismiss();
+
+				String name = CreateMilestoneFragment.this.mNameField.getText()
+						.toString();
+				String des = CreateMilestoneFragment.this.mDescriptionField
+						.getText().toString();
+
+				boolean create = true;
+
+				// Check for a valid description, if the user entered one.
+				if (TextUtils.isEmpty(des)) {
+					showErrorDialog(getString(R.string.invalidMilestoneDescription));
+					create = false;
+				}
+				// Check for a valid name, if the user entered one. 
+				else if (TextUtils.isEmpty(name)) {
+					showErrorDialog(getString(R.string.invalidMilestoneName));
+					create = false;
+				}
+				if (create) {
+					createMilestone();
+					CreateMilestoneFragment.this.dismiss();
+				} 
 			}
 		});
 
@@ -110,6 +132,16 @@ public class CreateMilestoneFragment extends DialogFragment {
 					}
 				});
 		return v;
+	}
+	
+	/**
+	 * Opens a dialog window that displays the given error message. 
+	 * @param message
+	 */
+	private void showErrorDialog(String message) {
+		new AlertDialog.Builder(this.getActivity()).setTitle("Error").setMessage(message)
+				.setPositiveButton(android.R.string.ok, null)
+				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
 
 	/**

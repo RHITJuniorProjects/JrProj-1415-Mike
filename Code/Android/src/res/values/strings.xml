@@ -35,4 +35,8 @@
     <string name="TaskStringHint">String Name</string>
     <string name="TaskDescriptionHint">Task Description</string>
     <string name="TaskNameHint">Task Name</string>
+    <string name="invalidMilestoneDescription">The milestone description is invalid.</string>
+    <string name="invalidMilestoneName">The milestone name is invalid.</string>
+    <string name="invalidTaskDescription">The task description is invalid.</string>
+    <string name="invalidTaskName">The task name is invalid.</string>
 </resources>

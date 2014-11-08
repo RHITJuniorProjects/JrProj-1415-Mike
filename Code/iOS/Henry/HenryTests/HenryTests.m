@@ -31,4 +31,19 @@
     XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
 
+//When you put in an e-mail, it should be in proper email format.
+- (void)testBadEmail{
+    
+}
+
+//When you update the current estimate on a task, it should only contain numbers
+-(void)testBadEstimateInput
+{
+    
+}
+
+-(void)testEmptyTaskNameAndDescription
+{
+    
+}
 @end

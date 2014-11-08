@@ -34,21 +34,16 @@ find("1413834175850.png")
 click("1413834184376.png")
 find("1413916721723.png")
 click("1413916727908.png")
-find("1413927638546.png")
-click("1413916899153.png")
+find("1415040680478.png")
+click("1415040690013.png")
 find("1413927687300.png")
-click("1413927750190.png")
+click("1415040760485.png")
 find("1413927542743.png")
 click("1413927569377.png")
-if exists("1413928277957.png"):
+if exists("1415040403501.png"):
         print("It worked")
 else:
         print("It didn't work")
-
-find("1413928277957.png")
-click("1413928480172.png")
-click("1413928480172.png")
-click("1413916899153.png")
 print("Finished")
 
 

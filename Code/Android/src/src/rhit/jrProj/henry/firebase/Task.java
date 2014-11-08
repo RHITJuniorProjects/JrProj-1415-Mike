@@ -282,6 +282,7 @@ public class Task implements Parcelable {
 	public ListChangeNotifier<Task> getListChangeNotifier() {
 		return this.listViewCallback;
 	}
+	
 
 	/**
 	 * Returns the number of hours originally estimated for this task
@@ -292,11 +293,24 @@ public class Task implements Parcelable {
 		return this.hoursEstimatedOriginal;
 	}
 
+	/**
+	 * Updates the status on the task view
+	 */
 	public void updateStatus(String taskStatus) {
 		this.status = taskStatus;
 		this.firebase.child("status").setValue(taskStatus);
 		this.firebase.child("is_completed").setValue(
 				Boolean.valueOf(taskStatus.equals("Closed")));
+	}
+
+	/**
+	 * Updates the assigned developer on a task
+	 */
+	public void updateAssignee(Member member) {
+		this.assignedUserId = member.getKey();
+		this.assignedUserName = member.toString();
+		this.firebase.child("assignedTo").setValue(member.getKey());
+		this.listViewCallback.onChange();
 	}
 
 	/**
@@ -348,7 +362,7 @@ public class Task implements Parcelable {
 			}
 		}
 
-		private void getUserNameFromId(String id) {
+		public void getUserNameFromId(String id) {
 			Firebase userBase = Task.this.firebase.getRoot().child("users")
 					.child(id).child("name");
 			userBase.addValueEventListener(new ValueEventListener() {
@@ -394,6 +408,61 @@ public class Task implements Parcelable {
 			// TODO Auto-generated method stub.
 
 		}
+	}
+	public int compareToIgnoreCase(Task p){
+		return compareToICHelper(this.getName(), p.getName());
+	}
+	private int compareToICHelper(String s1, String s2){
+		if (s1 == s2) return 0;
+		else{
+			int i= 0;
+			int j= 0;
+			int s1len=s1.length();
+			int s2len=s2.length();
+			while (i<s1len && j<s2len){
+				char c1= s1.charAt(i);
+				char c2= s2.charAt(j);
+				char [] sp1 = new char[s1len];
+				char [] sp2 = new char[s2len];
+				int loc1=0;
+				int loc2=0;
+				while (Character.isDigit(c1)==Character.isDigit(sp1[0])){
+					sp1[loc1++]=c1;
+					i++;
+					if (i <s1len){
+						c1=s1.charAt(i);
+					} else{
+						break;
+					}
+				}
+				while (Character.isDigit(c2)==Character.isDigit(sp2[0])){
+					sp2[loc2++]=c2;
+					j++;
+					if (j <s2len){
+						c2=s2.charAt(j);
+					} else{
+						break;
+					}
+				}
+				String str1=new String(sp1);
+				String str2=new String(sp2);
+				int result;
+				if (Character.isDigit(sp1[0]) && Character.isDigit(sp2[0])){
+					Integer num1= new Integer(Integer.parseInt(str1.trim()));
+					Integer num2= new Integer(Integer.parseInt(str2.trim()));
+					result=num1.compareTo(num2);
+				}
+				else{
+					result=str1.compareToIgnoreCase(str2);
+				}
+				if (result!=0){
+					return result;
+				}
+				
+			}
+		return s1len-s2len;
+		}
+		
 	}
 
 }

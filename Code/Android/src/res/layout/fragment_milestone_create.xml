@@ -31,23 +31,29 @@
             android:ems="10"
             android:hint="@string/MilestoneStringHint" />
 
-        <Button
-            android:id="@+id/MilestoneAddButton"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/milestoneDescriptionField"
+        <RelativeLayout
+            android:layout_width="280dp"
+            android:layout_height="70dp"
             android:layout_below="@+id/milestoneDescriptionField"
-            android:layout_marginTop="44dp"
-            android:text="@string/MilestoneAddString" />
-
-        <Button
-            android:id="@+id/MilestoneCancelButton"
-            android:layout_width="132dp"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/MilestoneAddButton"
-            android:layout_alignBottom="@+id/MilestoneAddButton"
             android:layout_centerHorizontal="true"
-            android:layout_toLeftOf="@+id/MilestoneAddButton"
-            android:text="@string/MilestoneCreateCancelString" />
+            android:layout_marginTop="30dp" >
+
+            <Button
+                android:id="@+id/MilestoneAddButton"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/MilestoneAddString" />
+
+            <Button
+                android:id="@+id/MilestoneCancelButton"
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/MilestoneCreateCancelString" />
+
+        </RelativeLayout>
 
 </RelativeLayout>

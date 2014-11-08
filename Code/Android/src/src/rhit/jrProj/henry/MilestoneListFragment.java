@@ -2,13 +2,13 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import com.firebase.client.Firebase;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
+import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
-import android.R.menu;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.firebase.client.Firebase;
 
 /**
  * A list fragment representing a list of Milestones. This fragment also
@@ -29,7 +31,9 @@ import android.widget.ListView;
  * interface.
  */
 public class MilestoneListFragment extends ListFragment {
-
+	
+	private String sortMode="A-Z";
+	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -63,6 +67,8 @@ public class MilestoneListFragment extends ListFragment {
 		public ArrayList<Milestone> getMilestones();
 
 		public Project getSelectedProject();
+		
+		public String getSortMode();
 	}
 
 	/**
@@ -78,9 +84,11 @@ public class MilestoneListFragment extends ListFragment {
 			return null;
 		}
 
-		@Override
 		public Project getSelectedProject() {
 			return null;
+		}
+		public String getSortMode(){
+			return "A-Z";
 		}
 	};
 
@@ -106,12 +114,12 @@ public class MilestoneListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		// Done: replace with a real list adapter.
 		this.milestones = this.mCallbacks.getMilestones();
-
-		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(
+		this.sortMode=this.mCallbacks.getSortMode();
+		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.milestones);
-		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(
-				arrayAdapter);
+		SortedListChangeNotifier<Milestone> lcn = new SortedListChangeNotifier<Milestone>(
+				arrayAdapter, this.sortMode);
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
 		}
@@ -138,16 +146,19 @@ public class MilestoneListFragment extends ListFragment {
 		// This code shows the "Create Milestone" option when
 		// viewing milestones.
 		Firebase ref = new Firebase(MainActivity.firebaseUrl);
-		Enums.Role role = this.mCallbacks.getSelectedProject().getMembers()
-				.get(ref.getAuth().getUid());
+		Enums.Role role = this.mCallbacks
+				.getSelectedProject()
+				.getMembers()
+				.getValue(
+						new Member(ref.getRoot().toString() + "/users/"
+								+ ref.getAuth().getUid()));
 
 		if (this.getArguments().getBoolean("TwoPane")) {
 			if (role != null && role.equals(Enums.Role.lead)) {
-					MenuItem createMilestone = menu
-							.findItem(R.id.action_milestone);
-					createMilestone.setVisible(true);
-					createMilestone.setEnabled(true);
-			} 
+				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+				createMilestone.setVisible(true);
+				createMilestone.setEnabled(true);
+			}
 		}
 	}
 
@@ -215,5 +226,12 @@ public class MilestoneListFragment extends ListFragment {
 		}
 
 		mActivatedPosition = position;
+	}
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		Log.i("MSSORT", this.sortMode);
+		for (Milestone p : this.milestones){
+			((SortedListChangeNotifier<Milestone>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+		}
 	}
 }
