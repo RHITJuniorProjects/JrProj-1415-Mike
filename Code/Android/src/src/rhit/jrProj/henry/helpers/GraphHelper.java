@@ -26,14 +26,17 @@ public class GraphHelper {
 	public static GraphicalView makePieChart(String title,
 			List<Integer> values, List<String> keys, Activity activity) {
 		DefaultRenderer mRenderer = new DefaultRenderer();
-		mRenderer.setChartTitle(title);
-		mRenderer.setChartTitleTextSize(35);
+		//mRenderer.setChartTitle(title);
+		//mRenderer.setChartTitleTextSize(35);
 		mRenderer.setLabelsTextSize(30);
 		mRenderer.setLegendTextSize(30);
 		mRenderer.setLabelsColor(Color.BLACK);
 		mRenderer.setStartAngle(90);
 		mRenderer.setApplyBackgroundColor(true);
 		mRenderer.setBackgroundColor(Color.WHITE);
+		mRenderer.setAntialiasing(true);
+		mRenderer.setPanEnabled(false);
+		mRenderer.setZoomEnabled(false);
 
 		CategorySeries mSeries = new CategorySeries("");
 

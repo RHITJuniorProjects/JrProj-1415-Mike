@@ -58,7 +58,7 @@ public class TaskDetailFragment extends Fragment implements
 					.setText("Name of task: " + this.taskItem.getName());
 			
 			((TextView) rootView.findViewById(R.id.task_assignee))
-					.setText("Assigned to:" + this.taskItem.getAssignedUserName() +
+					.setText("Assigned to: " + this.taskItem.getAssignedUserName() +
 							" \n +" + this.taskItem.getAddedLines() + "/" + 
 							"-" + this.taskItem.getRemovedLines() + " lines of code");
 			
