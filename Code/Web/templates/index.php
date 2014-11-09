@@ -70,7 +70,14 @@
                 </div>
 			</div>
 			<div class="small-4 columns">
-				<a class="button expand">About</a>
+				<button data-reveal-id="myAboutModal" class="expand">About</button>
+                <div id="myAboutModal" class="reveal-modal" data-reveal>
+                    <h2>About</h2> <br />
+                    <p>
+                        Hi there
+                    </p>
+                    <div class="button" onclick="$('#myAboutModal').foundation('reveal', 'close');">Close</div>
+                </div>
 			</div>
 		</div>
 		<script>
