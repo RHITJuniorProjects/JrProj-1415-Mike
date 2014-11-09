@@ -680,6 +680,12 @@ Task.prototype = {
 	setCategory:function(cat){
 		this.__category.set(cat);
 	},
+	setDescription:function(desc){
+		this.__description.set(desc);
+	},
+	setEstimatedHours:function(hours){
+		this.__updatedTime.set(hours);
+	},
 	setName:function(name){
 		this.__name.set(name);
 	},
