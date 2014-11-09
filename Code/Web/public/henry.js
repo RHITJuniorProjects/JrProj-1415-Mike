@@ -16,7 +16,6 @@ Table.prototype = {
 		return this.__factory(this.__firebase.child(uid));
 	},
 	onItemAdded:function(callback){
-		//console.log(this.__onChildAdded);
 		var table = this;
 		this.__firebase.on('child_added',function(snap){
 			var val = table.__factory(snap.ref());
@@ -108,14 +107,11 @@ User.prototype = {
 		var projectData = this.__projects.child(project.uid),
 			milestones = project.getMilestones(),
 			milestoneData = projectData.child('milestones');
-
-		console.log('check 1');
 		milestoneData.on('child_added',function(snap){
 			var milestoneData = snap.ref(),
 				milestone = milestones.get(snap.name()),
 				taskData = milestoneData.child('tasks'),
 				tasks = milestone.getTasks();
-			console.log('check 2');
 			taskData.on('child_added',function(snap){
 				taskid = snap.name();
 				callback(tasks.get(taskid));
@@ -679,7 +675,6 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 	}, function(error, authData) {
 		if (error === null) { // no login error
 			userData = authData;
-            console.log(authData);
 			if(registering){ // is registering
 				firebase.child('users/'+userData.uid).update(
 					{
@@ -720,7 +715,7 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
     }
     // Validate all fields are filled in
 	if(!user || !pass || !passCheck || !githubName || !name){
-		$("#passwordError").show();
+		$("#passwordError").hide();
         $("#registerError").show();
         $("#emailError").hide();
 		return;
@@ -732,7 +727,6 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 		}, 
 		function(error, userData) {
 			if (error === null) { // if an error is throw
-                console.log("User Data:" + userData);
                 login(user, pass, true);
 			} else {
                 $("#registerError").hide();

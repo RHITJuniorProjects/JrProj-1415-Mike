@@ -19,7 +19,7 @@
 		<ul class="right">
             <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
-			<li class="loginRequired" hidden><a href="javascript:logout()">Logout</a></li>
+			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
 			<li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">

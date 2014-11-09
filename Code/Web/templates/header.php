@@ -12,6 +12,7 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="home-test.js"></script>
 <script type="text/javascript" src="/foundation.js"></script>
+<script type="text/javascript" src="/unittests.js"></script>
 <script type="text/javascript">
 	$(function(){ $(document).foundation()});
 </script>
