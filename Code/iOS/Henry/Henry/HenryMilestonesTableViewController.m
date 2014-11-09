@@ -99,8 +99,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MilestoneCell" forIndexPath:indexPath];
     // Configure the cell...
     
-    cell.textLabel.text = [self.staticData objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [self.milestoneDueDates objectAtIndex:indexPath.row];;
+    cell.textLabel.text = [[self.staticData objectAtIndex:indexPath.row] substringToIndex:MIN(20, [[self.staticData objectAtIndex:indexPath.row] length])];
+    if ([[self.staticData objectAtIndex:indexPath.row] length] > 20) {
+        cell.textLabel.text = [NSString stringWithFormat:@"%@...", cell.textLabel.text];
+    }
+    cell.detailTextLabel.text = [[self.milestoneDueDates objectAtIndex:indexPath.row] substringToIndex:MIN(22, [[self.milestoneDueDates objectAtIndex:indexPath.row] length])];
     
     return cell;
 }
