@@ -311,11 +311,11 @@ Project.prototype = {
 			rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
 			button = $('<div>'),
 			a = $('<a class="button expand text-center">'),
-			nameH3 = $('<h3>'),
+			nameSpan = $('<span>'),
 			descDiv = $('<div>'),
 			dueDiv = $('<div>');
 
-		a.append(nameH3);
+		a.append(nameSpan);
 		button.append(a);
 		leftColumn.append(button,descDiv,dueDiv);
 		rightColumn.append(
@@ -330,7 +330,7 @@ Project.prototype = {
 			currentProject = p;
 		});
 		this.getName(function(nameStr){
-			nameH3.text(nameStr);
+			nameSpan.text(nameStr);
 		});
 
 		this.getDescription(function(descriptionStr){
@@ -448,11 +448,11 @@ Milestone.prototype = {
 			rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
 			button = $('<div>'),
 			a = $('<a class="button expand text-center">'),
-			nameH3 = $('<h3>'),
+			nameSpan = $('<span>'),
 			descDiv = $('<div>'),
 			dueDiv = $('<div>');
 
-		a.append(nameH3);
+		a.append(nameSpan);
 		button.append(a);
 		leftColumn.append(button,descDiv,dueDiv);
 		rightColumn.append(this.getTaskProgressBar(),this.getHoursProgressBar());
@@ -462,7 +462,7 @@ Milestone.prototype = {
 			selectMilestone(m);
 		});
 		this.getName(function(nameStr){
-			nameH3.text(nameStr);
+			nameSpan.text(nameStr);
 		});
 
 		this.getDescription(function(descriptionStr){
