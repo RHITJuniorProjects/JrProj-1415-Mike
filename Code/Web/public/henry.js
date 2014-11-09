@@ -71,7 +71,7 @@ ReferenceTable.prototype = Table.prototype;
 
 function User(firebase){
 	this.__firebase = firebase;
-	this.uid = firebase.name();
+	this.uid = firebase.key();
 	this.__projects = firebase.child('projects');
 	this.__name = firebase.child('name');
 	this.__email = firebase.child('email');
@@ -269,7 +269,7 @@ function makeProgressBar(divClass,text,percentRef){
 //Initializes the Project object
 function Project(firebase){
 	this.__firebase = firebase;
-	this.uid = firebase.name();
+	this.uid = firebase.key();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
 	this.__milestones = firebase.child('milestones');
@@ -414,7 +414,7 @@ function addNewProject(){
 //Initializes the Milestone object
 function Milestone(firebase){
 	this.__firebase = firebase;
-	this.uid = firebase.name();
+	this.uid = firebase.key();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
 	this.__dueDate = firebase.child('due_date');
@@ -514,7 +514,7 @@ function addNewMilestone(){
 
 function Task(firebase){
 	this.__firebase = firebase;
-	this.uid = firebase.name();
+	this.uid = firebase.key();
 	this.__name = firebase.child('name');
 	this.__description = firebase.child('description');
 	this.__assigned_user = firebase.child('assignedTo');
