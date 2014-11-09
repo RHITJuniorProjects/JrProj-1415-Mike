@@ -13,20 +13,26 @@
 						<div class="row collapse text-center outlined">
 							<h1><a id="project-name" onclick="allProjects()"></a></h1>
 							<button data-reveal-id="myModal">Add Member</button>
-							<div id="myModal" class="reveal-modal" data-reveal>
-								Users
-								<select id="member-select"></select>
-								<div class="row"><button id="member-submit"<button class="close-reveal-modal" onclick="addNewMember();">Add</button></div>
+							<div id="myModal" class="reveal-modal small-4" data-reveal>
+								Users <br />
+                                <form action="" onsubmit="addNewMember(); return false;">
+                                    <select id="member-select"></select>
+                                    <input type="submit" id="member-submit" class="button" value="Add" />
+                                    <div id="member-error" class="my-error" hidden>No member selected</div>
+                                </form>
 							</div>
 							<button data-reveal-id="myMilestoneModal">Add Milestone</button>
-							<div id="myMilestoneModal" class="reveal-modal" data-reveal>
-								<h2>New Milestone</h2><br>
-								Milestone Name: <input type="text" id="milestoneName"></br>
-								Description: <input type="text" id="milestoneDescription"></br>
-								Due Date: <input type="text" id="milestoneDueDate"></br>
-								Estimated Hours: <input type="text" id="milestoneEstimatedHours"></br>
-								<div class="row"><button id="milestone-submit" <button class="close-reveal-modal" onclick="addNewMilestone()">Submit</button></div>
-							</div>
+							<div id="myMilestoneModal" class="reveal-modal small-4" data-reveal>
+								<h2>New Milestone</h2><br />
+                                <form action="" onsubmit="addNewMilestone(); return false;">
+                                    <label for="milestoneName">Milestone Name:</label> <input type="text" id="milestoneName" />
+                                    <label for="milestoneDescription">Description:</label> <input type="text" id="milestoneDescription" />
+                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" id="milestoneDueDate" />
+                                    <label for="milestoneEstimatedHours">Estimated Hours:</label> <input type="text" id="milestoneEstimatedHours" />
+                                    <input type="submit" id="milestone-submit" class="button" value="Add Milestone" />
+                                    <div id="milestone-error" class="my-error" hidden>All fields must be specified</div>
+							    </form>
+                            </div>
 						</div>
 						<dl class="row collapse accordion" data-accordion>
 							<dd class="accordion-navigation">
@@ -60,6 +66,8 @@
 					<div class="row">
 						<div class="small-12 column">
 							<div id="mileContainer"></div>
+						</div>
+						<div class="small-12 column">
 							<div id="linesOfCode"></div>
 						</div>
 					</div>

@@ -174,8 +174,18 @@ function addNewMember(){
 	var selected = $("#member-select").val();
 
 	//Gets the selected user
-	var id = $("#member-select").children(":selected").attr("id").substring(9);//+ ": " + "developer";
-	firebase.child('projects/' + projectID).child("members").push(id);
+	var id = $("#member-select").children(":selected").attr("id");//+ ": " + "developer";
+
+	if(!projectID || !selected || !id){
+		$("#member-error").show();
+		return;
+	} else {                                                                   
+		$("#member-error").hide();
+	}        
+
+	//currentProject.addMember(id);
+	firebase.child('projects/' + projectID).child("members").child(id).set('developer');
+	$("#member-submit").foundation('reveal', 'close');
 }
 
 
@@ -205,6 +215,11 @@ User.ProjectData.prototype = {
 			this.__milestones
 		);
 	}
+	getLinesOfCode:function(callback){
+		this.__total_lines_of_code.on('value',function(snap){
+			callback(snap.val());
+		});
+	}
 };
 
 User.MilestoneData = function(user,ref){
@@ -220,6 +235,11 @@ User.MilestoneData = function(user,ref){
 User.MilestoneData.prototype = {
 	getMilestone:function(){
 
+	},
+	getLinesOfCode:function(callback){
+		this.__total_lines_of_code.on('value',function(snap){
+			callback(snap.val());
+		});
 	}
 };
 
@@ -377,10 +397,20 @@ function addNewProject(){
 		var docDueDate = $("#projectDueDate").val();
 		var docEstimatedHours = $("#projectEstimatedHours").val();
 		var currentUser = userData.uid; //+ ": " + "lead";
-		var project = firebase.child('projects').push(
-			{ 'name': docName, 'description': docDescription, 
-			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': {currentUser:'lead'}});
-		$('#myProjectModal').trigger('reveal:close');
+		if(!docName || !docDescription || !docDueDate || !docEstimatedHours || !currentUser){
+			$("#project-error").show();
+			return;
+		} else {
+			$("#project-error").hide();
+		}
+        var project = firebase.child('projects').push({
+			'name': docName,
+			'description':docDescription,
+			'due_date':docDueDate,
+			'total_estimated_hours':docEstimatedHours,
+			'members':currentUser,
+		});
+		$('#project-submit').foundation('reveal','close');
 	//}	
 
 }
@@ -473,11 +503,17 @@ function addNewMilestone(){
 	var docDueDate = $("#milestoneDueDate").val();
 	var docEstimatedHours = $("#milestoneEstimatedHours").val();
 	var projectid = currentProject.uid;
-	//Adds the milestone
+	// Validate fields
+	if(!docname || !docDescription || !docDueDate || !docEstimatedHours || !projectid){
+		$("#milestone-error").show();
+		return;
+	} else {
+		$("#milestone-error").hide();
+	}
 	var milestone = firebase.child('projects/' + projectid).child('milestones').push(
 		{ 'name': docName, 'description': docDescription, 
 		'due_date': docDueDate, 'estimated_hours': docEstimatedHours});
-	
+	$("milestone-submit").foundation('reveal', 'close');
 }
 
 function Task(firebase){
@@ -487,6 +523,7 @@ function Task(firebase){
 	this.__description = firebase.child('description');
 	this.__assigned_user = firebase.child('assignedTo');
 	this.__category = firebase.child('category');
+	this.__lines_of_code = firebase.child('total_lines_of_code');
 	this.__originalTime = firebase.child('original_time_estimate');
 	this.__updatedTime = firebase.child('updated_time_estimate');
 };
@@ -519,6 +556,11 @@ Task.prototype = {
 	},
 	getCategory:function(callback){
 		this.__category.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
+	getTotalLinesOfCode:function(callback){
+		this.__total_lines_of_code.on('value',function(dat){
 			callback(dat.val());
 		});
 	},
@@ -607,34 +649,18 @@ Task.prototype = {
 				task.setUser(selectedUser);
 				task.setDescription(descriptionInput.text());
 				task.setName(nameInput.val());
-
+				task.setCategory(categoriesSelect.val());
+				task.setEstimatedHours(estHoursInput.val());
 			});
 		});
-		userSelect.hide();
-		user.click(function(){
-			userName.hide();
-			userSelect.show();
-		});
-		user.append(userName,userSelect);
-
+		user.append(userName)
 		this.getAssignedUser(function(assignedUser){
 			assignedUser.getName(function(name){
 				userName.text(name);
 			});
 		});
 		var catLabel = $('<span>');
-		var catSelect = this.getCategorySelect(function(category){
-			task.setCategory(category);
-			catSelect.blur();
-			catSelect.hide();
-			catLabel.show();
-		});
-		catSelect.hide();
-		catLabel.click(function(){
-			catLabel.hide();
-			catSelect.show();
-		});
-		cat.append(catLabel,catSelect);
+		cat.append(catLabel);
 		this.getCategory(function(categoryStr){
 			catLabel.text(categoryStr);
 		});
@@ -670,7 +696,7 @@ Task.prototype = {
 function getLoginData(){ // Takes the login data from the form and places it into variables
 	var user = $("#user").val();
 	var pass = $("#pass").val();
-	document.getElementById("pass").value = "";
+	$("loginPass").val("");
 	login(user, pass, false);
 }
 
@@ -683,18 +709,26 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 	}, function(error, authData) {
 		if (error === null) {
 			userData = authData;
+			console.log(authData);
 			if(registering){
 				firebase.child('users/'+userData.uid).update(
 					{
 						email: userData.password.email,
 						github: $("#githubuser").val(),
 						name: $("#name").val()
+					}, function(error){
+						if(error){
+							$("#loginError").show();
+						} else {
+							$("#loginError").show();
+							$("#myLoginModal").foundation('reveal', 'close');
+						}
 					}
 				);
+			} else {
+				$("#myLoginModal").foundation('reveal', 'close');
 			}
-			window.location.replace("projects");
 		} else {
-			logout();
 			$("#loginError").show();
 		}
 	});
@@ -702,55 +736,71 @@ function login(user, pass, registering){ // Authenticates with Firebase, giving 
 
 function register(){ 		// Registers a new user with Firebase, and also adds that user
 							// to our local database (making a new developer/manager)
-	var user = $("#user").val();
-	var pass = $("#pass").val();
+	var user = $("#registerUser").val();
+	var pass = $("#registerPass").val();
+    var passCheck = $("#registerPassCheck").val();
 	var githubName = $("#githubuser").val();
 	var name = $("#name").val();
-	if(!user || !pass || !githubName || !name){
-		$("#registerError").show();
+
+    if(pass !== passCheck){
+        $("#passwordError").show();
+        $("#registerError").hide();
+        $("#emailError").hide();
+        return;
+    }
+    // Validate all fields are filled in
+	if(!user || !pass || !passCheck || !githubName || !name){
+		$("#passwordError").show();
+        $("#registerError").show();
+        $("#emailError").hide();
 		return;
 	} 
 	firebase.createUser(
 		{
 			email: user,
-			password: pass,
+			password: pass
 		}, 
-		function(error) {
-			if (error === null) {
-				login(user, pass, true);
+		function(error, userData) {
+			if (error === null) { // if an error is throw
+                console.log("User Data:" + userData);
+                login(user, pass, true);
 			} else {
+                $("#registerError").hide();
 				$("#emailError").show();
 			}
 		}
 	);
 }
-
-function logout() { 		// Shows the login button and hides the current user and logout
+function showLoginModal(){
+    $("#myLoginModal").foundation('reveal', 'open');
+}
+function logout() { // get rid all user data
 	firebase.unauth();
-	$("#currentUser").hide();
-	$("#logoutButton").hide();
-	$("#loginButton").show();
 	userData = null;
-	window.location.replace("/");
-};
+    projects = null;
+    users = null;
+    if(window.location.pathname !== "/") {
+        window.location.replace("/");
+    }
+}
+
+
 
 var projects = new Table(function(fb){ return new Project(fb);},firebase.child('projects'));
 var users = new Table(function(fb){ return new User(fb);},firebase.child('users'));
 
-firebase.onAuth(
+firebase.onAuth( // called on page load to auth users
 	function(authData){
 		userData = authData;
 		$(document).ready(
 			function(){
-				if(userData == null){
-					$("#currentUser").hide();
-					$("#logoutButton").hide();
-					$("#loginButton").show();
+				if(userData == null){ // isn't authed
+                    $(".notLoggedIn").show();
+                    $(".loginRequired").hide();
 				} else {
-					$("#currentUser").html("Currently logged in as " + userData.password.email);
-					$("#currentUser").show();
-					$("#logoutButton").show();
-					$("#loginButton").hide();
+                    $("#currentUser").html("Currently logged in as " + userData.password.email);
+                    $(".notLoggedIn").hide();
+                    $(".loginRequired").show();
 				}
 			}
 		);

@@ -10,16 +10,16 @@
 	</ul>
 
 	<section class="top-bar-section">
-		<ul class="left">
+		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
 			<li><a>My Tasks</a></li>
 			<li><a>My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
-			<li><a id="currentUser"></a></li>
-			<li id="logoutButton" hidden><a href="javascript:logout()">Logout</a></li>
-			<li id="loginButton" hidden><a href="login">Login</a></li>
+            <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
+			<li class="loginRequired" hidden><a id="currentUser"></a></li>
+			<li class="loginRequired" hidden><a href="javascript:logout()">Logout</a></li>
 			<li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">

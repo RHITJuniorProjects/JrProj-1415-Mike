@@ -4,6 +4,7 @@
 		<?php require 'header.php';?>
 	</head>
 	<body class="wide">
+        <?php require 'topbar.php'; ?>
 		<div id="title">
 			<h1 id="henry">Henry</h1>
 		</div>
@@ -40,13 +41,44 @@
 		</div>
 		<div id="footer" class="row panel">
 			<div class="small-4 columns">
-				<a href="/register" class="button expand">Register</a>
+                <button data-reveal-id="myRegisterModal" class="expand">Register</button>
+                <div id="myRegisterModal" class="reveal-modal" data-reveal>
+                    <h2>Register</h2> <br />
+                    <form action="" onsubmit="register(); return false;">
+                        <label for="registerUser">Email:</label> <input type="text" id="registerUser" />
+                        <label for="registerPass">Password:</label> <input type="password" id="registerPass" />
+                        <label for="registerPassCheck">Retype password:</label> <input type="password" id="registerPassCheck" />
+                        <label for="githubuser">Github User Name:</label> <input type="text" id="githubuser" />
+                        <label for="name">Name:</label> <input type="text" id="name"><br />
+                        <input class="button" type="submit" value="Register" />
+                        <div id="passwordError" class="my-error" hidden>Please check that the passwords are the same.</div>
+                        <div id="registerError" class="my-error" hidden>Error registering, make sure all the fields are filled in.</div>
+                        <div id="emailError" class="my-error" hidden>Invalid Email</div>
+                    </form>
+                </div>
 			</div>
 			<div class="small-4 columns">
-				<a href="/login" class="button expand">Login</a>
+				<button data-reveal-id="myLoginModal" class="expand">Login</button>
+                <div id="myLoginModal" class="reveal-modal" data-reveal>
+                	<h2>Login</h2> <br />
+                    <form action="" onsubmit="getLoginData(); return false;">
+                	    <label for="loginUser">Email:</label> <input type="text" id="loginUser" />
+                	    <label for="loginPass">Password:</label> <input type="password" id="loginPass" />
+                	    <input class="button" type="submit" value="Login" />
+                        <div id="loginError" class="my-error" hidden>Incorrect Username or Password</div>
+                     </form>
+                </div>
 			</div>
 			<div class="small-4 columns">
-				<a class="button expand">About</a>
+				<button data-reveal-id="myAboutModal" class="expand">About</button>
+                <div id="myAboutModal" class="reveal-modal" data-reveal>
+                    <h2>About</h2> <br />
+                    <p>
+                        Henry is a service that provides a simple way to create and manage projects and project tasks.<br>
+                        Register or login to begin!
+                    </p>
+                    <div class="button" onclick="$('#myAboutModal').foundation('reveal', 'close');">Close</div>
+                </div>
 			</div>
 		</div>
 		<script>
