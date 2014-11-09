@@ -81,8 +81,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xaY-3y-bXG">
-                                            <rect key="frame" x="186" y="8" width="63" height="30"/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <rect key="frame" x="213" y="8" width="63" height="30"/>
+                                            <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                                             <state key="normal" title="Details">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -145,7 +145,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ues-K4-IF0">
-                                            <rect key="frame" x="186" y="8" width="63" height="30"/>
+                                            <rect key="frame" x="213" y="8" width="63" height="30"/>
+                                            <color key="backgroundColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                             <state key="normal" title="Details">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -910,6 +911,6 @@
         <segue reference="N3w-Us-8Fy"/>
         <segue reference="Jkc-DS-FtK"/>
         <segue reference="DJc-dz-GE7"/>
-        <segue reference="cAM-55-Mtn"/>
+        <segue reference="TUL-V0-Fep"/>
     </inferredMetricsTieBreakers>
 </document>
