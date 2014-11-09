@@ -15,6 +15,7 @@
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="home-test.js"></script>
 <script type="text/javascript" src="/foundation.js"></script>
+<script type="text/javascript" src="/unittests.js"></script>
 <script type="text/javascript">
 	$(function(){ $(document).foundation()});
 </script>
@@ -42,7 +43,7 @@
 		<ul class="right">
             <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
-			<li class="loginRequired" hidden><a href="javascript:logout()">Logout</a></li>
+			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
 			<li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">

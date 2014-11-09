@@ -16,7 +16,6 @@ Table.prototype = {
 		return this.__factory(this.__firebase.child(uid));
 	},
 	onItemAdded:function(callback){
-		//console.log(this.__onChildAdded);
 		var table = this;
 		this.__firebase.on('child_added',function(snap){
 			var val = table.__factory(snap.ref());
@@ -109,14 +108,11 @@ User.prototype = {
 		var projectData = this.__projects.child(project.uid),
 			milestones = project.getMilestones(),
 			milestoneData = projectData.child('milestones');
-
-		console.log('check 1');
 		milestoneData.on('child_added',function(snap){
 			var milestoneData = snap.ref(),
 				milestone = milestones.get(snap.name()),
 				taskData = milestoneData.child('tasks'),
 				tasks = milestone.getTasks();
-			console.log('check 2');
 			taskData.on('child_added',function(snap){
 				taskid = snap.name();
 				callback(tasks.get(taskid));
@@ -125,7 +121,7 @@ User.prototype = {
 	},
 	getAllTasks:function(){
 
-	},
+	},/*
 	getMemberTile:function(project){
 		var tile = $(
 				'<dl class="row collapse accordian outlined" data-accordion>'
@@ -161,7 +157,7 @@ User.prototype = {
 		memberDD.append(memberA,taskPanel);
 		tile.append(memberDD);
 		return tile;
-	},
+	},*/
 	off:function(){
 		this.__firebase.off();
 	}
@@ -214,7 +210,7 @@ User.ProjectData.prototype = {
 			this.getProject().getMilestones,
 			this.__milestones
 		);
-	}
+	},
 	getLinesOfCode:function(callback){
 		this.__total_lines_of_code.on('value',function(snap){
 			callback(snap.val());
@@ -243,12 +239,12 @@ User.MilestoneData.prototype = {
 	}
 };
 
-function makeSelect(categories,default,onselect){
+function makeSelect(categories,def,onselect){
 	var select = $('<select>');
 	categories.forEach(function(category){
 		select.append('<option value="'+category+'">'+category+'</option>');
 	});
-	select.val(default);
+	select.val(def);
 	if(onselect){
 		select.change(function(){
 			onselect(select.val());
@@ -592,7 +588,7 @@ Task.prototype = {
 		return task;
 	},
 	getTableRow:function(){
-		var row = $('<tr class="task-row button expand" data-reveal-id="task-modal">');
+		var row = $('<tr class="task-row button wide" data-reveal-id="task-modal">');
 		var name = $('<td>');
 		var desc = $('<td>');
 		var cat = $('<td>');
@@ -622,12 +618,12 @@ Task.prototype = {
 			task.__firebase.once('value',function(snap){
 				vals = snap.val();
 			});
-			var nameInput = $('<input type="text" value="'+snap.name+'">');
-			var descriptionInput = $('<textarea>'+snap.description+'</textarea>');
-			var categoriesSelect = makeSelect(Task.Categories,snap.category,function(val){
+			var nameInput = $('<input type="text" value="'+vals.name+'">');
+			var descriptionInput = $('<textarea>'+vals.description+'</textarea>');
+			var categoriesSelect = makeSelect(Task.Categories,vals.category,function(val){
 				vals.category = val;
 			});
-			var estHoursInput = $('<input type="text" value="'+snap.updated_time_estimate+'">');
+			var estHoursInput = $('<input type="text" value="'+vals.updated_time_estimate+'">');
 			var nameH = $('<h2>');
 			task.getName(function(name){
 				nameH.text(name);
@@ -641,8 +637,8 @@ Task.prototype = {
 				categoriesSelect,
 				users.getSelect(function(user){
 					selectedUser = user;
-				},__assigned_user.key()),
-				estInputHours,
+				},task.__assigned_user.key()),
+				estHoursInput,
 				submit
 			);
 			submit.click(function(){
@@ -694,8 +690,8 @@ Task.prototype = {
 
 
 function getLoginData(){ // Takes the login data from the form and places it into variables
-	var user = $("#user").val();
-	var pass = $("#pass").val();
+	var user = $("#loginUser").val();
+	var pass = $("#loginPass").val();
 	$("loginPass").val("");
 	login(user, pass, false);
 }
@@ -703,14 +699,15 @@ function getLoginData(){ // Takes the login data from the form and places it int
 function login(user, pass, registering){ // Authenticates with Firebase, giving a callback that will 
 							// cause the window to go to projects if it was successful, 
 							// else go back to login and show the invalid input message.
+	console.log(user);
 	firebase.authWithPassword({
 		email: user,
 		password: pass
 	}, function(error, authData) {
 		if (error === null) {
 			userData = authData;
-			console.log(authData);
-			if(registering){
+			//console.log(authData);
+			if(registering){ // is registering
 				firebase.child('users/'+userData.uid).update(
 					{
 						email: userData.password.email,
@@ -750,7 +747,7 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
     }
     // Validate all fields are filled in
 	if(!user || !pass || !passCheck || !githubName || !name){
-		$("#passwordError").show();
+		$("#passwordError").hide();
         $("#registerError").show();
         $("#emailError").hide();
 		return;
@@ -762,7 +759,6 @@ function register(){ 		// Registers a new user with Firebase, and also adds that
 		}, 
 		function(error, userData) {
 			if (error === null) { // if an error is throw
-                console.log("User Data:" + userData);
                 login(user, pass, true);
 			} else {
                 $("#registerError").hide();
@@ -795,12 +791,12 @@ firebase.onAuth( // called on page load to auth users
 		$(document).ready(
 			function(){
 				if(userData == null){ // isn't authed
-                    $(".notLoggedIn").show();
-                    $(".loginRequired").hide();
+					$(".notLoggedIn").show();
+					$(".loginRequired").hide();
 				} else {
-                    $("#currentUser").html("Currently logged in as " + userData.password.email);
-                    $(".notLoggedIn").hide();
-                    $(".loginRequired").show();
+					$("#currentUser").html("Currently logged in as " + userData.password.email);
+					$(".notLoggedIn").hide();
+					$(".loginRequired").show();
 				}
 			}
 		);

@@ -14,7 +14,7 @@ function selectProject(project){
 	selectedProject = project;
 	var milestones = selectedProject.getMilestones();
 	
-	drawStuff(selectedProject.getUid());
+	drawStuff(selectedProject.uid);
 	
 	var $panel = $('#milestones-panel');
 	$panel.children().remove();
@@ -26,10 +26,10 @@ function selectProject(project){
 		nameA.text(name);
 	});
 
-	var memberCont = $('#member-container');
+/*	var memberCont = $('#member-container');
 	selectedProject.getMembers().onItemAdded(function(user){
 		memberCont.append(user.getMemberTile(selectedProject));
-	});
+	});*/
 }
 
 function selectMilestone(milestone){

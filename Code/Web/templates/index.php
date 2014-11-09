@@ -50,10 +50,10 @@
                         <label for="registerPassCheck">Retype password:</label> <input type="password" id="registerPassCheck" />
                         <label for="githubuser">Github User Name:</label> <input type="text" id="githubuser" />
                         <label for="name">Name:</label> <input type="text" id="name"><br />
-                        <input class="button" type="submit" value="Register" />
+                        <input id="registerSubmit" class="button" type="submit" value="Register" />
                         <div id="passwordError" class="my-error" hidden>Please check that the passwords are the same.</div>
                         <div id="registerError" class="my-error" hidden>Error registering, make sure all the fields are filled in.</div>
-                        <div id="emailError" class="my-error" hidden>Invalid Email</div>
+                        <div id="emailError" class="my-error" hidden>Email already in use.</div>
                     </form>
                 </div>
 			</div>
@@ -64,7 +64,7 @@
                     <form action="" onsubmit="getLoginData(); return false;">
                 	    <label for="loginUser">Email:</label> <input type="text" id="loginUser" />
                 	    <label for="loginPass">Password:</label> <input type="password" id="loginPass" />
-                	    <input class="button" type="submit" value="Login" />
+                	    <input id="loginSubmit" class="button" type="submit" value="Login" />
                         <div id="loginError" class="my-error" hidden>Incorrect Username or Password</div>
                      </form>
                 </div>
