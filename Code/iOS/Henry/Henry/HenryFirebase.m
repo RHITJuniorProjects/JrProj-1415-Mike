@@ -11,7 +11,7 @@
 @implementation HenryFirebase
 
 +(Firebase *)getFirebaseObject {
-    return [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com"];
+    return [[Firebase alloc] initWithUrl:@"https://ios-safe.firebaseio.com"];
 }
 
 @end
