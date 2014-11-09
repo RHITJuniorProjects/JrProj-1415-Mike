@@ -42,8 +42,8 @@ Table.prototype = {
 		}
 		return this.__factory(ref);
 	},
-	getSelect:function(onselect){
-	var select = $('<select>');
+	getSelect:function(onselect,defaultId){
+		var select = $('<select>');
 		if(onselect){
 			var table = this;
 			select.change(function(){
@@ -51,7 +51,8 @@ Table.prototype = {
 			});
 		}
 		this.onItemAdded(function(item){
-			select.append(item.getOption());
+			select.prepend(item.getOption());
+			select.val(defaultId);
 		});
 		return select;
 	},
@@ -222,6 +223,20 @@ User.MilestoneData.prototype = {
 	}
 };
 
+function makeSelect(categories,default,onselect){
+	var select = $('<select>');
+	categories.forEach(function(category){
+		select.append('<option value="'+category+'">'+category+'</option>');
+	});
+	select.val(default);
+	if(onselect){
+		select.change(function(){
+			onselect(select.val());
+		});
+	}
+	return select;
+}
+
 function makeProgressBar(divClass,text,percentRef){
 	var div = $('<div>');
 	var label = $('<h4>'+text+'</h4>');
@@ -364,7 +379,7 @@ function addNewProject(){
 		var currentUser = userData.uid; //+ ": " + "lead";
 		var project = firebase.child('projects').push(
 			{ 'name': docName, 'description': docDescription, 
-			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': {currentUser:'developer'}});
+			'due_date': docDueDate, 'total_estimated_hours': docEstimatedHours, 'members': {currentUser:'lead'}});
 		$('#myProjectModal').trigger('reveal:close');
 	//}	
 
@@ -507,18 +522,6 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
-	getCategorySelect:function(onselect){
-		var select = $('<select>');
-		Task.Categories.forEach(function(category){
-			select.append('<option value="'+category+'">'+category+'</option>');
-		});
-		if(onselect){
-			select.change(function(){
-				onselect(select.val());
-			});
-		}
-		return select;
-	},
 	getOriginalTime:function(callback){
 		this.__originalTime.on('value',function(dat){
 			callback(dat.val());
@@ -547,7 +550,7 @@ Task.prototype = {
 		return task;
 	},
 	getTableRow:function(){
-		var row = $('<tr class="task-row">');
+		var row = $('<tr class="task-row button expand" data-reveal-id="task-modal">');
 		var name = $('<td>');
 		var desc = $('<td>');
 		var cat = $('<td>');
@@ -555,21 +558,57 @@ Task.prototype = {
 		var originalTime = $('<td>');
 		var updatedTime = $('<td>');
 		var task = this;
+		var modal = $('#task-modal');
+
 		row.append(name,desc,cat,user,originalTime,updatedTime);
 		this.getName(function(nameStr){
 			name.html(nameStr);
 		});
-
 		this.getDescription(function(descriptionStr){
 			desc.html(descriptionStr);
 		});
-
 		var userName = $('<span>');
 		var userSelect = users.getSelect(function(user){
 			task.setUser(user);
 			userSelect.blur();
 			userSelect.hide();
 			userName.show();
+		});
+		row.click(function(){
+			modal.children().remove();
+			var vals;
+			task.__firebase.once('value',function(snap){
+				vals = snap.val();
+			});
+			var nameInput = $('<input type="text" value="'+snap.name+'">');
+			var descriptionInput = $('<textarea>'+snap.description+'</textarea>');
+			var categoriesSelect = makeSelect(Task.Categories,snap.category,function(val){
+				vals.category = val;
+			});
+			var estHoursInput = $('<input type="text" value="'+snap.updated_time_estimate+'">');
+			var nameH = $('<h2>');
+			task.getName(function(name){
+				nameH.text(name);
+			});
+			var selectedUser;
+			var submit = $('<a class="button expand close-reveal-modal">');
+			modal.append(
+				nameH,
+				nameInput,
+				descriptionInput,
+				categoriesSelect,
+				users.getSelect(function(user){
+					selectedUser = user;
+				},__assigned_user.key()),
+				estInputHours,
+				submit
+			);
+			submit.click(function(){
+				task.setUser(selectedUser);
+				task.setDescription(descriptionInput.text());
+				task.setName(nameInput.val());
+
+			});
 		});
 		userSelect.hide();
 		user.click(function(){
@@ -583,7 +622,6 @@ Task.prototype = {
 				userName.text(name);
 			});
 		});
-
 		var catLabel = $('<span>');
 		var catSelect = this.getCategorySelect(function(category){
 			task.setCategory(category);
@@ -619,6 +657,9 @@ Task.prototype = {
 	},
 	setCategory:function(cat){
 		this.__category.set(cat);
+	},
+	setName:function(name){
+		this.__name.set(name);
 	},
 	off:function(){
 		this.__firebase.off();

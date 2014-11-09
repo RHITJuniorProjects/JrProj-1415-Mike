@@ -52,7 +52,7 @@
 						</div>
 					</div>
 					<div class="content" id="ProjectStatistics">
-						<div class-"row">
+						<div class="row">
 							<div class="small-6 columns">
 								<div id="projContainer1"></div>
 							</div>
