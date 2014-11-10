@@ -163,6 +163,7 @@
         vc.milestoneName = [self.staticData objectAtIndex:indexPath.row];
         vc.uid = self.uid;
     } else {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[(UIView*)[(UIView*)sender superview] superview]];
         HenryMilestoneDetailViewController *vc = [segue destinationViewController];
         vc.ProjectID = self.ProjectID;
         vc.MileStoneID = [self.milestoneIDs objectAtIndex:indexPath.row];

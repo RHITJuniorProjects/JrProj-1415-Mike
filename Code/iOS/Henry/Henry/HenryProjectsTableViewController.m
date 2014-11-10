@@ -235,6 +235,7 @@
         vc.tasks = self.tasks;
         vc.uid = self.uid;
     } else {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:(UITableViewCell *)[(UIView*)[(UIView*)sender superview] superview]];
         HenryProjectDetailViewController *vc = [segue destinationViewController];
         HenryProjectObject *hpo = [self.projects objectAtIndex:indexPath.row];
         vc.projectID = hpo.projectID;
