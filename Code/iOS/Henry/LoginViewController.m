@@ -55,9 +55,12 @@
 {
     [self.view endEditing:YES];
     self.loginIndicator.hidden = NO;
-    if(![self.emailText.text containsString:@"@"] || ![self.emailText.text containsString:@"."] || [self.emailText.text containsString:@" "]){
-        UIAlertView *badEmailAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Incorrect E-mail Format" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+    NSString *regex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    if (![emailTest evaluateWithObject:self.emailText.text]) {
+        UIAlertView *badEmailAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Incorrect e-mail format" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [badEmailAlert show];
+        self.loginIndicator.hidden = YES;
         return;
     }else{
     [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
@@ -101,6 +104,13 @@
     }];
     }
     
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [self loginAction:nil];
+    
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning
