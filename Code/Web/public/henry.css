@@ -5,6 +5,15 @@
 	z-index: 10;
 }
 
+.task-row {
+	cursor:pointer;
+	transition: background-color 300ms ease-out 0s;
+}
+
+.task-row:hover {
+	background-color:#666;
+}
+
 #title {
 	position: fixed;
 	z-index:23;

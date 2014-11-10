@@ -158,8 +158,8 @@ User.prototype = {
 		tile.append(memberDD);
 		return tile;
 	},*/
-	off:function(){
-		this.__firebase.off();
+	off:function(arg1,arg2){
+		this.__firebase.off(arg1,arg2);
 	}
 };
 
@@ -264,6 +264,12 @@ function makeProgressBar(divClass,text,percentRef){
 		span.width(String(snap.val())+"%");
 	});
 	return div;
+}
+
+function label(elem,label){
+	var l = $('<label>');
+	l.append(label,elem);
+	return l;
 }
 
 //Initializes the Project object
@@ -404,7 +410,7 @@ function addNewProject(){
 			'description':docDescription,
 			'due_date':docDueDate,
 			'total_estimated_hours':docEstimatedHours,
-			'members':currentUser,
+			'members':{currentUser:'Lead'},
 		});
 		$('#project-submit').foundation('reveal','close');
 	//}	
@@ -519,18 +525,27 @@ function Task(firebase){
 	this.__description = firebase.child('description');
 	this.__assigned_user = firebase.child('assignedTo');
 	this.__category = firebase.child('category');
+	this.__status = firebase.child('status');
 	this.__lines_of_code = firebase.child('total_lines_of_code');
-	this.__originalTime = firebase.child('original_time_estimate');
-	this.__updatedTime = firebase.child('updated_time_estimate');
+	this.__original_time_estimate = firebase.child('original_time_estimate');
 };
 
-Task.Categories = [
+Task.Statuses = [
 	'New',
 	'Implementation',
 	'Testing',
 	'Verify',
 	'Regression',
 	'Closed'
+];
+
+Task.Categories = [
+	'Bug Fix',
+	'Enhancement',
+	'Feature',
+	'Business',
+	'General',
+	'Infrastructure'
 ];
 
 Task.prototype = {
@@ -555,18 +570,18 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
+	getStatus:function(callback){
+		this.__status.on('value',function(dat){
+			callback(dat.val());
+		});
+	},
 	getTotalLinesOfCode:function(callback){
 		this.__total_lines_of_code.on('value',function(dat){
 			callback(dat.val());
 		});
 	},
-	getOriginalTime:function(callback){
-		this.__originalTime.on('value',function(dat){
-			callback(dat.val());
-		});
-	},
-	getUpdatedTime:function(callback){
-		this.__updatedTime.on('value',function(dat){
+	getTimeEstimate:function(callback){
+		this.__original_time_estimate.on('value',function(dat){
 			callback(dat.val());
 		});
 	},
@@ -588,85 +603,75 @@ Task.prototype = {
 		return task;
 	},
 	getTableRow:function(){
-		var row = $('<tr class="task-row button wide" data-reveal-id="task-modal">');
+		var row = $('<tr class="task-row" data-reveal-id="task-modal">');
 		var name = $('<td>');
 		var desc = $('<td>');
 		var cat = $('<td>');
+		var stat = $('<td>');
 		var user = $('<td>');
-		var originalTime = $('<td>');
-		var updatedTime = $('<td>');
+		var hoursEstimate = $('<td>');
 		var task = this;
 		var modal = $('#task-modal');
 
-		row.append(name,desc,cat,user,originalTime,updatedTime);
+		row.append(name,desc,user,cat,stat,hoursEstimate);
 		this.getName(function(nameStr){
 			name.html(nameStr);
 		});
 		this.getDescription(function(descriptionStr){
 			desc.html(descriptionStr);
 		});
-		var userName = $('<span>');
-		var userSelect = users.getSelect(function(user){
-			task.setUser(user);
-			userSelect.blur();
-			userSelect.hide();
-			userName.show();
+		this.getAssignedUser(function(assignedUser){
+			assignedUser.getName(function(name){
+				user.html(name);
+			});
+		});
+		this.getCategory(function(categoryStr){
+			cat.html(categoryStr);
+		});
+		this.getStatus(function(statStr){
+			stat.html(statStr);
+		});
+		this.getTimeEstimate(function(updated_time_estimateStr){
+			hoursEstimate.html(updated_time_estimateStr);
 		});
 		row.click(function(){
 			modal.children().remove();
-			var vals;
 			task.__firebase.once('value',function(snap){
-				vals = snap.val();
-			});
-			var nameInput = $('<input type="text" value="'+vals.name+'">');
-			var descriptionInput = $('<textarea>'+vals.description+'</textarea>');
-			var categoriesSelect = makeSelect(Task.Categories,vals.category,function(val){
-				vals.category = val;
-			});
-			var estHoursInput = $('<input type="text" value="'+vals.updated_time_estimate+'">');
-			var nameH = $('<h2>');
-			task.getName(function(name){
-				nameH.text(name);
-			});
-			var selectedUser;
-			var submit = $('<a class="button expand close-reveal-modal">');
-			modal.append(
-				nameH,
-				nameInput,
-				descriptionInput,
-				categoriesSelect,
-				users.getSelect(function(user){
-					selectedUser = user;
-				},task.__assigned_user.key()),
-				estHoursInput,
-				submit
-			);
-			submit.click(function(){
-				task.setUser(selectedUser);
-				task.setDescription(descriptionInput.text());
-				task.setName(nameInput.val());
-				task.setCategory(categoriesSelect.val());
-				task.setEstimatedHours(estHoursInput.val());
-			});
-		});
-		user.append(userName)
-		this.getAssignedUser(function(assignedUser){
-			assignedUser.getName(function(name){
-				userName.text(name);
-			});
-		});
-		var catLabel = $('<span>');
-		cat.append(catLabel);
-		this.getCategory(function(categoryStr){
-			catLabel.text(categoryStr);
-		});
+				var vals = snap.val(),
+					nameInput = $('<input type="text" value="'+vals.name+'">'),
+					descriptionInput = $('<textarea>'+vals.description+'</textarea>'),
+					userSelect = users.getSelect(function(user){
+							selectedUser = user;
+					},vals.assignedTo),
+					categoriesSelect = makeSelect(Task.Categories,vals.category),
+					statusSelect = makeSelect(Task.Statuses,vals.status),
+					estHoursInput = $('<input type="text" value="'+vals.updated_time_estimate+'">'),
+					nameH = $('<h3>'),
+					submit = $('<a class="close-reveal-modal">submit</a>');
 
-		this.getOriginalTime(function(original_time_estimateStr){
-			originalTime.html(original_time_estimateStr);
-		});
-
-		this.getUpdatedTime(function(updated_time_estimateStr){
-			updatedTime.html(updated_time_estimateStr);
+				task.getName(function(name){
+					nameH.text('Edit Task: '+name);
+				});
+				modal.append(
+					nameH,
+					label(nameInput,'Name'),
+					label(descriptionInput,'Description'),
+					label(userSelect,'User'),
+					label(categoriesSelect,'Category'),
+					label(statusSelect,'Status'),
+					label(estHoursInput,'Estimated Hours'),
+					submit
+				);
+				submit.click(function(){
+					task.__firebase.update({
+						name:nameInput.val(),
+						description:descriptionInput.text(),
+						assignedTo:userSelect.val(),
+						category:categoriesSelect.val(),
+						original_time_estimate:Number(estHoursInput.val())
+					});
+				});
+			});
 		});
 		return row;
 	},

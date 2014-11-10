@@ -148,9 +148,16 @@
 					$(window).bind("resize",adjust);
 				}
 				adjust();
-				$('#one').attr('src','forest1.jpg');
-				$('#two').attr('src','grass.JPG');
-				$('#three').attr('src','water.jpg');
+				var one = $('#one'),
+					two = $('#two'),
+					three = $('#three');
+				one.load(function(){
+					two.attr('src','grass.JPG');
+				});
+				two.load(function(){
+					three.attr('src','water.jpg');
+				});
+				one.attr('src','forest1.jpg');
 			});
 		</script>
 	</body>
