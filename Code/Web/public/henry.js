@@ -405,12 +405,14 @@ function addNewProject(){
 		} else {
 			$("#project-error").hide();
 		}
+		var members = {};
+		members[currentUser] = 'Lead';
         var project = firebase.child('projects').push({
 			'name': docName,
 			'description':docDescription,
 			'due_date':docDueDate,
-			'total_estimated_hours':docEstimatedHours,
-			'members':{currentUser:'Lead'},
+			'total_estimated_hours':Number(docEstimatedHours),
+			'members':members,
 		});
 		$('#project-submit').foundation('reveal','close');
 	//}	
