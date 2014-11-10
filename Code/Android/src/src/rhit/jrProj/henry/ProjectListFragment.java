@@ -182,6 +182,10 @@ public class ProjectListFragment extends ListFragment {
 		}
 		this.mActivatedPosition = position;
 	}
+	/**
+	 * Notifies the Projects that the sorting mode has changed
+	 * and calls the changeSorting() method on their respective adapters.
+	 */
 	public void sortingChanged(){
 		this.sortMode=this.mCallbacks.getSortMode();
 		for (Project p : this.projects){

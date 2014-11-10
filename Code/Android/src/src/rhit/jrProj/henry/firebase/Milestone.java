@@ -262,13 +262,11 @@ public class Milestone implements Parcelable {
 	}
 
 	/**
-	 * gets the ListViewCallback for a milestone
+	 * gets the ListChangeNotifier (aka ListViewCallback) for a milestone
 	 * 
 	 * @return
 	 */
-	public ListChangeNotifier<Milestone> getListViewCallback() {
-		return this.listViewCallback;
-	}
+	
 	public ListChangeNotifier<Milestone> getListChangeNotifier(){
 		return this.listViewCallback;
 	}
@@ -366,8 +364,8 @@ public class Milestone implements Parcelable {
 
 			if (arg0.getName().equals("name")) {
 				this.milestone.setName(arg0.getValue(String.class));
-				if (this.milestone.getListViewCallback() != null) {
-					this.milestone.getListViewCallback().onChange();
+				if (this.milestone.getListChangeNotifier() != null) {
+					this.milestone.getListChangeNotifier().onChange();
 				}
 			} else if (arg0.getName().equals("description")) {
 				this.milestone.setDescription(arg0.getValue(String.class));
@@ -466,9 +464,22 @@ public class Milestone implements Parcelable {
 			}
 		}
 	}
+	/**
+	 * Compares this Milestone to another milestone, 
+	 * ignoring case and putting 10 after 9 instead of after 1.
+	 * @param p
+	 * @return
+	 */
 	public int compareToIgnoreCase(Milestone p){
 		return compareToICHelper(this.getName(), p.getName());
 	}
+	/**
+	 * A helper method for the compareToIgnoreCase
+	 * Does the actual work.
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
 	private int compareToICHelper(String s1, String s2){
 		if (s1.equalsIgnoreCase(s2)) return 0;
 		else{

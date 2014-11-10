@@ -16,14 +16,31 @@ import rhit.jrProj.henry.firebase.Task;
  */
 public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	
+	/**
+	 * A simple string that stores what sorting mode the user chose
+	 */
 	private String sortType="A-Z";
+	/**
+	 * Stores the comparator so it is not recreated every time.
+	 */
 	private Comparator<T> c;
+	/**
+	 * This is a temporary variable that will be removed once Task does not use a SimpleAdapter
+	 */
 	private boolean simple =false;
+	/**
+	 * Standard constructor
+	 * @param adapter
+	 */
 	public SortedListChangeNotifier(SortedArrayAdapter<T> adapter) {
 		super(adapter);
 		createComparator();
 		
 	}
+	/**
+	 * Standard constructor
+	 * @param adapter
+	 */
 	public SortedListChangeNotifier(SortedArrayAdapter<T> adapter, String sorttype){
 		super(adapter);
 		if (sorttype!=null){
@@ -32,6 +49,10 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 		createComparator();
 		
 	}
+	/**
+	 * constructor using SimpleAdapter. Currently only used by Task. Will be removed eventually
+	 * @param adapter
+	 */
 	public SortedListChangeNotifier(SimpleAdapter adapter, String sorttype){
 		super(adapter);
 		if (sorttype!=null){
@@ -40,6 +61,10 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 		}
 		createComparator();
 	}
+	/**
+	 * This method is called when the user selects a new sorting mode.
+	 * @param sorttype
+	 */
 	public void changeSorting(String sorttype){
 		if (!(sorttype.equals(this.sortType))){
 			this.sortType=sorttype;
@@ -123,7 +148,8 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 
 	/**
 	 * 
-	 * The method that will be triggered when data is changed in the object. This method sorts on every change.
+	 * The method that will be triggered when data is changed in the object. 
+	 * This method sorts on every change.
 	 *
 	 */
 	public void onChange() {

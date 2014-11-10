@@ -258,6 +258,10 @@ public class TaskListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	/**
+	 * Notifies the Tasks that the sorting mode has changed
+	 * and calls the changeSorting() method on their respective adapters.
+	 */
 	public void sortingChanged(){
 		this.sortMode=this.mCallbacks.getSortMode();
 		for (Task p : this.tasks){

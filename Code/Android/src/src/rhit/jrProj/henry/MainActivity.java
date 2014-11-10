@@ -69,6 +69,7 @@ public class MainActivity extends Activity implements
 	
 	/**
 	 * current Fragment
+	 * Used when the sorting mode is changed so that we can update the correct fragment's list.
 	 */
 	private Fragment currFragment;
 	@Override
@@ -375,7 +376,7 @@ public class MainActivity extends Activity implements
 		}
 	}
 	/**
-	 * sets Sorting to A-Z
+	 * sets Sorting mode, and then calls the sortingChanged method on the current fragment
 	 */
 	public void sortingMode(MenuItem item){
 		this.sortingMode=item.getTitle().toString();
@@ -459,6 +460,9 @@ public class MainActivity extends Activity implements
 	public Task getSelectedTask(){
 		return this.selectedTask;
 	}
+	/**
+	 * Returns the current sorting mode
+	 */
 	public String getSortMode(){
 		return this.sortingMode;
 	}

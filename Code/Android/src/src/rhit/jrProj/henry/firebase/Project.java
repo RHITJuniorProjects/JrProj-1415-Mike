@@ -148,6 +148,11 @@ public class Project implements Parcelable {
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.listViewCallback = lcn;
 	}
+	/**
+	 * gets the ListChangeNotifier (aka ListViewCallback) for a project
+	 * 
+	 * @return
+	 */
 	public ListChangeNotifier<Project> getListChangeNotifier(){
 		return this.listViewCallback;
 	}
@@ -426,13 +431,20 @@ public class Project implements Parcelable {
 	
 	/**
 	 *  Compares this project with the other given project. This implementation treats lower 
-	 *  case letters the same as upper case letters.
+	 *  case letters the same as upper case letters. Also treats numbers differently,
+	 *   i.e. puts 10 after 9 instead of after 1
 	 * @param p
 	 * @return
 	 */
 	public int compareToIgnoreCase(Project p){
 		return compareToICHelper(this.getName(), p.getName());
 	}
+	/**
+	 * A helper method for compareToIgnoreCase
+	 * @param s1
+	 * @param s2
+	 * @return
+	 */
 	private int compareToICHelper(String s1, String s2){
 		if (s1 == s2) return 0;
 		else{

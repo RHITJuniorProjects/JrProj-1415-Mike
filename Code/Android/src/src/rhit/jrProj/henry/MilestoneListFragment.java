@@ -227,6 +227,10 @@ public class MilestoneListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	/**
+	 * Notifies the Milestones that the sorting mode has changed
+	 * and calls the changeSorting() method on their respective adapters.
+	 */
 	public void sortingChanged(){
 		this.sortMode=this.mCallbacks.getSortMode();
 		Log.i("MSSORT", this.sortMode);
