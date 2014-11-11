@@ -184,6 +184,8 @@ public class CreateMilestoneFragment extends DialogFragment {
 				+ this.projectid + "/milestones/").push();
 		ref.child("name").setValue(name);
 		ref.child("description").setValue(des);
-		this.mCallbacks.getSelectedProject().getListChangeNotifier().onChange();
+		ref.child("due_date").setValue("No Due Date");
+//		this.mCallbacks.getSelectedProject().getListChangeNotifier().onChange();
+		
 	}
 }
