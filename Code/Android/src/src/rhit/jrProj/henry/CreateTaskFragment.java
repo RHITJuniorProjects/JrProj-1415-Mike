@@ -1,8 +1,9 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-import rhit.jrProj.henry.TaskDetailFragment.StatusSpinnerListener;
 import rhit.jrProj.henry.TaskListFragment.Callbacks;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
@@ -230,17 +231,32 @@ public class CreateTaskFragment extends DialogFragment {
 		String name = this.mNameField.getText().toString();
 		String des = this.mDescriptionField.getText().toString();
 		String category=this.mCategory.getSelectedItem().toString();
+		Log.i("category", category);
 		String user=new Firebase(MainActivity.firebaseUrl).getAuth().getUid()
 				.toString();
-
-		Firebase newTask = new Firebase(MainActivity.firebaseUrl + "projects/"
+		Map<String, Object> map= new HashMap<String, Object>();
+		map.put("name", name);
+		map.put("description", des);
+		map.put("category", category);
+		map.put("due_date", "No Due Date");
+		map.put("assignedTo", user);
+		
+		Firebase f2=new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/").push();
+		String id=f2.toString().substring(f2.toString().lastIndexOf("/")+1);
+		Log.i("id", id);
+		new Firebase(MainActivity.firebaseUrl + "projects/"
+				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/"+id).setValue(map);
+//				.push().setValue(map);
 //		newTask.child("name").setValue(name);
 //		newTask.child("description").setValue(des);
 //		newTask.child("category").setValue(category);
 //		newTask.child("assignedTo").setValue(user);
 //		newTask.child("due_date").setValue("No Due Date");
-//		newTask.child("original_time_estimate").setValue(0);
+//		newTask.child("total_estimated_hours").setValue(0);
+//		newTask.child("total_hours").setValue(0);
+//		newTask.child("total_lines_of_code").setValue(0);
+//		newTask.child("status").setValue("New");
 //		if (this.mCallbacks.getSelectedMilestone()!=null){
 //			this.mCallbacks.getSelectedMilestone().getTaskListViewCallback().onChange();
 //		}

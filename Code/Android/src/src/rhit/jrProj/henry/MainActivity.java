@@ -390,9 +390,9 @@ public class MainActivity extends Activity implements
 					this.selectedProject.getProjectId());
 			msFrag.setArguments(arguments);
 			msFrag.show(getFragmentManager(), "Diag");
-			if (this.currFragment instanceof MilestoneListFragment){
-				((MilestoneListFragment)this.currFragment).dataChanged();
-			}
+//			if (this.currFragment instanceof MilestoneListFragment){
+//				((MilestoneListFragment)this.currFragment).dataChanged();
+//			}
 		}
 
 	}
