@@ -21,7 +21,10 @@ defaultpath = '.git/.henrydefaults'
 def readCommit(path):
     with open(path,'r') as msgfile:
         msg = msgfile.read()
-    return msg.strip()
+    try:
+        return msg.strip().split('\n#')[0]
+    except:
+        return ''
     
 
 def getLoC():
