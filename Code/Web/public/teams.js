@@ -59,7 +59,7 @@ function getAllUsers(){
 		var $select = $('#member-select');
 
 		user.getName(function(nameStr){
-			$select.append('<option id="username-' + user.uid + '">' +
+			$select.append('<option value="' + user.uid + '">' +
 				nameStr + '</option>');	
 		});
 	

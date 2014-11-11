@@ -169,18 +169,14 @@ function addNewMember(){
 	var projectID =  currentProject.uid;
 	var selected = $("#member-select").val();
 
-	//Gets the selected user
-	var id = $("#member-select").children(":selected").attr("id");//+ ": " + "developer";
-
-	if(!projectID || !selected || !id){
+	if(!projectID || !selected){
 		$("#member-error").show();
 		return;
 	} else {                                                                   
 		$("#member-error").hide();
 	}        
 
-	//currentProject.addMember(id);
-	firebase.child('projects/' + projectID).child("members").child(id).set('developer');
+	currentProject.addMember(selected,'Developer');
 	$("#member-submit").foundation('reveal', 'close');
 }
 
@@ -361,7 +357,10 @@ Project.prototype = {
 		if(typeof user == "object"){
 			user = user.uid;
 		}
-		this.__members.set(user,role);
+		var obj = {};
+		obj[user] = role;
+		console.log(obj);
+		this.__members.update(obj);
 	},
 	getOption:function(){
 		var option = $('<option value="'+this.uid+'"></option>');
@@ -405,6 +404,7 @@ function addNewProject(){
 		} else {
 			$("#project-error").hide();
 		}
+		// TODO validate input and correct it or show error
 		var members = {};
 		members[currentUser] = 'Lead';
         var project = firebase.child('projects').push({
@@ -508,16 +508,16 @@ function addNewMilestone(){
 	var docEstimatedHours = $("#milestoneEstimatedHours").val();
 	var projectid = currentProject.uid;
 	// Validate fields
-	if(!docname || !docDescription || !docDueDate || !docEstimatedHours || !projectid){
+	if(!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid){
 		$("#milestone-error").show();
 		return;
 	} else {
 		$("#milestone-error").hide();
 	}
-	var milestone = firebase.child('projects/' + projectid).child('milestones').push(
+	firebase.child('projects/' + projectid).child('milestones').push(
 		{ 'name': docName, 'description': docDescription, 
-		'due_date': docDueDate, 'estimated_hours': docEstimatedHours});
-	$("milestone-submit").foundation('reveal', 'close');
+		'due_date': docDueDate, 'estimated_hours': Number(docEstimatedHours)});
+	$("#milestone-submit").foundation('reveal', 'close');
 }
 
 function Task(firebase){
