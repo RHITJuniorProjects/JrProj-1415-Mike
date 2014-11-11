@@ -209,6 +209,13 @@
                                    @"status": @"New"
                                    };
             [newTask setValue:task];
+            
+            // Resign keyboard first responder
+            [self.parentViewController.view endEditing:YES];
+            // Update table with new cell so user doesn't have to wait on firebase
+            [self.tasks addObject:taskName];
+            [self.taskDueDates addObject:@"No Due Date"];
+            [self.tableView reloadData];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
                                                             message:@"You have an empty field."

@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.firebase.client.Firebase;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
+import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
+import rhit.jrProj.henry.bridge.TwoLineArrayAdapter;
 import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Member;
+import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
@@ -17,8 +20,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.firebase.client.Firebase;
 
 /**
  * A list fragment representing a list of Items. This fragment also supports
@@ -30,7 +36,7 @@ import android.widget.SimpleAdapter;
  * interface.
  */
 public class TaskListFragment extends ListFragment {
-
+	private String sortMode="A-Z";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -64,6 +70,8 @@ public class TaskListFragment extends ListFragment {
 		public ArrayList<Task> getTasks();
 
 		public Project getSelectedProject();
+		
+		
 	}
 
 	/**
@@ -83,8 +91,31 @@ public class TaskListFragment extends ListFragment {
 		public Project getSelectedProject() {
 			return null;
 		}
+		
+		
 	};
 
+	/**
+	 * 
+	 * The wrapper class for the list's assignee.
+	 *
+	 * @author rockwotj.
+	 *         Created Nov 7, 2014.
+	 */
+	private class Assignee {
+		Task task;
+		
+		public Assignee(Task task)
+		{
+			this.task = task;
+		}
+		
+		@Override
+		public String toString() {
+			return "Assigned to: " + this.task.getAssignedUserName();
+		}
+	}
+	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -103,18 +134,17 @@ public class TaskListFragment extends ListFragment {
 
 		super.onActivityCreated(savedInstanceState);
 		this.tasks = this.mCallbacks.getTasks();
-
-		List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+		
+		//This still doesn't account for dynamically adding and removing tasks
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		for (Task task : this.tasks) {
-			Map<String, String> datum = new HashMap<String, String>(2);
-			datum.put("title", task.getName());
-			datum.put("assignee", "Assigned to: " + task.getAssignedUserName());
+			Map<String, Object> datum = new HashMap<String, Object>(2);
+			datum.put("title", task);
+			datum.put("assignee", new Assignee(task));
 			data.add(datum);
 		}
-		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
-				android.R.layout.simple_list_item_2, new String[] { "title",
-						"assignee" }, new int[] { android.R.id.text1,
-						android.R.id.text2 });
+		ArrayAdapter<Task> adapter = new TwoLineArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_2,
+				android.R.id.text1, this.tasks);
 		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -147,8 +177,12 @@ public class TaskListFragment extends ListFragment {
 		createMilestone.setEnabled(false);
 
 		Firebase ref = new Firebase(MainActivity.firebaseUrl);
-		Enums.Role role = this.mCallbacks.getSelectedProject().getMembers()
-				.get(ref.getAuth().getUid());
+		Enums.Role role = this.mCallbacks
+				.getSelectedProject()
+				.getMembers()
+				.getValue(
+						new Member(ref.getRoot().toString() + "/users/"
+								+ ref.getAuth().getUid()));
 
 		if (role != null && role.equals(Enums.Role.lead)) {
 			MenuItem createTask = menu.findItem(R.id.action_task);
@@ -218,5 +252,7 @@ public class TaskListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	
+	
 
 }

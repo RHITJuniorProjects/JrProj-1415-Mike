@@ -20,6 +20,7 @@
  * View details for the first project when the user logs in
  */
 -(void)viewWillAppear:(BOOL)animated {
+    @try{
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         if (self.projectID == nil) {
             self.fb = [HenryFirebase getFirebaseObject];
@@ -34,9 +35,16 @@
             }];
         }
     }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)viewDidLoad {
+    @try{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.fb = [HenryFirebase getFirebaseObject];
@@ -48,11 +56,17 @@
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (IBAction)segControlClicked:(id)sender
 {
-    
+    @try{
     //Figures out the last clicked segment.
     int clickedSegment = [sender selectedSegmentIndex];
     if(clickedSegment == 0){
@@ -60,10 +74,17 @@
     }else{
         self.pieChart.hidden = NO;
     }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
     
 }
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
+    @try{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     NSDictionary *json = snapshot.value[@"projects"][self.projectID];
@@ -100,24 +121,43 @@
     }
     
     [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
-    
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
+    @try{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    @try{
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     HenryMilestonesTableViewController *vc = [segue destinationViewController];
     vc.ProjectID = self.projectID;
     vc.tasks = self.tasks;
     vc.uid = self.uid;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 @end

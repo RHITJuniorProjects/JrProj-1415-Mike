@@ -14,8 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -71,38 +73,60 @@ public class ProjectDetailFragment extends Fragment {
 			ProgressBar hoursCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_hours_progress_bar));
 			hoursCompleteBar.setMax(100);
 			hoursCompleteBar.setProgress(this.projectItem.getHoursPercent());
-			
 			((TextView) rootView.findViewById(R.id.project_tasks_percent))
-				.setText("Tasks Completed: " + this.projectItem.getTasksPercent() + "%");
-			ProgressBar tasksCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_tasks_progress_bar));
-			tasksCompleteBar.setMax(100);
-			tasksCompleteBar.setProgress(this.projectItem.getTasksPercent());
+			.setText("Tasks Completed: " + this.projectItem.getTasksPercent() + "%");
+		ProgressBar tasksCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_tasks_progress_bar));
+		tasksCompleteBar.setMax(100);
+		tasksCompleteBar.setProgress(this.projectItem.getTasksPercent());
+		
+		((TextView) rootView.findViewById(R.id.project_milestones_percent))
+			.setText("Milestones Completed: " + this.projectItem.getMilestonesPercent() + "%");
+		ProgressBar milestonesCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_milestones_progress_bar));
+		milestonesCompleteBar.setMax(100);
+		milestonesCompleteBar.setProgress(this.projectItem.getMilestonesPercent());
+		
+		
+		Spinner spinner = (Spinner) rootView
+				.findViewById(R.id.project_chart_spinner);
+		// Create an ArrayAdapter using the string array and a default
+		// spinner layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter
+				.createFromResource(this.getActivity(),
+						R.array.milestone_charts,
+						android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		spinner.setAdapter(adapter);
+
+		// Set the default for the spinner
+		spinner.setSelection(0);
+		// /////
+		
+		
+		
+		FrameLayout chartView = (FrameLayout) rootView
+				.findViewById(R.id.pieChart);
+		List<Integer> values = new ArrayList<Integer>();
+		List<String> keys = new ArrayList<String>();
+		for (Milestone milestone : this.projectItem.getMilestones()) {
+			GraphHelper.PieChartInfo chartInfo = milestone.getLocAddedInfo();
+			values.addAll(chartInfo.getValues());
+			keys.addAll(chartInfo.getKeys());
+		}
+		GraphicalView chart = GraphHelper.makePieChart(
+				"Lines Added for " + this.projectItem.getName(),
+				values, keys,
+				this.getActivity());
+		chartView.addView(chart, new LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+		chart.repaint();
 			
-			((TextView) rootView.findViewById(R.id.project_milestones_percent))
-				.setText("Milestones Completed: " + this.projectItem.getMilestonesPercent() + "%");
-			ProgressBar milestonesCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_milestones_progress_bar));
-			milestonesCompleteBar.setMax(100);
-			milestonesCompleteBar.setProgress(this.projectItem.getMilestonesPercent());
-			
-			FrameLayout chartView = (FrameLayout) rootView
-					.findViewById(R.id.pieChart);
-			List<Integer> values = new ArrayList<Integer>();
-			List<String> keys = new ArrayList<String>();
-			for (Milestone milestone : this.projectItem.getMilestones()) {
-				GraphHelper.PieChartInfo chartInfo = milestone.getLocAddedInfo();
-				values.addAll(chartInfo.getValues());
-				keys.addAll(chartInfo.getKeys());
-			}
-			GraphicalView chart = GraphHelper.makePieChart(
-					"Lines Added for " + this.projectItem.getName(),
-					values, keys,
-					this.getActivity());
-			chartView.addView(chart, new LayoutParams(
-					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-			chart.repaint();
 		}
 
 		return rootView;
 	}
+	
+	
 
 }

@@ -35,7 +35,7 @@ public class Milestone implements Parcelable {
 	/**
 	 * The due date of a milestone
 	 */
-	private String dueDate = "No due date assigned";
+	private String dueDate = "No Due Date";
 	
 	/**
 	 * The percentage of tasks completed for this milestone
@@ -262,11 +262,12 @@ public class Milestone implements Parcelable {
 	}
 
 	/**
-	 * gets the ListViewCallback for a milestone
+	 * gets the ListChangeNotifier (aka ListViewCallback) for a milestone
 	 * 
 	 * @return
 	 */
-	public ListChangeNotifier<Milestone> getListViewCallback() {
+	
+	public ListChangeNotifier<Milestone> getListChangeNotifier(){
 		return this.listViewCallback;
 	}
 
@@ -278,7 +279,7 @@ public class Milestone implements Parcelable {
 	public ListChangeNotifier<Task> getTaskListViewCallback() {
 		return this.taskListViewCallback;
 	}
-
+	
 	/**
 	 * Sets the ListViewCallback on a milestone
 	 * 
@@ -363,8 +364,8 @@ public class Milestone implements Parcelable {
 
 			if (arg0.getName().equals("name")) {
 				this.milestone.setName(arg0.getValue(String.class));
-				if (this.milestone.getListViewCallback() != null) {
-					this.milestone.getListViewCallback().onChange();
+				if (this.milestone.getListChangeNotifier() != null) {
+					this.milestone.getListChangeNotifier().onChange();
 				}
 			} else if (arg0.getName().equals("description")) {
 				this.milestone.setDescription(arg0.getValue(String.class));

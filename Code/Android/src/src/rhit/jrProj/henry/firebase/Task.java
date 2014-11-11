@@ -278,10 +278,15 @@ public class Task implements Parcelable {
 	public int getTotalLines() {
 		return this.totalLines;
 	}
-
+	/**
+	 * gets the ListChangeNotifier (aka ListViewCallback) for a task
+	 * 
+	 * @return
+	 */
 	public ListChangeNotifier<Task> getListChangeNotifier() {
 		return this.listViewCallback;
 	}
+	
 
 	/**
 	 * Returns the number of hours originally estimated for this task
@@ -292,11 +297,26 @@ public class Task implements Parcelable {
 		return this.hoursEstimatedOriginal;
 	}
 
+	/**
+	 * Updates the status on the task view
+	 */
 	public void updateStatus(String taskStatus) {
 		this.status = taskStatus;
 		this.firebase.child("status").setValue(taskStatus);
 		this.firebase.child("is_completed").setValue(
 				Boolean.valueOf(taskStatus.equals("Closed")));
+	}
+
+	/**
+	 * Updates the assigned developer on a task
+	 */
+	public void updateAssignee(Member member) {
+		this.assignedUserId = member.getKey();
+		this.assignedUserName = member.toString();
+		this.firebase.child("assignedTo").setValue(member.getKey());
+		if (this.listViewCallback!=null){
+			this.listViewCallback.onChange();
+		}
 	}
 
 	/**
@@ -348,7 +368,7 @@ public class Task implements Parcelable {
 			}
 		}
 
-		private void getUserNameFromId(String id) {
+		public void getUserNameFromId(String id) {
 			Firebase userBase = Task.this.firebase.getRoot().child("users")
 					.child(id).child("name");
 			userBase.addValueEventListener(new ValueEventListener() {
@@ -395,5 +415,4 @@ public class Task implements Parcelable {
 
 		}
 	}
-
 }

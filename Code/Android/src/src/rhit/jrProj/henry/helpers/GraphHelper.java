@@ -17,6 +17,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
+import android.util.Log;
 
 public class GraphHelper {
 
@@ -26,14 +27,17 @@ public class GraphHelper {
 	public static GraphicalView makePieChart(String title,
 			List<Integer> values, List<String> keys, Activity activity) {
 		DefaultRenderer mRenderer = new DefaultRenderer();
-		mRenderer.setChartTitle(title);
-		mRenderer.setChartTitleTextSize(35);
+		//mRenderer.setChartTitle(title);
+		//mRenderer.setChartTitleTextSize(35);
 		mRenderer.setLabelsTextSize(30);
 		mRenderer.setLegendTextSize(30);
 		mRenderer.setLabelsColor(Color.BLACK);
 		mRenderer.setStartAngle(90);
 		mRenderer.setApplyBackgroundColor(true);
 		mRenderer.setBackgroundColor(Color.WHITE);
+		mRenderer.setAntialiasing(true);
+		mRenderer.setPanEnabled(false);
+		mRenderer.setZoomEnabled(false);
 
 		CategorySeries mSeries = new CategorySeries("");
 
@@ -90,8 +94,21 @@ public class GraphHelper {
 		XYMultipleSeriesRenderer renderer = buildBarRenderer(COLORS);
 		double yMax = 0;
 		double yMin = 0;
+		double xMax = 0;
+		double max = 0;
+		if(values.get(0).isEmpty())
+		{
+			//there are no values in the list, i.e no users. In this case, just display a blank graph
+			yMax = 10;
+			yMin = 0;
+			xMax = 10;
+		}
+		else
+		{
+		
+
 		for (int i = 0; i < values.size(); i++) {
-			double max = Collections.max(values.get(i));
+			max = Collections.max(values.get(i));
 			if (max > yMax) {
 				yMax = max;
 			}
@@ -100,7 +117,11 @@ public class GraphHelper {
 				yMin = min;
 			}
 		}
-		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, values.get(0).size() + 0.5, yMin * 1.25,
+		xMax = values.get(0).size() + .5;
+		
+		}
+		
+		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, xMax, yMin * 1.25,
 				yMax * 1.25, Color.BLACK, Color.BLACK);
 		for (int i = 0; i < values.size(); i++) {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))

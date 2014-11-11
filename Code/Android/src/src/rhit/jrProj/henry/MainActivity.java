@@ -3,34 +3,33 @@ package rhit.jrProj.henry;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Map;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
-import android.view.Window;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
-		TaskListFragment.Callbacks {
+		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks {
 	/**
 	 * The Url to the firebase repository
 	 */
@@ -64,7 +63,17 @@ public class MainActivity extends Activity implements
 	 * Determines what page to fill in when the application starts
 	 */
 	private Stack<Fragment> fragmentStack;
-
+	
+	/**
+	 * sorting mode
+	 */
+	private String sortingMode;
+	
+	/**
+	 * current Fragment
+	 * Used when the sorting mode is changed so that we can update the correct fragment's list.
+	 */
+	private Fragment currFragment;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,11 +114,12 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Project_List")
 				.addToBackStack("Project_List");
 		fragment.setArguments(args);
+		currFragment=fragment;
 		if (!this.mTwoPane) {
 			setContentView(R.layout.activity_onepane);
 			getFragmentManager().beginTransaction()
 					.add(R.id.main_fragment_container, fragment).commit();
-
+		    this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		} else {
 			setContentView(R.layout.activity_twopane);
 			getFragmentManager().beginTransaction()
@@ -137,7 +147,43 @@ public class MainActivity extends Activity implements
 
 		return true;
 	}
-
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
+		MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
+		MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
+		MenuItem AZ= submenu.findItem(R.id.sortAZ);
+		MenuItem ZA= submenu.findItem(R.id.sortZA);
+		
+		if (currFragment instanceof ProjectListFragment){
+			dateOldest.setVisible(false);
+			dateOldest.setEnabled(false);
+			dateNewest.setVisible(false);
+			dateNewest.setEnabled(false);
+			AZ.setVisible(true);
+			AZ.setEnabled(true);
+			ZA.setVisible(true);
+			ZA.setEnabled(true);
+			
+			
+		}
+		else{
+			MenuItem sorting=menu.findItem(R.id.action_sorting);
+			sorting.setVisible(false);
+			sorting.setEnabled(false);
+			dateOldest.setVisible(false);
+			dateOldest.setEnabled(false);
+			dateNewest.setVisible(false);
+			dateNewest.setEnabled(false);
+			AZ.setVisible(false);
+			AZ.setEnabled(false);
+			ZA.setVisible(false);
+			ZA.setEnabled(false);
+			
+			
+		}
+		return true;
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -179,6 +225,7 @@ public class MainActivity extends Activity implements
 		TaskListFragment fragment = new TaskListFragment();
 		this.fragmentStack.push(fragment);
 		fragment.setArguments(args);
+		currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -205,6 +252,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Milestone_List")
 				.addToBackStack("Milestone_List");
 		fragment.setArguments(args);
+		currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -231,6 +279,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Project_View")
 				.addToBackStack("Project_View");
 		fragment.setArguments(args);
+		currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -250,9 +299,11 @@ public class MainActivity extends Activity implements
 		this.selectedProject = p;
 		Bundle arguments = new Bundle();
 		arguments.putParcelable("Project", p);
+		Log.i("Project", new Boolean(p==null).toString());
 		ProjectDetailFragment fragment = new ProjectDetailFragment();
 
 		fragment.setArguments(arguments);
+		currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
@@ -277,6 +328,7 @@ public class MainActivity extends Activity implements
 		arguments.putParcelable("Milestone", m);
 		MilestoneDetailFragment fragment = new MilestoneDetailFragment();
 		fragment.setArguments(arguments);
+		currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
@@ -296,9 +348,10 @@ public class MainActivity extends Activity implements
 	public void onItemSelected(Task t) {
 		this.selectedTask = t;
 		Bundle arguments = new Bundle();
-		arguments.putParcelable("Task", t);
+		arguments.putBoolean("Two Pane", this.mTwoPane);
 		TaskDetailFragment fragment = new TaskDetailFragment();
 		fragment.setArguments(arguments);
+		currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
@@ -317,6 +370,7 @@ public class MainActivity extends Activity implements
 	public void logOut(MenuItem item) {
 
 		Intent login = new Intent(this, LoginActivity.class);
+		currFragment=null;
 		this.startActivity(login);
 		this.finish();
 		Firebase ref = new Firebase(firebaseUrl);
@@ -337,8 +391,11 @@ public class MainActivity extends Activity implements
 					this.selectedProject.getProjectId());
 			msFrag.setArguments(arguments);
 			msFrag.show(getFragmentManager(), "Diag");
+//			if (this.currFragment instanceof MilestoneListFragment){
+//				((MilestoneListFragment)this.currFragment).dataChanged();
+//			}
 		}
-		
+
 	}
 
 	/**
@@ -355,7 +412,20 @@ public class MainActivity extends Activity implements
 			arguments.putString("projectId",
 					this.selectedProject.getProjectId());
 			taskFrag.setArguments(arguments);
+			currFragment=taskFrag;
 			taskFrag.show(getFragmentManager(), "Diag");
+		}
+	}
+	/**
+	 * sets Sorting mode, and then calls the sortingChanged method on the current fragment
+	 */
+	public void sortingMode(MenuItem item){
+		this.sortingMode=item.getTitle().toString();
+		Log.i("SORTINGMODE", this.sortingMode);
+		if (this.currFragment!=null){
+			if (this.currFragment instanceof ProjectListFragment){
+				((ProjectListFragment)this.currFragment).sortingChanged();
+			}
 		}
 	}
 
@@ -369,7 +439,6 @@ public class MainActivity extends Activity implements
 		this.startActivity(intent);
 
 	}
-
 	/**
 	 * Returns the user's list of projects
 	 * 
@@ -398,6 +467,15 @@ public class MainActivity extends Activity implements
 	}
 
 	/**
+	 * Returns the Tasks for the selected Milestone
+	 * 
+	 * @return
+	 */
+	public Map<Member, Enums.Role> getProjectMembers() {
+		return this.selectedProject.getMembers();
+	}
+
+	/**
 	 * Returns the current user
 	 * 
 	 * @return
@@ -406,9 +484,26 @@ public class MainActivity extends Activity implements
 		return this.user;
 	}
 
-	@Override
 	public Project getSelectedProject() {
-		// TODO Auto-generated method stub
 		return this.selectedProject;
+	}
+	
+	/**
+	 * Returns the currently selected task.
+	 */
+	public Task getSelectedTask(){
+		return this.selectedTask;
+	}
+	/**
+	 * Returns the currently selected milestone
+	 */
+	public Milestone getSelectedMilestone(){
+		return this.selectedMilestone;
+	}
+	/**
+	 * Returns the current sorting mode
+	 */
+	public String getSortMode(){
+		return this.sortingMode;
 	}
 }

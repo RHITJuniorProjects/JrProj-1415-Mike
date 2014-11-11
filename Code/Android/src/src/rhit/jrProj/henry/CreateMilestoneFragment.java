@@ -1,9 +1,19 @@
 package rhit.jrProj.henry;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import rhit.jrProj.henry.CreateTaskFragment.Callbacks;
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.User;
+
 import com.firebase.client.Firebase;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +25,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class CreateMilestoneFragment extends DialogFragment {
-
+	private Callbacks mCallbacks = sDummyCallbacks;
 	/*
 	 * Name of the milestone
 	 */
@@ -46,7 +56,31 @@ public class CreateMilestoneFragment extends DialogFragment {
 
 		return f;
 	}
+	public interface Callbacks {
+		/**
+		 * Callback for when an item has been selected.
+		 */
+		public User getUser();
 
+		public Project getSelectedProject();
+		
+	}
+	/**
+	 * A dummy implementation of the {@link Callbacks} interface that does
+	 * nothing. Used only when this fragment is not attached to an activity.
+	 */
+	private static Callbacks sDummyCallbacks = new Callbacks() {
+
+		public User getUser() {
+			return null;
+		}
+		public Project getSelectedProject(){
+			return null;
+		}
+		
+		
+		
+	};
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,8 +104,28 @@ public class CreateMilestoneFragment extends DialogFragment {
 		addMilestone.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				createMilestone();
-				CreateMilestoneFragment.this.dismiss();
+
+				String name = CreateMilestoneFragment.this.mNameField.getText()
+						.toString();
+				String des = CreateMilestoneFragment.this.mDescriptionField
+						.getText().toString();
+
+				boolean create = true;
+
+				// Check for a valid description, if the user entered one.
+				if (TextUtils.isEmpty(des)) {
+					showErrorDialog(getString(R.string.invalidMilestoneDescription));
+					create = false;
+				}
+				// Check for a valid name, if the user entered one. 
+				else if (TextUtils.isEmpty(name)) {
+					showErrorDialog(getString(R.string.invalidMilestoneName));
+					create = false;
+				}
+				if (create) {
+					createMilestone();
+					CreateMilestoneFragment.this.dismiss();
+				} 
 			}
 		});
 
@@ -109,7 +163,18 @@ public class CreateMilestoneFragment extends DialogFragment {
 						return false;
 					}
 				});
+		this.mNameField.requestFocus();
 		return v;
+	}
+	
+	/**
+	 * Opens a dialog window that displays the given error message. 
+	 * @param message
+	 */
+	private void showErrorDialog(String message) {
+		new AlertDialog.Builder(this.getActivity()).setTitle("Error").setMessage(message)
+				.setPositiveButton(android.R.string.ok, null)
+				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
 
 	/**
@@ -121,7 +186,11 @@ public class CreateMilestoneFragment extends DialogFragment {
 		
 		Firebase ref = new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectid + "/milestones/").push();
-		ref.child("name").setValue(name);
-		ref.child("description").setValue(des);
+		Map <String, Object> map=new HashMap<String, Object>();
+		map.put("name", name);
+		map.put("description", des);
+		map.put("due_date", "No Due Date");
+		ref.setValue(map);
+		
 	}
 }

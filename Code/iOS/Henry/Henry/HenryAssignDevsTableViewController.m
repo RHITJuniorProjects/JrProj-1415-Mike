@@ -128,6 +128,7 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndex = indexPath.row;
     
+    [self.navigationController popViewControllerAnimated:YES];
 }
 /*
 // Override to support conditional editing of the table view.

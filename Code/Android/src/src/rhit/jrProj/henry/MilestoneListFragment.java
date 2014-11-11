@@ -2,13 +2,13 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import com.firebase.client.Firebase;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
+import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
-import android.R.menu;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.firebase.client.Firebase;
 
 /**
  * A list fragment representing a list of Milestones. This fragment also
@@ -29,7 +31,11 @@ import android.widget.ListView;
  * interface.
  */
 public class MilestoneListFragment extends ListFragment {
-
+	
+	private String sortMode="A-Z";
+	
+	private ArrayAdapter adapter;
+	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -63,6 +69,7 @@ public class MilestoneListFragment extends ListFragment {
 		public ArrayList<Milestone> getMilestones();
 
 		public Project getSelectedProject();
+		
 	}
 
 	/**
@@ -78,10 +85,10 @@ public class MilestoneListFragment extends ListFragment {
 			return null;
 		}
 
-		@Override
 		public Project getSelectedProject() {
 			return null;
 		}
+		
 	};
 
 	/**
@@ -106,7 +113,6 @@ public class MilestoneListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		// Done: replace with a real list adapter.
 		this.milestones = this.mCallbacks.getMilestones();
-
 		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.milestones);
@@ -115,6 +121,7 @@ public class MilestoneListFragment extends ListFragment {
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
 		}
+		this.adapter=arrayAdapter;
 		setListAdapter(arrayAdapter);
 		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
 	}
@@ -138,16 +145,19 @@ public class MilestoneListFragment extends ListFragment {
 		// This code shows the "Create Milestone" option when
 		// viewing milestones.
 		Firebase ref = new Firebase(MainActivity.firebaseUrl);
-		Enums.Role role = this.mCallbacks.getSelectedProject().getMembers()
-				.get(ref.getAuth().getUid());
+		Enums.Role role = this.mCallbacks
+				.getSelectedProject()
+				.getMembers()
+				.getValue(
+						new Member(ref.getRoot().toString() + "/users/"
+								+ ref.getAuth().getUid()));
 
 		if (this.getArguments().getBoolean("TwoPane")) {
 			if (role != null && role.equals(Enums.Role.lead)) {
-					MenuItem createMilestone = menu
-							.findItem(R.id.action_milestone);
-					createMilestone.setVisible(true);
-					createMilestone.setEnabled(true);
-			} 
+				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+				createMilestone.setVisible(true);
+				createMilestone.setEnabled(true);
+			}
 		}
 	}
 
@@ -216,4 +226,5 @@ public class MilestoneListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	
 }

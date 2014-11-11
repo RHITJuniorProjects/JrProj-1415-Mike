@@ -6,48 +6,63 @@
     android:layout_gravity="start"
     tools:context="rhit.jrProj.henry.MilestoneCreateFragment" >
 
-        <EditText
-            android:id="@+id/TaskDescriptionField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="100dp"
-            android:ems="10"
-            android:hint="@string/TaskDescriptionHint"
-            android:inputType="textMultiLine"
-            android:shadowColor="@color/black"
-            android:singleLine="false" >
+    <EditText
+        android:id="@+id/TaskDescriptionField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:hint="@string/TaskDescriptionHint"
+        android:inputType="textMultiLine"
+        android:shadowColor="@color/black"
+        android:singleLine="false" >
 
-            <requestFocus />
-        </EditText>
+        <requestFocus />
+    </EditText>
 
-        <EditText
-            android:id="@+id/taskNameField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginTop="50dp"
-            android:ems="10"
-            android:hint="@string/TaskNameHint" />
+    <EditText
+        android:id="@+id/taskNameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/TaskNameHint" />
 
-        <Button
-            android:id="@+id/TaskCancelButton"
-            android:layout_width="132dp"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/TaskDescriptionField"
-            android:layout_below="@+id/TaskDescriptionField"
-            android:layout_marginTop="33dp"
-            android:text="@string/MilestoneCreateCancelString" />
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="280dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/TaskDescriptionField"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" >
 
-        <Button
-            android:id="@+id/TaskAddButton"
-            android:layout_width="140dp"
+        <Spinner
+            android:id="@+id/taskCategorySpinner"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/TaskCancelButton"
-            android:layout_alignBottom="@+id/TaskCancelButton"
-            android:layout_toRightOf="@+id/TaskCancelButton"
-            android:text="@string/MilestoneAddString" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/TaskCancelButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/TaskDescriptionField"
+        android:layout_below="@+id/relativeLayout1"
+        android:text="@string/MilestoneCreateCancelString" />
+
+    <Button
+        android:id="@+id/TaskAddButton"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_toRightOf="@+id/TaskCancelButton"
+        android:text="@string/MilestoneAddString" />
 
 </RelativeLayout>

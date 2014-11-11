@@ -93,6 +93,8 @@
     self.previouslySelected = selectedCell;
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndex = indexPath.row;
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

@@ -28,6 +28,11 @@
         android:layout_height="wrap_content"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
+    
+        <Spinner
+        android:id="@+id/project_chart_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <FrameLayout
         android:id="@+id/pieChart"
