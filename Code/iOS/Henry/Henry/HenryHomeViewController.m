@@ -16,6 +16,7 @@
 @implementation HenryHomeViewController
 
 - (void)viewDidLoad {
+    @try{
     [super viewDidLoad];
     
     SWRevealViewController *revealViewController = self.revealViewController;
@@ -25,10 +26,24 @@
         [self.navButton setAction: @selector( revealToggle: )];
         [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
     }
+    }
+    @catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
+    @try{
     [super didReceiveMemoryWarning];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
     // Dispose of any resources that can be recreated.
 }
 
