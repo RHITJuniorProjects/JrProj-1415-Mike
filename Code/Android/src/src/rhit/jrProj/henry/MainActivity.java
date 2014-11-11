@@ -493,6 +493,12 @@ public class MainActivity extends Activity implements
 		return this.selectedTask;
 	}
 	/**
+	 * Returns the currently selected milestone
+	 */
+	public Milestone getSelectedMilestone(){
+		return this.selectedMilestone;
+	}
+	/**
 	 * Returns the current sorting mode
 	 */
 	public String getSortMode(){

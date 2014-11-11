@@ -1,5 +1,10 @@
 package rhit.jrProj.henry;
 
+import rhit.jrProj.henry.CreateTaskFragment.Callbacks;
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.User;
+
 import com.firebase.client.Firebase;
 
 import android.app.AlertDialog;
@@ -17,7 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class CreateMilestoneFragment extends DialogFragment {
-
+	private Callbacks mCallbacks = sDummyCallbacks;
 	/*
 	 * Name of the milestone
 	 */
@@ -48,7 +53,31 @@ public class CreateMilestoneFragment extends DialogFragment {
 
 		return f;
 	}
+	public interface Callbacks {
+		/**
+		 * Callback for when an item has been selected.
+		 */
+		public User getUser();
 
+		public Project getSelectedProject();
+		
+	}
+	/**
+	 * A dummy implementation of the {@link Callbacks} interface that does
+	 * nothing. Used only when this fragment is not attached to an activity.
+	 */
+	private static Callbacks sDummyCallbacks = new Callbacks() {
+
+		public User getUser() {
+			return null;
+		}
+		public Project getSelectedProject(){
+			return null;
+		}
+		
+		
+		
+	};
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -155,5 +184,6 @@ public class CreateMilestoneFragment extends DialogFragment {
 				+ this.projectid + "/milestones/").push();
 		ref.child("name").setValue(name);
 		ref.child("description").setValue(des);
+		this.mCallbacks.getSelectedProject().getListChangeNotifier().onChange();
 	}
 }

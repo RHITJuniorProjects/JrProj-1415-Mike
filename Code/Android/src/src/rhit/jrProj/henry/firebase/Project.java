@@ -349,6 +349,9 @@ public class Project implements Parcelable {
 				this.project.description = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("milestones")) {
 				Log.i("Henry", "Milestone Changed!?!");
+				if (this.project.listViewCallback != null) {
+					this.project.listViewCallback.onChange();
+				}
 			}
 		}
 
