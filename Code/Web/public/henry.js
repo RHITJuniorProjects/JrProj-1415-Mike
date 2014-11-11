@@ -667,9 +667,10 @@ Task.prototype = {
 				submit.click(function(){
 					task.__firebase.update({
 						name:nameInput.val(),
-						description:descriptionInput.text(),
+						description:descriptionInput.val(),
 						assignedTo:userSelect.val(),
 						category:categoriesSelect.val(),
+						status:statusSelect.val(),
 						original_time_estimate:Number(estHoursInput.val())
 					});
                     $("#task-modal").foundation('reveal', 'close');
@@ -702,6 +703,53 @@ Task.prototype = {
 	}
 };
 
+function newTask(){
+	var nameInput = $('<input type="text">'),
+		descriptionInput = $('<textarea>'),
+		userSelect = users.getSelect(function(user){
+				selectedUser = user;
+		},userData.uid),
+		categoriesSelect = makeSelect(Task.Categories,"Feature"),
+		statusSelect = makeSelect(Task.Statuses,"New"),
+		estHoursInput = $('<input type="text">'),
+		nameH = '<h3>Add New Task</h3>',
+		submit = $('<input class="button" value="Submit" />'),
+		modal = $('#task-modal'),
+		due_date = $('<input type="text">');
+	modal.children().remove();
+	modal.append(
+		nameH,
+		label(nameInput,'Name'),
+		label(descriptionInput,'Description'),
+		label(userSelect,'User'),
+		label(categoriesSelect,'Category'),
+		label(statusSelect,'Status'),
+		label(estHoursInput,'Estimated Hours'),
+		label(due_date,"Due Date"),
+		submit
+	);
+	submit.click(function(){
+		console.log({
+			name:nameInput.val(),
+			status:statusSelect.val(),
+			description:descriptionInput.val(),
+			assignedTo:userSelect.val(),
+			category:categoriesSelect.val(),
+			original_time_estimate:Number(estHoursInput.val()),
+			due_date: due_date.val()
+		});
+		selectedMilestone.__tasks.push({
+			name:nameInput.val(),
+			description:descriptionInput.val(),
+			assignedTo:userSelect.val(),
+			category:categoriesSelect.val(),
+			status:statusSelect.val(),
+			original_time_estimate:Number(estHoursInput.val()),
+			due_date: due_date.val()
+		});
+		$("#task-modal").foundation('reveal', 'close');
+	});
+}
 
 function getLoginData(){ // Takes the login data from the form and places it into variables
 	var user = $("#loginUser").val();

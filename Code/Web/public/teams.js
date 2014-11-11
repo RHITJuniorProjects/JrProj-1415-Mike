@@ -39,12 +39,12 @@ function selectMilestone(milestone){
 	if(selectedMilestone){
 		currentMilestone.off();
 	}
-    currentMilestone = milestone;
-	var tasks = currentMilestone.getTasks();
-	var $panel = $('#tasks-table');
-	$('.task-row').remove();
+    selectedMilestone = milestone;
+	var tasks = selectedMilestone.getTasks();
+	var $panel = $('#task-rows');
+	$panel.children().remove();
 	tasks.onItemAdded(function(task){
-		$panel.append(task.getTableRow());
+		$panel.prepend(task.getTableRow());
 	});
 }
 
