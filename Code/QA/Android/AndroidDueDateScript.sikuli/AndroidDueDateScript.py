@@ -1,6 +1,8 @@
 #checking deadlines
 #using user "test2@test.com" "test"
 #using project "Henry - Platform"
+click("1415380892828.png")
+type("test2@test.com" + Key.TAB + "test")
 click("1415307619657.png")
 if exists("1415307653784.png"):
     print("Showing due date successfully")
