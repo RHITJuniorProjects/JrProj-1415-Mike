@@ -35,7 +35,7 @@ public class Milestone implements Parcelable {
 	/**
 	 * The due date of a milestone
 	 */
-	private String dueDate = "No due date assigned";
+	private String dueDate = "No Due Date";
 	
 	/**
 	 * The percentage of tasks completed for this milestone
