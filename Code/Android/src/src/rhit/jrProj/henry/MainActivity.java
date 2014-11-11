@@ -14,6 +14,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -75,7 +76,7 @@ public class MainActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		Firebase.setAndroidContext(this);
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
@@ -117,7 +118,7 @@ public class MainActivity extends Activity implements
 			setContentView(R.layout.activity_onepane);
 			getFragmentManager().beginTransaction()
 					.add(R.id.main_fragment_container, fragment).commit();
-
+		    this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		} else {
 			setContentView(R.layout.activity_twopane);
 			getFragmentManager().beginTransaction()

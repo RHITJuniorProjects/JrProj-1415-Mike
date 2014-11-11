@@ -14,6 +14,8 @@ import android.app.ProgressDialog;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -62,6 +64,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	private EditText mPasswordView;
 	private View mProgressView;
 	private View mLoginFormView;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +79,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 		this.mAuthProgressDialog.setTitle("Loading");
 		this.mAuthProgressDialog.setMessage("Authenticating with Firebase...");
 		this.mAuthProgressDialog.setCancelable(false);
+		if(!((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE)){
+			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+
 
 		// Set up the login form.
 		this.mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
