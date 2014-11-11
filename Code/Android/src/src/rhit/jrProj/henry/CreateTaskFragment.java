@@ -192,7 +192,7 @@ public class CreateTaskFragment extends DialogFragment {
 						return false;
 					}
 				});
-		// Task status spinner
+		// Task category spinner
 					this.mCategory = (Spinner) v
 							.findViewById(R.id.taskCategorySpinner);
 					// Create an ArrayAdapter using the string array and a default
@@ -206,7 +206,7 @@ public class CreateTaskFragment extends DialogFragment {
 					// Apply the adapter to the spinner
 					mCategory.setAdapter(adapter);
 					
-					// Set the default for the spinner to be the task's current status
+					
 					
 		this.mNameField.requestFocus();
 		
@@ -247,18 +247,5 @@ public class CreateTaskFragment extends DialogFragment {
 		Log.i("id", id);
 		new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/"+id).setValue(map);
-//				.push().setValue(map);
-//		newTask.child("name").setValue(name);
-//		newTask.child("description").setValue(des);
-//		newTask.child("category").setValue(category);
-//		newTask.child("assignedTo").setValue(user);
-//		newTask.child("due_date").setValue("No Due Date");
-//		newTask.child("total_estimated_hours").setValue(0);
-//		newTask.child("total_hours").setValue(0);
-//		newTask.child("total_lines_of_code").setValue(0);
-//		newTask.child("status").setValue("New");
-//		if (this.mCallbacks.getSelectedMilestone()!=null){
-//			this.mCallbacks.getSelectedMilestone().getTaskListViewCallback().onChange();
-//		}
 	}
 }

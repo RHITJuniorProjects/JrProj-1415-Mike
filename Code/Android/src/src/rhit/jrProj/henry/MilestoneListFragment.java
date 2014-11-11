@@ -226,7 +226,5 @@ public class MilestoneListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-	public void dataChanged(){
-		this.adapter.notifyDataSetChanged();
-	}
+	
 }

@@ -111,7 +111,6 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 		}
 		else{
 			//Not yet implemented
-			//Standard date form needed!
 			this.c=new Comparator<T>(){
 				@Override
 				public int compare(T lhs, T rhs) {

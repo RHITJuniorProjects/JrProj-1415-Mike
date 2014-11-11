@@ -1,5 +1,8 @@
 package rhit.jrProj.henry;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import rhit.jrProj.henry.CreateTaskFragment.Callbacks;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
@@ -160,6 +163,7 @@ public class CreateMilestoneFragment extends DialogFragment {
 						return false;
 					}
 				});
+		this.mNameField.requestFocus();
 		return v;
 	}
 	
@@ -182,10 +186,11 @@ public class CreateMilestoneFragment extends DialogFragment {
 		
 		Firebase ref = new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectid + "/milestones/").push();
-		ref.child("name").setValue(name);
-		ref.child("description").setValue(des);
-		ref.child("due_date").setValue("No Due Date");
-//		this.mCallbacks.getSelectedProject().getListChangeNotifier().onChange();
+		Map <String, Object> map=new HashMap<String, Object>();
+		map.put("name", name);
+		map.put("description", des);
+		map.put("due_date", "No Due Date");
+		ref.setValue(map);
 		
 	}
 }

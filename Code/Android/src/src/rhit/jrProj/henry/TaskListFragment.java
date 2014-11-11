@@ -145,10 +145,6 @@ public class TaskListFragment extends ListFragment {
 		}
 		ArrayAdapter<Task> adapter = new TwoLineArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_2,
 				android.R.id.text1, this.tasks);
-//		SortedArrayAdapter adapter=new SortedArrayAdapter(getActivity(), data,
-//				android.R.layout.simple_list_item_2, new String[] { "title",
-//						"assignee" }, new int[] { android.R.id.text1,
-//						android.R.id.text2 });
 		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -256,10 +252,7 @@ public class TaskListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-	/**
-	 * Notifies the Tasks that the sorting mode has changed
-	 * and calls the changeSorting() method on their respective adapters.
-	 */
+	
 	
 
 }

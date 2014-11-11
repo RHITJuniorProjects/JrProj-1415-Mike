@@ -444,12 +444,12 @@ public class Project implements Parcelable {
 	}
 	/**
 	 * A helper method for compareToIgnoreCase
-	 * @param s1
-	 * @param s2
-	 * @return
+	 * @param s1 a String to compare
+	 * @param s2 another String to compare
+	 * @return num, num<0 if s1 is before s2, num=0 if s1 = s2, and num>0 if s1 is after s2
 	 */
 	private int compareToICHelper(String s1, String s2){
-		if (s1 == s2) return 0;
+		if (s1==s2) return 0;
 		else{
 			int i= 0;
 			int j= 0;
