@@ -31,7 +31,7 @@ public class Project implements Parcelable {
 	/**
 	 * The due date of the project
 	 */
-	private String dueDate = "No Due date assigned";
+	private String dueDate = "No Due Date";
 
 	/**
 	 * The members that are working on the project

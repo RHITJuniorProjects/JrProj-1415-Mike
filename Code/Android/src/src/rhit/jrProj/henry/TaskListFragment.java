@@ -69,7 +69,7 @@ public class TaskListFragment extends ListFragment {
 
 		public Project getSelectedProject();
 		
-		public String getSortMode();
+		
 	}
 
 	/**
@@ -90,9 +90,7 @@ public class TaskListFragment extends ListFragment {
 			return null;
 		}
 		
-		public String getSortMode(){
-			return "A-Z";
-		}
+		
 	};
 
 	/**
@@ -134,7 +132,7 @@ public class TaskListFragment extends ListFragment {
 
 		super.onActivityCreated(savedInstanceState);
 		this.tasks = this.mCallbacks.getTasks();
-		this.sortMode=this.mCallbacks.getSortMode();
+		
 		//This still doesn't account for dynamically adding and removing tasks
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		for (Task task : this.tasks) {
@@ -151,7 +149,7 @@ public class TaskListFragment extends ListFragment {
 //				android.R.layout.simple_list_item_2, new String[] { "title",
 //						"assignee" }, new int[] { android.R.id.text1,
 //						android.R.id.text2 });
-		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter,this.sortMode);
+		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
 			t.setListChangeNotifier(lcn);
@@ -262,11 +260,6 @@ public class TaskListFragment extends ListFragment {
 	 * Notifies the Tasks that the sorting mode has changed
 	 * and calls the changeSorting() method on their respective adapters.
 	 */
-	public void sortingChanged(){
-		this.sortMode=this.mCallbacks.getSortMode();
-		for (Task p : this.tasks){
-			((SortedListChangeNotifier) p.getListChangeNotifier()).changeSorting(this.sortMode);
-		}
-	}
+	
 
 }
