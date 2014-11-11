@@ -649,7 +649,7 @@ Task.prototype = {
 					statusSelect = makeSelect(Task.Statuses,vals.status),
 					estHoursInput = $('<input type="text" value="'+vals.updated_time_estimate+'">'),
 					nameH = $('<h3>'),
-					submit = $('<a class="close-reveal-modal">submit</a>');
+					submit = $('<input class="button" value="Submit" />');
 
 				task.getName(function(name){
 					nameH.text('Edit Task: '+name);
@@ -672,6 +672,7 @@ Task.prototype = {
 						category:categoriesSelect.val(),
 						original_time_estimate:Number(estHoursInput.val())
 					});
+                    $("#task-modal").foundation('reveal', 'close');
 				});
 			});
 		});
