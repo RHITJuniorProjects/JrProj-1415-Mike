@@ -68,7 +68,6 @@ public class MilestoneListFragment extends ListFragment {
 
 		public Project getSelectedProject();
 		
-		public String getSortMode();
 	}
 
 	/**
@@ -87,9 +86,7 @@ public class MilestoneListFragment extends ListFragment {
 		public Project getSelectedProject() {
 			return null;
 		}
-		public String getSortMode(){
-			return "A-Z";
-		}
+		
 	};
 
 	/**
@@ -114,12 +111,11 @@ public class MilestoneListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		// Done: replace with a real list adapter.
 		this.milestones = this.mCallbacks.getMilestones();
-		this.sortMode=this.mCallbacks.getSortMode();
-		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
+		ArrayAdapter<Milestone> arrayAdapter = new ArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.milestones);
-		SortedListChangeNotifier<Milestone> lcn = new SortedListChangeNotifier<Milestone>(
-				arrayAdapter, this.sortMode);
+		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(
+				arrayAdapter);
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
 		}
@@ -226,16 +222,5 @@ public class MilestoneListFragment extends ListFragment {
 		}
 
 		mActivatedPosition = position;
-	}
-	/**
-	 * Notifies the Milestones that the sorting mode has changed
-	 * and calls the changeSorting() method on their respective adapters.
-	 */
-	public void sortingChanged(){
-		this.sortMode=this.mCallbacks.getSortMode();
-		Log.i("MSSORT", this.sortMode);
-		for (Milestone p : this.milestones){
-			((SortedListChangeNotifier<Milestone>) p.getListChangeNotifier()).changeSorting(this.sortMode);
-		}
 	}
 }

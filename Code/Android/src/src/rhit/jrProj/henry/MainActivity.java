@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 
 import com.firebase.client.AuthData;
@@ -143,6 +144,43 @@ public class MainActivity extends Activity implements
 		createTask.setVisible(false);
 		createTask.setEnabled(false);
 
+		return true;
+	}
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
+		MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
+		MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
+		MenuItem AZ= submenu.findItem(R.id.sortAZ);
+		MenuItem ZA= submenu.findItem(R.id.sortZA);
+		
+		if (currFragment instanceof ProjectListFragment){
+			dateOldest.setVisible(false);
+			dateOldest.setEnabled(false);
+			dateNewest.setVisible(false);
+			dateNewest.setEnabled(false);
+			AZ.setVisible(true);
+			AZ.setEnabled(true);
+			ZA.setVisible(true);
+			ZA.setEnabled(true);
+			
+			
+		}
+		else{
+			MenuItem sorting=menu.findItem(R.id.action_sorting);
+			sorting.setVisible(false);
+			sorting.setEnabled(false);
+			dateOldest.setVisible(false);
+			dateOldest.setEnabled(false);
+			dateNewest.setVisible(false);
+			dateNewest.setEnabled(false);
+			AZ.setVisible(false);
+			AZ.setEnabled(false);
+			ZA.setVisible(false);
+			ZA.setEnabled(false);
+			
+			
+		}
 		return true;
 	}
 
@@ -384,12 +422,6 @@ public class MainActivity extends Activity implements
 		if (this.currFragment!=null){
 			if (this.currFragment instanceof ProjectListFragment){
 				((ProjectListFragment)this.currFragment).sortingChanged();
-			}
-			else if (this.currFragment instanceof MilestoneListFragment){
-				((MilestoneListFragment)this.currFragment).sortingChanged();
-			}
-			else if (this.currFragment instanceof TaskListFragment){
-				((TaskListFragment)this.currFragment).sortingChanged();
 			}
 		}
 	}
