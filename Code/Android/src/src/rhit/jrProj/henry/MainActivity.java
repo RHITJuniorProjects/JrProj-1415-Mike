@@ -390,8 +390,10 @@ public class MainActivity extends Activity implements
 			arguments.putString("projectid",
 					this.selectedProject.getProjectId());
 			msFrag.setArguments(arguments);
-			currFragment=msFrag;
 			msFrag.show(getFragmentManager(), "Diag");
+//			if (this.currFragment instanceof MilestoneListFragment){
+//				((MilestoneListFragment)this.currFragment).dataChanged();
+//			}
 		}
 
 	}
@@ -437,7 +439,6 @@ public class MainActivity extends Activity implements
 		this.startActivity(intent);
 
 	}
-
 	/**
 	 * Returns the user's list of projects
 	 * 
@@ -492,6 +493,12 @@ public class MainActivity extends Activity implements
 	 */
 	public Task getSelectedTask(){
 		return this.selectedTask;
+	}
+	/**
+	 * Returns the currently selected milestone
+	 */
+	public Milestone getSelectedMilestone(){
+		return this.selectedMilestone;
 	}
 	/**
 	 * Returns the current sorting mode

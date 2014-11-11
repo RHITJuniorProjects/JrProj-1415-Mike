@@ -8,6 +8,7 @@ import java.util.Map;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
+import rhit.jrProj.henry.bridge.TwoLineArrayAdapter;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -141,14 +143,8 @@ public class TaskListFragment extends ListFragment {
 			datum.put("assignee", new Assignee(task));
 			data.add(datum);
 		}
-		SimpleAdapter adapter = new SimpleAdapter(getActivity(), data,
-				android.R.layout.simple_list_item_2, new String[] { "title",
-						"assignee" }, new int[] { android.R.id.text1,
-						android.R.id.text2 });
-//		SortedArrayAdapter adapter=new SortedArrayAdapter(getActivity(), data,
-//				android.R.layout.simple_list_item_2, new String[] { "title",
-//						"assignee" }, new int[] { android.R.id.text1,
-//						android.R.id.text2 });
+		ArrayAdapter<Task> adapter = new TwoLineArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_2,
+				android.R.id.text1, this.tasks);
 		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -256,10 +252,7 @@ public class TaskListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-	/**
-	 * Notifies the Tasks that the sorting mode has changed
-	 * and calls the changeSorting() method on their respective adapters.
-	 */
+	
 	
 
 }

@@ -34,6 +34,8 @@ public class MilestoneListFragment extends ListFragment {
 	
 	private String sortMode="A-Z";
 	
+	private ArrayAdapter adapter;
+	
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -119,6 +121,7 @@ public class MilestoneListFragment extends ListFragment {
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
 		}
+		this.adapter=arrayAdapter;
 		setListAdapter(arrayAdapter);
 		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
 	}
@@ -223,4 +226,5 @@ public class MilestoneListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
+	
 }

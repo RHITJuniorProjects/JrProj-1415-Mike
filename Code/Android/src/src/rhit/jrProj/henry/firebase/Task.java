@@ -314,7 +314,9 @@ public class Task implements Parcelable {
 		this.assignedUserId = member.getKey();
 		this.assignedUserName = member.toString();
 		this.firebase.child("assignedTo").setValue(member.getKey());
-		this.listViewCallback.onChange();
+		if (this.listViewCallback!=null){
+			this.listViewCallback.onChange();
+		}
 	}
 
 	/**
