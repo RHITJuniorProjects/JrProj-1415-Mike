@@ -359,7 +359,7 @@ Project.prototype = {
 		}
 		var obj = {};
 		obj[user] = role;
-		console.log(obj);
+		//console.log(obj);
 		this.__members.update(obj);
 	},
 	getOption:function(){
@@ -658,7 +658,7 @@ Task.prototype = {
 					categoriesSelect = makeSelect(Task.Categories,vals.category),
 					statusSelect = makeSelect(Task.Statuses,vals.status),
                     dueInput = $('<input type="text" value="'+vals.due_date+'">'),
-					estHoursInput = $('<input type="text" value="'+vals.updated_time_estimate+'">'),
+					estHoursInput = $('<input type="text" value="'+vals.original_time_estimate+'">'),
 					nameH = $('<h3>'),
 					submit = $('<input class="button" value="Submit" />');
 
@@ -745,7 +745,7 @@ function newTask(){
 		submit
 	);
 	submit.click(function(){
-		console.log({
+		/*console.log({
 			name:nameInput.val(),
 			status:statusSelect.val(),
 			description:descriptionInput.val(),
@@ -753,7 +753,7 @@ function newTask(){
 			category:categoriesSelect.val(),
 			original_time_estimate:Number(estHoursInput.val()),
 			due_date: due_date.val()
-		});
+		});*/
 		selectedMilestone.__tasks.push({
 			name:nameInput.val(),
 			description:descriptionInput.val(),

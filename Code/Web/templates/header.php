@@ -1,5 +1,4 @@
 <meta charset="utf-8">
-<meta http-equiv="cache-control" content="no-store" />
 <meta name="description" content="Henry project management tool">
 <link rel="stylesheet" type="text/css" href="/foundation.css">
 <link rel="stylesheet" type="text/css" href="/henry.css">
