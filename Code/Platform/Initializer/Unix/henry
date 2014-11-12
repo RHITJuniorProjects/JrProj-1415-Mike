@@ -9,7 +9,7 @@ import sys
 import traceback
 import re
 
-VERSION = 0.1
+VERSION = '0.1.1'
 OPSYS = 'unix'
 firebase_url = 'https://henry-test.firebaseio.com'
 
@@ -75,6 +75,7 @@ def usage():
     print '   init        Conect the current git repository to Henry'
     print '   version     Display the installed version number'
     print '   help        Display the help menu'
+    print '   status      Determines if Henry is initialized in this directory'
 
 def helpmenu():
     if not inGitRepo():
@@ -87,6 +88,9 @@ def helpmenu():
     print 
     print 'Henry commit data can be entered in-line with the command'
     print "    git commit -m 'my commit message [hours:2] [milestone:Milestone 0] [task:Create database] [status:Regression]'"
+    print
+    print 'Henry\'s connection information can be displayed with the command'
+    print '    henry status'
 
 
 def version():
@@ -115,7 +119,7 @@ def status():
 
 def inGitRepo():
     try:
-        with open(os.getcwd()+'/.git/hooks/commit-msg','w') as f:
+        with open(os.getcwd()+'/.git/hooks/commit-msg.sample','r') as f:
             pass
         return True
     except IOError:
