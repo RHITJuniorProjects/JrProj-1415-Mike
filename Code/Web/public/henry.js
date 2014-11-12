@@ -529,6 +529,7 @@ function Task(firebase){
 	this.__category = firebase.child('category');
 	this.__status = firebase.child('status');
 	this.__lines_of_code = firebase.child('total_lines_of_code');
+    this.__due_date = firebase.child('due_date');
 	this.__original_time_estimate = firebase.child('original_time_estimate');
 };
 
@@ -577,6 +578,11 @@ Task.prototype = {
 			callback(dat.val());
 		});
 	},
+    getDueDate:function(callback){
+        this.__due_date.on('value', function(dat){
+            callback(dat.val());
+        });
+    },
 	getTotalLinesOfCode:function(callback){
 		this.__total_lines_of_code.on('value',function(dat){
 			callback(dat.val());
@@ -611,11 +617,12 @@ Task.prototype = {
 		var cat = $('<td>');
 		var stat = $('<td>');
 		var user = $('<td>');
+        var due = $('<td>');
 		var hoursEstimate = $('<td>');
 		var task = this;
 		var modal = $('#task-modal');
 
-		row.append(name,desc,user,cat,stat,hoursEstimate);
+		row.append(name,desc,user,cat,stat,due,hoursEstimate);
 		this.getName(function(nameStr){
 			name.html(nameStr);
 		});
@@ -633,6 +640,9 @@ Task.prototype = {
 		this.getStatus(function(statStr){
 			stat.html(statStr);
 		});
+        this.getDueDate(function(dueDate){
+            due.html(dueDate);
+        });
 		this.getTimeEstimate(function(updated_time_estimateStr){
 			hoursEstimate.html(updated_time_estimateStr);
 		});
@@ -647,6 +657,7 @@ Task.prototype = {
 					},vals.assignedTo),
 					categoriesSelect = makeSelect(Task.Categories,vals.category),
 					statusSelect = makeSelect(Task.Statuses,vals.status),
+                    dueInput = $('<input type="text" value="'+vals.due_date+'">'),
 					estHoursInput = $('<input type="text" value="'+vals.updated_time_estimate+'">'),
 					nameH = $('<h3>'),
 					submit = $('<input class="button" value="Submit" />');
@@ -661,6 +672,7 @@ Task.prototype = {
 					label(userSelect,'User'),
 					label(categoriesSelect,'Category'),
 					label(statusSelect,'Status'),
+                    label(dueInput,'Due Date'),
 					label(estHoursInput,'Estimated Hours'),
 					submit
 				);
@@ -669,6 +681,7 @@ Task.prototype = {
 						name:nameInput.val(),
 						description:descriptionInput.val(),
 						assignedTo:userSelect.val(),
+                        due_date:dueInput.val(),
 						category:categoriesSelect.val(),
 						status:statusSelect.val(),
 						original_time_estimate:Number(estHoursInput.val())
@@ -698,6 +711,9 @@ Task.prototype = {
 	setName:function(name){
 		this.__name.set(name);
 	},
+    setDueDate:function(dueDate){
+        this.__due_date.set(dueDate);
+    },
 	off:function(){
 		this.__firebase.off();
 	}
