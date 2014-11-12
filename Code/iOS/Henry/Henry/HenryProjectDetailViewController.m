@@ -16,7 +16,35 @@
 
 @implementation HenryProjectDetailViewController
 
+/*
+ * View details for the first project when the user logs in
+ */
+-(void)viewWillAppear:(BOOL)animated {
+    @try{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        if (self.projectID == nil) {
+            self.fb = [HenryFirebase getFirebaseObject];
+            [self.fb observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                self.uid = [defaults objectForKey:@"id"];
+                NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
+                self.projectID = [projects objectAtIndex:0];
+                [self updateInfo:snapshot];
+            } withCancelBlock:^(NSError *error) {
+                NSLog(@"%@", error.description);
+            }];
+        }
+    }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+}
+
 - (void)viewDidLoad {
+    @try{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.fb = [HenryFirebase getFirebaseObject];
@@ -28,21 +56,17 @@
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
-    
-    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
-    
-    for(int i =0;i<4;i++){
-        NSNumber *num = [NSNumber numberWithInt:1];
-        [dataArray addObject:num];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
     }
-    
-    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray];
-    
 }
 
 - (IBAction)segControlClicked:(id)sender
 {
-    
+    @try{
     //Figures out the last clicked segment.
     int clickedSegment = [sender selectedSegmentIndex];
     if(clickedSegment == 0){
@@ -50,16 +74,18 @@
     }else{
         self.pieChart.hidden = NO;
     }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
     
 }
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
+    @try{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//    NSString *urlString = [NSString stringWithFormat:@"https://henry-staging.firebaseio.com/projects/%@.json", self.projectID];
-//    NSURL *jsonURL = [NSURL URLWithString:urlString];
-//    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-//    NSError *error;
-//    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     
     NSDictionary *json = snapshot.value[@"projects"][self.projectID];
     
@@ -69,30 +95,69 @@
     double totalHours = [[json objectForKey:@"total_hours"] doubleValue];
     double estimatedHours = [[json objectForKey:@"total_estimated_hours"] doubleValue];
     self.hoursLoggedLabel.text = [NSString stringWithFormat:@"%0.2f/%0.2f", totalHours, estimatedHours];
-    NSLog(@"%0.2f", totalHours/estimatedHours);
     self.hoursLoggedProgressBar.progress = totalHours/estimatedHours;
     self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
-    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] intValue] / 100;
+    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] floatValue] / 100;
     self.milestonesCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"milestones_completed"],[json objectForKey:@"total_milestones"]];
-    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestonePercent"] intValue] / 100;
+    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestone_percent"] floatValue] / 100;
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    
+    self.assignableDevs = snapshot.value[@"projects"][self.projectID][@"members"];
+    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+    
+    self.allDevs = snapshot.value[@"users"];
+    NSMutableArray *developers = [[NSMutableArray alloc] init];
+    NSArray *keys = [self.assignableDevs allKeys];
+    self.names = [[NSMutableArray alloc] init];
+    for (NSString *key in keys) {
+        NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
+        NSNumber *lines = [[[[self.allDevs objectForKey:key] objectForKey:@"projects"] objectForKey:self.projectID] objectForKey:@"added_lines_of_code"];
+        if(name != NULL && lines!=0){
+            [self.names addObject:name];
+            [dataArray addObject:lines];
+            [developers addObject:key];
+        }
+    }
+    
+    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
+    @try{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    @try{
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     HenryMilestonesTableViewController *vc = [segue destinationViewController];
     vc.ProjectID = self.projectID;
     vc.tasks = self.tasks;
     vc.uid = self.uid;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 @end

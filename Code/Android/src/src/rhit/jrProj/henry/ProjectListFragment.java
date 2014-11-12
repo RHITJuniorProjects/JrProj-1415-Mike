@@ -1,8 +1,11 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
+import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
@@ -27,6 +30,8 @@ import android.widget.ListView;
 public class ProjectListFragment extends ListFragment {
 
 	ArrayList<Project> projects;
+	
+	String sortMode="A-Z";
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -59,6 +64,8 @@ public class ProjectListFragment extends ListFragment {
 		public ArrayList<Project> getProjects();
 		
 		public User getUser();
+		
+		public String getSortMode();
 	}
 
 	/**
@@ -78,6 +85,9 @@ public class ProjectListFragment extends ListFragment {
 		public User getUser() {
 			return null;
 		}
+		public String getSortMode(){
+			return "A-Z";
+		}
 	};
 
 	/**
@@ -91,13 +101,17 @@ public class ProjectListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.projects = this.mCallbacks.getProjects();
-		sortProjects(this.projects, 0, this.projects.size()-1);
-		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(
+		this.sortMode = this.mCallbacks.getSortMode();
+		
+		
+		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_1,
 				android.R.id.text1, this.projects);
 		setListAdapter(arrayAdapter);
-		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(
-				arrayAdapter);
+		
+		SortedListChangeNotifier<Project> lcn = new SortedListChangeNotifier<Project>(
+				arrayAdapter, this.sortMode);
+		
 		this.mCallbacks.getUser()
 				.setListChangeNotifier(lcn);
 		for (Project project : this.projects) {
@@ -138,7 +152,7 @@ public class ProjectListFragment extends ListFragment {
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
 		super.onListItemClick(listView, view, position, id);
-		this.mCallbacks.onItemSelected(this.projects.get(position));
+		this.mCallbacks.onItemSelected(this.mCallbacks.getProjects().get(position));
 	}
 
 	@Override
@@ -169,50 +183,13 @@ public class ProjectListFragment extends ListFragment {
 		this.mActivatedPosition = position;
 	}
 	/**
-	 * This method sorts the project list using a 2-pivot quicksort algorithm for maximum efficency
-	 * The initial parameters for lo and hi should ALWAYS be 0 and projList.size()-1
-	 * @param projList
-	 * @param lo
-	 * @param hi
+	 * Notifies the Projects that the sorting mode has changed
+	 * and calls the changeSorting() method on their respective adapters.
 	 */
-	private void sortProjects(ArrayList<Project> projList, int lo, int hi){
-		if (hi > lo){
-			int lt=lo;
-			int gt=hi;
-			Project v=projList.get(lo);
-			int i= lo;
-			while (i < gt){
-				int comp=projList.get(i).getName().compareTo(v.getName());
-				if (comp<0){
-					swap(projList, lt, i);
-					++lt;
-					++i;
-				}
-				else if(comp>0){
-					swap(projList, gt, i);
-					++gt;
-				}
-				else{
-					++i;
-				}
-			}
-			sortProjects(projList, lo, lt-1);
-			sortProjects(projList, gt+1, hi);
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		for (Project p : this.projects){
+			((SortedListChangeNotifier<Project>) p.getListChangeNotifier()).changeSorting(this.sortMode);
 		}
-			
-		
-	}
-	/**
-	 * This method is used by the sortProjects method to swap two elements of an ArrayList<Project>
-	 * @param projList
-	 * @param i
-	 * @param j
-	 */
-	private void swap(ArrayList<Project> projList, int i, int j){
-		Log.i("SWAP", ""+projList.size());
-		Project x= projList.get(i);
-		Project y=projList.get(j);
-		projList.set(j, x);
-		projList.set(i, y);
 	}
 }

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HenryFirebase.h"
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *emailText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;

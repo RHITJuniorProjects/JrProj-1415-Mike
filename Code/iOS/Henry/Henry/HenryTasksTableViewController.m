@@ -17,21 +17,49 @@
 @property NSMutableArray *tasksDescriptions;
 @property NSMutableArray *taskIDs;
 @property NSMutableArray *taskDueDates;
+@property NSIndexPath *previousIndex;
 @end
 
 @implementation HenryTasksTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
+    @try{
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
     }
     return self;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    @try{
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        if (self.previousIndex != nil) {
+            [self.tableView deselectRowAtIndexPath:self.previousIndex animated:YES];
+        }
+        
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:YES];
+        self.previousIndex = indexPath;
+    }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)viewDidLoad
 {
+    @try{
     [super viewDidLoad];
     
     self.tasks = [[NSMutableArray alloc] init];
@@ -52,9 +80,16 @@
     } else {
         self.title = self.milestoneName;
     }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 -(void)updateTable:(FDataSnapshot *)snapshot {
+    @try{
     NSDictionary *tasks = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID][@"tasks"];
     NSArray *keys = [tasks allKeys];
     
@@ -75,32 +110,60 @@
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
 - (void)didReceiveMemoryWarning
 {
+    @try{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    @try{
     // Return the number of sections.
     return 1;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    @try{
     // Return the number of rows in the section.
     return [self.tasks count];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    @try{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCell" forIndexPath:indexPath];
     
     // Configure the cell...
@@ -108,6 +171,12 @@
     cell.detailTextLabel.text = [self.taskDueDates objectAtIndex:indexPath.row];
     
     return cell;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
@@ -154,7 +223,7 @@
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
+    @try{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -162,10 +231,17 @@
     vc.ProjectID = self.ProjectID;
     vc.MileStoneID = self.MileStoneID;
     vc.taskID = [self.taskIDs objectAtIndex:indexPath.row];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
  
 }
  
 - (IBAction)addTask:(id)sender {
+    @try{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Task"
                                                       message:nil
                                                      delegate:self
@@ -177,9 +253,16 @@
     [alert textFieldAtIndex:1].placeholder = @"Description";
     
     [alert show];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    @try{
     if (buttonIndex == 1) {
         NSString *taskName = [alertView textFieldAtIndex:0].text;
         NSString *description = [alertView textFieldAtIndex:1].text;
@@ -191,9 +274,20 @@
             NSDictionary *task = @{
                                    @"name": taskName,
                                    @"description": description,
-                                   @"assignedTo": self.uid
+                                   @"assignedTo": self.uid,
+                                   @"due_date": @"No Due Date",
+                                   @"status": @"New",
+                                   @"original_time_estimate":@0,
+                                   @"category":@"No Category"
                                    };
             [newTask setValue:task];
+            
+            // Resign keyboard first responder
+            [self.parentViewController.view endEditing:YES];
+            // Update table with new cell so user doesn't have to wait on firebase
+            [self.tasks addObject:taskName];
+            [self.taskDueDates addObject:@"No Due Date"];
+            [self.tableView reloadData];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
                                                             message:@"You have an empty field."
@@ -202,6 +296,12 @@
                                                   otherButtonTitles:nil];
             [alert show];
         }
+    }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
     }
 }
 

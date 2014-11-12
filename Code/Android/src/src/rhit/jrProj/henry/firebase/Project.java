@@ -1,8 +1,6 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import android.os.Parcel;
@@ -24,56 +22,45 @@ public class Project implements Parcelable {
 	/**
 	 * A List of milestones that are contained within the project
 	 */
-	ArrayList<Milestone> milestones = new ArrayList<Milestone>();
+	private ArrayList<Milestone> milestones = new ArrayList<Milestone>();
 
 	/**
 	 * The project's name
 	 */
-	String name;
+	private String name = "No name assigned";
 	/**
 	 * The due date of the project
 	 */
-	String dueDate = "10/16/2005";
+	private String dueDate = "No Due Date";
 
 	/**
 	 * The members that are working on the project
 	 */
-	Map<User, Enums.Role> members = new HashMap<User, Enums.Role>();
+	private Map<Member, Enums.Role> members = new Map<Member, Enums.Role>();
 
 	/**
 	 * A description of the project.
 	 */
-	String description;
+	private String description = "No Description Assigned";
 
 	/**
 	 * The percentage of hours complete for this project
 	 */
-	int hoursPercent;
+	private int hoursPercent = 0;
 
 	/**
 	 * The percentage of tasks complete for this project
 	 */
-	int tasksPercent;
+	private int tasksPercent = 0;
 
 	/**
-	 * The percentage of milestones complete for this project
+	 * The percentage of milestones compelte for this project
 	 */
-	int milestonesPercent;
-
+	private int milestonesPercent = 0;
 	/**
-	 * The number of lines of code added to this project
+	 * The project id for this project
 	 */
-	int addedLines;
-
-	/**
-	 * The number of lines of code removed from this project
-	 */
-	int removedLines;
-
-	/**
-	 * The total number of lines of code for this project
-	 */
-	int totalLines;
+	private String projectId = "No ProjectID Assigned";
 
 	/**
 	 * Do we need to do anything with the backlog?
@@ -85,9 +72,9 @@ public class Project implements Parcelable {
 	 * Firebase is updated. This then notifies the object that is displaying the
 	 * project that this object has been updated.
 	 */
-	ListChangeNotifier<Project> listViewCallback;
+	private ListChangeNotifier<Project> listViewCallback;
 
-	ListChangeNotifier<Milestone> milestoneListViewCallback;
+	private ListChangeNotifier<Milestone> milestoneListViewCallback;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -116,6 +103,8 @@ public class Project implements Parcelable {
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.firebase.child("milestones").addChildEventListener(
 				new GrandChildrenListener(this));
+		this.projectId = firebaseUrl
+				.substring(firebaseUrl.lastIndexOf('/') + 1);
 	}
 
 	/**
@@ -125,7 +114,10 @@ public class Project implements Parcelable {
 	 * @param in
 	 */
 	Project(Parcel in) {
-		this.firebase = new Firebase(in.readString());
+		String firebaseURL = in.readString();
+		int lastindex = firebaseURL.lastIndexOf("/");
+		this.projectId = firebaseURL.substring(lastindex + 1);
+		this.firebase = new Firebase(firebaseURL);
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.firebase.child("milestones").addChildEventListener(
 				new GrandChildrenListener(this));
@@ -135,10 +127,8 @@ public class Project implements Parcelable {
 		this.hoursPercent = in.readInt();
 		this.tasksPercent = in.readInt();
 		this.milestonesPercent = in.readInt();
-		this.addedLines = in.readInt();
-		this.removedLines = in.readInt();
-		this.totalLines = in.readInt();
-		// this.members = new HashMap<User, Role>(); // How to transport? Loop?
+		this.members = new Map<Member, Enums.Role>(); // How to transport?
+		//TODO Transport members
 		in.readTypedList(this.milestones, Milestone.CREATOR);
 	}
 
@@ -157,6 +147,14 @@ public class Project implements Parcelable {
 	 */
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.listViewCallback = lcn;
+	}
+	/**
+	 * gets the ListChangeNotifier (aka ListViewCallback) for a project
+	 * 
+	 * @return
+	 */
+	public ListChangeNotifier<Project> getListChangeNotifier(){
+		return this.listViewCallback;
 	}
 
 	@Override
@@ -194,9 +192,6 @@ public class Project implements Parcelable {
 		dest.writeInt(this.hoursPercent);
 		dest.writeInt(this.tasksPercent);
 		dest.writeInt(this.milestonesPercent);
-		dest.writeInt(this.addedLines);
-		dest.writeInt(this.removedLines);
-		dest.writeInt(this.totalLines);
 		dest.writeTypedList(this.milestones);
 		// TODO Members?
 		// number for the loop and then loop through it all?
@@ -257,32 +252,28 @@ public class Project implements Parcelable {
 	}
 
 	/**
-	 * Returns the number of lines of code added to this project
+	 * Returns the project id for this project.
 	 * 
-	 * @return the number of lines of code added to this project
+	 * @return the project id
+	 * 
 	 */
-	public int getAddedLines() {
-		return this.addedLines;
+	public String getProjectId() {
+		return this.projectId;
 	}
 
 	/**
-	 * Returns the number of lines of code removed from this project
+	 * Returns the list of members in a project.
 	 * 
-	 * @return the number of lines of code removed from this project
+	 * @return
 	 */
-	public int getRemovedLines() {
-		return this.removedLines;
+	public Map<Member, Enums.Role> getMembers() {
+		return this.members;
 	}
-
+	
 	/**
-	 * Returns the number of lines of code for this project
+	 * Child Listener to handle the Project & its changes
 	 * 
-	 * @return the number of lines of code for this project
 	 */
-	public int getTotalLines() {
-		return this.totalLines;
-	}
-
 	class ChildrenListener implements ChildEventListener {
 		Project project;
 
@@ -313,11 +304,11 @@ public class Project implements Parcelable {
 			} else if (arg0.getName().equals("due_date")) {
 				this.project.dueDate = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("hours_percent")) {
-				this.project.hoursPercent = arg0.getValue(Integer.class).intValue();
+				this.project.hoursPercent = arg0.getValue(Integer.class);
 			} else if (arg0.getName().equals("task_percent")) {
-				this.project.tasksPercent = arg0.getValue(Integer.class).intValue();
+				this.project.tasksPercent = arg0.getValue(Integer.class);
 			} else if (arg0.getName().equals("milestone_percent")) {
-				this.project.milestonesPercent = arg0.getValue(Integer.class).intValue();
+				this.project.milestonesPercent = arg0.getValue(Integer.class);
 			} else if (arg0.getName().equals("milestones")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Milestone m = new Milestone(child.getRef().toString());
@@ -325,12 +316,23 @@ public class Project implements Parcelable {
 						this.project.milestones.add(m);
 					}
 				}
-			} else if (arg0.getName().equals("added_lines_of_code")) {
-				this.project.addedLines = arg0.getValue(Integer.class).intValue();
-			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.project.removedLines = arg0.getValue(Integer.class).intValue();
-			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.project.totalLines = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getName().equals("members")) {
+				for (DataSnapshot member : arg0.getChildren()) {
+					Log.i("Member Url", arg0.getRef().getRoot().toString() + "/users/"+member.getName());
+					Member toAdd = new Member(arg0.getRef().getRoot().toString() + "/users/"+member.getName());
+					if (!this.project.members.containsKey(toAdd)) {
+						try {
+							this.project.members.put(
+									toAdd,
+									Enums.Role.valueOf(member.getValue(
+											String.class).toLowerCase()));
+						} catch (Exception e) {
+							Log.i("FAILED",
+									"Adding a role to a member failed: "
+											+ e.getMessage());
+						}
+					}
+				}
 			}
 		}
 
@@ -347,12 +349,9 @@ public class Project implements Parcelable {
 				this.project.description = arg0.getValue(String.class);
 			} else if (arg0.getName().equals("milestones")) {
 				Log.i("Henry", "Milestone Changed!?!");
-			} else if (arg0.getName().equals("added_lines_of_code")) {
-				this.project.addedLines = arg0.getValue(Integer.class).intValue();
-			} else if (arg0.getName().equals("removed_lines_of_code")) {
-				this.project.removedLines = arg0.getValue(Integer.class).intValue();
-			} else if (arg0.getName().equals("total_lines_of_code")) {
-				this.project.totalLines = arg0.getValue(Integer.class).intValue();
+				if (this.project.listViewCallback != null) {
+					this.project.listViewCallback.onChange();
+				}
 			}
 		}
 
@@ -400,7 +399,7 @@ public class Project implements Parcelable {
 			if (!this.project.getMilestones().contains(m)) {
 				this.project.getMilestones().add(m);
 			}
-			m.setListChangeNotifier(this.project.milestoneListViewCallback);
+			m.setListChangeNotifier(milestoneListViewCallback);
 			if (this.project.listViewCallback != null) {
 				this.project.listViewCallback.onChange();
 			}
@@ -431,6 +430,75 @@ public class Project implements Parcelable {
 				this.project.listViewCallback.onChange();
 			}
 		}
+	}
+	
+	/**
+	 *  Compares this project with the other given project. This implementation treats lower 
+	 *  case letters the same as upper case letters. Also treats numbers differently,
+	 *   i.e. puts 10 after 9 instead of after 1
+	 * @param p
+	 * @return
+	 */
+	public int compareToIgnoreCase(Project p){
+		return compareToICHelper(this.getName(), p.getName());
+	}
+	/**
+	 * A helper method for compareToIgnoreCase
+	 * @param s1 a String to compare
+	 * @param s2 another String to compare
+	 * @return num, num<0 if s1 is before s2, num=0 if s1 = s2, and num>0 if s1 is after s2
+	 */
+	private int compareToICHelper(String s1, String s2){
+		if (s1==s2) return 0;
+		else{
+			int i= 0;
+			int j= 0;
+			int s1len=s1.length();
+			int s2len=s2.length();
+			while (i<s1len && j<s2len){
+				char c1= s1.charAt(i);
+				char c2= s2.charAt(j);
+				char [] sp1 = new char[s1len];
+				char [] sp2 = new char[s2len];
+				int loc1=0;
+				int loc2=0;
+				while (Character.isDigit(c1)==Character.isDigit(sp1[0])){
+					sp1[loc1++]=c1;
+					i++;
+					if (i <s1len){
+						c1=s1.charAt(i);
+					} else{
+						break;
+					}
+				}
+				while (Character.isDigit(c2)==Character.isDigit(sp2[0])){
+					sp2[loc2++]=c2;
+					j++;
+					if (j <s2len){
+						c2=s2.charAt(j);
+					} else{
+						break;
+					}
+				}
+				String str1=new String(sp1);
+				String str2=new String(sp2);
+				int result;
+				if (Character.isDigit(sp1[0]) && Character.isDigit(sp2[0])){
+					Integer num1= new Integer(Integer.parseInt(str1.trim()));
+					Integer num2= new Integer(Integer.parseInt(str2.trim()));
+					result=num1.compareTo(num2);
+				}
+				else{
+					result=str1.compareToIgnoreCase(str2);
+				}
+				if (result!=0){
+					return result;
+				}
+				
+			}
+		return s1len-s2len;
+		}
+		
 	}
 
 }

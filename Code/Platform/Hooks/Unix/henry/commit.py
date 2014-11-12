@@ -21,7 +21,10 @@ defaultpath = '.git/.henrydefaults'
 def readCommit(path):
     with open(path,'r') as msgfile:
         msg = msgfile.read()
-    return msg.strip()
+    try:
+        return msg.strip().split('\n#')[0]
+    except:
+        return ''
     
 
 def getLoC():
@@ -65,7 +68,9 @@ def getUserID(gituser,ref):
     try:
         userID = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
     except:
-        raise Exception('HENRY: Invalid username, commit failed')
+        #raise Exception('HENRY: Invalid username, commit failed')
+        print 'HENRY: Invalid or nonexistant username, commit failed'
+        exit(1)
     return userID
 
 
@@ -79,7 +84,8 @@ def getMilestoneID(projectID,milestone):
     try:
         mID = [m for m in filtered if filtered[m]['name']==milestone][0]
     except:
-        raise Exception('HENRY: Nonexistent milestone, commit failed')
+        print 'HENRY: Invalid or nonexistent milestone, commit failed'
+        exit(1)
     return mID
 
 
@@ -90,7 +96,8 @@ def getTaskID(projectID,milestoneID,task):
     try:
         tID = [t for t in filtered if filtered[t]['name']==task][0]
     except:
-        raise Exception('HENRY: Nonexistent task, commit failed')
+        print 'HENRY: Invalid or nonexistant task, commit failed'
+        exit(1)
     return tID
 
 
@@ -139,7 +146,11 @@ def getActiveMilestones(ref,userID,projectID):
 
 def getAssignedTasks(ref,userID,projectID,milestoneID):
     path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
-    taskIDs = ref.get(path,None).keys()
+    try:
+        taskIDs = ref.get(path,None).keys()
+    except:
+        print 'HENRY: You have no assigned tasks for this milestone, commit failed'
+        exit(1)
     path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     allTasks = ref.get(path,None)
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
@@ -214,6 +225,9 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             status = possibleStatuses[int(status) - 1]
         elif status == '' and def_status != 0:
             status = def_status
+        else:
+            print 'HENRY: Invalid status, commit failed'
+            exit(1)
 
     return hours,mID,tID,status
 
@@ -246,7 +260,7 @@ if __name__ == '__main__':
 
     updateDefaults(milestoneID,taskID,status)
 
-    commitID =writeCommit(ref,msg,None,userID,int(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
+    commitID =writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 

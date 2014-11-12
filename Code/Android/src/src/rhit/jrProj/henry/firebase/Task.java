@@ -20,17 +20,17 @@ public class Task implements Parcelable {
 	/**
 	 * The task's name
 	 */
-	String name;
+	String name = "No name assigned";
 
 	/**
 	 * A description of the task
 	 */
-	String description;
+	String description = "No description assigned";
 
 	/**
 	 * A list of the user ids of the users assigned to the task
 	 */
-	String assignedUserId;
+	String assignedUserId = "No User ID assigned";
 
 	/**
 	 * The name of the user assigned to this task
@@ -44,37 +44,37 @@ public class Task implements Parcelable {
 	/**
 	 * The status of the task.
 	 */
-	String status;
+	String status = "No Status Assigned";
 
 	/**
 	 * The number of hours logged for this task
 	 */
-	double hoursComplete;
+	double hoursComplete = 0;
 
 	/**
 	 * The total number of hours currently estimated for this task
 	 */
-	private double hoursEstimatedCurrent;
+	private double hoursEstimatedCurrent = 0;
 
 	/**
 	 * The total number of hours originally estimated for this task
 	 */
-	private double hoursEstimatedOriginal;
+	private double hoursEstimatedOriginal = 0;
 
 	/**
 	 * The number of lines of code added to this task
 	 */
-	int addedLines;
+	int addedLines = 0;
 
 	/**
 	 * The number of lines of code removed from this task
 	 */
-	int removedLines;
+	int removedLines = 0;
 
 	/**
 	 * The total number of lines of code for this task
 	 */
-	int totalLines;
+	int totalLines = 0;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -278,10 +278,15 @@ public class Task implements Parcelable {
 	public int getTotalLines() {
 		return this.totalLines;
 	}
-
+	/**
+	 * gets the ListChangeNotifier (aka ListViewCallback) for a task
+	 * 
+	 * @return
+	 */
 	public ListChangeNotifier<Task> getListChangeNotifier() {
 		return this.listViewCallback;
 	}
+	
 
 	/**
 	 * Returns the number of hours originally estimated for this task
@@ -292,11 +297,26 @@ public class Task implements Parcelable {
 		return this.hoursEstimatedOriginal;
 	}
 
+	/**
+	 * Updates the status on the task view
+	 */
 	public void updateStatus(String taskStatus) {
 		this.status = taskStatus;
 		this.firebase.child("status").setValue(taskStatus);
 		this.firebase.child("is_completed").setValue(
 				Boolean.valueOf(taskStatus.equals("Closed")));
+	}
+
+	/**
+	 * Updates the assigned developer on a task
+	 */
+	public void updateAssignee(Member member) {
+		this.assignedUserId = member.getKey();
+		this.assignedUserName = member.toString();
+		this.firebase.child("assignedTo").setValue(member.getKey());
+		if (this.listViewCallback!=null){
+			this.listViewCallback.onChange();
+		}
 	}
 
 	/**
@@ -348,7 +368,7 @@ public class Task implements Parcelable {
 			}
 		}
 
-		private void getUserNameFromId(String id) {
+		public void getUserNameFromId(String id) {
 			Firebase userBase = Task.this.firebase.getRoot().child("users")
 					.child(id).child("name");
 			userBase.addValueEventListener(new ValueEventListener() {
@@ -395,5 +415,4 @@ public class Task implements Parcelable {
 
 		}
 	}
-
 }

@@ -105,8 +105,23 @@ public class TaskTest extends TestCase {
 		assertTrue(this.task.has("total_lines_of_code"));
 	}
 
-	public void testUpdateStatus() {
-		// TODO: Figure out how to use?
+	public void testSetStatus() {
+		try {
+			String originalStatus = TestHelpers.getFirebaseSync(
+					this.itemUrl + ".json").getString("status");
+			String status = "Closed";
+			TestHelpers
+					.patchFirebaseSync(this.itemUrl + ".json",
+							"{ \"status\":\"" + status + "\" }");
+			String newStatus = TestHelpers.getFirebaseSync(
+					this.itemUrl + ".json").getString("status");
+			assertEquals(status, newStatus);
+			TestHelpers
+					.patchFirebaseSync(this.itemUrl + ".json",
+							"{ \"status\":\"" + originalStatus + "\" }");
+		} catch (Exception e) {
+			fail();
+		}
+		
 	}
-
 }

@@ -13,7 +13,7 @@
 #import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
 @property Firebase* fb;
-@property UITableViewCell *previouslySelected;
+@property UITableViewCell *previouslySelected; 
 @property int selectedIndex;
 @property BOOL firstTime;
 @property BOOL clearChecksOnSelection;
@@ -23,16 +23,24 @@
 @implementation HenryAssignDevsTableViewController
 
 -(void)viewWillDisappear:(BOOL)animated {
+    @try{
     [super viewWillDisappear:animated];
     if(self.hasClicked){
         self.detailView.statusButton.titleLabel.text = [self.names objectAtIndex:self.selectedIndex];
         NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
         [self.fb updateChildValues:newValue];
     }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
     
 }
 
 - (void)viewDidLoad {
+    @try{
     [super viewDidLoad];
     
     self.firstTime = YES;
@@ -54,10 +62,16 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 -(void)updateTable:(FDataSnapshot *)snapshot {
+    @try{
     self.assignableDevs = snapshot.value[@"projects"][self.ProjectID][@"members"];
     
     self.allDevs = snapshot.value[@"users"];
@@ -75,29 +89,55 @@
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
+    @try{
     [super didReceiveMemoryWarning];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
+    @try{
     // Return the number of sections.
     return 1;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
     // Return the number of rows in the section.
+    @try{
     return self.names.count;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    @try{
     HenryAssignDevTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DevCell" forIndexPath:indexPath];
 
  // Configure the cell...
@@ -110,10 +150,17 @@
     }
  
     return cell;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    @try{
     self.hasClicked = YES;
     if (self.clearChecksOnSelection) {
         NSArray *cells = [self.tableView visibleCells];
@@ -130,6 +177,13 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.selectedIndex = indexPath.row;
     
+    [self.navigationController popViewControllerAnimated:YES];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 /*
 // Override to support conditional editing of the table view.
@@ -170,9 +224,9 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    @try{
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    //HenryTaskDetailViewController *tasksVC = [segue destinationViewController];
     NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     
     HenryTaskDetailViewController *vc = [segue destinationViewController];
@@ -180,6 +234,12 @@
     vc.ProjectID = self.ProjectID;
     vc.MileStoneID = self.MilestoneID;
     vc.taskID = self.taskID;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
