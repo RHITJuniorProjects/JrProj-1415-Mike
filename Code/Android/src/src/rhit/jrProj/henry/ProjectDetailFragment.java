@@ -114,6 +114,25 @@ public class ProjectDetailFragment extends Fragment {
 			values.addAll(chartInfo.getValues());
 			keys.addAll(chartInfo.getKeys());
 		}
+		
+		//used to remove duplicate names, people assigned to multiple milestones
+		for(int x = 0; x < keys.size(); x++)
+		{
+			for(int y = x + 1; y < keys.size(); y++)
+			{
+				if(keys.get(x).equals(keys.get(y)))
+				{
+					values.set(x, values.get(x) + values.get(y));
+					keys.remove(y);
+					values.remove(y);
+					y--;
+				}
+				
+			}
+			
+		}
+		
+		
 		GraphicalView chart = GraphHelper.makePieChart(
 				"Lines Added for " + this.projectItem.getName(),
 				values, keys,

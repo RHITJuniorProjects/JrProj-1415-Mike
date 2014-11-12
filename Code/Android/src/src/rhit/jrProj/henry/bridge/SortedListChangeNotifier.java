@@ -24,10 +24,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 * Stores the comparator so it is not recreated every time.
 	 */
 	private Comparator<T> c;
-	/**
-	 * This is a temporary variable that will be removed once Task does not use a SimpleAdapter
-	 */
-	private boolean simple =false;
+	
 	/**
 	 * Standard constructor
 	 * @param adapter
@@ -49,20 +46,11 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 		createComparator();
 		
 	}
-	/**
-	 * constructor using SimpleAdapter. Currently only used by Task. Will be removed eventually
-	 * @param adapter
-	 */
-	public SortedListChangeNotifier(SimpleAdapter adapter, String sorttype){
-		super(adapter);
-		if (sorttype!=null){
-			this.sortType=sorttype;
-			simple=true;
-		}
-		createComparator();
-	}
+	
+	
 	/**
 	 * This method is called when the user selects a new sorting mode.
+	 * It is called by the ProjectListFragment
 	 * @param sorttype
 	 */
 	public void changeSorting(String sorttype){
@@ -83,12 +71,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 					if (lhs instanceof Project && rhs instanceof Project){
 						return ((Project) lhs).compareToIgnoreCase((Project) rhs);
 						}
-					else if (lhs instanceof Milestone && rhs instanceof Milestone){
-						return ((Milestone) lhs).compareToIgnoreCase((Milestone) rhs);
-						}
-					else if (lhs instanceof Task && rhs instanceof Task){
-						return ((Task) lhs).compareToIgnoreCase((Task) rhs);
-						}
+
 					return 0;
 					}
 				};
@@ -101,14 +84,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 						Log.i("SLCN", "PROJECT");
 						return -1*((Project) lhs).compareToIgnoreCase((Project) rhs);
 						}
-					else if (lhs instanceof Milestone && rhs instanceof Milestone){
-						Log.i("SLCN", "MILESTONE");
-						return -1*((Milestone) lhs).compareToIgnoreCase((Milestone) rhs);
-						}
-					else if (lhs instanceof Task && rhs instanceof Task){
-						Log.i("SLCN", "TASK");
-						return -1*((Task) lhs).compareToIgnoreCase((Task) rhs);
-						}
+					
 					return 0;
 					}
 				};
@@ -135,7 +111,6 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 		}
 		else{
 			//Not yet implemented
-			//Standard date form needed!
 			this.c=new Comparator<T>(){
 				@Override
 				public int compare(T lhs, T rhs) {
@@ -154,12 +129,9 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 */
 	public void onChange() {
 		Log.i("sortmode", this.sortType);
-		if (!simple){
+		
 		((SortedArrayAdapter<T>) super.getAdapter()).sort(this.c);
 		super.getAdapter().notifyDataSetChanged();
-		}
-		else{
-		super.getAdapter().notifyDataSetChanged();
-		}
+		
 	}
 }

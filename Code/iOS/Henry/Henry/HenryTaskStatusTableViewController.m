@@ -21,14 +21,22 @@
 @implementation HenryTaskStatusTableViewController
 
 -(void)viewWillDisappear:(BOOL)animated {
+    @try{
     [super viewWillDisappear:animated];
     self.detailView.statusButton.titleLabel.text = [self.cellTitles objectAtIndex:_selectedIndex];
     UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
     NSDictionary *newValue = @{@"status":selectedCell.textLabel.text};
     [self.fb updateChildValues:newValue];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)viewDidLoad {
+    @try{
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -45,10 +53,23 @@
 
     self.fb = [HenryFirebase getFirebaseObject]; 
     self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
+    @try{
     [super didReceiveMemoryWarning];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
     // Dispose of any resources that can be recreated.
 }
 
@@ -56,15 +77,30 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
+    @try{
     return 1;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    @try{
     return [self.cellTitles count];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    @try{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"StatusCellIdentifier" forIndexPath:indexPath];
     
     // Configure the cell...
@@ -76,9 +112,16 @@
     cell.textLabel.text = [self.cellTitles objectAtIndex:indexPath.row];
     self.previouslySelected = cell;
     return cell;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    @try{
     if (self.clearChecksOnSelection) {
         NSArray *cells = [self.tableView visibleCells];
         for (UITableViewCell *cell in cells) {
@@ -95,6 +138,12 @@
     self.selectedIndex = indexPath.row;
     
     [self.navigationController popViewControllerAnimated:YES];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 

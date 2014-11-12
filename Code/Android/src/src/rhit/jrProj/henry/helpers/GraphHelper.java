@@ -32,7 +32,7 @@ public class GraphHelper {
 		mRenderer.setLabelsTextSize(30);
 		mRenderer.setLegendTextSize(30);
 		mRenderer.setLabelsColor(Color.BLACK);
-		mRenderer.setStartAngle(90);
+		mRenderer.setStartAngle(0);
 		mRenderer.setApplyBackgroundColor(true);
 		mRenderer.setBackgroundColor(Color.WHITE);
 		mRenderer.setAntialiasing(true);

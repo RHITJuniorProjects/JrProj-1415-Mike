@@ -19,6 +19,18 @@
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
 								<h1>My Projects</h1>
+								<button data-reveal-id="myProjectModal">Add Project</button>
+								<div id="myProjectModal" class="reveal-modal small-4" data-reveal>
+                                    <h2>New Project</h2><br />
+                                    <form action="" onsubmit="addNewProject(); return false;">
+                                        <label for="projectName">Project Name:</label> <input type="text" id="projectName">
+                                        <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
+                                        <label for="projectDueDate">Due Date:</label> <input type="text" id="projectDueDate" />
+                                        <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
+                                        <input type="submit" class="button" id="project-submit" value="Add Project" />
+                                        <div id="project-error" class="my-error" hidden>All fields must be specified</div>
+                                    </form>
+							    </div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
 								<dd class="accordion-navigation">
@@ -43,7 +55,7 @@
 						</div>
 					</div>
 					<div class="content" id="ProjectStatistics">
-						<div class-"row">
+						<div class="row">
 							<div class="small-6 columns">
 								<div id="projContainer1"></div>
 							</div>

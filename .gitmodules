@@ -1,0 +1,3 @@
+[submodule "Code/Web/test/mockfirebase"]
+	path = Code/Web/test/mockfirebase
+	url = https://github.com/katowulf/mockfirebase.git

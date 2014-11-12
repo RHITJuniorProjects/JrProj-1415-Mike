@@ -13,6 +13,9 @@ function selectProject(project){
 	}
 	selectedProject = project;
 	var milestones = selectedProject.getMilestones();
+	
+	drawStuff(selectedProject.uid);
+	
 	var $panel = $('#milestones-panel');
 	$panel.children().remove();
 	milestones.onItemAdded(function(milestone){
@@ -22,6 +25,11 @@ function selectProject(project){
 	selectedProject.getName(function(name){
 		nameA.text(name);
 	});
+
+/*	var memberCont = $('#member-container');
+	selectedProject.getMembers().onItemAdded(function(user){
+		memberCont.append(user.getMemberTile(selectedProject));
+	});*/
 }
 
 function selectMilestone(milestone){
@@ -31,12 +39,12 @@ function selectMilestone(milestone){
 	if(selectedMilestone){
 		currentMilestone.off();
 	}
-    currentMilestone = milestone;
-	var tasks = currentMilestone.getTasks();
-	var $panel = $('#tasks-table');
+    selectedMilestone = milestone;
+	var tasks = selectedMilestone.getTasks();
+	var $panel = $('#task-rows');
 	$panel.children().remove();
 	tasks.onItemAdded(function(task){
-		$panel.append(task.getTableRow());
+		$panel.prepend(task.getTableRow());
 	});
 }
 
@@ -51,7 +59,7 @@ function getAllUsers(){
 		var $select = $('#member-select');
 
 		user.getName(function(nameStr){
-			$select.append('<option id="username-' + user.uid + '">' +
+			$select.append('<option value="' + user.uid + '">' +
 				nameStr + '</option>');	
 		});
 	

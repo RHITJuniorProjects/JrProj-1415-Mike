@@ -11,7 +11,14 @@
 @implementation HenryDevDisplayObject
 
 -(void)setFalse{
+    @try{
     self.isAssignedDev = false;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 @end
