@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -83,7 +83,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="PZD-WM-de4" kind="push" id="R93-yA-DiV"/>
+                                    <segue destination="PZD-WM-de4" kind="push" identifier="PtoM" id="R93-yA-DiV"/>
                                     <segue destination="gPv-Gd-2m3" kind="replace" trigger="accessoryAction" splitViewControllerTargetIndex="1" id="QjU-ay-DG2"/>
                                 </connections>
                             </tableViewCell>
@@ -193,7 +193,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="tQi-r2-IdO" kind="push" id="1xx-Bj-ecu"/>
+                                    <segue destination="tQi-r2-IdO" kind="push" identifier="MtoT" id="1xx-Bj-ecu"/>
                                     <segue destination="vye-Er-iTH" kind="replace" trigger="accessoryAction" splitViewControllerTargetIndex="1" id="XBg-1h-RJ4"/>
                                 </connections>
                             </tableViewCell>

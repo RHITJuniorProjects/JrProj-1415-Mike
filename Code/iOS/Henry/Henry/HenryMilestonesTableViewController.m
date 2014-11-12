@@ -268,7 +268,7 @@
             NSDictionary *milestone = @{
                                    @"name": milestoneName,
                                    @"description": description,
-                                   @"due_date": @"No due date"
+                                   @"due_date": @"No Due Date"
                                    };
             [newMilestone setValue:milestone];
         } else {

@@ -205,8 +205,10 @@
                                    @"name": taskName,
                                    @"description": description,
                                    @"assignedTo": self.uid,
-                                   @"due_date": @"No due date",
-                                   @"status": @"New"
+                                   @"due_date": @"No Due Date",
+                                   @"status": @"New",
+                                   @"original_time_estimate":@0,
+                                   @"category":@"No Category"
                                    };
             [newTask setValue:task];
             
