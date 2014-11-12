@@ -24,6 +24,7 @@
 @implementation HenryTaskDetailViewController
 
 - (void)viewDidLoad {
+    @try{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.fb = [HenryFirebase getFirebaseObject];
@@ -36,15 +37,29 @@
     }];
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
     
     
 }
 
 -(void)viewDidAppear:(BOOL)animated {
+    @try{
     [self updateInfo: self.snapshot];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (IBAction)updateCurrentTimeEstimate:(id)sender {
+    @try{
     bool status;
     NSScanner *scanner;
     double result;
@@ -63,11 +78,17 @@
         [alert show];
         return;
     }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 
 }
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
-
+    @try{
     
     NSDictionary *json = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID][@"tasks"][self.taskID];
     
@@ -87,17 +108,31 @@
     self.hoursLabel.text = [NSString stringWithFormat:@"%.2f/%.2f hours", (double)self.hoursSpent, (double)self.currentTimeEstimate];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
+    @try{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    @try{
     if([segue.identifier isEqualToString:@"projectStatus"]){
         HenryTaskStatusTableViewController *vc = [segue destinationViewController];
         vc.initialSelection = self.statusButton.titleLabel.text;
@@ -115,6 +150,12 @@
         vc.taskID = self.taskID;
         vc.projectID = self.ProjectID;
         vc.initialSelection = self.assigneeNameLabel.text;
+    }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
     }
     
 }
