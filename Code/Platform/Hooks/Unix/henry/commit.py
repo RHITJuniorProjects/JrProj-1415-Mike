@@ -156,6 +156,14 @@ def getAssignedTasks(ref,userID,projectID,milestoneID):
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
     return assignedTasks
 
+
+def getMilestone(ref,projectID,milestoneID):
+    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/name',None)
+
+
+def getTask(ref,projectID,milestoneID,taskID):
+    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID+'/name',None)
+
     
 def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     # mac/linux
@@ -173,7 +181,11 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for milestone if necessary
     if milestone == None:
-        print 'Active milestones:'
+        if def_mID != None:
+            def_milestone = getMilestone(ref,projectID,def_mID)
+            print 'Active milestones (defaults to '+def_milestone+'):'
+        else:
+            print 'Active milestones:'
         sys.stdout.flush()
         idsByIndex = [] ; index = 1
         for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
@@ -194,7 +206,11 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for task if necessary
     if task == None:
-        print 'Tasks assigned to you:'
+        if def_tID != None:
+            def_task = getTask(ref,projectID,mID,def_tID)
+            print 'Tasks assigned to you (defaults to '+def_task+'):'
+        else:
+            print 'Tasks assigned to you:'
         idsByIndex = [] ; index = 1
         for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
             print ' - '+str(index)+'. '+tName
@@ -214,7 +230,11 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for status if necessary
     if status == None:
-        print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
+        # New, Implementation, Testing, Verify, Regression, Closed'
+        if def_status != None:
+            print 'Select status (defaults to '+def_status+'):'
+        else:
+            print 'Select status:'
         possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
         for i in range(len(possibleStatuses)):
             print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
@@ -243,7 +263,7 @@ def getDefaults():
         with open(defaultpath,'r') as f:
             return f.read().strip().split('\t')
     except:
-        return 0,0,0
+        return None,None,None
 
 
 if __name__ == '__main__':
