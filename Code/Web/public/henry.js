@@ -17,7 +17,7 @@ Table.prototype = {
 	},
 	onItemAdded:function(callback){
 		var table = this;
-		this.__firebase.on('child_added',function(snap){
+		this.__firebase.orderByChild("name").on('child_added',function(snap){
 			var val = table.__factory(snap.ref());
 			callback(val);
 		});
@@ -113,7 +113,7 @@ User.prototype = {
 				milestone = milestones.get(snap.name()),
 				taskData = milestoneData.child('tasks'),
 				tasks = milestone.getTasks();
-			taskData.on('child_added',function(snap){
+			taskData.orderByChild("name").on('child_added',function(snap){
 				taskid = snap.name();
 				callback(tasks.get(taskid));
 			});
@@ -777,7 +777,7 @@ function getLoginData(){ // Takes the login data from the form and places it int
 function login(user, pass, registering){ // Authenticates with Firebase, giving a callback that will 
 							// cause the window to go to projects if it was successful, 
 							// else go back to login and show the invalid input message.
-	console.log(user);
+	//console.log(user);
 	firebase.authWithPassword({
 		email: user,
 		password: pass
