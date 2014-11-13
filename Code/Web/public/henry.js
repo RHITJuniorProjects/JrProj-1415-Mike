@@ -660,7 +660,7 @@ Task.prototype = {
                     dueInput = $('<input type="text" value="'+vals.due_date+'">'),
 					estHoursInput = $('<input type="text" value="'+vals.original_time_estimate+'">'),
 					nameH = $('<h3>'),
-					submit = $('<input class="button" value="Submit" />');
+					submit = $('<input class="button" value="Edit Task" />');
 
 				task.getName(function(name){
 					nameH.text('Edit Task: '+name);
@@ -676,6 +676,11 @@ Task.prototype = {
 					label(estHoursInput,'Estimated Hours'),
 					submit
 				);
+				modal.keypress(function(e){
+					if(e.which == 13){
+						submit.click();
+					}
+				});
 				submit.click(function(){
 					task.__firebase.update({
 						name:nameInput.val(),
@@ -729,7 +734,7 @@ function newTask(){
 		statusSelect = makeSelect(Task.Statuses,"New"),
 		estHoursInput = $('<input type="text">'),
 		nameH = '<h3>Add New Task</h3>',
-		submit = $('<input class="button" value="Submit" />'),
+		submit = $('<input class="button" value="Add Task" />'),
 		modal = $('#task-modal'),
 		due_date = $('<input type="text">');
 	modal.children().remove();
@@ -744,6 +749,11 @@ function newTask(){
 		label(due_date,"Due Date"),
 		submit
 	);
+	modal.keypress(function(e){
+		if(e.which == 13){
+			submit.click();
+		}
+	});
 	submit.click(function(){
 		/*console.log({
 			name:nameInput.val(),
