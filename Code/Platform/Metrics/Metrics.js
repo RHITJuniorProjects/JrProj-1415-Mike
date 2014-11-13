@@ -16,7 +16,7 @@ var metricsTest = "https://henry-metrics-test.firebaseio.com/";
 
 // TODO: set this to the appropriate database, potentially with commandline override
 // commandline version could also have a flag for which DB to use?
-var firebaseUrl = metricsTest;
+var firebaseUrl = test;
 
 var commitsRef = new Firebase(firebaseUrl + '/commits');
 var usersRef = new Firebase(firebaseUrl + '/users');
@@ -24,7 +24,8 @@ var projectsRef = new Firebase(firebaseUrl + '/projects');
 
 // on "child added" returns each child one at a time the first run, then only the one child that is added
 projectsRef.on('child_added', function(project) {
-    console.log("Messing with project " + project.name() + " at time " + new Date().toLocaleTimeString());
+    // console.log("Messing with project " + project.name() + " at time " + new Date().toLocaleTimeString());
+    console.log("Added listener for project " + project.name())
     listenToProject(project);
 });
 
@@ -92,7 +93,7 @@ function listenToMilestones(milestones, project, totalProjectBacklogTask) {
             completedTasks = 0;
         milestone.child('tasks').ref().once('value', function(tasks) {
             tasks.forEach(function(task) {
-                console.log("Messing with task " + task.name() + " for milestone " + milestone.name() + " in project " + project.name() + " at time " + new Date().toLocaleTimeString());
+                // console.log("Messing with task " + task.name() + " for milestone " + milestone.name() + " in project " + project.name() + " at time " + new Date().toLocaleTimeString());
                 taskCount++;
                 var isDone = task.child('is_completed').val();
                 if (isDone) {
@@ -265,18 +266,30 @@ function listenToMilestones(milestones, project, totalProjectBacklogTask) {
         'hours_percent': projectHoursPercent
     });
 }
-
 // add a listener to commits for new projects
 commitsRef.on('child_added', function(project) {
     var isFirstRunThrough = true;
-
+    // TODO: run calculateMetrics once('value') forEach commit the first time
     // add a listener to each project for new commits
     project.ref().on('child_added', function(commit) {
-        if (isFirstRunThrough) return;
+        if (isFirstRunThrough) {
+            // TODO: Auto-add commit listener on new project. Test the below:
+            /*commitsRef.once('value', function(projects) {
+                var projectName = project.name()
+                if (!projects.hasChild(project)) {
+                    commitsRef.push({
+                        projectName : {
+                            'description' : 'placeholder'
+                        }
+                    });
+                }
+            });*/
+            return;
+        }
         calculateMetrics(project.name(), commit);
     });
     isFirstRunThrough = false;
-    console.log("added listener for project " + project.name());
+    console.log("added commit listener for project " + project.name());
 });
 
 
