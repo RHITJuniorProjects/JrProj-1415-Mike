@@ -3,8 +3,10 @@
 <link rel="stylesheet" type="text/css" href="/foundation.css">
 <link rel="stylesheet" type="text/css" href="/henry.css">
 <link rel="stylesheet" type="text/css" href="home-test.css">
+<link rel="stylesheet" type="text/css" href="foundation-datepicker.css">
 <script type="text/javascript" src="/firebase.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+<script type="text/javascript" src="/foundation-datepicker.js"></script>
 <script type="text/javascript" src="/henry.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>

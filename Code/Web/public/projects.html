@@ -6,8 +6,10 @@
 <link rel="stylesheet" type="text/css" href="/foundation.css">
 <link rel="stylesheet" type="text/css" href="/henry.css">
 <link rel="stylesheet" type="text/css" href="home-test.css">
+<link rel="stylesheet" type="text/css" href="foundation-datepicker.css">
 <script type="text/javascript" src="/firebase.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+<script type="text/javascript" src="/foundation-datepicker.js"></script>
 <script type="text/javascript" src="/henry.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
@@ -75,7 +77,7 @@
                                     <form action="" onsubmit="addNewProject(); return false;">
                                         <label for="projectName">Project Name:</label> <input type="text" id="projectName">
                                         <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
-                                        <label for="projectDueDate">Due Date:</label> <input type="text" id="projectDueDate" />
+                                        <label for="projectDueDate">Due Date:</label> <input type="text" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
                                         <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
                                         <input type="submit" class="button" id="project-submit" value="Add Project" />
                                         <div id="project-error" class="my-error" hidden>All fields must be specified</div>
@@ -146,7 +148,7 @@
                                 <form action="" onsubmit="addNewMilestone(); return false;">
                                     <label for="milestoneName">Milestone Name:</label> <input type="text" id="milestoneName" />
                                     <label for="milestoneDescription">Description:</label> <input type="text" id="milestoneDescription" />
-                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" id="milestoneDueDate" />
+                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>
                                     <label for="milestoneEstimatedHours">Estimated Hours:</label> <input type="text" id="milestoneEstimatedHours" />
                                     <input type="submit" id="milestone-submit" class="button" value="Add Milestone" />
                                     <div id="milestone-error" class="my-error" hidden>All fields must be specified</div>

@@ -404,7 +404,6 @@ function addNewProject(){
 		} else {
 			$("#project-error").hide();
 		}
-		// TODO validate input and correct it or show error
 		var members = {};
 		members[currentUser] = 'Lead';
         var project = firebase.child('projects').push({
@@ -681,6 +680,10 @@ Task.prototype = {
 						submit.click();
 					}
 				});
+                dueInput.click(function(){
+                    dueInput.fdatepicker({format:'yyyy-mm-dd'});
+                    dueInput.fdatepicker('show');
+                });
 				submit.click(function(){
 					task.__firebase.update({
 						name:nameInput.val(),
@@ -736,7 +739,7 @@ function newTask(){
 		nameH = '<h3>Add New Task</h3>',
 		submit = $('<input class="button" value="Add Task" />'),
 		modal = $('#task-modal'),
-		due_date = $('<input type="text">');
+		dueInput = $('<input type="text">');
 	modal.children().remove();
 	modal.append(
 		nameH,
@@ -746,9 +749,13 @@ function newTask(){
 		label(categoriesSelect,'Category'),
 		label(statusSelect,'Status'),
 		label(estHoursInput,'Estimated Hours'),
-		label(due_date,"Due Date"),
+		label(dueInput,"Due Date"),
 		submit
 	);
+    dueInput.click(function(){
+        dueInput.fdatepicker({format:'yyyy-mm-dd'});
+        dueInput.fdatepicker('show');
+    });
 	modal.keypress(function(e){
 		if(e.which == 13){
 			submit.click();
@@ -771,7 +778,7 @@ function newTask(){
 			category:categoriesSelect.val(),
 			status:statusSelect.val(),
 			original_time_estimate:Number(estHoursInput.val()),
-			due_date: due_date.val()
+			due_date: dueInput.val()
 		});
 		$("#task-modal").foundation('reveal', 'close');
 	});
@@ -891,3 +898,7 @@ firebase.onAuth( // called on page load to auth users
 	}
 );
 
+function showDatePicker(id){
+    $(id).fdatepicker({format:'yyyy-mm-dd'});
+    $(id).fdatepicker('show');
+}
