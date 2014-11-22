@@ -16,14 +16,6 @@
     {
       "source":"/projects",
       "destination":"/projects.html"
-    },
-    {
-    	"source":"/login",
-    	"destination":"/login.html"
-    },
-    {
-      "source":"/register",
-      "destination":"/register.html"
     }
   ]
 }
