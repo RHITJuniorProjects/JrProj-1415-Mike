@@ -346,24 +346,24 @@ public class Task implements Parcelable {
 		 * description and list of tasks for that milestone
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.task.name = arg0.getValue().toString();
 				if (this.task.getListChangeNotifier() != null) {
 					this.task.getListChangeNotifier().onChange();
 				}
-			} else if (arg0.getName().equals("description")) {
+			} else if (arg0.getKey().equals("description")) {
 				this.task.description = arg0.getValue().toString();
-			} else if (arg0.getName().equals("assignedTo")) {
+			} else if (arg0.getKey().equals("assignedTo")) {
 				this.task.assignedUserId = arg0.getValue().toString();
 				this.getUserNameFromId(this.task.getAssignedUserId());
-			} else if (arg0.getName().equals("status")) {
+			} else if (arg0.getKey().equals("status")) {
 				this.task.status = arg0.getValue().toString();
-			} else if (arg0.getName().equals("added_lines_of_code")) {
+			} else if (arg0.getKey().equals("added_lines_of_code")) {
 				this.task.addedLines = arg0.getValue(Integer.class).intValue();
-			} else if (arg0.getName().equals("removed_lines_of_code")) {
+			} else if (arg0.getKey().equals("removed_lines_of_code")) {
 				this.task.removedLines = arg0.getValue(Integer.class)
 						.intValue();
-			} else if (arg0.getName().equals("total_lines_of_code")) {
+			} else if (arg0.getKey().equals("total_lines_of_code")) {
 				this.task.totalLines = arg0.getValue(Integer.class).intValue();
 			}
 		}
@@ -389,12 +389,12 @@ public class Task implements Parcelable {
 		 * This will be called when the milestone data in Firebased is updated
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("added_lines_of_code")) {
+			if (arg0.getKey().equals("added_lines_of_code")) {
 				this.task.addedLines = arg0.getValue(Integer.class).intValue();
-			} else if (arg0.getName().equals("removed_lines_of_code")) {
+			} else if (arg0.getKey().equals("removed_lines_of_code")) {
 				this.task.removedLines = arg0.getValue(Integer.class)
 						.intValue();
-			} else if (arg0.getName().equals("total_lines_of_code")) {
+			} else if (arg0.getKey().equals("total_lines_of_code")) {
 				this.task.totalLines = arg0.getValue(Integer.class).intValue();
 			}
 

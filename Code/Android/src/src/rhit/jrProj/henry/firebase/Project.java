@@ -294,32 +294,32 @@ public class Project implements Parcelable {
 		 * 
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.project.name = arg0.getValue(String.class);
 				if (this.project.listViewCallback != null) {
 					this.project.listViewCallback.onChange();
 				}
-			} else if (arg0.getName().equals("description")) {
+			} else if (arg0.getKey().equals("description")) {
 				this.project.description = arg0.getValue(String.class);
-			} else if (arg0.getName().equals("due_date")) {
+			} else if (arg0.getKey().equals("due_date")) {
 				this.project.dueDate = arg0.getValue(String.class);
-			} else if (arg0.getName().equals("hours_percent")) {
+			} else if (arg0.getKey().equals("hours_percent")) {
 				this.project.hoursPercent = arg0.getValue(Integer.class);
-			} else if (arg0.getName().equals("task_percent")) {
+			} else if (arg0.getKey().equals("task_percent")) {
 				this.project.tasksPercent = arg0.getValue(Integer.class);
-			} else if (arg0.getName().equals("milestone_percent")) {
+			} else if (arg0.getKey().equals("milestone_percent")) {
 				this.project.milestonesPercent = arg0.getValue(Integer.class);
-			} else if (arg0.getName().equals("milestones")) {
+			} else if (arg0.getKey().equals("milestones")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Milestone m = new Milestone(child.getRef().toString());
 					if (!this.project.milestones.contains(m)) {
 						this.project.milestones.add(m);
 					}
 				}
-			} else if (arg0.getName().equals("members")) {
+			} else if (arg0.getKey().equals("members")) {
 				for (DataSnapshot member : arg0.getChildren()) {
-					Log.i("Member Url", arg0.getRef().getRoot().toString() + "/users/"+member.getName());
-					Member toAdd = new Member(arg0.getRef().getRoot().toString() + "/users/"+member.getName());
+					Log.i("Member Url", arg0.getRef().getRoot().toString() + "/users/"+member.getKey());
+					Member toAdd = new Member(arg0.getRef().getRoot().toString() + "/users/"+member.getKey());
 					if (!this.project.members.containsKey(toAdd)) {
 						try {
 							this.project.members.put(
@@ -340,14 +340,14 @@ public class Project implements Parcelable {
 		 * Will be called when any project value is changed
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.project.name = arg0.getValue(String.class);
 				if (this.project.listViewCallback != null) {
 					this.project.listViewCallback.onChange();
 				}
-			} else if (arg0.getName().equals("description")) {
+			} else if (arg0.getKey().equals("description")) {
 				this.project.description = arg0.getValue(String.class);
-			} else if (arg0.getName().equals("milestones")) {
+			} else if (arg0.getKey().equals("milestones")) {
 				Log.i("Henry", "Milestone Changed!?!");
 				if (this.project.listViewCallback != null) {
 					this.project.listViewCallback.onChange();
@@ -366,7 +366,7 @@ public class Project implements Parcelable {
 		 * Until further notice from Mike: do nothing
 		 */
 		public void onChildRemoved(DataSnapshot arg0) {
-			Log.i("Henry", arg0.getName());
+			Log.i("Henry", arg0.getKey());
 		}
 	}
 

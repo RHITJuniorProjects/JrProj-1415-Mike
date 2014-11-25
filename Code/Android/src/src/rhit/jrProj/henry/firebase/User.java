@@ -255,11 +255,11 @@ public class User implements Parcelable {
 		 * existing child and once for every added child.
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.user.setName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("git")) {
+			} else if (arg0.getKey().equals("git")) {
 				this.user.setGitName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("email")) {
+			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
 			}
 		}
@@ -269,11 +269,11 @@ public class User implements Parcelable {
 		 * changed child.
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.user.setName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("git")) {
+			} else if (arg0.getKey().equals("git")) {
 				this.user.setGitName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("email")) {
+			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
 			}
 		}
@@ -328,7 +328,7 @@ public class User implements Parcelable {
 			}
 			Log.i("REPO", arg0.getRef().getRepo().toString());
 			Project p = new Project(arg0.getRef().getRepo().toString()
-					+ "/projects/" + arg0.getName());
+					+ "/projects/" + arg0.getKey());
 			this.user.getMap().put(p, r);
 			p.setListChangeNotifier(this.user.getListChangeNotifier());
 			if (this.user.getListChangeNotifier() != null) {
@@ -345,7 +345,7 @@ public class User implements Parcelable {
 				r = Role.lead;
 			}
 			Project p = new Project(arg0.getRef().getRepo().toString()
-					+ "/projects/" + arg0.getName());
+					+ "/projects/" + arg0.getKey());
 			this.user.getMap().replaceValue(p, r);
 		}
 
@@ -359,7 +359,7 @@ public class User implements Parcelable {
 		 */
 		public void onChildRemoved(DataSnapshot arg0) {
 			Project p = new Project(arg0.getRef().getRepo().toString()
-					+ "/projects/" + arg0.getName());
+					+ "/projects/" + arg0.getKey());
 			this.user.getMap().remove(p);
 			if (this.user.getListChangeNotifier() != null) {
 				this.user.getListChangeNotifier().onChange();

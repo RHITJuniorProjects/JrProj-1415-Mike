@@ -8,6 +8,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 
 public class Member implements Parcelable {
 
@@ -208,11 +209,11 @@ public class Member implements Parcelable {
 		 * existing child and once for every added child.
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.user.setName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("git")) {
+			} else if (arg0.getKey().equals("git")) {
 				this.user.setGitName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("email")) {
+			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
 			}
 		}
@@ -222,11 +223,11 @@ public class Member implements Parcelable {
 		 * changed child.
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.user.setName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("git")) {
+			} else if (arg0.getKey().equals("git")) {
 				this.user.setGitName(arg0.getValue().toString());
-			} else if (arg0.getName().equals("email")) {
+			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
 			}
 		}

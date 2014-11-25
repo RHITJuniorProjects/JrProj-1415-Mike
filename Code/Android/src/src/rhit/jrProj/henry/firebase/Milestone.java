@@ -362,18 +362,18 @@ public class Milestone implements Parcelable {
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 
-			if (arg0.getName().equals("name")) {
+			if (arg0.getKey().equals("name")) {
 				this.milestone.setName(arg0.getValue(String.class));
 				if (this.milestone.getListChangeNotifier() != null) {
 					this.milestone.getListChangeNotifier().onChange();
 				}
-			} else if (arg0.getName().equals("description")) {
+			} else if (arg0.getKey().equals("description")) {
 				this.milestone.setDescription(arg0.getValue(String.class));
-			} else if (arg0.getName().equals("due_date")) { 
+			} else if (arg0.getKey().equals("due_date")) { 
 				this.milestone.setDueDate(arg0.getValue(String.class));
-			}  else if (arg0.getName().equals("task_percent")) {
+			}  else if (arg0.getKey().equals("task_percent")) {
 				this.milestone.setTaskPercent(arg0.getValue(Integer.class));
-			} else if (arg0.getName().equals("tasks")) {
+			} else if (arg0.getKey().equals("tasks")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Task t = new Task(child.getRef().toString());
 					if (!this.milestone.tasks.contains(t)) {
