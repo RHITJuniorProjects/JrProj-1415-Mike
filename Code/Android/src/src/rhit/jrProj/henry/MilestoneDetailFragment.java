@@ -142,8 +142,8 @@ public class MilestoneDetailFragment extends Fragment implements OnItemSelectedL
 			GraphHelper.StackedBarChartInfo chartInfo = this.milestoneItem
 					.getLocTotalInfo();
 			
-			chart = GraphHelper.makeStackedBarChart("Lines Total Added",
-					"Developer", "Lines of Code", chartInfo.getValues(),
+			chart = GraphHelper.makeStackedBarChart("",
+					"", "Lines of Code", chartInfo.getValues(),
 					chartInfo.getBarLabels(), chartInfo.getKeys(),
 					this.getActivity());
 			chartView.addView(chart, new LayoutParams(LayoutParams.MATCH_PARENT,

@@ -121,11 +121,14 @@ public class GraphHelper {
 		
 		}
 		
-		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, xMax, yMin * 1.25,
+		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, xMax, yMin * 1.5,
 				yMax * 1.25, Color.BLACK, Color.BLACK);
 		for (int i = 0; i < values.size(); i++) {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 					.setDisplayChartValues(true);
+			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
+			.setChartValuesTextSize(25);
+			
 		}
 		renderer.setXLabels(0);
 		for (int i = 0; i < barLabels.size(); i++) {
@@ -144,6 +147,11 @@ public class GraphHelper {
 		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setMarginsColor(Color.WHITE);
 		renderer.setShowGridX(false);
+		renderer.setAntialiasing(true);
+		renderer.setMargins(new int[] {0, 30, 10, 0});
+		//renderer.setBarWidth(200);
+		//renderer.setLabelsTextSize(30);
+		
 
 		return ChartFactory.getBarChartView(activity,
 				buildBarDataset(keys, values), renderer, Type.STACKED);
