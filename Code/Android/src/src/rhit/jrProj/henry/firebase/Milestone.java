@@ -6,6 +6,7 @@ import java.util.List;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.User.ChildrenListener;
 import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
+import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -279,6 +280,14 @@ public class Milestone implements Parcelable {
 	public ListChangeNotifier<Task> getTaskListViewCallback() {
 		return this.taskListViewCallback;
 	}
+	/**
+	 * Formats Due date to dd/mm/yyyy
+	 * @return formatted due date as String
+	 */
+	public String getDueDateFormatted(){
+		return GeneralAlgorithms.getDueDateFormatted(this.getDueDate());
+	}
+
 	
 	/**
 	 * Sets the ListViewCallback on a milestone

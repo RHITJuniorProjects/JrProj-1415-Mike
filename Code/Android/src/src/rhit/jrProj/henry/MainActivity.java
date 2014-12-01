@@ -303,7 +303,7 @@ public class MainActivity extends Activity implements
 		ProjectDetailFragment fragment = new ProjectDetailFragment();
 
 		fragment.setArguments(arguments);
-		currFragment=fragment;
+//		currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
@@ -328,7 +328,7 @@ public class MainActivity extends Activity implements
 		arguments.putParcelable("Milestone", m);
 		MilestoneDetailFragment fragment = new MilestoneDetailFragment();
 		fragment.setArguments(arguments);
-		currFragment=fragment;
+//		currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
@@ -351,7 +351,7 @@ public class MainActivity extends Activity implements
 		arguments.putBoolean("Two Pane", this.mTwoPane);
 		TaskDetailFragment fragment = new TaskDetailFragment();
 		fragment.setArguments(arguments);
-		currFragment=fragment;
+//		currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(

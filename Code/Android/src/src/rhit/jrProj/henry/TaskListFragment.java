@@ -143,7 +143,7 @@ public class TaskListFragment extends ListFragment {
 			datum.put("assignee", new Assignee(task));
 			data.add(datum);
 		}
-		ArrayAdapter<Task> adapter = new TwoLineArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_2,
+		ArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_2,
 				android.R.id.text1, this.tasks);
 		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
 

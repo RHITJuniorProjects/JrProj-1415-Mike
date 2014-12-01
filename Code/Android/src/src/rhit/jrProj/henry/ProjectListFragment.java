@@ -105,7 +105,7 @@ public class ProjectListFragment extends ListFragment {
 		
 		
 		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
-				getActivity(), android.R.layout.simple_list_item_activated_1,
+				getActivity(), android.R.layout.simple_list_item_activated_2,
 				android.R.id.text1, this.projects);
 		setListAdapter(arrayAdapter);
 		

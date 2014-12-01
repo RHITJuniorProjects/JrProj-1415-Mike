@@ -3,6 +3,7 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -137,6 +138,13 @@ public class Project implements Parcelable {
 	 */
 	public ArrayList<Milestone> getMilestones() {
 		return this.milestones;
+	}
+	/**
+	 * Formats Due date to dd/mm/yyyy
+	 * @return formatted due date as String
+	 */
+	public String getDueDateFormatted(){
+		return GeneralAlgorithms.getDueDateFormatted(this.getDueDate());
 	}
 
 	/**
@@ -440,65 +448,17 @@ public class Project implements Parcelable {
 	 * @return
 	 */
 	public int compareToIgnoreCase(Project p){
-		return compareToICHelper(this.getName(), p.getName());
+		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
 	}
 	/**
-	 * A helper method for compareToIgnoreCase
-	 * @param s1 a String to compare
-	 * @param s2 another String to compare
-	 * @return num, num<0 if s1 is before s2, num=0 if s1 = s2, and num>0 if s1 is after s2
+	 * Compares this Project to another Project by comparing dates
+	 * @param p
+	 * @param newestFirst
+	 * @return
 	 */
-	private int compareToICHelper(String s1, String s2){
-		if (s1==s2) return 0;
-		else{
-			int i= 0;
-			int j= 0;
-			int s1len=s1.length();
-			int s2len=s2.length();
-			while (i<s1len && j<s2len){
-				char c1= s1.charAt(i);
-				char c2= s2.charAt(j);
-				char [] sp1 = new char[s1len];
-				char [] sp2 = new char[s2len];
-				int loc1=0;
-				int loc2=0;
-				while (Character.isDigit(c1)==Character.isDigit(sp1[0])){
-					sp1[loc1++]=c1;
-					i++;
-					if (i <s1len){
-						c1=s1.charAt(i);
-					} else{
-						break;
-					}
-				}
-				while (Character.isDigit(c2)==Character.isDigit(sp2[0])){
-					sp2[loc2++]=c2;
-					j++;
-					if (j <s2len){
-						c2=s2.charAt(j);
-					} else{
-						break;
-					}
-				}
-				String str1=new String(sp1);
-				String str2=new String(sp2);
-				int result;
-				if (Character.isDigit(sp1[0]) && Character.isDigit(sp2[0])){
-					Integer num1= new Integer(Integer.parseInt(str1.trim()));
-					Integer num2= new Integer(Integer.parseInt(str2.trim()));
-					result=num1.compareTo(num2);
-				}
-				else{
-					result=str1.compareToIgnoreCase(str2);
-				}
-				if (result!=0){
-					return result;
-				}
-				
-			}
-		return s1len-s2len;
-		}
-		
+	public int compareToByDate(Project p, boolean newestFirst){
+		return GeneralAlgorithms.compareToByDate(this.getDueDate(), p.getDueDate(), newestFirst);
 	}
+	
 
 }
