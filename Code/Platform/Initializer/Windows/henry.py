@@ -10,7 +10,7 @@ import traceback
 import re
 
 VERSION = '0.1.1'
-OPSYS = 'unix'
+OPSYS = 'windows'
 firebase_url = 'https://henry-test.firebaseio.com'
 
 def initialize(projectID,github_username,opsys):
