@@ -63,7 +63,7 @@ public class ProjectDetailFragment extends Fragment {
 			((TextView) rootView.findViewById(R.id.project_name))
 				.setText("Name of project: " + this.projectItem.getName());
 			((TextView) rootView.findViewById(R.id.project_due_date))
-				.setText("Due on: " + this.projectItem.getDueDate());
+				.setText("Due on: " + this.projectItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.project_description))
 				.setText("Description: " + this.projectItem.getDescription());
 			

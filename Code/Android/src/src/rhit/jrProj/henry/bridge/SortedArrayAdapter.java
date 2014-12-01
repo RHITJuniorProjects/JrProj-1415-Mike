@@ -40,7 +40,7 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		    	text1.setText(((Milestone)super.getItem(position)).getName());
 		    	text2.setText("Due: "+((Milestone)super.getItem(position)).getDueDateFormatted());
 		    }
-		    else if (super.getItem(position) instanceof Milestone){
+		    else if (super.getItem(position) instanceof Task){
 		    	text1.setText(((Task)super.getItem(position)).getName());
 			    text2.setText("Assigned to: "+((Task)super.getItem(position)).getAssignedUserName());
 		    }

@@ -67,7 +67,7 @@ public class MilestoneDetailFragment extends Fragment implements OnItemSelectedL
 			((TextView) rootView.findViewById(R.id.milestone_name))
 					.setText("Name of Milestone: " + this.milestoneItem.getName());
 			((TextView) rootView.findViewById(R.id.milestone_due_date))
-					.setText("Due on: "+ this.milestoneItem.getDueDate());
+					.setText("Due on: "+ this.milestoneItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.milestone_description))
 					.setText("Description: " + this.milestoneItem.getDescription());
 
