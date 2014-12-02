@@ -13,10 +13,11 @@ wait(5)
 find("1413937690035.png")
 click("1413937698349.png")
 wait(5)
-find("1415309875565.png")
-click("1415309881154.png")
+find("1415808528637.png")
+click("1415808534069.png")
 wait(5)
-if exists("1415309895947.png"):
+if exists("1415808554919.png"):
+    find("1415808572579.png") 
     print("It worked")
 else:
     print("It didn't work")
@@ -31,7 +32,8 @@ wait(5)
 
 find("1415309819206.png")
 click("1415309819206.png")
-if exists("1415310130987.png"):
+if exists("1415808600160.png"):
+    find("1415808616979.png")
     print("It worked")
 else:
     print("It didn't work")
@@ -49,8 +51,8 @@ wait(5)
 find("1413937690035.png")
 click("1413937698349.png")
 wait(7)
-find("1415310194585.png")
-click("1415310194585.png")
+find("1415808641967.png")
+click("1415809089092.png")
 wait(5)
 find("1415310212774.png")
 click("1415310212774.png")
