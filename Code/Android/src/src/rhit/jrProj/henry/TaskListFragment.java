@@ -144,7 +144,7 @@ public class TaskListFragment extends ListFragment {
 			data.add(datum);
 		}
 		ArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.tasks);
+				android.R.id.text1, this.tasks, 2);
 		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {

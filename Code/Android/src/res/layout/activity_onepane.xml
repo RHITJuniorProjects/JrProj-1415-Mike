@@ -1,8 +1,18 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_fragment_container"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
- 	android:background="@color/baseBackground"
-    android:orientation="horizontal" >
-	
-</FrameLayout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/main_fragment_container"
+ xmlns:tools="http://schemas.android.com/tools"
+ android:layout_width="match_parent"
+ android:layout_height="match_parent"
+ android:paddingBottom="@dimen/activity_vertical_margin"
+ android:paddingLeft="@dimen/activity_horizontal_margin"
+ android:paddingRight="@dimen/activity_horizontal_margin"
+ android:paddingTop="@dimen/activity_vertical_margin"
+ tools:context="rhit.jrProj.henry.ProjectListActivity" >
+ <ListView
+ android:id="@+id/listView"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:layout_alignParentLeft="true"
+ android:layout_alignParentTop="true" >
+ </ListView>
+</RelativeLayout>

@@ -115,7 +115,7 @@ public class MilestoneListFragment extends ListFragment {
 		this.milestones = this.mCallbacks.getMilestones();
 		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.milestones);
+				android.R.id.text1, this.milestones, 1);
 		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(
 				arrayAdapter);
 		for (Milestone m : this.milestones) {
