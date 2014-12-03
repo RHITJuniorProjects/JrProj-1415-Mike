@@ -2,6 +2,7 @@ package rhit.jrProj.henry.bridge;
 
 import java.util.List;
 
+import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -23,12 +24,21 @@ import rhit.jrProj.henry.R;
 public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 	private final Context context;
 	private final List<T> objects;
-	private final int type;
-	public SortedArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects, int type) {
+	private final Enums.ObjectType type;
+	private String usersName;
+	public SortedArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects, Enums.ObjectType type) {
 		super(context, R.layout.list_image_layout, textViewResourceId, objects);
 		this.context=context;
 		this.objects=objects;
 		this.type=type;
+		this.usersName="";
+	}
+	public SortedArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects, Enums.ObjectType type, String usersName) {
+		super(context, R.layout.list_image_layout, textViewResourceId, objects);
+		this.context=context;
+		this.objects=objects;
+		this.type=type;
+		this.usersName=usersName;
 	}
 	@Override
 	public void notifyDataSetChanged(){
@@ -43,7 +53,7 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		    TextView text1 = (TextView) view.findViewById(R.id.firstline);
 		    TextView text2 = (TextView) view.findViewById(R.id.secondline);
 		    ImageView img1= (ImageView) view.findViewById(R.id.imageView);
-		    if (this.type==0){
+		    if (this.type==Enums.ObjectType.PROJECT){
 		    	Log.i("PRoject*******", "");
 		    	img1.setVisibility(View.GONE);
 		    	text1.setText(((Project)super.getItem(position)).getName());
@@ -53,20 +63,31 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		    	
 		    	}
 		    }
-		    else if(this.type==1){
+		    else if(this.type==Enums.ObjectType.MILESTONE){
 		    	img1.setVisibility(View.GONE);
 		    	text1.setText(((Milestone)super.getItem(position)).getName());
 		    	text2.setText("Due: "+((Milestone)super.getItem(position)).getDueDateFormatted());
 		    	
 		    	
 		    }
-		    else if (this.type==2){
-		    	if ((((Task)super.getItem(position)).getAssignedUserName()).equals("Adam Michael")){
-			    	img1.setVisibility(View.VISIBLE);
-//			    	img1.setImageResource(android.R.drawable.ic_menu_myplaces);
+		    else if (this.type==Enums.ObjectType.TASK){
+		    	//this line for testing only remove later
+//		    	this.usersName="Adam Michael";
+		    	Task t= (Task)super.getItem(position);
+		    	if ((t.getAssignedUserName()).equals(this.usersName)){
+		    		if (t.getStatus().equals(Enums.CLOSED)){
+		    			img1.setImageResource(R.drawable.ic_action_achievement);
+		    		}
+		    		else{
+		    			img1.setImageResource(R.drawable.ic_action_flag);
+		    		}
+		    		img1.setVisibility(View.VISIBLE);			    	
 			    }
-		    	text1.setText(((Task)super.getItem(position)).getName());
-		    	text2.setText("Assigned to: "+((Task)super.getItem(position)).getAssignedUserName());
+		    	else{
+		    		img1.setVisibility(View.GONE);
+		    	}
+		    	text1.setText(t.getName());
+		    	text2.setText("Assigned to: "+t.getAssignedUserName());
 		    	text1.setTextSize(20);
 		    	text2.setTextSize(14);
 		    	

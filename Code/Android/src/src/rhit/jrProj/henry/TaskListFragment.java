@@ -71,6 +71,7 @@ public class TaskListFragment extends ListFragment {
 
 		public Project getSelectedProject();
 		
+		public String getUserName();
 		
 	}
 
@@ -90,6 +91,9 @@ public class TaskListFragment extends ListFragment {
 
 		public Project getSelectedProject() {
 			return null;
+		}
+		public String getUserName(){
+			return "";
 		}
 		
 		
@@ -144,7 +148,7 @@ public class TaskListFragment extends ListFragment {
 			data.add(datum);
 		}
 		ArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.tasks, 2);
+				android.R.id.text1, this.tasks, Enums.ObjectType.TASK, mCallbacks.getUserName());
 		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {

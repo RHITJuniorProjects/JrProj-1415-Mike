@@ -506,4 +506,12 @@ public class MainActivity extends Activity implements
 	public String getSortMode(){
 		return this.sortingMode;
 	}
+	/**
+	 * Returns the current user's name
+	 * 
+	 * @return
+	 */
+	public String getUserName() {
+		return this.user.getName();
+	}
 }

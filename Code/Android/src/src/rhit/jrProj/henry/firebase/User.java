@@ -179,6 +179,15 @@ public class User implements Parcelable {
 	public String getEmail() {
 		return this.email;
 	}
+	/**
+	 * 
+	 * Gets the name of the User
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return this.name;
+	}
 
 	/**
 	 * Sets the email associated with a user

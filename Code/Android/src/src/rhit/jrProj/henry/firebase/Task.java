@@ -304,7 +304,10 @@ public class Task implements Parcelable {
 		this.status = taskStatus;
 		this.firebase.child("status").setValue(taskStatus);
 		this.firebase.child("is_completed").setValue(
-				Boolean.valueOf(taskStatus.equals("Closed")));
+				Boolean.valueOf(taskStatus.equals(Enums.CLOSED)));
+		if (this.listViewCallback!=null){
+			this.listViewCallback.onChange();
+		}
 	}
 
 	/**
@@ -397,7 +400,6 @@ public class Task implements Parcelable {
 			} else if (arg0.getKey().equals("total_lines_of_code")) {
 				this.task.totalLines = arg0.getValue(Integer.class).intValue();
 			}
-
 		}
 
 		/**

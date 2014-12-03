@@ -6,6 +6,7 @@ import java.util.Collections;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
+import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
@@ -106,7 +107,7 @@ public class ProjectListFragment extends ListFragment {
 		
 		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.projects, 0);
+				android.R.id.text1, this.projects, Enums.ObjectType.PROJECT);
 		setListAdapter(arrayAdapter);
 		
 		SortedListChangeNotifier<Project> lcn = new SortedListChangeNotifier<Project>(
