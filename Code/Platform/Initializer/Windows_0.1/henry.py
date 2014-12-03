@@ -7,10 +7,8 @@ import os
 import requests
 import sys
 import traceback
-import re
 
-VERSION = '0.1.1'
-OPSYS = 'windows'
+VERSION = 0.1
 firebase_url = 'https://henry-test.firebaseio.com'
 
 def initialize(projectID,github_username,opsys):
@@ -46,15 +44,12 @@ def initialize(projectID,github_username,opsys):
     with open(sh_path,'w') as f:
         f.write(sh)
 
-    os.system('chmod +x .git/hooks/commit-msg') 
-
     if not os.path.exists(henry_dir):
         os.makedirs(henry_dir)
 
     # write the python script
     with open(py_path,'w') as f:
         f.write(py)
-    print 'HENRY: Repository succesfully connected to Henry'
 
 
 def fillTemplate(line,projectID,github_username):
@@ -75,7 +70,7 @@ def usage():
     print '   init        Conect the current git repository to Henry'
     print '   version     Display the installed version number'
     print '   help        Display the help menu'
-    print '   status      Determines if Henry is initialized in this directory'
+
 
 def helpmenu():
     if not inGitRepo():
@@ -85,12 +80,6 @@ def helpmenu():
         print
     print 'Connect a Git repository to Henry with'
     print '   henry init <project name> <github username>'
-    print 
-    print 'Henry commit data can be entered in-line with the command'
-    print "    git commit -m 'my commit message [hours:2] [milestone:Milestone 0] [task:Create database] [status:Regression]'"
-    print
-    print 'Henry\'s connection information can be displayed with the command'
-    print '    henry status'
 
 
 def version():
@@ -101,16 +90,7 @@ def status():
     if not inGitRepo():
         print 'This is not a Git repository, Henry cannot be initialized here'
     elif os.path.isfile(os.getcwd()+'/.git/hooks/commit-msg'):
-        with open (os.getcwd()+'/.git/hooks/henry/commit.py') as f:
-            fullfile = f.read()
-        try:
-            projectID = re.findall(r"projectID = '([-\w]+)'",fullfile)[0]
-            ref = firebase.FirebaseApplication(firebase_url,None)
-            projectName = ref.get('/projects/'+projectID,None)['name']
-            print 'Git repository is connected to Henry Project: '+projectName
-        except Exception as e:
-            traceback.print_exc(file=sys.stdout)
-            print 'Git repository is connected to an invalid Henry project, possibly one that has been deleted'
+        print 'This is a Henry Repository'
     else:
         print 'This Git repository is not yet connected to Henry'
         print 'Connect it with'
@@ -119,7 +99,7 @@ def status():
 
 def inGitRepo():
     try:
-        with open(os.getcwd()+'/.git/hooks/commit-msg.sample','r') as f:
+        with open(os.getcwd()+'/.git/hooks/commit-msg','w') as f:
             pass
         return True
     except IOError:
@@ -167,7 +147,7 @@ if __name__ == '__main__':
 		    print 'HENRY Error: Invalid Github username'
 		    print '   henry init <project name> <github username>'
 		    exit(1)
-		initialize(pID,github_username,OPSYS)
+		initialize(pID,github_username,'windows')
 	    elif sys.argv[1] in {'version','-version','--version','-v'}:
 		version()
 	    elif sys.argv[1] in {'help','-help','--help','-h'}:
@@ -177,14 +157,15 @@ if __name__ == '__main__':
 	    else:
 		usage()
 
+	    """
+	    This line causes the script to exit abruptly and bypass all
+	    exit handlers. This is necessary because the Python Firebase
+	    API does not play nice with the Windows Python Multithreading
+	    library. Maybe someday they will fix it and this won't be
+	    necessary.
+
+	    """
     except Exception as e:
         #traceback.print_exc(file=sys.stdout)
-        """
-        This line causes the script to exit abruptly and bypass all
-        exit handlers. This is necessary because the Python Firebase
-        API does not play nice with the Windows Python Multithreading
-        library. Maybe someday they will fix it and this won't be
-        necessary.
-        """
 	os._exit(0)
     os._exit(0)

@@ -3,7 +3,6 @@ import sys
 import re
 import subprocess
 import time
-import os
 from firebase import firebase
 
 
@@ -285,5 +284,4 @@ if __name__ == '__main__':
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    # This bypasses exit handlers to skip the Firebase-Windows errors
-    os._exit(0)
+    #raise Exception('Reached end, prevents commit from executing')

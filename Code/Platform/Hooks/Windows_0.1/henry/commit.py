@@ -3,7 +3,6 @@ import sys
 import re
 import subprocess
 import time
-import os
 from firebase import firebase
 
 
@@ -22,10 +21,7 @@ defaultpath = '.git/.henrydefaults'
 def readCommit(path):
     with open(path,'r') as msgfile:
         msg = msgfile.read()
-    try:
-        return msg.strip().split('\n#')[0]
-    except:
-        return ''
+    return msg.strip()
     
 
 def getLoC():
@@ -69,9 +65,7 @@ def getUserID(gituser,ref):
     try:
         userID = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
     except:
-        #raise Exception('HENRY: Invalid username, commit failed')
-        print 'HENRY: Invalid or nonexistant username, commit failed'
-        exit(1)
+        raise Exception('HENRY: Invalid username, commit failed')
     return userID
 
 
@@ -85,8 +79,7 @@ def getMilestoneID(projectID,milestone):
     try:
         mID = [m for m in filtered if filtered[m]['name']==milestone][0]
     except:
-        print 'HENRY: Invalid or nonexistent milestone, commit failed'
-        exit(1)
+        raise Exception('HENRY: Nonexistent milestone, commit failed')
     return mID
 
 
@@ -97,8 +90,7 @@ def getTaskID(projectID,milestoneID,task):
     try:
         tID = [t for t in filtered if filtered[t]['name']==task][0]
     except:
-        print 'HENRY: Invalid or nonexistant task, commit failed'
-        exit(1)
+        raise Exception('HENRY: Nonexistent task, commit failed')
     return tID
 
 
@@ -147,23 +139,11 @@ def getActiveMilestones(ref,userID,projectID):
 
 def getAssignedTasks(ref,userID,projectID,milestoneID):
     path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
-    try:
-        taskIDs = ref.get(path,None).keys()
-    except:
-        print 'HENRY: You have no assigned tasks for this milestone, commit failed'
-        exit(1)
+    taskIDs = ref.get(path,None).keys()
     path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     allTasks = ref.get(path,None)
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
     return assignedTasks
-
-
-def getMilestone(ref,projectID,milestoneID):
-    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/name',None)
-
-
-def getTask(ref,projectID,milestoneID,taskID):
-    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID+'/name',None)
 
     
 def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
@@ -172,7 +152,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # windows
     sys.stdin = open('CON')
-
+    
     def_mID, def_tID, def_status = getDefaults()
 
     if hours == None:
@@ -182,11 +162,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for milestone if necessary
     if milestone == None:
-        if def_mID != None:
-            def_milestone = getMilestone(ref,projectID,def_mID)
-            print 'Active milestones (defaults to '+def_milestone+'):'
-        else:
-            print 'Active milestones:'
+        print 'Active milestones:'
         sys.stdout.flush()
         idsByIndex = [] ; index = 1
         for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
@@ -198,7 +174,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
         milestone = raw_input()
         if milestone.isdigit() and int(milestone) <= len(idsByIndex):
             mID = idsByIndex[int(milestone)-1]
-        elif milestone == '' and def_mID != 0:
+        elif milestone == '' and mID != 0:
             mID = def_mID
         else:
             mID = getMilestoneID(projectID,milestone)
@@ -207,11 +183,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for task if necessary
     if task == None:
-        if def_tID != None:
-            def_task = getTask(ref,projectID,mID,def_tID)
-            print 'Tasks assigned to you (defaults to '+def_task+'):'
-        else:
-            print 'Tasks assigned to you:'
+        print 'Tasks assigned to you:'
         idsByIndex = [] ; index = 1
         for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
             print ' - '+str(index)+'. '+tName
@@ -231,11 +203,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for status if necessary
     if status == None:
-        # New, Implementation, Testing, Verify, Regression, Closed'
-        if def_status != None:
-            print 'Select status (defaults to '+def_status+'):'
-        else:
-            print 'Select status:'
+        print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
         possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
         for i in range(len(possibleStatuses)):
             print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
@@ -246,9 +214,6 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             status = possibleStatuses[int(status) - 1]
         elif status == '' and def_status != 0:
             status = def_status
-        else:
-            print 'HENRY: Invalid status, commit failed'
-            exit(1)
 
     return hours,mID,tID,status
 
@@ -264,7 +229,7 @@ def getDefaults():
         with open(defaultpath,'r') as f:
             return f.read().strip().split('\t')
     except:
-        return None,None,None
+        return 0,0,0
 
 
 if __name__ == '__main__':
@@ -281,9 +246,8 @@ if __name__ == '__main__':
 
     updateDefaults(milestoneID,taskID,status)
 
-    commitID =writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
+    commitID =writeCommit(ref,msg,None,userID,int(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    # This bypasses exit handlers to skip the Firebase-Windows errors
-    os._exit(0)
+    #raise Exception('Reached end, prevents commit from executing')
