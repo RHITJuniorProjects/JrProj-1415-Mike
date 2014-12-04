@@ -17,7 +17,8 @@ import rhit.jrProj.henry.R;
 
 /**
  * 
- * An ArrayAdapter subclass designed for the project list. It is used for sorting.
+ * An ArrayAdapter subclass designed for the project list. It is used for
+ * sorting.
  *
  * @author daveyle. Created Nov 6, 2014.
  */
@@ -26,80 +27,98 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 	private final List<T> objects;
 	private final Enums.ObjectType type;
 	private String usersName;
-	public SortedArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects, Enums.ObjectType type) {
+
+	public SortedArrayAdapter(Context context, int resource,
+			int textViewResourceId, List<T> objects, Enums.ObjectType type) {
 		super(context, R.layout.list_image_layout, textViewResourceId, objects);
-		this.context=context;
-		this.objects=objects;
-		this.type=type;
-		this.usersName="";
+		this.context = context;
+		this.objects = objects;
+		this.type = type;
+		this.usersName = "";
 	}
-	public SortedArrayAdapter(Context context, int resource, int textViewResourceId, List<T> objects, Enums.ObjectType type, String usersName) {
+
+	/**
+	 * This constructor is used for tasks, which require knowledge of the user's
+	 * name so that it can flag appropriately.
+	 * 
+	 * @param context
+	 * @param resource
+	 * @param textViewResourceId
+	 * @param objects
+	 * @param type
+	 * @param usersName
+	 */
+	public SortedArrayAdapter(Context context, int resource,
+			int textViewResourceId, List<T> objects, Enums.ObjectType type,
+			String usersName) {
 		super(context, R.layout.list_image_layout, textViewResourceId, objects);
-		this.context=context;
-		this.objects=objects;
-		this.type=type;
-		this.usersName=usersName;
+		this.context = context;
+		this.objects = objects;
+		this.type = type;
+		this.usersName = usersName;
 	}
+
 	@Override
-	public void notifyDataSetChanged(){
+	public void notifyDataSetChanged() {
 		super.notifyDataSetChanged();
 	}
 
-		@Override
-		  public View getView(int position, View convertView, android.view.ViewGroup parent) {
-			LayoutInflater inflater = (LayoutInflater) context
-	                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		    View view = inflater.inflate(R.layout.list_image_layout, parent, false);
-		    TextView text1 = (TextView) view.findViewById(R.id.firstline);
-		    TextView text2 = (TextView) view.findViewById(R.id.secondline);
-		    ImageView img1= (ImageView) view.findViewById(R.id.imageView);
-		    if (this.type==Enums.ObjectType.PROJECT){
-		    	Log.i("PRoject*******", "");
-		    	img1.setVisibility(View.GONE);
-		    	text1.setText(((Project)super.getItem(position)).getName());
-		    	if (((Project)super.getItem(position))!=null){
-		    	text2.setText("Due: "+((Project)super.getItem(position)).getDueDateFormatted());
-		    	
-		    	
-		    	}
-		    }
-		    
-		    else if(this.type==Enums.ObjectType.MILESTONE){
-		    	img1.setVisibility(View.GONE);
-		    	text1.setText(((Milestone)super.getItem(position)).getName());
-		    	text2.setText("Due: "+((Milestone)super.getItem(position)).getDueDateFormatted());
-		    	
-		    	
-		    }
-		    else if (this.type==Enums.ObjectType.TASK){
-		    	Task t= (Task)super.getItem(position);
-		    	if ((t.getAssignedUserName()).equals(this.usersName)){
-		    		if (t.getStatus().equals(Enums.CLOSED)){
-		    			img1.setImageResource(R.drawable.ic_action_achievement);
-		    		}
-		    		else{
-		    			img1.setImageResource(R.drawable.ic_action_flag);
-		    		}
-		    		img1.setVisibility(View.VISIBLE);			    	
-			    }
-		    	else{
-		    		img1.setVisibility(View.GONE);
-		    	}
-		    	text1.setText(t.getName());
-		    	text2.setText("Assigned to: "+t.getAssignedUserName());
-		    	text1.setTextSize(20);
-//		    	text2.setTextSize(14);
-		    	
-		    	
-		    	view.refreshDrawableState();
-			    
-			    
+	/**
+	 * This method overrides the default getView method to show a two line view
+	 * that has a due date. It also controls the displaying of icons such as
+	 * flags and trophies.
+	 */
+	@Override
+	public View getView(int position, View convertView,
+			android.view.ViewGroup parent) {
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.list_image_layout, parent, false);
+		TextView text1 = (TextView) view.findViewById(R.id.firstline);
+		TextView text2 = (TextView) view.findViewById(R.id.secondline);
+		ImageView img1 = (ImageView) view.findViewById(R.id.imageView);
+		if (this.type == Enums.ObjectType.PROJECT) {
+			Project p=(Project) super.getItem(position);
+			img1.setVisibility(View.GONE);
+			if (p != null) {
+				text1.setText(p.getName());
+				text2.setText("Due: "
+						+ p.getDueDateFormatted());
 
-		    }
-		    
-		    return view;
 			}
+		}
 
+		else if (this.type == Enums.ObjectType.MILESTONE) {
+			img1.setVisibility(View.GONE);
+			Milestone m=(Milestone) super.getItem(position);
+			text1.setText(m.getName());
+			text2.setText("Due: "
+					+ m.getDueDateFormatted());
+
+		} else if (this.type == Enums.ObjectType.TASK) {
+			Task t = (Task) super.getItem(position);
+			if ((t.getAssignedUserName()).equals(this.usersName)) {
+				 //Should only show flags/trophies on tasks assigned to the current logged in user.
+				if (t.getStatus().equals(Enums.CLOSED)) {
+				//If task is done, show a little green trophy.
+					img1.setImageResource(R.drawable.ic_action_achievement);
+				} else {
+					 //If task is not done, show a red flag.
+					img1.setImageResource(R.drawable.ic_action_flag);
+				}
+				//Show the image if the task is assigned to the logged in user.
+				img1.setVisibility(View.VISIBLE);
+			} else {
+				//If this task is not assigned to the logged in user, hide all icons.
+				img1.setVisibility(View.GONE);
+			}
+			text1.setText(t.getName());
+			text2.setText("Assigned to: " + t.getAssignedUserName());
+			text1.setTextSize(20);
+			view.refreshDrawableState();
+		}
+
+		return view;
 	}
 
-
+}
