@@ -240,6 +240,8 @@ public class CreateTaskFragment extends DialogFragment {
 		map.put("category", category);
 		map.put("due_date", "No Due Date");
 		map.put("assignedTo", user);
+		map.put("original_hour_estimate", 0);
+		
 		
 		Firebase f2=new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/").push();
