@@ -63,6 +63,7 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		    	
 		    	}
 		    }
+		    
 		    else if(this.type==Enums.ObjectType.MILESTONE){
 		    	img1.setVisibility(View.GONE);
 		    	text1.setText(((Milestone)super.getItem(position)).getName());
@@ -71,8 +72,6 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		    	
 		    }
 		    else if (this.type==Enums.ObjectType.TASK){
-		    	//this line for testing only remove later
-//		    	this.usersName="Adam Michael";
 		    	Task t= (Task)super.getItem(position);
 		    	if ((t.getAssignedUserName()).equals(this.usersName)){
 		    		if (t.getStatus().equals(Enums.CLOSED)){
@@ -89,7 +88,7 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		    	text1.setText(t.getName());
 		    	text2.setText("Assigned to: "+t.getAssignedUserName());
 		    	text1.setTextSize(20);
-		    	text2.setTextSize(14);
+//		    	text2.setTextSize(14);
 		    	
 		    	
 		    	view.refreshDrawableState();

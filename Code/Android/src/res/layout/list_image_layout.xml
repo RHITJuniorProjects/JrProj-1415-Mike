@@ -27,22 +27,26 @@
         <TextView
             android:id="@+id/firstline"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:textSize="24sp"
             android:gravity="center_vertical"
-            android:layout_gravity="fill"
+            android:layout_gravity="center"
+            android:ellipsize="marquee"
             android:text="My Application"
+            android:paddingBottom="0dip"
              />
 		<TextView  
             android:id="@+id/secondline"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_weight="1" 
-            android:textSize="18sp"
-            android:layout_gravity="fill"
+            android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:layout_gravity="center"
             android:ellipsize="marquee"
-            android:text="Simple application that shows how to use RelativeLayout" />
+            android:text="Simple application that shows how to use RelativeLayout"
+            android:paddingBottom="0dip" />
         
             
         

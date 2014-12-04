@@ -326,7 +326,7 @@ public class Project implements Parcelable {
 				}
 			} else if (arg0.getKey().equals("members")) {
 				for (DataSnapshot member : arg0.getChildren()) {
-					Log.i("Member Url", arg0.getRef().getRoot().toString() + "/users/"+member.getKey());
+//					Log.i("Member Url", arg0.getRef().getRoot().toString() + "/users/"+member.getKey());
 					Member toAdd = new Member(arg0.getRef().getRoot().toString() + "/users/"+member.getKey());
 					if (!this.project.members.containsKey(toAdd)) {
 						try {
