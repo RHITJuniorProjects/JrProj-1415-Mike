@@ -13,9 +13,9 @@ VERSION = '0.1.1'
 OPSYS = 'unix'
 firebase_url = 'https://henry-test.firebaseio.com'
 
-def initialize(projectID,github_username,opsys):
+def initialize_git(projectID,github_username,opsys):
     # github API 3.0
-    base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Hooks'
+    base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks'
     if opsys == 'unix':
         base_url = base_url + '/Unix'
     else:
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 		    print 'HENRY Error: Invalid Github username'
 		    print '   henry init <project name> <github username>'
 		    exit(1)
-		initialize(pID,github_username,OPSYS)
+		initialize_git(pID,github_username,OPSYS)
 	    elif sys.argv[1] in {'version','-version','--version','-v'}:
 		version()
 	    elif sys.argv[1] in {'help','-help','--help','-h'}:
