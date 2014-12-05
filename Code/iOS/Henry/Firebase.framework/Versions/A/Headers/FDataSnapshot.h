@@ -121,7 +121,7 @@
  *
  * @return An NSString containing the name for the location of this FDataSnapshot.
  */
-@property (strong, readonly, nonatomic) NSString* key;
+@property (strong, readonly, nonatomic) NSString* name;
 
 
 /**

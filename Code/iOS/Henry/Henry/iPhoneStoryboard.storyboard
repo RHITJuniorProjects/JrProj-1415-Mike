@@ -262,6 +262,103 @@
             </objects>
             <point key="canvasLocation" x="1856" y="75"/>
         </scene>
+        <!--Henry Profile View Controller-->
+        <scene sceneID="9n3-71-VM0">
+            <objects>
+                <viewController id="wXE-nX-nN1" customClass="HenryProfileViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="XKv-Dy-jLK"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mvz-JJ-TRe"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="AWT-aV-Nso">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Name: $userName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Csf-C7-7wi">
+                                <rect key="frame" x="16" y="252" width="304" height="74"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Name: $userName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yFc-fz-voR">
+                                <rect key="frame" x="16" y="133" width="304" height="66"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="User Name: $userName" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m93-H9-Fg9">
+                                <rect key="frame" x="16" y="201" width="304" height="54"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="nza-eK-bT5"/>
+                    <connections>
+                        <outlet property="emailLabel" destination="Csf-C7-7wi" id="X3v-Fv-jlt"/>
+                        <outlet property="githubLabel" destination="yFc-fz-voR" id="Ohd-x1-ubu"/>
+                        <outlet property="nameLabel" destination="m93-H9-Fg9" id="3hA-IE-kDH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IpL-fE-xqY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-323" y="711"/>
+        </scene>
+        <!--Henry Member Table View Controller-->
+        <scene sceneID="vsg-QY-V3L">
+            <objects>
+                <tableViewController id="CgS-wv-wTY" customClass="HenryMemberTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="tPn-Rx-b8T">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MemberCell" id="oiW-aZ-h4D" customClass="HenryMemberTableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oiW-aZ-h4D" id="bIg-DA-nDt">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cvo-PZ-7SY">
+                                            <rect key="frame" x="18" y="9" width="132" height="22"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Dev Role" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KIO-eG-DVS">
+                                            <rect key="frame" x="192" y="8" width="87" height="30"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="FoM-i8-8NF">
+                                            <rect key="frame" x="18" y="26" width="166" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="emailLabel" destination="FoM-i8-8NF" id="fcV-Xq-TsH"/>
+                                    <outlet property="nameLabel" destination="cvo-PZ-7SY" id="Bc7-0v-jNg"/>
+                                    <outlet property="roleLabel" destination="KIO-eG-DVS" id="CDK-Yg-x3e"/>
+                                    <segue destination="wXE-nX-nN1" kind="push" identifier="goToUserProfile" id="RqC-bl-Zgq"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CgS-wv-wTY" id="G3a-z4-MyW"/>
+                            <outlet property="delegate" destination="CgS-wv-wTY" id="Pzi-9q-mTB"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="Qgl-9x-T4l"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uoh-Ob-Czm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="91" y="705"/>
+        </scene>
         <!--Henry Project Detail View Controller-->
         <scene sceneID="9Cv-yJ-yr0">
             <objects>
@@ -372,6 +469,15 @@
                                 <rect key="frame" x="0.0" y="225" width="320" height="197"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ola-7I-vpf">
+                                <rect key="frame" x="63" y="446" width="195" height="30"/>
+                                <state key="normal" title="View Project Team Members">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="CgS-wv-wTY" kind="push" id="LEg-Fa-Vwx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -907,10 +1013,10 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Fwr-B4-Jg0"/>
         <segue reference="N3w-Us-8Fy"/>
         <segue reference="Jkc-DS-FtK"/>
         <segue reference="DJc-dz-GE7"/>
+        <segue reference="Fwr-B4-Jg0"/>
         <segue reference="TUL-V0-Fep"/>
     </inferredMetricsTieBreakers>
 </document>
