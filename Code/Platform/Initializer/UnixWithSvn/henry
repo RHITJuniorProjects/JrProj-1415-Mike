@@ -97,8 +97,8 @@ if __name__ == '__main__':
         elif sys.argv[1] in {'svn'}:
             if len(sys.argv) == 1:
                 svn_utils.usage()
-            if sys.argv[2] in {'commit'}:
-                svn_utils.commit(ref)
+            if sys.argv[2] == 'commit' and sys.argv[3] == '-m':
+                svn_utils.commit(ref,sys.argv[4])
             else:
                 svn_utils.usage()
         else:
@@ -106,6 +106,7 @@ if __name__ == '__main__':
 
     except Exception as e:
         print e
+        traceback.print_exc(file=sys.stdout)
         """
         This line causes the script to exit abruptly and bypass all
         exit handlers. This is necessary because the Python Firebase

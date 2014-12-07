@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import time
 
 import firebase_utils
 
@@ -8,11 +9,43 @@ def usage():
     print 'SVN Usage Menu is still under construction'
 
 
-def commit(ref):
+def commit(ref,message):
     uID,pID,mID,tID,hours,status = prompt(ref)
-    command = 'svn commit'.split(' ')
+    added,removed = get_loc()
+    command = ['svn','commit','-m',message]
+    write_commit(ref,message,uID,pID,mID,tID,hours,status,added,removed)
     pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
-    return pipe.communicate()[0].strip()
+    print pipe.communicate()[0].strip()
+
+
+def get_loc():
+    command = 'svn diff'.split(' ')
+    pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
+    output = pipe.communicate()[0].strip()
+    diffs = output.split('@@')
+    added = 0 ; removed = 0
+    for i in range(2,len(diffs),2):
+        added = added + diffs[i].count('\n+') - diffs[i].count('\n+++') 
+        removed = removed + diffs[i].count('\n-') - diffs[i].count('\n---')
+    return added, removed
+        
+
+def write_commit(ref,msg,uID,pID,mID,tID,hours,status,added,removed):
+    path = '/commits/'+pID+'/'
+    ts = int(time.time()*1000)
+    result = ref.post(path,{
+        'hours':hours,
+        'user':uID,
+        'added_lines_of_code':added,
+        'removed_lines_of_code':removed,
+        'message':msg,
+        'timestamp':ts,
+        'milestone':mID,
+        'task':tID,
+        'status':status,
+        'project':pID
+    })
+    return result.values()[0]
 
 
 def getDefaults():
