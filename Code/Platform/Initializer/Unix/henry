@@ -170,6 +170,7 @@ if __name__ == '__main__':
                 email = getEmail()
                 userID = getUserID(email)
             except:
+                traceback.print_exc(file=sys.stdout)
                 print 'HENRY Error: Invalid or unregistered Git email address'
                 print '   henry init <project name>'
                 exit(1)
