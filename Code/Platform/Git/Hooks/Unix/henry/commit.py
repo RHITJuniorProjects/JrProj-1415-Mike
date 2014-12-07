@@ -280,8 +280,9 @@ if __name__ == '__main__':
     updateDefaults(milestoneID,taskID,status)
 
     commitID =writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
-    addCommitToProject(ref,projectID,commitID)
-    addCommitToUser(ref,userID,commitID)
+    
+    #addCommitToProject(ref,projectID,commitID)
+    #addCommitToUser(ref,userID,commitID)
 
     # This bypasses exit handlers to skip the Firebase-Windows errors
     os._exit(0)
