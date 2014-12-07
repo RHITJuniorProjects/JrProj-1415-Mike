@@ -954,6 +954,7 @@ function logout() { // get rid all user data
 var projects = new Table(function (fb) {
     return new Project(fb);
 }, firebase.child('projects'));
+
 var users = new Table(function (fb) {
     return new User(fb);
 }, firebase.child('users'));
