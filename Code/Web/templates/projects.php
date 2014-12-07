@@ -2,7 +2,6 @@
 	<head>
 		<title>Henry - Projects</title>
 		<?php require 'header.php';?>
-		<script type="text/javascript" src="/teams.js"></script>
 	</head>
 	<body class="wide">
 		<?php require 'topbar.php';?>

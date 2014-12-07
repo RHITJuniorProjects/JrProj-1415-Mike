@@ -1,10 +1,86 @@
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
-var userData;
+var user;
 var currentProject;
+var milestonePage;
+var projectPage;
+var taskPage;
+var selectedProject;
+var selectedMilestone;
+
 
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
+function selectProject(project){
+    milestonePage.show();
+    projectPage.hide();
+    taskPage.hide();
+	if(selectedProject){
+		selectedProject.off();
+	}
+	selectedProject = project;
+	var milestones = selectedProject.getMilestones();
+	
+	drawStuff(selectedProject.uid);
+	
+	var $panel = $('#milestones-panel');
+	$panel.children().remove();
+	milestones.onItemAdded(function(milestone){
+		$panel.append(milestone.getButtonDiv());
+	});
+	var nameA = $('#project-name');
+	selectedProject.getName(function(name){
+		nameA.text(name);
+	});
+
+/*	var memberCont = $('#member-container');
+	selectedProject.getMembers().onItemAdded(function(user){
+		memberCont.append(user.getMemberTile(selectedProject));
+	});*/
+}
+
+function selectMilestone(milestone){
+    milestonePage.hide();
+    projectPage.hide();
+    taskPage.show();
+	if(selectedMilestone){
+		currentMilestone.off();
+	}
+    selectedMilestone = milestone;
+	var tasks = selectedMilestone.getTasks();
+	var $panel = $('#task-rows');
+	$panel.children().remove();
+	tasks.onItemAdded(function(task){
+		$panel.prepend(task.getTableRow());
+	});
+}
+
+function showProjects(){
+    milestonePage.hide();
+    projectPage.show();
+    taskPage.hide();
+}
+
+function getAllUsers(){
+	users.onItemAdded(function (user) {
+		var $select = $('#member-select');
+		user.getName(function(nameStr){
+			$select.append('<option value="' + user.uid + '">' +
+				nameStr + '</option>');	
+		});
+	});
+}
+
+function selectUser(selectedUser){
+	user = selectedUser;
+	var userProjects = user.getProjects();
+    var $panel = $('#projects-panel');
+    userProjects.onItemAdded(function(project) {
+        $panel.append(project.getButtonDiv())
+    });
+}
+
+
 
 function Table(factory, firebase) {
     this.__factory = factory;
@@ -402,7 +478,7 @@ function addNewProject() {
     var docDescription = $("#projectDescription").val();
     var docDueDate = $("#projectDueDate").val();
     var docEstimatedHours = $("#projectEstimatedHours").val();
-    var currentUser = userData.uid;
+    var currentUser = user.uid;
     if (!docName || !docDescription || !docDueDate || !docEstimatedHours || !currentUser) {
         $("#project-error").show();
         return;
@@ -793,7 +869,7 @@ function newTask() {
         descriptionInput = $('<textarea>'),
         userSelect = users.getSelect(function (user) {
             selectedUser = user;
-        }, userData.uid),
+        }, user.uid),
         categoriesSelect = makeSelect(Task.Categories, "Feature"),
         statusSelect = makeSelect(Task.Statuses, "New"),
         estHoursInput = $('<input type="text">'),
@@ -859,6 +935,16 @@ function newTask() {
     });
 }
 
+var projects = new Table(function (fb) {
+    return new Project(fb);
+}, firebase.child('projects'));
+
+var users = new Table(function (fb) {
+    return new User(fb);
+}, firebase.child('users'));
+
+
+
 function getLoginData() { // Takes the login data from the form and places it into variables
     var user = $("#loginUser").val();
     var pass = $("#loginPass").val();
@@ -875,7 +961,7 @@ function login(user, pass, registering) { // Authenticates with Firebase, giving
         password: pass
     }, function (error, authData) {
         if (error === null) {
-            userData = authData;
+            var userData = authData;
             //console.log(authData);
             if (registering) { // is registering
                 firebase.child('users/' + userData.uid).update(
@@ -887,13 +973,15 @@ function login(user, pass, registering) { // Authenticates with Firebase, giving
                         if (error) {
                             $("#loginError").show();
                         } else {
-                            $("#loginError").show();
+                            $("#loginError").hide();
                             $("#myLoginModal").foundation('reveal', 'close');
+							window.location.replace('/projects');
                         }
                     }
                 );
             } else {
                 $("#myLoginModal").foundation('reveal', 'close');
+				window.location.replace('/projects');
             }
         } else {
             $("#loginError").show();
@@ -903,7 +991,7 @@ function login(user, pass, registering) { // Authenticates with Firebase, giving
 
 function register() { 		// Registers a new user with Firebase, and also adds that user
     // to our local database (making a new developer/manager)
-    var user = $("#registerUser").val();
+    var email = $("#registerUser").val();
     var pass = $("#registerPass").val();
     var passCheck = $("#registerPassCheck").val();
     var githubName = $("#githubuser").val();
@@ -916,7 +1004,7 @@ function register() { 		// Registers a new user with Firebase, and also adds tha
         return;
     }
     // Validate all fields are filled in
-    if (!user || !pass || !passCheck || !githubName || !name) {
+    if (!email || !pass || !passCheck || !githubName || !name) {
         $("#passwordError").hide();
         $("#registerError").show();
         $("#emailError").hide();
@@ -924,12 +1012,12 @@ function register() { 		// Registers a new user with Firebase, and also adds tha
     }
     firebase.createUser(
         {
-            email: user,
+            email: email,
             password: pass
         },
         function (error, userData) {
             if (error === null) { // if an error is throw
-                login(user, pass, true);
+                login(email, pass, true);
             } else {
                 $("#registerError").hide();
                 $("#emailError").show();
@@ -937,41 +1025,41 @@ function register() { 		// Registers a new user with Firebase, and also adds tha
         }
     );
 }
+
 function showLoginModal() {
     $("#myLoginModal").foundation('reveal', 'open');
 }
+
 function logout() { // get rid all user data
     firebase.unauth();
     userData = null;
     projects = null;
     users = null;
-    if (window.location.pathname !== "/") {
-        window.location.replace("/");
-    }
+    window.location.replace("/");
 }
-
-
-var projects = new Table(function (fb) {
-    return new Project(fb);
-}, firebase.child('projects'));
-
-var users = new Table(function (fb) {
-    return new User(fb);
-}, firebase.child('users'));
 
 firebase.onAuth( // called on page load to auth users
     function (authData) {
-        userData = authData;
+		if(null === authData){
+			return;
+		}
+		var user = users.get(authData.uid);
         $(document).ready(
             function () {
-                if (userData == null) { // isn't authed
+                if (user == null) { // isn't authed
                     $(".notLoggedIn").show();
                     $(".loginRequired").hide();
                 } else {
-                    $("#currentUser").html("Currently logged in as " + userData.password.email);
+                    $("#currentUser").html("Currently logged in as " + authData.password.email);
                     $(".notLoggedIn").hide();
                     $(".loginRequired").show();
+					selectUser(user);
                 }
+				milestonePage = $('#milestones-page');
+			    projectPage = $('#projects-page');
+			    taskPage = $('#tasks-page');
+				showProjects();
+				getAllUsers();
             }
         );
     }

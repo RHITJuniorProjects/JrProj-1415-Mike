@@ -48,7 +48,7 @@ function selectMilestone(milestone){
 	});
 }
 
-function allProjects(){
+function showProjects(){
     milestonePage.hide();
     projectPage.show();
     taskPage.hide();
@@ -57,7 +57,6 @@ function allProjects(){
 function getAllUsers(){
 	users.onItemAdded(function (user) {
 		var $select = $('#member-select');
-
 		user.getName(function(nameStr){
 			$select.append('<option value="' + user.uid + '">' +
 				nameStr + '</option>');	
@@ -66,16 +65,20 @@ function getAllUsers(){
 	});
 }
 
-$(function(){
-    milestonePage = $('#milestones-page');
-    projectPage = $('#projects-page');
-    taskPage = $('#tasks-page');
-	allProjects();
-	getAllUsers();
-    var $panel = $('#projects-panel');
-    projects.onItemAdded(function(project) {
+function selectUser(user){
+	userProjects = user.getProjects();
+    userProjects.onItemAdded(function(project) {
         $title = $('#project-name' + project.uid);
         $description = $('#project-description' + project.uid);
         $panel.append(project.getButtonDiv())
     });
+}
+
+$(function(){
+    milestonePage = $('#milestones-page');
+    projectPage = $('#projects-page');
+    taskPage = $('#tasks-page');
+	showProjects();
+	getAllUsers();
+    var $panel = $('#projects-panel');
 });
