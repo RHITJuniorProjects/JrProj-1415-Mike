@@ -21,6 +21,11 @@
 @property (weak, nonatomic) IBOutlet UIProgressView *milestonesCompletedProgressBar;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentControl;
 -(IBAction)segControlClicked:(id)sender;
+- (IBAction)ipadSegControlClicked:(id)sender;
+@property (weak, nonatomic) IBOutlet UITableView *memberTableView;
+@property (weak, nonatomic) IBOutlet UILabel *hoursHeader;
+@property (weak, nonatomic) IBOutlet UILabel *tasksHeader;
+@property (weak, nonatomic) IBOutlet UILabel *milestonesHeader;
 @property NSArray *tasks;
 @property NSString *uid;
 @property (weak, nonatomic) IBOutlet DLPieChart *pieChart;

@@ -83,6 +83,43 @@
     
 }
 
+- (IBAction)ipadSegControlClicked:(id)sender {
+    @try{
+        //Figures out the last clicked segment.
+        int clickedSegment = [sender selectedSegmentIndex];
+        if(clickedSegment == 0){
+            self.pieChart.hidden = YES;
+            self.hoursLoggedLabel.hidden = NO;
+            self.tasksCompletedLabel.hidden = NO;
+            self.milestonesCompletedLabel.hidden = NO;
+            self.hoursLoggedProgressBar.hidden = NO;
+            self.tasksCompletedProgressBar.hidden = NO;
+            self.milestonesCompletedProgressBar.hidden = NO;
+            self.hoursHeader.hidden = NO;
+            self.tasksHeader.hidden = NO;
+            self.milestonesHeader.hidden = NO;
+            self.memberTableView.hidden = YES;
+        }else{
+            self.pieChart.hidden = NO;
+            self.hoursLoggedLabel.hidden = YES;
+            self.tasksCompletedLabel.hidden = YES;
+            self.milestonesCompletedLabel.hidden = YES;
+            self.hoursLoggedProgressBar.hidden = YES;
+            self.tasksCompletedProgressBar.hidden = YES;
+            self.milestonesCompletedProgressBar.hidden = YES;
+            self.hoursHeader.hidden = YES;
+            self.tasksHeader.hidden = YES;
+            self.milestonesHeader.hidden = YES;
+            self.memberTableView.hidden = NO;
+        }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+}
+
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;

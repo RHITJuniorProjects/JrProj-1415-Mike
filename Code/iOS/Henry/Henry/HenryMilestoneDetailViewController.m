@@ -50,8 +50,16 @@
         if(self.pieChart.hidden){
             self.pieChart.hidden = NO;
         }
+        self.tasksHeader.hidden = NO;
+        self.tasksCompletedLabel.hidden = NO;
+        self.tasksCompleteBar.hidden = NO;
+        self.memberTableView.hidden = YES;
     }else{
         self.pieChart.hidden = YES;
+        self.tasksHeader.hidden = YES;
+        self.tasksCompletedLabel.hidden = YES;
+        self.tasksCompleteBar.hidden = YES;
+        self.memberTableView.hidden = NO;
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
