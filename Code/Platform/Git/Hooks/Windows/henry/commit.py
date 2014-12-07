@@ -1,9 +1,9 @@
 #!/usr/bin/python
+import os
 import sys
 import re
 import subprocess
 import time
-import os
 from firebase import firebase
 
 
@@ -11,7 +11,6 @@ from firebase import firebase
 #   These fields are populated by the initializer
 ##
 projectID = '-JYcg488tAYS5rJJT4Kh'
-githubID = 'aj-michael'
 
 prodUrl = 'https://henry-production.firebaseio.com'
 stagUrl = 'https://henry-staging.firebaseio.com'
@@ -63,14 +62,13 @@ def getEmail():
     return pipe.communicate()[0].strip()
     
 
-def getUserID(gituser,ref):
+def getUserID(email,ref):
     users = ref.get('/users',None)
-    filteredusers = {u:users[u] for u in users if 'github' in users[u]}
+    filteredusers = {u:users[u] for u in users if 'email' in users[u]}
     try:
-        userID = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
+        userID = [u for u in filteredusers if filteredusers[u]['email']==email][0]
     except:
-        #raise Exception('HENRY: Invalid username, commit failed')
-        print 'HENRY: Invalid or nonexistant username, commit failed'
+        print 'HENRY: Invalid or nonexistant email, commit failed'
         exit(1)
     return userID
 
@@ -272,7 +270,7 @@ if __name__ == '__main__':
     ref = firebase.FirebaseApplication(testUrl, None)
 
     email = getEmail()
-    userID = getUserID(githubID,ref)
+    userID = getUserID(email,ref)
     msg = readCommit(sys.argv[1])
     [hours,milestone,task,status] = parse(msg)
     pos_loc,neg_loc = getLoC()

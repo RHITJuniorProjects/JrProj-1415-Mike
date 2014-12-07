@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import os
 import sys
 import re
 import subprocess
@@ -282,4 +283,5 @@ if __name__ == '__main__':
     addCommitToProject(ref,projectID,commitID)
     addCommitToUser(ref,userID,commitID)
 
-    #raise Exception('Reached end, prevents commit from executing')
+    # This bypasses exit handlers to skip the Firebase-Windows errors
+    os._exit(0)

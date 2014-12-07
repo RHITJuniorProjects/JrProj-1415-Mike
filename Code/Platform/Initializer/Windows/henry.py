@@ -5,6 +5,7 @@ from firebase import firebase
 import json
 import os
 import requests
+import subprocess
 import sys
 import traceback
 import re
@@ -13,7 +14,7 @@ VERSION = '0.1.1'
 OPSYS = 'windows'
 firebase_url = 'https://henry-test.firebaseio.com'
 
-def initialize_git(projectID,github_username,opsys):
+def initialize_git(projectID,opsys):
     # github API 3.0
     base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks'
     if opsys == 'unix':
@@ -40,7 +41,7 @@ def initialize_git(projectID,github_username,opsys):
     # retrieve and decode the python script
     r = requests.get(py_url)
     py = b64decode(json.loads(r.text)['content'])
-    py = '\n'.join([fillTemplate(line,projectID,github_username) for line in py.split('\n')])
+    py = '\n'.join([fillTemplate(line,projectID) for line in py.split('\n')])
 
     # write the shell script
     with open(sh_path,'w') as f:
@@ -57,11 +58,9 @@ def initialize_git(projectID,github_username,opsys):
     print 'HENRY: Repository succesfully connected to Henry'
 
 
-def fillTemplate(line,projectID,github_username):
+def fillTemplate(line,projectID):
     if line.startswith('projectID = '):
         return "projectID = '"+projectID+"'"
-    elif line.startswith('githubID = '):
-        return "githubID = '"+github_username+"'"
     else:
         return line
 
@@ -84,7 +83,7 @@ def helpmenu():
         print '   git init'
         print
     print 'Connect a Git repository to Henry with'
-    print '   henry init <project name> <github username>'
+    print '   henry init <project name>'
     print 
     print 'Henry commit data can be entered in-line with the command'
     print "    git commit -m 'my commit message [hours:2] [milestone:Milestone 0] [task:Create database] [status:Regression]'"
@@ -114,7 +113,7 @@ def status():
     else:
         print 'This Git repository is not yet connected to Henry'
         print 'Connect it with'
-        print '   henry init <project name> <github username>'
+        print '   henry init <project name>'
 
 
 def inGitRepo():
@@ -137,45 +136,52 @@ def getProjectID(project):
         raise Exception('HENRY: Invalid or nonexistant project name')
     return projectID
 
-def getUserID(github_username):
+
+def getUserID(email):
     ref = firebase.FirebaseApplication(firebase_url,None)
     path = '/users'
     users = ref.get(path,None)
-    filteredusers = {u:users[u] for u in users if 'github' in users[u]}
+    filteredusers = {u:users[u] for u in users if 'email' in users[u]}
     try:
-        userID = [u for u in filteredusers if filteredusers[u]['github'] == github_username][0]
+        userID = [u for u in filteredusers if filteredusers[u]['email'] == email][0]
     except:
         raise Exception('HENRY: Invalid username')
     return userID
 
 
+def getEmail():
+    command = 'git config --global user.email'.split(' ')
+    pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
+    return pipe.communicate()[0].strip()
+
+
 if __name__ == '__main__':
     try:
-	    if len(sys.argv) == 1:
-		usage()
-	    elif sys.argv[1] == 'init':
-		try:
-		    pID = getProjectID(sys.argv[2]) 
-		except:
-		    print 'HENRY Error: Invalid or nonexistant Henry project name'
-		    print '   henry init <project name> <github username>'
-		    exit(1)
-		try:
-		    github_username = sys.argv[3]
-		    userID = getUserID(github_username)
-		except:
-		    print 'HENRY Error: Invalid Github username'
-		    print '   henry init <project name> <github username>'
-		    exit(1)
-		initialize_git(pID,github_username,OPSYS)
-	    elif sys.argv[1] in {'version','-version','--version','-v'}:
-		version()
-	    elif sys.argv[1] in {'help','-help','--help','-h'}:
-		helpmenu()
-	    elif sys.argv[1] in {'status'}:
-		status()
-	    else:
-		usage()
+        if len(sys.argv) == 1:
+            usage()
+        elif sys.argv[1] == 'init':
+            try:
+                pID = getProjectID(sys.argv[2]) 
+            except:
+                print 'HENRY Error: Invalid or nonexistant Henry project name'
+                print '   henry init <project name>'
+                exit(1)
+            try:
+                email = getEmail()
+                userID = getUserID(email)
+            except:
+                print 'HENRY Error: Invalid or unregistered Git email address'
+                print '   henry init <project name>'
+                exit(1)
+            initialize_git(pID,OPSYS)
+        elif sys.argv[1] in {'version','-version','--version','-v'}:
+            version()
+        elif sys.argv[1] in {'help','-help','--help','-h'}:
+            helpmenu()
+        elif sys.argv[1] in {'status'}:
+            status()
+        else:
+            usage()
 
     except Exception as e:
         #traceback.print_exc(file=sys.stdout)
@@ -186,5 +192,5 @@ if __name__ == '__main__':
         library. Maybe someday they will fix it and this won't be
         necessary.
         """
-	os._exit(0)
+        os._exit(0)
     os._exit(0)
