@@ -20,9 +20,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -133,22 +136,42 @@ public class MainActivity extends Activity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.project, menu);
-
-		// This code hides the "Create Milestone" and "Create Task" options when
-		// viewing projects.
-		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
-		createMilestone.setVisible(false);
-		createMilestone.setEnabled(false);
-
-		MenuItem createTask = menu.findItem(R.id.action_task);
-		createTask.setVisible(false);
-		createTask.setEnabled(false);
-
+		getMenuInflater().inflate(R.menu.main, menu);
+		
 		return true;
 	}
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
+		MenuItem sorting= menu.findItem(R.id.action_sorting);
+		if (currFragment instanceof ProjectListFragment){
+			sorting.setEnabled(true);
+			sorting.setVisible(true);
+					}
+		else{
+			sorting.setEnabled(false);
+			sorting.setVisible(false);
+		}
+		// This code hides the "Create Milestone" and "Create Task" options when
+		// viewing projects.
+		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+		if (currFragment instanceof MilestoneListFragment){
+			createMilestone.setEnabled(true);
+			createMilestone.setVisible(true);
+			
+		}
+		else{
+			createMilestone.setEnabled(false);
+			createMilestone.setVisible(false);
+		}
+		MenuItem createTask = menu.findItem(R.id.action_task);
+		if (currFragment instanceof TaskListFragment){
+			createTask.setEnabled(true);
+			createTask.setVisible(true);
+		}
+		else{
+			createTask.setEnabled(false);
+			createTask.setVisible(false);
+		}
 		SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
 		MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
 		MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
@@ -167,24 +190,10 @@ public class MainActivity extends Activity implements
 			
 			
 		}
-		else{
-			MenuItem sorting=menu.findItem(R.id.action_sorting);
-			sorting.setVisible(false);
-			sorting.setEnabled(false);
-			dateOldest.setVisible(false);
-			dateOldest.setEnabled(false);
-			dateNewest.setVisible(false);
-			dateNewest.setEnabled(false);
-			AZ.setVisible(false);
-			AZ.setEnabled(false);
-			ZA.setVisible(false);
-			ZA.setEnabled(false);
-			
-			
-		}
 		return true;
 	}
-
+	
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -514,4 +523,6 @@ public class MainActivity extends Activity implements
 	public String getUserName() {
 		return this.user.getName();
 	}
+
+	
 }

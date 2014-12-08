@@ -86,6 +86,7 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 						+ p.getDueDateFormatted());
 
 			}
+			
 		}
 
 		else if (this.type == Enums.ObjectType.MILESTONE) {
