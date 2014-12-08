@@ -156,6 +156,7 @@ def getEmail():
 
 
 if __name__ == '__main__':
+    sys.argv = [v.strip() for v in sys.argv]
     try:
         if len(sys.argv) == 1:
             usage()

@@ -165,11 +165,12 @@ def getTask(ref,projectID,milestoneID,taskID):
 
     
 def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
-    # mac/linux
-    #sys.stdin = open('/dev/tty')
-
-    # windows
-    sys.stdin = open('CON')
+    try:
+        # git bash
+        sys.stdin = open('CON')
+    except IOError:
+        # mac/linux/cygwin
+        sys.stdin = open('/dev/tty')
 
     def_mID, def_tID, def_status = getDefaults()
 

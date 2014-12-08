@@ -68,6 +68,7 @@ def status(ref):
 
 
 if __name__ == '__main__':
+    sys.argv = [v.strip() for v in sys.argv]
     ref = firebase.FirebaseApplication(firebase_url,None)
     try:
         if len(sys.argv) == 1:
