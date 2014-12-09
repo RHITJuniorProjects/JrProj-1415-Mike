@@ -1,66 +1,71 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/milestone_name"
-        style="?android:attr/textAppearanceMedium"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textIsSelectable="true"
-        tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
-
-    <TextView
-        android:id="@+id/milestone_due_date"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textIsSelectable="true"
-        tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
-
-    <TextView
-        android:id="@+id/milestone_description"
-        style="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textIsSelectable="true"
-        tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
-    
-    <Spinner
-        android:id="@+id/milestone_chart_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    
-    <FrameLayout
-        android:id="@+id/pieChart"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" >
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/milestone_task_percent"
-        style="?android:attr/textAppearanceLarge"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textIsSelectable="true"
-        tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
-
-    <ProgressBar
-        android:id="@+id/milestone_task_progress_bar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="311dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal" />
-
-    <Button
-        android:id="@+id/MilestoneCancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="openTaskView"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:text="@string/ViewTasks" />
+        android:orientation="vertical" >
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/milestone_name"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+        <TextView
+            android:id="@+id/milestone_due_date"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+        <TextView
+            android:id="@+id/milestone_description"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+        <Spinner
+            android:id="@+id/milestone_chart_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:id="@+id/pieChart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/milestone_task_percent"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textIsSelectable="true"
+            tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+        <ProgressBar
+            android:id="@+id/milestone_task_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="311dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/MilestoneCancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:onClick="openTaskView"
+            android:text="@string/ViewTasks" />
+    </LinearLayout>
+
+</ScrollView>
