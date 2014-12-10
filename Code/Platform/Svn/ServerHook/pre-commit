@@ -9,7 +9,7 @@ $SVNLOOK log -t "$TXN" "$REPOS" | \
 
 set -e
 
-python "$REPOS"/hooks/henry_svn_hook.py "$($SVNLOOK log -t "$TXN" "$REPOS")"
+python "$REPOS"/hooks/henry_svn_hook.py "$($SVNLOOK log -t "$TXN" "$REPOS")" "$($SVNLOOK diff -t "$TXN" "$REPOS")"
 
 # All checks passed, so allow the commit.
 exit 0

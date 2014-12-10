@@ -94,7 +94,7 @@ def commit(ref,message,uID,pID,mID,tID,hours,status,pos_loc,neg_loc):
         'task': tID,
         'hours': hours,
         'status': status,
-        'add_lines_of_code': pos_loc,
+        'added_lines_of_code': pos_loc,
         'removed_lines_of_code': neg_loc,
         'timestamp': int(time.time()*1000)
     })

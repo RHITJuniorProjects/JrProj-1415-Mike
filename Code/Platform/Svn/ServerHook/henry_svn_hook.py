@@ -1,5 +1,6 @@
 from firebase import firebase
 import firebase_utils
+import svn_utils
 import operator
 import sys
 import re
@@ -8,7 +9,7 @@ BASE_URL = 'https://henry-test.firebaseio.com'
 REQUIRED_FIELDS = ['email', 'hours', 'project', 'milestone', 'task', 'status']
 
 
-def commit(ref,message):
+def commit(ref,message,diff):
     fields = parse(message)
     if not reduce(operator.and_,map(lambda x: x in fields.keys(),REQUIRED_FIELDS)):
         raise Exception('HENRY: Missing fields in commit message')
@@ -28,16 +29,12 @@ def parse(message):
         bare_message = bare_message.replace(field_string,'')
     base_message = bare_message.strip()
     field_map['message'] = bare_message
-    field_map['added_lines_of_code'],field_map['removed_lines_of_code'] = loc()
+    field_map['added_lines_of_code'],field_map['removed_lines_of_code'] = svn_utils.loc(diff)
     return field_map
-
-
-def loc():
-    # not sure how to go about this
-    return 0,0
 
 
 if __name__ == '__main__':
     ref = firebase.FirebaseApplication(BASE_URL)
     commit_message = sys.argv[1]
-    commit(ref,commit_message)
+    diff = sys.argv[2]
+    commit(ref,commit_message,diff)
