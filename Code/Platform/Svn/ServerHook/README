@@ -1,0 +1,4 @@
+These files need to be placed in /..(path to svn repo)../hooks on the svn server.
+
+On a Windows system, name the file pre-commit.bat
+On a Unix system, name the file pre-commit
