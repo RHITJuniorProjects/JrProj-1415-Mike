@@ -4,13 +4,13 @@
 
     <item
         android:id="@+id/action_milestone"
-        android:icon="@drawable/ic_action_add"
+        android:icon="@drawable/ic_action_add_milestone"
         android:onClick="createMilestone"
         android:showAsAction="always"
         android:title="Create Milestone"/>
     <item
         android:id="@+id/action_task"
-        android:icon="@drawable/ic_action_add"
+        android:icon="@drawable/ic_action_add_task"
         android:showAsAction="always"
         android:onClick="createTask"
         android:title="Create Task"/>
