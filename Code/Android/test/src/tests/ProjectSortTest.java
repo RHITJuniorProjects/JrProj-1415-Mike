@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import android.util.Log;
-import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.Task;
 import junit.framework.TestCase;
 
 public class ProjectSortTest extends TestCase {
@@ -26,7 +22,6 @@ public class ProjectSortTest extends TestCase {
 		this.projects.add("IOS Project");
 		
 		this.compAZ = new Comparator<String>() {
-			@Override
 			public int compare(String lhs, String rhs) {
 				if (lhs instanceof String && rhs instanceof String) {
 					return ((String) lhs).compareToIgnoreCase((String) rhs);
@@ -36,7 +31,6 @@ public class ProjectSortTest extends TestCase {
 		};
 		
 		this.compZA = new Comparator<String>() {
-			@Override
 			public int compare(String lhs, String rhs) {
 				if (lhs instanceof String && rhs instanceof String) {
 					return -1

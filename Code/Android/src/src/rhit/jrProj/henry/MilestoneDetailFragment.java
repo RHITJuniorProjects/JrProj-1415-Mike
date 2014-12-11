@@ -1,33 +1,24 @@
 package rhit.jrProj.henry;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
-import org.achartengine.model.CategorySeries;
-import org.achartengine.renderer.DefaultRenderer;
-import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.helpers.GraphHelper;
-import android.app.Activity;
 import android.app.Fragment;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -61,7 +52,7 @@ public class MilestoneDetailFragment extends Fragment implements OnItemSelectedL
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_milestone_detail,
+		final View rootView = inflater.inflate(R.layout.fragment_milestone_detail,
 				container, false);
 		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_name))
@@ -99,7 +90,13 @@ public class MilestoneDetailFragment extends Fragment implements OnItemSelectedL
 
 			spinner.setOnItemSelectedListener(this);
 			// /////
-
+			((Switch) rootView.findViewById(R.id.milestoneMemberSwitch)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+				
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					rootView.findViewById(R.id.milestoneDetails).setVisibility(isChecked ? View.GONE : View.VISIBLE);
+					rootView.findViewById(R.id.milestoneMembers).setVisibility(isChecked ? View.VISIBLE : View.GONE);
+				}
+			});	
 			/*FrameLayout chartView = (FrameLayout) rootView
 					.findViewById(R.id.pieChart);
 			GraphHelper.PieChartInfo chartInfo = this.milestoneItem.getLocAddedInfo();
