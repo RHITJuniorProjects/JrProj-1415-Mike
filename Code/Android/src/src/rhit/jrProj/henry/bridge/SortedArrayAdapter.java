@@ -3,6 +3,7 @@ package rhit.jrProj.henry.bridge;
 import java.util.List;
 
 import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -115,6 +116,12 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 			}
 			text1.setText(t.getName());
 			text2.setText("Assigned to: " + t.getAssignedUserName());
+			text1.setTextSize(20);
+			view.refreshDrawableState();
+		} else if (this.type == Enums.ObjectType.MEMBER) {
+			Member m = (Member) super.getItem(position);
+			text1.setText(m.getEmail());
+			text2.setText("Assigned to: " + "JOHN DOE");
 			text1.setTextSize(20);
 			view.refreshDrawableState();
 		}

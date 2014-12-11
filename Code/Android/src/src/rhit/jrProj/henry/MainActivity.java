@@ -31,7 +31,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity implements
-		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
+		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks, ProjectMembersFragment.Callbacks,
 		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks {
 	/**
 	 * The Url to the firebase repository
@@ -299,6 +299,42 @@ public class MainActivity extends Activity implements
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Open the MilestoneList Activity for the selected milestone
+	 * 
+	 * @param view
+	 */
+	public void openProjectMembersView(View view) {
+		int container = this.mTwoPane ? R.id.twopane_list
+				: R.id.main_fragment_container;
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", this.mTwoPane);
+		ProjectMembersFragment fragment = new ProjectMembersFragment();
+		this.fragmentStack.push(fragment);
+		getFragmentManager().beginTransaction().add(fragment, "Project_Users_View")
+				.addToBackStack("Project_Users_View");
+		fragment.setArguments(args);
+		currFragment=fragment;
+		getFragmentManager().beginTransaction().replace(container, fragment)
+				.commit();
+		if (this.mTwoPane) {
+			getFragmentManager()
+					.beginTransaction()
+					.remove(getFragmentManager().findFragmentById(
+							R.id.twopane_detail_container)).commit();
+		}
+		getActionBar().setDisplayHomeAsUpEnabled(false);
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Callback method from {@link ProjectListFragment.Callbacks} indicating
@@ -522,6 +558,16 @@ public class MainActivity extends Activity implements
 	 */
 	public String getUserName() {
 		return this.user.getName();
+	}
+
+	@Override
+	public void onItemSelected(Member m) {
+		//do nothing
+	}
+
+	@Override
+	public ArrayList<Member> getMembers() {
+		return getProjectMembers().getAllKeys();
 	}
 
 	

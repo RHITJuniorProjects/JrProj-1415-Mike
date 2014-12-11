@@ -11,6 +11,7 @@
     <string name="title_project_detail">Project Detail</string>
     <string name="ViewTasks">View Tasks</string>
     <string name="ViewMilestones">View Milestones</string>
+        <string name="ViewMembers">View Project Members</string>
     <string-array name="task_statuses">
         <item>New</item>
         <item>Implementation</item>
