@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'JenkinsIOSExampleTests' target in the 'JenkinsIOSExampleTests' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+#endif
