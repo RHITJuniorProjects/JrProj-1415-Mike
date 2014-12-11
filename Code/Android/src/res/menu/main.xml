@@ -21,8 +21,8 @@
         android:showAsAction="always"
         >
         <menu>
-            <item android:id="@+id/sortAZ" android:title="A-Z" android:onClick="sortingMode"/>
-            <item android:id="@+id/sortZA" android:title="Z-A" android:onClick="sortingMode"/>
+            <item android:id="@+id/sortAZ" android:title="Sort A-Z" android:onClick="sortingMode"/>
+            <item android:id="@+id/sortZA" android:title="Sort Z-A" android:onClick="sortingMode"/>
             <item android:id="@+id/sortOldest" android:title="Oldest First" android:onClick="sortingMode"/>
             <item android:id="@+id/sortNewest" android:title="Newest First" android:onClick="sortingMode"/>
 
