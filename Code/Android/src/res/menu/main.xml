@@ -29,7 +29,19 @@
 		</menu>
         </item>
     <item
-        android:id="@+id/action_example"
+        android:id="@+id/action_search"
+        android:showAsAction="always"
+        android:onClick="search"
+        android:icon="@drawable/ic_action_search"
+        />
+    <item
+        android:id="@+id/action_all_tasks"
+        android:showAsAction="always"
+        android:onClick="showAllTasks"
+        android:title="Show All\nMy Tasks"
+        />
+    <item
+        android:id="@+id/action_log_out"
         android:showAsAction="never"
         android:onClick="logOut"
         android:title="Log Out"/>

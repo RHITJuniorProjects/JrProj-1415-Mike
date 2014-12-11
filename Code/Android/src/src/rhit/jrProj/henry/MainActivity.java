@@ -138,6 +138,9 @@ public class MainActivity extends Activity implements
 	}
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
+		MenuItem search=menu.findItem(R.id.action_search);
+		search.setEnabled(false);
+		search.setVisible(false);
 		MenuItem sorting= menu.findItem(R.id.action_sorting);
 		if (this.currFragment instanceof ProjectListFragment){
 			sorting.setEnabled(true);
@@ -456,6 +459,20 @@ public class MainActivity extends Activity implements
 			this.currFragment=taskFrag;
 			taskFrag.show(getFragmentManager(), "Diag");
 		}
+	}
+	/**
+	 * Allows the user to view all tasks assigned to them.
+	 * @param item
+	 */
+	public void showAllTasks(MenuItem item){
+		
+	}
+	/**
+	 * Open the search page
+	 * @param item
+	 */
+	public void search(MenuItem item){
+		//Not yet implemented
 	}
 	/**
 	 * sets Sorting mode, and then calls the sortingChanged method on the current fragment

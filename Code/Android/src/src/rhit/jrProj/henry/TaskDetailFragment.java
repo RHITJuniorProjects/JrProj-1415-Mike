@@ -122,6 +122,11 @@ public class TaskDetailFragment extends Fragment {
 
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
 						this.taskItem));
+				/**
+				 * BUG LOCATION: PLEASE FIX FOLLOWING LINE
+				 * ERROR: android.widget.ScrollView cannot be cast to android.widget.LinearLayout
+				 */
+				
 				((LinearLayout) rootView).addView(spinny, 2);
 
 				TextView textLines = new TextView(this.getActivity());
