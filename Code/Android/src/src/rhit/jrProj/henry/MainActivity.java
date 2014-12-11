@@ -20,12 +20,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -117,7 +114,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Project_List")
 				.addToBackStack("Project_List");
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		if (!this.mTwoPane) {
 			setContentView(R.layout.activity_onepane);
 			getFragmentManager().beginTransaction()
@@ -136,14 +133,13 @@ public class MainActivity extends Activity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		
+		getMenuInflater().inflate(R.menu.main, menu); 
 		return true;
 	}
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
 		MenuItem sorting= menu.findItem(R.id.action_sorting);
-		if (currFragment instanceof ProjectListFragment){
+		if (this.currFragment instanceof ProjectListFragment){
 			sorting.setEnabled(true);
 			sorting.setVisible(true);
 					}
@@ -154,7 +150,7 @@ public class MainActivity extends Activity implements
 		// This code hides the "Create Milestone" and "Create Task" options when
 		// viewing projects.
 		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
-		if (currFragment instanceof MilestoneListFragment){
+		if (this.currFragment instanceof MilestoneListFragment){
 			createMilestone.setEnabled(true);
 			createMilestone.setVisible(true);
 			
@@ -164,7 +160,7 @@ public class MainActivity extends Activity implements
 			createMilestone.setVisible(false);
 		}
 		MenuItem createTask = menu.findItem(R.id.action_task);
-		if (currFragment instanceof TaskListFragment){
+		if (this.currFragment instanceof TaskListFragment){
 			createTask.setEnabled(true);
 			createTask.setVisible(true);
 		}
@@ -178,7 +174,7 @@ public class MainActivity extends Activity implements
 		MenuItem AZ= submenu.findItem(R.id.sortAZ);
 		MenuItem ZA= submenu.findItem(R.id.sortZA);
 		
-		if (currFragment instanceof ProjectListFragment){
+		if (this.currFragment instanceof ProjectListFragment){
 			dateOldest.setVisible(false);
 			dateOldest.setEnabled(false);
 			dateNewest.setVisible(false);
@@ -234,7 +230,7 @@ public class MainActivity extends Activity implements
 		TaskListFragment fragment = new TaskListFragment();
 		this.fragmentStack.push(fragment);
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -261,7 +257,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Milestone_List")
 				.addToBackStack("Milestone_List");
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -288,7 +284,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Project_View")
 				.addToBackStack("Project_View");
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -415,7 +411,7 @@ public class MainActivity extends Activity implements
 	public void logOut(MenuItem item) {
 
 		Intent login = new Intent(this, LoginActivity.class);
-		currFragment=null;
+		this.currFragment=null;
 		this.startActivity(login);
 		this.finish();
 		Firebase ref = new Firebase(firebaseUrl);
@@ -457,7 +453,7 @@ public class MainActivity extends Activity implements
 			arguments.putString("projectId",
 					this.selectedProject.getProjectId());
 			taskFrag.setArguments(arguments);
-			currFragment=taskFrag;
+			this.currFragment=taskFrag;
 			taskFrag.show(getFragmentManager(), "Diag");
 		}
 	}

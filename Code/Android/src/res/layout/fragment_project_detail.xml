@@ -51,7 +51,7 @@
             android:textOn="Members"
             android:thumb="@android:color/darker_gray" />
 
-        <LinearLayout
+		<LinearLayout
             android:id="@+id/projectDetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

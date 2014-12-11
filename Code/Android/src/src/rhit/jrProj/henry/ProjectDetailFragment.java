@@ -10,16 +10,18 @@ import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.helpers.GraphHelper;
 import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
@@ -57,7 +59,7 @@ public class ProjectDetailFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_project_detail,
+		final View rootView = inflater.inflate(R.layout.fragment_project_detail,
 				container, false);
 		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_name))
@@ -102,8 +104,13 @@ public class ProjectDetailFragment extends Fragment {
 		// Set the default for the spinner
 		spinner.setSelection(0);
 		// /////
-		
-		
+		((Switch) rootView.findViewById(R.id.projectMemberSwitch)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				rootView.findViewById(R.id.projectDetails).setVisibility(isChecked ? View.GONE : View.VISIBLE);
+				rootView.findViewById(R.id.projectMembers).setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			}
+		});	
 		
 		FrameLayout chartView = (FrameLayout) rootView
 				.findViewById(R.id.pieChart);
