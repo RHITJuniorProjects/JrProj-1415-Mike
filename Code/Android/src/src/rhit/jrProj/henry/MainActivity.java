@@ -142,53 +142,19 @@ public class MainActivity extends Activity implements
 		search.setEnabled(false);
 		search.setVisible(false);
 		MenuItem sorting= menu.findItem(R.id.action_sorting);
-		if (this.currFragment instanceof ProjectListFragment){
+		
 			sorting.setEnabled(true);
 			sorting.setVisible(true);
-					}
-		else{
-			sorting.setEnabled(false);
-			sorting.setVisible(false);
-		}
-		// This code hides the "Create Milestone" and "Create Task" options when
-		// viewing projects.
-		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
-		if (this.currFragment instanceof MilestoneListFragment){
-			createMilestone.setEnabled(true);
-			createMilestone.setVisible(true);
-			
-		}
-		else{
-			createMilestone.setEnabled(false);
-			createMilestone.setVisible(false);
-		}
-		MenuItem createTask = menu.findItem(R.id.action_task);
-		if (this.currFragment instanceof TaskListFragment){
-			createTask.setEnabled(true);
-			createTask.setVisible(true);
-		}
-		else{
-			createTask.setEnabled(false);
-			createTask.setVisible(false);
-		}
-		SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
-		MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
-		MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
-		MenuItem AZ= submenu.findItem(R.id.sortAZ);
-		MenuItem ZA= submenu.findItem(R.id.sortZA);
-		
-		if (this.currFragment instanceof ProjectListFragment){
-			dateOldest.setVisible(false);
-			dateOldest.setEnabled(false);
-			dateNewest.setVisible(false);
-			dateNewest.setEnabled(false);
-			AZ.setVisible(true);
-			AZ.setEnabled(true);
-			ZA.setVisible(true);
-			ZA.setEnabled(true);
-			
-			
-		}
+					
+		// This code shows the "Create Milestone" option when
+		// viewi
+				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+				createMilestone.setVisible(false);
+				createMilestone.setEnabled(false);
+				MenuItem createTask = menu.findItem(R.id.action_task);
+				createTask.setVisible(false);
+				createTask.setEnabled(false);
+
 		return true;
 	}
 	
