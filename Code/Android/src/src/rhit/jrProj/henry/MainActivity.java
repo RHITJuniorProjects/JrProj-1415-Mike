@@ -327,7 +327,7 @@ public class MainActivity extends Activity implements
 					.remove(getFragmentManager().findFragmentById(
 							R.id.twopane_detail_container)).commit();
 		}
-		getActionBar().setDisplayHomeAsUpEnabled(false);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 	
 	

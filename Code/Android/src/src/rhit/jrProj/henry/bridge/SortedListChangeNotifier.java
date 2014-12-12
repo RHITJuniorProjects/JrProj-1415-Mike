@@ -17,7 +17,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	/**
 	 * A simple string that stores what sorting mode the user chose
 	 */
-	private String sortType = "A-Z";
+	private String sortType = "Sort A-Z";
 	/**
 	 * Stores the comparator so it is not recreated every time.
 	 */
@@ -68,7 +68,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 * requested.
 	 */
 	private void createComparator() {
-		if (this.sortType.equals("A-Z")) {
+		if (this.sortType.equals("Sort A-Z")) {
 			this.c = new Comparator<T>() {
 				public int compare(T lhs, T rhs) {
 					if (lhs instanceof Project && rhs instanceof Project) {
@@ -79,7 +79,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 					return 0;
 				}
 			};
-		} else if (this.sortType.equals("Z-A")) {
+		} else if (this.sortType.equals("Sort Z-A")) {
 			this.c = new Comparator<T>() {
 				public int compare(T lhs, T rhs) {
 					if (lhs instanceof Project && rhs instanceof Project) {
