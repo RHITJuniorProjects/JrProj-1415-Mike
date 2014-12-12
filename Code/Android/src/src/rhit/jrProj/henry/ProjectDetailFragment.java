@@ -105,7 +105,6 @@ public class ProjectDetailFragment extends Fragment {
 		spinner.setSelection(0);
 		// /////
 		((Switch) rootView.findViewById(R.id.projectMemberSwitch)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				rootView.findViewById(R.id.projectDetails).setVisibility(isChecked ? View.GONE : View.VISIBLE);
 				rootView.findViewById(R.id.projectMembers).setVisibility(isChecked ? View.VISIBLE : View.GONE);

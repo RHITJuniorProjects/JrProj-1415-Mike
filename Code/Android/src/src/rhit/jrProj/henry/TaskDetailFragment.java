@@ -81,7 +81,6 @@ public class TaskDetailFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		this.taskItem = this.mCallbacks.getSelectedTask();
-
 	}
 
 	@Override
@@ -121,17 +120,12 @@ public class TaskDetailFragment extends Fragment {
 				spinny.setSelection(spinnerDefaultPos);
 
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
-						this.taskItem));
-				/**
-				 * BUG LOCATION: PLEASE FIX FOLLOWING LINE
-				 * ERROR: android.widget.ScrollView cannot be cast to android.widget.LinearLayout
-				 */
-				
-				((LinearLayout) rootView).addView(spinny, 2);
+						this.taskItem));				
+				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout)).addView(spinny, 2);
 
 				TextView textLines = new TextView(this.getActivity());
 
-				((LinearLayout) rootView).addView(textLines, 3);
+				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout)).addView(textLines, 3);
 				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
 						+ this.taskItem.getRemovedLines() + " lines of code");
 			} else {

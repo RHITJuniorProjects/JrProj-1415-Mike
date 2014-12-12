@@ -2,29 +2,21 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import rhit.jrProj.henry.MilestoneListFragment.Callbacks;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
-import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
-import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.firebase.client.Firebase;
-
 /**
- * A list fragment representing a list of Milestones. This fragment also
+ * A list fragment representing a list of Project Members. This fragment also
  * supports tablet devices by allowing list items to be given an 'activated'
  * state upon selection. This helps indicate which item is currently being
  * viewed in a {@link MilestoneDetailFragment}.

@@ -573,12 +573,10 @@ public class MainActivity extends Activity implements
 		return this.user.getName();
 	}
 
-	@Override
 	public void onItemSelected(Member m) {
 		//do nothing
 	}
 
-	@Override
 	public ArrayList<Member> getMembers() {
 		return getProjectMembers().getAllKeys();
 	}
