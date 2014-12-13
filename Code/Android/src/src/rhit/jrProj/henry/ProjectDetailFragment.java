@@ -5,18 +5,25 @@ import java.util.List;
 
 import org.achartengine.GraphicalView;
 
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.helpers.GraphHelper;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -34,6 +41,8 @@ public class ProjectDetailFragment extends Fragment {
 	 * The dummy content this fragment is presenting.
 	 */
 	private Project projectItem;
+	
+	private LinearLayout mMembersList;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -61,6 +70,9 @@ public class ProjectDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.fragment_project_detail,
 				container, false);
+		
+		mMembersList = (LinearLayout) rootView.findViewById(R.id.projectMembers);
+		
 		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_name))
 				.setText("Name of project: " + this.projectItem.getName());
@@ -68,6 +80,34 @@ public class ProjectDetailFragment extends Fragment {
 				.setText("Due on: " + this.projectItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.project_description))
 				.setText("Description: " + this.projectItem.getDescription());
+			
+			for (final Member m : this.projectItem.getMembers().getAllKeys()) {
+				View projectMemberView = LayoutInflater.from(getActivity()).inflate(R.layout.project_member_view, null);
+				TextView memberName = (TextView)projectMemberView.findViewById(R.id.member_name);
+				TextView memberEmail = (TextView)projectMemberView.findViewById(R.id.member_email);
+				Role r = this.projectItem.getMembers().getValue(m);
+				memberName.setText(m.getName() + " - " + r.toString());
+				memberEmail.setText(m.getEmail());
+				
+				Button emailButton = (Button)projectMemberView.findViewById(R.id.email_button);
+				emailButton.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+				            	Uri.fromParts("mailto", "goldthea@rose-hulman.edu"/*m.getEmail()*/, null));
+				 	emailIntent.putExtra(Intent.EXTRA_SUBJECT, "From me");
+				 	emailIntent.putExtra(Intent.EXTRA_TEXT,
+				            	"You have been sent an email from _____");
+				 	startActivity(Intent.createChooser(emailIntent,
+				            	"Send email to yourself..."));
+					}
+					
+				});
+				
+				
+				mMembersList.addView(projectMemberView);
+			}
 			
 			//Progress Bars for Hours, Tasks, and Milestones
 			((TextView) rootView.findViewById(R.id.project_hours_percent))

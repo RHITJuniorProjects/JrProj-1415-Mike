@@ -149,6 +149,14 @@ public class Member implements Parcelable {
 	void setEmail(String email) {
 		this.email = email;
 	}
+	
+	/**
+	 * Gets the member's name
+	 * @return the member's name
+	 */
+	public String getName() {
+		return this.name;
+	}
 
 	/**
 	 * Sets a user's name
