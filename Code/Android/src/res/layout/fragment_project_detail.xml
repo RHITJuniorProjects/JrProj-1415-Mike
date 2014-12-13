@@ -33,13 +33,6 @@
             android:textIsSelectable="true"
             tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
 
-        <Button
-            android:id="@+id/ProjectMembersButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:onClick="openProjectMembersView"
-            android:text="@string/ViewMembers" />
 
         <Switch
             android:id="@+id/projectMemberSwitch"
@@ -130,11 +123,6 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
             android:visibility="gone" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TEST" />
         </LinearLayout>
     </LinearLayout>
 

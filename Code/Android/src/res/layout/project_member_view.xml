@@ -8,12 +8,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"/>
+    
+        <TextView
+        android:id="@+id/member_role"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/member_name"
+        android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/member_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/member_name"
+        android:layout_below="@id/member_role"
         android:textSize="15sp"/>
 
     <Button

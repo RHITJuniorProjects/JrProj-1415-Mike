@@ -85,8 +85,11 @@ public class ProjectDetailFragment extends Fragment {
 				View projectMemberView = LayoutInflater.from(getActivity()).inflate(R.layout.project_member_view, null);
 				TextView memberName = (TextView)projectMemberView.findViewById(R.id.member_name);
 				TextView memberEmail = (TextView)projectMemberView.findViewById(R.id.member_email);
+				TextView memberRole = (TextView)projectMemberView.findViewById(R.id.member_role);
+				
 				Role r = this.projectItem.getMembers().getValue(m);
-				memberName.setText(m.getName() + " - " + r.toString());
+				memberName.setText(m.getName());
+				memberRole.setText(r.toString());
 				memberEmail.setText(m.getEmail());
 				
 				Button emailButton = (Button)projectMemberView.findViewById(R.id.email_button);
@@ -95,12 +98,11 @@ public class ProjectDetailFragment extends Fragment {
 					@Override
 					public void onClick(View v) {
 						Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
-				            	Uri.fromParts("mailto", "goldthea@rose-hulman.edu"/*m.getEmail()*/, null));
-				 	emailIntent.putExtra(Intent.EXTRA_SUBJECT, "From me");
-				 	emailIntent.putExtra(Intent.EXTRA_TEXT,
-				            	"You have been sent an email from _____");
+				            	Uri.fromParts("mailto", m.getEmail(), null));
+
+
 				 	startActivity(Intent.createChooser(emailIntent,
-				            	"Send email to yourself..."));
+				            	"Send email to " + m.getName()));
 					}
 					
 				});
