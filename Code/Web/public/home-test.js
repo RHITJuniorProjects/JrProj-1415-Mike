@@ -2,6 +2,7 @@
 var projectID;
 var linesOfCodeArray = [];
 var nameArray = [];
+var milestoneArray = [];
 var getLinesOfCode;
 var getNameAndDraw;
 var pieChartDrawer;
@@ -22,12 +23,27 @@ fb.child("projects/" + projectID +"/members").on('value', function (snapshot) {
 	//	console.log(item);
 		workerArray.push(item);
 	}
-	
+
+
 	for(i = 0; i<workerArray.length; i++){
 		getLinesOfCode(workerArray[i], workerArray);
 	}
 });
 
+fb.child("projects/" + projectID + "/milestones".on('value', function(snapshot) {
+    var milestoneNameArray = [];
+
+    for(var item in snapshot.val()){
+        milestoneNameArray.push(item);
+    }
+
+    for(i = 0; i<milestoneName.length; i++){
+        getMilestoneName(milestoneName[i],milestoneNameArray);
+        }
+
+});
+
+}
 function getLinesOfCode(item, array){
 						fb.child("users/" + item + "/projects/" + projectID + "/total_lines_of_code").on('value', function(snapshot){
 							linesOfCodeArray.push(snapshot.val());
@@ -54,6 +70,21 @@ function getNameAndDraw(current, userArray, linesArray){
 								pieChartDrawer(totalArray);
 							}
 						});
+};
+
+function getMilestoneName(item, array){
+    fb.child("projects/" + projectID + "/milestones/" + item + "/name").on('value', fucntion(snapshot){
+        milestoneArray.push(snapshot.val());
+
+        if(array.length == milestoneArray.length){
+            for(i = 0; i<array.length; i++){
+                getNameAndDraw(array[i], array, milestoneArray);
+            }   
+        }           
+
+
+    });
+
 };
 						
 
