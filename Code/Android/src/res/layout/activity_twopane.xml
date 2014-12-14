@@ -8,7 +8,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="rhit.jrProj.henry.ProjectListActivity" >
+    tools:context="rhit.jrProj.henry.MainActivity" >
 
     <!--
     This layout is a two-pane layout for the Projects

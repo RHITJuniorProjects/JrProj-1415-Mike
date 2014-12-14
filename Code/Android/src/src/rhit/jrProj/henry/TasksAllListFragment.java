@@ -14,6 +14,7 @@ import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
+import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -36,8 +37,8 @@ import com.firebase.client.Firebase;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class TaskListFragment extends ListFragment {
-	private String sortMode="A-Z";
+public class TasksAllListFragment extends ListFragment {
+	private String sortMode = "A-Z";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -57,6 +58,8 @@ public class TaskListFragment extends ListFragment {
 
 	private ArrayList<Task> tasks;
 
+	private String userID;
+
 	/**
 	 * A callback interface that all activities containing this fragment must
 	 * implement. This mechanism allows activities to be notified of item
@@ -71,11 +74,13 @@ public class TaskListFragment extends ListFragment {
 		public ArrayList<Task> getTasks();
 
 		public Project getSelectedProject();
-		
-		public String getUserName();
+
+		public User getUser();
+
+		public Milestone getSelectedMilestone();
 
 		public String getSortMode();
-		
+
 	}
 
 	/**
@@ -95,8 +100,14 @@ public class TaskListFragment extends ListFragment {
 		public Project getSelectedProject() {
 			return null;
 		}
-		public String getUserName(){
-			return "";
+
+		public User getUser() {
+			return null;
+		}
+
+		public Milestone getSelectedMilestone() {
+			return null;
+
 		}
 
 		@Override
@@ -104,36 +115,33 @@ public class TaskListFragment extends ListFragment {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
-		
+
 	};
 
 	/**
 	 * 
 	 * The wrapper class for the list's assignee.
 	 *
-	 * @author rockwotj.
-	 *         Created Nov 7, 2014.
+	 * @author rockwotj. Created Nov 7, 2014.
 	 */
 	private class Assignee {
 		Task task;
-		
-		public Assignee(Task task)
-		{
+
+		public Assignee(Task task) {
 			this.task = task;
 		}
-		
+
 		@Override
 		public String toString() {
 			return "Assigned to: " + this.task.getAssignedUserName();
 		}
 	}
-	
+
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
 	 */
-	public TaskListFragment() {
+	public TasksAllListFragment() {
 	}
 
 	@Override
@@ -146,9 +154,10 @@ public class TaskListFragment extends ListFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		super.onActivityCreated(savedInstanceState);
-		this.tasks = this.mCallbacks.getTasks();
-		
-		//This still doesn't account for dynamically adding and removing tasks
+		this.userID = this.mCallbacks.getUser().getKey();
+		this.tasks = getAllMyTasks();
+
+		// This still doesn't account for dynamically adding and removing tasks
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		for (Task task : this.tasks) {
 			Map<String, Object> datum = new HashMap<String, Object>(2);
@@ -156,8 +165,10 @@ public class TaskListFragment extends ListFragment {
 			datum.put("assignee", new Assignee(task));
 			data.add(datum);
 		}
-		SortedArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.tasks, Enums.ObjectType.TASK, mCallbacks.getUserName());
+		SortedArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(
+				getActivity(), android.R.layout.simple_list_item_activated_2,
+				android.R.id.text1, this.tasks, Enums.ObjectType.TASK,
+				mCallbacks.getUser().getName());
 		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -188,29 +199,26 @@ public class TaskListFragment extends ListFragment {
 		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 		createMilestone.setVisible(false);
 		createMilestone.setEnabled(false);
-		SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
-		MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
-		MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
-		dateOldest.setVisible(false);
-		dateOldest.setEnabled(false);
-		dateNewest.setVisible(false);
-		dateNewest.setEnabled(false);
 
-		Firebase ref = new Firebase(MainActivity.firebaseUrl);
-		Enums.Role role = this.mCallbacks
-				.getSelectedProject()
-				.getMembers()
-				.getValue(
-						new Member(ref.getRoot().toString() + "/users/"
-								+ ref.getAuth().getUid()));
-
-		if (role != null && role.equals(Enums.Role.lead)) {
+		
+		
 			MenuItem createTask = menu.findItem(R.id.action_task);
-			createTask.setVisible(true);
-			createTask.setEnabled(true);
-		}
+			createTask.setVisible(false);
+			createTask.setEnabled(false);
+			MenuItem sorting= menu.findItem(R.id.action_sorting);
+			
+			sorting.setEnabled(true);
+			sorting.setVisible(true);
+			SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
+			MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
+			MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
+			dateOldest.setVisible(false);
+			dateOldest.setEnabled(false);
+			dateNewest.setVisible(false);
+			dateNewest.setEnabled(false);
+		
 	}
-
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -272,7 +280,52 @@ public class TaskListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-	
+
+	private ArrayList<Task> getAllMyTasks() {
+		ArrayList<Task> t = new ArrayList<Task>();
+		ArrayList<Project> projects;
+		ArrayList<Milestone> milestones;
+		ArrayList<Task> t2;
+		if (this.mCallbacks.getSelectedProject() == null) {
+			projects = this.mCallbacks.getUser()
+					.getProjects();
+			for (Project p : projects) {
+				milestones = p.getMilestones();
+				for (Milestone m : milestones) {
+					t2= m.getTasks();
+					for (Task task : t2){
+						if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
+							t.add(task);
+						}
+					}
+				}
+			}
+		}
+		else if (this.mCallbacks.getSelectedMilestone() == null){
+			Project p = this.mCallbacks.getSelectedProject();
+			milestones = p.getMilestones();
+			for (Milestone m : milestones) {
+				t2= m.getTasks();
+				for (Task task : t2){
+					if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
+						t.add(task);
+					}
+				}
+			}
+		}
+		else{
+			Milestone m= this.mCallbacks.getSelectedMilestone();
+			t2= m.getTasks();
+			for (Task task : t2){
+				if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
+					t.add(task);
+				}
+			}
+			
+		}
+		
+		return t;
+	}
 	public void sortingChanged(){
 		this.sortMode=this.mCallbacks.getSortMode();
 		for (Task p : this.tasks){

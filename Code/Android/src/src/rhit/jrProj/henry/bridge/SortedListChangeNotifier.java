@@ -2,7 +2,9 @@ package rhit.jrProj.henry.bridge;
 
 import java.util.Comparator;
 
+import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.Task;
 import android.util.Log;
 
 /**
@@ -75,6 +77,14 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 						return ((Project) lhs)
 								.compareToIgnoreCase((Project) rhs);
 					}
+					if (lhs instanceof Milestone && rhs instanceof Milestone) {
+						return ((Milestone) lhs)
+								.compareToIgnoreCase((Milestone) rhs);
+					}
+					if (lhs instanceof Task && rhs instanceof Task) {
+						return ((Task) lhs)
+								.compareToIgnoreCase((Task) rhs);
+					}
 
 					return 0;
 				}
@@ -88,6 +98,18 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 								* ((Project) lhs)
 										.compareToIgnoreCase((Project) rhs);
 					}
+					if (lhs instanceof Milestone && rhs instanceof Milestone) {
+						Log.i("SLCN", "Milestone");
+						return -1
+								* ((Milestone) lhs)
+										.compareToIgnoreCase((Milestone) rhs);
+					}
+					if (lhs instanceof Task && rhs instanceof Task) {
+						Log.i("SLCN", "Task");
+						return -1
+								* ((Task) lhs)
+										.compareToIgnoreCase((Task) rhs);
+					}
 
 					return 0;
 				}
@@ -97,6 +119,15 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 			// Standard date form needed!
 			this.c = new Comparator<T>() {
 				public int compare(T lhs, T rhs) {
+					if (lhs instanceof Project && rhs instanceof Project) {
+						return ((Project) lhs)
+								.compareToByDate((Project) rhs, true);
+					}
+					if (lhs instanceof Milestone && rhs instanceof Milestone) {
+						return ((Milestone) lhs)
+								.compareToByDate((Milestone) rhs, true);
+					}
+					
 					return 0;
 				}
 			};
@@ -105,6 +136,14 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 			// Standard date form needed!
 			this.c = new Comparator<T>() {
 				public int compare(T lhs, T rhs) {
+					if (lhs instanceof Project && rhs instanceof Project) {
+						return ((Project) lhs)
+								.compareToByDate((Project) rhs, false);
+					}
+					if (lhs instanceof Milestone && rhs instanceof Milestone) {
+						return ((Milestone) lhs)
+								.compareToByDate((Milestone) rhs, false);
+					}
 					return 0;
 				}
 			};

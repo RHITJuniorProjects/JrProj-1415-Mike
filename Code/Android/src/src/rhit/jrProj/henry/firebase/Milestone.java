@@ -473,4 +473,23 @@ public class Milestone implements Parcelable {
 			}
 		}
 	}
+	/**
+	 *  Compares this project with the other given project. This implementation treats lower 
+	 *  case letters the same as upper case letters. Also treats numbers differently,
+	 *   i.e. puts 10 after 9 instead of after 1
+	 * @param p
+	 * @return
+	 */
+	public int compareToIgnoreCase(Milestone p){
+		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
+	}
+	/**
+	 * Compares this Project to another Project by comparing dates
+	 * @param p
+	 * @param newestFirst
+	 * @return
+	 */
+	public int compareToByDate(Milestone p, boolean newestFirst){
+		return GeneralAlgorithms.compareToByDate(this.getDueDate(), p.getDueDate(), newestFirst);
+	}
 }

@@ -196,10 +196,10 @@ public class ProjectListFragment extends ListFragment {
 				MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
 				MenuItem AZ= submenu.findItem(R.id.sortAZ);
 				MenuItem ZA= submenu.findItem(R.id.sortZA);
-				dateOldest.setVisible(false);
-				dateOldest.setEnabled(false);
-				dateNewest.setVisible(false);
-				dateNewest.setEnabled(false);
+				dateOldest.setVisible(true);
+				dateOldest.setEnabled(true);
+				dateNewest.setVisible(true);
+				dateNewest.setEnabled(true);
 				AZ.setVisible(true);
 				AZ.setEnabled(true);
 				ZA.setVisible(true);
@@ -210,6 +210,7 @@ public class ProjectListFragment extends ListFragment {
 				MenuItem createTask = menu.findItem(R.id.action_task);
 				createTask.setVisible(false);
 				createTask.setEnabled(false);
+				
 					
 					
 		}

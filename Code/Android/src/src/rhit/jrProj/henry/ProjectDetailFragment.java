@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -63,6 +65,27 @@ public class ProjectDetailFragment extends Fragment {
 					.getParcelable("Project");
 		}
 
+	}
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		// This code shows the "Create Task" option when
+		// viewing tasks.
+		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+		createMilestone.setVisible(false);
+		createMilestone.setEnabled(false);
+
+		
+		
+			MenuItem createTask = menu.findItem(R.id.action_task);
+			createTask.setVisible(false);
+			createTask.setEnabled(false);
+			MenuItem sorting= menu.findItem(R.id.action_sorting);
+			
+			sorting.setEnabled(false);
+			sorting.setVisible(false);
+		
 	}
 
 	@Override

@@ -50,6 +50,8 @@ public class User implements Parcelable {
 	 * projects is a Set in the form: [project_key, this_Users_role]
 	 */
 	private Map<Project, Enums.Role> projects = new Map<Project, Enums.Role>();
+	
+	
 
 	/**
 	 * tasks is a Set in the form: task_key

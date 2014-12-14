@@ -13,6 +13,8 @@ import rhit.jrProj.henry.firebase.User;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -29,7 +31,7 @@ import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks, ProjectMembersFragment.Callbacks,
-		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks {
+		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks  {
 	/**
 	 * The Url to the firebase repository
 	 */
@@ -145,10 +147,7 @@ public class MainActivity extends Activity implements
 		
 			sorting.setEnabled(true);
 			sorting.setVisible(true);
-					
-		// This code shows the "Create Milestone" option when
-		// viewi
-				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+			MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 				createMilestone.setVisible(false);
 				createMilestone.setEnabled(false);
 				MenuItem createTask = menu.findItem(R.id.action_task);
@@ -266,8 +265,21 @@ public class MainActivity extends Activity implements
 	}
 	
 	
-	
-	
+	public void openAllMyTasks(MenuItem item){
+		FragmentManager manager= getFragmentManager();
+	    FragmentTransaction frgTrans = manager.beginTransaction();
+	    manager.popBackStack();
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", this.mTwoPane);
+	    TasksAllListFragment fragment = new TasksAllListFragment();
+		this.fragmentStack.push(fragment);
+		fragment.setArguments(args);
+		this.currFragment=fragment;
+	    
+	    frgTrans.replace(android.R.id.content,fragment);
+	    frgTrans.commit();
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 	
 	/**
 	 * Open the MilestoneList Activity for the selected milestone
@@ -426,13 +438,7 @@ public class MainActivity extends Activity implements
 			taskFrag.show(getFragmentManager(), "Diag");
 		}
 	}
-	/**
-	 * Allows the user to view all tasks assigned to them.
-	 * @param item
-	 */
-	public void showAllTasks(MenuItem item){
-		
-	}
+	
 	/**
 	 * Open the search page
 	 * @param item
@@ -449,6 +455,16 @@ public class MainActivity extends Activity implements
 		if (this.currFragment!=null){
 			if (this.currFragment instanceof ProjectListFragment){
 				((ProjectListFragment)this.currFragment).sortingChanged();
+			}
+			if (this.currFragment instanceof MilestoneListFragment){
+				Log.i("SORTINGMODEMilestone", this.sortingMode);
+				((MilestoneListFragment)this.currFragment).sortingChanged();
+			}
+			if (this.currFragment instanceof TaskListFragment){
+				((TaskListFragment)this.currFragment).sortingChanged();
+			}
+			if (this.currFragment instanceof TasksAllListFragment){
+				((TasksAllListFragment)this.currFragment).sortingChanged();
 			}
 		}
 	}
@@ -537,6 +553,9 @@ public class MainActivity extends Activity implements
 	 */
 	public String getUserName() {
 		return this.user.getName();
+	}
+	public String getUserID() {
+		return this.user.getKey();
 	}
 
 	public void onItemSelected(Member m) {
