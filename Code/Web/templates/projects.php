@@ -24,7 +24,7 @@
                                     <form action="" onsubmit="addNewProject(); return false;">
                                         <label for="projectName">Project Name:</label> <input type="text" id="projectName">
                                         <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
-                                        <label for="projectDueDate">Due Date:</label> <input type="text" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
+                                        <label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
                                         <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
                                         <input type="submit" class="button" id="project-submit" value="Add Project" />
                                         <div id="project-error" class="my-error" hidden>All fields must be specified</div>

@@ -524,6 +524,7 @@ function addNewProject() {
         'description': docDescription,
         'due_date': docDueDate,
         'total_estimated_hours': estHours,
+		'categories': {"Bug Fix":true,"Enhancement":true,"Feature":true,"Business":true,"General":true,"Infrastructure":true,"QA":true,"No Category":true},
         'members': members
     });
     $('#project-submit').foundation('reveal', 'close');
@@ -790,7 +791,7 @@ Task.prototype = {
                     }, vals.assignedTo),
                     categoriesSelect = makeSelect(Task.Categories, vals.category),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
-                    dueInput = $('<input type="text" value="' + vals.due_date + '">'),
+                    dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
                     estHoursInput = $('<input type="text" value="' + vals.original_hour_estimate + '">'),
                     nameH = $('<h3>'),
                     submit = $('<input class="button" value="Edit Task" />'),
@@ -895,7 +896,7 @@ function newTask() {
         nameH = '<h3>Add New Task</h3>',
         submit = $('<input class="button" value="Add Task" />'),
         modal = $('#task-modal'),
-        dueInput = $('<input type="text">'),
+        dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
     modal.children().remove();
@@ -947,7 +948,7 @@ function newTask() {
             assignedTo: userSelect.val(),
             category: categoriesSelect.val(),
             status: statusSelect.val(),
-            original_time_estimate: estHours,
+            original_hour_estimate: estHours,
             due_date: dueInput.val()
         });
         $("#task-modal").foundation('reveal', 'close');
@@ -986,7 +987,6 @@ function login(user, pass, registering) { // Authenticates with Firebase, giving
                 firebase.child('users/' + userData.uid).update(
                     {
                         email: userData.password.email,
-                        github: $("#githubuser").val(),
                         name: $("#name").val()
                     }, function (error) {
                         if (error) {
@@ -1013,7 +1013,6 @@ function register() { 		// Registers a new user with Firebase, and also adds tha
     var email = $("#registerUser").val();
     var pass = $("#registerPass").val();
     var passCheck = $("#registerPassCheck").val();
-    var githubName = $("#githubuser").val();
     var name = $("#name").val();
 
     if (pass !== passCheck) {
@@ -1023,7 +1022,7 @@ function register() { 		// Registers a new user with Firebase, and also adds tha
         return;
     }
     // Validate all fields are filled in
-    if (!email || !pass || !passCheck || !githubName || !name) {
+    if (!email || !pass || !passCheck || !name) {
         $("#passwordError").hide();
         $("#registerError").show();
         $("#emailError").hide();
