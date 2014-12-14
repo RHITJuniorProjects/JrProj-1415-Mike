@@ -505,6 +505,7 @@ function addNewProject() {
         'description': docDescription,
         'due_date': docDueDate,
         'total_estimated_hours': estHours,
+		'categories': ["Bug Fix","Enhancement","Feature","Business","General","Infrastructure","QA","No Category"],
         'members': members
     });
     $('#project-submit').foundation('reveal', 'close');
