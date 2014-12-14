@@ -162,7 +162,7 @@ User.prototype = {
 	getEmailLink: function(){
 		var a = $('<a>');
 		this.getEmail(function(email){
-			a.attr('href',email);
+			a.attr('href','mailto:'+email);
 			a.text(email);
 		});
 		return a;
