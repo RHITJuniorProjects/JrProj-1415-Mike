@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 
 import com.firebase.client.AuthData;
@@ -31,7 +30,7 @@ import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks, ProjectMembersFragment.Callbacks,
-		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks  {
+		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks, ProjectDetailFragment.Callbacks  {
 	/**
 	 * The Url to the firebase repository
 	 */
@@ -320,10 +319,8 @@ public class MainActivity extends Activity implements
 	public void onItemSelected(Project p) {
 		this.selectedProject = p;
 		Bundle arguments = new Bundle();
-		arguments.putParcelable("Project", p);
-		Log.i("Project", new Boolean(p==null).toString());
 		ProjectDetailFragment fragment = new ProjectDetailFragment();
-
+		arguments.putBoolean("TwoPane", this.mTwoPane);
 		fragment.setArguments(arguments);
 //		currFragment=fragment;
 		getFragmentManager()

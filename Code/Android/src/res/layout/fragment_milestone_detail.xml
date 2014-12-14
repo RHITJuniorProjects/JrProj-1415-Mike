@@ -33,7 +33,7 @@
             android:textIsSelectable="true"
             tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
 
-        <Switch
+     <!--   <Switch
             android:id="@+id/milestoneMemberSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:checked="false"
             android:textOff="Details"
             android:textOn="Members"
-            android:thumb="@android:color/darker_gray" />
+            android:thumb="@android:color/darker_gray" />  -->
 
         <LinearLayout
             android:id="@+id/milestoneDetails"

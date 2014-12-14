@@ -5,12 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
-import rhit.jrProj.henry.bridge.TwoLineArrayAdapter;
 import rhit.jrProj.henry.firebase.Enums;
-import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -22,11 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-
-import com.firebase.client.Firebase;
 
 /**
  * A list fragment representing a list of Items. This fragment also supports
@@ -110,7 +103,6 @@ public class TasksAllListFragment extends ListFragment {
 
 		}
 
-		@Override
 		public String getSortMode() {
 			// TODO Auto-generated method stub
 			return null;
@@ -168,7 +160,7 @@ public class TasksAllListFragment extends ListFragment {
 		SortedArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
 				android.R.id.text1, this.tasks, Enums.ObjectType.TASK,
-				mCallbacks.getUser().getName());
+				this.mCallbacks.getUser().getName());
 		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -229,7 +221,7 @@ public class TasksAllListFragment extends ListFragment {
 					"Activity must implement fragment's callbacks.");
 		}
 
-		mCallbacks = (Callbacks) activity;
+		this.mCallbacks = (Callbacks) activity;
 	}
 
 	@Override
@@ -237,7 +229,7 @@ public class TasksAllListFragment extends ListFragment {
 		super.onDetach();
 
 		// Reset the active callbacks interface to the dummy implementation.
-		mCallbacks = sDummyCallbacks;
+		this.mCallbacks = sDummyCallbacks;
 	}
 
 	@Override
@@ -247,15 +239,15 @@ public class TasksAllListFragment extends ListFragment {
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(this.tasks.get(position));
+		this.mCallbacks.onItemSelected(this.tasks.get(position));
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (mActivatedPosition != ListView.INVALID_POSITION) {
+		if (this.mActivatedPosition != ListView.INVALID_POSITION) {
 			// Serialize and persist the activated item position.
-			outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+			outState.putInt(STATE_ACTIVATED_POSITION, this.mActivatedPosition);
 		}
 	}
 
@@ -273,12 +265,12 @@ public class TasksAllListFragment extends ListFragment {
 
 	private void setActivatedPosition(int position) {
 		if (position == ListView.INVALID_POSITION) {
-			getListView().setItemChecked(mActivatedPosition, false);
+			getListView().setItemChecked(this.mActivatedPosition, false);
 		} else {
 			getListView().setItemChecked(position, true);
 		}
 
-		mActivatedPosition = position;
+		this.mActivatedPosition = position;
 	}
 
 	private ArrayList<Task> getAllMyTasks() {

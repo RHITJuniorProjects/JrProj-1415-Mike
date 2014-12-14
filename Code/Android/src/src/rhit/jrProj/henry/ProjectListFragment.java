@@ -1,28 +1,21 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-import com.firebase.client.Firebase;
-
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
-import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
@@ -98,7 +91,6 @@ public class ProjectListFragment extends ListFragment {
 			return "A-Z";
 		}
 
-		@Override
 		public Project getSelectedProject() {
 			// TODO Auto-generated method stub
 			return null;

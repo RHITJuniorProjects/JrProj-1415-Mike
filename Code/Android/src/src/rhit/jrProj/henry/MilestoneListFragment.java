@@ -2,7 +2,6 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
@@ -12,7 +11,6 @@ import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -91,7 +89,6 @@ public class MilestoneListFragment extends ListFragment {
 			return null;
 		}
 
-		@Override
 		public String getSortMode() {
 			// TODO Auto-generated method stub
 			return null;

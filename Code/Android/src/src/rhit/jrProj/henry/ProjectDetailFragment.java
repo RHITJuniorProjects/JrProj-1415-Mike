@@ -5,15 +5,17 @@ import java.util.List;
 
 import org.achartengine.GraphicalView;
 
+import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.helpers.GraphHelper;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,6 +48,25 @@ public class ProjectDetailFragment extends Fragment {
 	
 	private LinearLayout mMembersList;
 
+	private boolean mTwoPane;
+
+	private Callbacks mCallbacks;
+
+	public interface Callbacks {
+		public Project getSelectedProject();
+	}
+
+	/**
+	 * A dummy implementation of the {@link Callbacks} interface that does
+	 * nothing. Used only when this fragment is not attached to an activity.
+	 */
+	private static Callbacks sDummyCallbacks = new Callbacks() {
+		public Project getSelectedProject() {
+			return null;
+		}
+	};
+
+	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -56,13 +77,9 @@ public class ProjectDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (getArguments().containsKey("Project")) {
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
-			this.projectItem = (Project) getArguments()
-					.getParcelable("Project");
+		if (getArguments().containsKey("TwoPane")) {
+			this.mTwoPane = getArguments()
+					.getBoolean("TwoPane");
 		}
 
 	}
@@ -93,8 +110,8 @@ public class ProjectDetailFragment extends Fragment {
 			Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(R.layout.fragment_project_detail,
 				container, false);
-		
-		mMembersList = (LinearLayout) rootView.findViewById(R.id.projectMembers);
+		this.projectItem = this.mCallbacks.getSelectedProject();
+		this.mMembersList = (LinearLayout) rootView.findViewById(R.id.projectMembers);
 		
 		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_name))
@@ -115,10 +132,18 @@ public class ProjectDetailFragment extends Fragment {
 				memberRole.setText(r.toString());
 				memberEmail.setText(m.getEmail());
 				
+				if (this.mTwoPane) {
+					projectMemberView.findViewById(R.id.metrics_label).setVisibility(View.VISIBLE);
+					ProgressBar metricProgress = (ProgressBar) projectMemberView.findViewById(R.id.metricsProgressBar);
+					metricProgress.setVisibility(View.VISIBLE);
+					Log.d("Henry", metricProgress.getProgress()+"|"+m.getProjectMetrics(this.projectItem.getProjectId()).getHoursPercent());
+					metricProgress.setProgress(m.getProjectMetrics(this.projectItem.getProjectId()).getHoursPercent());
+					Log.d("Henry", metricProgress.getProgress()+"");
+				}
+				
 				Button emailButton = (Button)projectMemberView.findViewById(R.id.email_button);
 				emailButton.setOnClickListener(new OnClickListener() {
 
-					@Override
 					public void onClick(View v) {
 						Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
 				            	Uri.fromParts("mailto", m.getEmail(), null));
@@ -131,7 +156,7 @@ public class ProjectDetailFragment extends Fragment {
 				});
 				
 				
-				mMembersList.addView(projectMemberView);
+				this.mMembersList.addView(projectMemberView);
 			}
 			
 			//Progress Bars for Hours, Tasks, and Milestones
@@ -217,6 +242,20 @@ public class ProjectDetailFragment extends Fragment {
 		return rootView;
 	}
 	
-	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (!(activity instanceof Callbacks)) {
+			throw new IllegalStateException(
+					"Activity must implement fragment's callbacks.");
+		}
+		this.mCallbacks = (Callbacks) activity;
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		this.mCallbacks = sDummyCallbacks;
+	}
 
 }

@@ -1,34 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    <TextView
-        android:id="@+id/member_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"/>
-    
-        <TextView
-        android:id="@+id/member_role"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/member_name"
-        android:textSize="15sp"/>
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/member_email"
+    <RelativeLayout
+        android:id="@+id/member_info"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/member_role"
-        android:textSize="15sp"/>
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/member_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/member_role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/member_name"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/member_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/member_role"
+            android:textSize="15sp" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/email_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textSize="20sp"
-        android:text="@string/email" />
+        android:layout_centerVertical="true"
+        android:text="@string/email"
+        android:textSize="20sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/member_info"
+        android:background="@color/light_grey" >
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/metrics_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/email_button"
+        android:layout_toRightOf="@+id/member_info"
+        android:text="Percent of hours contributed"
+        android:textSize="15sp"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/metricsProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/metrics_label"
+        android:layout_alignRight="@+id/metrics_label"
+        android:layout_below="@+id/metrics_label"
+        android:max="100"
+        android:progress="50"
+        android:visibility="gone" />
 
 </RelativeLayout>

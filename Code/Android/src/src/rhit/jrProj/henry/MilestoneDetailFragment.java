@@ -14,13 +14,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 /**
@@ -95,22 +92,22 @@ public class MilestoneDetailFragment extends Fragment implements
 			spinner.setSelection(0);
 
 			spinner.setOnItemSelectedListener(this);
-			// /////
-			((Switch) rootView.findViewById(R.id.milestoneMemberSwitch))
-					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-						public void onCheckedChanged(CompoundButton buttonView,
-								boolean isChecked) {
-							rootView.findViewById(R.id.milestoneDetails)
-									.setVisibility(
-											isChecked ? View.GONE
-													: View.VISIBLE);
-							rootView.findViewById(R.id.milestoneMembers)
-									.setVisibility(
-											isChecked ? View.VISIBLE
-													: View.GONE);
-						}
-					});
+			// ///// for now this is gone...
+//			((Switch) rootView.findViewById(R.id.milestoneMemberSwitch))
+//					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//						public void onCheckedChanged(CompoundButton buttonView,
+//								boolean isChecked) {
+//							rootView.findViewById(R.id.milestoneDetails)
+//									.setVisibility(
+//											isChecked ? View.GONE
+//													: View.VISIBLE);
+//							rootView.findViewById(R.id.milestoneMembers)
+//									.setVisibility(
+//											isChecked ? View.VISIBLE
+//													: View.GONE);
+//						}
+//					});
 			/*
 			 * FrameLayout chartView = (FrameLayout) rootView
 			 * .findViewById(R.id.pieChart); GraphHelper.PieChartInfo chartInfo
