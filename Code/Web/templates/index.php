@@ -48,7 +48,6 @@
                         <label for="registerUser">Email:</label> <input type="text" id="registerUser" />
                         <label for="registerPass">Password:</label> <input type="password" id="registerPass" />
                         <label for="registerPassCheck">Retype password:</label> <input type="password" id="registerPassCheck" />
-                        <label for="githubuser">Github User Name:</label> <input type="text" id="githubuser" />
                         <label for="name">Name:</label> <input type="text" id="name"><br />
                         <input id="registerSubmit" class="button" type="submit" value="Register" />
                         <div id="passwordError" class="my-error" hidden>Please check that the passwords are the same.</div>

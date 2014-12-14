@@ -968,7 +968,6 @@ function login(user, pass, registering) { // Authenticates with Firebase, giving
                 firebase.child('users/' + userData.uid).update(
                     {
                         email: userData.password.email,
-                        github: $("#githubuser").val(),
                         name: $("#name").val()
                     }, function (error) {
                         if (error) {
@@ -995,7 +994,6 @@ function register() { 		// Registers a new user with Firebase, and also adds tha
     var email = $("#registerUser").val();
     var pass = $("#registerPass").val();
     var passCheck = $("#registerPassCheck").val();
-    var githubName = $("#githubuser").val();
     var name = $("#name").val();
 
     if (pass !== passCheck) {
@@ -1005,7 +1003,7 @@ function register() { 		// Registers a new user with Firebase, and also adds tha
         return;
     }
     // Validate all fields are filled in
-    if (!email || !pass || !passCheck || !githubName || !name) {
+    if (!email || !pass || !passCheck || !name) {
         $("#passwordError").hide();
         $("#registerError").show();
         $("#emailError").hide();
