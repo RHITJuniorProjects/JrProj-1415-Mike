@@ -37,7 +37,7 @@
 										<h3>Production</h3>
 									</a>
 									<div id="projects-panel" class="content active panel row">
-										
+										<!-- projects added by projects.js -->
 									</div>
 								</dd>
 							</dl>
@@ -51,6 +51,20 @@
 									</div>
 								</dd>
 							</dl>
+						</div>
+						<div id="member-modal" class="reveal-modal" data-reveal>
+							<div class="row">
+								<div class="small-12 columns">
+									<h1 id="member-modal-name">
+										<!-- name set by projects.js -->
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div id="member-modal-tiles" class="small-12-columns">
+									<!-- content added by projects.js on member button click -->
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="content" id="ProjectStatistics">

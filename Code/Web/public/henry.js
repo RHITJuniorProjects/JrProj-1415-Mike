@@ -159,6 +159,19 @@ User.prototype = {
             callback(dat.val());
         });
     },
+	getEmailLink: function(){
+		var a = $('<a>');
+		this.getEmail(function(email){
+			a.attr('href',email);
+			a.text(email);
+		});
+		return a;
+	},
+	getEmail: function(callback){
+		this.__email.on('value',function(value){
+			callback(value.val());
+		});
+	},
     getOption: function () {
         var option = $('<option value="' + this.uid + '"></option>');
         this.getName(function (name) {
@@ -199,43 +212,26 @@ User.prototype = {
     },
     getAllTasks: function () {
 
-    }, /*
-     getMemberTile:function(project){
-     var tile = $(
-     '<dl class="row collapse accordian outlined" data-accordion>'
-     ),
-     memberDD = $(
-     '<dd class="accordion-navigation">'
-     ),
-     memberA = $(
-     '<a href="#member-'+this.uid+'">'
-     ),
-     nameH4 = $('<h4>'),
-     roleSpan = $('<span>'),
-     milestonePanel = $(
-     '<div id="member-'+this.uid+'" class="content panel row">'
-     );
+    },
+    getMemberTile:function(project){
+    	var tile = $(
+    		'<div class="panel outlined">'
+    	),
+		nameH4 = $('<h4>'),
+		roleSpan = $('<span>'),
+		email = this.getEmailLink();
 
-     this.getName(function(name){
-     nameH4.text(name);
-     });
+		this.getName(function(name){
+			nameH4.text(name);
+		});
 
-     project.getRole(this,function(role){
-     roleSpan.text(role);
-     });
+		project.getRole(this,function(role){
+			roleSpan.text(role);
+		});
 
-     this.milestones.onItemAdded(function(milestone){
-
-     });
-
-     this.onProjectTaskAdded(project,function(task){
-     taskPanel.append(task.getDescriptionDiv());
-     });
-     memberA.append(nameH4,roleSpan);
-     memberDD.append(memberA,taskPanel);
-     tile.append(memberDD);
-     return tile;
-     },*/
+		tile.append(nameH4,email,roleSpan);
+		return tile;
+	},
     off: function (arg1, arg2) {
         this.__firebase.off(arg1, arg2);
     }
@@ -391,15 +387,33 @@ Project.prototype = {
         var project = $('<div class="row project">'),
             leftColumn = $('<div class="small-4 columns small-offset-1">'),
             rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
-            button = $('<div>'),
-            a = $('<a class="button expand text-center">'),
+            projectButton = $('<div>'),
+            projectA = $('<a class="button expand text-center">'),
+			memberButton = $('<div>'),
+			memberA = $('<a class="button expand text-center">'),
             nameSpan = $('<span>'),
             descDiv = $('<div>'),
-            dueDiv = $('<div>');
+            dueDiv = $('<div>'),
+			thisProject = this;
 
-        a.append(nameSpan);
-        button.append(a);
-        leftColumn.append(button, descDiv, dueDiv);
+        projectA.append(nameSpan);
+       	projectButton.append(projectA);
+		memberButton.append(memberA);
+        leftColumn.append(projectButton, descDiv, dueDiv, memberButton);
+		memberA.attr('href','#');
+		memberA.attr('data-reveal-id','member-modal');
+		memberA.text('view members');
+		var memberModalName = $('#member-modal-name');
+		var memberModalTiles = $('#member-modal-tiles');
+		memberA.click(function(){
+			thisProject.getName(function(name){
+				memberModalName.text("Members For "+name);
+			});
+			memberModalTiles.children().remove();
+			thisProject.getMemberTiles(function(tile){
+				memberModalTiles.append(tile);
+			});
+		});
         rightColumn.append(
             this.getMilestoneProgressBar(),
             this.getTaskProgressBar(),
@@ -407,14 +421,13 @@ Project.prototype = {
         );
         project.append(leftColumn, rightColumn);
         var p = this;
-        a.click(function () {
+        projectA.click(function () {
             selectProject(p);
             currentProject = p;
         });
         this.getName(function (nameStr) {
             nameSpan.text(nameStr);
         });
-
         this.getDescription(function (descriptionStr) {
             descDiv.html(descriptionStr);
         });
@@ -470,7 +483,13 @@ Project.prototype = {
     },
     getMembers: function () {
         return new ReferenceTable(users, this.__members);
-    }
+    },
+	getMemberTiles: function(callback){
+		var project = this;
+		this.getMembers().onItemAdded(function(user){
+			callback(user.getMemberTile(project));
+		});
+	},
 };
 // creates new projects and are added into firebase
 function addNewProject() {
