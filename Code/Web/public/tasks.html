@@ -7,6 +7,7 @@
 			<td>Assigned User</td> 
 			<td>Estimated Hours</td>
 			<td>Actual Hours</td>
+			<td>Is Completed</td>
 		</tr>
 	</table>
 </div>
