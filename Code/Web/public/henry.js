@@ -772,7 +772,7 @@ Task.prototype = {
                     }, vals.assignedTo),
                     categoriesSelect = makeSelect(Task.Categories, vals.category),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
-                    dueInput = $('<input type="text" value="' + vals.due_date + '">'),
+                    dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
                     estHoursInput = $('<input type="text" value="' + vals.original_hour_estimate + '">'),
                     nameH = $('<h3>'),
                     submit = $('<input class="button" value="Edit Task" />'),
@@ -877,7 +877,7 @@ function newTask() {
         nameH = '<h3>Add New Task</h3>',
         submit = $('<input class="button" value="Add Task" />'),
         modal = $('#task-modal'),
-        dueInput = $('<input type="text">'),
+        dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
     modal.children().remove();

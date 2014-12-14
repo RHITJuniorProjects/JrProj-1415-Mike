@@ -27,7 +27,7 @@
                                 <form action="" onsubmit="addNewMilestone(); return false;">
                                     <label for="milestoneName">Milestone Name:</label> <input type="text" id="milestoneName" />
                                     <label for="milestoneDescription">Description:</label> <input type="text" id="milestoneDescription" />
-                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>
+                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>
                                     <label for="milestoneEstimatedHours">Estimated Hours:</label> <input type="text" id="milestoneEstimatedHours" />
                                     <input type="submit" id="milestone-submit" class="button" value="Add Milestone" />
                                     <div id="milestone-error" class="my-error" hidden>All fields must be specified</div>
