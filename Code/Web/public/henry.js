@@ -928,7 +928,7 @@ function newTask() {
             assignedTo: userSelect.val(),
             category: categoriesSelect.val(),
             status: statusSelect.val(),
-            original_time_estimate: estHours,
+            original_hour_estimate: estHours,
             due_date: dueInput.val()
         });
         $("#task-modal").foundation('reveal', 'close');
