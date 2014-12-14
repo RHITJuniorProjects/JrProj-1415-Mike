@@ -13,8 +13,15 @@
     </style>
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="AppTheme" parent="android:style/Theme.Holo.Light">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    	<item name="android:background">@color/baseBackground</item>
+    	<item name="android:textColor">@color/blue</item>
+    	
     </style>
-
+ <style name="BlueActionBar" parent="android:style/Theme.Holo.Light">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    	<item name="android:background">@color/blue</item>
+    	<item name="android:textColor">@color/base03</item>
+    </style>
 </resources>

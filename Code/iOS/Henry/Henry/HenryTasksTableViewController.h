@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HenryTasksTableViewController : UITableViewController
+@interface HenryTasksTableViewController : UITableViewController <UIAlertViewDelegate>
 
 @property NSString *ProjectID;
 @property NSString *milestoneName;
 @property NSString *MileStoneID;
 @property NSArray *userTasks;
-
+@property NSString *uid;
+- (IBAction)addTask:(id)sender;
 @end

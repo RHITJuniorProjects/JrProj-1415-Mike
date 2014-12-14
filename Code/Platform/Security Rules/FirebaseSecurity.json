@@ -1,0 +1,137 @@
+{  
+   "rules":{  
+      ".read":true,
+      ".write":true,
+      "projects":{  
+         "$projectID":{  
+            ".validate":"newData.hasChildren(['name','due_date','description','members']) || data.hasChildren(['name','due_date','description','members'])",
+            "added_lines_of_code":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "due_date":{  
+               ".validate":"newData.isString() && newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)"
+            },
+            "backlog":{  
+               "$taskID":{  
+                  ".validate":"newData.hasChildren(['category','description','name'])",
+                  "description":{  
+                     ".validate":"newData.isString()"
+                  },
+                  "name":{  
+                     ".validate":"newData.isString()"
+                  }
+               }
+            },
+            "members":{  
+               ".validate":"newData.hasChildren()",
+               "$loginId":{  
+                  ".validate":"root.child('users').hasChild($loginId) && newData.isString() && newData.val().matches(/Lead|Developer|Client|QA|Other/)"
+               }
+            },
+            "milestone_percent":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "name":{  
+               ".validate":"newData.isString()"
+            },
+            "milestone_completed":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "removed_lines_of_code":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "task_percent":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "tasks_completed":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "total_estimated_hours":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "total_hours":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "total_lines_of_code":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "total_milestones":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "total_tasks":{  
+               ".validate":"newData.isNumber() && newData.val() >= 0"
+            },
+            "milestones":{  
+               ".validate":"true",
+               "$milestoneID":{  
+                  ".validate":"newData.hasChildren(['name','due_date','description']) || data.hasChildren(['name','due_date','description'])",
+                  "added_lines_of_code":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "estimated_hours":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "due_date":{  
+                     ".validate":"newData.isString() && newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)"
+                  },
+                  "task_percent":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "tasks_completed":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "total_estimated_hours":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "total_hours":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "total_lines_of_code":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "total_tasks":{  
+                     ".validate":"newData.isNumber() && newData.val() >= 0"
+                  },
+                  "tasks":{  
+                     ".validate":"true",
+                     "$taskID":{  
+                        ".validate":"newData.hasChildren(['name','due_date','description','original_hour_estimate','category']) || data.hasChildren(['name','due_date','description','original_hour_estimate','category'])",
+                        "assignedTo":{  
+                           ".validate":"root.child('users').hasChild(newData.val())"
+                        },
+                        "due_date":{  
+                           ".validate":"newData.isString() && newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)"
+                        },
+                        "total_estimated_hours":{  
+                           ".validate":"newData.isNumber() && newData.val() >= 0"
+                        },
+                        "total_hours":{  
+                           ".validate":"newData.isNumber() && newData.val() >= 0"
+                        },
+                        "total_lines_of_code":{  
+                           ".validate":"newData.isNumber() && newData.val() >= 0"
+                        },
+                        "category":{  
+                           ".validate":"newData.isString() && (newData.val().matches(/Bug Fix|Enhancement|Feature|Business|General|Infrastructure|QA/))"
+                        },
+                        "status":{  
+                           ".validate":"newData.isString() && (newData.val().matches(/New|Implementation|Testing|Verify|Regression|Closed/))"
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "users":{  
+         "$user":{  
+            ".validate":"newData.hasChildren(['name','email','github'])",
+            "projects":{  
+               "$project":{  
+                  ".validate":"root.child('projects').hasChild($project)"
+               }
+            }
+         }
+      }
+   }
+}

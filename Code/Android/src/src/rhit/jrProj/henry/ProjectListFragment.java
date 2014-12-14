@@ -1,13 +1,21 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
+import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
+import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -24,6 +32,8 @@ public class ProjectListFragment extends ListFragment {
 
 	ArrayList<Project> projects;
 	
+	String sortMode="A-Z";
+
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -51,6 +61,12 @@ public class ProjectListFragment extends ListFragment {
 		 * Callback for when an item has been selected.
 		 */
 		public void onItemSelected(Project p);
+		
+		public ArrayList<Project> getProjects();
+		
+		public User getUser();
+		
+		public String getSortMode();
 	}
 
 	/**
@@ -60,7 +76,18 @@ public class ProjectListFragment extends ListFragment {
 	private static Callbacks sDummyCallbacks = new Callbacks() {
 
 		public void onItemSelected(Project p) {
-		// Do nothing
+			// Do nothing
+		}
+
+		public ArrayList<Project> getProjects() {
+			return null;
+		}
+
+		public User getUser() {
+			return null;
+		}
+		public String getSortMode(){
+			return "A-Z";
 		}
 	};
 
@@ -72,17 +99,27 @@ public class ProjectListFragment extends ListFragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.projects = ((ProjectListActivity)this.getActivity()).getProjects();
-		ArrayAdapter<Project> arrayAdapter = new ArrayAdapter<Project>(getActivity(),
-				android.R.layout.simple_list_item_activated_1,
-				android.R.id.text1, this.projects);
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		this.projects = this.mCallbacks.getProjects();
+		this.sortMode = this.mCallbacks.getSortMode();
+		
+		
+		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
+				getActivity(), android.R.layout.simple_list_item_activated_2,
+				android.R.id.text1, this.projects, Enums.ObjectType.PROJECT);
 		setListAdapter(arrayAdapter);
-		ListChangeNotifier<Project> lcn = new ListChangeNotifier<Project>(arrayAdapter);
+		
+		SortedListChangeNotifier<Project> lcn = new SortedListChangeNotifier<Project>(
+				arrayAdapter, this.sortMode);
+		
+		this.mCallbacks.getUser()
+				.setListChangeNotifier(lcn);
 		for (Project project : this.projects) {
 			project.setListChangeNotifier(lcn);
 		}
+		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+
 	}
 
 	@Override
@@ -93,6 +130,7 @@ public class ProjectListFragment extends ListFragment {
 			setActivatedPosition(savedInstanceState
 					.getInt(STATE_ACTIVATED_POSITION));
 		}
+
 	}
 
 	@Override
@@ -115,13 +153,13 @@ public class ProjectListFragment extends ListFragment {
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
 		super.onListItemClick(listView, view, position, id);
-		this.mCallbacks.onItemSelected(this.projects.get(position));
+		this.mCallbacks.onItemSelected(this.mCallbacks.getProjects().get(position));
 	}
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		if (this.mActivatedPosition != ListView.INVALID_POSITION) {
+		if (this.mActivatedPosition != AdapterView.INVALID_POSITION) {
 			// Serialize and persist the activated item position.
 			outState.putInt(STATE_ACTIVATED_POSITION, this.mActivatedPosition);
 		}
@@ -133,17 +171,26 @@ public class ProjectListFragment extends ListFragment {
 	 */
 	public void setActivateOnItemClick(boolean activateOnItemClick) {
 		getListView().setChoiceMode(
-				activateOnItemClick ? ListView.CHOICE_MODE_SINGLE
-						: ListView.CHOICE_MODE_NONE);
+				activateOnItemClick ? AbsListView.CHOICE_MODE_SINGLE
+						: AbsListView.CHOICE_MODE_NONE);
 	}
 
 	private void setActivatedPosition(int position) {
-		if (position == ListView.INVALID_POSITION) {
+		if (position == AdapterView.INVALID_POSITION) {
 			getListView().setItemChecked(this.mActivatedPosition, false);
 		} else {
 			getListView().setItemChecked(position, true);
 		}
-
 		this.mActivatedPosition = position;
+	}
+	/**
+	 * Notifies the Projects that the sorting mode has changed
+	 * and calls the changeSorting() method on their respective adapters.
+	 */
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		for (Project p : this.projects){
+			((SortedListChangeNotifier<Project>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+		}
 	}
 }

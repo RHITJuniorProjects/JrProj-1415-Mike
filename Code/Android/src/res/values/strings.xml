@@ -11,5 +11,44 @@
     <string name="title_project_detail">Project Detail</string>
     <string name="ViewTasks">View Tasks</string>
     <string name="ViewMilestones">View Milestones</string>
-
+    <string-array name="task_statuses">
+        <item>New</item>
+        <item>Implementation</item>
+        <item>Testing</item>
+        <item>Verify</item>
+        <item>Regression</item>
+        <item>Closed</item>
+    </string-array>
+    <string-array name="milestone_charts">
+        <item>Lines of Code Added</item>
+        <item>Lines of Code Total</item>
+    </string-array>
+    <string name="register">Register</string>
+    <string name="sign_in">Sign in</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="MilestoneCreateTitle">New Milestone</string>
+    <string name="MilestoneStringHint">Milestone Name</string>
+    <string name="MilestoneDescriptionHint">Milestone Description</string>
+    <string name="MilestoneCreateCancelString">Cancel</string>
+    <string name="MilestoneCreateAddString">Add</string>
+    <string name="MilestoneAddString">Add</string>
+    <string name="TaskStringHint">String Name</string>
+    <string name="TaskDescriptionHint">Task Description</string>
+    <string name="TaskNameHint">Task Name</string>
+    <string name="invalidMilestoneDescription">The milestone description is invalid.</string>
+    <string name="invalidMilestoneName">The milestone name is invalid.</string>
+    <string name="invalidTaskDescription">The task description is invalid.</string>
+    <string name="invalidTaskName">The task name is invalid.</string>
+    <string name="Task_Category">Task Category</string>
+    <string name="invalidTaskCategory">The task category is invalid.</string>
+    <string-array name="task_categories">
+        <item >Bug Fix</item>
+        <item >Enhancement</item>
+        <item >Feature</item>
+        <item >Business</item>
+        <item >General</item>
+        <item >Infrastructure</item>
+        <item >QA</item>
+        <item >No Category</item>
+    </string-array>
 </resources>

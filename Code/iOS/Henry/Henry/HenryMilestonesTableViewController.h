@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HenryMilestonesTableViewController : UITableViewController
-
-
+@interface HenryMilestonesTableViewController : UITableViewController <UIAlertViewDelegate>
+@property NSString *MilestoneID;
+@property NSString *taskID;
 @property NSString *ProjectID;
 @property NSArray *tasks;
+@property NSString *uid;
+@property NSDictionary *milestones;
+- (IBAction)addMilestones:(id)sender;
 @end

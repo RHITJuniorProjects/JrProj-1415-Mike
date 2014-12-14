@@ -13,6 +13,9 @@ function selectProject(project){
 	}
 	selectedProject = project;
 	var milestones = selectedProject.getMilestones();
+	
+	drawStuff(selectedProject.uid);
+	
 	var $panel = $('#milestones-panel');
 	$panel.children().remove();
 	milestones.onItemAdded(function(milestone){
@@ -22,6 +25,11 @@ function selectProject(project){
 	selectedProject.getName(function(name){
 		nameA.text(name);
 	});
+
+/*	var memberCont = $('#member-container');
+	selectedProject.getMembers().onItemAdded(function(user){
+		memberCont.append(user.getMemberTile(selectedProject));
+	});*/
 }
 
 function selectMilestone(milestone){
@@ -31,16 +39,16 @@ function selectMilestone(milestone){
 	if(selectedMilestone){
 		currentMilestone.off();
 	}
-    currentMilestone = milestone;
-	var tasks = currentMilestone.getTasks();
-	var $panel = $('#tasks-table');
+    selectedMilestone = milestone;
+	var tasks = selectedMilestone.getTasks();
+	var $panel = $('#task-rows');
 	$panel.children().remove();
 	tasks.onItemAdded(function(task){
-		$panel.append(task.getTableRow());
+		$panel.prepend(task.getTableRow());
 	});
 }
 
-function allProjects(){
+function showProjects(){
     milestonePage.hide();
     projectPage.show();
     taskPage.hide();
@@ -49,25 +57,28 @@ function allProjects(){
 function getAllUsers(){
 	users.onItemAdded(function (user) {
 		var $select = $('#member-select');
-
 		user.getName(function(nameStr){
-			$select.append('<option id="username-' + user.uid + '">' +
+			$select.append('<option value="' + user.uid + '">' +
 				nameStr + '</option>');	
 		});
 	
 	});
 }
 
-$(function(){
-    milestonePage = $('#milestones-page');
-    projectPage = $('#projects-page');
-    taskPage = $('#tasks-page');
-	allProjects();
-	getAllUsers();
-    var $panel = $('#projects-panel');
-    projects.onItemAdded(function(project) {
+function selectUser(user){
+	userProjects = user.getProjects();
+    userProjects.onItemAdded(function(project) {
         $title = $('#project-name' + project.uid);
         $description = $('#project-description' + project.uid);
         $panel.append(project.getButtonDiv())
     });
+}
+
+$(function(){
+    milestonePage = $('#milestones-page');
+    projectPage = $('#projects-page');
+    taskPage = $('#tasks-page');
+	showProjects();
+	getAllUsers();
+    var $panel = $('#projects-panel');
 });

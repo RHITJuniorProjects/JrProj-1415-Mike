@@ -7,103 +7,176 @@
 //
 
 #import "HenryTasksTableViewController.h"
-#import <Firebase/Firebase.h>
+#import "HenryTaskDetailViewController.h"
+#import "HenryFirebase.h"
 
 @interface HenryTasksTableViewController ()
 
 @property NSMutableArray *tasks;
 @property Firebase *fb;
 @property NSMutableArray *tasksDescriptions;
-
+@property NSMutableArray *taskIDs;
+@property NSMutableArray *taskDueDates;
+@property NSIndexPath *previousIndex;
 @end
 
 @implementation HenryTasksTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
+    @try{
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
     }
     return self;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    @try{
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        if (self.previousIndex != nil) {
+            [self.tableView deselectRowAtIndexPath:self.previousIndex animated:YES];
+        }
+        
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:YES];
+        self.previousIndex = indexPath;
+    }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)viewDidLoad
 {
+    @try{
     [super viewDidLoad];
     
     self.tasks = [[NSMutableArray alloc] init];
     
-    self.fb = [[Firebase alloc] initWithUrl:@"https://henry-production.firebaseio.com/projects/"];
+    self.fb = [HenryFirebase getFirebaseObject];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable];
+        [self updateTable:snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
     
-    self.title = self.milestoneName;
+    if ([self.milestoneName isKindOfClass:[UILabel class]]) {
+        self.title = @"error";
+    } else {
+        self.title = self.milestoneName;
+    }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
--(void)updateTable {
-    NSString *urlString = [NSString stringWithFormat:@"https:henry-production.firebaseio.com/projects/%@/milestones/%@/tasks.json", self.ProjectID, self.MileStoneID];
-    NSURL *jsonURL = [NSURL URLWithString:urlString];
-    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    NSArray *keys = [json allKeys];
+-(void)updateTable:(FDataSnapshot *)snapshot {
+    @try{
+    NSDictionary *tasks = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID][@"tasks"];
+    NSArray *keys = [tasks allKeys];
     
     self.tasks = [[NSMutableArray alloc] init];
     self.tasksDescriptions = [[NSMutableArray alloc] init];
+    self.taskDueDates = [[NSMutableArray alloc] init];
+    self.taskIDs = [[NSMutableArray alloc] init];
     
     for (NSString *key in keys) {
-        if (![self.userTasks containsObject:key]) {
-            continue;
-        }
-        NSString *name = [[json objectForKey:key] objectForKey:@"name"];
-        NSString *description = [[json objectForKey:key] objectForKey:@"description"];
+        NSString *name = [[tasks objectForKey:key] objectForKey:@"name"];
+        NSString *description = [[tasks objectForKey:key] objectForKey:@"description"];
+        NSString *dueDate = [[tasks objectForKey:key] objectForKey:@"due_date"];
         [self.tasks addObject:name];
         [self.tasksDescriptions addObject:description];
+        [self.taskIDs addObject:key];
+        [self.taskDueDates addObject:dueDate];
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
 - (void)didReceiveMemoryWarning
 {
+    @try{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    @try{
     // Return the number of sections.
     return 1;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    @try{
     // Return the number of rows in the section.
     return [self.tasks count];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    @try{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCell" forIndexPath:indexPath];
     
     // Configure the cell...
     cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
-    cell.detailTextLabel.text = [self.tasksDescriptions objectAtIndex:indexPath.row];
+    cell.detailTextLabel.text = [self.taskDueDates objectAtIndex:indexPath.row];
     
     return cell;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 
@@ -145,15 +218,91 @@
 }
 */
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    @try{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    HenryTaskDetailViewController *vc = [segue destinationViewController];
+    vc.ProjectID = self.ProjectID;
+    vc.MileStoneID = self.MileStoneID;
+    vc.taskID = [self.taskIDs objectAtIndex:indexPath.row];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+ 
 }
-*/
+ 
+- (IBAction)addTask:(id)sender {
+    @try{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Add Task"
+                                                      message:nil
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:@"Add", nil];
+    [alert setAlertViewStyle:UIAlertViewStyleLoginAndPasswordInput];
+    [alert textFieldAtIndex:0].placeholder = @"Task Name";
+    [alert textFieldAtIndex:1].secureTextEntry = false;
+    [alert textFieldAtIndex:1].placeholder = @"Description";
+    
+    [alert show];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    @try{
+    if (buttonIndex == 1) {
+        NSString *taskName = [alertView textFieldAtIndex:0].text;
+        NSString *description = [alertView textFieldAtIndex:1].text;
+        if ([taskName length] > 0 && [description length] > 0) {
+            NSString *urlString = [NSString stringWithFormat:@"projects/%@/milestones/%@/tasks", self.ProjectID, self.MileStoneID];
+            Firebase *tasksRef = [self.fb childByAppendingPath: urlString];
+            Firebase *newTask = [tasksRef childByAutoId];
+            
+            NSDictionary *task = @{
+                                   @"name": taskName,
+                                   @"description": description,
+                                   @"assignedTo": self.uid,
+                                   @"due_date": @"No Due Date",
+                                   @"status": @"New",
+                                   @"original_time_estimate":@0,
+                                   @"category":@"No Category"
+                                   };
+            [newTask setValue:task];
+            
+            // Resign keyboard first responder
+            [self.parentViewController.view endEditing:YES];
+            // Update table with new cell so user doesn't have to wait on firebase
+            [self.tasks addObject:taskName];
+            [self.taskDueDates addObject:@"No Due Date"];
+            [self.tableView reloadData];
+        } else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
+                                                            message:@"You have an empty field."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        }
+    }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+}
 
 @end

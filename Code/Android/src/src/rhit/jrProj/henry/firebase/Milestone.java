@@ -1,8 +1,13 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.firebase.User.ChildrenListener;
+import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
+import rhit.jrProj.henry.helpers.GeneralAlgorithms;
+import rhit.jrProj.henry.helpers.GraphHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,10 +16,10 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Milestone implements Parcelable, ChildEventListener {
+public class Milestone implements Parcelable {
 
 	/**
-	 * A reference to firebase to keep the data up to date.
+	 * A reference to Firebase to keep the data up to date.
 	 */
 	private Firebase firebase;
 
@@ -24,14 +29,25 @@ public class Milestone implements Parcelable, ChildEventListener {
 	private ArrayList<Task> tasks = new ArrayList<Task>();
 
 	/**
-	 * The milestone name within the project
+	 * The name of the milestone
 	 */
-	private String name;
+	private String name = "No Name assigned";
+	
+	/**
+	 * The due date of a milestone
+	 */
+	private String dueDate = "No Due Date";
+	
+	/**
+	 * The percentage of tasks completed for this milestone
+	 */
+	private int taskPercent = 0;
+	
 
 	/**
 	 * A description of the work that needs to happen in this milestone.
 	 */
-	private String description;
+	private String description = "No description assigned";
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -39,7 +55,13 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 * Milestone that this object has been updated.
 	 */
 	private ListChangeNotifier<Milestone> listViewCallback;
+	
+	/**
+	 * A string of the milestone's firebase id.
+	 */
+	private String milestoneId = "No ID assigned";
 
+	private ListChangeNotifier<Task> taskListViewCallback;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -67,7 +89,11 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 */
 	public Milestone(String firebaseUrl) {
 		this.firebase = new Firebase(firebaseUrl);
-		this.firebase.addChildEventListener(this);
+		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.firebase.child("tasks").addChildEventListener(
+				new GrandChildrenListener(this));
+		this.milestoneId = firebaseUrl
+				.substring(firebaseUrl.lastIndexOf('/') + 1);
 	}
 
 	/**
@@ -78,9 +104,13 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 */
 	public Milestone(Parcel in) {
 		this.firebase = new Firebase(in.readString());
-		this.firebase.addChildEventListener(this);
-		this.name = in.readString();
-		this.description = in.readString();
+		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.firebase.child("tasks").addChildEventListener(
+				new GrandChildrenListener(this));
+		this.setName(in.readString());
+		this.setDueDate(in.readString());
+		this.setDescription(in.readString());
+		this.setTaskPercent(in.readInt());
 		in.readTypedList(this.tasks, Task.CREATOR);
 	}
 
@@ -91,7 +121,7 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 * @param lcn
 	 */
 	public void setListChangeNotifier(ListChangeNotifier<Milestone> lcn) {
-		this.listViewCallback = lcn;
+		this.setListViewCallback(lcn);
 	}
 
 	/**
@@ -99,7 +129,7 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 */
 	@Override
 	public String toString() {
-		return this.name;
+		return this.getName();
 	}
 
 	/**
@@ -136,68 +166,311 @@ public class Milestone implements Parcelable, ChildEventListener {
 	 */
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(this.firebase.toString());
-		dest.writeString(this.name);
-		dest.writeString(this.description);
+		dest.writeString(this.getName());
+		dest.writeString(this.getDueDate());
+		dest.writeString(this.getDescription());
+		dest.writeInt(this.getTaskPercent());
 		dest.writeTypedList(this.tasks);
 	}
-
-	/**
-	 * Do nothing
-	 */
-	public void onCancelled(FirebaseError arg0) {
-		// TODO Auto-generated method stub.
+	
+	public void replaceName(String name) {
+		this.name = name;
 	}
 
 	/**
-	 * Fills in the new milestone's properties including the milestone name,
-	 * description and list of tasks for that milestone
+	 * Replaces the description of the milestone
+	 * 
+	 * @param description
 	 */
-	public void onChildAdded(DataSnapshot arg0, String arg1) {
-		if (arg0.getName().equals("name")) {
-			this.name = arg0.getValue(String.class);
-			if (this.listViewCallback != null) {
-				this.listViewCallback.onChange();
-			}
-		} else if (arg0.getName().equals("description")) {
-			this.description = arg0.getValue(String.class);
-		} else if (arg0.getName().equals("tasks")) {
-			for (DataSnapshot child : arg0.getChildren()) {
-				Task t = new Task(child.getRef().toString());
-				if (!this.tasks.contains(t)) {
-					this.tasks.add(t);
-				}
-			}
-		}
-	}
-
-	/**
-	 * This will be called when the milestone data in Firebased is updated
-	 */
-	public void onChildChanged(DataSnapshot arg0, String arg1) {
-		// TODO Auto-generated method stub.
+	public void replaceDescription(String description) {
+		this.description = description;
 
 	}
-
+	
 	/**
-	 * Might do something here for the tablet
+	 * Returns the due date of the milestone
+	 * @return the due date of the milestone
 	 */
-	public void onChildMoved(DataSnapshot arg0, String arg1) {
-		// TODO Auto-generated method stub.
+	public String getDueDate() {
+		return this.dueDate;
 	}
-
+	
 	/**
-	 * Do nothing
+	 * Sets the due date of the milestone
+	 * @param dueDate the due date of the milestone
 	 */
-	public void onChildRemoved(DataSnapshot arg0) {
-		// TODO Auto-generated method stub.
-
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
 	}
 
 	/**
 	 * Gets the description of the milestone
+	 * 
 	 * @return String
 	 */
 	public String getDescription() {
 		return this.description;
+	}
+
+	/**
+	 * Gets the percentage of tasks completed in this milestone
+	 * @return the percentage of tasks completed in this milestone
+	 */
+	public int getTaskPercent() {
+		return this.taskPercent;
+	}
+	
+	/**
+	 * Sets the percentage of tasks completed in this milestone
+	 * @param taskPercent the percentage of tasks completed in this milestone
+	 */
+	public void setTaskPercent(int taskPercent) {
+		this.taskPercent = taskPercent;
+	}
+	
+	/**
+	 * Returns the milestone's firebase ID.
+	 */
+	public String getMilestoneId() {
+		return this.milestoneId;
+	}
+	
+	/**
+	 * sets a milestone description
+	 * 
+	 * @param description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * gets the name of a milestone
+	 * 
+	 * @return
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Sets the name of the milestone
+	 * 
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * gets the ListChangeNotifier (aka ListViewCallback) for a milestone
+	 * 
+	 * @return
+	 */
+	
+	public ListChangeNotifier<Milestone> getListChangeNotifier(){
+		return this.listViewCallback;
+	}
+
+	/**
+	 * Gets the TaskListViewCallback for a task
+	 * 
+	 * @return
+	 */
+	public ListChangeNotifier<Task> getTaskListViewCallback() {
+		return this.taskListViewCallback;
+	}
+	/**
+	 * Formats Due date to dd/mm/yyyy
+	 * @return formatted due date as String
+	 */
+	public String getDueDateFormatted(){
+		return GeneralAlgorithms.getDueDateFormatted(this.getDueDate());
+	}
+
+	
+	/**
+	 * Sets the ListViewCallback on a milestone
+	 * 
+	 * @param listViewCallback
+	 */
+	public void setListViewCallback(
+			ListChangeNotifier<Milestone> listViewCallback) {
+		this.listViewCallback = listViewCallback;
+	}
+	
+	public GraphHelper.PieChartInfo getLocAddedInfo() {
+		GraphHelper.PieChartInfo chartInfo = new GraphHelper.PieChartInfo();
+
+		for (Task task : this.getTasks()) {
+			String userName = task.getAssignedUserName();
+			if (!userName.equals(Task.getDefaultAssignedUserName())) {
+
+				if (chartInfo.getKeys().contains(userName)) {
+					chartInfo.addValueToKey(userName, task.getAddedLines());
+				} else {
+					chartInfo.addValueKey(task.getAddedLines(),
+							task.getAssignedUserName());
+				}
+
+			}
+		}
+
+		return chartInfo;
+	}
+	
+	public GraphHelper.StackedBarChartInfo getLocTotalInfo() {
+		GraphHelper.StackedBarChartInfo chartInfo = new GraphHelper.StackedBarChartInfo();
+		chartInfo.addKey("Added");
+		chartInfo.addKey("Removed");
+		chartInfo.addKey("Net");
+
+		for (Task task : this.getTasks()) {
+			String userName = task.getAssignedUserName();
+			if (!userName.equals(Task.getDefaultAssignedUserName())) {
+
+				if (chartInfo.getBarLabels().contains(userName)) {
+					chartInfo.addValueToKeyBarLabel(chartInfo.getKeys().get(0), userName, task.getAddedLines());
+					chartInfo.addValueToKeyBarLabel(chartInfo.getKeys().get(1), userName, -1 * task.getRemovedLines());
+					chartInfo.addValueToKeyBarLabel(chartInfo.getKeys().get(2), userName, task.getAddedLines() - task.getRemovedLines());
+				} else {
+					List<Double> valueSeries = new ArrayList<Double>();
+					valueSeries.add(0.0 + task.getAddedLines());
+					valueSeries.add(0.0 - task.getRemovedLines());
+					valueSeries.add(0.0 + task.getAddedLines() - task.getRemovedLines());
+					chartInfo.addValueSeriesBarLabel(valueSeries, userName);
+				}
+
+			}
+		}
+
+		return chartInfo;
+	}
+
+	/**
+	 * Milestone listener
+	 * 
+	 */
+	class ChildrenListener implements ChildEventListener {
+		private Milestone milestone;
+
+		public ChildrenListener(Milestone milestone) {
+			this.milestone = milestone;
+		}
+
+		/**
+		 * Do nothing
+		 */
+		public void onCancelled(FirebaseError arg0) {
+			// TODO Auto-generated method stub.
+		}
+
+		/**
+		 * Fills in the new milestone's properties including the milestone name,
+		 * description and list of tasks for that milestone
+		 */
+		public void onChildAdded(DataSnapshot arg0, String arg1) {
+
+			if (arg0.getKey().equals("name")) {
+				this.milestone.setName(arg0.getValue(String.class));
+				if (this.milestone.getListChangeNotifier() != null) {
+					this.milestone.getListChangeNotifier().onChange();
+				}
+			} else if (arg0.getKey().equals("description")) {
+				this.milestone.setDescription(arg0.getValue(String.class));
+			} else if (arg0.getKey().equals("due_date")) { 
+				this.milestone.setDueDate(arg0.getValue(String.class));
+			}  else if (arg0.getKey().equals("task_percent")) {
+				this.milestone.setTaskPercent(arg0.getValue(Integer.class));
+			} else if (arg0.getKey().equals("tasks")) {
+				for (DataSnapshot child : arg0.getChildren()) {
+					Task t = new Task(child.getRef().toString());
+					if (!this.milestone.tasks.contains(t)) {
+						this.milestone.tasks.add(t);
+					}
+				}
+			}
+		}
+
+		/**
+		 * This will be called when the milestone data in Firebased is updated
+		 */
+		public void onChildChanged(DataSnapshot arg0, String arg1) {
+			// TODO Auto-generated method stub.
+
+		}
+
+		/**
+		 * Might do something here for the tablet
+		 */
+		public void onChildMoved(DataSnapshot arg0, String arg1) {
+			// nothing
+		}
+
+		/**
+		 * Do nothing
+		 */
+		public void onChildRemoved(DataSnapshot arg0) {
+			// nothing
+		}
+	}
+
+	/**
+	 * Listener for Tasks
+	 */
+	class GrandChildrenListener implements ChildEventListener {
+		private Milestone milestone;
+
+		public GrandChildrenListener(Milestone milestone) {
+			this.milestone = milestone;
+		}
+
+		/**
+		 * Do nothing
+		 */
+		public void onCancelled(FirebaseError arg0) {
+			// nothing to do
+		}
+
+		/**
+		 * Fills in the new milestone's properties including the milestone name,
+		 * description and list of tasks for that milestone
+		 */
+		public void onChildAdded(DataSnapshot arg0, String arg1) {
+			Task t = new Task(arg0.getRef().toString());
+			if (!this.milestone.getTasks().contains(t)) {
+				this.milestone.getTasks().add(t);
+			}
+			t.setListChangeNotifier(this.milestone.getTaskListViewCallback());
+			if (this.milestone.listViewCallback != null) {
+				this.milestone.listViewCallback.onChange();
+			}
+		}
+
+		/**
+		 * This will be called when the milestone data in Firebased is updated
+		 */
+		public void onChildChanged(DataSnapshot arg0, String arg1) {
+			// All changes done within Task
+
+		}
+
+		/**
+		 * Might do something here for the tablet
+		 */
+		public void onChildMoved(DataSnapshot arg0, String arg1) {
+			// Nada- yet
+		}
+
+		/**
+		 * Removes a task from a milestone
+		 */
+		public void onChildRemoved(DataSnapshot arg0) {
+			Task t = new Task(arg0.getRef().toString());
+			this.milestone.getTasks().remove(t);
+			if (this.milestone.listViewCallback != null) {
+				this.milestone.listViewCallback.onChange();
+			}
+		}
 	}
 }

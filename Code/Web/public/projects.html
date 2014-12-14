@@ -2,23 +2,24 @@
 	<head>
 		<title>Henry - Projects</title>
 		<meta charset="utf-8">
-<meta http-equiv="cache-control" content="no-store" />
 <meta name="description" content="Henry project management tool">
 <link rel="stylesheet" type="text/css" href="/foundation.css">
 <link rel="stylesheet" type="text/css" href="/henry.css">
 <link rel="stylesheet" type="text/css" href="home-test.css">
+<link rel="stylesheet" type="text/css" href="foundation-datepicker.css">
 <script type="text/javascript" src="/firebase.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
+<script type="text/javascript" src="/foundation-datepicker.js"></script>
 <script type="text/javascript" src="/henry.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
 <script type="text/javascript" src="home-test.js"></script>
 <script type="text/javascript" src="/foundation.js"></script>
+<script type="text/javascript" src="/unittests.js"></script>
 <script type="text/javascript">
 	$(function(){ $(document).foundation()});
 </script>
-		<script type="text/javascript" src="/teams.js"></script>
 	</head>
 	<body class="wide">
 		<!-- topbar -->
@@ -33,14 +34,16 @@
 	</ul>
 
 	<section class="top-bar-section">
-		<ul class="left">
-			<li><a href="projects">Projects</a></li>
+		<ul class="left loginRequired" hidden>
+			<li><a href="projects">My Projects</a></li>
+			<li><a>My Tasks</a></li>
+			<li><a>My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
-			<li><a id="currentUser"></a></li>
-			<li id="logoutButton" hidden><a href="javascript:logout()">Logout</a></li>
-			<li id="loginButton" hidden><a href="login">Login</a></li>
+            <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
+			<li class="loginRequired" hidden><a id="currentUser"></a></li>
+			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
 			<li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">
@@ -61,12 +64,24 @@
 	<dd class="active"><a href="#MyProjects">My Projects</a></dd><dd><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd></dl>
 
 			</div>
-			<div id="content" class="small-9 columns small-offset-3">
+			<div class="small-9 columns main-content">
 				<div class="tabs-content">
 					<div class="content active" id="MyProjects">
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
 								<h1>My Projects</h1>
+								<button data-reveal-id="myProjectModal">Add Project</button>
+								<div id="myProjectModal" class="reveal-modal small-4" data-reveal>
+                                    <h2>New Project</h2><br />
+                                    <form action="" onsubmit="addNewProject(); return false;">
+                                        <label for="projectName">Project Name:</label> <input type="text" id="projectName">
+                                        <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
+                                        <label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
+                                        <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
+                                        <input type="submit" class="button" id="project-submit" value="Add Project" />
+                                        <div id="project-error" class="my-error" hidden>All fields must be specified</div>
+                                    </form>
+							    </div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
 								<dd class="accordion-navigation">
@@ -74,7 +89,7 @@
 										<h3>Production</h3>
 									</a>
 									<div id="projects-panel" class="content active panel row">
-										
+										<!-- projects added by projects.js -->
 									</div>
 								</dd>
 							</dl>
@@ -89,9 +104,23 @@
 								</dd>
 							</dl>
 						</div>
+						<div id="member-modal" class="reveal-modal" data-reveal>
+							<div class="row">
+								<div class="small-12 columns">
+									<h1 id="member-modal-name">
+										<!-- name set by projects.js -->
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div id="member-modal-tiles" class="small-12-columns">
+									<!-- content added by projects.js on member button click -->
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="content" id="ProjectStatistics">
-						<div class-"row">
+						<div class="row">
 							<div class="small-6 columns">
 								<div id="projContainer1"></div>
 							</div>
@@ -102,28 +131,42 @@
 					</div>
 				</div>
 			</div>
-			
+		</div>
+		
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
 		
 <dl class="tabs vertical" data-tab>
-	<dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd></dl>
+	<dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>
 
 	</div>
-		<div class="small-9 columns">
+		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
-					<div class="row text-center">
-											</div>
 					<div class="small-10 columns small-offset-1">
 						<div class="row collapse text-center outlined">
 							<h1><a id="project-name" onclick="allProjects()"></a></h1>
 							<button data-reveal-id="myModal">Add Member</button>
-							<div id="myModal" class="reveal-modal" data-reveal>
-								Users
-								<select id="member-select"></select>
-								<button onclick="addNewMember();">Add</button>
+							<div id="myModal" class="reveal-modal small-4" data-reveal>
+								Users <br />
+                                <form action="" onsubmit="addNewMember(); return false;">
+                                    <select id="member-select"></select>
+                                    <input type="submit" id="member-submit" class="button" value="Add" />
+                                    <div id="member-error" class="my-error" hidden>No member selected</div>
+                                </form>
 							</div>
+							<button data-reveal-id="myMilestoneModal">Add Milestone</button>
+							<div id="myMilestoneModal" class="reveal-modal small-4" data-reveal>
+								<h2>New Milestone</h2><br />
+                                <form action="" onsubmit="addNewMilestone(); return false;">
+                                    <label for="milestoneName">Milestone Name:</label> <input type="text" id="milestoneName" />
+                                    <label for="milestoneDescription">Description:</label> <input type="text" id="milestoneDescription" />
+                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>
+                                    <label for="milestoneEstimatedHours">Estimated Hours:</label> <input type="text" id="milestoneEstimatedHours" />
+                                    <input type="submit" id="milestone-submit" class="button" value="Add Milestone" />
+                                    <div id="milestone-error" class="my-error" hidden>All fields must be specified</div>
+							    </form>
+                            </div>
 						</div>
 						<dl class="row collapse accordion" data-accordion>
 							<dd class="accordion-navigation">
@@ -145,11 +188,21 @@
 					</div>
 				</div>
 				<div class="content" id="TeamMembers">
+					<div class="small-10 columns small-offset-1">
+						<div class="row text-center">
+							<h1>Team Members</h1>
+						</div>
+						<div class="row" id="member-container">
+						</div>
+					</div>
 				</div>
-				<div class="content" id="ProjectStatistics">
+				<div class="content" id="MilestoneStatistics">
 					<div class="row">
 						<div class="small-12 column">
 							<div id="mileContainer"></div>
+						</div>
+						<div class="small-12 column">
+							<div id="linesOfCode"></div>
 						</div>
 					</div>
 				</div>
@@ -157,6 +210,7 @@
 		</div>
 	</div>	
 </div>
+<<<<<<< HEAD
 			<div id='tasks-page' hidden>
 	<table id="tasks-table" style="width:100%">
 		<tr>
@@ -170,7 +224,36 @@
 		</tr>
 	</table>
 </div>
+=======
+		<div id='tasks-page' hidden>
+	<div class="main-content">
+		<table id="tasks-table" style="width:100%">
+			<thead>
+				<td>Task Name</td>
+				<td>Description</td>
+				<td>Assigned User</td> 
+				<td>Category</td>
+				<td>Status</td>
+                <td>Due Date</td>
+				<td>Estimated Hours</td>
+			</thead>
+			<tbody id="task-rows">
+			</tbody>
+
+		</table>
+		<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+			Add New Task
+>>>>>>> b18fbe16850cf3eefb23e36e1717321befe4159a
 		</div>
+		<div id="task-modal" class="reveal-modal" data-reveal>
+		</div>
+		<!-- <div class="small-12 columns wide" id="tasks-table">
+			<div class="row wide collapse" id="tasks-table-header">
+				<div class="small-1 columns" 
+			</div>
+		</div>-->
+	</div>
+</div>
 	</body>
 </html>
 

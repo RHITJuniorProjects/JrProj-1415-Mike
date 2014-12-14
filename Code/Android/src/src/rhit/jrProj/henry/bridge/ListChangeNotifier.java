@@ -1,6 +1,7 @@
 package rhit.jrProj.henry.bridge;
 
-import android.widget.ArrayAdapter;
+import android.util.Log;
+import android.widget.BaseAdapter;
 
 /**
  * 
@@ -10,9 +11,9 @@ import android.widget.ArrayAdapter;
  */
 public class ListChangeNotifier<T> {
 
-	private ArrayAdapter<T> adapter;
+	private BaseAdapter adapter;
 
-	public ListChangeNotifier(ArrayAdapter<T> adapter) {
+	public ListChangeNotifier(BaseAdapter adapter) {
 		this.adapter = adapter;
 	}
 	/**
@@ -21,7 +22,11 @@ public class ListChangeNotifier<T> {
 	 *
 	 */
 	public void onChange() {
+		Log.i("ListCN called", "true");
 		this.adapter.notifyDataSetChanged();
+	}
+	public BaseAdapter getAdapter(){
+		return this.adapter;
 	}
 
 }

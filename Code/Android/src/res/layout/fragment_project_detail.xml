@@ -6,14 +6,19 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/project_detail"
+        android:id="@+id/project_name"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
+
+    <TextView
+        android:id="@+id/project_due_date"
         style="?android:attr/textAppearanceLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shadowColor="@color/black"
-        android:textColor="@color/grey_font"
         android:textIsSelectable="true"
-        android:textStyle="bold"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
 
     <TextView
@@ -21,13 +26,67 @@
         style="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:shadowColor="@color/text_shadow"
-        android:textColor="@color/dark_blue"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
+    
+        <Spinner
+        android:id="@+id/project_chart_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/pieChart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" >
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/project_hours_percent"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:textIsSelectable="true"
         tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
 
+    <ProgressBar
+        android:id="@+id/project_hours_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/project_tasks_percent"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
+
+    <ProgressBar
+        android:id="@+id/project_tasks_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:id="@+id/project_milestones_percent"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textIsSelectable="true"
+        tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
+
+    <ProgressBar
+        android:id="@+id/project_milestones_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="311dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal" />
+
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/MilestoneCancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
