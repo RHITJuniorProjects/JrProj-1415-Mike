@@ -358,6 +358,7 @@ function Project(firebase) {
     this.__firebase = firebase;
     this.uid = firebase.key();
     this.__name = firebase.child('name');
+    this.__categories = firebase.child('categories');
     this.__description = firebase.child('description');
     this.__milestones = firebase.child('milestones');
     this.__dueDate = firebase.child('due_date');
@@ -370,6 +371,11 @@ function Project(firebase) {
 Project.prototype = {
     getName: function (callback) {
         this.__name.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getCategories: function (callback) {
+        this.__categories.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -692,6 +698,7 @@ function Task(firebase) {
     this.__name = firebase.child('name');
     this.__description = firebase.child('description');
     this.__assigned_user = firebase.child('assignedTo');
+    this.__categories = firebase.parent().parent().parent().parent().child('categories');
     this.__category = firebase.child('category');
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
@@ -706,17 +713,6 @@ Task.Statuses = [
     'Verify',
     'Regression',
     'Closed'
-];
-
-Task.Categories = [
-    'Bug Fix',
-    'Enhancement',
-    'Feature',
-    'Business',
-    'General',
-    'Infrastructure',
-    'QA',
-    'No Category'
 ];
 
 Task.prototype = {
@@ -734,6 +730,11 @@ Task.prototype = {
         this.__assigned_user.on('value', function (dat) {
             var user = users.get(dat.val());
             callback(user);
+        });
+    },
+    getCategories: function (callback) {
+        this.__categories.on('value', function (dat) {
+            callback(dat.val());
         });
     },
     getCategory: function (callback) {
@@ -783,6 +784,7 @@ Task.prototype = {
         var name = $('<td>');
         var desc = $('<td>');
         var cat = $('<td>');
+        var cats = null;
         var stat = $('<td>');
         var user = $('<td>');
         var due = $('<td>');
@@ -801,6 +803,9 @@ Task.prototype = {
             assignedUser.getName(function (name) {
                 user.html(name);
             });
+        });
+        this.getCategories(function (categories) {
+            cats = Object.keys(categories);
         });
         this.getCategory(function (categoryStr) {
             cat.html(categoryStr);
@@ -823,7 +828,9 @@ Task.prototype = {
                     userSelect = users.getSelect(function (user) {
                         selectedUser = user;
                     }, vals.assignedTo),
-                    categoriesSelect = makeSelect(Task.Categories, vals.category),
+                    newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>');
+                    categoriesSelect = makeSelect(cats, vals.category).append(newCategory);
+                    categoriesText = $('<input type="text">'),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
                     dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
                     estHoursInput = $('<input type="text" value="' + vals.original_hour_estimate + '">'),
@@ -834,12 +841,14 @@ Task.prototype = {
                 task.getName(function (name) {
                     nameH.text('Edit Task: ' + name);
                 });
+                $(categoriesText).hide();
                 modal.append(
                     nameH,
                     label(nameInput, 'Name'),
                     label(descriptionInput, 'Description'),
                     label(userSelect, 'User'),
                     label(categoriesSelect, 'Category'),
+                    categoriesText,
                     label(statusSelect, 'Status'),
                     label(dueInput, 'Due Date'),
                     label(estHoursInput, 'Estimated Hours'),
@@ -850,6 +859,10 @@ Task.prototype = {
                     if (e.which == 13) {
                         submit.click();
                     }
+                });
+                newCategory.click(function() {
+                    $(categoriesSelect).hide();
+                    $(categoriesText).show();
                 });
                 dueInput.click(function () {
                     dueInput.fdatepicker({format: 'yyyy-mm-dd'});
@@ -876,15 +889,24 @@ Task.prototype = {
                         return;
                     }
 
+                    var categoryName = null;
+                    if($(categoriesSelect).is(":visible")) {
+                        categoryName = categoriesSelect.val();
+                    } else {
+                        categoryName = categoriesText.val();
+                    }
                     task.__firebase.update({
                         name: nameInput.val(),
                         description: descriptionInput.val(),
                         assignedTo: userSelect.val(),
                         due_date: dueInput.val(),
-                        category: categoriesSelect.val(),
+                        category: categoryName,
                         status: statusSelect.val(),
                         updated_hour_estimate: estHours
                     });
+                    var cate = {};
+                    cate[categoryName] = true;
+                    selectedProject.__categories.update(cate);
                     $("#task-modal").foundation('reveal', 'close');
                 });
             });
@@ -897,6 +919,9 @@ Task.prototype = {
             id = user.uid;
         }
         this.__assigned_user.set(id);
+    },
+    setCategories: function (cat) {
+        this.__categories.update({cat : true});
     },
     setCategory: function (cat) {
         this.__category.set(cat);
@@ -919,12 +944,18 @@ Task.prototype = {
 };
 
 function newTask() {
+    var cats = null;
+    selectedProject.getCategories(function(categories){
+        cats = Object.keys(categories);
+    });
     var nameInput = $('<input type="text">'),
         descriptionInput = $('<textarea>'),
         userSelect = users.getSelect(function (user) {
             selectedUser = user;
         }, user.uid),
-        categoriesSelect = makeSelect(Task.Categories, "Feature"),
+        newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>');
+        categoriesSelect = makeSelect(cats, "Feature").append(newCategory),
+        categoriesText = $('<input type="text" hidden=true>'),
         statusSelect = makeSelect(Task.Statuses, "New"),
         estHoursInput = $('<input type="text">'),
         nameH = '<h3>Add New Task</h3>',
@@ -934,18 +965,24 @@ function newTask() {
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
     modal.children().remove();
+    $(categoriesText).hide();
     modal.append(
         nameH,
         label(nameInput, 'Name'),
         label(descriptionInput, 'Description'),
         label(userSelect, 'User'),
         label(categoriesSelect, 'Category'),
+        categoriesText,
         label(statusSelect, 'Status'),
         label(estHoursInput, 'Estimated Hours'),
         label(dueInput, "Due Date"),
         submit,
         taskError
     );
+    newCategory.click(function() {
+        $(categoriesSelect).hide();
+        $(categoriesText).show();
+    });
     dueInput.click(function () {
         dueInput.fdatepicker({format: 'yyyy-mm-dd'});
         dueInput.fdatepicker('show');
@@ -975,12 +1012,20 @@ function newTask() {
             $("#task-error").show();
             return;
         }
-
+        var categoryName = null;
+        if($(categoriesSelect).is(":visible")) {
+            categoryName = categoriesSelect.val();
+        } else {
+            categoryName = categoriesText.val();
+        }
+        var cate = {};
+        cate[categoryName] = true;
+        selectedProject.__categories.update(cate);
         selectedMilestone.__tasks.push({
             name: nameInput.val(),
             description: descriptionInput.val(),
             assignedTo: userSelect.val(),
-            category: categoriesSelect.val(),
+            category: categoryName,
             status: statusSelect.val(),
             original_hour_estimate: estHours,
             due_date: dueInput.val()
@@ -1084,9 +1129,6 @@ function showLoginModal() {
 
 function logout() { // get rid all user data
     firebase.unauth();
-    userData = null;
-    projects = null;
-    users = null;
     window.location.replace("/");
 }
 
