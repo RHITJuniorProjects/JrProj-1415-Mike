@@ -215,21 +215,30 @@ User.prototype = {
     },
     getMemberTile:function(project){
     	var tile = $(
-    		'<div class="panel outlined">'
+    		'<div class="column panel outlined">'
     	),
-		nameH4 = $('<h4>'),
-		roleSpan = $('<span>'),
-		email = this.getEmailLink();
+		memberRow = $('<div class="row">'),
+		nameCol = $('<div class="small-7 columns">'),
+		roleCol = $('<div class="small-5 columns">'),
+		nameH3 = $('<h3 class="text-right">'),
+		roleSpan = $('<span class="text-left">'),
+		emailRow = $('<div class="row">'),
+		emailColumn = $('<div class="small-12 columns text-center">'),
+		emailLink = this.getEmailLink();
+		emailColumn.append(emailLink);
+		emailRow.append(emailColumn);
+		nameCol.append(nameH3);
+		roleCol.append(roleSpan);
+		memberRow.append(nameCol,roleCol);
+		tile.append(memberRow,emailRow);
 
 		this.getName(function(name){
-			nameH4.text(name);
+			nameH3.text(name);
 		});
 
 		project.getRole(this,function(role){
 			roleSpan.text(role);
 		});
-
-		tile.append(nameH4,email,roleSpan);
 		return tile;
 	},
     off: function (arg1, arg2) {
@@ -410,8 +419,34 @@ Project.prototype = {
 				memberModalName.text("Members For "+name);
 			});
 			memberModalTiles.children().remove();
+
+			var selectedUser = null,
+				selectButton = $('<div class="button expand text-center">Add Member</div>'),
+				addMemberTile = $('<div class="column panel outlined">'),
+				nameRow = '<div class="row">'
+							+ '<div class="small-12 columns text-center">'
+								+ '<h3>Add New Member</h3>'
+							+ '</div>'
+						+ '</div>';
+				selectRow = $('<div class="row">'),
+				selectColumn = $('<div class="small-7 columns">'),
+				buttonColumn = $('<div class="small-5 columns">'),
+				userSelect = users.getSelect(function(user){
+					selectedUser = user;
+				});
+
+			buttonColumn.append(selectButton);
+			selectColumn.append(userSelect);
+			selectRow.append(selectColumn,buttonColumn);
+			addMemberTile.append(nameRow,selectRow);
+			memberModalTiles.append(addMemberTile);
+			selectButton.click(function(){
+				if(selectedUser){
+					thisProject.addMember(selectedUser);
+				}
+			});
 			thisProject.getMemberTiles(function(tile){
-				memberModalTiles.append(tile);
+				memberModalTiles.prepend(tile);
 			});
 		});
         rightColumn.append(
@@ -454,7 +489,6 @@ Project.prototype = {
         }
         var obj = {};
         obj[user] = role;
-        //console.log(obj);
         this.__members.update(obj);
     },
     getOption: function () {
