@@ -74,15 +74,41 @@
 </span><span class="cmt">##Test view all members of a project
 </span><span class="skw">click</span>(<img src="1418505364112.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1418505383333.png" />)
+<span class="skw">click</span>(<img src="1418578049923.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="kw">if</span> exists(<img src="1418505404192.png" />):
+<span class="kw">if</span> exists(<img src="1418578208308.png" />):
     <span class="kw">print</span>(<span class="str">"It worked"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"It failed"</span>)
 <span class="cmt">##End test
 </span>
-<span class="cmt">##Begin for</span>
+<span class="skw">click</span>(<img src="1418578072878.png" />)
+
+<span class="cmt">##Begin for view all tasks assigned for me
+</span><span class="skw">find</span>(<img src="1418577707393.png" />)
+<span class="skw">click</span>(<img src="1418577736612.png" />)
+<span class="kw">if</span> exists(<img src="1418577811956.png" />):
+    <span class="kw">print</span>(<span class="str">"It worked"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"It failed"</span>)
+<span class="cmt">##End test
+</span><span class="skw">click</span>(<img src="1418578181442.png" />)
+<span class="skw">wait</span>(<span class="dig">3</span>)
+
+<span class="cmt">##Begin test for making sure my tasks are flagged
+</span><span class="skw">click</span>(<img src="1418578937320.png" />)
+<span class="skw">dragDrop</span>(<img src="1418579318458.png" />,<img src="1418579324512.png" />)
+<span class="skw">wait</span>(<span class="dig">3</span>)
+<span class="skw">click</span>(<img src="1418579373502.png" />)
+<span class="skw">click</span>(<img src="1418579412064.png" />)
+<span class="skw">click</span>(<img src="1418579428225.png" />)
+<span class="kw">if</span> exists(<img src="1418579446737.png" />):
+    <span class="kw">print</span>(<span class="str">"It worked"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"It failed"</span>)
+<span class="cmt">##End Test
+</span><span class="kw">for</span> n <span class="kw">in</span> range(<span class="dig">4</span>):
+    <span class="skw">click</span>(<img src="1418579641790.png" />)
 </pre>
 </body>
 </html>
