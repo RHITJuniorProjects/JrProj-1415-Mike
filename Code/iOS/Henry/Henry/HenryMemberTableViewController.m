@@ -113,7 +113,7 @@
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *recipients = [self.memberEmails objectAtIndex:indexPath.row];
     NSString *email = [NSString stringWithFormat:@"mailto:%@",recipients];
