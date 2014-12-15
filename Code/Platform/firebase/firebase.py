@@ -38,7 +38,7 @@ def make_get_request(url, params, headers, connection):
     response => {'1': 'John Doe', '2': 'Jane Doe'}
     """
     timeout = getattr(connection, 'timeout')
-    response = connection.get(url, params=params, headers=headers, timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.py','cacert.pem'))
+    response = connection.get(url, params=params, headers=headers, timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.exe','cacert.pem'))
     if response.ok or response.status_code == 403:
         return response.json() if response.content else None
     else:
@@ -68,7 +68,7 @@ def make_put_request(url, data, params, headers, connection):
     """
     timeout = getattr(connection, 'timeout')
     response = connection.put(url, data=data, params=params, headers=headers,
-                              timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.py','cacert.pem'))
+                              timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.exe','cacert.pem'))
     if response.ok or response.status_code == 403:
         return response.json() if response.content else None
     else:
@@ -97,7 +97,7 @@ def make_post_request(url, data, params, headers, connection):
     """
     timeout = getattr(connection, 'timeout')
     response = connection.post(url, data=data, params=params, headers=headers,
-                               timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.py','cacert.pem'))
+                               timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.exe','cacert.pem'))
     if response.ok or response.status_code == 403:
         return response.json() if response.content else None
     else:
@@ -126,7 +126,7 @@ def make_patch_request(url, data, params, headers, connection):
     """
     timeout = getattr(connection, 'timeout')
     response = connection.patch(url, data=data, params=params, headers=headers,
-                                timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.py','cacert.pem'))
+                                timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.exe','cacert.pem'))
     if response.ok or response.status_code == 403:
         return response.json() if response.content else None
     else:
@@ -153,7 +153,7 @@ def make_delete_request(url, params, headers, connection):
     response => NULL or {'error': 'Permission denied.'}
     """
     timeout = getattr(connection, 'timeout')
-    response = connection.delete(url, params=params, headers=headers, timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem'))
+    response = connection.delete(url, params=params, headers=headers, timeout=timeout, verify=sys.argv[0].replace('henry.exe','cacert.pem').replace('commit.exe','cacert.pem'))
     if response.ok or response.status_code == 403:
         return response.json() if response.content else None
     else:

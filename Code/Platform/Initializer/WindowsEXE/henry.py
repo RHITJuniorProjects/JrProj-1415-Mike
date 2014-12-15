@@ -19,45 +19,42 @@ cacert = os.path.dirname(os.path.abspath(os.__file__))+'/cacert.pem'
 
 def initialize_git(projectID,opsys):
     # github API 3.0
-    base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks'
+    base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks/WindowsEXE/build/exe.win32-2.7/'
     if opsys == 'unix':
         base_url = base_url + '/Unix'
     else:
         base_url = base_url + '/Windows'
 
+    files = ["library.zip", "commit.exe", "cacert.pem", "select.pyd", "_multiprocessing.pyd", "_hashlib.pyd", "pyexpat.pyd", "_ctypes.pyd", "unicodedata.pyd", "_ssl.pyd", "bz2.pyd", "_socket.pyd", "python27.dll"]
+
     sh_url = base_url+'/commit-msg'
     py_url = base_url+'/henry/commit.py'
 
-    hook_dir = os.getcwd()+'/.git/hooks'
-    henry_dir = hook_dir+'/henry'
-    sh_path = hook_dir+'/commit-msg'
-    py_path = henry_dir+'/commit.py'
+    hook_dir = os.getcwd()+'/.git/hooks/'
+    henry_dir = hook_dir+'henry/'
+    #sh_path = hook_dir+'/commit-msg'
+    #py_path = henry_dir+'/commit.py'
     
     if not inGitRepo():
         print 'HENRY Error: Must be in the root of a Git repository'
         exit()
     
-    # retrieve and decode the shell script
-    r = requests.get(sh_url, verify=sys.argv[0].replace('henry.exe','cacert.pem'))
-    sh = b64decode(json.loads(r.text)['content'])
+    r = requests.get(base_url+'commit-msg', verify=sys.argv[0].replace('henry.exe','cacert.pem'))
+    s = b64decode(json.loads(r.text)['content'])
+    with open(hook_dir+'commit-msg','w') as f:
+        f.write(s)
+    os.system('chmod +x .git/hooks/commit-msg')
 
-    # retrieve and decode the python script
-    r = requests.get(py_url, verify=sys.argv[0].replace('henry.exe','cacert.pem'))
-    py = b64decode(json.loads(r.text)['content'])
-    py = '\n'.join([fillTemplate(line,projectID) for line in py.split('\n')])
-
-    # write the shell script
-    with open(sh_path,'w') as f:
-        f.write(sh)
-
-    os.system('chmod +x .git/hooks/commit-msg') 
 
     if not os.path.exists(henry_dir):
         os.makedirs(henry_dir)
 
-    # write the python script
-    with open(py_path,'w') as f:
-        f.write(py)
+    for my_file in files:
+        r = requests.get(base_url+my_file, verify=sys.argv[0].replace('henry.exe','cacert.pem'))
+        s = b64decode(json.loads(r.text)['content'])
+        with open(henry_dir+my_file) as f:
+            f.write(s)
+
     print 'HENRY: Repository succesfully connected to Henry'
 
 
@@ -192,7 +189,7 @@ if __name__ == '__main__':
             usage()
 
     except Exception as e:
-        #traceback.print_exc(file=sys.stdout)
+        traceback.print_exc(file=sys.stdout)
         """
         This line causes the script to exit abruptly and bypass all
         exit handlers. This is necessary because the Python Firebase

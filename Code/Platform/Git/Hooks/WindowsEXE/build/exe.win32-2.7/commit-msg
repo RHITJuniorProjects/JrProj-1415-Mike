@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+.git/hooks/henry/commit.exe $1
