@@ -38,4 +38,7 @@
 @property NSDictionary *assignableDevs;
 @property NSDictionary *allDevs;
 @property NSMutableArray *linesOfCode;
+@property NSDictionary *members;
+@property NSDictionary *allMembers;
+@property NSDictionary *projectJson;
 @end

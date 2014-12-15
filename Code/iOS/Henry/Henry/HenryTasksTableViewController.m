@@ -287,7 +287,7 @@
                                    @"assignedTo": self.uid,
                                    @"due_date": @"No Due Date",
                                    @"status": @"New",
-                                   @"original_time_estimate":@0,
+                                   @"original_hour_estimate":@0,
                                    @"category":@"No Category"
                                    };
             [newTask setValue:task];

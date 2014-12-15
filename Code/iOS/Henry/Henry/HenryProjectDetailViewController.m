@@ -9,6 +9,7 @@
 #import "HenryProjectDetailViewController.h"
 #import "HenryFirebase.h"
 #import "HenryMilestonesTableViewController.h"
+#import "HenryMemberTableViewCell.h"
 
 @interface HenryProjectDetailViewController ()
 @property Firebase *fb;
@@ -30,6 +31,15 @@
                 NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
                 self.projectID = [projects objectAtIndex:0];
                 [self updateInfo:snapshot];
+            } withCancelBlock:^(NSError *error) {
+                NSLog(@"%@", error.description);
+            }];
+            [self.fb observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                self.uid = [defaults objectForKey:@"id"];
+                NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
+                self.projectID = [projects objectAtIndex:0];
+                [self populateMembers:snapshot];
             } withCancelBlock:^(NSError *error) {
                 NSLog(@"%@", error.description);
             }];
@@ -120,6 +130,37 @@
     }
 }
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.members.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
+    HenryMemberTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MemberCell" forIndexPath:indexPath];
+    NSString *memberId = [self.members allKeys][indexPath.row];
+    
+    NSString *name = [[self.allMembers objectForKey:memberId] objectForKey:@"name"];
+    NSString *email = [[self.allMembers objectForKey:memberId] objectForKey:@"email"];
+    
+    cell.nameLabel.text = name;
+    cell.emailLabel.text = email;
+    cell.roleLabel.text = [self.members objectForKey:memberId];
+    
+    if ([[self.members objectForKey:self.uid] isEqual: @"Lead"]) {
+        double totalHours = [[self.projectJson objectForKey:@"total_estimated_hours"] doubleValue];
+        double memberHours = [[[[[self.allMembers objectForKey:memberId] objectForKey:@"projects"] objectForKey:self.projectID] objectForKey:@"total_hours"] doubleValue];
+        cell.progressLabel.text = [NSString stringWithFormat:@"Hours: %.0f/%.0f", memberHours, totalHours];
+        cell.progressBar.progress = memberHours / totalHours;
+        cell.progressBar.hidden = NO;
+        cell.progressLabel.hidden = NO;
+    }
+    return cell;
+}
+
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -164,6 +205,17 @@
         exit(0);
         
     }
+}
+
+-(void)populateMembers:(FDataSnapshot *) snapshot {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    NSDictionary *json = snapshot.value[@"projects"][self.projectID];
+    self.projectJson = json;
+    self.members = [json objectForKey:@"members"];
+    NSDictionary *json2 = snapshot.value[@"users"];
+    self.allMembers = json2;
+    [self.memberTableView reloadData];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 - (void)didReceiveMemoryWarning {
