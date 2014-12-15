@@ -24,7 +24,7 @@ function selectProject(project){
 	selectedProject = project;
 	var milestones = selectedProject.getMilestones();
 	
-	drawStuff(selectedProject.uid);
+	drawMilestoneStuff(selectedProject.uid, firebase);
 	
 	var $panel = $('#milestones-panel');
 	$panel.children().remove();
@@ -61,6 +61,7 @@ function selectMilestone(milestone){
 }
 
 function showProjects(){
+    drawProjectStuff(firebase);
     milestonePage.hide();
     projectPage.show();
     taskPage.hide();

@@ -69,10 +69,10 @@
 					</div>
 					<div class="content" id="ProjectStatistics">
 						<div class="row">
-							<div class="small-6 columns">
+							<div class="small-12 columns">
 								<div id="projContainer1"></div>
 							</div>
-							<div class="small-6 columns">
+							<div class="small-12 columns">
 								<div id="projContainer2"></div>
 							</div>
 						</div>
