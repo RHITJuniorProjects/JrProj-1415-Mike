@@ -1,9 +1,8 @@
 Package: henry
-Version: 0.01
+Version: 1.1.4
 Architecture: all
 Maintainer: Adam Michael <michaea1@rose-hulman.edu>
 Installed-Size: 2
-Depends: python-appindicator
 Section: extras
 Priority: optional
 Homepage: https://github.com/RHITJuniorProjects/JrProj-1415-Mike
