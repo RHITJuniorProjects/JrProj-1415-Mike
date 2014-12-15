@@ -761,7 +761,6 @@ Task.Statuses = [
     'Closed'
 ];
 
-<<<<<<< HEAD
 Task.Categories = [
     'Bug Fix',
     'Enhancement',
@@ -778,8 +777,6 @@ Task.Flags = [
     'false'
 ];
 
-=======
->>>>>>> 4d4a2299db8fbfdfd6bae943cc57765eb66a3d65
 Task.prototype = {
     getName: function (callback) {
         this.__name.on('value', function (dat) {
@@ -991,13 +988,9 @@ Task.prototype = {
                         is_completed: flagVal,
                         updated_hour_estimate: estHours
                     });
-<<<<<<< HEAD
-
-=======
                     var cate = {};
                     cate[categoryName] = true;
                     selectedProject.__categories.update(cate);
->>>>>>> 4d4a2299db8fbfdfd6bae943cc57765eb66a3d65
                     $("#task-modal").foundation('reveal', 'close');
                 });
             });
