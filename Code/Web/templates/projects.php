@@ -82,6 +82,7 @@
 		</div>
 		<?php require 'Milestones.php'?>
 		<?php require 'tasks.php'?>
+        <?php require 'mytasks.php'?>
 	</body>
 </html>
 

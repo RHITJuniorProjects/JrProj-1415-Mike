@@ -5,8 +5,10 @@ var currentProject;
 var milestonePage;
 var projectPage;
 var taskPage;
+var myTasksPage;
 var selectedProject;
 var selectedMilestone;
+var myTasks;
 
 
 // table object manages a table of values in the database, use get to get objects from the database
@@ -15,6 +17,7 @@ function selectProject(project){
     milestonePage.show();
     projectPage.hide();
     taskPage.hide();
+    myTasksPage.hide();
 	if(selectedProject){
 		selectedProject.off();
 	}
@@ -44,6 +47,7 @@ function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();
     taskPage.show();
+    myTasksPage.hide();
 	if(selectedMilestone){
 		currentMilestone.off();
 	}
@@ -60,6 +64,24 @@ function showProjects(){
     milestonePage.hide();
     projectPage.show();
     taskPage.hide();
+    myTasksPage.hide();
+}
+
+function selectMyTasks(){
+    var tasks = user.getTasks();
+    var $panel = $('#my-tasks-rows');
+    $panel.children().remove();
+    tasks.onItemAdded(function(task){
+        $panel.prepend(task.getTableRow());
+    });
+}
+
+function showMyTasksPage(){
+    //selectMyTasks();
+    milestonePage.hide();
+    projectPage.hide();
+    taskPage.hide();
+    myTasksPage.show();
 }
 
 function getAllUsers(){
@@ -211,8 +233,23 @@ User.prototype = {
             });
         });
     },
+    getTasks: function () {
+        return new Table(function (fb) {
+            return new MyTasks(fb);
+        }, this.__tasks);
+    },
     getAllTasks: function () {
-
+        // this.__projects has all of the project ids of the current user
+        // should return a list of references to all the tasks
+        var alltasks = firebase.child('projects/milestones/tasks');
+        var currenttasks = {};
+        alltasks.on("value", function (task) {
+            console.log(task.val());
+            if (task.val().assignedTo === selecedUser) {
+                currenttasks.add(task);
+            }
+        });
+        return currenttasks;
     },
     getMemberTile:function(project){
     	var tile = $(
@@ -537,7 +574,7 @@ Project.prototype = {
 		this.getMembers().onItemAdded(function(user){
 			callback(user.getMemberTile(project));
 		});
-	},
+	}
 };
 // creates new projects and are added into firebase
 function addNewProject() {
@@ -711,7 +748,8 @@ function Task(firebase) {
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
     this.__due_date = firebase.child('due_date');
-    this.__original_hour_estimate = firebase.child('original_hour_estimate');
+    this.__is_completed = firebase.child('is_completed');
+    this.__hour_estimate = firebase.child('updated_hour_estimate');
 };
 
 Task.Statuses = [
@@ -723,6 +761,25 @@ Task.Statuses = [
     'Closed'
 ];
 
+<<<<<<< HEAD
+Task.Categories = [
+    'Bug Fix',
+    'Enhancement',
+    'Feature',
+    'Business',
+    'General',
+    'Infrastructure',
+    'QA',
+    'No Category'
+];
+
+Task.Flags = [
+    'true',
+    'false'
+];
+
+=======
+>>>>>>> 4d4a2299db8fbfdfd6bae943cc57765eb66a3d65
 Task.prototype = {
     getName: function (callback) {
         this.__name.on('value', function (dat) {
@@ -760,13 +817,18 @@ Task.prototype = {
             callback(dat.val());
         });
     },
+    getFlag: function (callback) {
+        this.__is_completed.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
     getTotalLinesOfCode: function (callback) {
         this.__total_lines_of_code.on('value', function (dat) {
             callback(dat.val());
         });
     },
     getTimeEstimate: function (callback) {
-        this.__original_hour_estimate.on('value', function (dat) {
+        this.__hour_estimate.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -796,11 +858,12 @@ Task.prototype = {
         var stat = $('<td>');
         var user = $('<td>');
         var due = $('<td>');
+        var flag = $('<td>');
         var hoursEstimate = $('<td>');
         var task = this;
         var modal = $('#task-modal');
 
-        row.append(name, desc, user, cat, stat, due, hoursEstimate);
+        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate);
         this.getName(function (nameStr) {
             name.html(nameStr);
         });
@@ -824,8 +887,15 @@ Task.prototype = {
         this.getDueDate(function (dueDate) {
             due.html(dueDate);
         });
-        this.getTimeEstimate(function (updated_hour_estimateStr) {
-            hoursEstimate.html(updated_hour_estimateStr);
+        this.getFlag(function (f) {
+            if(f){
+                flag.html('<img src="completed.png" />');
+            } else {
+                flag.html('<img src="notcompleted.png" />');
+            }
+        });
+        this.getTimeEstimate(function (hour_estimateStr) {
+            hoursEstimate.html(hour_estimateStr);
         });
         row.click(function () {
             modal.children().remove();
@@ -841,7 +911,8 @@ Task.prototype = {
                     categoriesText = $('<input type="text">'),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
                     dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
-                    estHoursInput = $('<input type="text" value="' + vals.original_hour_estimate + '">'),
+                    flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
+                    estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
                     nameH = $('<h3>'),
                     submit = $('<input class="button" value="Edit Task" />'),
                     taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
@@ -859,6 +930,7 @@ Task.prototype = {
                     categoriesText,
                     label(statusSelect, 'Status'),
                     label(dueInput, 'Due Date'),
+                    label(flagInput, 'Is Complete'),
                     label(estHoursInput, 'Estimated Hours'),
                     submit,
                     taskError
@@ -886,6 +958,12 @@ Task.prototype = {
                     }
 
                     var estHours = Number(estHoursInput.val());
+                    // console.log(estHours);
+                    var flagVal = flagInput.val() == 'true' ? true : false;
+                    // console.log(typeof(flagInput.val()));
+                    // console.log(flagInput.val());
+                    // console.log(typeof(flagVal));
+                    // console.log(flagVal);
 
                     if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
                         $("#task-error").show();
@@ -910,14 +988,22 @@ Task.prototype = {
                         due_date: dueInput.val(),
                         category: categoryName,
                         status: statusSelect.val(),
+                        is_completed: flagVal,
                         updated_hour_estimate: estHours
                     });
+<<<<<<< HEAD
+
+=======
                     var cate = {};
                     cate[categoryName] = true;
                     selectedProject.__categories.update(cate);
+>>>>>>> 4d4a2299db8fbfdfd6bae943cc57765eb66a3d65
                     $("#task-modal").foundation('reveal', 'close');
                 });
             });
+        });
+        this.getTimeEstimate(function(time) {
+            console.log(time);
         });
         return row;
     },
@@ -942,6 +1028,9 @@ Task.prototype = {
     },
     setName: function (name) {
         this.__name.set(name);
+    },
+    setFlag: function (flag) {
+        this.__is_completed.set(flag);
     },
     setDueDate: function (dueDate) {
         this.__due_date.set(dueDate);
@@ -969,6 +1058,7 @@ function newTask() {
         nameH = '<h3>Add New Task</h3>',
         submit = $('<input class="button" value="Add Task" />'),
         modal = $('#task-modal'),
+        //completed = makeSelect(Task.Flags, 'false');
         dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
@@ -983,6 +1073,7 @@ function newTask() {
         categoriesText,
         label(statusSelect, 'Status'),
         label(estHoursInput, 'Estimated Hours'),
+        //label(completed, 'Is Completed'),
         label(dueInput, "Due Date"),
         submit,
         taskError
@@ -1036,11 +1127,101 @@ function newTask() {
             category: categoryName,
             status: statusSelect.val(),
             original_hour_estimate: estHours,
+            is_completed: false,    //default task to uncompleted
             due_date: dueInput.val()
         });
         $("#task-modal").foundation('reveal', 'close');
     });
 }
+
+function MyTasks(firebase) {
+    this.__firebase = firebase;
+    this.uid = firebase.key();
+    this.__name = firebase.child('name');
+    this.__description = firebase.child('description');
+    this.__assigned_user = firebase.child('assignedTo');
+    this.__categories = firebase.parent().parent().parent().parent().child('categories');
+    this.__category = firebase.child('category');
+    this.__status = firebase.child('status');
+    this.__lines_of_code = firebase.child('total_lines_of_code');
+    this.__due_date = firebase.child('due_date');
+    this.__original_hour_estimate = firebase.child('original_hour_estimate');
+};
+
+MyTasks.prototype = {
+    getName: function (callback) {
+        this.__name.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getDescription: function (callback) {
+        this.__description.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getAssignedUser: function (callback) {
+        this.__assigned_user.on('value', function (dat) {
+            var user = users.get(dat.val());
+            callback(user);
+        });
+    },
+    getCategory: function (callback) {
+        this.__category.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getStatus: function (callback) {
+        this.__status.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getDueDate: function (callback) {
+        this.__due_date.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getTableRow: function () {
+        var row = $('<tr class="task-row" data-reveal-id="task-modal">');
+        var name = $('<td>');
+        var desc = $('<td>');
+        var cat = $('<td>');
+        var stat = $('<td>');
+        var user = $('<td>');
+        var due = $('<td>');
+        var hoursEstimate = $('<td>');
+        var task = this;
+        var modal = $('#task-modal');
+
+        row.append(name, desc, user, cat, stat, due, hoursEstimate);
+        this.getName(function (nameStr) {
+            name.html(nameStr);
+        });
+        this.getDescription(function (descriptionStr) {
+            desc.html(descriptionStr);
+        });
+        this.getAssignedUser(function (assignedUser) {
+            assignedUser.getName(function (name) {
+                user.html(name);
+            });
+        });
+        this.getCategory(function (categoryStr) {
+            cat.html(categoryStr);
+        });
+        this.getStatus(function (statStr) {
+            stat.html(statStr);
+        });
+        this.getDueDate(function (dueDate) {
+            due.html(dueDate);
+        });
+        this.getTimeEstimate(function (updated_hour_estimateStr) {
+            hoursEstimate.html(updated_hour_estimateStr);
+        });
+        return row;
+    },
+    off: function () {
+        this.__firebase.off();
+    }
+};
 
 var projects = new Table(function (fb) {
     return new Project(fb);
@@ -1049,7 +1230,6 @@ var projects = new Table(function (fb) {
 var users = new Table(function (fb) {
     return new User(fb);
 }, firebase.child('users'));
-
 
 
 function getLoginData() { // Takes the login data from the form and places it into variables
@@ -1160,6 +1340,7 @@ firebase.onAuth( // called on page load to auth users
 				milestonePage = $('#milestones-page');
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
+                myTasksPage = $('#my-tasks-page');
 				showProjects();
 				getAllUsers();
             }
