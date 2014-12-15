@@ -40,7 +40,7 @@ def getLoC():
         raise Exception('HENRY: Unexpected output of `git diff --cached --shortstat`')
     else:
         vals = ['0','0']
-    nums = map(lambda x: int(x[0]),vals) 
+    nums = map(lambda y: int(filter(lambda x: x.isdigit(),y)),vals)
     return nums[0],nums[1]
 
 

@@ -32,3 +32,26 @@ HenryTest.prototype.testMakeProgressBar = function(){
 	percentRef.flush();
 	assertEquals('check if progress bar width changed',span.attr('style'),'width: 60%;');
 };
+
+HenryTest.prototype.testViewMyTasks = function(){
+	// Instantiate a firebase project with some tasks assigned to a specific user
+	var myTasksRef Firebase('myTasks'),
+		container = makeProgressBar('my-progress-class','label',myTasksRef),
+		progress = container.children('.progress'),
+		span = progress.children('.meter'),
+		h4 = container.children('h4');
+
+	// Set tasks to view
+	myTasksRef.set();
+	myTasksRef.flush();
+	// See if the tasks are there
+	assertEquals('check if the tasks are shown','width: 30%;',span.attr('style'));
+	assertEquals('check if one of the tasks has the right label',h4.text(),'label');
+	assertEquals('check the Description of one of the tasks',progress.attr('class'),"progress my-progress-class");
+
+	// Add a new task
+	myTasksRef.set();
+	myTasksRef.flush();
+	// See if the new task is there
+	assertEquals('check if new task is shown',span.attr('style'),'width: 60%;');
+};

@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
-import rhit.jrProj.henry.bridge.TwoLineArrayAdapter;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
-import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
@@ -19,10 +16,9 @@ import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.firebase.client.Firebase;
 
@@ -72,6 +68,8 @@ public class TaskListFragment extends ListFragment {
 		public Project getSelectedProject();
 		
 		public String getUserName();
+
+		public String getSortMode();
 		
 	}
 
@@ -94,6 +92,11 @@ public class TaskListFragment extends ListFragment {
 		}
 		public String getUserName(){
 			return "";
+		}
+
+		public String getSortMode() {
+			// TODO Auto-generated method stub
+			return null;
 		}
 		
 		
@@ -147,9 +150,9 @@ public class TaskListFragment extends ListFragment {
 			datum.put("assignee", new Assignee(task));
 			data.add(datum);
 		}
-		ArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_activated_2,
+		SortedArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_activated_2,
 				android.R.id.text1, this.tasks, Enums.ObjectType.TASK, mCallbacks.getUserName());
-		ListChangeNotifier<Task> lcn = new ListChangeNotifier<Task>(adapter);
+		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
 			t.setListChangeNotifier(lcn);
@@ -179,6 +182,13 @@ public class TaskListFragment extends ListFragment {
 		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 		createMilestone.setVisible(false);
 		createMilestone.setEnabled(false);
+		SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
+		MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
+		MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
+		dateOldest.setVisible(false);
+		dateOldest.setEnabled(false);
+		dateNewest.setVisible(false);
+		dateNewest.setEnabled(false);
 
 		Firebase ref = new Firebase(MainActivity.firebaseUrl);
 		Enums.Role role = this.mCallbacks
@@ -257,6 +267,11 @@ public class TaskListFragment extends ListFragment {
 		mActivatedPosition = position;
 	}
 	
-	
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		for (Task p : this.tasks){
+			((SortedListChangeNotifier<Task>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+		}
+	}
 
 }

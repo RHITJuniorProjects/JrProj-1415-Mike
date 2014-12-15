@@ -3,6 +3,7 @@ package rhit.jrProj.henry.bridge;
 import java.util.List;
 
 import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -77,19 +78,19 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		TextView text1 = (TextView) view.findViewById(R.id.firstline);
 		TextView text2 = (TextView) view.findViewById(R.id.secondline);
 		ImageView img1 = (ImageView) view.findViewById(R.id.imageView);
+		img1.setVisibility(View.GONE);
 		if (this.type == Enums.ObjectType.PROJECT) {
 			Project p=(Project) super.getItem(position);
-			img1.setVisibility(View.GONE);
 			if (p != null) {
 				text1.setText(p.getName());
 				text2.setText("Due: "
 						+ p.getDueDateFormatted());
 
 			}
+			
 		}
 
 		else if (this.type == Enums.ObjectType.MILESTONE) {
-			img1.setVisibility(View.GONE);
 			Milestone m=(Milestone) super.getItem(position);
 			text1.setText(m.getName());
 			text2.setText("Due: "
@@ -108,12 +109,15 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 				}
 				//Show the image if the task is assigned to the logged in user.
 				img1.setVisibility(View.VISIBLE);
-			} else {
-				//If this task is not assigned to the logged in user, hide all icons.
-				img1.setVisibility(View.GONE);
-			}
+			} 
 			text1.setText(t.getName());
 			text2.setText("Assigned to: " + t.getAssignedUserName());
+			text1.setTextSize(20);
+			view.refreshDrawableState();
+		} else if (this.type == Enums.ObjectType.MEMBER) {
+			Member m = (Member) super.getItem(position);
+			text1.setText(m.toString());
+			text2.setText(m.getEmail());
 			text1.setTextSize(20);
 			view.refreshDrawableState();
 		}

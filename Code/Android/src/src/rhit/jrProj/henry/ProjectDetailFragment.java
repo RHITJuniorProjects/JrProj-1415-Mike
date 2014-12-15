@@ -5,21 +5,34 @@ import java.util.List;
 
 import org.achartengine.GraphicalView;
 
+import rhit.jrProj.henry.firebase.Enums.Role;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.helpers.GraphHelper;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
@@ -32,7 +45,28 @@ public class ProjectDetailFragment extends Fragment {
 	 * The dummy content this fragment is presenting.
 	 */
 	private Project projectItem;
+	
+	private LinearLayout mMembersList;
 
+	private boolean mTwoPane;
+
+	private Callbacks mCallbacks;
+
+	public interface Callbacks {
+		public Project getSelectedProject();
+	}
+
+	/**
+	 * A dummy implementation of the {@link Callbacks} interface that does
+	 * nothing. Used only when this fragment is not attached to an activity.
+	 */
+	private static Callbacks sDummyCallbacks = new Callbacks() {
+		public Project getSelectedProject() {
+			return null;
+		}
+	};
+
+	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -43,22 +77,42 @@ public class ProjectDetailFragment extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		if (getArguments().containsKey("Project")) {
-			// Load the dummy content specified by the fragment
-			// arguments. In a real-world scenario, use a Loader
-			// to load content from a content provider.
-			this.projectItem = (Project) getArguments()
-					.getParcelable("Project");
+		if (getArguments().containsKey("TwoPane")) {
+			this.mTwoPane = getArguments()
+					.getBoolean("TwoPane");
 		}
 
+	}
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		// This code shows the "Create Task" option when
+		// viewing tasks.
+		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+		createMilestone.setVisible(false);
+		createMilestone.setEnabled(false);
+
+		
+		
+			MenuItem createTask = menu.findItem(R.id.action_task);
+			createTask.setVisible(false);
+			createTask.setEnabled(false);
+			MenuItem sorting= menu.findItem(R.id.action_sorting);
+			
+			sorting.setEnabled(false);
+			sorting.setVisible(false);
+		
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_project_detail,
+		final View rootView = inflater.inflate(R.layout.fragment_project_detail,
 				container, false);
+		this.projectItem = this.mCallbacks.getSelectedProject();
+		this.mMembersList = (LinearLayout) rootView.findViewById(R.id.projectMembers);
+		
 		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_name))
 				.setText("Name of project: " + this.projectItem.getName());
@@ -66,6 +120,44 @@ public class ProjectDetailFragment extends Fragment {
 				.setText("Due on: " + this.projectItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.project_description))
 				.setText("Description: " + this.projectItem.getDescription());
+			
+			for (final Member m : this.projectItem.getMembers().getAllKeys()) {
+				View projectMemberView = LayoutInflater.from(getActivity()).inflate(R.layout.project_member_view, null);
+				TextView memberName = (TextView)projectMemberView.findViewById(R.id.member_name);
+				TextView memberEmail = (TextView)projectMemberView.findViewById(R.id.member_email);
+				TextView memberRole = (TextView)projectMemberView.findViewById(R.id.member_role);
+				
+				Role r = this.projectItem.getMembers().getValue(m);
+				memberName.setText(m.getName());
+				memberRole.setText(r.toString());
+				memberEmail.setText(m.getEmail());
+				
+				if (this.mTwoPane) {
+					projectMemberView.findViewById(R.id.metrics_label).setVisibility(View.VISIBLE);
+					ProgressBar metricProgress = (ProgressBar) projectMemberView.findViewById(R.id.metricsProgressBar);
+					metricProgress.setVisibility(View.VISIBLE);
+					Log.d("Henry", metricProgress.getProgress()+"|"+m.getProjectMetrics(this.projectItem.getProjectId()).getHoursPercent());
+					metricProgress.setProgress(m.getProjectMetrics(this.projectItem.getProjectId()).getHoursPercent());
+					Log.d("Henry", metricProgress.getProgress()+"");
+				}
+				
+				Button emailButton = (Button)projectMemberView.findViewById(R.id.email_button);
+				emailButton.setOnClickListener(new OnClickListener() {
+
+					public void onClick(View v) {
+						Intent emailIntent = new Intent(Intent.ACTION_SENDTO,
+				            	Uri.fromParts("mailto", m.getEmail(), null));
+
+
+				 	startActivity(Intent.createChooser(emailIntent,
+				            	"Send email to " + m.getName()));
+					}
+					
+				});
+				
+				
+				this.mMembersList.addView(projectMemberView);
+			}
 			
 			//Progress Bars for Hours, Tasks, and Milestones
 			((TextView) rootView.findViewById(R.id.project_hours_percent))
@@ -102,8 +194,12 @@ public class ProjectDetailFragment extends Fragment {
 		// Set the default for the spinner
 		spinner.setSelection(0);
 		// /////
-		
-		
+		((Switch) rootView.findViewById(R.id.projectMemberSwitch)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				rootView.findViewById(R.id.projectDetails).setVisibility(isChecked ? View.GONE : View.VISIBLE);
+				rootView.findViewById(R.id.projectMembers).setVisibility(isChecked ? View.VISIBLE : View.GONE);
+			}
+		});	
 		
 		FrameLayout chartView = (FrameLayout) rootView
 				.findViewById(R.id.pieChart);
@@ -146,6 +242,20 @@ public class ProjectDetailFragment extends Fragment {
 		return rootView;
 	}
 	
-	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (!(activity instanceof Callbacks)) {
+			throw new IllegalStateException(
+					"Activity must implement fragment's callbacks.");
+		}
+		this.mCallbacks = (Callbacks) activity;
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		this.mCallbacks = sDummyCallbacks;
+	}
 
 }

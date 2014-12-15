@@ -2,7 +2,6 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
@@ -12,7 +11,6 @@ import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +67,8 @@ public class MilestoneListFragment extends ListFragment {
 		public ArrayList<Milestone> getMilestones();
 
 		public Project getSelectedProject();
+
+		public String getSortMode();
 		
 	}
 
@@ -86,6 +86,11 @@ public class MilestoneListFragment extends ListFragment {
 		}
 
 		public Project getSelectedProject() {
+			return null;
+		}
+
+		public String getSortMode() {
+			// TODO Auto-generated method stub
 			return null;
 		}
 		
@@ -116,7 +121,7 @@ public class MilestoneListFragment extends ListFragment {
 		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
 				android.R.id.text1, this.milestones, Enums.ObjectType.MILESTONE);
-		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(
+		SortedListChangeNotifier<Milestone> lcn = new SortedListChangeNotifier<Milestone>(
 				arrayAdapter);
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
@@ -129,7 +134,7 @@ public class MilestoneListFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
+		
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
@@ -159,6 +164,7 @@ public class MilestoneListFragment extends ListFragment {
 				createMilestone.setEnabled(true);
 			}
 		}
+		
 	}
 
 	@Override
@@ -225,6 +231,12 @@ public class MilestoneListFragment extends ListFragment {
 		}
 
 		mActivatedPosition = position;
+	}
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		for (Milestone p : this.milestones){
+			((SortedListChangeNotifier<Milestone>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+		}
 	}
 	
 }
