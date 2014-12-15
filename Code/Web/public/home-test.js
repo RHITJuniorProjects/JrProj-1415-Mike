@@ -20,7 +20,7 @@ function drawProjectStuff (fb) {
 fb.child("projects").on('value', function(snapshot) {
     var projectArray = [];
 
-    console.log("function called");
+    //console.log("function called");
     
     for(var item in snapshot.val()){
         //console.log(item);
@@ -174,7 +174,7 @@ fb.child(item +"/name").on('value',function(snapshot){
         if(array.length == taskNameArray.length){
            fb.child(item +"/percent_complete").on('value',function(snapshot){
             taskPercentArray.push(snapshot.val());
-            console.log(snapshot.val());
+            //console.log(snapshot.val());
             });
         }
 
@@ -263,7 +263,7 @@ fb.child("projects/" + projectID + "/milestones").on('value', function(snapshot)
     }
 
     for(i = 0; i<milestoneArray.length; i++){
-       console.log("milestone id " + milestoneArray[i]);
+       //console.log("milestone id " + milestoneArray[i]);
         getMilestoneData(milestoneArray[i],milestoneArray,projectID);
     }
 
@@ -288,7 +288,7 @@ function getLinesOfCode(item, array){
 function getMilestoneData(item, array, projectID){
     fb.child("projects/" + projectID + "/milestones/" + item + "/name").on('value', function(snapshot){
         milestoneNameArray.push(snapshot.val());
-         console.log("out of if" + snapshot.val());
+        // console.log("out of if" + snapshot.val());
         // console.log("projectID"+projectID);
        
         
@@ -296,7 +296,7 @@ function getMilestoneData(item, array, projectID){
             fb.child("projects/" + projectID + "/milestones/" + item + "/task_percent").on('value', function(snapshot){
                 milestonePercentArray.push(snapshot.val());
              
-         console.log("in if" +snapshot.val());
+        // console.log("in if" +snapshot.val());
          // console.log("projectID"+projectID);
             
      });
@@ -354,7 +354,7 @@ fb.child("users/simplelogin:25/projects/" + projectID + "/total_lines_)of_code")
 
 
 function milestoneDrawer(name, data) {
-    console.log(data);
+    //console.log(data);
 
     $('#mileContainer').highcharts({
         chart: {
