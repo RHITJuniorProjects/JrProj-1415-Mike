@@ -16,6 +16,10 @@
     {
       "source":"/projects",
       "destination":"/projects.html"
+    },
+    {
+        "source":"/mytasks",
+        "destination":"/mytasks.html"
     }
   ]
 }

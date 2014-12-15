@@ -20,7 +20,6 @@
 <script type="text/javascript">
 	$(function(){ $(document).foundation()});
 </script>
-		<script type="text/javascript" src="/teams.js"></script>
 	</head>
 	<body class="wide">
 		<!-- topbar -->
@@ -37,7 +36,7 @@
 	<section class="top-bar-section">
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
-			<li><a>My Tasks</a></li>
+			<li><a onclick="showMyTasksPage()">My Tasks</a></li>
 			<li><a>My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
@@ -77,7 +76,7 @@
                                     <form action="" onsubmit="addNewProject(); return false;">
                                         <label for="projectName">Project Name:</label> <input type="text" id="projectName">
                                         <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
-                                        <label for="projectDueDate">Due Date:</label> <input type="text" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
+                                        <label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
                                         <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
                                         <input type="submit" class="button" id="project-submit" value="Add Project" />
                                         <div id="project-error" class="my-error" hidden>All fields must be specified</div>
@@ -90,7 +89,7 @@
 										<h3>Production</h3>
 									</a>
 									<div id="projects-panel" class="content active panel row">
-										
+										<!-- projects added by projects.js -->
 									</div>
 								</dd>
 							</dl>
@@ -105,13 +104,27 @@
 								</dd>
 							</dl>
 						</div>
+						<div id="member-modal" class="reveal-modal" data-reveal>
+							<div class="row">
+								<div class="small-12 columns">
+									<h1 id="member-modal-name">
+										<!-- name set by projects.js -->
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div id="member-modal-tiles" class="small-12-columns">
+									<!-- content added by projects.js on member button click -->
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="content" id="ProjectStatistics">
 						<div class="row">
-							<div class="small-6 columns">
+							<div class="small-12 columns">
 								<div id="projContainer1"></div>
 							</div>
-							<div class="small-6 columns">
+							<div class="small-12 columns">
 								<div id="projContainer2"></div>
 							</div>
 						</div>
@@ -132,23 +145,14 @@
 				<div class="content active" id="ProjectMilestones">
 					<div class="small-10 columns small-offset-1">
 						<div class="row collapse text-center outlined">
-							<h1><a id="project-name" onclick="allProjects()"></a></h1>
-							<button data-reveal-id="myModal">Add Member</button>
-							<div id="myModal" class="reveal-modal small-4" data-reveal>
-								Users <br />
-                                <form action="" onsubmit="addNewMember(); return false;">
-                                    <select id="member-select"></select>
-                                    <input type="submit" id="member-submit" class="button" value="Add" />
-                                    <div id="member-error" class="my-error" hidden>No member selected</div>
-                                </form>
-							</div>
-							<button data-reveal-id="myMilestoneModal">Add Milestone</button>
+							<h1 id="project-name"></h1>
+														<button data-reveal-id="myMilestoneModal">Add Milestone</button>
 							<div id="myMilestoneModal" class="reveal-modal small-4" data-reveal>
 								<h2>New Milestone</h2><br />
                                 <form action="" onsubmit="addNewMilestone(); return false;">
                                     <label for="milestoneName">Milestone Name:</label> <input type="text" id="milestoneName" />
                                     <label for="milestoneDescription">Description:</label> <input type="text" id="milestoneDescription" />
-                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>
+                                    <label for="milestoneDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>
                                     <label for="milestoneEstimatedHours">Estimated Hours:</label> <input type="text" id="milestoneEstimatedHours" />
                                     <input type="submit" id="milestone-submit" class="button" value="Add Milestone" />
                                     <div id="milestone-error" class="my-error" hidden>All fields must be specified</div>
@@ -207,16 +211,23 @@
 				<td>Category</td>
 				<td>Status</td>
                 <td>Due Date</td>
+                <td>Is Completed</td>
 				<td>Estimated Hours</td>
 			</thead>
 			<tbody id="task-rows">
 			</tbody>
 
 		</table>
-		<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
-			Add New Task
+			<div
+			<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+				Add New Task
+			</div>
+			<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
+				Task statics
+			</div>
 		</div>
 		<div id="task-modal" class="reveal-modal" data-reveal>
+		<div id="taskContainer" class="reveal-modal" data-reveal>
 		</div>
 		<!-- <div class="small-12 columns wide" id="tasks-table">
 			<div class="row wide collapse" id="tasks-table-header">
@@ -224,6 +235,35 @@
 			</div>
 		</div>-->
 	</div>
+</div>
+        <div id='my-tasks-page' hidden>
+    <div class="main-content">
+        <table style="width:100%">
+            <thead>
+            <td>Task Name</td>
+            <td>Description</td>
+            <td>Assigned User</td>
+            <td>Category</td>
+            <td>Status</td>
+            <td>Due Date</td>
+            <td>Is Completed</td>
+            <td>Estimated Hours</td>
+            </thead>
+            <tbody id="my-tasks-rows">
+            </tbody>
+
+        </table>
+        <!--<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+            Add New Task
+        </div>
+        <div id="task-modal" class="reveal-modal" data-reveal>
+        </div>-->
+        <!-- <div class="small-12 columns wide" id="tasks-table">
+            <div class="row wide collapse" id="tasks-table-header">
+                <div class="small-1 columns"
+            </div>
+        </div>-->
+    </div>
 </div>
 	</body>
 </html>

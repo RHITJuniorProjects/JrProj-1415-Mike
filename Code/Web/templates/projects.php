@@ -2,7 +2,6 @@
 	<head>
 		<title>Henry - Projects</title>
 		<?php require 'header.php';?>
-		<script type="text/javascript" src="/teams.js"></script>
 	</head>
 	<body class="wide">
 		<?php require 'topbar.php';?>
@@ -25,7 +24,7 @@
                                     <form action="" onsubmit="addNewProject(); return false;">
                                         <label for="projectName">Project Name:</label> <input type="text" id="projectName">
                                         <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
-                                        <label for="projectDueDate">Due Date:</label> <input type="text" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
+                                        <label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
                                         <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
                                         <input type="submit" class="button" id="project-submit" value="Add Project" />
                                         <div id="project-error" class="my-error" hidden>All fields must be specified</div>
@@ -38,7 +37,7 @@
 										<h3>Production</h3>
 									</a>
 									<div id="projects-panel" class="content active panel row">
-										
+										<!-- projects added by projects.js -->
 									</div>
 								</dd>
 							</dl>
@@ -53,13 +52,27 @@
 								</dd>
 							</dl>
 						</div>
+						<div id="member-modal" class="reveal-modal" data-reveal>
+							<div class="row">
+								<div class="small-12 columns">
+									<h1 id="member-modal-name">
+										<!-- name set by projects.js -->
+									</h1>
+								</div>
+							</div>
+							<div class="row">
+								<div id="member-modal-tiles" class="small-12-columns">
+									<!-- content added by projects.js on member button click -->
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="content" id="ProjectStatistics">
 						<div class="row">
-							<div class="small-6 columns">
+							<div class="small-12 columns">
 								<div id="projContainer1"></div>
 							</div>
-							<div class="small-6 columns">
+							<div class="small-12 columns">
 								<div id="projContainer2"></div>
 							</div>
 						</div>
@@ -69,6 +82,7 @@
 		</div>
 		<?php require 'Milestones.php'?>
 		<?php require 'tasks.php'?>
+        <?php require 'mytasks.php'?>
 	</body>
 </html>
 
