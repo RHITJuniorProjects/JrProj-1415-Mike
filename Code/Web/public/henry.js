@@ -1116,6 +1116,11 @@ function newTask() {
         $("#task-modal").foundation('reveal', 'close');
     });
 }
+function taskStatics(){
+    // console.log(selectedMilestone);
+    drawTaskStuff(selectedProject.uid,selectedMilestone.uid,firebase);
+
+}
 
 function MyTasks(firebase) {
     this.__firebase = firebase;

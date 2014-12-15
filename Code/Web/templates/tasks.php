@@ -15,10 +15,16 @@
 			</tbody>
 
 		</table>
+			<div
 			<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
 				Add New Task
 			</div>
+			<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
+				Task statics
+			</div>
+		</div>
 		<div id="task-modal" class="reveal-modal" data-reveal>
+		<div id="taskContainer" class="reveal-modal" data-reveal>
 		</div>
 		<!-- <div class="small-12 columns wide" id="tasks-table">
 			<div class="row wide collapse" id="tasks-table-header">

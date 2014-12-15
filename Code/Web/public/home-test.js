@@ -149,43 +149,48 @@ function projectDrawerTask(name, taskData) {
 };
 
 
-function drawtaskStuff (projID, mileID, fb) {
-  projectID = projId.toString();
+function drawTaskStuff (projID, mileID, fb) {
+  projectID = projID.toString();
   milestoneID = mileID.toString();
+   // console.log("xx"+projectID);
+   // console.log("xx"+milestoneID);
 
-  fb.child("projects/" + projectID + "/milestone/" + milestoneID + "/tasks").on('value', function(snapshot) {
+  // console.log(milestoneID);
+
+  fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks").on('value', function(snapshot) {
     var taskIDArray = [];
+  //  console.log(snapshot.val());
+  // console.log("xxx");
     for(var item in snapshot.val()){
+      //  console.log(item);
         taskIDArray.push(item);
     }
+     console.log(taskIDArray[0]);
     for(i =0; i < taskIDArray.length; i++){
-        getTaskData(taskIDArray[i], taskIDArray);
+       // console.log(i);
+        getTaskData(projectID, milestoneID, taskIDArray[i], taskIDArray);
     }
-    
-
-
 });
 
 
-function getTaskData(item, array){
-fb.child(item +"/name").on('value',function(snapshot){
+function getTaskData(projectID, milestoneID, item, array){
+    fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item +"/name").on('value',function(snapshot){
         taskNameArray.push(snapshot.val());
-
-        if(array.length == taskNameArray.length){
-           fb.child(item +"/percent_complete").on('value',function(snapshot){
+        // console.log("name " + snapshot.val());
+         console.log(taskNameArray);
+           fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item + "/percent_complete").on('value',function(snapshot){
             taskPercentArray.push(snapshot.val());
-            console.log(snapshot.val());
-            });
-        }
-
+             //console.log("percent_complete " + snapshot.val());
+            });  
+           console.log(taskPercentArray);
         taskDrawer(taskNameArray, taskPercentArray);
-
-});
+    });
 };
 
 function taskDrawer(name, percent_complete){
       $('#taskContainer').highcharts({
         chart: {
+            //renderTo: 'taskContainer',
             type: 'column',
             options3d: {
                 enabled: false,
@@ -212,14 +217,14 @@ function taskDrawer(name, percent_complete){
             tickInterval: 20,
             margin: 120,
             max: 120,
-            labels: {
-                    formatter: function() {
-                        var value = change[this.value];
-                        return value !== 'undefined' ? value : this.value;
-                    }
-            },
+            // labels: {
+            //         formatter: function() {
+            //             var value = change[this.value];
+            //             return value !== 'undefined' ? value : this.value;
+            //         }
+            // },
             title: {
-                text: 'Task Stage',
+                text: 'Percent Complete',
                 style: {"font-family": "Arial", "font-weight": "bold", "color": "#333333"}  
             }
         },
@@ -235,24 +240,32 @@ function taskDrawer(name, percent_complete){
 
 };
 
-function drawMilestoneStuff(projId, fb){		
-	
+var change = {
+    20: 'New',
+    40: 'Implementation',
+    60: 'Testing',
+    80: 'Verifying',
+    100: 'Regression',
+    120: 'Closed'
+};
+function drawMilestoneStuff(projId, fb){        
+    
 projectID = projId.toString();
 
 
 //fills workerArray and linesOfCodeArray
 fb.child("projects/" + projectID +"/members").on('value', function (snapshot) {
-	//var userData = snapshot.val();
-	var workerArray = [];
+    //var userData = snapshot.val();
+    var workerArray = [];
 
-	for(var item in snapshot.val()){
-	//	console.log(item);
-		workerArray.push(item);
-	}
+    for(var item in snapshot.val()){
+    //  console.log(item);
+        workerArray.push(item);
+    }
 
-	for(i = 0; i<workerArray.length; i++){
-		getLinesOfCode(workerArray[i], workerArray);
-	}
+    for(i = 0; i<workerArray.length; i++){
+        getLinesOfCode(workerArray[i], workerArray);
+    }
 });
 
 fb.child("projects/" + projectID + "/milestones").on('value', function(snapshot) {
@@ -274,15 +287,15 @@ fb.child("projects/" + projectID + "/milestones").on('value', function(snapshot)
 
 
 function getLinesOfCode(item, array){
-						fb.child("users/" + item + "/projects/" + projectID + "/total_lines_of_code").on('value', function(snapshot){
-							linesOfCodeArray.push(snapshot.val());
-	
-							if(array.length == linesOfCodeArray.length){
-								for(i = 0; i<array.length; i++){
-									getNameAndDraw(array[i], array, linesOfCodeArray);
-								}	
-							}					
-						});
+    fb.child("users/" + item + "/projects/" + projectID + "/total_lines_of_code").on('value', function(snapshot){
+        linesOfCodeArray.push(snapshot.val());
+
+        if(array.length == linesOfCodeArray.length){
+            for(i = 0; i<array.length; i++){
+                getNameAndDraw(array[i], array, linesOfCodeArray);
+            }   
+        }                   
+    });
 };
 
 function getMilestoneData(item, array, projectID){
@@ -321,23 +334,23 @@ function getMilestoneData(item, array, projectID){
 // };
 
 function getNameAndDraw(current, userArray, linesArray){
-						var totalArray = [];
-						
-						fb.child("users/" + current + "/name").on('value', function(snapshot){
-							nameArray.push(snapshot.val());
-							
-							if(nameArray.length == userArray.length){
-								for(i = 0; i<linesArray.length; i++){
-									totalArray.push(new Array(nameArray[i], linesArray[i]));
-                                   
-								}
-								
-								pieChartDrawer(totalArray);
+    var totalArray = [];
+    
+    fb.child("users/" + current + "/name").on('value', function(snapshot){
+        nameArray.push(snapshot.val());
+        
+        if(nameArray.length == userArray.length){
+            for(i = 0; i<linesArray.length; i++){
+                totalArray.push(new Array(nameArray[i], linesArray[i]));
+               
+            }
+            
+            pieChartDrawer(totalArray);
 
-							}
-						});
+        }
+                        });
 };
-						
+                        
 
 /*
 fb.child("users/simplelogin:25/projects/" + projectID + "/total_lines_)of_code").on('value', function (snapshot) {
@@ -369,7 +382,7 @@ function milestoneDrawer(name, data) {
         },
         title: {
             text: 'Progress of Milestones',
-			style: { "color": "#333333", "fontSize": "30px" },
+            style: { "color": "#333333", "fontSize": "30px" },
         },
         plotOptions: {
             column: {
@@ -381,8 +394,8 @@ function milestoneDrawer(name, data) {
         },
         yAxis: {
             opposite: false,
-			tickInterval: 20,
-			max: 100,
+            tickInterval: 20,
+            max: 100,
             title: {
                 text: 'Percent Complete'
             }
@@ -391,8 +404,8 @@ function milestoneDrawer(name, data) {
             name: 'Percent Complete',
             data: data
         }],
-		colors: ['#0099FF', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
-				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
+        colors: ['#0099FF', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
+                '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
     });
 };
 
@@ -403,39 +416,39 @@ var change = {
     60: 'Testing',
     80: 'Verifying',
     100: 'Regression',
-	120: 'Closed'
+    120: 'Closed'
 };
 
 function pieChartDrawer(temp){
-						$(function () {
-							$('#linesOfCode').highcharts({
-								chart: {
-									plotBackgroundColor: null,
-									plotBorderWidth: 1,//null,
-									plotShadow: false
-								},
-								title: {
-									text: 'Breakup of Committed Lines of Code for Project'
-								},
-								plotOptions: {
-									pie: {
-										allowPointSelect: true,
-										cursor: 'pointer',
-										dataLabels: {
-											enabled: true,
-											format: '<b>{point.name}:</b> {point.y} lines',
-											style: {
-												color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-											}
-										}
-									}
-								},
-								series: [{
-									type: 'pie',
-									name: 'Line Breakup',
-									data: temp
-								}]
-							});
-						});
+    $(function () {
+        $('#linesOfCode').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: 1,//null,
+                plotShadow: false
+            },
+            title: {
+                text: 'Breakup of Committed Lines of Code for Project'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}:</b> {point.y} lines',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                name: 'Line Breakup',
+                data: temp
+            }]
+        });
+    });
 };
 };
