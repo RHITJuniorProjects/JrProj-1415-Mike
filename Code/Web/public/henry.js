@@ -761,17 +761,6 @@ Task.Statuses = [
     'Closed'
 ];
 
-Task.Categories = [
-    'Bug Fix',
-    'Enhancement',
-    'Feature',
-    'Business',
-    'General',
-    'Infrastructure',
-    'QA',
-    'No Category'
-];
-
 Task.Flags = [
     'true',
     'false'
