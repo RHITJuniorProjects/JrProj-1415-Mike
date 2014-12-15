@@ -6,6 +6,7 @@ import subprocess
 import multiprocessing
 import time
 from firebase import firebase
+import traceback
 
 
 ##
