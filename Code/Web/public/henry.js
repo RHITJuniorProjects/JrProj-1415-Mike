@@ -34,7 +34,7 @@ function selectProject(project){
 	});
 
 	var memberCont = $('#member-container');
-	memberCont.append(makeAddMemberTile);
+	memberCont.append(makeAddMemberTile(project));
 	project.getMemberTiles(function(tile){
 		memberCont.prepend(tile);
 	});
@@ -366,17 +366,23 @@ function makeAddMemberTile(project){
 		selectRow = $('<div class="row">'),
 		selectColumn = $('<div class="small-7 columns">'),
 		buttonColumn = $('<div class="small-5 columns">'),
+		errorRow = $('<div class="row" hidden>'),
+		errorColumn = $('<div class="small-12 columns">'),
+		error = $('<div class="my-error">No Member Selected</div>'),
 		userSelect = users.getSelect(function(user){
 			selectedUser = user;
 		});
-
+	errorColumn.append(error);
+	errorRow.append(errorColumn);
 	buttonColumn.append(selectButton);
 	selectColumn.append(userSelect);
 	selectRow.append(selectColumn,buttonColumn);
-	addMemberTile.append(nameRow,selectRow);
+	addMemberTile.append(nameRow,selectRow,errorRow);
 	selectButton.click(function(){
 		if(selectedUser){
 			thisProject.addMember(selectedUser);
+		} else {
+			errorRow.show();
 		}
 	});
 	return addMemberTile;
