@@ -101,7 +101,7 @@ public class TaskDetailFragment extends Fragment {
 					.getValue(new Member(MainActivity.firebaseUrl + "/users/"
 									+ this.mCallbacks.getUser().getKey()));
 			if (this.getArguments().getBoolean("Two Pane")
-					&& role == Enums.Role.lead) {
+					&& role == Enums.Role.LEAD) {
 				((TextView) rootView.findViewById(R.id.task_assignee))
 						.setText("Assigned to: \t\t (Click to change)");
 

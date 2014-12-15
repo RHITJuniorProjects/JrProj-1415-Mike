@@ -31,7 +31,7 @@ public class ProjectListFragment extends ListFragment {
 
 	ArrayList<Project> projects;
 	
-	String sortMode="A-Z";
+	String sortMode="Sort A-Z";
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -113,7 +113,7 @@ public class ProjectListFragment extends ListFragment {
 		
 		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.projects, Enums.ObjectType.PROJECT);
+				android.R.id.text1, this.projects, Enums.ObjectType.PROJECT, false);
 		setListAdapter(arrayAdapter);
 		
 		SortedListChangeNotifier<Project> lcn = new SortedListChangeNotifier<Project>(

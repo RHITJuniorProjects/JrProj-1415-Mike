@@ -28,14 +28,16 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 	private final List<T> objects;
 	private final Enums.ObjectType type;
 	private String usersName;
+	private boolean flag=false;
 
 	public SortedArrayAdapter(Context context, int resource,
-			int textViewResourceId, List<T> objects, Enums.ObjectType type) {
+			int textViewResourceId, List<T> objects, Enums.ObjectType type, boolean flag) {
 		super(context, R.layout.list_image_layout, textViewResourceId, objects);
 		this.context = context;
 		this.objects = objects;
 		this.type = type;
 		this.usersName = "";
+		this.flag=flag;
 	}
 
 	/**
@@ -51,12 +53,13 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 	 */
 	public SortedArrayAdapter(Context context, int resource,
 			int textViewResourceId, List<T> objects, Enums.ObjectType type,
-			String usersName) {
+			String usersName, boolean flag) {
 		super(context, R.layout.list_image_layout, textViewResourceId, objects);
 		this.context = context;
 		this.objects = objects;
 		this.type = type;
 		this.usersName = usersName;
+		this.flag=flag;
 	}
 
 	@Override
@@ -98,7 +101,7 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 
 		} else if (this.type == Enums.ObjectType.TASK) {
 			Task t = (Task) super.getItem(position);
-			if ((t.getAssignedUserName()).equals(this.usersName)) {
+			if ((t.getAssignedUserName()).equals(this.usersName) && this.flag) {
 				 //Should only show flags/trophies on tasks assigned to the current logged in user.
 				if (t.getStatus().equals(Enums.CLOSED)) {
 				//If task is done, show a little green trophy.

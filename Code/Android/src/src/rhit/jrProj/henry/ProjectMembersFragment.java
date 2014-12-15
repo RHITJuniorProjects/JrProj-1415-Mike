@@ -26,7 +26,7 @@ import android.widget.ListView;
  */
 public class ProjectMembersFragment extends ListFragment {
 	
-	private String sortMode="A-Z";
+	private String sortMode="Sort A-Z";
 	
 	private ArrayAdapter adapter;
 	
@@ -119,7 +119,7 @@ public class ProjectMembersFragment extends ListFragment {
 		this.members = this.mCallbacks.getMembers();
 		ArrayAdapter<Member> arrayAdapter = new SortedArrayAdapter<Member>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.members, Enums.ObjectType.MEMBER);
+				android.R.id.text1, this.members, Enums.ObjectType.MEMBER, false);
 		ListChangeNotifier<Member> lcn = new ListChangeNotifier<Member>(
 				arrayAdapter);
 		for (Member m : this.members) {

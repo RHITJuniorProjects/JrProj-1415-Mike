@@ -54,7 +54,8 @@ public class MainActivity extends Activity implements
 	 * The milestone selected by the user
 	 */
 	private Milestone selectedMilestone;
-
+	
+	private Menu actionBarmenu;
 	/**
 	 * The task that is currently selected by the user
 	 */
@@ -135,6 +136,7 @@ public class MainActivity extends Activity implements
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu); 
+		this.actionBarmenu=menu;
 		return true;
 	}
 	@Override
@@ -190,6 +192,8 @@ public class MainActivity extends Activity implements
 	 * @param view
 	 */
 	public void openTaskView(View view) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(true);
 		int container = this.mTwoPane ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
@@ -215,6 +219,8 @@ public class MainActivity extends Activity implements
 	 * @param view
 	 */
 	public void openMilestoneView(View view) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(true);
 		int container = this.mTwoPane ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
@@ -242,6 +248,8 @@ public class MainActivity extends Activity implements
 	 * @param view
 	 */
 	public void openProjectView(View view) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(true);
 		int container = this.mTwoPane ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
@@ -265,6 +273,8 @@ public class MainActivity extends Activity implements
 	
 	
 	public void openAllMyTasks(MenuItem item){
+		MenuItem item2 = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(false);
 		FragmentManager manager= getFragmentManager();
 	    FragmentTransaction frgTrans = manager.beginTransaction();
 	    manager.popBackStack();
@@ -286,6 +296,8 @@ public class MainActivity extends Activity implements
 	 * @param view
 	 */
 	public void openProjectMembersView(View view) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(true);
 		int container = this.mTwoPane ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
@@ -317,6 +329,9 @@ public class MainActivity extends Activity implements
 	 * that the item with the given ID was selected.
 	 */
 	public void onItemSelected(Project p) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(false);
+		
 		this.selectedProject = p;
 		Bundle arguments = new Bundle();
 		ProjectDetailFragment fragment = new ProjectDetailFragment();
@@ -342,6 +357,8 @@ public class MainActivity extends Activity implements
 	 * that the item with the given ID was selected.
 	 */
 	public void onItemSelected(Milestone m) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(false);
 		this.selectedMilestone = m;
 		Bundle arguments = new Bundle();
 		arguments.putParcelable("Milestone", m);
@@ -365,6 +382,8 @@ public class MainActivity extends Activity implements
 	 * the item with the given ID was selected.
 	 */
 	public void onItemSelected(Task t) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(false);
 		this.selectedTask = t;
 		Bundle arguments = new Bundle();
 		arguments.putBoolean("Two Pane", this.mTwoPane);

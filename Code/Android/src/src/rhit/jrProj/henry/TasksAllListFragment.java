@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 /**
  * A list fragment representing a list of Items. This fragment also supports
@@ -139,6 +140,7 @@ public class TasksAllListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setHasOptionsMenu(true);
 	}
 
@@ -160,7 +162,7 @@ public class TasksAllListFragment extends ListFragment {
 		SortedArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
 				android.R.id.text1, this.tasks, Enums.ObjectType.TASK,
-				this.mCallbacks.getUser().getName());
+				false);
 		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -173,6 +175,7 @@ public class TasksAllListFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		
 
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
@@ -235,11 +238,11 @@ public class TasksAllListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
-		super.onListItemClick(listView, view, position, id);
-
-		// Notify the active callbacks interface (the activity, if the
-		// fragment is attached to one) that an item has been selected.
-		this.mCallbacks.onItemSelected(this.tasks.get(position));
+//		super.onListItemClick(listView, view, position, id);
+//
+//		// Notify the active callbacks interface (the activity, if the
+//		// fragment is attached to one) that an item has been selected.
+//		this.mCallbacks.onItemSelected(this.tasks.get(position));
 	}
 
 	@Override
@@ -274,11 +277,17 @@ public class TasksAllListFragment extends ListFragment {
 	}
 
 	private ArrayList<Task> getAllMyTasks() {
+		TextView textView = new TextView(this.getActivity().getBaseContext());
+		textView.setTextSize(24);
+		textView.setTextColor(R.color.light_blue);
 		ArrayList<Task> t = new ArrayList<Task>();
 		ArrayList<Project> projects;
 		ArrayList<Milestone> milestones;
 		ArrayList<Task> t2;
 		if (this.mCallbacks.getSelectedProject() == null) {
+			textView.setText("  "+this.mCallbacks.getUser().getName()+"'s Tasks\n  All Projects");
+
+			
 			projects = this.mCallbacks.getUser()
 					.getProjects();
 			for (Project p : projects) {
@@ -294,7 +303,9 @@ public class TasksAllListFragment extends ListFragment {
 			}
 		}
 		else if (this.mCallbacks.getSelectedMilestone() == null){
+			
 			Project p = this.mCallbacks.getSelectedProject();
+			textView.setText("  "+this.mCallbacks.getUser().getName()+"'s Tasks\n  All Milestones in "+p.getName());
 			milestones = p.getMilestones();
 			for (Milestone m : milestones) {
 				t2= m.getTasks();
@@ -306,7 +317,9 @@ public class TasksAllListFragment extends ListFragment {
 			}
 		}
 		else{
+			Project p = this.mCallbacks.getSelectedProject();
 			Milestone m= this.mCallbacks.getSelectedMilestone();
+			textView.setText("  "+this.mCallbacks.getUser().getName()+"'s Tasks\n  In "+m.getName()+" of "+p.getName());
 			t2= m.getTasks();
 			for (Task task : t2){
 				if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
@@ -315,7 +328,9 @@ public class TasksAllListFragment extends ListFragment {
 			}
 			
 		}
-		
+		textView.setClickable(false);
+		textView.setEnabled(false);
+		this.getListView().addHeaderView(textView, null, false);
 		return t;
 	}
 	public void sortingChanged(){
@@ -324,5 +339,6 @@ public class TasksAllListFragment extends ListFragment {
 			((SortedListChangeNotifier<Task>) p.getListChangeNotifier()).changeSorting(this.sortMode);
 		}
 	}
+	
 
 }

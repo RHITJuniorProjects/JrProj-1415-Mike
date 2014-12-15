@@ -333,7 +333,7 @@ public class Project implements Parcelable {
 							this.project.members.put(
 									toAdd,
 									Enums.Role.valueOf(member.getValue(
-											String.class).toLowerCase()));
+											String.class).toUpperCase()));
 						} catch (Exception e) {
 							Log.i("FAILED",
 									"Adding a role to a member failed: "

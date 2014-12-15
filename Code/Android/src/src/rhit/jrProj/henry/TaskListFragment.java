@@ -32,7 +32,7 @@ import com.firebase.client.Firebase;
  * interface.
  */
 public class TaskListFragment extends ListFragment {
-	private String sortMode="A-Z";
+	private String sortMode="Sort A-Z";
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -151,7 +151,7 @@ public class TaskListFragment extends ListFragment {
 			data.add(datum);
 		}
 		SortedArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(getActivity(),android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.tasks, Enums.ObjectType.TASK, mCallbacks.getUserName());
+				android.R.id.text1, this.tasks, Enums.ObjectType.TASK, mCallbacks.getUserName(), true);
 		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -198,7 +198,7 @@ public class TaskListFragment extends ListFragment {
 						new Member(ref.getRoot().toString() + "/users/"
 								+ ref.getAuth().getUid()));
 
-		if (role != null && role.equals(Enums.Role.lead)) {
+		if (role != null && role.equals(Enums.Role.LEAD)) {
 			MenuItem createTask = menu.findItem(R.id.action_task);
 			createTask.setVisible(true);
 			createTask.setEnabled(true);

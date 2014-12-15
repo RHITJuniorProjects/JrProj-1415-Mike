@@ -30,7 +30,7 @@ import com.firebase.client.Firebase;
  */
 public class MilestoneListFragment extends ListFragment {
 	
-	private String sortMode="A-Z";
+	private String sortMode="Sort A-Z";
 	
 	private ArrayAdapter adapter;
 	
@@ -120,7 +120,7 @@ public class MilestoneListFragment extends ListFragment {
 		this.milestones = this.mCallbacks.getMilestones();
 		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.milestones, Enums.ObjectType.MILESTONE);
+				android.R.id.text1, this.milestones, Enums.ObjectType.MILESTONE, false);
 		SortedListChangeNotifier<Milestone> lcn = new SortedListChangeNotifier<Milestone>(
 				arrayAdapter);
 		for (Milestone m : this.milestones) {
@@ -158,7 +158,7 @@ public class MilestoneListFragment extends ListFragment {
 								+ ref.getAuth().getUid()));
 
 		if (this.getArguments().getBoolean("TwoPane")) {
-			if (role != null && role.equals(Enums.Role.lead)) {
+			if (role != null && role.equals(Enums.Role.LEAD)) {
 				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 				createMilestone.setVisible(true);
 				createMilestone.setEnabled(true);
