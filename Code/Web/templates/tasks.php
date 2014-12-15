@@ -1,17 +1,4 @@
 <div id='tasks-page' hidden>
-<<<<<<< HEAD
-	<table id="tasks-table" style="width:100%">
-		<tr>
-			<td>Task Name</td>
-			<td>Description</td>
-			<td>Category</td>
-			<td>Assigned User</td> 
-			<td>Estimated Hours</td>
-			<td>Actual Hours</td>
-			<td>Is Completed</td>
-		</tr>
-	</table>
-=======
 	<div class="main-content">
 		<table id="tasks-table" style="width:100%">
 			<thead>
@@ -21,6 +8,7 @@
 				<td>Category</td>
 				<td>Status</td>
                 <td>Due Date</td>
+                <td>Is Completed</td>
 				<td>Estimated Hours</td>
 			</thead>
 			<tbody id="task-rows">
@@ -38,5 +26,4 @@
 			</div>
 		</div>-->
 	</div>
->>>>>>> b18fbe16850cf3eefb23e36e1717321befe4159a
 </div>

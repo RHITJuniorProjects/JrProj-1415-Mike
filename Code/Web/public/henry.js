@@ -662,7 +662,8 @@ function Task(firebase) {
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
     this.__due_date = firebase.child('due_date');
-    this.__original_hour_estimate = firebase.child('original_hour_estimate');
+    this.__is_completed = firebase.child('is_completed');
+    this.__hour_estimate = firebase.child('updated_hour_estimate');
 };
 
 Task.Statuses = [
@@ -683,6 +684,11 @@ Task.Categories = [
     'Infrastructure',
     'QA',
     'No Category'
+];
+
+Task.Flags = [
+    'true',
+    'false'
 ];
 
 Task.prototype = {
@@ -717,13 +723,18 @@ Task.prototype = {
             callback(dat.val());
         });
     },
+    getFlag: function (callback) {
+        this.__is_completed.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
     getTotalLinesOfCode: function (callback) {
         this.__total_lines_of_code.on('value', function (dat) {
             callback(dat.val());
         });
     },
     getTimeEstimate: function (callback) {
-        this.__original_hour_estimate.on('value', function (dat) {
+        this.__hour_estimate.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -752,11 +763,12 @@ Task.prototype = {
         var stat = $('<td>');
         var user = $('<td>');
         var due = $('<td>');
+        var flag = $('<td>');
         var hoursEstimate = $('<td>');
         var task = this;
         var modal = $('#task-modal');
 
-        row.append(name, desc, user, cat, stat, due, hoursEstimate);
+        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate);
         this.getName(function (nameStr) {
             name.html(nameStr);
         });
@@ -777,8 +789,15 @@ Task.prototype = {
         this.getDueDate(function (dueDate) {
             due.html(dueDate);
         });
-        this.getTimeEstimate(function (updated_hour_estimateStr) {
-            hoursEstimate.html(updated_hour_estimateStr);
+        this.getFlag(function (f) {
+            if(f){
+                flag.html('<img src="completed.png" />');
+            } else {
+                flag.html('<img src="notcompleted.png" />');
+            }
+        });
+        this.getTimeEstimate(function (hour_estimateStr) {
+            hoursEstimate.html(hour_estimateStr);
         });
         row.click(function () {
             modal.children().remove();
@@ -792,7 +811,8 @@ Task.prototype = {
                     categoriesSelect = makeSelect(Task.Categories, vals.category),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
                     dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
-                    estHoursInput = $('<input type="text" value="' + vals.original_hour_estimate + '">'),
+                    flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
+                    estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
                     nameH = $('<h3>'),
                     submit = $('<input class="button" value="Edit Task" />'),
                     taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
@@ -808,6 +828,7 @@ Task.prototype = {
                     label(categoriesSelect, 'Category'),
                     label(statusSelect, 'Status'),
                     label(dueInput, 'Due Date'),
+                    label(flagInput, 'Is Complete'),
                     label(estHoursInput, 'Estimated Hours'),
                     submit,
                     taskError
@@ -831,6 +852,12 @@ Task.prototype = {
                     }
 
                     var estHours = Number(estHoursInput.val());
+                    // console.log(estHours);
+                    var flagVal = flagInput.val() == 'true' ? true : false;
+                    // console.log(typeof(flagInput.val()));
+                    // console.log(flagInput.val());
+                    // console.log(typeof(flagVal));
+                    // console.log(flagVal);
 
                     if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
                         $("#task-error").show();
@@ -849,11 +876,16 @@ Task.prototype = {
                         due_date: dueInput.val(),
                         category: categoriesSelect.val(),
                         status: statusSelect.val(),
+                        is_completed: flagVal,
                         updated_hour_estimate: estHours
                     });
+
                     $("#task-modal").foundation('reveal', 'close');
                 });
             });
+        });
+        this.getTimeEstimate(function(time) {
+            console.log(time);
         });
         return row;
     },
@@ -876,6 +908,9 @@ Task.prototype = {
     setName: function (name) {
         this.__name.set(name);
     },
+    setFlag: function (flag) {
+        this.__is_completed.set(flag);
+    },
     setDueDate: function (dueDate) {
         this.__due_date.set(dueDate);
     },
@@ -896,6 +931,7 @@ function newTask() {
         nameH = '<h3>Add New Task</h3>',
         submit = $('<input class="button" value="Add Task" />'),
         modal = $('#task-modal'),
+        //completed = makeSelect(Task.Flags, 'false');
         dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
@@ -908,6 +944,7 @@ function newTask() {
         label(categoriesSelect, 'Category'),
         label(statusSelect, 'Status'),
         label(estHoursInput, 'Estimated Hours'),
+        //label(completed, 'Is Completed'),
         label(dueInput, "Due Date"),
         submit,
         taskError
@@ -949,6 +986,7 @@ function newTask() {
             category: categoriesSelect.val(),
             status: statusSelect.val(),
             original_hour_estimate: estHours,
+            is_completed: false,    //default task to uncompleted
             due_date: dueInput.val()
         });
         $("#task-modal").foundation('reveal', 'close');
@@ -962,7 +1000,6 @@ var projects = new Table(function (fb) {
 var users = new Table(function (fb) {
     return new User(fb);
 }, firebase.child('users'));
-
 
 
 function getLoginData() { // Takes the login data from the form and places it into variables
