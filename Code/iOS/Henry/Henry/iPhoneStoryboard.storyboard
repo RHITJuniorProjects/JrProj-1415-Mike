@@ -387,7 +387,6 @@
                                     <outlet property="emailLabel" destination="FoM-i8-8NF" id="fcV-Xq-TsH"/>
                                     <outlet property="nameLabel" destination="cvo-PZ-7SY" id="Bc7-0v-jNg"/>
                                     <outlet property="roleLabel" destination="KIO-eG-DVS" id="CDK-Yg-x3e"/>
-                                    <segue destination="wXE-nX-nN1" kind="push" identifier="goToUserProfile" id="RqC-bl-Zgq"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

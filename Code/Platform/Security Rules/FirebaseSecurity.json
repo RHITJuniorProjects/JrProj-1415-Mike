@@ -1,15 +1,23 @@
 {  
    "rules":{  
+     
       ".read":true,
-      ".write":true,
+      ".write": "auth.uid == 'nodeServer'",
+      
+      "commits":{
+        ".write":"true"
+      },
       "projects":{  
-         "$projectID":{  
+         "$projectID":{
+           
+           ".write":"!data.exists() || !newData.exists() ||('Lead' == root.child('projects/'+$projectID+'/members/'+auth.uid).val())",
+           //Consider refactoring to only second part of or statement?
             ".validate":"newData.hasChildren(['name','due_date','description','members']) || data.hasChildren(['name','due_date','description','members'])",
             "added_lines_of_code":{  
                ".validate":"newData.isNumber() && newData.val() >= 0"
             },
             "due_date":{  
-               ".validate":"newData.isString() && newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)"
+               ".validate":"newData.isString() && (newData.val().matches(/No Due Date/) || newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/))"
             },
             "backlog":{  
                "$taskID":{  
@@ -20,6 +28,7 @@
                   "name":{  
                      ".validate":"newData.isString()"
                   }
+                  //Validate that category is one of the ones we listed?
                }
             },
             "members":{  
@@ -34,7 +43,7 @@
             "name":{  
                ".validate":"newData.isString()"
             },
-            "milestone_completed":{  
+            "milestones_completed":{  
                ".validate":"newData.isNumber() && newData.val() >= 0"
             },
             "removed_lines_of_code":{  
@@ -64,7 +73,7 @@
             "milestones":{  
                ".validate":"true",
                "$milestoneID":{  
-                  ".validate":"newData.hasChildren(['name','due_date','description']) || data.hasChildren(['name','due_date','description'])",
+                  ".validate":"newData.hasChildren(['name','due_date','description']) || data.hasChildren(['name','due_date','description']) || !newData.hasChildren() || !data.hasChildren()",
                   "added_lines_of_code":{  
                      ".validate":"newData.isNumber() && newData.val() >= 0"
                   },
@@ -72,7 +81,7 @@
                      ".validate":"newData.isNumber() && newData.val() >= 0"
                   },
                   "due_date":{  
-                     ".validate":"newData.isString() && newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)"
+                     ".validate":"newData.isString() && (newData.val().matches(/No Due Date/) || newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/))"
                   },
                   "task_percent":{  
                      ".validate":"newData.isNumber() && newData.val() >= 0"
@@ -94,16 +103,21 @@
                   },
                   "tasks":{  
                      ".validate":"true",
+                     
                      "$taskID":{  
-                        ".validate":"newData.hasChildren(['name','due_date','description','original_hour_estimate','category']) || data.hasChildren(['name','due_date','description','original_hour_estimate','category'])",
+                       
+                        ".validate":"newData.hasChildren(['name','due_date','description','original_hour_estimate','category']) || data.hasChildren(['name','due_date','description','original_hour_estimate','category']) || !newData.hasChildren() || !data.hasChildren()",
                         "assignedTo":{  
-                           ".validate":"root.child('users').hasChild(newData.val())"
+                           ".validate":"root.child('users').hasChild(newData.val())",
+                           ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid"
                         },
                         "due_date":{  
-                           ".validate":"newData.isString() && newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)"
+                           ".validate":"newData.isString() && (newData.val().matches(/No Due Date/) || newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/))"
                         },
-                        "total_estimated_hours":{  
-                           ".validate":"newData.isNumber() && newData.val() >= 0"
+                        "updated_hour_estimate":{  
+                           ".validate":"newData.isNumber() && newData.val() >= 0",
+                          ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid"
+
                         },
                         "total_hours":{  
                            ".validate":"newData.isNumber() && newData.val() >= 0"
@@ -112,11 +126,16 @@
                            ".validate":"newData.isNumber() && newData.val() >= 0"
                         },
                         "category":{  
-                           ".validate":"newData.isString() && (newData.val().matches(/Bug Fix|Enhancement|Feature|Business|General|Infrastructure|QA/))"
+                          // commented out by web for feature 2 which is to allow any catagory
+                         ".validate":"newData.isString()" //&& (newData.val().matches(/Bug Fix|Enhancement|Feature|Business|General|Infrastructure|QA|No Category/))"
+                         //".validate":"newData.isString()" && (newData.val().matches(/Bug Fix|Enhancement|Feature|Business|General|Infrastructure|QA|No Category/))"
                         },
                         "status":{  
-                           ".validate":"newData.isString() && (newData.val().matches(/New|Implementation|Testing|Verify|Regression|Closed/))"
+                           ".validate":"newData.isString() && (newData.val().matches(/New|Implementation|Testing|Verify|Regression|Closed/))",
+                            ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid" 
+
                         }
+                        
                      }
                   }
                }
@@ -125,7 +144,14 @@
       },
       "users":{  
          "$user":{  
-            ".validate":"newData.hasChildren(['name','email','github'])",
+               ".write":"!data.exists() || !newData.exists()",
+            ".validate":"newData.hasChildren(['name','email'])",
+            "name":{
+             ".write":"auth.uid == $user"
+            },
+            "email":{
+             ".write":"auth.uid == $user"              
+            },
             "projects":{  
                "$project":{  
                   ".validate":"root.child('projects').hasChild($project)"
