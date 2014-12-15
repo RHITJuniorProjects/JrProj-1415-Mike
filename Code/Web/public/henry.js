@@ -5,8 +5,10 @@ var currentProject;
 var milestonePage;
 var projectPage;
 var taskPage;
+var myTasksPage;
 var selectedProject;
 var selectedMilestone;
+var myTasks;
 
 
 // table object manages a table of values in the database, use get to get objects from the database
@@ -15,6 +17,7 @@ function selectProject(project){
     milestonePage.show();
     projectPage.hide();
     taskPage.hide();
+    myTasksPage.hide();
 	if(selectedProject){
 		selectedProject.off();
 	}
@@ -44,6 +47,7 @@ function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();
     taskPage.show();
+    myTasksPage.hide();
 	if(selectedMilestone){
 		currentMilestone.off();
 	}
@@ -60,6 +64,24 @@ function showProjects(){
     milestonePage.hide();
     projectPage.show();
     taskPage.hide();
+    myTasksPage.hide();
+}
+
+function selectMyTasks(){
+    var tasks = user.getTasks();
+    var $panel = $('#my-tasks-rows');
+    $panel.children().remove();
+    tasks.onItemAdded(function(task){
+        $panel.prepend(task.getTableRow());
+    });
+}
+
+function showMyTasksPage(){
+    //selectMyTasks();
+    milestonePage.hide();
+    projectPage.hide();
+    taskPage.hide();
+    myTasksPage.show();
 }
 
 function getAllUsers(){
@@ -211,8 +233,23 @@ User.prototype = {
             });
         });
     },
+    getTasks: function () {
+        return new Table(function (fb) {
+            return new MyTasks(fb);
+        }, this.__tasks);
+    },
     getAllTasks: function () {
-
+        // this.__projects has all of the project ids of the current user
+        // should return a list of references to all the tasks
+        var alltasks = firebase.child('projects/milestones/tasks');
+        var currenttasks = {};
+        alltasks.on("value", function (task) {
+            console.log(task.val());
+            if (task.val().assignedTo === selecedUser) {
+                currenttasks.add(task);
+            }
+        });
+        return currenttasks;
     },
     getMemberTile:function(project){
     	var tile = $(
@@ -531,7 +568,7 @@ Project.prototype = {
 		this.getMembers().onItemAdded(function(user){
 			callback(user.getMemberTile(project));
 		});
-	},
+	}
 };
 // creates new projects and are added into firebase
 function addNewProject() {
@@ -1091,6 +1128,95 @@ function newTask() {
     });
 }
 
+function MyTasks(firebase) {
+    this.__firebase = firebase;
+    this.uid = firebase.key();
+    this.__name = firebase.child('name');
+    this.__description = firebase.child('description');
+    this.__assigned_user = firebase.child('assignedTo');
+    this.__categories = firebase.parent().parent().parent().parent().child('categories');
+    this.__category = firebase.child('category');
+    this.__status = firebase.child('status');
+    this.__lines_of_code = firebase.child('total_lines_of_code');
+    this.__due_date = firebase.child('due_date');
+    this.__original_hour_estimate = firebase.child('original_hour_estimate');
+};
+
+MyTasks.prototype = {
+    getName: function (callback) {
+        this.__name.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getDescription: function (callback) {
+        this.__description.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getAssignedUser: function (callback) {
+        this.__assigned_user.on('value', function (dat) {
+            var user = users.get(dat.val());
+            callback(user);
+        });
+    },
+    getCategory: function (callback) {
+        this.__category.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getStatus: function (callback) {
+        this.__status.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getDueDate: function (callback) {
+        this.__due_date.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getTableRow: function () {
+        var row = $('<tr class="task-row" data-reveal-id="task-modal">');
+        var name = $('<td>');
+        var desc = $('<td>');
+        var cat = $('<td>');
+        var stat = $('<td>');
+        var user = $('<td>');
+        var due = $('<td>');
+        var hoursEstimate = $('<td>');
+        var task = this;
+        var modal = $('#task-modal');
+
+        row.append(name, desc, user, cat, stat, due, hoursEstimate);
+        this.getName(function (nameStr) {
+            name.html(nameStr);
+        });
+        this.getDescription(function (descriptionStr) {
+            desc.html(descriptionStr);
+        });
+        this.getAssignedUser(function (assignedUser) {
+            assignedUser.getName(function (name) {
+                user.html(name);
+            });
+        });
+        this.getCategory(function (categoryStr) {
+            cat.html(categoryStr);
+        });
+        this.getStatus(function (statStr) {
+            stat.html(statStr);
+        });
+        this.getDueDate(function (dueDate) {
+            due.html(dueDate);
+        });
+        this.getTimeEstimate(function (updated_hour_estimateStr) {
+            hoursEstimate.html(updated_hour_estimateStr);
+        });
+        return row;
+    },
+    off: function () {
+        this.__firebase.off();
+    }
+};
+
 var projects = new Table(function (fb) {
     return new Project(fb);
 }, firebase.child('projects'));
@@ -1208,6 +1334,7 @@ firebase.onAuth( // called on page load to auth users
 				milestonePage = $('#milestones-page');
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
+                myTasksPage = $('#my-tasks-page');
 				showProjects();
 				getAllUsers();
             }

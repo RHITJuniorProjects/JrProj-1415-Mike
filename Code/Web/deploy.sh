@@ -2,7 +2,7 @@
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 
-pages=("index" "projects" "milestones" "tasks")
+pages=("index" "projects" "milestones" "tasks" "mytasks")
 
 for page in ${pages[@]}; do
 	php "$DIR"/templates/"$page".php > "$DIR"/public/"$page".html
