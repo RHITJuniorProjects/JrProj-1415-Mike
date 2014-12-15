@@ -7,9 +7,11 @@ import os
 import requests
 import subprocess
 import sys
+from sys import exit
 import traceback
 import re
 import multiprocessing
+import urllib
 
 VERSION = '0.1.4'
 OPSYS = 'windows'
@@ -19,41 +21,45 @@ cacert = os.path.dirname(os.path.abspath(os.__file__))+'/cacert.pem'
 
 def initialize_git(projectID,opsys):
     # github API 3.0
-    base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks/WindowsEXE/build/exe.win32-2.7/'
-    if opsys == 'unix':
-        base_url = base_url + '/Unix'
-    else:
-        base_url = base_url + '/Windows'
-
-    files = ["library.zip", "commit.exe", "cacert.pem", "select.pyd", "_multiprocessing.pyd", "_hashlib.pyd", "pyexpat.pyd", "_ctypes.pyd", "unicodedata.pyd", "_ssl.pyd", "bz2.pyd", "_socket.pyd", "python27.dll"]
+    #base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks/WindowsEXE/build/exe.win32-2.7/'
+    base_url = 'https://github.com/RHITJuniorProjects/JrProj-1415-Mike/raw/master/Code/Platform/Git/Hooks/WindowsEXE/build/exe.win32-2.7/'
+    
+    files = [ "commit.exe", "cacert.pem", "select.pyd", "_multiprocessing.pyd", "_hashlib.pyd", "pyexpat.pyd", "_ctypes.pyd", "unicodedata.pyd", "_ssl.pyd", "bz2.pyd", "_socket.pyd", "python27.dll", "library.zip" ]
 
     sh_url = base_url+'/commit-msg'
     py_url = base_url+'/henry/commit.py'
 
-    hook_dir = os.getcwd()+'/.git/hooks/'
-    henry_dir = hook_dir+'henry/'
-    #sh_path = hook_dir+'/commit-msg'
-    #py_path = henry_dir+'/commit.py'
+    hook_dir = os.getcwd()+'\\.git\\hooks\\'
+    henry_dir = hook_dir+'henry\\'
     
     if not inGitRepo():
         print 'HENRY Error: Must be in the root of a Git repository'
-        exit()
+        sys.exit(1)
     
-    r = requests.get(base_url+'commit-msg', verify=sys.argv[0].replace('henry.exe','cacert.pem'))
-    s = b64decode(json.loads(r.text)['content'])
+    
+    #r = requests.get(base_url+'commit-msg', verify=sys.argv[0].replace('henry.exe','cacert.pem'))
+    #s = b64decode(json.loads(r.text)['content'])
+    #with open(hook_dir+'commit-msg','w') as f:
+    #    f.write(s)
+    #urllib.urlretrieve(base_url+'commit-msg', hook_dir+'commit-msg')
     with open(hook_dir+'commit-msg','w') as f:
-        f.write(s)
-    os.system('chmod +x .git/hooks/commit-msg')
-
+        f.write('#!/usr/bin/env bash\n.git/hooks/henry/commit.exe $1 "'+projectID+'"')
+    #os.system('chmod +x .git/hooks/commit-msg')
 
     if not os.path.exists(henry_dir):
         os.makedirs(henry_dir)
 
     for my_file in files:
-        r = requests.get(base_url+my_file, verify=sys.argv[0].replace('henry.exe','cacert.pem'))
-        s = b64decode(json.loads(r.text)['content'])
-        with open(henry_dir+my_file) as f:
-            f.write(s)
+        urllib.urlretrieve(base_url+my_file, os.path.join(henry_dir,my_file))
+
+    #for my_file in files:
+    #    print base_url+my_file
+    #    r = requests.get(base_url+my_file, verify=sys.argv[0].replace('henry.exe','cacert.pem'))
+    #    s = b64decode(json.loads(r.text)['content'])
+    #    #with open(henry_dir+my_file) as f:
+    #    with open(os.path.join(henry_dir,my_file),'w') as f:
+    #        f.write(s)
+
 
     print 'HENRY: Repository succesfully connected to Henry'
 

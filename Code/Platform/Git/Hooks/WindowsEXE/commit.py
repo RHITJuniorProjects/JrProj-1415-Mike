@@ -11,7 +11,7 @@ from firebase import firebase
 ##
 #   These fields are populated by the initializer
 ##
-projectID = '-JYcg488tAYS5rJJT4Kh'
+#projectID = '-JYcg488tAYS5rJJT4Kh'
 
 prodUrl = 'https://henry-production.firebaseio.com'
 stagUrl = 'https://henry-staging.firebaseio.com'
@@ -269,7 +269,7 @@ def getDefaults():
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
-
+    projectID = sys.argv[2]
     # set this to the correct database
     ref = firebase.FirebaseApplication(testUrl, None)
 
