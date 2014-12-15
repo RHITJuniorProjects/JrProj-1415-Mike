@@ -68,16 +68,13 @@ function showProjects(){
 }
 
 function selectMyTasks(){
-    var tasks = user.getTasks();
     var $panel = $('#my-tasks-rows');
     $panel.children().remove();
-    tasks.onItemAdded(function(task){
-        $panel.prepend(task.getTableRow());
-    });
+    user.getTasks($panel);
 }
 
 function showMyTasksPage(){
-    //selectMyTasks();
+    selectMyTasks();
     milestonePage.hide();
     projectPage.hide();
     taskPage.hide();
@@ -168,12 +165,13 @@ function ReferenceTable(referencedTable, firebase) {
 
 ReferenceTable.prototype = Table.prototype;
 
-function User(firebase) {
-    this.__firebase = firebase;
-    this.uid = firebase.key();
-    this.__projects = firebase.child('projects');
-    this.__name = firebase.child('name');
-    this.__email = firebase.child('email');
+function User(firebase2) {
+    this.__firebase = firebase2;
+    this.uid = firebase2.key();
+    this.__projects = firebase2.child('projects');
+    this.__name = firebase2.child('name');
+    this.__email = firebase2.child('email');
+    this.__all_projects = firebase.child('projects');
 }
 
 User.prototype = {
@@ -233,10 +231,20 @@ User.prototype = {
             });
         });
     },
-    getTasks: function () {
-        return new Table(function (fb) {
+    getTasks: function (panel) {
+        this.__all_projects.on('child_added', function(project){
+            project.child('milestones').forEach(function(milestone){
+                milestone.child('tasks').forEach(function(task){
+                    //console.log(user.uid);
+                    if(task.child('assignedTo').val() === user.uid){
+                        panel.append(new MyTasks(task.ref()).getTableRow());
+                    }
+                });
+            });
+        });
+        /*return new Table(function (fb) {
             return new MyTasks(fb);
-        }, this.__tasks);
+        }, this.__tasks);*/
     },
     getAllTasks: function () {
         // this.__projects has all of the project ids of the current user
@@ -244,6 +252,7 @@ User.prototype = {
         var alltasks = firebase.child('projects/milestones/tasks');
         var currenttasks = {};
         alltasks.on("value", function (task) {
+           // console.log(task.val());
             if (task.val().assignedTo === selecedUser) {
                 currenttasks.add(task);
             }
@@ -416,7 +425,7 @@ function makeAddMemberTile(project){
 	addMemberTile.append(nameRow,selectRow,errorRow);
 	selectButton.click(function(){
 		if(selectedUser){
-			thisProject.addMember(selectedUser);
+			project.addMember(selectedUser);
 		} else {
 			errorRow.show();
 		}
@@ -496,7 +505,7 @@ Project.prototype = {
 				memberModalName.text("Members For "+name);
 			});
 			memberModalTiles.children().remove();
-			memberModalTiles.append(makeAddMemberTile);
+			memberModalTiles.append(makeAddMemberTile(thisProject));
 			thisProject.getMemberTiles(function(tile){
 				memberModalTiles.prepend(tile);
 			});
@@ -983,9 +992,11 @@ Task.prototype = {
                 });
             });
         });
+		/*
         this.getTimeEstimate(function(time) {
             //console.log(time);
         });
+		*/
         return row;
     },
     setUser: function (user) {
@@ -1114,6 +1125,11 @@ function newTask() {
         $("#task-modal").foundation('reveal', 'close');
     });
 }
+function taskStatics(){
+    // console.log(selectedMilestone);
+    drawTaskStuff(selectedProject.uid,selectedMilestone.uid,firebase);
+
+}
 
 function MyTasks(firebase) {
     this.__firebase = firebase;
@@ -1126,7 +1142,8 @@ function MyTasks(firebase) {
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
     this.__due_date = firebase.child('due_date');
-    this.__original_hour_estimate = firebase.child('original_hour_estimate');
+    this.__is_completed = firebase.child('is_completed');
+    this.__hour_estimate = firebase.child('updated_hour_estimate');
 };
 
 MyTasks.prototype = {
@@ -1146,6 +1163,11 @@ MyTasks.prototype = {
             callback(user);
         });
     },
+    getCategories: function (callback) {
+        this.__categories.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
     getCategory: function (callback) {
         this.__category.on('value', function (dat) {
             callback(dat.val());
@@ -1161,19 +1183,52 @@ MyTasks.prototype = {
             callback(dat.val());
         });
     },
+    getFlag: function (callback) {
+        this.__is_completed.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getTotalLinesOfCode: function (callback) {
+        this.__total_lines_of_code.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getTimeEstimate: function (callback) {
+        this.__hour_estimate.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getDescriptionDiv: function () {
+        var task = $('<div>'),
+            nameH4 = $('<h4>'),
+            descSpan = $('<span>'),
+            catSpan = $('<span>');
+        this.getName(function (name) {
+            nameH4.text(name);
+        });
+        this.getDescription(function (description) {
+            descSpan.text(description);
+        });
+        this.getCategory(function (cat) {
+            catSpan.text(cat);
+        });
+        task.append(nameH4, descSpan, catSpan);
+        return task;
+    },
     getTableRow: function () {
-        var row = $('<tr class="task-row" data-reveal-id="task-modal">');
+        var row = $('<tr class="task-row">');
         var name = $('<td>');
         var desc = $('<td>');
         var cat = $('<td>');
+        var cats = null;
         var stat = $('<td>');
         var user = $('<td>');
         var due = $('<td>');
+        var flag = $('<td>');
         var hoursEstimate = $('<td>');
         var task = this;
-        var modal = $('#task-modal');
 
-        row.append(name, desc, user, cat, stat, due, hoursEstimate);
+        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate);
         this.getName(function (nameStr) {
             name.html(nameStr);
         });
@@ -1185,6 +1240,9 @@ MyTasks.prototype = {
                 user.html(name);
             });
         });
+        this.getCategories(function (categories) {
+            cats = Object.keys(categories);
+        });
         this.getCategory(function (categoryStr) {
             cat.html(categoryStr);
         });
@@ -1194,8 +1252,15 @@ MyTasks.prototype = {
         this.getDueDate(function (dueDate) {
             due.html(dueDate);
         });
-        this.getTimeEstimate(function (updated_hour_estimateStr) {
-            hoursEstimate.html(updated_hour_estimateStr);
+        this.getFlag(function (f) {
+            if(f){
+                flag.html('<img src="completed.png" />');
+            } else {
+                flag.html('<img src="notcompleted.png" />');
+            }
+        });
+        this.getTimeEstimate(function (hour_estimateStr) {
+            hoursEstimate.html(hour_estimateStr);
         });
         return row;
     },
