@@ -22,7 +22,6 @@
 @property (nonatomic, retain) IBOutlet DLPieChart *pieChart;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *dataSelector;
 - (IBAction)segControlClicked:(id)sender;
-@property (weak, nonatomic) IBOutlet UITableView *memberTableView;
 @property NSDictionary *assignableDevs;
 @property NSDictionary *allDevs;
 @property NSMutableArray *names;

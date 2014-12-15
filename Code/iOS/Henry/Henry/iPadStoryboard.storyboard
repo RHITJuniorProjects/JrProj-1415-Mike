@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="H9j-AO-otB">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
@@ -324,86 +323,59 @@
                                 </connections>
                             </segmentedControl>
                             <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="6l9-2e-VQk">
-                                <rect key="frame" x="103" y="261" width="496" height="344"/>
+                                <rect key="frame" x="70" y="261" width="562" height="344"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="3M5-eg-1WM">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MemberCell" id="3M5-eg-1WM" customClass="HenryMemberTableViewCell">
                                         <rect key="frame" x="0.0" y="0.0" width="352" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3M5-eg-1WM" id="1tY-JS-YGc">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PzK-qx-Z5y">
-                                                    <rect key="frame" x="18" y="14" width="135" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <rect key="frame" x="8" y="24" width="172" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Test Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wf7-8D-Wkj">
+                                                    <rect key="frame" x="8" y="11" width="172" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours: x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nWD-Ld-0zx">
-                                                    <rect key="frame" x="225" y="9" width="89" height="21"/>
+                                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours: x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nWD-Ld-0zx">
+                                                    <rect key="frame" x="298" y="11" width="153" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="K38-sS-8Ml">
-                                                    <rect key="frame" x="225" y="33" width="223" height="3"/>
+                                                <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="K38-sS-8Ml">
+                                                    <rect key="frame" x="298" y="33" width="223" height="3"/>
                                                     <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                 </progressView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="nqW-1a-Q7O">
-                                        <rect key="frame" x="0.0" y="0.0" width="352" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nqW-1a-Q7O" id="voz-hb-bpq">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ye6-QJ-q1l">
-                                                    <rect key="frame" x="18" y="14" width="135" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours: x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Axe-2A-YNL">
-                                                    <rect key="frame" x="225" y="9" width="89" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Developer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qs8-Sd-WA0">
+                                                    <rect key="frame" x="188" y="14" width="78" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="EsO-fJ-OMg">
-                                                    <rect key="frame" x="225" y="33" width="223" height="3"/>
-                                                    <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                </progressView>
                                             </subviews>
                                         </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="U1b-Qi-Znj">
-                                        <rect key="frame" x="0.0" y="0.0" width="352" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U1b-Qi-Znj" id="H9M-4Q-ve0">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ok3-wj-53a">
-                                                    <rect key="frame" x="18" y="14" width="135" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours: x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RCK-ha-a0A">
-                                                    <rect key="frame" x="225" y="9" width="89" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="W9H-db-QgO">
-                                                    <rect key="frame" x="225" y="33" width="223" height="3"/>
-                                                    <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                </progressView>
-                                            </subviews>
-                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="emailLabel" destination="PzK-qx-Z5y" id="sEX-gq-Ew3"/>
+                                            <outlet property="nameLabel" destination="wf7-8D-Wkj" id="nuU-kP-Cl2"/>
+                                            <outlet property="progressBar" destination="K38-sS-8Ml" id="ldw-td-OMd"/>
+                                            <outlet property="progressLabel" destination="nWD-Ld-0zx" id="Qx1-bm-fS7"/>
+                                            <outlet property="roleLabel" destination="qs8-Sd-WA0" id="eep-KM-6dh"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="gPv-Gd-2m3" id="quu-rb-nmb"/>
+                                    <outlet property="delegate" destination="gPv-Gd-2m3" id="1V9-t6-AFa"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -427,7 +399,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C7T-hU-LaR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1474.5" y="1452"/>
+            <point key="canvasLocation" x="1474.5" y="1443"/>
         </scene>
         <!--Henry Milestone Detail View Controller-->
         <scene sceneID="vgL-Wv-vjT">
@@ -480,7 +452,7 @@
                                 <rect key="frame" x="290" y="179" width="123" height="29"/>
                                 <segments>
                                     <segment title="Metrics"/>
-                                    <segment title="Members"/>
+                                    <segment title="Hidden"/>
                                 </segments>
                                 <connections>
                                     <action selector="segControlClicked:" destination="vye-Er-iTH" eventType="valueChanged" id="EOM-9C-SJT"/>
@@ -494,88 +466,6 @@
                                     <constraint firstAttribute="width" constant="288" id="oo6-oY-Haf"/>
                                 </constraints>
                             </view>
-                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Xrd-5j-60v">
-                                <rect key="frame" x="103" y="253" width="496" height="344"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="4bM-DI-nlf">
-                                        <rect key="frame" x="0.0" y="0.0" width="352" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4bM-DI-nlf" id="XnA-TA-7Rt">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5UG-sA-GtN">
-                                                    <rect key="frame" x="18" y="14" width="135" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours: x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1A2-ye-YQl">
-                                                    <rect key="frame" x="225" y="9" width="89" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="eSW-q9-XOj">
-                                                    <rect key="frame" x="225" y="33" width="223" height="3"/>
-                                                    <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                </progressView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="izc-7M-cZz">
-                                        <rect key="frame" x="0.0" y="0.0" width="352" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="izc-7M-cZz" id="9DS-J6-tvd">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gt8-qF-102">
-                                                    <rect key="frame" x="18" y="14" width="135" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours: x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KnU-xs-fN7">
-                                                    <rect key="frame" x="225" y="9" width="89" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="e7s-ib-0BT">
-                                                    <rect key="frame" x="225" y="33" width="223" height="3"/>
-                                                    <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                </progressView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="LjA-kq-Xas">
-                                        <rect key="frame" x="0.0" y="0.0" width="352" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="LjA-kq-Xas" id="cPt-Ko-RGh">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Email@email.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XAt-83-WF8">
-                                                    <rect key="frame" x="18" y="14" width="135" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hours: x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nsv-1t-xJu">
-                                                    <rect key="frame" x="225" y="9" width="89" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ymP-yY-eUw">
-                                                    <rect key="frame" x="225" y="33" width="223" height="3"/>
-                                                    <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                                </progressView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <sections/>
-                            </tableView>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="tsX-XS-kSD">
                                 <rect key="frame" x="21" y="506" width="288" height="9"/>
                                 <constraints>
@@ -600,7 +490,6 @@
                         <outlet property="dataSelector" destination="rZQ-zZ-KvD" id="7jS-17-Tlq"/>
                         <outlet property="descriptionView" destination="sqc-NF-OdP" id="1yC-15-eh0"/>
                         <outlet property="dueDateLabel" destination="xUA-Su-avy" id="7W8-R9-DDV"/>
-                        <outlet property="memberTableView" destination="Xrd-5j-60v" id="1xN-We-zZq"/>
                         <outlet property="milestoneName" destination="1MZ-d6-PYs" id="xOt-IC-Fe1"/>
                         <outlet property="milestoneNameLabel" destination="1MZ-d6-PYs" id="bm1-b5-lep"/>
                         <outlet property="pieChart" destination="WXn-oy-FXt" id="RrG-1S-bx7"/>
@@ -652,8 +541,8 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Uw-d6-GHO">
-                                        <rect key="frame" x="8" y="262" width="55" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Category:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Uw-d6-GHO">
+                                        <rect key="frame" x="8" y="262" width="82" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -684,8 +573,8 @@
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ye-p5-WxQ">
-                                        <rect key="frame" x="64" y="391" width="192" height="30"/>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ye-p5-WxQ">
+                                        <rect key="frame" x="64" y="391" width="176" height="30"/>
                                         <state key="normal" title="Set a Developer to this Task">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -700,8 +589,14 @@
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w9X-xV-f1o">
-                                        <rect key="frame" x="64" y="258" width="235" height="30"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="S3k-2Z-V9Y">
+                                        <rect key="frame" x="11" y="151" width="299" height="94"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w9X-xV-f1o">
+                                        <rect key="frame" x="91" y="258" width="219" height="30"/>
                                         <state key="normal" title="Implementation!">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -711,12 +606,6 @@
                                             </segue>
                                         </connections>
                                     </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Project Description" translatesAutoresizingMaskIntoConstraints="NO" id="S3k-2Z-V9Y">
-                                        <rect key="frame" x="11" y="151" width="299" height="94"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="jMr-xc-QzJ" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="8" id="12g-hn-gkO"/>
@@ -768,7 +657,6 @@
                                     <constraint firstItem="vmT-Ev-jdj" firstAttribute="trailing" secondItem="w9X-xV-f1o" secondAttribute="trailing" id="KR6-Qp-qx4"/>
                                     <constraint firstItem="jMr-xc-QzJ" firstAttribute="leading" secondItem="Awd-rC-Ezf" secondAttribute="leading" id="Ki2-fo-qI2"/>
                                     <constraint firstAttribute="trailing" secondItem="4Ye-p5-WxQ" secondAttribute="trailing" constant="447" id="Klb-bh-lUR"/>
-                                    <constraint firstAttribute="trailing" secondItem="w9X-xV-f1o" secondAttribute="trailing" constant="404" id="MKO-aJ-ovM"/>
                                     <constraint firstItem="7Uw-d6-GHO" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="8" id="MO8-9K-R9N"/>
                                     <constraint firstItem="jMr-xc-QzJ" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="8" id="MRW-Vg-JcM"/>
                                     <constraint firstItem="rjm-Ed-f4R" firstAttribute="top" secondItem="vmT-Ev-jdj" secondAttribute="bottom" constant="8" id="MXY-dD-q8p"/>
@@ -782,8 +670,6 @@
                                     <constraint firstItem="rjm-Ed-f4R" firstAttribute="top" secondItem="vmT-Ev-jdj" secondAttribute="bottom" constant="8" symbolic="YES" id="PGu-f9-znr"/>
                                     <constraint firstItem="Awd-rC-Ezf" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="8" id="PRm-mB-mlE"/>
                                     <constraint firstItem="0aq-Uw-88G" firstAttribute="top" secondItem="7Uw-d6-GHO" secondAttribute="bottom" constant="8" id="Pfn-ds-2mh"/>
-                                    <constraint firstItem="7Uw-d6-GHO" firstAttribute="baseline" secondItem="w9X-xV-f1o" secondAttribute="baseline" id="Pw1-mI-MMU"/>
-                                    <constraint firstItem="w9X-xV-f1o" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="64" id="QGo-7b-d8A"/>
                                     <constraint firstItem="0aq-Uw-88G" firstAttribute="top" secondItem="PKJ-5x-JeU" secondAttribute="top" constant="291" id="QdM-09-vRz"/>
                                     <constraint firstItem="jMr-xc-QzJ" firstAttribute="top" secondItem="0aq-Uw-88G" secondAttribute="bottom" constant="11" id="QjT-Bm-baz"/>
                                     <constraint firstItem="2qK-BW-FaJ" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="8" id="RhB-eE-qiv"/>
@@ -808,7 +694,6 @@
                                     <constraint firstItem="qqK-5r-6qF" firstAttribute="leading" secondItem="jPm-wm-eo8" secondAttribute="trailing" constant="8" symbolic="YES" id="XHE-YC-WwZ"/>
                                     <constraint firstItem="jPm-wm-eo8" firstAttribute="top" secondItem="PKJ-5x-JeU" secondAttribute="top" constant="93" id="YRz-Y1-dCv"/>
                                     <constraint firstItem="jPm-wm-eo8" firstAttribute="bottom" secondItem="qqK-5r-6qF" secondAttribute="bottom" id="Zes-GV-irs"/>
-                                    <constraint firstItem="w9X-xV-f1o" firstAttribute="leading" secondItem="4Ye-p5-WxQ" secondAttribute="leading" id="Ztj-Fb-qPG"/>
                                     <constraint firstItem="qqK-5r-6qF" firstAttribute="trailing" secondItem="w9X-xV-f1o" secondAttribute="trailing" id="aDf-A8-R8m"/>
                                     <constraint firstItem="jPm-wm-eo8" firstAttribute="leading" secondItem="jMr-xc-QzJ" secondAttribute="leading" id="aL3-g9-4dC"/>
                                     <constraint firstItem="qqK-5r-6qF" firstAttribute="top" secondItem="Awd-rC-Ezf" secondAttribute="bottom" constant="8" id="aUf-Sb-4aB"/>
@@ -840,7 +725,6 @@
                                     <constraint firstItem="4Ye-p5-WxQ" firstAttribute="top" secondItem="PKJ-5x-JeU" secondAttribute="top" constant="391" id="kj9-oJ-6B7"/>
                                     <constraint firstItem="vmT-Ev-jdj" firstAttribute="leading" secondItem="0aq-Uw-88G" secondAttribute="trailing" constant="8" id="lKm-jO-pO8"/>
                                     <constraint firstItem="qqK-5r-6qF" firstAttribute="leading" secondItem="jPm-wm-eo8" secondAttribute="trailing" constant="8" id="lKz-mE-gxk"/>
-                                    <constraint firstAttribute="trailing" secondItem="7Uw-d6-GHO" secondAttribute="trailing" constant="640" id="m5e-ny-aHw"/>
                                     <constraint firstItem="Awd-rC-Ezf" firstAttribute="leading" secondItem="2qK-BW-FaJ" secondAttribute="leading" id="maL-Po-uQC"/>
                                     <constraint firstItem="vmT-Ev-jdj" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="152" id="mhX-Hd-U3K"/>
                                     <constraint firstItem="jPm-wm-eo8" firstAttribute="leading" secondItem="2qK-BW-FaJ" secondAttribute="leading" id="mm0-YU-zFD"/>
@@ -859,7 +743,6 @@
                                     <constraint firstAttribute="trailing" secondItem="jMr-xc-QzJ" secondAttribute="trailing" constant="561" id="vqH-0w-2av"/>
                                     <constraint firstItem="4Ye-p5-WxQ" firstAttribute="top" secondItem="PKJ-5x-JeU" secondAttribute="top" constant="391" id="xLk-5R-KhV"/>
                                     <constraint firstItem="vmT-Ev-jdj" firstAttribute="leading" secondItem="0aq-Uw-88G" secondAttribute="trailing" constant="8" symbolic="YES" id="xy0-ZT-h0M"/>
-                                    <constraint firstItem="w9X-xV-f1o" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="64" id="xyt-KE-HRa"/>
                                     <constraint firstItem="Awd-rC-Ezf" firstAttribute="top" secondItem="PKJ-5x-JeU" secondAttribute="top" constant="60" id="y41-GQ-wTm"/>
                                     <constraint firstItem="qqK-5r-6qF" firstAttribute="leading" secondItem="PKJ-5x-JeU" secondAttribute="leading" constant="91" id="yji-7B-Bml"/>
                                     <constraint firstItem="2qK-BW-FaJ" firstAttribute="top" secondItem="PKJ-5x-JeU" secondAttribute="top" constant="122" id="zVf-hH-dM6"/>
