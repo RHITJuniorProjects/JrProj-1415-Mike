@@ -18,6 +18,7 @@
 @property NSMutableArray *taskIDs;
 @property NSMutableArray *taskDueDates;
 @property NSIndexPath *previousIndex;
+@property NSMutableArray *taskStatuses;
 @end
 
 @implementation HenryTasksTableViewController
@@ -97,6 +98,7 @@
     self.tasksDescriptions = [[NSMutableArray alloc] init];
     self.taskDueDates = [[NSMutableArray alloc] init];
     self.taskIDs = [[NSMutableArray alloc] init];
+        self.taskStatuses = [[NSMutableArray alloc] init];
     
     for (NSString *key in keys) {
         NSString *name = [[tasks objectForKey:key] objectForKey:@"name"];
@@ -106,6 +108,7 @@
         [self.tasksDescriptions addObject:description];
         [self.taskIDs addObject:key];
         [self.taskDueDates addObject:dueDate];
+        [self.taskStatuses addObject:[[tasks objectForKey:key] objectForKey:@"status"]];
     }
     
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -170,6 +173,13 @@
     cell.textLabel.text = [self.tasks objectAtIndex:indexPath.row];
     cell.detailTextLabel.text = [self.taskDueDates objectAtIndex:indexPath.row];
     
+    if (![[self.taskStatuses objectAtIndex:indexPath.row ] isEqualToString:@"Closed"])
+        cell.imageView.image = [UIImage imageNamed:@"ic_action_flag.png"];
+    else
+        cell.imageView.image = [UIImage imageNamed:@"ic_action_flag_green.png"];
+        
+    [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+        
     return cell;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];

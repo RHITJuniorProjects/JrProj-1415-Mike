@@ -11,6 +11,8 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -81,7 +83,7 @@ public class TaskDetailFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 
 		this.taskItem = this.mCallbacks.getSelectedTask();
-
+		
 	}
 
 	@Override
@@ -121,12 +123,12 @@ public class TaskDetailFragment extends Fragment {
 				spinny.setSelection(spinnerDefaultPos);
 
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
-						this.taskItem));
-				((LinearLayout) rootView).addView(spinny, 2);
+						this.taskItem));				
+				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout)).addView(spinny, 2);
 
 				TextView textLines = new TextView(this.getActivity());
 
-				((LinearLayout) rootView).addView(textLines, 3);
+				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout)).addView(textLines, 3);
 				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
 						+ this.taskItem.getRemovedLines() + " lines of code");
 			} else {
@@ -197,6 +199,27 @@ public class TaskDetailFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		this.mCallbacks = sDummyCallbacks;
+	}
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		// This code shows the "Create Task" option when
+		// viewing tasks.
+		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+		createMilestone.setVisible(false);
+		createMilestone.setEnabled(false);
+
+		
+		
+			MenuItem createTask = menu.findItem(R.id.action_task);
+			createTask.setVisible(false);
+			createTask.setEnabled(false);
+			MenuItem sorting= menu.findItem(R.id.action_sorting);
+			
+			sorting.setEnabled(false);
+			sorting.setVisible(false);
+		
 	}
 
 	/**

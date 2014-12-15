@@ -3,12 +3,12 @@ package rhit.jrProj.henry.firebase;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 
 public class Member implements Parcelable {
 
@@ -33,7 +33,7 @@ public class Member implements Parcelable {
 	/**
 	 * Key is the Firebase Key of the user.
 	 */
-	private String key = "no key assigned";
+	private String key = "No key assigned";
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -41,6 +41,11 @@ public class Member implements Parcelable {
 	 * User that this object has been updated.
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
+
+	/**
+	 * A user's metrics for a project
+	 */
+	private Map<String, ProjectMetrics> projectMetrics;
 
 	/**
 	 * the User's category
@@ -75,6 +80,7 @@ public class Member implements Parcelable {
 		this.email = pc.readString();
 		this.key = this.firebase.toString().substring(
 				this.firebase.toString().lastIndexOf("/") + 1);
+		this.projectMetrics = new Map<String, Member.ProjectMetrics>();
 	}
 
 	/**
@@ -86,6 +92,7 @@ public class Member implements Parcelable {
 		this.firebase = new Firebase(firebaseURL);
 		this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
 		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.projectMetrics = new Map<String, Member.ProjectMetrics>();
 	}
 
 	public int describeContents() {
@@ -151,6 +158,24 @@ public class Member implements Parcelable {
 	}
 
 	/**
+	 * Gets the member's name
+	 * 
+	 * @return the member's name
+	 */
+	public String getName() {
+		return this.name;
+	}
+
+	/**
+	 * Returns the value of the field called 'projectMetrics'.
+	 * 
+	 * @return Returns the projectMetrics.
+	 */
+	public ProjectMetrics getProjectMetrics(String projectId) {
+		return this.projectMetrics.getValue(projectId);
+	}
+
+	/**
 	 * Sets a user's name
 	 * 
 	 * @param name
@@ -187,7 +212,7 @@ public class Member implements Parcelable {
 					this.firebase.toString());
 		}
 		return false;
-	};
+	}
 
 	class ChildrenListener implements ChildEventListener {
 		private Member user;
@@ -215,6 +240,11 @@ public class Member implements Parcelable {
 				this.user.setGitName(arg0.getValue().toString());
 			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
+			} else if (arg0.getKey().equals("projects")) {
+				for (DataSnapshot grandChild : arg0.getChildren()) {
+					this.user.projectMetrics.put(grandChild.getKey(),
+							new ProjectMetrics(this.user, grandChild.getKey()));
+				}
 			}
 		}
 
@@ -246,6 +276,143 @@ public class Member implements Parcelable {
 		public void onChildRemoved(DataSnapshot arg0) {
 			// TODO Auto-generated method stub.
 		}
+	}
+
+	public class ProjectMetrics implements ChildEventListener {
+
+		private int addedLinesOfCode = 0;
+		private int addedLOCPercent = 0;
+		private int hoursPercent = 0;
+		private int removedLinesOfCode = 0;
+		private int removedLOCPercent = 0;
+		private int totalHours = 0;
+		private int totalLOC = 0;
+
+		public ProjectMetrics(Member member, String projectKey) {
+			Firebase fb = member.firebase.child("projects/" + projectKey);
+			Log.d("Henry", fb.toString());
+			fb.addChildEventListener(this);
+		}
+
+		public void onCancelled(FirebaseError arg0) {
+			// Do nothing
+		}
+
+		public void onChildAdded(DataSnapshot arg0, String arg1) {
+			if (arg0.getKey().equals("added_lines_of_code")) {
+				this.addedLinesOfCode = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("added_loc_percent")) {
+				this.addedLOCPercent = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("hours_percent")) {
+				this.hoursPercent = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("loc_percent")) {
+				this.hoursPercent = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("removed_lines_of_code")) {
+				this.removedLinesOfCode = arg0.getValue(Integer.class)
+						.intValue();
+			} else if (arg0.getKey().equals("removed_loc_percent")) {
+				this.removedLOCPercent = arg0.getValue(Integer.class)
+						.intValue();
+			} else if (arg0.getKey().equals("total_hours")) {
+				this.totalHours = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("total_lines_of_code")) {
+				this.totalLOC = arg0.getValue(Integer.class).intValue();
+			}
+		}
+
+		public void onChildChanged(DataSnapshot arg0, String arg1) {
+			if (arg0.getKey().equals("added_lines_of_code")) {
+				this.addedLinesOfCode = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("added_loc_percent")) {
+				this.addedLOCPercent = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("hours_percent")) {
+				this.hoursPercent = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("loc_percent")) {
+				this.hoursPercent = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("removed_lines_of_code")) {
+				this.removedLinesOfCode = arg0.getValue(Integer.class)
+						.intValue();
+			} else if (arg0.getKey().equals("removed_loc_percent")) {
+				this.removedLOCPercent = arg0.getValue(Integer.class)
+						.intValue();
+			} else if (arg0.getKey().equals("total_hours")) {
+				this.totalHours = arg0.getValue(Integer.class).intValue();
+			} else if (arg0.getKey().equals("total_lines_of_code")) {
+				this.totalLOC = arg0.getValue(Integer.class).intValue();
+			}
+		}
+
+		public void onChildMoved(DataSnapshot arg0, String arg1) {
+			// Do nothing
+		}
+
+		public void onChildRemoved(DataSnapshot arg0) {
+			// Do nothing
+		}
+
+		/**
+		 * Returns the value of the field called 'addedLinesOfCode'.
+		 * 
+		 * @return Returns the addedLinesOfCode.
+		 */
+		public int getAddedLinesOfCode() {
+			return this.addedLinesOfCode;
+		}
+
+		/**
+		 * Returns the value of the field called 'addedLOCPercent'.
+		 * 
+		 * @return Returns the addedLOCPercent.
+		 */
+		public int getAddedLOCPercent() {
+			return this.addedLOCPercent;
+		}
+
+		/**
+		 * Returns the value of the field called 'hoursPercent'.
+		 * 
+		 * @return Returns the hoursPercent.
+		 */
+		public int getHoursPercent() {
+			return this.hoursPercent;
+		}
+
+		/**
+		 * Returns the value of the field called 'removedLinesOfCode'.
+		 * 
+		 * @return Returns the removedLinesOfCode.
+		 */
+		public int getRemovedLinesOfCode() {
+			return this.removedLinesOfCode;
+		}
+
+		/**
+		 * Returns the value of the field called 'removedLOCPercent'.
+		 * 
+		 * @return Returns the removedLOCPercent.
+		 */
+		public int getRemovedLOCPercent() {
+			return this.removedLOCPercent;
+		}
+
+		/**
+		 * Returns the value of the field called 'totalHours'.
+		 * 
+		 * @return Returns the totalHours.
+		 */
+		public int getTotalHours() {
+			return this.totalHours;
+		}
+
+		/**
+		 * Returns the value of the field called 'totalLOC'.
+		 * 
+		 * @return Returns the totalLOC.
+		 */
+		public int getTotalLOC() {
+			return this.totalLOC;
+		}
+
 	}
 
 }

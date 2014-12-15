@@ -1,4 +1,5 @@
 #!/usr/bin/python
+import os
 import sys
 import re
 import subprocess
@@ -39,7 +40,7 @@ def getLoC():
         raise Exception('HENRY: Unexpected output of `git diff --cached --shortstat`')
     else:
         vals = ['0','0']
-    nums = map(lambda x: int(x[0]),vals) 
+    nums = map(lambda y: int(filter(lambda x: x.isdigit(),y)),vals)
     return nums[0],nums[1]
 
 
@@ -279,7 +280,9 @@ if __name__ == '__main__':
     updateDefaults(milestoneID,taskID,status)
 
     commitID =writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
-    addCommitToProject(ref,projectID,commitID)
-    addCommitToUser(ref,userID,commitID)
+    
+    #addCommitToProject(ref,projectID,commitID)
+    #addCommitToUser(ref,userID,commitID)
 
-    #raise Exception('Reached end, prevents commit from executing')
+    # This bypasses exit handlers to skip the Firebase-Windows errors
+    os._exit(0)

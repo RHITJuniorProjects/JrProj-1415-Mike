@@ -13,6 +13,8 @@ import rhit.jrProj.henry.firebase.User;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -21,15 +23,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity implements
-		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
-		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks {
+		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks, ProjectMembersFragment.Callbacks,
+		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks, ProjectDetailFragment.Callbacks  {
 	/**
 	 * The Url to the firebase repository
 	 */
@@ -114,7 +115,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Project_List")
 				.addToBackStack("Project_List");
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		if (!this.mTwoPane) {
 			setContentView(R.layout.activity_onepane);
 			getFragmentManager().beginTransaction()
@@ -133,58 +134,29 @@ public class MainActivity extends Activity implements
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.project, menu);
-
-		// This code hides the "Create Milestone" and "Create Task" options when
-		// viewing projects.
-		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
-		createMilestone.setVisible(false);
-		createMilestone.setEnabled(false);
-
-		MenuItem createTask = menu.findItem(R.id.action_task);
-		createTask.setVisible(false);
-		createTask.setEnabled(false);
-
+		getMenuInflater().inflate(R.menu.main, menu); 
 		return true;
 	}
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu){
-		SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
-		MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
-		MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
-		MenuItem AZ= submenu.findItem(R.id.sortAZ);
-		MenuItem ZA= submenu.findItem(R.id.sortZA);
+		MenuItem search=menu.findItem(R.id.action_search);
+		search.setEnabled(false);
+		search.setVisible(false);
+		MenuItem sorting= menu.findItem(R.id.action_sorting);
 		
-		if (currFragment instanceof ProjectListFragment){
-			dateOldest.setVisible(false);
-			dateOldest.setEnabled(false);
-			dateNewest.setVisible(false);
-			dateNewest.setEnabled(false);
-			AZ.setVisible(true);
-			AZ.setEnabled(true);
-			ZA.setVisible(true);
-			ZA.setEnabled(true);
-			
-			
-		}
-		else{
-			MenuItem sorting=menu.findItem(R.id.action_sorting);
-			sorting.setVisible(false);
-			sorting.setEnabled(false);
-			dateOldest.setVisible(false);
-			dateOldest.setEnabled(false);
-			dateNewest.setVisible(false);
-			dateNewest.setEnabled(false);
-			AZ.setVisible(false);
-			AZ.setEnabled(false);
-			ZA.setVisible(false);
-			ZA.setEnabled(false);
-			
-			
-		}
+			sorting.setEnabled(true);
+			sorting.setVisible(true);
+			MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+				createMilestone.setVisible(false);
+				createMilestone.setEnabled(false);
+				MenuItem createTask = menu.findItem(R.id.action_task);
+				createTask.setVisible(false);
+				createTask.setEnabled(false);
+
 		return true;
 	}
-
+	
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
@@ -225,7 +197,7 @@ public class MainActivity extends Activity implements
 		TaskListFragment fragment = new TaskListFragment();
 		this.fragmentStack.push(fragment);
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -252,7 +224,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Milestone_List")
 				.addToBackStack("Milestone_List");
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -279,7 +251,7 @@ public class MainActivity extends Activity implements
 		getFragmentManager().beginTransaction().add(fragment, "Project_View")
 				.addToBackStack("Project_View");
 		fragment.setArguments(args);
-		currFragment=fragment;
+		this.currFragment=fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
 		if (this.mTwoPane) {
@@ -290,6 +262,55 @@ public class MainActivity extends Activity implements
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(false);
 	}
+	
+	
+	public void openAllMyTasks(MenuItem item){
+		FragmentManager manager= getFragmentManager();
+	    FragmentTransaction frgTrans = manager.beginTransaction();
+	    manager.popBackStack();
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", this.mTwoPane);
+	    TasksAllListFragment fragment = new TasksAllListFragment();
+		this.fragmentStack.push(fragment);
+		fragment.setArguments(args);
+		this.currFragment=fragment;
+	    
+	    frgTrans.replace(android.R.id.content,fragment);
+	    frgTrans.commit();
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	/**
+	 * Open the MilestoneList Activity for the selected milestone
+	 * 
+	 * @param view
+	 */
+	public void openProjectMembersView(View view) {
+		int container = this.mTwoPane ? R.id.twopane_list
+				: R.id.main_fragment_container;
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", this.mTwoPane);
+		ProjectMembersFragment fragment = new ProjectMembersFragment();
+		this.fragmentStack.push(fragment);
+		getFragmentManager().beginTransaction().add(fragment, "Project_Users_View")
+				.addToBackStack("Project_Users_View");
+		fragment.setArguments(args);
+		currFragment=fragment;
+		getFragmentManager().beginTransaction().replace(container, fragment)
+				.commit();
+		if (this.mTwoPane) {
+			getFragmentManager()
+					.beginTransaction()
+					.remove(getFragmentManager().findFragmentById(
+							R.id.twopane_detail_container)).commit();
+		}
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * Callback method from {@link ProjectListFragment.Callbacks} indicating
@@ -298,10 +319,8 @@ public class MainActivity extends Activity implements
 	public void onItemSelected(Project p) {
 		this.selectedProject = p;
 		Bundle arguments = new Bundle();
-		arguments.putParcelable("Project", p);
-		Log.i("Project", new Boolean(p==null).toString());
 		ProjectDetailFragment fragment = new ProjectDetailFragment();
-
+		arguments.putBoolean("TwoPane", this.mTwoPane);
 		fragment.setArguments(arguments);
 //		currFragment=fragment;
 		getFragmentManager()
@@ -370,7 +389,7 @@ public class MainActivity extends Activity implements
 	public void logOut(MenuItem item) {
 
 		Intent login = new Intent(this, LoginActivity.class);
-		currFragment=null;
+		this.currFragment=null;
 		this.startActivity(login);
 		this.finish();
 		Firebase ref = new Firebase(firebaseUrl);
@@ -412,9 +431,17 @@ public class MainActivity extends Activity implements
 			arguments.putString("projectId",
 					this.selectedProject.getProjectId());
 			taskFrag.setArguments(arguments);
-			currFragment=taskFrag;
+			this.currFragment=taskFrag;
 			taskFrag.show(getFragmentManager(), "Diag");
 		}
+	}
+	
+	/**
+	 * Open the search page
+	 * @param item
+	 */
+	public void search(MenuItem item){
+		//Not yet implemented
 	}
 	/**
 	 * sets Sorting mode, and then calls the sortingChanged method on the current fragment
@@ -425,6 +452,16 @@ public class MainActivity extends Activity implements
 		if (this.currFragment!=null){
 			if (this.currFragment instanceof ProjectListFragment){
 				((ProjectListFragment)this.currFragment).sortingChanged();
+			}
+			if (this.currFragment instanceof MilestoneListFragment){
+				Log.i("SORTINGMODEMilestone", this.sortingMode);
+				((MilestoneListFragment)this.currFragment).sortingChanged();
+			}
+			if (this.currFragment instanceof TaskListFragment){
+				((TaskListFragment)this.currFragment).sortingChanged();
+			}
+			if (this.currFragment instanceof TasksAllListFragment){
+				((TasksAllListFragment)this.currFragment).sortingChanged();
 			}
 		}
 	}
@@ -514,4 +551,17 @@ public class MainActivity extends Activity implements
 	public String getUserName() {
 		return this.user.getName();
 	}
+	public String getUserID() {
+		return this.user.getKey();
+	}
+
+	public void onItemSelected(Member m) {
+		//do nothing
+	}
+
+	public ArrayList<Member> getMembers() {
+		return getProjectMembers().getAllKeys();
+	}
+
+	
 }

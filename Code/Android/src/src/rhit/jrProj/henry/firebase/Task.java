@@ -1,6 +1,7 @@
 package rhit.jrProj.henry.firebase;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -417,4 +418,15 @@ public class Task implements Parcelable {
 
 		}
 	}
+	/**
+	 *  Compares this project with the other given project. This implementation treats lower 
+	 *  case letters the same as upper case letters. Also treats numbers differently,
+	 *   i.e. puts 10 after 9 instead of after 1
+	 * @param p
+	 * @return
+	 */
+	public int compareToIgnoreCase(Task p){
+		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
+	}
+	
 }

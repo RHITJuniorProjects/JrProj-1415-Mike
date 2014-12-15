@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+    <Product Name='Henry' Id='06fe2127-77b8-40a4-997a-c3b6a5230aab' UpgradeCode='e412ea1c-3708-45b0-9304-1c7bae5dd9f2' Language='1033' Codepage='1252' Version='1.1.4' Manufacturer='Adam Michael'>
+        <Package Id='*' Keywords='Installer' Description="You know what this is" Comments="There is no way that this is going to work" Manufacturer='Adam Michael' InstallerVersion='100' Languages='1033' Compressed='yes' SummaryCodepage='1252' />
+        <Media Id='1' Cabinet='Henry.cab' EmbedCab='yes' />
+        <Property Id='DiskPrompt' Value='I guess this is for installing from a CD?' />
+        <Directory Id='TARGETDIR' Name='SourceDir'>
+            <Directory Id='ProgramFilesFolder' Name='PFiles'>
+                <Directory Id='INSTALLDIR' Name='Henry 1.1.4'>
+            <Component Id='Everything' Guid='2cc8773d-8183-40b9-8cff-90f58d71922b' >
+                <File Id='File1' Name='_ctypes.pyd' DiskId='1' Source='_ctypes.pyd' KeyPath='yes' />
+                <File Id='File2' Name='_hashlib.pyd' DiskId='1' Source='_hashlib.pyd' />
+                <File Id='File3' Name='_multiprocessing.pyd' DiskId='1' Source='_multiprocessing.pyd' />
+                <File Id='File4' Name='_socket.pyd' DiskId='1' Source='_socket.pyd' />
+                <File Id='File5' Name='_ssl.pyd' DiskId='1' Source='_ssl.pyd' />
+                <File Id='File6' Name='bz2.pyd' DiskId='1' Source='bz2.pyd' />
+                <File Id='File7' Name='cacert.pem' DiskId='1' Source='cacert.pem' />
+                <File Id='File8' Name='henry.exe' DiskId='1' Source='henry.exe' />
+                <File Id='File9' Name='library.zip' DiskId='1' Source='library.zip' />
+                <File Id='File10' Name='pyexpat.pyd' DiskId='1' Source='pyexpat.pyd' />
+                <File Id='File11' Name='python27.dll' DiskId='1' Source='python27.dll' />
+                <File Id='File12' Name='select.pyd' DiskId='1' Source='select.pyd' />
+                <File Id='File13' Name='unicodedata.pyd' DiskId='1' Source='unicodedata.pyd' />
+                <Environment Id="PATH" Name="PATH" Value="[INSTALLDIR]" Permanent="yes" Part="last" Action="set" System="yes" />
+            </Component>
+                </Directory>
+            </Directory>
+        </Directory>
+        <Feature Id='Complete' Level='1'>
+            <ComponentRef Id='Everything' />
+        </Feature>
+
+    </Product>
+</Wix>
+
