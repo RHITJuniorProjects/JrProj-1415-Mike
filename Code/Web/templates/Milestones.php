@@ -2,8 +2,14 @@
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
 		<?php
-			$tabs = array("Project Milestones","Team Members","Milestone Statistics");
-			require 'tabbar.php';
+			require_once 'tabbar.php';
+			make_tabbar(
+				array(
+					new Tab("Project Milestones",["class" => "active"]),
+					new Tab("Team Members"),
+					new Tab("Milestone Statistics")
+				)
+			);
 		?>
 	</div>
 		<div class="small-9 columns main-content">

@@ -10,7 +10,6 @@ var selectedProject;
 var selectedMilestone;
 var myTasks;
 
-
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
 function selectProject(project){
@@ -245,7 +244,6 @@ User.prototype = {
         var alltasks = firebase.child('projects/milestones/tasks');
         var currenttasks = {};
         alltasks.on("value", function (task) {
-            console.log(task.val());
             if (task.val().assignedTo === selecedUser) {
                 currenttasks.add(task);
             }
@@ -986,7 +984,7 @@ Task.prototype = {
             });
         });
         this.getTimeEstimate(function(time) {
-            console.log(time);
+            //console.log(time);
         });
         return row;
     },
