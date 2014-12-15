@@ -15,14 +15,9 @@
 			</tbody>
 
 		</table>
-		<div
-			<span class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+			<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
 				Add New Task
-			</span>
-			<span class="button task-stats" onclick="taskStats()">
-				View Task Stats
-			</span>
-		</div>
+			</div>
 		<div id="task-modal" class="reveal-modal" data-reveal>
 		</div>
 		<!-- <div class="small-12 columns wide" id="tasks-table">

@@ -39,20 +39,20 @@ function getProjectData(item, array){
        // console.log(array);
         projectHoursArray.push(snapshot.val());
 
-        if(array.length == projectHoursArray.length){
+       // if(array.length == projectHoursArray.length){
            fb.child("projects/" + item +"/name").on('value',function(snapshot){
             //console.log(item);
             projectNameArray.push(snapshot.val());
             //console.log(snapshot.val());
             });
-        }
-         if(array.length == projectNameArray.length){
+        
+         //if(array.length == projectNameArray.length){
            fb.child("projects/" + item +"/task_percent").on('value',function(snapshot){
             projectTaskArray.push(snapshot.val());
 
 
          });
-        }
+       // }
     projectDrawerHours(projectNameArray, projectHoursArray);
     projectDrawerTask(projectNameArray, projectTaskArray);
 
@@ -263,9 +263,9 @@ fb.child("projects/" + projectID + "/milestones").on('value', function(snapshot)
     }
 
     for(i = 0; i<milestoneArray.length; i++){
-       console.log("milestone id " + milestoneNameArray[i]);
+       console.log("milestone id " + milestoneArray[i]);
         getMilestoneData(milestoneArray[i],milestoneArray,projectID);
-        }
+    }
 
 });
 
@@ -288,18 +288,19 @@ function getLinesOfCode(item, array){
 function getMilestoneData(item, array, projectID){
     fb.child("projects/" + projectID + "/milestones/" + item + "/name").on('value', function(snapshot){
         milestoneNameArray.push(snapshot.val());
-        // console.log("sbao" +snapshot.val());
+         console.log("out of if" + snapshot.val());
         // console.log("projectID"+projectID);
        
         
-       if(array.length == milestoneNameArray.length){
+  //     if(array.length == milestoneNameArray.length){
             fb.child("projects/" + projectID + "/milestones/" + item + "/task_percent").on('value', function(snapshot){
-             milestonePercentArray.push(snapshot.val());
-        // console.log("sbao" +snapshot.val());
-        // console.log("projectID"+projectID);
+                milestonePercentArray.push(snapshot.val());
+             
+         console.log("in if" +snapshot.val());
+         // console.log("projectID"+projectID);
             
      });
-    }
+    
     milestoneDrawer(milestoneNameArray,milestonePercentArray);  
     });
 
@@ -353,7 +354,8 @@ fb.child("users/simplelogin:25/projects/" + projectID + "/total_lines_)of_code")
 
 
 function milestoneDrawer(name, data) {
-    console.log(name);
+    console.log(data);
+
     $('#mileContainer').highcharts({
         chart: {
             type: 'column',
@@ -403,55 +405,6 @@ var change = {
     100: 'Regression',
 	120: 'Closed'
 };
-
-// $(function () {
-//     $('#taskContainer').highcharts({
-//         chart: {
-//             type: 'column',
-//             options3d: {
-//                 enabled: false,
-//                 alpha: 10,
-//                 beta: 25,
-//                 depth: 70
-//             }
-//         },
-//         title: {
-//             text: 'Progress of Tasks',
-// 			style: { "color": "#333333", "fontSize": "30px"},
-//         },
-//         plotOptions: {
-//             column: {
-//                 depth: 25
-//             }
-//         },
-//         xAxis: {
-//             categories: ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
-//         },
-//         yAxis: {
-// 			alternate:'#F0F0F0',
-//             opposite: false,
-// 			tickInterval: 20,
-// 			margin: 120,
-// 			max: 120,
-// 			labels: {
-// 					formatter: function() {
-// 						var value = change[this.value];
-// 						return value !== 'undefined' ? value : this.value;
-// 					}
-// 			},
-//             title: {
-//                 text: 'Task Stage',
-// 				style: {"font-family": "Arial", "font-weight": "bold", "color": "#333333"}	
-//             }
-//         },
-//         series: [{
-//             name: 'Percent Complete',
-//             data: [120, 120, 20, 60, 80]
-//         }],
-// 		colors: ['#0099FF', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
-// 				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
-//     });
-// });
 
 function pieChartDrawer(temp){
 						$(function () {
