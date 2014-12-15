@@ -182,7 +182,7 @@ function getTaskData(projectID, milestoneID, item, array){
             taskPercentArray.push(snapshot.val());
 
             });
-        }
+        // }?
         taskDrawer(taskNameArray, taskPercentArray);
     });
 };
