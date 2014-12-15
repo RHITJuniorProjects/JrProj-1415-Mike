@@ -33,10 +33,11 @@ function selectProject(project){
 		nameA.text(name);
 	});
 
-/*	var memberCont = $('#member-container');
-	selectedProject.getMembers().onItemAdded(function(user){
-		memberCont.append(user.getMemberTile(selectedProject));
-	});*/
+	var memberCont = $('#member-container');
+	memberCont.append(makeAddMemberTile);
+	project.getMemberTiles(function(tile){
+		memberCont.prepend(tile);
+	});
 }
 
 function selectMilestone(milestone){
@@ -353,6 +354,34 @@ function label(elem, label) {
     return l;
 }
 
+function makeAddMemberTile(project){
+	var selectedUser = null,
+		selectButton = $('<div class="button expand text-center">Add Member</div>'),
+		addMemberTile = $('<div class="column panel outlined">'),
+		nameRow = '<div class="row">'
+					+ '<div class="small-12 columns text-center">'
+						+ '<h3>Add New Member</h3>'
+					+ '</div>'
+				+ '</div>',
+		selectRow = $('<div class="row">'),
+		selectColumn = $('<div class="small-7 columns">'),
+		buttonColumn = $('<div class="small-5 columns">'),
+		userSelect = users.getSelect(function(user){
+			selectedUser = user;
+		});
+
+	buttonColumn.append(selectButton);
+	selectColumn.append(userSelect);
+	selectRow.append(selectColumn,buttonColumn);
+	addMemberTile.append(nameRow,selectRow);
+	selectButton.click(function(){
+		if(selectedUser){
+			thisProject.addMember(selectedUser);
+		}
+	});
+	return addMemberTile;
+}
+
 //Initializes the Project object
 function Project(firebase) {
     this.__firebase = firebase;
@@ -419,32 +448,7 @@ Project.prototype = {
 				memberModalName.text("Members For "+name);
 			});
 			memberModalTiles.children().remove();
-
-			var selectedUser = null,
-				selectButton = $('<div class="button expand text-center">Add Member</div>'),
-				addMemberTile = $('<div class="column panel outlined">'),
-				nameRow = '<div class="row">'
-							+ '<div class="small-12 columns text-center">'
-								+ '<h3>Add New Member</h3>'
-							+ '</div>'
-						+ '</div>';
-				selectRow = $('<div class="row">'),
-				selectColumn = $('<div class="small-7 columns">'),
-				buttonColumn = $('<div class="small-5 columns">'),
-				userSelect = users.getSelect(function(user){
-					selectedUser = user;
-				});
-
-			buttonColumn.append(selectButton);
-			selectColumn.append(userSelect);
-			selectRow.append(selectColumn,buttonColumn);
-			addMemberTile.append(nameRow,selectRow);
-			memberModalTiles.append(addMemberTile);
-			selectButton.click(function(){
-				if(selectedUser){
-					thisProject.addMember(selectedUser);
-				}
-			});
+			memberModalTiles.append(makeAddMemberTile);
 			thisProject.getMemberTiles(function(tile){
 				memberModalTiles.prepend(tile);
 			});
@@ -455,10 +459,8 @@ Project.prototype = {
             this.getHoursProgressBar()
         );
         project.append(leftColumn, rightColumn);
-        var p = this;
         projectA.click(function () {
-            selectProject(p);
-            currentProject = p;
+            selectProject(thisProject);
         });
         this.getName(function (nameStr) {
             nameSpan.text(nameStr);
