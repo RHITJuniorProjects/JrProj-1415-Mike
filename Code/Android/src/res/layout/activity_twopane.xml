@@ -25,7 +25,8 @@
         android:id="@+id/twopane_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.61" />
+        android:layout_weight="1.61" 
+        android:layout_marginLeft="10dip"/>
 
     <FrameLayout
         android:id="@+id/twopane_detail_container"

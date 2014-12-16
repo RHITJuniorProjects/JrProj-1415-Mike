@@ -9,6 +9,7 @@ import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
+import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.app.Activity;
@@ -19,6 +20,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
@@ -70,6 +72,7 @@ public class TaskListFragment extends ListFragment {
 		public String getUserName();
 
 		public String getSortMode();
+		public Milestone getSelectedMilestone();
 		
 	}
 
@@ -88,6 +91,9 @@ public class TaskListFragment extends ListFragment {
 		}
 
 		public Project getSelectedProject() {
+			return null;
+		}
+		public Milestone getSelectedMilestone(){
 			return null;
 		}
 		public String getUserName(){
@@ -141,6 +147,22 @@ public class TaskListFragment extends ListFragment {
 
 		super.onActivityCreated(savedInstanceState);
 		this.tasks = this.mCallbacks.getTasks();
+		TextView textView = new TextView(this.getActivity().getBaseContext());
+		textView.setTextSize(24);
+		textView.setTextColor(R.color.light_blue);
+		textView.setText("  Tasks in:");
+		textView.setClickable(false);
+		textView.setEnabled(false);
+		textView.setPadding(16, 0, 16, 0);
+		this.getListView().addHeaderView(textView, null, false);
+		TextView textView2 = new TextView(this.getActivity().getBaseContext());
+		textView2.setTextSize(18);
+		textView2.setTextColor(R.color.light_blue);
+		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName()+"\nMilestone: "+this.mCallbacks.getSelectedMilestone().getName());
+		textView2.setClickable(false);
+		textView2.setEnabled(false);
+		textView2.setPadding(16, 0, 16, 0);
+		this.getListView().addHeaderView(textView2, null, false);
 		
 		//This still doesn't account for dynamically adding and removing tasks
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();

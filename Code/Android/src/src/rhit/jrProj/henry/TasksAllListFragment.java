@@ -280,12 +280,21 @@ public class TasksAllListFragment extends ListFragment {
 		TextView textView = new TextView(this.getActivity().getBaseContext());
 		textView.setTextSize(24);
 		textView.setTextColor(R.color.light_blue);
+		textView.setPadding(16, 0, 16, 0);
+		textView.setText(this.mCallbacks.getUser().getName()+"'s Tasks");
+		TextView textView2 = new TextView(this.getActivity().getBaseContext());
+		textView2.setTextSize(18);
+		textView2.setTextColor(R.color.light_blue);
+		textView2.setClickable(false);
+		textView2.setEnabled(false);
+		textView2.setPadding(16, 0, 16, 0);
+		this.getListView().addHeaderView(textView2, null, false);
 		ArrayList<Task> t = new ArrayList<Task>();
 		ArrayList<Project> projects;
 		ArrayList<Milestone> milestones;
 		ArrayList<Task> t2;
 		if (this.mCallbacks.getSelectedProject() == null) {
-			textView.setText("  "+this.mCallbacks.getUser().getName()+"'s Tasks\n  All Projects");
+			textView2.setText("All Projects");
 
 			
 			projects = this.mCallbacks.getUser()
@@ -306,7 +315,7 @@ public class TasksAllListFragment extends ListFragment {
 		else if (this.mCallbacks.getSelectedMilestone() == null){
 			
 			Project p = this.mCallbacks.getSelectedProject();
-			textView.setText("  "+this.mCallbacks.getUser().getName()+"'s Tasks\n  All Milestones in "+p.getName());
+			textView2.setText("All Milestones in "+p.getName());
 			milestones = p.getMilestones();
 			for (Milestone m : milestones) {
 				t2= m.getTasks();
@@ -321,7 +330,7 @@ public class TasksAllListFragment extends ListFragment {
 		else{
 			Project p = this.mCallbacks.getSelectedProject();
 			Milestone m= this.mCallbacks.getSelectedMilestone();
-			textView.setText("  "+this.mCallbacks.getUser().getName()+"'s Tasks\n  In "+m.getName()+" of "+p.getName());
+			textView2.setText("In "+m.getName()+" of "+p.getName());
 			t2= m.getTasks();
 			for (Task task : t2){
 				if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
@@ -334,6 +343,9 @@ public class TasksAllListFragment extends ListFragment {
 		textView.setClickable(false);
 		textView.setEnabled(false);
 		this.getListView().addHeaderView(textView, null, false);
+		textView2.setClickable(false);
+		textView2.setEnabled(false);
+		this.getListView().addHeaderView(textView2, null, false);
 		return t;
 	}
 	public void sortingChanged(){
