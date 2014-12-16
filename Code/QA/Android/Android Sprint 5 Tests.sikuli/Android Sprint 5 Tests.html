@@ -71,7 +71,18 @@
 </div>
 <pre class="sikuli-code">
 <span class="cmt">##Tests ran from user already signed in
-</span><span class="cmt">##Test view all members of a project
+</span><span class="cmt">##Begin for view all tasks assigned for me
+</span><span class="skw">find</span>(<img src="1418587468765.png" />)
+<span class="skw">click</span>(<img src="1418587474047.png" />)
+<span class="kw">if</span> exists(<img src="1418766819254.png" />):
+    <span class="kw">print</span>(<span class="str">"It worked"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"It failed"</span>)
+<span class="cmt">##End test
+</span><span class="skw">click</span>(<img src="1418587489657.png" />)
+<span class="skw">wait</span>(<span class="dig">3</span>)
+
+<span class="cmt">##Test view all members of a project
 </span><span class="skw">click</span>(<img src="1418587294365.png" />)
 <span class="skw">wait</span>(<span class="dig">5</span>)
 <span class="skw">click</span>(<img src="1418587316674.png" />)
@@ -84,16 +95,7 @@
 </span>
 <span class="skw">click</span>(<img src="1418587358380.png" />)
 
-<span class="cmt">##Begin for view all tasks assigned for me
-</span><span class="skw">find</span>(<img src="1418587468765.png" />)
-<span class="skw">click</span>(<img src="1418587474047.png" />)
-<span class="kw">if</span> exists(<img src="1418587481819.png" />):
-    <span class="kw">print</span>(<span class="str">"It worked"</span>)
-<span class="kw">else</span>:
-    <span class="kw">print</span>(<span class="str">"It failed"</span>)
-<span class="cmt">##End test
-</span><span class="skw">click</span>(<img src="1418587489657.png" />)
-<span class="skw">wait</span>(<span class="dig">3</span>)
+
 
 <span class="cmt">##Begin test for making sure my tasks are flagged
 </span><span class="skw">click</span>(<img src="1418587507533.png" />)
