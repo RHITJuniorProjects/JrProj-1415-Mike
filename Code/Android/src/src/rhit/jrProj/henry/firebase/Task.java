@@ -1,5 +1,6 @@
 package rhit.jrProj.henry.firebase;
 
+import rhit.jrProj.henry.MainActivity;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import android.os.Parcel;
@@ -93,7 +94,22 @@ public class Task implements Parcelable {
 	 * the task's category
 	 */
 	// private Category category;
-
+	/**
+	 * The task's parent project ID
+	 */
+	private Firebase parentProjectFB;
+	/**
+	 * The task's parent milestone ID
+	 */
+	private Firebase parentMilestoneFB;
+	/**
+	 * The task's parent project Name
+	 */
+	private String parentProjectName;
+	/**
+	 * The task's parent milestone Name
+	 */
+	private String parentMilestoneName;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -114,7 +130,10 @@ public class Task implements Parcelable {
 	 * @param pc
 	 */
 	Task(Parcel pc) {
-		this.firebase = new Firebase(pc.readString());
+		String firebaseURL=pc.readString();
+		this.firebase = new Firebase(firebaseURL);
+//		setParentIDs(firebaseURL);
+//		setParentNames();
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.name = pc.readString();
 		this.description = pc.readString();
@@ -127,7 +146,32 @@ public class Task implements Parcelable {
 
 	public Task(String firebaseURL) {
 		this.firebase = new Firebase(firebaseURL);
+//		setParentIDs(firebaseURL);
+//		setParentNames();
 		this.firebase.addChildEventListener(new ChildrenListener(this));
+	}
+//	private void setParentIDs(String firebaseURL){
+//		String proj="/projects/";
+//		String ms= "/milestones/";
+//		String task="/tasks/";
+//		int indexProj=firebaseURL.indexOf(proj);
+//		int indexMS=firebaseURL.indexOf(ms);
+//		int indexTask=firebaseURL.indexOf(task);
+//		if (indexProj!=-1 && indexMS!=-1 && indexTask!=-1){
+//			this.parentProjectFB=new Firebase(firebaseURL.substring(0, indexMS));
+//			this.parentMilestoneFB=new Firebase(firebaseURL.substring(0, indexTask));
+//		}
+//	}
+//	
+//	private void setParentNames(){
+//		
+//		this.parentProjectFB.child("name").addListenerForSingleValueEvent(new ProjectNameListener(this));
+//		this.parentMilestoneFB.child("name").addListenerForSingleValueEvent(new MilestoneNameListener(this));
+//		
+//	}
+	public void setParentNames(String projName, String msName){
+		this.parentProjectName=projName;
+		this.parentMilestoneName=msName;
 	}
 
 	public int describeContents() {
@@ -252,7 +296,37 @@ public class Task implements Parcelable {
 	public String getStatus() {
 		return this.status;
 	}
-
+	/**
+	 * Returns the parent milestone id
+	 * @return the parent milestone id
+	 */
+	public String getParentMilestoneID(){
+		return this.parentMilestoneFB.getKey();
+	}
+	
+	/**
+	 * Returns the parent project id
+	 * @return the parent project id
+	 */
+	public String getParentProjectID(){
+		return this.parentProjectFB.getKey();
+	}
+	/**
+	 * Returns the parent milestone Name
+	 * @return the parent milestone Name
+	 */
+	public String getParentMilestoneName(){
+		return this.parentMilestoneName;
+	}
+		
+	/**
+	 * Returns the parent project Name
+	 * @return the parent project Name
+	 */
+	public String getParentProjectName(){
+		return this.parentProjectName;
+	}
+	
 	/**
 	 * Returns the number of lines of code added to this task
 	 * 
@@ -321,6 +395,34 @@ public class Task implements Parcelable {
 		if (this.listViewCallback!=null){
 			this.listViewCallback.onChange();
 		}
+	}
+	class ProjectNameListener implements ValueEventListener{
+		Task t;
+		public ProjectNameListener(Task t){
+			this.t=t;
+		}
+		    @Override
+		    public void onDataChange(DataSnapshot snapshot) {
+		        this.t.parentProjectName=snapshot.getValue(String.class);
+		    }
+		    @Override
+		    public void onCancelled(FirebaseError firebaseError) {
+		    }
+		
+	}
+	class MilestoneNameListener implements ValueEventListener{
+		Task t;
+		public MilestoneNameListener(Task t){
+			this.t=t;
+		}
+		    @Override
+		    public void onDataChange(DataSnapshot snapshot) {
+		        this.t.parentMilestoneName=snapshot.getValue(String.class);
+		    }
+		    @Override
+		    public void onCancelled(FirebaseError firebaseError) {
+		    }
+		
 	}
 
 	/**

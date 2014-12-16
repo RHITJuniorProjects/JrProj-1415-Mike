@@ -29,6 +29,7 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 	private final Enums.ObjectType type;
 	private String usersName;
 	private boolean flag=false;
+	private boolean viewAllMyTasks=false;
 
 	public SortedArrayAdapter(Context context, int resource,
 			int textViewResourceId, List<T> objects, Enums.ObjectType type, boolean flag) {
@@ -39,7 +40,17 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		this.usersName = "";
 		this.flag=flag;
 	}
-
+	public SortedArrayAdapter(Context context, int resource,
+			int textViewResourceId, List<T> objects, Enums.ObjectType type, boolean flag, boolean viewAllMyTasks) {
+		super(context, R.layout.list_image_layout, textViewResourceId, objects);
+		this.context = context;
+		this.objects = objects;
+		this.type = type;
+		this.usersName = "";
+		this.flag=flag;
+		this.viewAllMyTasks=viewAllMyTasks;
+	}
+	
 	/**
 	 * This constructor is used for tasks, which require knowledge of the user's
 	 * name so that it can flag appropriately.
@@ -61,6 +72,8 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 		this.usersName = usersName;
 		this.flag=flag;
 	}
+	
+	
 
 	@Override
 	public void notifyDataSetChanged() {
@@ -112,9 +125,16 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 				}
 				//Show the image if the task is assigned to the logged in user.
 				img1.setVisibility(View.VISIBLE);
+				text2.setText("Assigned to: " + t.getAssignedUserName());
 			} 
+			else if (this.viewAllMyTasks){
+				text2.setText("Project: " + t.getParentProjectName()+"\nMilestone: "+t.getParentMilestoneName());
+			}
+			else{
+				text2.setText("Assigned to: " + t.getAssignedUserName());
+			}
 			text1.setText(t.getName());
-			text2.setText("Assigned to: " + t.getAssignedUserName());
+			
 			text1.setTextSize(20);
 			view.refreshDrawableState();
 		} else if (this.type == Enums.ObjectType.MEMBER) {

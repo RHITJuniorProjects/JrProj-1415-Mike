@@ -162,7 +162,7 @@ public class TasksAllListFragment extends ListFragment {
 		SortedArrayAdapter<Task> adapter = new SortedArrayAdapter<Task>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
 				android.R.id.text1, this.tasks, Enums.ObjectType.TASK,
-				false);
+				false, true);
 		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(adapter);
 
 		for (Task t : this.tasks) {
@@ -296,6 +296,7 @@ public class TasksAllListFragment extends ListFragment {
 					t2= m.getTasks();
 					for (Task task : t2){
 						if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
+							task.setParentNames(p.getName(), m.getName());
 							t.add(task);
 						}
 					}
@@ -311,6 +312,7 @@ public class TasksAllListFragment extends ListFragment {
 				t2= m.getTasks();
 				for (Task task : t2){
 					if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
+						task.setParentNames(p.getName(), m.getName());
 						t.add(task);
 					}
 				}
@@ -323,6 +325,7 @@ public class TasksAllListFragment extends ListFragment {
 			t2= m.getTasks();
 			for (Task task : t2){
 				if (task.getAssignedUserId().equals(this.mCallbacks.getUser().getKey())){
+					task.setParentNames(p.getName(), m.getName());
 					t.add(task);
 				}
 			}

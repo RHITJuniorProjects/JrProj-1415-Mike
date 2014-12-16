@@ -321,6 +321,7 @@ public class Project implements Parcelable {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Milestone m = new Milestone(child.getRef().toString());
 					if (!this.project.milestones.contains(m)) {
+						m.setParentName(this.project.name);
 						this.project.milestones.add(m);
 					}
 				}
@@ -405,6 +406,7 @@ public class Project implements Parcelable {
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Milestone m = new Milestone(arg0.getRef().toString());
 			if (!this.project.getMilestones().contains(m)) {
+				m.setParentName(this.project.name);
 				this.project.getMilestones().add(m);
 			}
 			m.setListChangeNotifier(milestoneListViewCallback);
