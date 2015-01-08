@@ -14,6 +14,7 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
+import rhit.jrProj.henry.MainActivity;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
@@ -23,14 +24,16 @@ public class GraphHelper {
 
 	static int[] COLORS = new int[] { Color.GREEN, Color.BLUE, Color.MAGENTA,
 			Color.CYAN };
+	static int density = MainActivity.DENSITY;
+	final static int fontSize = 30 * (density/480);
 
 	public static GraphicalView makePieChart(String title,
 			List<Integer> values, List<String> keys, Activity activity) {
 		DefaultRenderer mRenderer = new DefaultRenderer();
 		//mRenderer.setChartTitle(title);
 		//mRenderer.setChartTitleTextSize(35);
-		mRenderer.setLabelsTextSize(30);
-		mRenderer.setLegendTextSize(30);
+		mRenderer.setLabelsTextSize(fontSize);
+		mRenderer.setLegendTextSize(fontSize);
 		mRenderer.setLabelsColor(Color.BLACK);
 		mRenderer.setStartAngle(0);
 		mRenderer.setApplyBackgroundColor(true);
@@ -127,7 +130,7 @@ public class GraphHelper {
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 					.setDisplayChartValues(true);
 			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
-			.setChartValuesTextSize(25);
+			.setChartValuesTextSize(fontSize);
 			
 		}
 		renderer.setXLabels(0);
@@ -149,8 +152,6 @@ public class GraphHelper {
 		renderer.setShowGridX(false);
 		renderer.setAntialiasing(true);
 		renderer.setMargins(new int[] {0, 30, 10, 0});
-		//renderer.setBarWidth(200);
-		//renderer.setLabelsTextSize(30);
 		
 
 		return ChartFactory.getBarChartView(activity,
@@ -236,10 +237,10 @@ public class GraphHelper {
 	 */
 	protected static XYMultipleSeriesRenderer buildBarRenderer(int[] colors) {
 		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.setAxisTitleTextSize(20);
-		renderer.setChartTitleTextSize(30);
-		renderer.setLabelsTextSize(20);
-		renderer.setLegendTextSize(20);
+		renderer.setAxisTitleTextSize(fontSize);
+		renderer.setChartTitleTextSize(fontSize);
+		renderer.setLabelsTextSize(fontSize);
+		renderer.setLegendTextSize(fontSize);
 		int length = colors.length;
 		for (int i = 0; i < length; i++) {
 			XYSeriesRenderer r = new XYSeriesRenderer();

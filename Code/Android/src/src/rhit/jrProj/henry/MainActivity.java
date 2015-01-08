@@ -20,6 +20,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +62,7 @@ public class MainActivity extends Activity implements
 	 */
 	private Task selectedTask;
 
+	public static int DENSITY;
 	/**
 	 * Determines what page to fill in when the application starts
 	 */
@@ -80,6 +82,14 @@ public class MainActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
+		
+		 DisplayMetrics metrics = new DisplayMetrics();
+		 getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		 int density = metrics.densityDpi;
+		 Log.i("flag",((Integer)density).toString());
+		 DENSITY = density;
+		 
+		 
 		Firebase.setAndroidContext(this);
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
