@@ -130,7 +130,7 @@ public class ChartsFragment extends Fragment {
 		// spinner layout
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter
 				.createFromResource(this.getActivity(),
-						R.array.milestone_charts,
+						R.array.longitude_charts,
 						android.R.layout.simple_spinner_item);
 		// Specify the layout to use when the list of choices appears
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
