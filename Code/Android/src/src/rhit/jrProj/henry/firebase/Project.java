@@ -1,9 +1,14 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
+import rhit.jrProj.henry.helpers.GraphHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -277,7 +282,33 @@ public class Project implements Parcelable {
 	public Map<Member, Enums.Role> getMembers() {
 		return this.members;
 	}
-	
+	public GraphHelper.LineChartInfo getEstimateAccuracyInfo() {
+		GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+		List<Milestone> ms=(List<Milestone>) this.getMilestones().clone();
+		Collections.sort(ms, new Comparator<Milestone>(){
+
+
+			@Override
+			public int compare(Milestone lhs, Milestone rhs) {
+				return lhs.compareToByDate(((Milestone) rhs), false);
+			}
+		}
+			);
+		
+		for (int i=0; i<this.getMilestones().size(); i++) {
+			Milestone milestone=ms.get(i);
+			HashMap<String, Double> ratios=GeneralAlgorithms.getRatio(milestone);
+			for (String key: ratios.keySet()){
+				GraphHelper.Point point = new GraphHelper.Point();
+				point.setX(new Double(i+1));
+				point.setY(ratios.get(key));
+				chartInfo.addNewPoint(key, point);
+			chartInfo.addNewTick(milestone.getName());
+		}
+		}
+
+		return chartInfo;
+	}
 	/**
 	 * Child Listener to handle the Project & its changes
 	 * 

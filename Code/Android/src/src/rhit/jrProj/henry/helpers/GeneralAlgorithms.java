@@ -1,5 +1,11 @@
 package rhit.jrProj.henry.helpers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Task;
 import android.util.Log;
 
 public class GeneralAlgorithms {
@@ -148,5 +154,33 @@ public class GeneralAlgorithms {
 		String month = months[month1 - 1];
 		return day1 + " " + month + " " + year1;
 
+	}
+	public static HashMap<String, Double> getRatio(Milestone m){
+		HashMap<String, List<Double>> map=new HashMap<String, List<Double>>(); //username, list of ratios  (one for each task)
+		HashMap<String, Double> map2=new HashMap<String, Double>(); //username, ratio (for all tasks)
+		for (Task t: m.getTasks()){
+			double actual=t.getHoursSpent();
+			double estimate=t.getOriginalHoursEstimate();
+			double ratio=actual/estimate;
+			if (map.containsKey(t.getAssignedUserName())){
+				map.get(t.getAssignedUserName()).add(ratio);
+			}
+			else{
+				List<Double> ls=new ArrayList<Double>();
+				ls.add(ratio);
+				map.put(t.getAssignedUserName(), ls);
+			}
+		}
+		for (String key : map.keySet()){
+			List<Double> d=map.get(key);
+			double ratio=0;
+			for (int i=0; i< d.size(); i++){
+				ratio+=ratio;
+			}
+			ratio=ratio/d.size();
+			map2.put(key, ratio);
+			
+		}
+		return map2;
 	}
 }

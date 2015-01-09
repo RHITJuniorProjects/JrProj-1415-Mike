@@ -10,6 +10,7 @@ import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.helpers.GraphHelper;
+import rhit.jrProj.henry.helpers.GraphHelper.Point;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -22,9 +23,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -39,7 +42,8 @@ import android.widget.TextView;
  * either contained in a {@link ProjectListActivity} in two-pane mode (on
  * tablets) or a {@link ChartsActivity} on handsets.
  */
-public class ChartsFragment extends Fragment {
+public class ChartsFragment extends Fragment implements
+OnItemSelectedListener {
 
 	/**
 	 * The dummy content this fragment is presenting.
@@ -140,6 +144,7 @@ public class ChartsFragment extends Fragment {
 		// Set the default for the spinner
 		spinner.setSelection(0);
 		// /////
+		spinner.setOnItemSelectedListener(this);
 		
 		
 		FrameLayout chartView = (FrameLayout) rootView
@@ -182,6 +187,36 @@ public class ChartsFragment extends Fragment {
 	public void onDetach() {
 		super.onDetach();
 		this.mCallbacks = sDummyCallbacks;
+	}
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		FrameLayout chartView = (FrameLayout) this.getActivity().findViewById(
+				R.id.pieChart);
+		chartView.removeAllViews();
+		GraphicalView chart;
+		if (position == 0) {
+//			GraphHelper.LineChartInfo chartInfo = this.projectItem
+//					.getEstimateAccuracyInfo();
+//
+//			chart = GraphHelper.makePieChart("Lines Added for "
+//					+ this.projectItem.getName(), chartInfo.getValues(),
+//					chartInfo.getKeys(), this.getActivity());
+//			chartView.addView(chart, new LayoutParams(
+//					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+		} else {
+			GraphHelper.LineChartInfo chartInfo = this.projectItem
+					.getEstimateAccuracyInfo();
+			chart=GraphHelper.makeLineChart("Accuracy of Estimated Hours", "Milestones", "Ratio of Estimated/Actual", 
+					chartInfo.getTitles(), chartInfo.getValues(), chartInfo.getXTicks(), this.getActivity());
+			chartView.addView(chart, new LayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			chart.repaint();
+		}
+	}
+
+	public void onNothingSelected(AdapterView<?> parent) {
+		// do nothing
 	}
 
 }
