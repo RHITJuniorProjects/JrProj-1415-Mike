@@ -31,7 +31,7 @@ import com.firebase.client.Firebase;
 
 public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks, ProjectMembersFragment.Callbacks,
-		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks, ProjectDetailFragment.Callbacks  {
+		TaskListFragment.Callbacks, TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks, ProjectDetailFragment.Callbacks, ChartsFragment.Callbacks  {
 	/**
 	 * The Url to the firebase repository
 	 */
@@ -155,6 +155,9 @@ public class MainActivity extends Activity implements
 		search.setEnabled(false);
 		search.setVisible(false);
 		MenuItem sorting= menu.findItem(R.id.action_sorting);
+		MenuItem charts= menu.findItem(R.id.action_charts);
+		charts.setEnabled(false);
+		charts.setVisible(false);
 		
 			sorting.setEnabled(true);
 			sorting.setVisible(true);
@@ -339,6 +342,9 @@ public class MainActivity extends Activity implements
 	 * that the item with the given ID was selected.
 	 */
 	public void onItemSelected(Project p) {
+		MenuItem charts= this.actionBarmenu.findItem(R.id.action_charts);
+		charts.setEnabled(true);
+		charts.setVisible(true);
 		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
 		item.setVisible(false);
 		
@@ -471,6 +477,28 @@ public class MainActivity extends Activity implements
 	 */
 	public void search(MenuItem item){
 		//Not yet implemented
+	}
+	public void charts(MenuItem item){
+	
+		Bundle arguments = new Bundle();
+		ChartsFragment fragment = new ChartsFragment();
+		arguments.putBoolean("TwoPane", this.mTwoPane);
+		fragment.setArguments(arguments);
+//		currFragment=fragment;
+		getFragmentManager()
+				.beginTransaction()
+				.replace(
+						this.mTwoPane ? R.id.twopane_detail_container
+								: R.id.main_fragment_container, fragment)
+				.commit();
+		// If in two pane mode, we cannot go up.
+
+		if (!this.mTwoPane) {
+			this.fragmentStack.push(fragment);
+		}
+		getActionBar().setDisplayHomeAsUpEnabled(!this.mTwoPane);
+		
+		
 	}
 	/**
 	 * sets Sorting mode, and then calls the sortingChanged method on the current fragment
