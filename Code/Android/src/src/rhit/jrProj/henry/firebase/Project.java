@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
@@ -309,6 +308,34 @@ public class Project implements Parcelable {
 
 		return chartInfo;
 	}
+	
+	public GraphHelper.LineChartInfo getLocInfo() {
+		GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+		List<Milestone> ms = (List<Milestone>) this.getMilestones().clone();
+		Collections.sort(ms, new Comparator<Milestone>() {
+
+			@Override
+			public int compare(Milestone lhs, Milestone rhs) {
+				return lhs.compareToByDate(((Milestone) rhs), false);
+			}
+		});
+
+		for (int i = 0; i < this.getMilestones().size(); i++) {
+			Milestone milestone = ms.get(i);
+			double loc = 0;
+			for (Task task : milestone.getTasks()) {
+				loc += (double) task.getAddedLines();
+			}
+			GraphHelper.Point point = new GraphHelper.Point();
+			point.setX(new Double(i + 1));
+			point.setY(loc);
+			chartInfo.addNewPoint(Double.toString(loc), point);
+			chartInfo.addNewTick(milestone.getName());
+		}
+
+		return chartInfo;
+	}
+	
 	/**
 	 * Child Listener to handle the Project & its changes
 	 * 
