@@ -9,6 +9,7 @@ var myTasksPage;
 var selectedProject;
 var selectedMilestone;
 var myTasks;
+var myStatisticsPage;
 
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
@@ -79,6 +80,14 @@ function showMyTasksPage(){
     projectPage.hide();
     taskPage.hide();
     myTasksPage.show();
+}
+function showMyStatistics(){
+    milestonePage.hide();
+    projectPage.hide();
+    taskPage.hide();
+    myStatisticsPage.show();
+    //drawUserStatistics(firebase,user.uid);
+
 }
 
 function getAllUsers(){
@@ -1382,11 +1391,13 @@ firebase.onAuth( // called on page load to auth users
                     $(".notLoggedIn").hide();
                     $(".loginRequired").show();
 					selectUser(user);
+                    drawUserStatistics(firebase,user.uid);
                 }
 				milestonePage = $('#milestones-page');
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
                 myTasksPage = $('#my-tasks-page');
+                myStatisticsPage =  $('#my-statistics-page');
 				showProjects();
 				getAllUsers();
             }
