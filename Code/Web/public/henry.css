@@ -15,15 +15,26 @@
 	color:#f9f9f9;
 }
 
-#title {
-	position: fixed;
-	z-index:23;
-	top: 30%;
+.main-box {
+	height: 500px;
 	width: 100%;
-	background: white;
-	opacity:0.5;
 }
 
+.filler {
+	height: 40%;
+}
+
+.lightblue {
+	background-color: #96D0FF !important;
+}
+
+.gray {
+	background-color: #cccccc !important;
+}
+
+.centereddiv {
+	text-align: center;
+}
 #henry {
 	font-size:6.5rem;
 }
@@ -52,12 +63,11 @@
 }
 
 #footer {
-	z-index:92 !important;
-	position:fixed !important;
 	left:0 !important;
 	width:100% !important;
 	min-width:100% !important;
 	opacity:0.8;
+	vertical-align: bottom;
 }
 
 #pictures .example-orbit {
@@ -92,7 +102,6 @@
 
 
 .tabbar {
-	position:fixed;
 	top: 45px;
 	z-index:1;
 	height:1000000px;

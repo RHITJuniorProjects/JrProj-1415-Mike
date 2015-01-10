@@ -12,7 +12,7 @@
 					make_tabbar(
 						array(
 							new Tab("My Projects",["class" => "active"]),
-							new Tab("My Tasks"),
+							new Tab("My Tasks", ["onclick" => "showMyTasksPage()"]),
 							new Tab("My Statistics"),
 							new Tab("Project Statistics")
 						)
