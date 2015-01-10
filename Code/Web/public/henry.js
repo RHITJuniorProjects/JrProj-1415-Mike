@@ -6,6 +6,7 @@ var milestonePage;
 var projectPage;
 var taskPage;
 var myTasksPage;
+var profilePage;
 var selectedProject;
 var selectedMilestone;
 var myTasks;
@@ -17,6 +18,7 @@ function selectProject(project){
     projectPage.hide();
     taskPage.hide();
     myTasksPage.hide();
+	profilePage.hide();
 	if(selectedProject){
 		selectedProject.off();
 	}
@@ -47,6 +49,7 @@ function selectMilestone(milestone){
     projectPage.hide();
     taskPage.show();
     myTasksPage.hide();
+	profilePage.hide();
 	if(selectedMilestone){
 		currentMilestone.off();
 	}
@@ -59,12 +62,34 @@ function selectMilestone(milestone){
 	});
 }
 
+function viewProfile(user){
+	milestonePage.hide();
+    projectPage.hide();
+    taskPage.hide();
+    myTasksPage.hide();
+	profilePage.show();
+	user.getName(function(name){
+		$('span.profile-name').text(name);
+	});
+	user.getEmailLink(function(email){
+		$('#contact-row').append(email);
+	});
+	$('#biography').text('no profile');
+	$('#profile-phone').text('no number');
+	var projPanel = $('#profile-projects');
+	projPanel.children().remove();
+	user.getProjects().onItemAdded(function(project){
+		projPanel.prepend(project.getButtonDiv());
+	});
+}
+
 function showProjects(){
     drawProjectStuff(firebase);
     milestonePage.hide();
-    projectPage.show();
     taskPage.hide();
     myTasksPage.hide();
+	profilePage.hide();
+    projectPage.show();
 }
 
 function selectMyTasks(){
@@ -78,6 +103,7 @@ function showMyTasksPage(){
     milestonePage.hide();
     projectPage.hide();
     taskPage.hide();
+	profilePage.hide();
     myTasksPage.show();
 }
 
@@ -478,7 +504,7 @@ Project.prototype = {
     setDescription: function (desc) {
         this.__description.set(description);
     },
-    getButtonDiv: function (callback) {
+    getButtonDiv: function () {
         var project = $('<div class="row project">'),
             leftColumn = $('<div class="small-4 columns small-offset-1">'),
             rightColumn = $('<div class="small-4 columns small-offset-2 left">'),
@@ -1387,6 +1413,7 @@ firebase.onAuth( // called on page load to auth users
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
                 myTasksPage = $('#my-tasks-page');
+				profilePage = $('#profile-page');
 				showProjects();
 				getAllUsers();
             }

@@ -1,49 +1,36 @@
 
-<div id="profile-page" hidden>
-	<div class="small-2 columns small-offset-1 tabbar">
-		<?php
-			require_once 'tabbar.php';
-			make_tabbar(
-				array(
-					new Tab('<span class="profile-name"></span> Profile',['class'=>'active'],'Profile'),
-				)
-			);
-		?>
-	</div>
-	<div class="small-9 columns main-content">
-		<div class="tabs-content">
+<div id="profile-page" class="main-content" hidden>
+	<div class="small-10 columns small-offset-1">
 			<div class="content" id="Profile">
-				<div class="small-10 columns small-offset-1">
+				<div class="small-10 columns small-offset-1 panel">
 					<div class="row collapse text-center">
-						<h1><span class="profile-name"></span> Profile</h1>
+						<h1><span class="profile-name"></span>'s Profile</h1>
 					</div>
-				</div>
-			</div>
-			<div class="content active" id="ProfileProjects">
-				<div class="small-10 columns small-offset-1 ">
-					<div class="row collapse text-center outlined">
-						<h1><span class="profile-name"></span>Projects</h1>
+					<div class="row text-center">
+						About
 					</div>
-					<dl class="row collapse accordion outlined" data-accordion>
-						<dd class="accordion-navigation">
-							<a href="#profile-projects-panel" class="text-center outlined">
-								<h3>Production</h3>
-							</a>
-							<div id="profile-projects-panel" class="content active panel row">
-								<!-- projects added by henry.js -->
-							</div>
-						</dd>
-					</dl>
-					<dl class="row collapse accordion" data-accordion>
-						<dd class="accordion-navigation">
-							<a href="#profile-finished-projects-panel" class="text-center outlined">
-								<h3>Closed</h3>
-							</a>
-							<div id="profile-finished-projects-panel" class="content active row panel">
-								<!-- pojects added by henry.js -->
-							</div>
-						</dd>
-					</dl>
+					<div class="row">
+						<div class="small-8 columns small-offset-2 text-center">
+							<span id="biography"></span>
+						</div>
+					</div>
+					<div class="row text-center">
+						Contact Information
+					<div>
+					<div id="contact-row" class="row">
+						<!-- email added by henry.js -->
+					</div>
+					<div class="row text-center">
+						<div class="small-12 columns">
+							<h2><span class="profile-name"></span>'s Projects</h2>
+							<h1>&nbsp;</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div id="profile-projects" class="small-12 columns">
+							<!-- populated by henry.js -->
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
