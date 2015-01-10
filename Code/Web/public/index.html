@@ -57,41 +57,18 @@
 		</ul>
 	</section>
 </nav>
-		<div id="title">
-			<h1 id="henry">Henry</h1>
-		</div>
-		<div id="pictures" class="main-content">
-			<ul class="example-orbit" data-orbit>
-			  <li>
-			  	<div class="bg">
-			    	<!--<img src="forest1.jpg" alt="slide 1" />-->
-			    	<img id="one" alt="slide 1" />
-				</div>
-			    <div class="orbit-caption">
-			      Henry is a cross-platform user experience for a multi-user webscale application.
-			    </div>
-			  </li>
-			  <li>
- 				<div class="bg">
-			    	<!--<img src="grass.JPG" alt="slide 3" />-->
-			    	<img id="two" alt="slide 2" />
-				</div>
-			    <div class="orbit-caption">
-			      Henry is a project management tool.
-			    </div>
-			  </li>
-			  <li>
- 				<div class="bg">
-			    	<!--<img src="grass.JPG" alt="slide 3" />-->
-			    	<img id="three" alt="slide 3" />
-				</div>
-			    <div class="orbit-caption">
-			      Henry is a project management tool.
-			    </div>
-			  </li>
-			</ul>
-		</div>
-		<div id="footer" class="row panel">
+		<div class="main-box">
+			<br />
+			<br />
+			<br />
+			<div>
+			<h1>Henry</h1>
+			<div class="centereddiv">
+			Henry is a smart project-management tool through Git using Firebase.<br/>It is an integrated multi-platform application that is available on Android, iOS, and web browser.
+			</div>
+			</div>
+			<div class="filler">
+			</div>
 			<div class="small-4 columns">
                 <button data-reveal-id="myRegisterModal" class="expand">Register</button>
                 <div id="myRegisterModal" class="reveal-modal" data-reveal>
@@ -132,33 +109,46 @@
                 </div>
 			</div>
 		</div>
-		<script>
-			var addedResize = false;
-			$(window).bind("load",function(){
-				var footer = $('#footer');
-				var orbit = $('#pictures');
-				function adjust(){
-					var height = $(window).height()-250;
-					if(height > 0){
-						footer.css({'top':height+'px'});
-					}
-					orbit.height({'height':height-45+'px'});
-				}
-				if(!addedResize){
-					$(window).bind("resize",adjust);
-				}
-				adjust();
-				var one = $('#one'),
-					two = $('#two'),
-					three = $('#three');
-				one.load(function(){
-					two.attr('src','grass.JPG');
-				});
-				two.load(function(){
-					three.attr('src','water.jpg');
-				});
-				one.attr('src','forest1.jpg');
-			});
-		</script>
+		<div class="main-box lightblue">
+			<br/>
+			<h1>What Henry has to offer.</h1>
+			<div class="centereddiv">
+				<ol>
+					<li> Scalability
+						From small projects to large ones, Henry can manage both effectively and efficiently, with as little overhead as possible.
+					</li>
+					<li>
+						Cross-platform support
+						Henry is available on multiple devices, customized to make the experience the best for each platform.
+					</li>
+					<li>
+						Integration with Git
+						Your commits will be linked to the specific task the commit is for to have even more traceability.
+					</li>
+					<li>
+						Metrics
+						Metrics are instantly generated and updated that will give a complete snapshot of a project and its milestones.
+					</li>	
+				</ol> 
+			</div>
+		</div>
+		<div class="main-box gray">
+			<br/>
+			<h1>What does Henry use</h1>
+			<div class="centereddiv">
+				It uses Firebase to update at suprising speeds. <br />
+
+				Firebase allows storage and complete synchronization of data in realtime to make the site as fast as possible.
+			</div>
+		</div>
+		<div class="main-box">
+			<br/>
+			<h1>Who created Henry</h1>
+			<div class="centereddiv">
+				A class of undergraduate students at Rose-Hulman Institute of Technology created this application to be used by future students.
+				<br />
+				It was created for the client Mike MacDonald, a representative of Firebase.
+			</div>
+		</div>
 	</body>
 </html>
