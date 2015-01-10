@@ -25,7 +25,7 @@
     [super viewWillDisappear:animated];
     self.detailView.statusButton.titleLabel.text = [self.cellTitles objectAtIndex:_selectedIndex];
     UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
-    NSDictionary *newValue = @{@"status":selectedCell.textLabel.text};
+    NSDictionary *newValue = @{@"category":selectedCell.textLabel.text};
     [self.fb updateChildValues:newValue];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -46,12 +46,21 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.cellTitles = [[NSArray alloc] initWithObjects:@"New", @"Implementation", @"Testing", @"Verify", @"Regression", @"Closed", nil];
+    
+    NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/categories.json", self.projectID]];
+    NSData *data = [NSData dataWithContentsOfURL:jsonURL];
+    NSError *error;
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        self.cellTitles = [json allKeys];
+        self.cellTitles = [self.cellTitles sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
     int initialIndex = [self.cellTitles indexOfObject:self.initialSelection];
     self.selectedIndex = initialIndex;
     self.firstTime = YES;
     self.clearChecksOnSelection = NO;
 
-    self.fb = [HenryFirebase getFirebaseObject]; 
+    self.fb = [HenryFirebase getFirebaseObject];
+        
     self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];

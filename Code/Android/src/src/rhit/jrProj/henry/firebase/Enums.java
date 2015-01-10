@@ -5,13 +5,13 @@ package rhit.jrProj.henry.firebase;
 
 public class Enums {
 	public enum Role {
-		developer, lead;
+		DEVELOPER, LEAD;
 
 		public static Role parse(String value) {
-			if (value.equals("lead")) {
-				return Role.lead;
+			if (value.equalsIgnoreCase("lead")) {
+				return Role.LEAD;
 			}
-			return Role.developer;
+			return Role.DEVELOPER;
 		}
 	}
 
@@ -19,7 +19,7 @@ public class Enums {
 		Bug,
 	}
 	public enum ObjectType{
-		PROJECT, MILESTONE, TASK
+		PROJECT, MILESTONE, TASK, MEMBER
 	}
 	public final static String NEW= "New";
 	public final static String IMP="Implementation";

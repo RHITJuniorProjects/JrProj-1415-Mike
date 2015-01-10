@@ -26,6 +26,7 @@
 @property NSDictionary *allDevs;
 @property NSMutableArray *names;
 @property NSMutableArray *devs;
+@property (weak, nonatomic) IBOutlet UILabel *tasksHeader;
 
 
 

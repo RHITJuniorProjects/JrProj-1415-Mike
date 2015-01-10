@@ -2,13 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
+    android:layout_marginLeft="0dp"
     android:layout_marginRight="16dp"
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context="rhit.jrProj.henry.ProjectListActivity" >
+    tools:context="rhit.jrProj.henry.MainActivity" >
 
     <!--
     This layout is a two-pane layout for the Projects
@@ -25,7 +25,8 @@
         android:id="@+id/twopane_list"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1.61" />
+        android:layout_weight="1.61" 
+        android:layout_marginLeft="10dip"/>
 
     <FrameLayout
         android:id="@+id/twopane_detail_container"

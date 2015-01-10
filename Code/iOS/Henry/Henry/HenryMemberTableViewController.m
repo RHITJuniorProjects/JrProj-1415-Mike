@@ -113,6 +113,13 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *recipients = [self.memberEmails objectAtIndex:indexPath.row];
+    NSString *email = [NSString stringWithFormat:@"mailto:%@",recipients];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+}
+
 
 /*
 // Override to support conditional editing of the table view.

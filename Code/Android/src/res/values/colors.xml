@@ -23,5 +23,8 @@
     <color name="blue">#268bd2</color>
     <color name="cyan">#2aa198</color>
     <color name="green">#859900</color>
+    <color name="light_grey">#c0c0c0</color>
+    <color name="white">#FFFFFF</color>
+    <color name="light_blue">#B0E0E6</color>
 
 </resources>

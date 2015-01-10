@@ -1,9 +1,14 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
+import rhit.jrProj.henry.helpers.GraphHelper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -277,7 +282,33 @@ public class Project implements Parcelable {
 	public Map<Member, Enums.Role> getMembers() {
 		return this.members;
 	}
-	
+	public GraphHelper.LineChartInfo getEstimateAccuracyInfo() {
+		GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+		List<Milestone> ms=(List<Milestone>) this.getMilestones().clone();
+		Collections.sort(ms, new Comparator<Milestone>(){
+
+
+			@Override
+			public int compare(Milestone lhs, Milestone rhs) {
+				return lhs.compareToByDate(((Milestone) rhs), false);
+			}
+		}
+			);
+		
+		for (int i=0; i<this.getMilestones().size(); i++) {
+			Milestone milestone=ms.get(i);
+			HashMap<String, Double> ratios=GeneralAlgorithms.getRatio(milestone);
+			for (String key: ratios.keySet()){
+				GraphHelper.Point point = new GraphHelper.Point();
+				point.setX(new Double(i+1));
+				point.setY(ratios.get(key));
+				chartInfo.addNewPoint(key, point);
+			chartInfo.addNewTick(milestone.getName());
+		}
+		}
+
+		return chartInfo;
+	}
 	/**
 	 * Child Listener to handle the Project & its changes
 	 * 
@@ -321,6 +352,7 @@ public class Project implements Parcelable {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Milestone m = new Milestone(child.getRef().toString());
 					if (!this.project.milestones.contains(m)) {
+						m.setParentName(this.project.name);
 						this.project.milestones.add(m);
 					}
 				}
@@ -333,7 +365,7 @@ public class Project implements Parcelable {
 							this.project.members.put(
 									toAdd,
 									Enums.Role.valueOf(member.getValue(
-											String.class).toLowerCase()));
+											String.class).toUpperCase()));
 						} catch (Exception e) {
 							Log.i("FAILED",
 									"Adding a role to a member failed: "
@@ -405,6 +437,7 @@ public class Project implements Parcelable {
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Milestone m = new Milestone(arg0.getRef().toString());
 			if (!this.project.getMilestones().contains(m)) {
+				m.setParentName(this.project.name);
 				this.project.getMilestones().add(m);
 			}
 			m.setListChangeNotifier(milestoneListViewCallback);

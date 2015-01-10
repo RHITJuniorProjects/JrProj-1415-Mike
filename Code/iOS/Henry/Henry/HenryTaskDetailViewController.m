@@ -96,8 +96,8 @@
     
     self.taskNameLabel.text = [json objectForKey:@"name"];
     self.descriptionView.text = [json objectForKey:@"description"];
-    [self.statusButton setTitle:[json objectForKey:@"status"] forState:UIControlStateNormal];
-    [self.statusButton setTitle:[json objectForKey:@"status"] forState:UIControlStateHighlighted];
+    [self.statusButton setTitle:[json objectForKey:@"category"] forState:UIControlStateNormal];
+    [self.statusButton setTitle:[json objectForKey:@"category"] forState:UIControlStateHighlighted];
     
     [self.assigneeNameLabel setText:[jsonForName objectForKey:@"name"]];
     self.originalTimeEstimate = [[json objectForKey:@"original_time_estimate"] integerValue];;
