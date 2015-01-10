@@ -1,9 +1,7 @@
 package rhit.jrProj.henry;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
@@ -12,11 +10,12 @@ import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 /**
@@ -32,7 +31,7 @@ public class ProjectListFragment extends ListFragment {
 
 	ArrayList<Project> projects;
 	
-	String sortMode="A-Z";
+	String sortMode="Sort A-Z";
 
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
@@ -67,6 +66,8 @@ public class ProjectListFragment extends ListFragment {
 		public User getUser();
 		
 		public String getSortMode();
+
+		public Project getSelectedProject();
 	}
 
 	/**
@@ -89,6 +90,11 @@ public class ProjectListFragment extends ListFragment {
 		public String getSortMode(){
 			return "A-Z";
 		}
+
+		public Project getSelectedProject() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	};
 
 	/**
@@ -107,7 +113,7 @@ public class ProjectListFragment extends ListFragment {
 		
 		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.projects, Enums.ObjectType.PROJECT);
+				android.R.id.text1, this.projects, Enums.ObjectType.PROJECT, false);
 		setListAdapter(arrayAdapter);
 		
 		SortedListChangeNotifier<Project> lcn = new SortedListChangeNotifier<Project>(
@@ -164,6 +170,44 @@ public class ProjectListFragment extends ListFragment {
 			outState.putInt(STATE_ACTIVATED_POSITION, this.mActivatedPosition);
 		}
 	}
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		MenuItem search=menu.findItem(R.id.action_search);
+		search.setEnabled(false);
+		search.setVisible(false);
+		MenuItem sorting= menu.findItem(R.id.action_sorting);
+		
+			sorting.setEnabled(true);
+			sorting.setVisible(true);
+					
+		// This code shows the "Create Milestone" option when
+		// viewing milestones.
+				SubMenu submenu=menu.findItem(R.id.action_sorting).getSubMenu();
+				MenuItem dateOldest= submenu.findItem(R.id.sortOldest);
+				MenuItem dateNewest= submenu.findItem(R.id.sortNewest);
+				MenuItem AZ= submenu.findItem(R.id.sortAZ);
+				MenuItem ZA= submenu.findItem(R.id.sortZA);
+				dateOldest.setVisible(true);
+				dateOldest.setEnabled(true);
+				dateNewest.setVisible(true);
+				dateNewest.setEnabled(true);
+				AZ.setVisible(true);
+				AZ.setEnabled(true);
+				ZA.setVisible(true);
+				ZA.setEnabled(true);
+				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+				createMilestone.setVisible(false);
+				createMilestone.setEnabled(false);
+				MenuItem createTask = menu.findItem(R.id.action_task);
+				createTask.setVisible(false);
+				createTask.setEnabled(false);
+				
+					
+					
+		}
+	
+	
 
 	/**
 	 * Turns on activate-on-click mode. When this mode is on, list items will be

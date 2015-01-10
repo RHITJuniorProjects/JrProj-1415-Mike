@@ -2,7 +2,6 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
@@ -12,12 +11,12 @@ import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
@@ -32,7 +31,7 @@ import com.firebase.client.Firebase;
  */
 public class MilestoneListFragment extends ListFragment {
 	
-	private String sortMode="A-Z";
+	private String sortMode="Sort A-Z";
 	
 	private ArrayAdapter adapter;
 	
@@ -69,6 +68,8 @@ public class MilestoneListFragment extends ListFragment {
 		public ArrayList<Milestone> getMilestones();
 
 		public Project getSelectedProject();
+
+		public String getSortMode();
 		
 	}
 
@@ -86,6 +87,11 @@ public class MilestoneListFragment extends ListFragment {
 		}
 
 		public Project getSelectedProject() {
+			return null;
+		}
+
+		public String getSortMode() {
+			// TODO Auto-generated method stub
 			return null;
 		}
 		
@@ -113,10 +119,27 @@ public class MilestoneListFragment extends ListFragment {
 		super.onActivityCreated(savedInstanceState);
 		// Done: replace with a real list adapter.
 		this.milestones = this.mCallbacks.getMilestones();
+		TextView textView = new TextView(this.getActivity().getBaseContext());
+		textView.setTextSize(24);
+		textView.setTextColor(R.color.light_blue);
+		textView.setText("Milestones in:");
+		textView.setClickable(false);
+		textView.setEnabled(false);
+		textView.setPadding(16, 0, 16, 0);
+		this.getListView().addHeaderView(textView, null, false);
+		TextView textView2 = new TextView(this.getActivity().getBaseContext());
+		textView2.setTextSize(18);
+		textView2.setTextColor(R.color.light_blue);
+		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName());
+		textView2.setClickable(false);
+		textView2.setEnabled(false);
+		textView2.setPadding(16, 0, 16, 0);
+		this.getListView().addHeaderView(textView2, null, false);
+		
 		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.milestones, Enums.ObjectType.MILESTONE);
-		ListChangeNotifier<Milestone> lcn = new ListChangeNotifier<Milestone>(
+				android.R.id.text1, this.milestones, Enums.ObjectType.MILESTONE, false);
+		SortedListChangeNotifier<Milestone> lcn = new SortedListChangeNotifier<Milestone>(
 				arrayAdapter);
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
@@ -129,7 +152,7 @@ public class MilestoneListFragment extends ListFragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-
+		
 		// Restore the previously serialized activated item position.
 		if (savedInstanceState != null
 				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
@@ -153,12 +176,13 @@ public class MilestoneListFragment extends ListFragment {
 								+ ref.getAuth().getUid()));
 
 		if (this.getArguments().getBoolean("TwoPane")) {
-			if (role != null && role.equals(Enums.Role.lead)) {
+			if (role != null && role.equals(Enums.Role.LEAD)) {
 				MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 				createMilestone.setVisible(true);
 				createMilestone.setEnabled(true);
 			}
 		}
+		
 	}
 
 	@Override
@@ -225,6 +249,12 @@ public class MilestoneListFragment extends ListFragment {
 		}
 
 		mActivatedPosition = position;
+	}
+	public void sortingChanged(){
+		this.sortMode=this.mCallbacks.getSortMode();
+		for (Milestone p : this.milestones){
+			((SortedListChangeNotifier<Milestone>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+		}
 	}
 	
 }

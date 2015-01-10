@@ -42,8 +42,16 @@ public class Milestone implements Parcelable {
 	 * The percentage of tasks completed for this milestone
 	 */
 	private int taskPercent = 0;
+	/**
+	 * The parent project id
+	 */
 	
-
+	private String parentProjectID;
+	/**
+	 * The parent project name
+	 */
+	
+	private String parentProjectName;
 	/**
 	 * A description of the work that needs to happen in this milestone.
 	 */
@@ -94,6 +102,8 @@ public class Milestone implements Parcelable {
 				new GrandChildrenListener(this));
 		this.milestoneId = firebaseUrl
 				.substring(firebaseUrl.lastIndexOf('/') + 1);
+		//Might be useful for later
+		//setParentID(firebaseUrl);
 	}
 
 	/**
@@ -151,7 +161,20 @@ public class Milestone implements Parcelable {
 	public ArrayList<Task> getTasks() {
 		return this.tasks;
 	}
-
+	public void setParentName(String projName){
+		this.parentProjectName=projName;
+	}
+	//Might be useful for later
+//	private void setParentID(String firebaseURL){
+//		String proj="/projects/";
+//		String ms= "/milestones/";
+//		int indexProj=firebaseURL.indexOf(proj);
+//		int indexMS=firebaseURL.indexOf(ms);
+//		if (indexProj!=-1 && indexMS!=-1){
+//			int indexProjEnd=indexProj+proj.length();
+//			this.parentProjectID=firebaseURL.substring(indexProjEnd, indexMS);
+//		}
+//	}
 	/**
 	 * Used to give additional hints on how to process the received parcel.
 	 */
@@ -186,6 +209,14 @@ public class Milestone implements Parcelable {
 		this.description = description;
 
 	}
+	/**
+	 * Returns the parent project id
+	 * @return the parent project id
+	 */
+	public String getParentProjectID(){
+		return this.parentProjectID;
+	}
+	
 	
 	/**
 	 * Returns the due date of the milestone
@@ -385,7 +416,9 @@ public class Milestone implements Parcelable {
 			} else if (arg0.getKey().equals("tasks")) {
 				for (DataSnapshot child : arg0.getChildren()) {
 					Task t = new Task(child.getRef().toString());
+					
 					if (!this.milestone.tasks.contains(t)) {
+						t.setParentNames(this.milestone.parentProjectName, this.milestone.getName());
 						this.milestone.tasks.add(t);
 					}
 				}
@@ -439,6 +472,7 @@ public class Milestone implements Parcelable {
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Task t = new Task(arg0.getRef().toString());
 			if (!this.milestone.getTasks().contains(t)) {
+				t.setParentNames(this.milestone.parentProjectName, this.milestone.name);
 				this.milestone.getTasks().add(t);
 			}
 			t.setListChangeNotifier(this.milestone.getTaskListViewCallback());
@@ -472,5 +506,24 @@ public class Milestone implements Parcelable {
 				this.milestone.listViewCallback.onChange();
 			}
 		}
+	}
+	/**
+	 *  Compares this project with the other given project. This implementation treats lower 
+	 *  case letters the same as upper case letters. Also treats numbers differently,
+	 *   i.e. puts 10 after 9 instead of after 1
+	 * @param p
+	 * @return
+	 */
+	public int compareToIgnoreCase(Milestone p){
+		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
+	}
+	/**
+	 * Compares this Project to another Project by comparing dates
+	 * @param p
+	 * @param newestFirst
+	 * @return
+	 */
+	public int compareToByDate(Milestone p, boolean newestFirst){
+		return GeneralAlgorithms.compareToByDate(this.getDueDate(), p.getDueDate(), newestFirst);
 	}
 }

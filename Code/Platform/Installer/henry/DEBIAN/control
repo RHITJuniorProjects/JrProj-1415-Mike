@@ -1,0 +1,9 @@
+Package: henry
+Version: 1.1.4
+Architecture: all
+Maintainer: Adam Michael <michaea1@rose-hulman.edu>
+Installed-Size: 2
+Section: extras
+Priority: optional
+Homepage: https://github.com/RHITJuniorProjects/JrProj-1415-Mike
+Description: Henry - The project requirements tracker you never thought you needed.

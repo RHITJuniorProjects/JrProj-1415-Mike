@@ -1,0 +1,15 @@
+#!/bin/sh
+
+REPOS="$1"
+TXN="$2"
+
+SVNLOOK=/usr/bin/svnlook
+$SVNLOOK log -t "$TXN" "$REPOS" | \
+   grep "[a-zA-Z0-9]" > /dev/null || exit 1
+
+set -e
+
+python "$REPOS"/hooks/henry_svn_hook.py "$($SVNLOOK log -t "$TXN" "$REPOS")" "$($SVNLOOK diff -t "$TXN" "$REPOS")"
+
+# All checks passed, so allow the commit.
+exit 0

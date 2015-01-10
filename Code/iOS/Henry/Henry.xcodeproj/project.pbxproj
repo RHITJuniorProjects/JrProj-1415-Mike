@@ -33,7 +33,8 @@
 		87D813331A325A9100BEDD3E /* HenryProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D813321A325A9100BEDD3E /* HenryProfileViewController.m */; };
 		87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87E464701A085D9300A18BF7 /* HenryProjectObject.m */; };
 		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
-		903D02FA1A12E78D0040A342 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 903D02F91A12E78D0040A342 /* Firebase.framework */; };
+		90A0274C1A3CB5E300884462 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A0274B1A3CB5E300884462 /* Firebase.framework */; };
+		90A0274F1A3CB7B000884462 /* HenryMyTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90A0274E1A3CB7B000884462 /* HenryMyTasksTableViewController.m */; };
 		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
 		93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
@@ -115,7 +116,9 @@
 		87E4646F1A085D9300A18BF7 /* HenryProjectObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectObject.h; sourceTree = "<group>"; };
 		87E464701A085D9300A18BF7 /* HenryProjectObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectObject.m; sourceTree = "<group>"; };
 		87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
-		903D02F91A12E78D0040A342 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
+		90A0274B1A3CB5E300884462 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
+		90A0274D1A3CB7B000884462 /* HenryMyTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMyTasksTableViewController.h; sourceTree = "<group>"; };
+		90A0274E1A3CB7B000884462 /* HenryMyTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMyTasksTableViewController.m; sourceTree = "<group>"; };
 		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -157,7 +160,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADB3A4E619E48A4C00C687D5 /* SystemConfiguration.framework in Frameworks */,
-				903D02FA1A12E78D0040A342 /* Firebase.framework in Frameworks */,
+				90A0274C1A3CB5E300884462 /* Firebase.framework in Frameworks */,
 				ADB3A4E419E48A4300C687D5 /* Security.framework in Frameworks */,
 				ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */,
 				ADB3A4E019E48A2A00C687D5 /* libc++.dylib in Frameworks */,
@@ -192,6 +195,8 @@
 				93054B0B19C961E000911AB4 /* Projects */,
 				93054B0A19C961D300911AB4 /* Tasks */,
 				93054B0C19C961E500911AB4 /* Milestones */,
+				90A0274D1A3CB7B000884462 /* HenryMyTasksTableViewController.h */,
+				90A0274E1A3CB7B000884462 /* HenryMyTasksTableViewController.m */,
 			);
 			name = iPhone;
 			sourceTree = "<group>";
@@ -313,7 +318,7 @@
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
-				903D02F91A12E78D0040A342 /* Firebase.framework */,
+				90A0274B1A3CB5E300884462 /* Firebase.framework */,
 				93447F3E19C91C5500C2FC38 /* Henry */,
 				93447F5719C91C5600C2FC38 /* HenryTests */,
 				93447F3719C91C5500C2FC38 /* Frameworks */,
@@ -518,6 +523,7 @@
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
 				832BDD5119F6CD8100642CD8 /* SWRevealViewController.m in Sources */,
 				843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */,
+				90A0274F1A3CB7B000884462 /* HenryMyTasksTableViewController.m in Sources */,
 				87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */,
 				93A50E7519F7078200645F54 /* SideNavTableTableViewController.m in Sources */,
 				843D241619F476DF00DBC2CB /* HenryTaskDetailViewController.m in Sources */,
