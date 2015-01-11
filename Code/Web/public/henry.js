@@ -101,6 +101,7 @@ function selectProject(project){
 	project.getMemberTiles(function(tile){
 		memberCont.prepend(tile);
 	});
+	project.renderBurndownChart('burndownchart');
 }
 
 function selectMilestone(milestone){
@@ -539,16 +540,26 @@ Series.prototype.addToChart = function(name,chart){
 
 }
 
-function BurnDownData(firebase){
-	this.__firebase = firebase;
+function BurndownData(firebase){
+	this._firebase = firebase;
 }
 
-BurnDownData.prototype.init = function(){
+function makeSeriesGetter(name){
+	return function(){
+		this._init();
+		return this[name];
+	}
+}
+
+BurndownData.prototype._init = function(){
+	if(this._initialized){
+		return;
+	}
 	this._estimHours = new Series();
 	this._compHours = new Series();
 	this._remTasks = new Series();
 	this._compTasks = new Series();
-	this.__firebase.on('child_added',function(snap){
+	this._firebase.on('child_added',function(snap){
 		var obj = snap.val();
 		this._estimHours.addPoint([obj.timestamp,obj.estimated_hours_remaining]);
 		this._compHours.addPoint([obj.timestamp,obj.hours_completed]);
@@ -556,10 +567,10 @@ BurnDownData.prototype.init = function(){
 		this._compTasks.addPoint([obj.timestamp,tasks_completed]);
 	});
 };
-BurnDownData.prototype.estimatedHours = makeSeriesGetter('estimated_hours_remaining');
-BurnDownData.prototype.hoursCompleted = makeSeriesGetter('hours_completed');
-BurnDownData.prototype.tasksCompleted = makeSeriesGetter('tasks_completed');
-BurnDownData.prototype.tasksRemaining = makeSeriesGetter('tasks_remaining');
+burndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
+burndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
+burndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
+burndownData.prototype.tasksRemaining = makeSeriesGetter('_remTasks');
 
 //Initializes the Project object
 function Project(firebase) {
@@ -574,7 +585,7 @@ function Project(firebase) {
     this.__taskPercent = firebase.child('task_percent');
     this.__milestonePercent = firebase.child('milestone_percent');
     this.__hoursPercent = firebase.child('hours_percent');
-	this.__burndown_data = new BurnDownData(firebase.child('burndown_data'));
+	this.__burndownData = new BurndownData(firebase.child('burndown_data'));
 };
 
 Project.prototype = {
@@ -713,7 +724,12 @@ Project.prototype = {
 		});
 	},
 	renderBurndownChart:function(id){
-		var chart = new LineChart(id);
+		this._name.once('value',function(name){
+			var chart = new LineChart(name+' Burn Down Chart',id);
+			this.__burndownData.estimatedHours().addToChart(chart);
+			this.__burndownData.hoursCompleted().addToChart(chart);
+			chart.render();
+		});
 	}
 };
 // creates new projects and are added into firebase
