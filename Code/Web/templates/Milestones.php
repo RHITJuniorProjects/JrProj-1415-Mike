@@ -78,6 +78,9 @@
 							<div id="linesOfCode"></div>
 						</div>
 					</div>
+					<div class="row" id="burndownchart">
+						<!-- burn down chart inserted by script -->
+					</div>
 				</div>
 			</div>
 		</div>

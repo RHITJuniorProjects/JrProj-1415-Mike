@@ -11,6 +11,65 @@ var selectedProject;
 var selectedMilestone;
 var myTasks;
 
+function Chart(id,title){
+	this.chart = {
+		renderTo:id,
+		ignoreHiddenSeries:true
+	};
+	this.title = {
+		text:title
+	};
+	this.series = [];
+}
+
+function makeAxis(name,units){
+	return {
+		labels:{
+			formatter:function(){
+				if(units){
+					return this.value+' '+units;
+				}
+				return this.value;
+			}
+		},
+		title:{
+			text:name
+		}
+	};
+}
+
+Chart.prototype = {
+	setXAxis:function(name,units){
+		this.xAxis = makeAxis(name,units);
+	},
+	setYAxis:function(name,units){
+		this.yAxis = makeAxis(name,units);
+	},
+	render:function(){
+		if(this._renderedChart){
+			this._renderedChart.redraw();
+		} else {
+			this._renderedChart = new Highcharts.Chart(this);
+		}
+	}
+};
+
+function LineChart(id, title){
+	Chart.call(this,id,title);
+	this.chart.defaultSeriesType = 'line';
+}
+
+LineChart.prototype = new Chart(null,null);
+
+LineChart.prototype.addSeries = function(name,points){
+	var series = {
+		data:points,
+		name:name
+	};
+	this.series.push(series);
+	return series;
+};
+
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
 function selectProject(project){
@@ -459,6 +518,49 @@ function makeAddMemberTile(project){
 	return addMemberTile;
 }
 
+function Series(){
+	this._series = [];
+	this._charts = [];
+}
+
+Series.prototype = [];
+
+Series.prototype.addPoint = function(point){
+	$.each(this._series,function(s){
+		s.addPoint(point);
+	});
+	$.each(this._charts,function(chart){
+		chart.render();
+	});
+}
+
+Series.prototype.addToChart = function(name,chart){
+	chart.addSeries(name,chart);
+
+}
+
+function BurnDownData(firebase){
+	this.__firebase = firebase;
+}
+
+BurnDownData.prototype.init = function(){
+	this._estimHours = new Series();
+	this._compHours = new Series();
+	this._remTasks = new Series();
+	this._compTasks = new Series();
+	this.__firebase.on('child_added',function(snap){
+		var obj = snap.val();
+		this._estimHours.addPoint([obj.timestamp,obj.estimated_hours_remaining]);
+		this._compHours.addPoint([obj.timestamp,obj.hours_completed]);
+		this._remTasks.addPoint([obj.timestamp,obj.tasks_remaining]);
+		this._compTasks.addPoint([obj.timestamp,tasks_completed]);
+	});
+};
+BurnDownData.prototype.estimatedHours = makeSeriesGetter('estimated_hours_remaining');
+BurnDownData.prototype.hoursCompleted = makeSeriesGetter('hours_completed');
+BurnDownData.prototype.tasksCompleted = makeSeriesGetter('tasks_completed');
+BurnDownData.prototype.tasksRemaining = makeSeriesGetter('tasks_remaining');
+
 //Initializes the Project object
 function Project(firebase) {
     this.__firebase = firebase;
@@ -472,6 +574,7 @@ function Project(firebase) {
     this.__taskPercent = firebase.child('task_percent');
     this.__milestonePercent = firebase.child('milestone_percent');
     this.__hoursPercent = firebase.child('hours_percent');
+	this.__burndown_data = new BurnDownData(firebase.child('burndown_data'));
 };
 
 Project.prototype = {
@@ -608,6 +711,9 @@ Project.prototype = {
 		this.getMembers().onItemAdded(function(user){
 			callback(user.getMemberTile(project));
 		});
+	},
+	renderBurndownChart:function(id){
+		var chart = new LineChart(id);
 	}
 };
 // creates new projects and are added into firebase
