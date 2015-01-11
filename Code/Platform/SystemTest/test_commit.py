@@ -14,4 +14,4 @@ class CommitTestCase(test_base.HenryTestCase):
         util.commit(self.ref,pid,mid,tid,uid)
         time.sleep(10)
         task = util.getTask(self.ref,pid,mid,tid)
-        self.assertTrue(task not None)
+        self.assertTrue(task is not None)
