@@ -206,7 +206,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for task if necessary
     if task == None:
-        if def_tID != None:
+        if def_tID != None and mID = def_mID:
             def_task = getTask(ref,projectID,mID,def_tID)
             print 'Tasks assigned to you (defaults to '+def_task+'):'
         else:

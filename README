@@ -1,0 +1,5 @@
+Compile to EXE as
+
+python setup.py build
+
+-- Adam

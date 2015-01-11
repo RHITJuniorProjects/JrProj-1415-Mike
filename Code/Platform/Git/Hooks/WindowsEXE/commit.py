@@ -176,6 +176,9 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     def_mID, def_tID, def_status = getDefaults()
 
+    if getMilestone(ref,projectID,def_mID) == None:
+        def_mID, def_tID, def_status == None, None, None
+
     if hours == None:
         sys.stdout.write('Hours: ')
         sys.stdout.flush()
@@ -208,7 +211,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for task if necessary
     if task == None:
-        if def_tID != None:
+        if def_tID != None and mID == def_mID:
             def_task = getTask(ref,projectID,mID,def_tID)
             print 'Tasks assigned to you (defaults to '+def_task+'):'
         else:
@@ -233,7 +236,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     # prompt for status if necessary
     if status == None:
         # New, Implementation, Testing, Verify, Regression, Closed'
-        if def_status != None:
+        if def_status != None and def_tID == tID:
             print 'Select status (defaults to '+def_status+'):'
         else:
             print 'Select status:'
