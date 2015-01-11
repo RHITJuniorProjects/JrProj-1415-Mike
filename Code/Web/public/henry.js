@@ -1,7 +1,6 @@
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
 var user;
-var currentProject;
 var milestonePage;
 var projectPage;
 var taskPage;
@@ -306,7 +305,7 @@ User.prototype = {
 
 // Adds the currently member selected in the "Add member" modal to the project
 function addNewMember() {
-    var projectID = currentProject.uid;
+    var projectID = selectedProject.uid;
     var selected = $("#member-select").val();
 
     if (!projectID || !selected) {
@@ -316,7 +315,7 @@ function addNewMember() {
         $("#member-error").hide();
     }
 
-    currentProject.addMember(selected, 'Developer');
+    selectedProject.addMember(selected, 'Developer');
     $("#member-submit").foundation('reveal', 'close');
 }
 
@@ -725,7 +724,7 @@ function addNewMilestone() {
     var docDescription = $("#milestoneDescription").val();
     var docDueDate = $("#milestoneDueDate").val();
     var docEstimatedHours = $("#milestoneEstimatedHours").val();
-    var projectid = currentProject.uid;
+    var projectid = selectedProject.uid;
 
     // Validate fields
     if (!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid) {
