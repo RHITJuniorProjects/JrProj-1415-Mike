@@ -1,0 +1,119 @@
+#!/usr/bin/python
+
+from base64 import b64decode
+from firebase import firebase
+import json
+import os
+import requests
+import sys
+import traceback
+import re
+
+import git_utils
+import firebase_utils
+import svn_utils
+
+VERSION = '0.1.1'
+OPSYS = 'unix'
+firebase_url = 'https://henry-test.firebaseio.com'
+
+def usage():
+    print 'HENRY Error: invalid command'
+    print
+    print 'usage: henry <command> [<args>]' 
+    print
+    print 'The most commonly used henry commands are:'
+    print '   init        Conect the current git repository to Henry'
+    print '   version     Display the installed version number'
+    print '   help        Display the help menu'
+    print '   status      Determines if Henry is initialized in this directory'
+
+def helpmenu():
+    if not git_utils.inGitRepo():
+        print 'Henry can only be used within a Git reposity'
+        print 'Change directory to a Git repository or create a new one with'
+        print '   git init'
+        print
+    print 'Connect a Git repository to Henry with'
+    print '   henry init <project name>'
+    print 
+    print 'Henry commit data can be entered in-line with the command'
+    print "    git commit -m 'my commit message [hours:2] [milestone:Milestone 0] [task:Create database] [status:Regression]'"
+    print
+    print 'Henry\'s connection information can be displayed with the command'
+    print '    henry status'
+
+
+def version():
+    print 'henry version',str(VERSION)
+
+
+def status(ref):
+    if not git_utils.inGitRepo():
+        print 'This is not a Git repository, Henry cannot be initialized here'
+    elif os.path.isfile(os.getcwd()+'/.git/hooks/commit-msg'):
+        with open (os.getcwd()+'/.git/hooks/henry/commit.py') as f:
+            fullfile = f.read()
+        try:
+            projectID = re.findall(r"projectID = '([-\w]+)'",fullfile)[0]
+            projectName = ref.get('/projects/'+projectID,None)['name']
+            print 'Git repository is connected to Henry Project: '+projectName
+        except Exception as e:
+            traceback.print_exc(file=sys.stdout)
+            print 'Git repository is connected to an invalid Henry project, possibly one that has been deleted'
+    else:
+        print 'This Git repository is not yet connected to Henry'
+        print 'Connect it with'
+        print '   henry init <project name>'
+
+
+if __name__ == '__main__':
+    sys.argv = [v.strip() for v in sys.argv]
+    ref = firebase.FirebaseApplication(firebase_url,None)
+    try:
+        if len(sys.argv) == 1:
+            usage()
+        elif sys.argv[1] == 'init':
+            try:
+                pID = firebase_utils.getProjectID(ref,sys.argv[2]) 
+            except:
+                print 'HENRY Error: Invalid or nonexistant Henry project name'
+                print '   henry init <project name>'
+                exit(1)
+            try:
+                email = git_utils.getGitEmail()
+                userID = firebase_utils.getUserID(ref,email)
+            except:
+                traceback.print_exc(file=sys.stdout)
+                print 'HENRY Error: Invalid or unregistered Git email address'
+                print '   henry init <project name>'
+                exit(1)
+            git_utils.initialize_git(pID,OPSYS)
+        elif sys.argv[1] in {'version','-version','--version','-v'}:
+            version()
+        elif sys.argv[1] in {'help','-help','--help','-h'}:
+            helpmenu()
+        elif sys.argv[1] in {'status'}:
+            status(ref)
+        elif sys.argv[1] in {'svn'}:
+            if len(sys.argv) == 1:
+                svn_utils.usage()
+            if sys.argv[2] == 'commit' and sys.argv[3] == '-m':
+                svn_utils.commit(ref,sys.argv[4])
+            else:
+                svn_utils.usage()
+        else:
+            usage()
+
+    except Exception as e:
+        print e
+        traceback.print_exc(file=sys.stdout)
+        """
+        This line causes the script to exit abruptly and bypass all
+        exit handlers. This is necessary because the Python Firebase
+        API does not play nice with the Windows Python Multithreading
+        library. Maybe someday they will fix it and this won't be
+        necessary.
+        """
+        os._exit(0)
+    os._exit(0)
