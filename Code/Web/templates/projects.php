@@ -12,7 +12,7 @@
 					make_tabbar(
 						array(
 							new Tab("My Projects",["class" => "active"]),
-							new Tab("My Tasks"),
+							new Tab("My Tasks", ["onclick" => "showMyTasksPage()"]),
 							new Tab("My Statistics"),
 							new Tab("Project Statistics")
 						)
@@ -84,6 +84,16 @@
 							</div>
 						</div>
 					</div>
+						<div class="content" id="MyStatistics">
+						<div class="row">
+							<div class="small-12 columns">
+								<div id="UserStatistics1"></div>
+							</div>
+							<div class="small-12 columns">
+								<div id="UserStatistics2"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -91,6 +101,7 @@
 		<?php require 'tasks.php'?>
         <?php require 'mytasks.php'?>
 		<?php require 'profile.php'?>
+        <?php require 'MyStatistics.php'?>
 	</body>
 </html>
 
