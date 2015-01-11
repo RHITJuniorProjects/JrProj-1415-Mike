@@ -9,11 +9,10 @@
 #import "HenryMilestoneDetailViewController.h"
 #import "HenryTasksTableViewController.h"
 #import "HenryFirebase.h"
-#import "JBLineChartView.h"
+#import "BEMSimpleLineGraphView.h"
 
 @interface HenryMilestoneDetailViewController ()
 @property Firebase *fb;
-@property JBLineChartView *lineChartView;
 @property NSMutableArray *burndownData;
 @end
 
@@ -27,11 +26,11 @@
         // Do any additional setup after loading the view.
         self.fb = [HenryFirebase getFirebaseObject];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-        self.lineChartView = [[JBLineChartView alloc] init];
-        self.lineChartView.delegate = self;
-        self.lineChartView.dataSource = self;
-        [self.burndown addSubview:self.lineChartView];
+        
+        self.burndownData = [[NSMutableArray alloc] init];
+        self.burndown.enableYAxisLabel = YES;
+        self.burndown.enableXAxisLabel = YES;
+        self.burndown.enableBezierCurve = YES;
         
         // Attach a block to read the data at our posts reference
         [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -48,21 +47,17 @@
     
 }
 
--(NSUInteger)numberOfLinesInLineChartView:(JBLineChartView *)lineChartView {
-    return 2;
-}
-
--(NSUInteger)lineChartView:(JBLineChartView *)lineChartView numberOfVerticalValuesAtLineIndex:(NSUInteger)lineIndex {
+-(NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     return [self.burndownData count];
 }
 
--(CGFloat)lineChartView:(JBLineChartView *)lineChartView verticalValueForHorizontalIndex:(NSUInteger)horizontalIndex atLineIndex:(NSUInteger)lineIndex {
-    NSArray *temp = [self.burndownData objectAtIndex:horizontalIndex];
-    if (lineIndex == 0) {
-        return [[temp objectAtIndex:1] doubleValue];
-    } else {
-        return [[temp objectAtIndex:2] doubleValue];
-    }
+-(NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 7;
+}
+
+-(CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+    NSArray *subArray = [self.burndownData objectAtIndex:index];
+    return [[subArray objectAtIndex:1] floatValue];
 }
 
 - (IBAction)segControlClicked:(id)sender
@@ -75,14 +70,11 @@
             self.pieChart.hidden = NO;
         }
         self.tasksHeader.hidden = NO;
-//        self.tasksCompletedLabel.hidden = NO;
-//        self.tasksCompleteBar.hidden = NO;
         self.burndown.hidden = YES;
+
     }else{
         self.pieChart.hidden = YES;
         self.tasksHeader.hidden = YES;
-//        self.tasksCompletedLabel.hidden = YES;
-//        self.tasksCompleteBar.hidden = YES;
         self.burndown.hidden = NO;
     }
     }@catch(NSException *exception){
@@ -93,6 +85,21 @@
     }
     
 }
+
+-(NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
+    NSArray *subArray = [self.burndownData objectAtIndex:index];
+    NSDate *date = [subArray objectAtIndex:0];
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+    
+    if ((index % 10) == 1)
+        return [NSString stringWithFormat:@"%d/%d", [components month], [components day]];
+    else
+        return @"";
+}
+
+
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
@@ -105,10 +112,10 @@
         for (NSString *burndownKey in burndownKeys) {
             NSMutableArray *subArray = [[NSMutableArray alloc] init];
             NSDictionary *entry = [burndownData objectForKey:burndownKey];
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[entry objectForKey:@"timestamp"] intValue]];
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[entry objectForKey:@"timestamp"] intValue] * 100];
             [subArray addObject:date];
-            [subArray addObject:[entry objectForKey:@"hours_remaining"]];
-            [subArray addObject:[entry objectForKey:@"hours_complete"]];
+            [subArray addObject:[entry objectForKey:@"estimated_hours_remaining"]];
+            [subArray addObject:[entry objectForKey:@"hours_completed"]];
             [self.burndownData addObject:subArray];
         }
         
@@ -137,8 +144,7 @@
         }
     }
         
-        [self.lineChartView reloadData];
-    
+        [self.burndown reloadGraph];
     
     [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
     }@catch(NSException *exception){

@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DLPieChart.h"
-#import "JBLineChartView.h"
-@interface HenryMilestoneDetailViewController : UIViewController <JBLineChartViewDataSource, JBLineChartViewDelegate>
+#import "BEMSimpleLineGraphView.h"
+@interface HenryMilestoneDetailViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
 @property NSString *ProjectID;
 @property NSString *MileStoneID;
 @property NSString *milestoneName;
@@ -27,7 +27,7 @@
 @property NSDictionary *allDevs;
 @property NSMutableArray *names;
 @property NSMutableArray *devs;
-@property (weak, nonatomic) IBOutlet UIView *burndown;
+@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *burndown;
 @property (weak, nonatomic) IBOutlet UILabel *tasksHeader;
 
 
