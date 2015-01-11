@@ -35,6 +35,9 @@
 		87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E54D3C19EEEA36009D3906 /* iPadStoryboard.storyboard */; };
 		90A0274C1A3CB5E300884462 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90A0274B1A3CB5E300884462 /* Firebase.framework */; };
 		90A0274F1A3CB7B000884462 /* HenryMyTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90A0274E1A3CB7B000884462 /* HenryMyTasksTableViewController.m */; };
+		90FC797E1A62EB07004C7A85 /* JBBarChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC79791A62EB07004C7A85 /* JBBarChartView.m */; };
+		90FC797F1A62EB07004C7A85 /* JBChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC797B1A62EB07004C7A85 /* JBChartView.m */; };
+		90FC79801A62EB07004C7A85 /* JBLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FC797D1A62EB07004C7A85 /* JBLineChartView.m */; };
 		93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */; };
 		93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
@@ -119,6 +122,12 @@
 		90A0274B1A3CB5E300884462 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		90A0274D1A3CB7B000884462 /* HenryMyTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMyTasksTableViewController.h; sourceTree = "<group>"; };
 		90A0274E1A3CB7B000884462 /* HenryMyTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMyTasksTableViewController.m; sourceTree = "<group>"; };
+		90FC79781A62EB07004C7A85 /* JBBarChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBBarChartView.h; sourceTree = "<group>"; };
+		90FC79791A62EB07004C7A85 /* JBBarChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBBarChartView.m; sourceTree = "<group>"; };
+		90FC797A1A62EB07004C7A85 /* JBChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBChartView.h; sourceTree = "<group>"; };
+		90FC797B1A62EB07004C7A85 /* JBChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBChartView.m; sourceTree = "<group>"; };
+		90FC797C1A62EB07004C7A85 /* JBLineChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBLineChartView.h; sourceTree = "<group>"; };
+		90FC797D1A62EB07004C7A85 /* JBLineChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBLineChartView.m; sourceTree = "<group>"; };
 		93447F3519C91C5500C2FC38 /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93447F3819C91C5500C2FC38 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -233,6 +242,20 @@
 				87D813321A325A9100BEDD3E /* HenryProfileViewController.m */,
 			);
 			name = Profile;
+			sourceTree = "<group>";
+		};
+		90FC79771A62EB07004C7A85 /* Burndown */ = {
+			isa = PBXGroup;
+			children = (
+				90FC79781A62EB07004C7A85 /* JBBarChartView.h */,
+				90FC79791A62EB07004C7A85 /* JBBarChartView.m */,
+				90FC797A1A62EB07004C7A85 /* JBChartView.h */,
+				90FC797B1A62EB07004C7A85 /* JBChartView.m */,
+				90FC797C1A62EB07004C7A85 /* JBLineChartView.h */,
+				90FC797D1A62EB07004C7A85 /* JBLineChartView.m */,
+			);
+			name = Burndown;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		93054B0A19C961D300911AB4 /* Tasks */ = {
@@ -354,6 +377,7 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				90FC79771A62EB07004C7A85 /* Burndown */,
 				8731945A19FDCEC100CE82ED /* Pie Chart Library */,
 				832BDD4C19F6CC7800642CD8 /* iPhone */,
 				93054B0F19C9623500911AB4 /* iPad */,
@@ -506,6 +530,7 @@
 			files = (
 				843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				90FC79801A62EB07004C7A85 /* JBLineChartView.m in Sources */,
 				8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */,
 				83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */,
 				87D8132A1A32504900BEDD3E /* HenryMemberTableViewController.m in Sources */,
@@ -519,7 +544,9 @@
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
 				87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */,
 				87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */,
+				90FC797E1A62EB07004C7A85 /* JBBarChartView.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
+				90FC797F1A62EB07004C7A85 /* JBChartView.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,
 				832BDD5119F6CD8100642CD8 /* SWRevealViewController.m in Sources */,
 				843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */,
