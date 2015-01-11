@@ -30,7 +30,7 @@
         self.burndownData = [[NSMutableArray alloc] init];
         self.burndown.enableYAxisLabel = YES;
         self.burndown.enableXAxisLabel = YES;
-        self.burndown.enableBezierCurve = YES;
+        self.burndown.enableBezierCurve = NO;
         
         // Attach a block to read the data at our posts reference
         [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -93,13 +93,18 @@
     NSCalendar* calendar = [NSCalendar currentCalendar];
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
     
-    if ((index % 10) == 1)
-        return [NSString stringWithFormat:@"%d/%d", [components month], [components day]];
-    else
-        return @"";
+//    if (index == 5 || index == [self.burndownData count] - 6) {
+        NSString *dateStr = [NSString stringWithFormat:@"%d/%d", [components month], [components day]];
+        NSLog(@"%@", dateStr);
+        return dateStr;
+////        return @"1";
+//    } else
+//        return @"";
 }
 
-
+-(NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 5;
+}
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
@@ -112,7 +117,7 @@
         for (NSString *burndownKey in burndownKeys) {
             NSMutableArray *subArray = [[NSMutableArray alloc] init];
             NSDictionary *entry = [burndownData objectForKey:burndownKey];
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[entry objectForKey:@"timestamp"] intValue] * 100];
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[entry objectForKey:@"timestamp"] intValue]];
             [subArray addObject:date];
             [subArray addObject:[entry objectForKey:@"estimated_hours_remaining"]];
             [subArray addObject:[entry objectForKey:@"hours_completed"]];
