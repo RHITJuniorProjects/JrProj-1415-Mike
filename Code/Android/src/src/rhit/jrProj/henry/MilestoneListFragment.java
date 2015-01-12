@@ -120,21 +120,21 @@ public class MilestoneListFragment extends ListFragment {
 		// Done: replace with a real list adapter.
 		this.milestones = this.mCallbacks.getMilestones();
 		TextView textView = new TextView(this.getActivity().getBaseContext());
-		textView.setTextSize(24);
-		textView.setTextColor(R.color.light_blue);
-		textView.setText("Milestones in:");
-		textView.setClickable(false);
-		textView.setEnabled(false);
-		textView.setPadding(16, 0, 16, 0);
-		this.getListView().addHeaderView(textView, null, false);
-		TextView textView2 = new TextView(this.getActivity().getBaseContext());
-		textView2.setTextSize(18);
-		textView2.setTextColor(R.color.light_blue);
-		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName());
-		textView2.setClickable(false);
-		textView2.setEnabled(false);
-		textView2.setPadding(16, 0, 16, 0);
-		this.getListView().addHeaderView(textView2, null, false);
+//		textView.setTextSize(24);
+//		textView.setTextColor(R.color.light_blue);
+//		textView.setText("Milestones in:");
+//		textView.setClickable(false);
+//		textView.setEnabled(false);
+//		textView.setPadding(16, 0, 16, 0);
+//		this.getListView().addHeaderView(textView, null, false);
+//		TextView textView2 = new TextView(this.getActivity().getBaseContext());
+//		textView2.setTextSize(18);
+//		textView2.setTextColor(R.color.light_blue);
+//		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName());
+//		textView2.setClickable(false);
+//		textView2.setEnabled(false);
+//		textView2.setPadding(16, 0, 16, 0);
+//		this.getListView().addHeaderView(textView2, null, false);
 		
 		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
@@ -189,7 +189,7 @@ public class MilestoneListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		// Activities containing this fragment must implement its callbacks.
+		// Activities containing this fragment must implement its call backs.
 		if (!(activity instanceof Callbacks)) {
 			throw new IllegalStateException(
 					"Activity must implement fragment's callbacks.");
@@ -202,7 +202,7 @@ public class MilestoneListFragment extends ListFragment {
 	public void onDetach() {
 		super.onDetach();
 
-		// Reset the active callbacks interface to the dummy implementation.
+		// Reset the active call backs interface to the dummy implementation.
 		mCallbacks = sDummyCallbacks;
 	}
 
@@ -211,7 +211,7 @@ public class MilestoneListFragment extends ListFragment {
 			long id) {
 		super.onListItemClick(listView, view, position, id);
 
-		// Notify the active callbacks interface (the activity, if the
+		// Notify the active call backs interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
 		mCallbacks.onItemSelected(this.milestones.get(position));
 	}
