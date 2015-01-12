@@ -115,5 +115,7 @@ if __name__ == '__main__':
         library. Maybe someday they will fix it and this won't be
         necessary.
         """
+        sys.stdout.flush()
         os._exit(0)
+    sys.stdout.flush()
     os._exit(0)
