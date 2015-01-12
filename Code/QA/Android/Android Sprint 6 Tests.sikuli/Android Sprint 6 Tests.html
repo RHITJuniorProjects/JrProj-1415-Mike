@@ -1,0 +1,92 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>Android Sprint 6 Tests.sikuli\Android Sprint 6 Tests.sikuli</h2> <a href="Android Sprint 6 Tests.sikuli\Android Sprint 6 Tests.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">##Test assuming user already logged in and assigned to a project
+</span><span class="cmt">##Test ability to see the burn down chart
+</span><span class="skw">click</span>(<img src="1421095019568.png" />)
+<span class="skw">dragDrop</span>(Pattern(<img src="1421095249572.png" />).exact(),<img src="1421095256867.png" />)
+<span class="skw">find</span>(<img src="1421095279657.png" />)
+<span class="skw">click</span>(<img src="1421095296729.png" />)
+<span class="skw">click</span>(<img src="1421095312578.png" />)
+<span class="skw">find</span>(<img src="1421095035753.png" />)
+<span class="skw">click</span>(<img src="1421095049504.png" />)
+<span class="skw">click</span>(<img src="1421095074666.png" />)
+<span class="kw">if</span> exists(<img src="1421095384881.png" />):
+    <span class="kw">print</span>(<span class="str">"It worked"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span>(<span class="str">"It failed"</span>)
+
+<span class="cmt">##Cannot current test second feature because of need to be on another 
+</span><span class="cmt">##user account and a bug is currently stopping that.</span>
+</pre>
+</body>
+</html>
