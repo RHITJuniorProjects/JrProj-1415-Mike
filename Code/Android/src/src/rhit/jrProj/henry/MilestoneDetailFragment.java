@@ -5,6 +5,7 @@ import org.achartengine.model.Point;
 
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.helpers.GraphHelper;
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,11 +30,24 @@ import android.widget.TextView;
 public class MilestoneDetailFragment extends Fragment implements
 		OnItemSelectedListener {
 
+	public interface Callbacks {
+		public Milestone getSelectedMilestone();
+	}
+	
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
 	private Milestone milestoneItem;
+	private Callbacks mCallbacks;
+	private Callbacks sDummyCallbacks = new Callbacks() {
+		
+		@Override
+		public Milestone getSelectedMilestone() {
+			return null;
+		}
+	};
 
+	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -45,9 +59,6 @@ public class MilestoneDetailFragment extends Fragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (getArguments().containsKey("Milestone")) {
-			this.milestoneItem = this.getArguments().getParcelable("Milestone");
-		}
 	}
 
 	@Override
@@ -55,6 +66,7 @@ public class MilestoneDetailFragment extends Fragment implements
 			Bundle savedInstanceState) {
 		final View rootView = inflater.inflate(
 				R.layout.fragment_milestone_detail, container, false);
+		this.milestoneItem = this.mCallbacks.getSelectedMilestone();
 		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_name))
 					.setText("Name of Milestone: "
@@ -190,4 +202,22 @@ public class MilestoneDetailFragment extends Fragment implements
 	public void onNothingSelected(AdapterView<?> parent) {
 		// do nothing
 	}
+	
+	
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		if (!(activity instanceof Callbacks)) {
+			throw new IllegalStateException(
+					"Activity must implement fragment's callbacks.");
+		}
+		this.mCallbacks = (Callbacks) activity;
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		this.mCallbacks = sDummyCallbacks ;
+	}
+
 }

@@ -8,6 +8,7 @@ import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -122,7 +123,8 @@ public class MilestoneListFragment extends ListFragment {
 		this.milestones = this.mCallbacks.getMilestones();
 		TextView textView = new TextView(this.getActivity().getBaseContext());
 		textView.setTextSize(24);
-		textView.setTextColor(R.color.light_blue);
+		int lightGray = this.getResources().getColor(R.color.grey_font);
+		textView.setTextColor(lightGray);
 		textView.setText("Milestones in:");
 		textView.setClickable(false);
 		textView.setEnabled(false);
@@ -130,7 +132,7 @@ public class MilestoneListFragment extends ListFragment {
 		this.getListView().addHeaderView(textView, null, false);
 		TextView textView2 = new TextView(this.getActivity().getBaseContext());
 		textView2.setTextSize(18);
-		textView2.setTextColor(R.color.light_blue);
+		textView2.setTextColor(lightGray);
 		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName());
 		textView2.setClickable(false);
 		textView2.setEnabled(false);
@@ -190,7 +192,7 @@ public class MilestoneListFragment extends ListFragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		// Activities containing this fragment must implement its callbacks.
+		// Activities containing this fragment must implement its call backs.
 		if (!(activity instanceof Callbacks)) {
 			throw new IllegalStateException(
 					"Activity must implement fragment's callbacks.");
@@ -203,7 +205,7 @@ public class MilestoneListFragment extends ListFragment {
 	public void onDetach() {
 		super.onDetach();
 
-		// Reset the active callbacks interface to the dummy implementation.
+		// Reset the active call backs interface to the dummy implementation.
 		mCallbacks = sDummyCallbacks;
 	}
 
@@ -213,7 +215,7 @@ public class MilestoneListFragment extends ListFragment {
 		Log.i("Position:", position+"");
 		super.onListItemClick(listView, view, position-2, id);
 
-		// Notify the active callbacks interface (the activity, if the
+		// Notify the active call backs interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
 		mCallbacks.onItemSelected(this.milestones.get(position-2));
 	}

@@ -14,10 +14,9 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/blue"
             android:textIsSelectable="true"
             tools:context="rhit.jrProj.henry.ChartsFragment" />
-
-
 
         <LinearLayout
             android:id="@+id/projectDetails"
@@ -36,10 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp" >
             </FrameLayout>
-
-
         </LinearLayout>
-
     </LinearLayout>
 
 </ScrollView>
