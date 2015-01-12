@@ -334,7 +334,7 @@ public class Project implements Parcelable {
 			GraphHelper.Point point = new GraphHelper.Point(new Double(i+.25), loc);
 //			point.setX(new Double(i + 1));
 //			point.setY(loc);
-			chartInfo.addNewPoint(Double.toString(loc), point);
+			chartInfo.addNewPoint("Lines of code added", point);
 			chartInfo.addNewTick(milestone.getName());
 		}
 
