@@ -73,13 +73,13 @@
 <span class="cmt">#Starting inside user "hullzr@rose-hulman.edu" password "test"
 </span><span class="cmt">#from homepage
 </span>
-<span class="skw">click</span>(<img src="1418709054307.png" />)
-<span class="kw">if</span> exists(<img src="1418710454448.png" />):
+<span class="skw">click</span>(Pattern(<img src="1418709054307.png" />).similar(<span class="dig">0.72</span>))
+<span class="kw">if</span> exists(Pattern(<img src="1418768072878.png" />).similar(<span class="dig">0.60</span>)):
     <span class="kw">print</span>(<span class="str">"Incompleted tasks displaying correctly"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Incompleted tasks not displaying correctly"</span>)
 
-<span class="kw">if</span> exists(<img src="1418710501385.png" />):
+<span class="kw">if</span> exists(Pattern(<img src="1418710501385.png" />).similar(<span class="dig">0.48</span>)):
     <span class="kw">print</span>(<span class="str">"Completed tasks displaying correctly"</span>)
 <span class="kw">else</span>:
     <span class="kw">print</span>(<span class="str">"ERROR: Completed tasks not displaying correctly"</span>)
