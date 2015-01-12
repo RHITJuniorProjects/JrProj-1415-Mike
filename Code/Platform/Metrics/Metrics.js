@@ -1,6 +1,7 @@
 /**
  * Metric collection script for CSSE371 Henry project
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
+ * Last Modified: 12 Jan 2015, 10:20 am
  */
 
 
@@ -89,12 +90,13 @@ commitsRef.on('child_added', function(project) {
     // if we have at least one commit, remove the placeholder.
     if (project.numChildren() > 1) {
         project.ref().update({
-            'description': null
+            'description': null,
+            'placeholder': null
         });
     }
     // add a listener to each project for new commits
     project.ref().on('child_added', function(commit) {
-        if (commit.key() === 'description') return;
+        if (commit.val() === 'placeholder') return;
         calculateMetrics(projectsRef.child(project.key()), commit);
     });
     console.log('added commit listener for project ' + project.key());
@@ -163,11 +165,11 @@ function addMilestoneListeners(milestoneRef) {
     var isStartup = true;
     milestoneRef.child('tasks').on('child_added', function(newTask) {
         // do new task stuff
-        // console.log('a child is born'); // blame Abby
+        console.log('a child is born'); // blame Abby
         //set defaults
         setDefaults(newTask);
         if (isStartup) {
-            taskChanged(milestoneRef);
+            // taskChanged(milestoneRef, newTask.ref());
         }
         // following may be automatically called since task is changed when setting defaults
         // //aggregate task data    
@@ -178,15 +180,15 @@ function addMilestoneListeners(milestoneRef) {
 
     milestoneRef.child('tasks').on('child_changed', function(changedTask) {
         // do changed task stuff
-        taskChanged(milestoneRef);
+        // console.log('changing task');
+        taskChanged(milestoneRef, changedTask.ref());
     });
     isStartup = false;
 }
 
-function taskChanged(milestoneRef) {
-
+function taskChanged(milestoneRef, taskRef) {
     //note: do not set defaults
-
+    console.log('in taskChanged');
     //re-initialize milestone and aggregate task data for all tasks
     milestoneRef.update({
         'task_percent': 0,
@@ -235,6 +237,7 @@ function taskChanged(milestoneRef) {
             });
         }
         // pushes multiple points (=== number of tasks) on startup, but only one per change thereafter
+        // TODO: if startup, ignore (Sprint 7)
         milestoneRef.child('burndown_data').push(dataPoint);
     });
 
@@ -263,7 +266,6 @@ function taskChanged(milestoneRef) {
     });
     // aggregate milestone data
     aggregateMilestoneData(projectRef);
-
 }
 
 function listenToUserProject(project) {
@@ -316,9 +318,40 @@ function calculateMetrics(projectRef, commit) {
     var task = commit.child('task').val();
 
     // console.log('milestone: ' + milestone + ', task: ' + task);
+    try {
+        if (projectRef.child(task) === null) {
+            console.log('task ' + task + ' not found for project ' + projectRef.key());
+            return;
+        }
+    }
+    catch (error) {
+        console.log('Commit ' + commit.key() + ' for project ' + projectRef.key() + ' has an empty task field.')
+        return;
+    }
 
-    if (projectRef.child(milestone) === null) return;
-    if (projectRef.child(task) === null) return;
+    try {
+        if (projectRef.child(milestone) === null) {
+            console.log('milestone ' + milestone + ' not found for project ' + projectRef.key());
+            return;
+        }
+    }
+    catch (error) {
+        console.log('Commit ' + commit.key() + ' for project ' + projectRef.key() + ' has an empty milestone field.');
+        projectRef.child('milestones').once('value', function(milestones) {
+            milestones.forEach(function(milestoneBranch) {
+                if (milestoneBranch.child('tasks').hasChild(task)) {
+                    milestone = milestoneBranch.key();
+                    console.log('Found milestone ' + milestone + ' for task ' + task + ' in project ' + projectRef.key());
+                }
+            });
+        });
+    }
+
+    if (milestone === null) {
+        console.log('Unable to find milestone for commit ' + commit.key());
+        return;
+
+    }
 
     projectRef.child('milestones/' + milestone + '/tasks/' + task)
         .once('value', function(taskBranch) {
@@ -333,11 +366,18 @@ function calculateMetrics(projectRef, commit) {
             var totalAddedLOC = taskBranch.child(addedLines).val() + addedLOC;
             var totalRemovedLOC = taskBranch.child(removedLines).val() + removedLOC;
 
+            var taskTotalHours = taskBranch.child('total_hours').val();
+            var updatedHourEstimate = taskBranch.child('updated_hour_estimate').val();
+            var taskHrPercent = calculatePercentage(taskTotalHours, updatedHourEstimate);
+            var status = commit.child('status').val();
+            
             taskBranch.ref().update({
                 'total_hours': newHours,
                 'total_lines_of_code': totalLOC,
                 'added_lines_of_code': totalAddedLOC,
                 'removed_lines_of_code': totalRemovedLOC,
+                'percent_complete': taskHrPercent,
+                'status': status
             });
         });
     updateLocAndHoursContribs(projectRef, milestone);
@@ -423,18 +463,18 @@ function updateLocAndHoursContribs(projectRef, milestoneID) {
 }
 
 function setDefaults(task) {
-    var isCompleted = task.child('is_completed').val();
+    // var isCompleted = task.child('is_completed').val();
     var taskStatus = task.child('status').val();
     var isClosed = (taskStatus === 'Closed');
     var updatedHourEstimate = task.child(updatedHourEst).val();
     var taskTotalHours = task.child(totalHours).val();
-    var taskTotalLinesOfCode = task.child(totalLines).val();
+    var totalLOC = task.child(totalLines).val();
     var addedLOC = task.child(addedLines).val();
     var removedLOC = task.child(removedLines).val();
 
-    if (isCompleted === null) {
-        isCompleted = false;
-    }
+    // if (isCompleted === null) {
+    //     isCompleted = false;
+    // }
     if (taskStatus === null) {
         taskStatus = 'New';
     }
@@ -447,8 +487,8 @@ function setDefaults(task) {
     if (taskTotalHours === null) {
         taskTotalHours = 0;
     }
-    if (taskTotalLinesOfCode === null) {
-        taskTotalLinesOfCode = 0;
+    if (totalLOC === null) {
+        totalLOC = 0;
     }
     if (addedLOC === null) {
         addedLOC = 0;
@@ -456,20 +496,16 @@ function setDefaults(task) {
     if (removedLOC === null) {
         removedLOC = 0;
     }
-
-    //Calculates percent hours completed
-    var taskHrPercent = calculatePercentage(taskTotalHours, updatedHourEstimate);
-
+    
     task.ref().update({
-        'percent_complete': taskHrPercent,
-        'is_completed': isCompleted,
         'status': taskStatus,
         'updated_hour_estimate': updatedHourEstimate,
         'total_hours': taskTotalHours,
-        'total_lines_of_code': taskTotalLinesOfCode,
+        'total_lines_of_code': totalLOC,
         'added_lines_of_code': addedLOC,
         'removed_lines_of_code': removedLOC
-    });
+    })
+
 }
 
 function aggregateTaskData(milestoneRef, task) {
