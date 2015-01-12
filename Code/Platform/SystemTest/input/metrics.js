@@ -10,7 +10,7 @@ var Firebase = require('firebase');
 
 var production = 'https://henry-production.firebaseio.com';
 var staging = 'https://henry-staging.firebaseio.com';
-var test = 'https://henry-test.firebaseio.com';
+var test = 'https://henry-qa.firebaseio.com';
 
 // used to test changes to the script so we don't damage the real DB. 
 var metricsTest = 'https://henry-metrics-test.firebaseio.com/';
@@ -602,3 +602,4 @@ function aggregateMilestoneData(projectRef) {
         });
     });
 }
+

@@ -1,0 +1,11 @@
+This requires a few things to run
+1. Python
+2. Python packages requests and python-firebase
+3. Nodejs
+4. NPM packages firebase and firebase-token-generator
+
+Run the tests as:
+
+python -m unittest discover
+
+This will run all of them

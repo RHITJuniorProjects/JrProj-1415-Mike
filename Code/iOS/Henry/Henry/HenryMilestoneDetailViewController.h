@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DLPieChart.h"
-@interface HenryMilestoneDetailViewController : UIViewController
+#import "BEMSimpleLineGraphView.h"
+@interface HenryMilestoneDetailViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
 @property NSString *ProjectID;
 @property NSString *MileStoneID;
 @property NSString *milestoneName;
@@ -26,6 +27,7 @@
 @property NSDictionary *allDevs;
 @property NSMutableArray *names;
 @property NSMutableArray *devs;
+@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *burndown;
 @property (weak, nonatomic) IBOutlet UILabel *tasksHeader;
 
 

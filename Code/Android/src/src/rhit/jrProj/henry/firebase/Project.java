@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
@@ -298,17 +297,50 @@ public class Project implements Parcelable {
 		for (int i=0; i<this.getMilestones().size(); i++) {
 			Milestone milestone=ms.get(i);
 			HashMap<String, Double> ratios=GeneralAlgorithms.getRatio(milestone);
+			
 			for (String key: ratios.keySet()){
-				GraphHelper.Point point = new GraphHelper.Point();
-				point.setX(new Double(i+1));
-				point.setY(ratios.get(key));
+				GraphHelper.Point point = new GraphHelper.Point(new Double(i+.25), ratios.get(key));
+//				point.setX(new Double(i));
+//				point.setY(ratios.get(key));
+				Log.i("Point:", point.toString());
 				chartInfo.addNewPoint(key, point);
+//			chartInfo.addNewPoint("Baseline", new GraphHelper.Point(new Double(i+.25), 0.0));
 			chartInfo.addNewTick(milestone.getName());
+			
 		}
+		}
+		Log.i("ChartINFO", chartInfo.toString());
+		chartInfo.setDisplayBaseline(true);
+		return chartInfo;
+	}
+	
+	public GraphHelper.LineChartInfo getLocInfo() {
+		GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+		List<Milestone> ms = (List<Milestone>) this.getMilestones().clone();
+		Collections.sort(ms, new Comparator<Milestone>() {
+
+			@Override
+			public int compare(Milestone lhs, Milestone rhs) {
+				return lhs.compareToByDate(((Milestone) rhs), false);
+			}
+		});
+
+		for (int i = 0; i < this.getMilestones().size(); i++) {
+			Milestone milestone = ms.get(i);
+			double loc = 0;
+			for (Task task : milestone.getTasks()) {
+				loc += (double) task.getAddedLines();
+			}
+			GraphHelper.Point point = new GraphHelper.Point(new Double(i+.25), loc);
+//			point.setX(new Double(i + 1));
+//			point.setY(loc);
+			chartInfo.addNewPoint("Lines of code added", point);
+			chartInfo.addNewTick(milestone.getName());
 		}
 
 		return chartInfo;
 	}
+	
 	/**
 	 * Child Listener to handle the Project & its changes
 	 * 

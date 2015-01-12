@@ -11,6 +11,7 @@ import rhit.jrProj.henry.firebase.Project;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -209,11 +210,12 @@ public class MilestoneListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
-		super.onListItemClick(listView, view, position, id);
+		Log.i("Position:", position+"");
+		super.onListItemClick(listView, view, position-2, id);
 
 		// Notify the active call backs interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(this.milestones.get(position));
+		mCallbacks.onItemSelected(this.milestones.get(position-2));
 	}
 
 	@Override

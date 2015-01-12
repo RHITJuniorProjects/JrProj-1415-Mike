@@ -195,20 +195,19 @@ OnItemSelectedListener {
 		chartView.removeAllViews();
 		GraphicalView chart;
 		if (position == 0) {
-//			GraphHelper.LineChartInfo chartInfo = this.projectItem
-//					.getEstimateAccuracyInfo();
-//
-//			chart = GraphHelper.makePieChart("Lines Added for "
-//					+ this.projectItem.getName(), chartInfo.getValues(),
-//					chartInfo.getKeys(), this.getActivity());
-//			chartView.addView(chart, new LayoutParams(
-//					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			GraphHelper.LineChartInfo chartInfo = this.projectItem
+					.getLocInfo();
+
+			chart = GraphHelper.makeLineChart("Lines of Code Added for "
+					+ this.projectItem.getName(), "Milestones", "Lines of Code", chartInfo, 0, this.projectItem.getMilestones().size(), 0, 9000, this.getActivity());
+			chartView.addView(chart, new LayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
 		} else {
 			GraphHelper.LineChartInfo chartInfo = this.projectItem
 					.getEstimateAccuracyInfo();
 			chart=GraphHelper.makeLineChart("Accuracy of Estimated Hours", "Milestones", "Ratio of Estimated/Actual", 
-					chartInfo.getTitles(), chartInfo.getValues(), chartInfo.getXTicks(), this.getActivity());
+					 chartInfo, 0,this.projectItem.getMilestones().size(), -5, 5, this.getActivity());
 			chartView.addView(chart, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			chart.repaint();

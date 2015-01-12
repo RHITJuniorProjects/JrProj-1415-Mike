@@ -3,7 +3,6 @@
      
       ".read":true,
       ".write": "auth.uid == 'nodeServer'",
-      
       "commits":{
         ".write":"true"
       },
@@ -127,12 +126,11 @@
                         },
                         "category":{  
                           // commented out by web for feature 2 which is to allow any catagory
-                         ".validate":"newData.isString()" //&& (newData.val().matches(/Bug Fix|Enhancement|Feature|Business|General|Infrastructure|QA|No Category/))"
-                         //".validate":"newData.isString()" && (newData.val().matches(/Bug Fix|Enhancement|Feature|Business|General|Infrastructure|QA|No Category/))"
+                         ".validate":"newData.isString() && (root.child('default_categories').hasChild(newData.val()) || root.child('projects/' + $projectID + '/custom_categories').hasChild(newData.val()))"
                         },
                         "status":{  
-                           ".validate":"newData.isString() && (newData.val().matches(/New|Implementation|Testing|Verify|Regression|Closed/))",
-                            ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid" 
+                           ".validate":"newData.isString() && (newData.val().matches(/New|Implementation|Testing|Verify|Regression|Closed/))"
+                      //     ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid" 
 
                         }
                         

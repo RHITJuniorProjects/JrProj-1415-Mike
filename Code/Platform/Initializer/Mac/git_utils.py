@@ -1,22 +1,81 @@
 #!/usr/bin/python
-import os
-import sys
-import re
-import subprocess
-import time
+
+from base64 import b64decode
 from firebase import firebase
+import json
+import os
+import requests
+import subprocess
+import sys
+import traceback
+import re
+import time
+
+def initialize_git(projectID,opsys):
+    # github API 3.0
+    base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks'
+    if opsys == 'unix':
+        base_url = base_url + '/Unix'
+    else:
+        base_url = base_url + '/Windows'
+
+    sh_url = base_url+'/commit-msg'
+    py_url = base_url+'/henry/commit.py'
+
+    hook_dir = os.getcwd()+'/.git/hooks'
+    henry_dir = hook_dir+'/henry'
+    sh_path = hook_dir+'/commit-msg'
+    py_path = henry_dir+'/commit.py'
+
+    if not inGitRepo():
+        print 'HENRY Error: Must be in the root of a Git repository'
+        exit()
+
+    # retrieve and decode the shell script
+    r = requests.get(sh_url)
+    sh = b64decode(json.loads(r.text)['content'])
+
+    # retrieve and decode the python script
+    r = requests.get(py_url)
+    py = b64decode(json.loads(r.text)['content'])
+    py = '\n'.join([fillGitHookTemplate(line,projectID) for line in py.split('\n')])
+
+    # write the shell script
+    with open(sh_path,'w') as f:
+        f.write(sh)
+
+    os.system('chmod +x .git/hooks/commit-msg') 
+
+    if not os.path.exists(henry_dir):
+        os.makedirs(henry_dir)
+
+    # write the python script
+    with open(py_path,'w') as f:
+        f.write(py)
+    print 'HENRY: Repository succesfully connected to Henry'
 
 
-##
-#   These fields are populated by the initializer
-##
-projectID = '-JYcg488tAYS5rJJT4Kh'
+def fillGitHookTemplate(line,projectID):
+    if line.startswith('projectID = '):
+        return "projectID = '"+projectID+"'"
+    else:
+        return line
 
-prodUrl = 'https://henry-production.firebaseio.com'
-stagUrl = 'https://henry-staging.firebaseio.com'
-testUrl = 'https://henry-test.firebaseio.com'
 
-defaultpath = '.git/.henrydefaults'
+def inGitRepo():
+    try:
+        with open(os.getcwd()+'/.git/hooks/commit-msg.sample','r') as f:
+            pass
+        return True
+    except IOError:
+        return False
+
+
+def getGitEmail():
+    command = 'git config --global user.email'.split(' ')
+    pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
+    return pipe.communicate()[0].strip()
+
 
 def readCommit(path):
     with open(path,'r') as msgfile:
@@ -40,7 +99,7 @@ def getLoC():
         raise Exception('HENRY: Unexpected output of `git diff --cached --shortstat`')
     else:
         vals = ['0','0']
-    nums = map(lambda y: int(filter(lambda x: x.isdigit(),y)),vals)
+    nums = map(lambda x: int(x[0]),vals) 
     return nums[0],nums[1]
 
 
@@ -205,7 +264,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for task if necessary
     if task == None:
-        if def_tID != None and mID == def_mID:
+        if def_tID != None:
             def_task = getTask(ref,projectID,mID,def_tID)
             print 'Tasks assigned to you (defaults to '+def_task+'):'
         else:
@@ -251,38 +310,15 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     return hours,mID,tID,status
 
 
-def updateDefaults(milestoneID,taskID,status):
+def updateDefaults(defaultpath,milestoneID,taskID,status):
     with open(defaultpath,'w+') as f:
         f.write(milestoneID+'\t'+taskID+'\t'+status)
 
 
 # returns milestoneID, taskID, status
-def getDefaults():
+def getDefaults(defaultpath):
     try:
         with open(defaultpath,'r') as f:
             return f.read().strip().split('\t')
     except:
         return None,None,None
-
-
-if __name__ == '__main__':
-    # set this to the correct database
-    ref = firebase.FirebaseApplication(testUrl, None)
-
-    email = getEmail()
-    userID = getUserID(email,ref)
-    msg = readCommit(sys.argv[1])
-    [hours,milestone,task,status] = parse(msg)
-    pos_loc,neg_loc = getLoC()
-    ts = getTime()
-    hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
-
-    updateDefaults(milestoneID,taskID,status)
-
-    commitID =writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
-    
-    #addCommitToProject(ref,projectID,commitID)
-    #addCommitToUser(ref,userID,commitID)
-
-    # This bypasses exit handlers to skip the Firebase-Windows errors
-    os._exit(0)
