@@ -132,6 +132,7 @@ public class GraphHelper {
 			renderera.setFillPoints(true);
 			renderera.setLineWidth(3);
 			renderera.setDisplayChartValues(true);
+			renderera.setChartValuesTextSize(fontSize);
 			renderer.addSeriesRenderer(renderera);
 			
 //			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
@@ -168,6 +169,7 @@ public class GraphHelper {
 		renderer.setYAxisMax(yMax);
 		renderer.setAxisTitleTextSize(fontSize);
 		renderer.setLabelsTextSize(fontSize);
+		renderer.setLegendTextSize(fontSize);
 
 		return ChartFactory.getLineChartView(activity,
 				buildLineDataset(data, displayBaseline), renderer);
