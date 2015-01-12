@@ -176,7 +176,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     def_mID, def_tID, def_status = getDefaults()
 
-    if getMilestone(ref,projectID,def_mID) == None:
+    if def_mID != None and getMilestone(ref,projectID,def_mID) == None:
         def_mID, def_tID, def_status == None, None, None
 
     if hours == None:
