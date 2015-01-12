@@ -18,7 +18,7 @@
 			Add New Task
 		</div>
 		<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
-			Task statics
+			Task Statistics
 		</div>
 		<div id="milestone-burn-down-chart">
 		</div>
