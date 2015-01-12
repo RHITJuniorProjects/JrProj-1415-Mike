@@ -67,6 +67,7 @@ function showProjects(){
     projectPage.show();
     taskPage.hide();
     myTasksPage.hide();
+    myStatisticsPage.hide();
 }
 
 function selectMyTasks(){
@@ -80,14 +81,17 @@ function showMyTasksPage(){
     milestonePage.hide();
     projectPage.hide();
     taskPage.hide();
+    myStatisticsPage.hide();
     myTasksPage.show();
+
 }
-function showMyStatistics(){
+function showMyStatsticsPage(){
     milestonePage.hide();
     projectPage.hide();
     taskPage.hide();
+    myTasksPage.hide();
     myStatisticsPage.show();
-    //drawUserStatistics(firebase,user.uid);
+    // drawUserStatistics(firebase,user.uid);
 
 }
 

@@ -100,7 +100,7 @@
 		<?php require 'Milestones.php'?>
 		<?php require 'tasks.php'?>
         <?php require 'mytasks.php'?>
-        // <?php require 'MyStatistics.php'?>
+        <?php require 'MyStatistics.php'?>
 	</body>
 </html>
 
