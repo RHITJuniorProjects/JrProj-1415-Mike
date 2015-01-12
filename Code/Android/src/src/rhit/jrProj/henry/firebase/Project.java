@@ -297,15 +297,20 @@ public class Project implements Parcelable {
 		for (int i=0; i<this.getMilestones().size(); i++) {
 			Milestone milestone=ms.get(i);
 			HashMap<String, Double> ratios=GeneralAlgorithms.getRatio(milestone);
+			
 			for (String key: ratios.keySet()){
-				GraphHelper.Point point = new GraphHelper.Point();
-				point.setX(new Double(i+1));
-				point.setY(ratios.get(key));
+				GraphHelper.Point point = new GraphHelper.Point(new Double(i+.25), ratios.get(key));
+//				point.setX(new Double(i));
+//				point.setY(ratios.get(key));
+				Log.i("Point:", point.toString());
 				chartInfo.addNewPoint(key, point);
+//			chartInfo.addNewPoint("Baseline", new GraphHelper.Point(new Double(i+.25), 0.0));
 			chartInfo.addNewTick(milestone.getName());
+			
 		}
 		}
-
+		Log.i("ChartINFO", chartInfo.toString());
+		chartInfo.setDisplayBaseline(true);
 		return chartInfo;
 	}
 	
@@ -326,9 +331,9 @@ public class Project implements Parcelable {
 			for (Task task : milestone.getTasks()) {
 				loc += (double) task.getAddedLines();
 			}
-			GraphHelper.Point point = new GraphHelper.Point();
-			point.setX(new Double(i + 1));
-			point.setY(loc);
+			GraphHelper.Point point = new GraphHelper.Point(new Double(i+.25), loc);
+//			point.setX(new Double(i + 1));
+//			point.setY(loc);
 			chartInfo.addNewPoint(Double.toString(loc), point);
 			chartInfo.addNewTick(milestone.getName());
 		}

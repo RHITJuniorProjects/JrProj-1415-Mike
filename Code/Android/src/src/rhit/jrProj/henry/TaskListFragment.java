@@ -251,11 +251,11 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
-		super.onListItemClick(listView, view, position, id);
+		super.onListItemClick(listView, view, position-2, id);
 
 		// Notify the active callbacks interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(this.tasks.get(position));
+		mCallbacks.onItemSelected(this.tasks.get(position-2));
 	}
 
 	@Override

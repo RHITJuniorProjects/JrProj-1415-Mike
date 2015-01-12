@@ -471,7 +471,12 @@ public class Task implements Parcelable {
 						.intValue();
 			} else if (arg0.getKey().equals("total_lines_of_code")) {
 				this.task.totalLines = arg0.getValue(Integer.class).intValue();
+			}else if (arg0.getKey().equals("original_hour_estimate")) {
+				this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
+			}else if (arg0.getKey().equals("total_hours")) {
+				this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
 			}
+			
 		}
 
 		public void getUserNameFromId(String id) {
@@ -502,6 +507,10 @@ public class Task implements Parcelable {
 						.intValue();
 			} else if (arg0.getKey().equals("total_lines_of_code")) {
 				this.task.totalLines = arg0.getValue(Integer.class).intValue();
+			}else if (arg0.getKey().equals("original_hour_estimate")) {
+				this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
+			}else if (arg0.getKey().equals("total_hours")) {
+				this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
 			}
 		}
 

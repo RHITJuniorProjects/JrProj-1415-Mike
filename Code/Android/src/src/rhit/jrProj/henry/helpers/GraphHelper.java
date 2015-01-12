@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
@@ -14,6 +15,7 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.TimeSeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.model.XYSeries;
+import org.achartengine.renderer.BasicStroke;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
@@ -66,59 +68,83 @@ public class GraphHelper {
 	}
 
 	public static GraphicalView makeLineChart(String title, String xAxisLabel,
-			String yAxisLabel, List<String> seriesTitles,
-			List<List<Point>> values, List<String> x_ticks, Activity activity) {
+			String yAxisLabel, LineChartInfo chartInfo,  int xMin, int xMax, int yMin, int yMax, Activity activity) {
+		HashMap<String, List<Point>>data=chartInfo.getValues();
+		boolean displayBaseline=chartInfo.getDisplayBaseline();
 		
-		return makeLineChartHelper(activity);
+		List<String> x_ticks=chartInfo.getXTicks();
+		
+//	return makeLineChartHelper(activity);
 
-		/*double yMax = 0;
-		double yMin = 0;
-		double xMax = 0;
-		double max = 0;
-		if (values.isEmpty()) {
-			// there are no values in the list, i.e no users. In this case, just
-			// display a blank graph
-			yMax = 10;
-			yMin = 0;
-			xMax = 10;
-		} else {
-
-			xMax = values.get(0).size();
-			for (int i = 0; i < values.size(); i++) {
-				if (values.get(i).size() > xMax) {
-					xMax = values.get(i).size();
-				}
-				max = maxX(values.get(i));
-				if (max > yMax) {
-					yMax = max;
-				}
-				double min = minX(values.get(i));
-				if (min < yMin) {
-					yMin = min;
-				}
-			}
-			xMax += .5;
-
-		}
+//		double yMax = 0;
+//		double yMin = 0;
+//		double xMax = 0;
+//		double max = 0;
+//		if (values.isEmpty()) {
+//			// there are no values in the list, i.e no users. In this case, just
+//			// display a blank graph
+//			yMax = 10;
+//			yMin = 0;
+//			xMax = 10;
+//		} else {
+//
+//			xMax = values.get(0).size();
+//			for (int i = 0; i < values.size(); i++) {
+//				if (values.get(i).size() > xMax) {
+//					xMax = values.get(i).size();
+//				}
+//				max = maxX(values.get(i));
+//				if (max > yMax) {
+//					yMax = max;
+//				}
+//				double min = minX(values.get(i));
+//				if (min < yMin) {
+//					yMin = min;
+//				}
+//			}
+//			xMax += .5;
+//
+//		}
+		Set<String> seriesTitles=data.keySet();
 		Random rand = new Random();
 		int[] COLORS = new int[seriesTitles.size()];
 		for (int i = 0; i < COLORS.length; i++) {
 			COLORS[i] = Color.rgb(rand.nextInt(255), rand.nextInt(255),
 					rand.nextInt(255));
 		}
-		XYMultipleSeriesRenderer renderer = buildLineRenderer(COLORS);
-		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, 0.5, xMax,
-				yMin * 1.5, yMax * 1.25, Color.BLACK, Color.BLACK);
+//		XYSeriesRenderer[] renderers=new XYSeriesRenderer[seriesTitles.size()];
+		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
+		setChartSettings(renderer, title, xAxisLabel, yAxisLabel, Color.BLACK, Color.BLACK);
+//		renderer.
+		if (displayBaseline){
+			XYSeriesRenderer zeroRender=new XYSeriesRenderer();
+			zeroRender.setColor(Color.BLACK);
+			zeroRender.setLineWidth(1);
+			zeroRender.setShowLegendItem(false);
+			zeroRender.setFillPoints(false);
+			zeroRender.setDisplayChartValues(false);
+			renderer.addSeriesRenderer(zeroRender);
+		}
 		for (int i = 0; i < seriesTitles.size(); i++) {
-			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
-					.setDisplayChartValues(true);
-			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
-					.setChartValuesTextSize(fontSize);
+			XYSeriesRenderer renderera = new XYSeriesRenderer();
+			renderera.setColor(COLORS[i]);
+			renderera.setPointStyle(PointStyle.SQUARE);
+			renderera.setFillPoints(true);
+			renderera.setLineWidth(3);
+			renderera.setDisplayChartValues(true);
+			renderer.addSeriesRenderer(renderera);
+//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
+//					.setDisplayChartValues(true);
+//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
+//					.setChartValuesTextSize(fontSize);
+//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setColor(COLORS[i]);
+//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
+//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3);
 
 		}
 		renderer.setXLabels(0);
 		for (int i = 0; i < x_ticks.size(); i++) {
-			renderer.addXTextLabel(i + 0.75, x_ticks.get(i));
+			renderer.addXTextLabel(i+.25, x_ticks.get(i));
 		}
 		renderer.setYLabels(10);
 		renderer.setXLabelsAlign(Align.LEFT);
@@ -135,69 +161,17 @@ public class GraphHelper {
 		renderer.setShowGridX(false);
 		renderer.setAntialiasing(true);
 		renderer.setMargins(new int[] { 0, 30, 10, 0 });
+		renderer.setXAxisMin(xMin);
+		renderer.setXAxisMax(xMax);
+		renderer.setYAxisMin(yMin);
+		renderer.setYAxisMax(yMax);
 
 		return ChartFactory.getLineChartView(activity,
-				buildLineDataset(seriesTitles, values), renderer);*/
+				buildLineDataset(data, displayBaseline), renderer);
 
 	}
 
-	private static GraphicalView makeLineChartHelper(Activity activity) {
-		int[] x = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-		int[] y = { 31, 29, 54, 94, 75, 36, 47, 118, 92, 10 };
-
-		TimeSeries series = new TimeSeries("Line1");
-		for (int i = 0; i < x.length; i++) {
-			series.add(x[i], y[i]);
-		}
-
-		int[] x2 = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-		int[] y2 = { 39, 145, 35, 87, 2, 65, 48, 49, 100, 106 };
-
-		TimeSeries series2 = new TimeSeries("Line2");
-		for (int i = 0; i < x2.length; i++) {
-			series2.add(x2[i], y2[i]);
-		}
-
-		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-		dataset.addSeries(series);
-		dataset.addSeries(series2);
-
-		XYSeriesRenderer renderer = new XYSeriesRenderer();
-		renderer.setColor(Color.CYAN);
-		renderer.setPointStyle(PointStyle.SQUARE);
-		renderer.setFillPoints(true);
-		renderer.setLineWidth(3);
-		renderer.setDisplayChartValues(true);
-
-		XYSeriesRenderer renderer2 = new XYSeriesRenderer();
-		renderer2.setColor(Color.BLACK);
-		renderer2.setPointStyle(PointStyle.CIRCLE);
-		renderer2.setFillPoints(true);
-		renderer2.setLineWidth(3);
-		renderer2.setDisplayChartValues(true);
-
-		XYMultipleSeriesRenderer mrenderer = new XYMultipleSeriesRenderer();
-		mrenderer.addSeriesRenderer(renderer);
-		mrenderer.addSeriesRenderer(renderer2);
-
-		mrenderer.setChartTitle("title");
-
-		mrenderer.setBackgroundColor(Color.WHITE);
-
-		mrenderer.setShowGrid(true);
-		mrenderer.setApplyBackgroundColor(true);
-
-		mrenderer.setXTitle("Days");
-		mrenderer.setYTitle("datas");
-
-		mrenderer.setGridColor(Color.GRAY);
-		// mrenderer.setZoomButtonsVisible(true);
-
-		// Intent intent = ChartFactory.getLineChartIntent(activity, dataset,
-		// mrenderer, "Line graph title");
-		return ChartFactory.getLineChartView(activity, dataset, mrenderer);
-
-	}
+	
 
 	public static class PieChartInfo {
 
@@ -230,45 +204,45 @@ public class GraphHelper {
 
 	}
 
-	public static Double maxX(List<Point> points) {
-		Double max = points.get(0).getX();
-		for (int i = 0; i < points.size(); i++) {
-			if (max < points.get(i).getX()) {
-				max = points.get(i).getX();
-			}
-		}
-		return max;
-	}
-
-	public static Double maxY(List<Point> points) {
-		Double max = points.get(0).getY();
-		for (int i = 0; i < points.size(); i++) {
-			if (max < points.get(i).getY()) {
-				max = points.get(i).getY();
-			}
-		}
-		return max;
-	}
-
-	public static Double minX(List<Point> points) {
-		Double min = points.get(0).getX();
-		for (int i = 0; i < points.size(); i++) {
-			if (min > points.get(i).getX()) {
-				min = points.get(i).getX();
-			}
-		}
-		return min;
-	}
-
-	public static Double minY(List<Point> points) {
-		Double min = points.get(0).getY();
-		for (int i = 0; i < points.size(); i++) {
-			if (min > points.get(i).getY()) {
-				min = points.get(i).getY();
-			}
-		}
-		return min;
-	}
+//	public static Double maxX(List<Point> points) {
+//		Double max = points.get(0).getX();
+//		for (int i = 0; i < points.size(); i++) {
+//			if (max < points.get(i).getX()) {
+//				max = points.get(i).getX();
+//			}
+//		}
+//		return max;
+//	}
+//
+//	public static Double maxY(List<Point> points) {
+//		Double max = points.get(0).getY();
+//		for (int i = 0; i < points.size(); i++) {
+//			if (max < points.get(i).getY()) {
+//				max = points.get(i).getY();
+//			}
+//		}
+//		return max;
+//	}
+//
+//	public static Double minX(List<Point> points) {
+//		Double min = points.get(0).getX();
+//		for (int i = 0; i < points.size(); i++) {
+//			if (min > points.get(i).getX()) {
+//				min = points.get(i).getX();
+//			}
+//		}
+//		return min;
+//	}
+//
+//	public static Double minY(List<Point> points) {
+//		Double min = points.get(0).getY();
+//		for (int i = 0; i < points.size(); i++) {
+//			if (min > points.get(i).getY()) {
+//				min = points.get(i).getY();
+//			}
+//		}
+//		return min;
+//	}
 
 	public static GraphicalView makeStackedBarChart(String title,
 			String xAxisLabel, String yAxisLabel, List<List<Double>> values,
@@ -387,9 +361,9 @@ public class GraphHelper {
 		private Double x;
 		private Double y;
 
-		public Point() {
-			x = 0.0;
-			y = 0.0;
+		public Point(Double x, Double y) {
+			this.x=x;
+			this.y=y;
 		}
 
 		public void setX(Double x) {
@@ -407,12 +381,16 @@ public class GraphHelper {
 		public Double getY() {
 			return this.y;
 		}
+		public String toString(){
+			return " ("+this.getX()+", "+this.getY()+"), ";
+		}
 	}
 
 	public static class LineChartInfo {
 
 		private HashMap<String, List<Point>> values;
 		private List<String> x_ticks;
+		private boolean displayBaseline=false;
 
 		public LineChartInfo() {
 			values = new HashMap<String, List<Point>>();
@@ -433,8 +411,8 @@ public class GraphHelper {
 			this.x_ticks.add(tick);
 		}
 
-		public List<List<Point>> getValues() {
-			return new ArrayList<List<Point>>(this.values.values());
+		public HashMap<String,List<Point>> getValues() {
+			return this.values;
 		}
 
 		public List<String> getTitles() {
@@ -443,6 +421,24 @@ public class GraphHelper {
 
 		public List<String> getXTicks() {
 			return this.x_ticks;
+		}
+		public void setDisplayBaseline(boolean b){
+			this.displayBaseline=b;
+		}
+		public boolean getDisplayBaseline(){
+			return this.displayBaseline;
+		}
+		public String toString(){
+			String s="";
+			for (String key: values.keySet()){
+				List<Point> pts=values.get(key);
+				String s2="";
+				for (Point p: pts){
+					s2=s2.concat(" ("+p.getX()+", "+p.getY()+"), ");
+				}
+				s=s.concat(key+": "+s2+"\n");
+			}
+			return s;
 		}
 
 	}
@@ -472,16 +468,30 @@ public class GraphHelper {
 	}
 
 	protected static XYMultipleSeriesDataset buildLineDataset(
-			List<String> titles, List<List<Point>> values) {
+			HashMap<String, List<Point>> values, boolean displayBaseline) {
 		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-
-		for (int i = 0; i < titles.size(); i++) {
-			XYSeries series = new XYSeries(titles.get(i));
-			for (int j = 0; j < values.get(i).size(); j++) {
-				series.add(values.get(i).get(j).getX(), values.get(i).get(j)
+		
+		
+		int xMax=0;
+		Object[] titles=values.keySet().toArray();
+		for (int i = 0; i < titles.length; i++) {
+			String title=(String) titles[i];
+			XYSeries series = new XYSeries(title);
+			if (xMax<values.get(title).size()){
+				xMax=values.get(title).size();
+			}
+			for (int j = 0; j < values.get(title).size(); j++) {
+				series.add(values.get(title).get(j).getX(), values.get(title).get(j)
 						.getY());
 			}
 			dataset.addSeries(series);
+		}
+		if (displayBaseline){
+			XYSeries baselineSeries= new XYSeries("Baseline");
+			for (int i=0; i<=xMax; i++){
+				baselineSeries.add(i, 0.0);
+			}
+			dataset.addSeries(0, baselineSeries);
 		}
 
 		return dataset;
@@ -559,6 +569,15 @@ public class GraphHelper {
 		renderer.setXAxisMax(xMax);
 		renderer.setYAxisMin(yMin);
 		renderer.setYAxisMax(yMax);
+		renderer.setAxesColor(axesColor);
+		renderer.setLabelsColor(labelsColor);
+	}
+	protected static void setChartSettings(XYMultipleSeriesRenderer renderer,
+			String title, String xTitle, String yTitle,  int axesColor,
+			int labelsColor) {
+		renderer.setChartTitle(title);
+		renderer.setXTitle(xTitle);
+		renderer.setYTitle(yTitle);
 		renderer.setAxesColor(axesColor);
 		renderer.setLabelsColor(labelsColor);
 	}
