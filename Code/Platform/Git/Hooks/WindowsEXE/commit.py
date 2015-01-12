@@ -71,7 +71,7 @@ def getUserID(email,ref):
         userID = [u for u in filteredusers if filteredusers[u]['email']==email][0]
     except:
         print 'HENRY: Invalid or nonexistant email, commit failed'
-        exit(1)
+        os._exit(0)
     return userID
 
 
@@ -86,7 +86,7 @@ def getMilestoneID(projectID,milestone):
         mID = [m for m in filtered if filtered[m]['name']==milestone][0]
     except:
         print 'HENRY: Invalid or nonexistent milestone, commit failed'
-        exit(1)
+        os._exit(0)
     return mID
 
 
@@ -98,7 +98,7 @@ def getTaskID(projectID,milestoneID,task):
         tID = [t for t in filtered if filtered[t]['name']==task][0]
     except:
         print 'HENRY: Invalid or nonexistant task, commit failed'
-        exit(1)
+        os._exit(1)
     return tID
 
 
@@ -151,7 +151,7 @@ def getAssignedTasks(ref,userID,projectID,milestoneID):
         taskIDs = ref.get(path,None).keys()
     except:
         print 'HENRY: You have no assigned tasks for this milestone, commit failed'
-        exit(1)
+        os._exit(1)
     path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     allTasks = ref.get(path,None)
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
@@ -252,7 +252,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             status = def_status
         else:
             print 'HENRY: Invalid status, commit failed'
-            exit(1)
+            os._exit(1)
 
     return hours,mID,tID,status
 

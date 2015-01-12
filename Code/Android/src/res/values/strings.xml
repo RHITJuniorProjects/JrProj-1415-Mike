@@ -24,6 +24,7 @@
     <string-array name="milestone_charts">
         <item>Lines of Code Added</item>
         <item>Lines of Code Total</item>
+        <item>Burndown Chart</item>
     </string-array>
 
     <string name="register">Register</string>
@@ -65,5 +66,9 @@
         <item >Lines of Code Added By Milestone</item>
         <item >Accuracy of Time Estimates By Milestone</item>
     </string-array>
+    
+    <string name="burndown">Burndown</string>
+    <string name="days">Days</string>
+    <string name="hours">Hours</string>
 
 </resources>
