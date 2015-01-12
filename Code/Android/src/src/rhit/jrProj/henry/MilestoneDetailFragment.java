@@ -33,21 +33,20 @@ public class MilestoneDetailFragment extends Fragment implements
 	public interface Callbacks {
 		public Milestone getSelectedMilestone();
 	}
-	
+
 	/**
 	 * The dummy content this fragment is presenting.
 	 */
 	private Milestone milestoneItem;
 	private Callbacks mCallbacks;
 	private Callbacks sDummyCallbacks = new Callbacks() {
-		
+
 		@Override
 		public Milestone getSelectedMilestone() {
 			return null;
 		}
 	};
 
-	
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -158,21 +157,67 @@ public class MilestoneDetailFragment extends Fragment implements
 			chartInfo.addNewPoint("estimated",
 					new GraphHelper.Point(1.0, 150.0));
 
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(0.0, 0.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(1.0, 10.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(2.0, 20.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(3.0, 30.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(4.0, 40.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(5.0, 50.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(6.0, 65.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(7.0, 75.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(8.0, 80.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(9.0, 85.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(10.0, 90.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(11.0, 100.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(12.0, 110.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(13.0, 120.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(14.0, 130.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(0.0, 0.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(1.0, 10.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(2.0, 20.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(3.0, 30.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(4.0, 40.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(5.0, 50.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(6.0, 65.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(7.0, 75.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(8.0, 80.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(9.0, 85.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(10.0, 90.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(11.0, 100.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(12.0, 110.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(13.0, 120.0));
+			chartInfo.addNewPoint("Estimated Hours Remaining",
+					new GraphHelper.Point(14.0, 130.0));
+
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(0.0,
+					150.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(1.0,
+					140.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(2.0,
+					130.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(3.0,
+					122.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(4.0,
+					112.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(5.0,
+					106.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(6.0,
+					101.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(7.0,
+					91.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(8.0,
+					87.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(9.0,
+					82.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(10.0,
+					77.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(11.0,
+					67.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(12.0,
+					58.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(13.0,
+					50.0));
+			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(14.0,
+					40.0));
 
 			chartInfo.addNewTick("Day 0");
 			chartInfo.addNewTick("Day 1");
@@ -189,7 +234,7 @@ public class MilestoneDetailFragment extends Fragment implements
 			chartInfo.addNewTick("Day 12");
 			chartInfo.addNewTick("Day 13");
 			chartInfo.addNewTick("Day 14");
-			
+
 			chart = GraphHelper.makeLineChart(getString(R.string.burndown),
 					getString(R.string.hours), getString(R.string.hours),
 					chartInfo, 0, 21, 0, 150, this.getActivity());
@@ -202,8 +247,7 @@ public class MilestoneDetailFragment extends Fragment implements
 	public void onNothingSelected(AdapterView<?> parent) {
 		// do nothing
 	}
-	
-	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -217,7 +261,7 @@ public class MilestoneDetailFragment extends Fragment implements
 	@Override
 	public void onDetach() {
 		super.onDetach();
-		this.mCallbacks = sDummyCallbacks ;
+		this.mCallbacks = sDummyCallbacks;
 	}
 
 }
