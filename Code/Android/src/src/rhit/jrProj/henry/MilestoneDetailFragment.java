@@ -219,21 +219,21 @@ public class MilestoneDetailFragment extends Fragment implements
 			chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(14.0,
 					40.0));
 
-			chartInfo.addNewTick("Day 0");
-			chartInfo.addNewTick("Day 1");
-			chartInfo.addNewTick("Day 2");
-			chartInfo.addNewTick("Day 3");
-			chartInfo.addNewTick("Day 4");
-			chartInfo.addNewTick("Day 5");
-			chartInfo.addNewTick("Day 6");
-			chartInfo.addNewTick("Day 7");
-			chartInfo.addNewTick("Day 8");
-			chartInfo.addNewTick("Day 9");
-			chartInfo.addNewTick("Day 10");
-			chartInfo.addNewTick("Day 11");
-			chartInfo.addNewTick("Day 12");
-			chartInfo.addNewTick("Day 13");
-			chartInfo.addNewTick("Day 14");
+			chartInfo.addNewTick("0");
+			chartInfo.addNewTick("1");
+			chartInfo.addNewTick("2");
+			chartInfo.addNewTick("3");
+			chartInfo.addNewTick("4");
+			chartInfo.addNewTick("5");
+			chartInfo.addNewTick("6");
+			chartInfo.addNewTick("7");
+			chartInfo.addNewTick("8");
+			chartInfo.addNewTick("9");
+			chartInfo.addNewTick("10");
+			chartInfo.addNewTick("11");
+			chartInfo.addNewTick("12");
+			chartInfo.addNewTick("13");
+			chartInfo.addNewTick("14");
 
 			chart = GraphHelper.makeLineChart(getString(R.string.burndown),
 					getString(R.string.hours), getString(R.string.hours),
