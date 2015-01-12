@@ -133,6 +133,7 @@ public class GraphHelper {
 			renderera.setLineWidth(3);
 			renderera.setDisplayChartValues(true);
 			renderer.addSeriesRenderer(renderera);
+			
 //			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
 //					.setDisplayChartValues(true);
 //			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
@@ -151,20 +152,22 @@ public class GraphHelper {
 		renderer.setXLabelsColor(Color.BLACK);
 		renderer.setYLabelsAlign(Align.LEFT);
 		renderer.setYLabelsColor(0, Color.BLACK);
-		renderer.setPanEnabled(true, false);
+		renderer.setPanEnabled(false);
 		renderer.setZoomEnabled(false);
-		renderer.setZoomRate(1.1f);
+		renderer.setChartTitleTextSize(0);
 		renderer.setBarSpacing(0.25f);
 		renderer.setApplyBackgroundColor(true);
 		renderer.setBackgroundColor(Color.WHITE);
 		renderer.setMarginsColor(Color.WHITE);
 		renderer.setShowGridX(false);
 		renderer.setAntialiasing(true);
-		renderer.setMargins(new int[] { 0, 30, 10, 0 });
+		renderer.setMargins(new int[] { 50, 50, 50, 50 });
 		renderer.setXAxisMin(xMin);
 		renderer.setXAxisMax(xMax);
 		renderer.setYAxisMin(yMin);
 		renderer.setYAxisMax(yMax);
+		renderer.setAxisTitleTextSize(fontSize);
+		renderer.setLabelsTextSize(fontSize);
 
 		return ChartFactory.getLineChartView(activity,
 				buildLineDataset(data, displayBaseline), renderer);
@@ -294,7 +297,7 @@ public class GraphHelper {
 		renderer.setXLabelsColor(Color.BLACK);
 		renderer.setYLabelsAlign(Align.LEFT);
 		renderer.setYLabelsColor(0, Color.BLACK);
-		renderer.setPanEnabled(true, false);
+		renderer.setPanEnabled(false);
 		renderer.setZoomEnabled(false);
 		renderer.setZoomRate(1.1f);
 		renderer.setBarSpacing(0.25f);
@@ -303,7 +306,7 @@ public class GraphHelper {
 		renderer.setMarginsColor(Color.WHITE);
 		renderer.setShowGridX(false);
 		renderer.setAntialiasing(true);
-		renderer.setMargins(new int[] { 0, 30, 10, 0 });
+		renderer.setMargins(new int[] { 50, 50, 50, 50 });
 
 		return ChartFactory.getBarChartView(activity,
 				buildBarDataset(keys, values), renderer, Type.STACKED);
