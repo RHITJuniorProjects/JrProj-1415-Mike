@@ -57,6 +57,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(IBAction)logoutButtonPressed:(id)sender {
+    @try{
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults removeObjectForKey:@"id"];
+        [defaults removeObjectForKey:@"token"];
+        [defaults synchronize];
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneLoginStoryboard" bundle:nil];
+        UIViewController *initialView = [sb instantiateInitialViewController];
+        [self presentViewController:initialView animated:YES completion:nil];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+    }
+}
+
 /*
 #pragma mark - Navigation
 
