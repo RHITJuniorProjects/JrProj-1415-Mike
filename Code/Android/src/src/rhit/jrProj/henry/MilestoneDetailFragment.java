@@ -145,28 +145,39 @@ public class MilestoneDetailFragment extends Fragment implements
 
 			chartInfo.addNewPoint("estimated",
 					new GraphHelper.Point(1.0, 150.0));
-			chartInfo.addNewPoint("estimated",
-					new GraphHelper.Point(5.0, 120.0));
-			chartInfo.addNewPoint("estimated",
-					new GraphHelper.Point(10.0, 90.0));
-			chartInfo.addNewPoint("estimated",
-					new GraphHelper.Point(16.0, 40.0));
-			chartInfo.addNewPoint("estimated",
-					new GraphHelper.Point(21.0, 10.0));
 
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(1.0, 0.0));
-			chartInfo
-					.addNewPoint("completed", new GraphHelper.Point(5.0, 35.0));
-			chartInfo.addNewPoint("completed",
-					new GraphHelper.Point(10.0, 70.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(16.0,
-					120.0));
-			chartInfo.addNewPoint("completed", new GraphHelper.Point(21.0,
-					150.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(0.0, 0.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(1.0, 10.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(2.0, 20.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(3.0, 30.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(4.0, 40.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(5.0, 50.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(6.0, 65.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(7.0, 75.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(8.0, 80.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(9.0, 85.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(10.0, 90.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(11.0, 100.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(12.0, 110.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(13.0, 120.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(14.0, 130.0));
 
-			chartInfo.addNewTick("pizza");
-			chartInfo.addNewTick("taco");
-
+			chartInfo.addNewTick("Day 0");
+			chartInfo.addNewTick("Day 1");
+			chartInfo.addNewTick("Day 2");
+			chartInfo.addNewTick("Day 3");
+			chartInfo.addNewTick("Day 4");
+			chartInfo.addNewTick("Day 5");
+			chartInfo.addNewTick("Day 6");
+			chartInfo.addNewTick("Day 7");
+			chartInfo.addNewTick("Day 8");
+			chartInfo.addNewTick("Day 9");
+			chartInfo.addNewTick("Day 10");
+			chartInfo.addNewTick("Day 11");
+			chartInfo.addNewTick("Day 12");
+			chartInfo.addNewTick("Day 13");
+			chartInfo.addNewTick("Day 14");
+			
 			chart = GraphHelper.makeLineChart(getString(R.string.burndown),
 					getString(R.string.hours), getString(R.string.hours),
 					chartInfo, 0, 21, 0, 150, this.getActivity());
