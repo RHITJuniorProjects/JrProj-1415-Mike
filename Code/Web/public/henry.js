@@ -69,7 +69,7 @@ Chart.prototype = {
 			this._renderedChart = new Highcharts.Chart(this);
 			var chart = this;
 			$.map(this.series,function(s){
-				s.data.bind(chart._renderedChart[s.id]);
+				s.data.bind(chart._renderedChart.series[s.id]);
 			});
 		}
 	}
@@ -590,6 +590,7 @@ Series.prototype = [];
 Series.prototype.addPoint = function(point){
 	this.push(point);
 	$.each(this._series,function(s){
+		console.log(s);
 		s.addPoint(point,true);
 	});
 }
