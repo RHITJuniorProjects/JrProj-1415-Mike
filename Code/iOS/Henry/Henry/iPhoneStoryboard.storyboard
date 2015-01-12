@@ -496,16 +496,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Go0-zU-qnV">
-                                <rect key="frame" x="118" y="180" width="85" height="29"/>
-                                <segments>
-                                    <segment title="Bars"/>
-                                    <segment title="Pie"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segControlClicked:" destination="igH-6v-tal" eventType="valueChanged" id="Dhi-ad-fvw"/>
-                                </connections>
-                            </segmentedControl>
                             <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pip-fK-1CV" customClass="DLPieChart">
                                 <rect key="frame" x="0.0" y="225" width="320" height="197"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -519,6 +509,21 @@
                                     <segue destination="CgS-wv-wTY" kind="push" id="LEg-Fa-Vwx"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sB2-sh-DJT" customClass="BEMSimpleLineGraphView">
+                                <rect key="frame" x="0.0" y="900" width="300" height="190"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Go0-zU-qnV">
+                                <rect key="frame" x="114" y="178" width="103" height="29"/>
+                                <segments>
+                                    <segment title="Bars"/>
+                                    <segment title="Pie"/>
+                                    <segment title="Line"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segControlClicked:" destination="igH-6v-tal" eventType="valueChanged" id="Dhi-ad-fvw"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -539,6 +544,7 @@
                         <outlet property="dueDateLabel" destination="0du-Yx-HTV" id="sr6-f1-M6a"/>
                         <outlet property="hoursLoggedLabel" destination="I9o-kE-uW1" id="qBN-h7-rTa"/>
                         <outlet property="hoursLoggedProgressBar" destination="ue6-P9-dlr" id="COY-jM-bHF"/>
+                        <outlet property="lineGraph" destination="sB2-sh-DJT" id="4FM-f0-gcO"/>
                         <outlet property="milestonesCompletedLabel" destination="inb-hp-mpd" id="3Ov-SP-Zj6"/>
                         <outlet property="milestonesCompletedProgressBar" destination="2q9-5y-roJ" id="gbs-2F-i46"/>
                         <outlet property="pieChart" destination="Pip-fK-1CV" id="XWe-ub-OJr"/>
@@ -565,6 +571,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jT8-86-AGE" customClass="BEMSimpleLineGraphView">
+                                <rect key="frame" x="16" y="228" width="288" height="194"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="mNG-p1-7Vr" id="X0S-8I-gzV"/>
+                                    <outlet property="delegate" destination="mNG-p1-7Vr" id="R5Y-mk-cvS"/>
+                                </connections>
+                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Milestone 1" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zau-mB-96S">
                                 <rect key="frame" x="16" y="72" width="299" height="28"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="23"/>
@@ -585,7 +599,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Milestone Description" translatesAutoresizingMaskIntoConstraints="NO" id="OEm-ed-V2y">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" text="Milestone Description" translatesAutoresizingMaskIntoConstraints="NO" id="OEm-ed-V2y">
                                 <rect key="frame" x="11" y="137" width="293" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -598,7 +612,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" misplaced="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="y6M-f7-yQu">
-                                <rect key="frame" x="21" y="474" width="288" height="3"/>
+                                <rect key="frame" x="21" y="474" width="288" height="9"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="8" id="O3F-hE-lhv"/>
                                 </constraints>
@@ -614,45 +628,50 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-d5-4FJ">
-                                <rect key="frame" x="108" y="179" width="104" height="29"/>
+                                <rect key="frame" x="77" y="179" width="167" height="29"/>
                                 <segments>
                                     <segment title="LOC"/>
-                                    <segment title="Hidden"/>
+                                    <segment title="Burndown"/>
                                 </segments>
                                 <connections>
                                     <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>
                                 </connections>
                             </segmentedControl>
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYe-u4-Z2g" customClass="DLPieChart">
-                                <rect key="frame" x="0.0" y="215" width="320" height="202"/>
+                                <rect key="frame" x="0.0" y="235" width="320" height="202"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="leading" secondItem="f2v-Tf-8dy" secondAttribute="leading" id="4AI-lV-ZrS"/>
+                            <constraint firstItem="jT8-86-AGE" firstAttribute="centerX" secondItem="UHN-d5-4FJ" secondAttribute="centerX" id="0W7-rk-XeS"/>
                             <constraint firstItem="zau-mB-96S" firstAttribute="centerX" secondItem="y6M-f7-yQu" secondAttribute="centerX" id="4UO-ea-BXN"/>
-                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="top" secondItem="OEm-ed-V2y" secondAttribute="bottom" constant="34" id="9Qp-aA-JQ5"/>
+                            <constraint firstItem="jT8-86-AGE" firstAttribute="top" secondItem="UHN-d5-4FJ" secondAttribute="bottom" constant="21" id="B0O-KR-z1M"/>
+                            <constraint firstItem="UHN-d5-4FJ" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" constant="61" id="BXm-aa-FR6"/>
+                            <constraint firstItem="jT8-86-AGE" firstAttribute="leading" secondItem="jmv-SC-tbs" secondAttribute="leading" id="CQG-Ly-MQS"/>
                             <constraint firstItem="bd8-Ha-SLz" firstAttribute="leading" secondItem="jmv-SC-tbs" secondAttribute="trailing" constant="8" symbolic="YES" id="CSp-5U-9oP"/>
                             <constraint firstItem="7KE-IB-HfR" firstAttribute="top" secondItem="y6M-f7-yQu" secondAttribute="bottom" constant="92" id="Gn8-uW-gub"/>
-                            <constraint firstItem="UHN-d5-4FJ" firstAttribute="top" secondItem="etw-cn-nv5" secondAttribute="bottom" constant="50" id="SIn-3i-oPI"/>
+                            <constraint firstItem="bd8-Ha-SLz" firstAttribute="top" secondItem="HYe-u4-Z2g" secondAttribute="bottom" constant="8" symbolic="YES" id="PjA-ND-NBO"/>
+                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="top" secondItem="UHN-d5-4FJ" secondAttribute="bottom" constant="28" id="RYy-Jq-x1v"/>
                             <constraint firstItem="f2v-Tf-8dy" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" id="STy-i7-II9"/>
-                            <constraint firstItem="UHN-d5-4FJ" firstAttribute="centerX" secondItem="HYe-u4-Z2g" secondAttribute="centerX" id="Xtu-fN-bly"/>
-                            <constraint firstItem="OEm-ed-V2y" firstAttribute="trailing" secondItem="HYe-u4-Z2g" secondAttribute="trailing" id="Xv4-fo-JdU"/>
+                            <constraint firstItem="UHN-d5-4FJ" firstAttribute="top" secondItem="etw-cn-nv5" secondAttribute="bottom" constant="50" id="Yla-h8-A7W"/>
+                            <constraint firstItem="jT8-86-AGE" firstAttribute="centerX" secondItem="HYe-u4-Z2g" secondAttribute="centerX" id="ehK-UE-pc9"/>
                             <constraint firstItem="y6M-f7-yQu" firstAttribute="top" secondItem="jmv-SC-tbs" secondAttribute="bottom" constant="8" symbolic="YES" id="fKd-Fo-s0l"/>
                             <constraint firstItem="bd8-Ha-SLz" firstAttribute="baseline" secondItem="jmv-SC-tbs" secondAttribute="baseline" id="fQd-OV-8DM"/>
                             <constraint firstItem="OEm-ed-V2y" firstAttribute="trailing" secondItem="etw-cn-nv5" secondAttribute="trailing" id="gCl-7Q-CSR"/>
                             <constraint firstItem="OEm-ed-V2y" firstAttribute="top" secondItem="f2v-Tf-8dy" secondAttribute="bottom" constant="8" symbolic="YES" id="gZT-pK-TkY"/>
-                            <constraint firstItem="UHN-d5-4FJ" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" constant="92" id="h5l-gf-JHF"/>
+                            <constraint firstItem="jT8-86-AGE" firstAttribute="leading" secondItem="f2v-Tf-8dy" secondAttribute="leading" id="hB8-n9-SeO"/>
                             <constraint firstItem="y6M-f7-yQu" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" constant="5" id="hDs-m3-VYo"/>
                             <constraint firstItem="f2v-Tf-8dy" firstAttribute="baseline" secondItem="etw-cn-nv5" secondAttribute="baseline" id="kk1-gm-SW1"/>
+                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leading" id="lGE-Ru-2aq"/>
                             <constraint firstItem="etw-cn-nv5" firstAttribute="trailing" secondItem="LjP-dc-CVe" secondAttribute="trailingMargin" id="lGy-ec-ENt"/>
+                            <constraint firstItem="jT8-86-AGE" firstAttribute="trailing" secondItem="OEm-ed-V2y" secondAttribute="trailing" id="nXZ-ZB-sPX"/>
+                            <constraint firstItem="jmv-SC-tbs" firstAttribute="top" secondItem="HYe-u4-Z2g" secondAttribute="bottom" constant="8" symbolic="YES" id="na5-lB-NCZ"/>
+                            <constraint firstItem="bd8-Ha-SLz" firstAttribute="top" secondItem="jT8-86-AGE" secondAttribute="bottom" constant="23" id="nkp-26-Ubc"/>
                             <constraint firstItem="f2v-Tf-8dy" firstAttribute="leading" secondItem="zau-mB-96S" secondAttribute="leading" id="oOT-fA-qcZ"/>
-                            <constraint firstItem="jmv-SC-tbs" firstAttribute="top" secondItem="HYe-u4-Z2g" secondAttribute="bottom" constant="28" id="pcC-0j-hOt"/>
                             <constraint firstItem="f2v-Tf-8dy" firstAttribute="top" secondItem="zau-mB-96S" secondAttribute="bottom" constant="8" symbolic="YES" id="qWS-IP-d0w"/>
-                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="top" secondItem="UHN-d5-4FJ" secondAttribute="bottom" constant="8" symbolic="YES" id="sRY-11-xto"/>
-                            <constraint firstItem="HYe-u4-Z2g" firstAttribute="leading" secondItem="jmv-SC-tbs" secondAttribute="leading" id="uhR-9l-hqC"/>
                             <constraint firstItem="zau-mB-96S" firstAttribute="top" secondItem="1zg-Kj-Rok" secondAttribute="bottom" constant="8" symbolic="YES" id="ukO-SE-viH"/>
+                            <constraint firstAttribute="bottom" secondItem="HYe-u4-Z2g" secondAttribute="bottom" constant="131" id="ulU-m1-OZ1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="y6M-f7-yQu" secondAttribute="trailing" constant="-5" id="uzF-NR-4iH"/>
                             <constraint firstItem="OEm-ed-V2y" firstAttribute="leading" secondItem="LjP-dc-CVe" secondAttribute="leadingMargin" constant="-5" id="vLb-oZ-bo7"/>
                             <constraint firstItem="etw-cn-nv5" firstAttribute="leading" secondItem="f2v-Tf-8dy" secondAttribute="trailing" constant="8" symbolic="YES" id="waR-0r-VnO"/>
@@ -666,6 +685,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="burndown" destination="jT8-86-AGE" id="jwx-Qg-jM5"/>
                         <outlet property="dataSelector" destination="UHN-d5-4FJ" id="KdU-Hu-ftl"/>
                         <outlet property="descriptionView" destination="OEm-ed-V2y" id="ois-ro-FhC"/>
                         <outlet property="dueDateLabel" destination="etw-cn-nv5" id="fAf-Xa-TtY"/>

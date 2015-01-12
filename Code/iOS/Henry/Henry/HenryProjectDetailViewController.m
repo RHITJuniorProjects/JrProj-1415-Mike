@@ -10,9 +10,11 @@
 #import "HenryFirebase.h"
 #import "HenryMilestonesTableViewController.h"
 #import "HenryMemberTableViewCell.h"
+#import "BEMSimpleLineGraphView.h"
 
 @interface HenryProjectDetailViewController ()
 @property Firebase *fb;
+@property NSMutableArray *lineGraphData;
 @end
 
 @implementation HenryProjectDetailViewController
@@ -59,7 +61,14 @@
     // Do any additional setup after loading the view.
     self.fb = [HenryFirebase getFirebaseObject];
     
-    
+    self.lineGraphData = [[NSMutableArray alloc] init];
+        self.lineGraph.alwaysDisplayPopUpLabels = YES;
+        self.lineGraph.alwaysDisplayDots = YES;
+        self.lineGraph.dataSource = self;
+        self.lineGraph.enableYAxisLabel = YES;
+        self.lineGraph.enableXAxisLabel = YES;
+        self.lineGraph.enableBezierCurve = NO;
+        [self.lineGraph changeFontSize:5];
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateInfo: snapshot];
@@ -74,15 +83,47 @@
     }
 }
 
+
+
+-(NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+    return [self.lineGraphData count];
+}
+
+-(NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 3;
+}
+
+-(CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+    NSArray *subArray = [self.lineGraphData objectAtIndex:index];
+    NSLog(@"Called value for point");
+    return [[subArray objectAtIndex:0] floatValue];
+}
+
+-(NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
+    NSArray *subArray = [self.lineGraphData objectAtIndex:index];
+    return [subArray objectAtIndex:1];
+}
+
+-(NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 1;
+}
+
 - (IBAction)segControlClicked:(id)sender
 {
     @try{
     //Figures out the last clicked segment.
     int clickedSegment = [sender selectedSegmentIndex];
     if(clickedSegment == 0){
-        self.pieChart.hidden = YES;
-    }else{
+        self.pieChart.center = CGPointMake(0,1000);
+        self.lineGraph.center = CGPointMake(0,2000);
+    }else if(clickedSegment == 1){
         self.pieChart.hidden = NO;
+        self.lineGraph.center = CGPointMake(0,2000);
+        self.pieChart.center = CGPointMake(147,300);
+    }else{
+        self.lineGraph.hidden = NO;
+        self.pieChart.center = CGPointMake(0, 1000);
+        self.lineGraph.center = CGPointMake(157,310);
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -166,7 +207,30 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     NSDictionary *json = snapshot.value[@"projects"][self.projectID];
-    
+        NSDictionary *burndownData = [json objectForKey:@"milestones"];
+        NSArray *burndownKeys = [burndownData allKeys];
+        burndownKeys = [[burndownKeys reverseObjectEnumerator] allObjects];
+        self.lineGraphData = [[NSMutableArray alloc] init];
+        NSMutableArray *dummy = [[NSMutableArray alloc] init];
+        [dummy addObject:[NSNumber numberWithInteger:0]];
+        [dummy addObject:@" "];
+        [dummy addObject:[NSNumber numberWithInteger:0]];
+        [self.lineGraphData addObject:dummy];
+        NSInteger i = 0;
+        for (NSString *burndownKey in burndownKeys) {
+            NSMutableArray *subArray = [[NSMutableArray alloc] init];
+            NSDictionary *entry = [burndownData objectForKey:burndownKey];
+            NSLog(@"Adding %@",[entry objectForKey:@"total_lines_of_code"]);
+            NSLog(@"adding %@",[entry objectForKey:@"name"]);
+            NSLog(@"Aadding %ld",(long)i);
+            [subArray addObject:[entry objectForKey:@"total_lines_of_code"]];
+            [subArray addObject:[entry objectForKey:@"name"]];
+            [subArray addObject:[NSNumber numberWithInteger:i]];
+            i++;
+            [self.lineGraphData addObject:subArray];
+        }
+        [self.lineGraphData addObject:dummy];
+        
     self.projectNameLabel.text = [json objectForKey:@"name"];
     self.projectDescriptionView.text = [json objectForKey:@"description"];
     self.dueDateLabel.text = [json objectForKey:@"due_date"];
@@ -197,7 +261,7 @@
             [developers addObject:key];
         }
     }
-    
+    [self.lineGraph reloadGraph];
     [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];

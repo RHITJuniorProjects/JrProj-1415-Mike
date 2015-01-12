@@ -11,7 +11,8 @@
     <string name="title_project_detail">Project Detail</string>
     <string name="ViewTasks">View Tasks</string>
     <string name="ViewMilestones">View Milestones</string>
-        <string name="ViewMembers">View Project Members</string>
+    <string name="ViewMembers">View Project Members</string>
+
     <string-array name="task_statuses">
         <item>New</item>
         <item>Implementation</item>
@@ -23,7 +24,9 @@
     <string-array name="milestone_charts">
         <item>Lines of Code Added</item>
         <item>Lines of Code Total</item>
+        <item>Burndown Chart</item>
     </string-array>
+
     <string name="register">Register</string>
     <string name="sign_in">Sign in</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -42,16 +45,30 @@
     <string name="invalidTaskName">The task name is invalid.</string>
     <string name="Task_Category">Task Category</string>
     <string name="invalidTaskCategory">The task category is invalid.</string>
+
     <string-array name="task_categories">
-        <item >Bug Fix</item>
-        <item >Enhancement</item>
-        <item >Feature</item>
-        <item >Business</item>
-        <item >General</item>
-        <item >Infrastructure</item>
-        <item >QA</item>
-        <item >No Category</item>
+        <item>Bug Fix</item>
+        <item>Enhancement</item>
+        <item>Feature</item>
+        <item>Business</item>
+        <item>General</item>
+        <item>Infrastructure</item>
+        <item>QA</item>
+        <item>No Category</item>
     </string-array>
+
     <string name="email">Email</string>
+    <string name="title_activity_charts_fragment">ChartsFragment</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string-array name="longitude_charts">
+        <item >Lines of Code Added By Milestone</item>
+        <item >Accuracy of Time Estimates By Milestone</item>
+    </string-array>
     
+    <string name="burndown">Burndown</string>
+    <string name="days">Days</string>
+    <string name="hours">Hours</string>
+
 </resources>

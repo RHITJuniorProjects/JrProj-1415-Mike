@@ -9,9 +9,11 @@
 #import "HenryMilestoneDetailViewController.h"
 #import "HenryTasksTableViewController.h"
 #import "HenryFirebase.h"
+#import "BEMSimpleLineGraphView.h"
 
 @interface HenryMilestoneDetailViewController ()
 @property Firebase *fb;
+@property NSMutableArray *burndownData;
 @end
 
 @implementation HenryMilestoneDetailViewController
@@ -20,17 +22,22 @@
 
 - (void)viewDidLoad {
     @try{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.fb = [HenryFirebase getFirebaseObject];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    // Attach a block to read the data at our posts reference
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo: snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
+        [super viewDidLoad];
+        // Do any additional setup after loading the view.
+        self.fb = [HenryFirebase getFirebaseObject];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        
+        self.burndownData = [[NSMutableArray alloc] init];
+        self.burndown.enableYAxisLabel = YES;
+        self.burndown.enableXAxisLabel = YES;
+        self.burndown.enableBezierCurve = NO;
+        
+        // Attach a block to read the data at our posts reference
+        [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+            [self updateInfo: snapshot];
+        } withCancelBlock:^(NSError *error) {
+            NSLog(@"%@", error.description);
+        }];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -38,7 +45,19 @@
         
     }
     
-    
+}
+
+-(NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+    return [self.burndownData count];
+}
+
+-(NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return 7;
+}
+
+-(CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+    NSArray *subArray = [self.burndownData objectAtIndex:index];
+    return [[subArray objectAtIndex:1] floatValue];
 }
 
 - (IBAction)segControlClicked:(id)sender
@@ -51,13 +70,12 @@
             self.pieChart.hidden = NO;
         }
         self.tasksHeader.hidden = NO;
-        self.tasksCompletedLabel.hidden = NO;
-        self.tasksCompleteBar.hidden = NO;
+        self.burndown.hidden = YES;
+
     }else{
         self.pieChart.hidden = YES;
         self.tasksHeader.hidden = YES;
-        self.tasksCompletedLabel.hidden = YES;
-        self.tasksCompleteBar.hidden = YES;
+        self.burndown.hidden = NO;
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -68,10 +86,44 @@
     
 }
 
+-(NSString *)lineGraph:(BEMSimpleLineGraphView *)graph labelOnXAxisForIndex:(NSInteger)index {
+    NSArray *subArray = [self.burndownData objectAtIndex:index];
+    NSDate *date = [subArray objectAtIndex:0];
+    
+    NSCalendar* calendar = [NSCalendar currentCalendar];
+    NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
+    
+//    if (index == 5 || index == [self.burndownData count] - 6) {
+        NSString *dateStr = [NSString stringWithFormat:@"%d/%d", [components month], [components day]];
+        NSLog(@"%@", dateStr);
+        return dateStr;
+////        return @"1";
+//    } else
+//        return @"";
+}
+
+-(NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+    return [self.burndownData count] / 7;
+}
+
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
     NSDictionary *json = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID];
     
+        NSDictionary *burndownData = [json objectForKey:@"burndown_data"];
+        NSArray *burndownKeys = [burndownData allKeys];
+        burndownKeys = [[burndownKeys reverseObjectEnumerator] allObjects];
+        self.burndownData = [[NSMutableArray alloc] init];
+        for (NSString *burndownKey in burndownKeys) {
+            NSMutableArray *subArray = [[NSMutableArray alloc] init];
+            NSDictionary *entry = [burndownData objectForKey:burndownKey];
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[entry objectForKey:@"timestamp"] doubleValue]/1000];
+            [subArray addObject:date];
+            [subArray addObject:[entry objectForKey:@"estimated_hours_remaining"]];
+            [subArray addObject:[entry objectForKey:@"hours_completed"]];
+            [self.burndownData addObject:subArray];
+        }
+        
     self.milestoneNameLabel.text = [json objectForKey:@"name"];
     self.dueDateLabel.text = [json objectForKey:@"due_date"];
     self.descriptionView.text = [json objectForKey:@"description"];
@@ -96,7 +148,8 @@
             [developers addObject:key];
         }
     }
-    
+        
+        [self.burndown reloadGraph];
     
     [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
     }@catch(NSException *exception){

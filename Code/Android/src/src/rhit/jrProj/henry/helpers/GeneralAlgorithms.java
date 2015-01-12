@@ -1,6 +1,13 @@
 package rhit.jrProj.henry.helpers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.Task;
 import android.util.Log;
+import java.util.Random;
 
 public class GeneralAlgorithms {
 	private final static String[] months = { "Jan.", "Feb.", "Mar.", "Apr.",
@@ -148,5 +155,39 @@ public class GeneralAlgorithms {
 		String month = months[month1 - 1];
 		return day1 + " " + month + " " + year1;
 
+	}
+	public static HashMap<String, Double> getRatio(Milestone m){
+		HashMap<String, List<Double>> map=new HashMap<String, List<Double>>(); //username, list of ratios  (one for each task)
+		HashMap<String, Double> map2=new HashMap<String, Double>(); //username, ratio (for all tasks)
+		Random rand= new Random();
+		for (Task t: m.getTasks()){
+			double actual=t.getHoursSpent();
+//			actual=rand.nextInt(9)+1;
+			double estimate=t.getOriginalHoursEstimate();
+//			estimate=rand.nextInt(9)+1;
+			double ratio=(actual-estimate)/estimate;
+			Log.i("Ratio", ratio+"");
+			if (map.containsKey(t.getAssignedUserName())){
+				map.get(t.getAssignedUserName()).add(ratio);
+			}
+			else{
+				List<Double> ls=new ArrayList<Double>();
+				ls.add(ratio);
+				map.put(t.getAssignedUserName(), ls);
+			}
+		}
+		for (String key : map.keySet()){
+			List<Double> d=map.get(key);
+			double ratio=0;
+			for (int i=0; i< d.size(); i++){
+				double ratio2=d.get(i);
+				ratio+=ratio2;
+			}
+			ratio=ratio/d.size();
+			ratio=Math.floor(ratio*10000)/10000;
+			map2.put(key, ratio);
+			
+		}
+		return map2;
 	}
 }

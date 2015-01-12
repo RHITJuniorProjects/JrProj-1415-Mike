@@ -11,40 +11,54 @@
     <item
         android:id="@+id/action_task"
         android:icon="@drawable/ic_action_add_task"
-        android:showAsAction="always"
         android:onClick="createTask"
-        android:title="Create Task"/>
-    <item 
-        android:id="@+id/action_sorting" 
-        android:title="Sort List"
-        android:icon="@drawable/ic_action_sort_2"
         android:showAsAction="always"
-        >
+        android:title="Create Task"/>
+    <item
+        android:id="@+id/action_sorting"
+        android:icon="@drawable/ic_action_sort_2"
+        android:showAsAction="never"
+        android:title="Sort by...">
         <menu>
-            <item android:id="@+id/sortAZ" android:title="Sort A-Z" android:onClick="sortingMode"/>
-            <item android:id="@+id/sortZA" android:title="Sort Z-A" android:onClick="sortingMode"/>
-            <item android:id="@+id/sortOldest" android:title="Oldest First" android:onClick="sortingMode"/>
-            <item android:id="@+id/sortNewest" android:title="Newest First" android:onClick="sortingMode"/>
-
-		</menu>
-        </item>
+            <item
+                android:id="@+id/sortAZ"
+                android:onClick="sortingMode"
+                android:title="Sort A-Z"/>
+            <item
+                android:id="@+id/sortZA"
+                android:onClick="sortingMode"
+                android:title="Sort Z-A"/>
+            <item
+                android:id="@+id/sortOldest"
+                android:onClick="sortingMode"
+                android:title="Oldest First"/>
+            <item
+                android:id="@+id/sortNewest"
+                android:onClick="sortingMode"
+                android:title="Newest First"/>
+        </menu>
+    </item>
     <item
         android:id="@+id/action_search"
-        android:showAsAction="always"
-        android:onClick="search"
         android:icon="@drawable/ic_action_search"
-        />
-    
+        android:onClick="search"
+        android:showAsAction="always"
+        android:title="Search"/>
+    <item
+        android:id="@+id/action_charts"
+        android:icon="@drawable/ic_action_line_chart"
+        android:onClick="charts"
+        android:showAsAction="always"
+        android:title="Charts"/>
     <item
         android:id="@+id/action_all_tasks"
-        android:showAsAction="always"
         android:onClick="openAllMyTasks"
-        android:title="Show All\nMy Tasks"
-        />
+        android:showAsAction="always"
+        android:title="Show My\n Tasks"/>
     <item
         android:id="@+id/action_log_out"
-        android:showAsAction="never"
         android:onClick="logOut"
+        android:showAsAction="never"
         android:title="Log Out"/>
     <item
         android:id="@+id/action_settings"

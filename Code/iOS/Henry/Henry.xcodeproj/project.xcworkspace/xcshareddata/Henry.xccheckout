@@ -14,7 +14,7 @@
 		<string>https://github.com/RHITJuniorProjects/JrProj-1415-Mike.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Code/iOS/Henry/Henry.xcodeproj/project.xcworkspace</string>
+	<string>Code/iOS/Henry/Henry.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>0A569D4E510D25740E340E1FA91E4EF8D6C7945F</key>
