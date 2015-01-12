@@ -103,7 +103,7 @@
 }
 
 -(NSInteger)numberOfGapsBetweenLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
-    return 5;
+    return [self.burndownData count] / 7;
 }
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
@@ -117,7 +117,7 @@
         for (NSString *burndownKey in burndownKeys) {
             NSMutableArray *subArray = [[NSMutableArray alloc] init];
             NSDictionary *entry = [burndownData objectForKey:burndownKey];
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[entry objectForKey:@"timestamp"] intValue]];
+            NSDate *date = [NSDate dateWithTimeIntervalSince1970:[[entry objectForKey:@"timestamp"] doubleValue]/1000];
             [subArray addObject:date];
             [subArray addObject:[entry objectForKey:@"estimated_hours_remaining"]];
             [subArray addObject:[entry objectForKey:@"hours_completed"]];
