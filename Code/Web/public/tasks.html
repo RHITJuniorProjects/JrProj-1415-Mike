@@ -13,17 +13,17 @@
 			</thead>
 			<tbody id="task-rows">
 			</tbody>
-
 		</table>
-			<div
-			<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
-				Add New Task
-			</div>
-			<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
-				Task statics
-			</div>
+		<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+			Add New Task
 		</div>
-		<div id="task-modal" class="reveal-modal" data-reveal>
+		<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
+			Task statics
+		</div>
+		<div id="milestone-burn-down-chart">
+		</div>
+	</div>
+	<div id="task-modal" class="reveal-modal" data-reveal>
 		<div id="taskContainer" class="reveal-modal" data-reveal>
 		</div>
 		<!-- <div class="small-12 columns wide" id="tasks-table">

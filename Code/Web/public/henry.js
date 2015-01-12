@@ -40,6 +40,21 @@ function makeAxis(name,units){
 	};
 }
 
+function dateFormatter(){
+	return new Date(this.value).toLocaleDateString();
+}
+
+function dateAxis(name){
+	return {
+		labels:{
+			formatter:dateFormatter
+		},
+		title:{
+			text:'Date'
+		}
+	}
+}
+
 Chart.prototype = {
 	setXAxis:function(name,units){
 		this.xAxis = makeAxis(name,units);
@@ -52,6 +67,10 @@ Chart.prototype = {
 			this._renderedChart.redraw();
 		} else {
 			this._renderedChart = new Highcharts.Chart(this);
+			var chart = this;
+			$.map(this.series,function(s){
+				s.data.bind(chart._renderedChart[s.id]);
+			});
 		}
 	}
 };
@@ -66,11 +85,26 @@ LineChart.prototype = new Chart(null,null);
 LineChart.prototype.addSeries = function(name,points){
 	var series = {
 		data:points,
+		id:name,
 		name:name
 	};
 	this.series.push(series);
-	return series;
 };
+
+function BurndownChart(id,title,burndownData){
+	LineChart.call(this,id,title);
+	this.xAxis = dateAxis();
+	this.tooltip = {
+		formatter:function(){
+			return new Date(this.x).toLocaleString()+'<br>'+this.y+' hours';
+		}
+	};
+	this.setYAxis('Hours','hrs');
+	this.addSeries('Estimated Hours',burndownData.estimatedHours());
+	this.addSeries('Completed Hours',burndownData.hoursCompleted());
+}
+
+BurndownChart.prototype = new LineChart(null,'Burn Down Chart');
 
 // table object manages a table of values in the database, use get to get objects from the database
 // by uid
@@ -122,6 +156,7 @@ function selectMilestone(milestone){
 	tasks.onItemAdded(function(task){
 		$panel.prepend(task.getTableRow());
 	});
+	milestone.renderBurndownChart('milestone-burn-down-chart');
 }
 
 function viewProfile(user){
@@ -358,21 +393,35 @@ User.prototype = {
     getMemberTile:function(project){
     	var tile = $(
     		'<div class="column panel outlined">'
-    	),
-		memberRow = $('<div class="row">'),
-		nameCol = $('<div class="small-7 columns">'),
-		roleCol = $('<div class="small-5 columns">'),
-		nameH3 = $('<h3 class="text-right">'),
-		roleSpan = $('<span class="text-left">'),
-		emailRow = $('<div class="row">'),
-		emailColumn = $('<div class="small-12 columns text-center">'),
-		emailLink = this.getEmailLink();
+			),
+			row = $('<div class="row">'),
+			memberCol = $('<div class="small-8 columns">'),
+			memberRow = $('<div class="row">'),
+			nameCol = $('<div class="small-7 columns">'),
+			roleCol = $('<div class="small-5 columns">'),
+			nameH3 = $('<h3 class="text-right">'),
+			roleSpan = $('<span class="text-left">'),
+			emailRow = $('<div class="row">'),
+			emailColumn = $('<div class="small-12 columns text-center">'),
+			emailLink = this.getEmailLink(),
+			buttonCol = $('<div class="small-4 columns">'),
+			button = $('<div class="button text-center">View Profile</div>'),
+			user = this;
+
 		emailColumn.append(emailLink);
 		emailRow.append(emailColumn);
 		nameCol.append(nameH3);
 		roleCol.append(roleSpan);
 		memberRow.append(nameCol,roleCol);
-		tile.append(memberRow,emailRow);
+		memberCol.append(memberRow,emailRow);
+		tile.append(row);
+		row.append(memberCol,buttonCol);
+		buttonCol.append(button);
+
+		button.click(function(){	
+    		$("#member-modal").foundation('reveal', 'close');
+			viewProfile(user);
+		});
 
 		this.getName(function(name){
 			nameH3.text(name);
@@ -539,18 +588,31 @@ function Series(){
 Series.prototype = [];
 
 Series.prototype.addPoint = function(point){
+	this.push(point);
 	$.each(this._series,function(s){
-		s.addPoint(point);
-	});
-	$.each(this._charts,function(chart){
-		chart.render();
+		s.addPoint(point,true);
 	});
 }
+
+Series.prototype.bind = function(hseries){
+	this._series.push(hseries);
+};
 
 Series.prototype.addToChart = function(name,chart){
-	chart.addSeries(name,chart);
-
+	chart.addSeries(name,this);
 }
+
+function CumulativeSeries(){
+	Series.call(this);
+}
+
+CumulativeSeries.prototype = new Series();
+CumulativeSeries.addPoint = function(point){
+	if(this.length > 0){
+		point = [point[0],point[1]+this[this.length-1][1]];
+	}
+	Series.prototype.addPoint.call(this,point);
+};
 
 function BurndownData(firebase){
 	this._firebase = firebase;
@@ -568,21 +630,25 @@ BurndownData.prototype._init = function(){
 		return;
 	}
 	this._estimHours = new Series();
-	this._compHours = new Series();
+	this._compHours = new CumulativeSeries();
 	this._remTasks = new Series();
 	this._compTasks = new Series();
+	var bdd = this;
 	this._firebase.on('child_added',function(snap){
 		var obj = snap.val();
-		this._estimHours.addPoint([obj.timestamp,obj.estimated_hours_remaining]);
-		this._compHours.addPoint([obj.timestamp,obj.hours_completed]);
-		this._remTasks.addPoint([obj.timestamp,obj.tasks_remaining]);
-		this._compTasks.addPoint([obj.timestamp,tasks_completed]);
+		if(typeof obj === "string"){
+			return;
+		}
+		bdd._estimHours.addPoint([obj.timestamp,obj.estimated_hours_remaining]);
+		bdd._compHours.addPoint([obj.timestamp,obj.hours_completed]);
+		bdd._remTasks.addPoint([obj.timestamp,obj.tasks_remaining]);
+		bdd._compTasks.addPoint([obj.timestamp,obj.tasks_completed]);
 	});
 };
-burndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
-burndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
-burndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
-burndownData.prototype.tasksRemaining = makeSeriesGetter('_remTasks');
+BurndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
+BurndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
+BurndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
+BurndownData.prototype.tasksRemaining = makeSeriesGetter('_remTasks');
 
 //Initializes the Project object
 function Project(firebase) {
@@ -736,10 +802,9 @@ Project.prototype = {
 		});
 	},
 	renderBurndownChart:function(id){
-		this._name.once('value',function(name){
-			var chart = new LineChart(name+' Burn Down Chart',id);
-			this.__burndownData.estimatedHours().addToChart(chart);
-			this.__burndownData.hoursCompleted().addToChart(chart);
+		var proj = this;
+		this.__name.once('value',function(name){
+			var chart = new BurndownChart(id, name.val()+' Burn Down Chart',proj.__burndownData);
 			chart.render();
 		});
 	}
@@ -795,6 +860,7 @@ function Milestone(firebase) {
     this.__hoursPercent = firebase.child('hours_percent');
     this.__taskPercent = firebase.child('task_percent');
     this.__milestonePercent = firebase.child('milestone_percent');
+	this.__burndownData = new BurndownData(firebase.child('burndown_data'));
 };
 
 
@@ -863,7 +929,14 @@ Milestone.prototype = {
     },
     off: function () {
         this.__firebase.off();
-    }
+    },
+	renderBurndownChart:function(id){
+		var milestone = this;
+		this.__name.once('value',function(name){
+			var chart = new BurndownChart(id, name.val()+' Burn Down Chart',milestone.__burndownData);
+			chart.render();
+		});
+	}
 };
 
 //Adds a new milestone to firebase based on the values of the modal's textfield inputs
@@ -1202,15 +1275,13 @@ Task.prototype = {
 
 function newTask() {
     var cats = null;
-    selectedProject.getCustomCategories(function(categories){
-        cats = Object.keys(categories);
-    });
+
     var nameInput = $('<input type="text">'),
         descriptionInput = $('<textarea>'),
         userSelect = users.getSelect(function (user) {
             selectedUser = user;
         }, user.uid),
-        newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>');
+        newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>'),
         categoriesSelect = makeSelect(defaultCategories.concat(cats), "Feature").append(newCategory),
         categoriesText = $('<input type="text" hidden=true>'),
         statusSelect = makeSelect(Task.Statuses, "New"),
@@ -1222,75 +1293,78 @@ function newTask() {
         dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
-    modal.children().remove();
-    $(categoriesText).hide();
-    modal.append(
-        nameH,
-        label(nameInput, 'Name'),
-        label(descriptionInput, 'Description'),
-        label(userSelect, 'User'),
-        label(categoriesSelect, 'Category'),
-        categoriesText,
-        label(statusSelect, 'Status'),
-        label(estHoursInput, 'Estimated Hours'),
-        //label(completed, 'Is Completed'),
-        label(dueInput, "Due Date"),
-        submit,
-        taskError
-    );
-    newCategory.click(function() {
-        $(categoriesSelect).hide();
-        $(categoriesText).show();
-    });
-    dueInput.click(function () {
-        dueInput.fdatepicker({format: 'yyyy-mm-dd'});
-        dueInput.fdatepicker('show');
-    });
-    modal.keypress(function (e) {
-        if (e.which == 13) {
-            submit.click();
-        }
-    });
-    submit.click(function () {
+    selectedProject.getCustomCategories(function(categories){
+        cats = Object.keys(categories);
+		modal.children().remove();
+		$(categoriesText).hide();
+		modal.append(
+			nameH,
+			label(nameInput, 'Name'),
+			label(descriptionInput, 'Description'),
+			label(userSelect, 'User'),
+			label(categoriesSelect, 'Category'),
+			categoriesText,
+			label(statusSelect, 'Status'),
+			label(estHoursInput, 'Estimated Hours'),
+			//label(completed, 'Is Completed'),
+			label(dueInput, "Due Date"),
+			submit,
+			taskError
+		);
+		newCategory.click(function() {
+			$(categoriesSelect).hide();
+			$(categoriesText).show();
+		});
+		dueInput.click(function () {
+			dueInput.fdatepicker({format: 'yyyy-mm-dd'});
+			dueInput.fdatepicker('show');
+		});
+		modal.keypress(function (e) {
+			if (e.which == 13) {
+				submit.click();
+			}
+		});
+		submit.click(function () {
 
-        if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
-            $("#task-error").show();
-            return;
-        } else {
-            $("#task-error").hide();
-        }
+			if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
+				$("#task-error").show();
+				return;
+			} else {
+				$("#task-error").hide();
+			}
 
-        var estHours = Number(estHoursInput.val());
+			var estHours = Number(estHoursInput.val());
 
-        if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
-            $("#task-error").show();
-            return;
-        }
+			if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
+				$("#task-error").show();
+				return;
+			}
 
-        if(!dueInput.val().match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
-            $("#task-error").show();
-            return;
-        }
-        var categoryName = null;
-        if($(categoriesSelect).is(":visible")) {
-            categoryName = categoriesSelect.val();
-        } else {
-            categoryName = categoriesText.val();
-        }
-        var cate = {};
-        cate[categoryName] = true;
-        selectedProject.__custom_categories.update(cate);
-        selectedMilestone.__tasks.push({
-            name: nameInput.val(),
-            description: descriptionInput.val(),
-            assignedTo: userSelect.val(),
-            category: categoryName,
-            status: statusSelect.val(),
-            original_hour_estimate: estHours,
-            is_completed: false,    //default task to uncompleted
-            due_date: dueInput.val()
-        });
-        $("#task-modal").foundation('reveal', 'close');
+			if(!dueInput.val().match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
+				$("#task-error").show();
+				return;
+			}
+			var categoryName = null;
+			if($(categoriesSelect).is(":visible")) {
+				categoryName = categoriesSelect.val();
+			} else {
+				categoryName = categoriesText.val();
+			}
+			var cate = {};
+			cate[categoryName] = true;
+			selectedProject.__custom_categories.update(cate);
+			selectedMilestone.__tasks.push({
+				name: nameInput.val(),
+				description: descriptionInput.val(),
+				assignedTo: userSelect.val(),
+				category: categoryName,
+				status: statusSelect.val(),
+				original_hour_estimate: estHours,
+				is_completed: false,    //default task to uncompleted
+				due_date: dueInput.val()
+			});
+			$("#task-modal").foundation('reveal', 'close');
+		});
     });
 }
 function taskStatics(){

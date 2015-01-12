@@ -101,7 +101,7 @@
 		<?php require 'tasks.php'?>
         <?php require 'mytasks.php'?>
 		<?php require 'profile.php'?>
-        <?php require 'MyStatistics.php'?>
+        <?php require 'myStatistics.php'?>
 	</body>
 </html>
 
