@@ -142,6 +142,8 @@ public class ProjectDetailFragment extends Fragment {
 				}
 				
 				Button emailButton = (Button)projectMemberView.findViewById(R.id.email_button);
+				int blue = getResources().getColor(R.color.blue);
+				emailButton.setTextColor(blue);
 				emailButton.setOnClickListener(new OnClickListener() {
 
 					public void onClick(View v) {

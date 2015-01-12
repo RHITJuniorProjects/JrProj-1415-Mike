@@ -8,6 +8,7 @@ import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -121,21 +122,22 @@ public class MilestoneListFragment extends ListFragment {
 		// Done: replace with a real list adapter.
 		this.milestones = this.mCallbacks.getMilestones();
 		TextView textView = new TextView(this.getActivity().getBaseContext());
-//		textView.setTextSize(24);
-//		textView.setTextColor(R.color.light_blue);
-//		textView.setText("Milestones in:");
-//		textView.setClickable(false);
-//		textView.setEnabled(false);
-//		textView.setPadding(16, 0, 16, 0);
-//		this.getListView().addHeaderView(textView, null, false);
-//		TextView textView2 = new TextView(this.getActivity().getBaseContext());
-//		textView2.setTextSize(18);
-//		textView2.setTextColor(R.color.light_blue);
-//		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName());
-//		textView2.setClickable(false);
-//		textView2.setEnabled(false);
-//		textView2.setPadding(16, 0, 16, 0);
-//		this.getListView().addHeaderView(textView2, null, false);
+		textView.setTextSize(24);
+		int lightGray = this.getResources().getColor(R.color.grey_font);
+		textView.setTextColor(lightGray);
+		textView.setText("Milestones in:");
+		textView.setClickable(false);
+		textView.setEnabled(false);
+		textView.setPadding(16, 0, 16, 0);
+		this.getListView().addHeaderView(textView, null, false);
+		TextView textView2 = new TextView(this.getActivity().getBaseContext());
+		textView2.setTextSize(18);
+		textView2.setTextColor(lightGray);
+		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName());
+		textView2.setClickable(false);
+		textView2.setEnabled(false);
+		textView2.setPadding(16, 0, 16, 0);
+		this.getListView().addHeaderView(textView2, null, false);
 		
 		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,

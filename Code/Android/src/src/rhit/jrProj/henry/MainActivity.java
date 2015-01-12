@@ -102,7 +102,6 @@ public class MainActivity extends Activity implements
 			// I've been rotated!!!!!
 			resumeOnRotate();
 		} else if (authData != null) {
-
 			this.user = new User(firebaseUrl + "users/" + authData.getUid());
 			createProjectList();
 		} else if (this.getIntent().getStringExtra("user") != null) {
@@ -121,8 +120,19 @@ public class MainActivity extends Activity implements
 	}
 
 	private void resumeOnRotate() {
-		this.mTwoPane = true;
-		setContentView(R.layout.activity_twopane);
+		this.mTwoPane = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+		if (!this.mTwoPane) {
+			setContentView(R.layout.activity_onepane);
+			getFragmentManager()
+					.beginTransaction()
+					.add(R.id.main_fragment_container,
+							this.fragmentStack.peek()).commit();
+			this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		} else {
+			setContentView(R.layout.activity_twopane);
+			// getFragmentManager().beginTransaction() .add(R.id.twopane_list,
+			// this.fragmentStack.peek()).commit();
+		}
 		getActionBar().setDisplayHomeAsUpEnabled(this.fragmentStack.size() > 1);
 	}
 
@@ -292,22 +302,24 @@ public class MainActivity extends Activity implements
 	}
 
 	public void openAllMyTasks(MenuItem item) {
-		MenuItem item2 = this.actionBarmenu.findItem(R.id.action_all_tasks);
-		item.setVisible(false);
-		FragmentManager manager = getFragmentManager();
-		FragmentTransaction frgTrans = manager.beginTransaction();
-		manager.popBackStack();
-		Bundle args = new Bundle();
-		args.putBoolean("TwoPane", this.mTwoPane);
-		TasksAllListFragment fragment = new TasksAllListFragment();
-		this.fragmentStack.push(fragment);
-		fragment.setArguments(args);
-		this.currFragment = fragment;
-		int container = this.mTwoPane ? R.id.twopane_detail_container
-				: R.id.main_fragment_container;
-		frgTrans.replace(container, fragment);
-		frgTrans.commit();
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		if (!(this.fragmentStack.peek() instanceof TasksAllListFragment)) {
+			MenuItem item2 = this.actionBarmenu.findItem(R.id.action_all_tasks);
+			item.setVisible(false);
+			FragmentManager manager = getFragmentManager();
+			FragmentTransaction frgTrans = manager.beginTransaction();
+			manager.popBackStack();
+			Bundle args = new Bundle();
+			args.putBoolean("TwoPane", this.mTwoPane);
+			TasksAllListFragment fragment = new TasksAllListFragment();
+			this.fragmentStack.push(fragment);
+			fragment.setArguments(args);
+			this.currFragment = fragment;
+			int container = this.mTwoPane ? R.id.twopane_detail_container
+					: R.id.main_fragment_container;
+			frgTrans.replace(container, fragment);
+			frgTrans.commit();
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	/**
