@@ -400,12 +400,12 @@ public class GraphHelper {
 			x_ticks = new ArrayList<String>();
 		}
 
-		public void addNewPoint(String title, Point p) {
+		public void addNewPoint(String title, Point point) {
 			if (values.containsKey(title)) {
-				values.get(title).add(p);
+				values.get(title).add(point);
 			} else {
 				List<Point> pts = new ArrayList<Point>();
-				pts.add(p);
+				pts.add(point);
 				values.put(title, pts);
 			}
 		}

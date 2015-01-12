@@ -1,6 +1,7 @@
 package rhit.jrProj.henry;
 
 import org.achartengine.GraphicalView;
+import org.achartengine.model.Point;
 
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.helpers.GraphHelper;
@@ -92,40 +93,6 @@ public class MilestoneDetailFragment extends Fragment implements
 			spinner.setSelection(0);
 
 			spinner.setOnItemSelectedListener(this);
-			// ///// for now this is gone...
-//			((Switch) rootView.findViewById(R.id.milestoneMemberSwitch))
-//					.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//
-//						public void onCheckedChanged(CompoundButton buttonView,
-//								boolean isChecked) {
-//							rootView.findViewById(R.id.milestoneDetails)
-//									.setVisibility(
-//											isChecked ? View.GONE
-//													: View.VISIBLE);
-//							rootView.findViewById(R.id.milestoneMembers)
-//									.setVisibility(
-//											isChecked ? View.VISIBLE
-//													: View.GONE);
-//						}
-//					});
-			/*
-			 * FrameLayout chartView = (FrameLayout) rootView
-			 * .findViewById(R.id.pieChart); GraphHelper.PieChartInfo chartInfo
-			 * = this.milestoneItem.getLocAddedInfo(); GraphicalView pieChart =
-			 * GraphHelper.makePieChart( "Lines Added for " +
-			 * this.milestoneItem.getName(), chartInfo.getValues(),
-			 * chartInfo.getKeys(), this.getActivity());
-			 * 
-			 * 
-			 * GraphHelper.StackedBarChartInfo chartInfo = this.milestoneItem
-			 * .getLocTotalInfo(); GraphicalView pieChart =
-			 * GraphHelper.makeStackedBarChart( "Lines Total Added",
-			 * "Developer", "Lines of Code", chartInfo.getValues(),
-			 * chartInfo.getBarLabels(), chartInfo.getKeys(),
-			 * this.getActivity()); chartView.addView(pieChart, new
-			 * LayoutParams( LayoutParams.MATCH_PARENT,
-			 * LayoutParams.MATCH_PARENT)); pieChart.repaint();
-			 */
 		}
 
 		return rootView;
@@ -144,7 +111,6 @@ public class MilestoneDetailFragment extends Fragment implements
 		MenuItem createTask = menu.findItem(R.id.action_task);
 		createTask.setVisible(false);
 		createTask.setEnabled(false);
-		
 
 	}
 
@@ -164,13 +130,46 @@ public class MilestoneDetailFragment extends Fragment implements
 			chartView.addView(chart, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
-		} else {
+		} else if (position == 1) {
 			GraphHelper.StackedBarChartInfo chartInfo = this.milestoneItem
 					.getLocTotalInfo();
 
 			chart = GraphHelper.makeStackedBarChart("", "", "Lines of Code",
 					chartInfo.getValues(), chartInfo.getBarLabels(),
 					chartInfo.getKeys(), this.getActivity());
+			chartView.addView(chart, new LayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			chart.repaint();
+		} else if (position == 2) {
+			GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+
+			chartInfo.addNewPoint("estimated",
+					new GraphHelper.Point(1.0, 150.0));
+			chartInfo.addNewPoint("estimated",
+					new GraphHelper.Point(5.0, 120.0));
+			chartInfo.addNewPoint("estimated",
+					new GraphHelper.Point(10.0, 90.0));
+			chartInfo.addNewPoint("estimated",
+					new GraphHelper.Point(16.0, 40.0));
+			chartInfo.addNewPoint("estimated",
+					new GraphHelper.Point(21.0, 10.0));
+
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(1.0, 0.0));
+			chartInfo
+					.addNewPoint("completed", new GraphHelper.Point(5.0, 35.0));
+			chartInfo.addNewPoint("completed",
+					new GraphHelper.Point(10.0, 70.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(16.0,
+					120.0));
+			chartInfo.addNewPoint("completed", new GraphHelper.Point(21.0,
+					150.0));
+
+			chartInfo.addNewTick("pizza");
+			chartInfo.addNewTick("taco");
+
+			chart = GraphHelper.makeLineChart(getString(R.string.burndown),
+					getString(R.string.hours), getString(R.string.hours),
+					chartInfo, 0, 21, 0, 150, this.getActivity());
 			chartView.addView(chart, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			chart.repaint();
