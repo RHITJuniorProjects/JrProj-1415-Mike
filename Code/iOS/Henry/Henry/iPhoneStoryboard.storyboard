@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="6aW-Qc-JrE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="6aW-Qc-JrE">
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -498,16 +498,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Go0-zU-qnV">
-                                <rect key="frame" x="118" y="180" width="85" height="29"/>
-                                <segments>
-                                    <segment title="Bars"/>
-                                    <segment title="Pie"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segControlClicked:" destination="igH-6v-tal" eventType="valueChanged" id="Dhi-ad-fvw"/>
-                                </connections>
-                            </segmentedControl>
                             <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pip-fK-1CV" customClass="DLPieChart">
                                 <rect key="frame" x="0.0" y="225" width="320" height="197"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -521,6 +511,21 @@
                                     <segue destination="CgS-wv-wTY" kind="push" id="LEg-Fa-Vwx"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sB2-sh-DJT" customClass="BEMSimpleLineGraphView">
+                                <rect key="frame" x="0.0" y="900" width="300" height="190"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Go0-zU-qnV">
+                                <rect key="frame" x="114" y="178" width="103" height="29"/>
+                                <segments>
+                                    <segment title="Bars"/>
+                                    <segment title="Pie"/>
+                                    <segment title="Line"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segControlClicked:" destination="igH-6v-tal" eventType="valueChanged" id="Dhi-ad-fvw"/>
+                                </connections>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -541,6 +546,7 @@
                         <outlet property="dueDateLabel" destination="0du-Yx-HTV" id="sr6-f1-M6a"/>
                         <outlet property="hoursLoggedLabel" destination="I9o-kE-uW1" id="qBN-h7-rTa"/>
                         <outlet property="hoursLoggedProgressBar" destination="ue6-P9-dlr" id="COY-jM-bHF"/>
+                        <outlet property="lineGraph" destination="sB2-sh-DJT" id="4FM-f0-gcO"/>
                         <outlet property="milestonesCompletedLabel" destination="inb-hp-mpd" id="3Ov-SP-Zj6"/>
                         <outlet property="milestonesCompletedProgressBar" destination="2q9-5y-roJ" id="gbs-2F-i46"/>
                         <outlet property="pieChart" destination="Pip-fK-1CV" id="XWe-ub-OJr"/>
@@ -709,7 +715,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="474"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kfV-kG-Juk" customClass="TPKeyboardAvoidingScrollView">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kfV-kG-Juk" customClass="TPKeyboardAvoidingScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3.00/5.00 hrs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jJp-wA-F7o">
@@ -1114,7 +1120,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="474"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Uh-gf-xUA" customClass="TPKeyboardAvoidingScrollView">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Uh-gf-xUA" customClass="TPKeyboardAvoidingScrollView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="3.00/5.00 hrs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o4q-UG-FAz">
@@ -1265,7 +1271,7 @@
         <segue reference="DJc-dz-GE7"/>
         <segue reference="Jkc-DS-FtK"/>
         <segue reference="1nN-Tc-TbS"/>
-        <segue reference="Fwr-B4-Jg0"/>
+        <segue reference="y6A-s5-3um"/>
         <segue reference="cAM-55-Mtn"/>
     </inferredMetricsTieBreakers>
 </document>

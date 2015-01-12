@@ -14,6 +14,9 @@
 # def getProjects(ref,uid)
 # def addMember(ref,pid,uid,role)
 # def createProject(ref,name,description,due_date,uid)
+# def createMilestone(ref,projectID,name,due_date,description)
+# def createTask(ref,projectID,milestoneID,name,due_date_description,original_hour_estimate,category)
+# def commit(ref,projectID,milestoneID,tid,uid,hours,status,added,removed)
 #####
 
 
@@ -26,6 +29,7 @@ import subprocess
 import sys
 import traceback
 import re
+import time
 
 def getProjectID(ref,projectName):
     path = '/projects'
@@ -116,3 +120,36 @@ def createProject(ref,name,description,due_date,uid):
         'members': { uid: 'Lead' }
     })['name']
     return pid
+
+def createMilestone(ref,projectID,name,due_date,description)
+    path = '/projects/'+projectID+'/milestones'
+    mid = ref.post(path, {
+        'name':name,
+        'due_date':due_date,
+        'description':description }) ['name']
+    return mid
+
+def createTask(ref,projectID,milestoneID,name,due_date,description,original_hour_estimate,category)
+    path = '/projects/'+pojectID+'/milestones/'+milestoneID+'/tasks'
+    tid = ref.post(path, {
+        'name':name,
+        'due_date':due_date,
+        'description':description,
+        'original_hour_estimate':original_hour_estimate,
+        'category':category })['name']
+    return tid
+
+def commit(ref,projectID,milestoneID,tid,uid,hours=0,status='New',added=0,removed=0)
+    path='/commits/'+projectID
+    ref.post(path,{
+        'added_lines_of_code':added,
+        'hours':hours,
+        'message':"testing",
+        'milestone':milestoneID,
+        'project':projectID,
+        'removed_lines_of_code':removed,
+        'status':status,
+        'task':tid,
+        'timestamp': time.time(),
+        'user':uid })
+    

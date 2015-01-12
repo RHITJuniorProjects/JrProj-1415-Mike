@@ -73,7 +73,7 @@
 <span class="cmt">#Starting inside user "hullzr@rose-hulman.edu" password "test"
 </span><span class="cmt">#from homepage
 </span>
-<span class="skw">click</span>(<img src="1418709054307.png" />)
+<span class="skw">click</span>(Pattern(<img src="1418709054307.png" />).similar(<span class="dig">0.69</span>))
 <span class="kw">if</span> exists(<img src="1418709106334.png" />):
     <span class="kw">print</span>(<span class="str">"Zach's tasks displaying correctly"</span>)
 <span class="kw">else</span>:
@@ -82,12 +82,13 @@
 <span class="skw">click</span>(<img src="1418709175108.png" />)
 <span class="skw">click</span>(<img src="1418709193104.png" />)
 <span class="skw">click</span>(<img src="1418709211405.png" />)
-<span class="skw">wait</span>(<span class="dig">3</span>)
+<span class="skw">wait</span>(<span class="dig">5</span>)
 <span class="skw">click</span>(<img src="1418709233836.png" />)
-<span class="skw">wait</span>(<span class="dig">3</span>)
+<span class="skw">wait</span>(<span class="dig">5</span>)
 
 <span class="cmt">#switching to user "watersdr@rose-hulman.edu" password "password"
 </span><span class="skw">type</span>(<span class="str">"watersdr"</span> + Key.TAB + <span class="str">"password"</span> + Key.ENTER)
+<span class="skw">wait</span>(<span class="dig">5</span>)
 <span class="skw">click</span>(<img src="1418709054307.png" />)
 <span class="kw">if</span> exists(<img src="1418709295678.png" />):
     <span class="kw">print</span>(<span class="str">"Donnie's tasks displaying correctly"</span>)

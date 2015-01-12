@@ -99,6 +99,8 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 /// Determines the smallest Y-axis value from all the points
 - (CGFloat)minValue;
 
+//Change font size
+-(void)changeFontSize:(NSInteger)size;
 @end
 
 @implementation BEMSimpleLineGraphView
@@ -116,7 +118,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     if (self) [self commonInit];
     return self;
 }
-
+-(void)changeFontSize:(NSInteger)size{
+    _labelFont = [UIFont fontWithName:DEFAULT_FONT_NAME size:10];
+}
 - (void)commonInit {
     // Do any initialization that's common to both -initWithFrame: and -initWithCoder: in this method
     
