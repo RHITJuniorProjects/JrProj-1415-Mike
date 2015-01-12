@@ -159,7 +159,10 @@ def getAssignedTasks(ref,userID,projectID,milestoneID):
 
 
 def getMilestone(ref,projectID,milestoneID):
-    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/name',None)
+    try:
+        return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/name',None)
+    except:
+        return None
 
 
 def getTask(ref,projectID,milestoneID,taskID):
