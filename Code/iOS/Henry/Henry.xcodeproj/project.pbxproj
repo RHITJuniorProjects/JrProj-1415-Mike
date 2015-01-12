@@ -15,7 +15,7 @@
 		83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */; };
 		83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */; };
 		83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B26D9419F5B1B4001DEE31 /* menu@2x.png */; };
-		83FB8D6B1A097381000FB8E8 /* home-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FB8D6A1A097381000FB8E8 /* home-25.png */; };
+		83FB8D6B1A097381000FB8E8 /* combo_chart-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FB8D6A1A097381000FB8E8 /* combo_chart-25.png */; };
 		83FB8D6D1A097456000FB8E8 /* list-26.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FB8D6C1A097456000FB8E8 /* list-26.png */; };
 		843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */; };
 		843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D240C19F476DF00DBC2CB /* HenryProjectDetailViewController.m */; };
@@ -59,6 +59,8 @@
 		ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */; };
 		ADB3A4E419E48A4300C687D5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E319E48A4300C687D5 /* Security.framework */; };
 		ADB3A4E619E48A4C00C687D5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */; };
+		F278E0C71A607365008C62E5 /* user_male3-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F278E0C61A607365008C62E5 /* user_male3-25.png */; };
+		F278E0C91A6073CB008C62E5 /* user_male_4-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F278E0C81A6073CB008C62E5 /* user_male_4-25.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,7 +85,7 @@
 		83B26D9119F5AD98001DEE31 /* HenryHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryHomeViewController.h; sourceTree = "<group>"; };
 		83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryHomeViewController.m; sourceTree = "<group>"; };
 		83B26D9419F5B1B4001DEE31 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
-		83FB8D6A1A097381000FB8E8 /* home-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "home-25.png"; sourceTree = "<group>"; };
+		83FB8D6A1A097381000FB8E8 /* combo_chart-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "combo_chart-25.png"; sourceTree = "<group>"; };
 		83FB8D6C1A097456000FB8E8 /* list-26.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "list-26.png"; sourceTree = "<group>"; };
 		843D240819F476BC00DBC2CB /* HenryMilestoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMilestoneDetailViewController.h; sourceTree = "<group>"; };
 		843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestoneDetailViewController.m; sourceTree = "<group>"; };
@@ -152,6 +154,8 @@
 		ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		ADB3A4E319E48A4300C687D5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		F278E0C61A607365008C62E5 /* user_male3-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_male3-25.png"; sourceTree = "<group>"; };
+		F278E0C81A6073CB008C62E5 /* user_male_4-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_male_4-25.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -204,8 +208,10 @@
 		832BDD4E19F6CD4B00642CD8 /* Sidenav */ = {
 			isa = PBXGroup;
 			children = (
+				F278E0C81A6073CB008C62E5 /* user_male_4-25.png */,
+				F278E0C61A607365008C62E5 /* user_male3-25.png */,
 				83FB8D6C1A097456000FB8E8 /* list-26.png */,
-				83FB8D6A1A097381000FB8E8 /* home-25.png */,
+				83FB8D6A1A097381000FB8E8 /* combo_chart-25.png */,
 				832BDD5919F6D90100642CD8 /* combo_chart-25.png */,
 				832BDD5719F6D8F400642CD8 /* design-25.png */,
 				832BDD5519F6D89000642CD8 /* exit-25.png */,
@@ -475,16 +481,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				832BDD5819F6D8F400642CD8 /* design-25.png in Resources */,
+				F278E0C91A6073CB008C62E5 /* user_male_4-25.png in Resources */,
 				93447F7319C92AFC00C2FC38 /* iPhoneLoginStoryboard.storyboard in Resources */,
 				83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */,
 				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
 				832BDD5A19F6D90100642CD8 /* combo_chart-25.png in Resources */,
 				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
+				F278E0C71A607365008C62E5 /* user_male3-25.png in Resources */,
 				832BDD5619F6D89000642CD8 /* exit-25.png in Resources */,
 				83FB8D6D1A097456000FB8E8 /* list-26.png in Resources */,
 				83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */,
 				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
-				83FB8D6B1A097381000FB8E8 /* home-25.png in Resources */,
+				83FB8D6B1A097381000FB8E8 /* combo_chart-25.png in Resources */,
 				87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
