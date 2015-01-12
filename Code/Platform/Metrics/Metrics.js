@@ -578,7 +578,7 @@ function aggregateMilestoneData(projectRef) {
     projectRef.child('milestones').once('value', function(milestones) {
         milestones.forEach(function(milestone) {
             projectRef.once('value', function(project) {
-
+                console.log('inside milestone aggregator');
                 //increase # milestones in project    
                 var milestoneCount = project.child('total_milestones').val() + 1;
 
@@ -632,7 +632,8 @@ function aggregateMilestoneData(projectRef) {
                     'total_lines_of_code': projectTotalLOC,
                     'hours_percent': hoursPercent,
                     'total_tasks': taskCount,
-                    'task_percent': taskPercent
+                    'task_percent': taskPercent,
+                    'tasks_completed': tasksCompleted
                 });
             });
         });
