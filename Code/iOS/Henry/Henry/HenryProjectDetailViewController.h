@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DLPieChart.h"
-@interface HenryProjectDetailViewController : UIViewController
+#import "BEMSimpleLineGraphView.h"
+@interface HenryProjectDetailViewController : UIViewController <BEMSimpleLineGraphDataSource, BEMSimpleLineGraphDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *projectNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *dueDateLabel;
 @property (weak, nonatomic) IBOutlet UITextView *projectDescriptionView;
@@ -29,6 +30,7 @@
 @property NSArray *tasks;
 @property NSString *uid;
 @property (weak, nonatomic) IBOutlet DLPieChart *pieChart;
+@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *lineGraph;
 
 
 

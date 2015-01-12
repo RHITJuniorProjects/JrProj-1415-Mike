@@ -124,6 +124,8 @@
  @return An array of UILabels, one for each displayed X-Axis label. The array is sorted from the left side of the graph to the right side. */
 - (NSArray *)graphLabelsForXAxis;
 
+-(void)changeFontSize:(NSInteger)size;
+
 
 
 //------------------------------------------------------------------------------------//
