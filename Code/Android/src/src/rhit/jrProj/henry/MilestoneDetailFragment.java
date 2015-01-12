@@ -236,7 +236,7 @@ public class MilestoneDetailFragment extends Fragment implements
 			chartInfo.addNewTick("14");
 
 			chart = GraphHelper.makeLineChart(getString(R.string.burndown),
-					getString(R.string.hours), getString(R.string.hours),
+					getString(R.string.days), getString(R.string.hours),
 					chartInfo, 0, 21, 0, 150, this.getActivity());
 			chartView.addView(chart, new LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
