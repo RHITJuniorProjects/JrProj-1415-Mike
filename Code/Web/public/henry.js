@@ -1,7 +1,6 @@
 /* this file contains classes and utility functions that are used everywhere on the website */
 var firebase = new Firebase("https://henry-test.firebaseIO.com");
 var user;
-var currentProject;
 var milestonePage;
 var projectPage;
 var taskPage;
@@ -9,6 +8,8 @@ var myTasksPage;
 var selectedProject;
 var selectedMilestone;
 var myTasks;
+var myStatisticsPage;
+var defaultCategories = [];
 
 
 // table object manages a table of values in the database, use get to get objects from the database
@@ -66,6 +67,7 @@ function showProjects(){
     projectPage.show();
     taskPage.hide();
     myTasksPage.hide();
+    myStatisticsPage.hide();
 }
 
 function selectMyTasks(){
@@ -79,7 +81,18 @@ function showMyTasksPage(){
     milestonePage.hide();
     projectPage.hide();
     taskPage.hide();
+    myStatisticsPage.hide();
     myTasksPage.show();
+
+}
+function showMyStatsticsPage(){
+    milestonePage.hide();
+    projectPage.hide();
+    taskPage.hide();
+    myTasksPage.hide();
+    myStatisticsPage.show();
+    // drawUserStatistics(firebase,user.uid);
+
 }
 
 function getAllUsers(){
@@ -296,7 +309,7 @@ User.prototype = {
 
 // Adds the currently member selected in the "Add member" modal to the project
 function addNewMember() {
-    var projectID = currentProject.uid;
+    var projectID = selectedProject.uid;
     var selected = $("#member-select").val();
 
     if (!projectID || !selected) {
@@ -306,7 +319,7 @@ function addNewMember() {
         $("#member-error").hide();
     }
 
-    currentProject.addMember(selected, 'Developer');
+    selectedProject.addMember(selected, 'Developer');
     $("#member-submit").foundation('reveal', 'close');
 }
 
@@ -367,10 +380,12 @@ User.MilestoneData.prototype = {
     }
 };
 
-function makeSelect(categories, def, onselect) {
+function makeSelect(custom_categories, def, onselect) {
     var select = $('<select>');
-    categories.forEach(function (category) {
-        select.append('<option value="' + category + '">' + category + '</option>');
+    custom_categories.forEach(function (category) {
+        if(category != null) {
+            select.append('<option value="' + category + '">' + category + '</option>');
+        }
     });
     select.val(def);
     if (onselect) {
@@ -439,7 +454,7 @@ function Project(firebase) {
     this.__firebase = firebase;
     this.uid = firebase.key();
     this.__name = firebase.child('name');
-    this.__categories = firebase.child('categories');
+    this.__custom_categories = firebase.child('custom_categories');
     this.__description = firebase.child('description');
     this.__milestones = firebase.child('milestones');
     this.__dueDate = firebase.child('due_date');
@@ -455,8 +470,8 @@ Project.prototype = {
             callback(dat.val());
         });
     },
-    getCategories: function (callback) {
-        this.__categories.on('value', function (dat) {
+    getCustomCategories: function (callback) {
+        this.__custom_categories.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -618,7 +633,7 @@ function addNewProject() {
         'description': docDescription,
         'due_date': docDueDate,
         'total_estimated_hours': estHours,
-		'categories': {"Bug Fix":true,"Enhancement":true,"Feature":true,"Business":true,"General":true,"Infrastructure":true,"QA":true,"No Category":true},
+		'custom_categories': {},
         'members': members
     });
     $('#project-submit').foundation('reveal', 'close');
@@ -713,7 +728,7 @@ function addNewMilestone() {
     var docDescription = $("#milestoneDescription").val();
     var docDueDate = $("#milestoneDueDate").val();
     var docEstimatedHours = $("#milestoneEstimatedHours").val();
-    var projectid = currentProject.uid;
+    var projectid = selectedProject.uid;
 
     // Validate fields
     if (!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid) {
@@ -746,13 +761,17 @@ function addNewMilestone() {
     $("#milestone-submit").foundation('reveal', 'close');
 }
 
+firebase.child('default_categories').on('child_added', function(category){
+    defaultCategories.push(category.key());
+});
+
 function Task(firebase) {
     this.__firebase = firebase;
     this.uid = firebase.key();
     this.__name = firebase.child('name');
     this.__description = firebase.child('description');
     this.__assigned_user = firebase.child('assignedTo');
-    this.__categories = firebase.parent().parent().parent().parent().child('categories');
+    this.__custom_categories = firebase.parent().parent().parent().parent().child('custom_categories');
     this.__category = firebase.child('category');
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
@@ -792,8 +811,8 @@ Task.prototype = {
             callback(user);
         });
     },
-    getCategories: function (callback) {
-        this.__categories.on('value', function (dat) {
+    getCustomCategories: function (callback) {
+        this.__custom_categories.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -870,8 +889,12 @@ Task.prototype = {
                 user.html(name);
             });
         });
-        this.getCategories(function (categories) {
-            cats = Object.keys(categories);
+        this.getCustomCategories(function (categories) {
+            if(categories != null) {
+                cats = Object.keys(categories);
+            } else {
+                cats = [];
+            }
         });
         this.getCategory(function (categoryStr) {
             cat.html(categoryStr);
@@ -902,7 +925,7 @@ Task.prototype = {
                         selectedUser = user;
                     }, vals.assignedTo),
                     newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>');
-                    categoriesSelect = makeSelect(cats, vals.category).append(newCategory);
+                    categoriesSelect = makeSelect(defaultCategories.concat(cats), vals.category).append(newCategory);
                     categoriesText = $('<input type="text">'),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
                     dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
@@ -988,11 +1011,16 @@ Task.prototype = {
                     });
                     var cate = {};
                     cate[categoryName] = true;
-                    selectedProject.__categories.update(cate);
+                    selectedProject.__custom_categories.update(cate);
                     $("#task-modal").foundation('reveal', 'close');
                 });
             });
         });
+		/*
+        this.getTimeEstimate(function(time) {
+            //console.log(time);
+        });
+		*/
         return row;
     },
     setUser: function (user) {
@@ -1002,8 +1030,8 @@ Task.prototype = {
         }
         this.__assigned_user.set(id);
     },
-    setCategories: function (cat) {
-        this.__categories.update({cat : true});
+    setCustomCategories: function (cat) {
+        this.__custom_categories.update({cat : true});
     },
     setCategory: function (cat) {
         this.__category.set(cat);
@@ -1030,7 +1058,7 @@ Task.prototype = {
 
 function newTask() {
     var cats = null;
-    selectedProject.getCategories(function(categories){
+    selectedProject.getCustomCategories(function(categories){
         cats = Object.keys(categories);
     });
     var nameInput = $('<input type="text">'),
@@ -1039,7 +1067,7 @@ function newTask() {
             selectedUser = user;
         }, user.uid),
         newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>');
-        categoriesSelect = makeSelect(cats, "Feature").append(newCategory),
+        categoriesSelect = makeSelect(defaultCategories.concat(cats), "Feature").append(newCategory),
         categoriesText = $('<input type="text" hidden=true>'),
         statusSelect = makeSelect(Task.Statuses, "New"),
         estHoursInput = $('<input type="text">'),
@@ -1107,7 +1135,7 @@ function newTask() {
         }
         var cate = {};
         cate[categoryName] = true;
-        selectedProject.__categories.update(cate);
+        selectedProject.__custom_categories.update(cate);
         selectedMilestone.__tasks.push({
             name: nameInput.val(),
             description: descriptionInput.val(),
@@ -1133,7 +1161,7 @@ function MyTasks(firebase) {
     this.__name = firebase.child('name');
     this.__description = firebase.child('description');
     this.__assigned_user = firebase.child('assignedTo');
-    this.__categories = firebase.parent().parent().parent().parent().child('categories');
+    this.__custom_categories = firebase.parent().parent().parent().parent().child('custom_categories');
     this.__category = firebase.child('category');
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
@@ -1159,8 +1187,8 @@ MyTasks.prototype = {
             callback(user);
         });
     },
-    getCategories: function (callback) {
-        this.__categories.on('value', function (dat) {
+    getCustomCategories: function (callback) {
+        this.__custom_categories.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -1236,8 +1264,12 @@ MyTasks.prototype = {
                 user.html(name);
             });
         });
-        this.getCategories(function (categories) {
-            cats = Object.keys(categories);
+        this.getCustomCategories(function (categories) {
+            if(categories != null) {
+                cats = Object.keys(categories);
+            } else {
+                cats = [];
+            }
         });
         this.getCategory(function (categoryStr) {
             cat.html(categoryStr);
@@ -1378,11 +1410,13 @@ firebase.onAuth( // called on page load to auth users
                     $(".notLoggedIn").hide();
                     $(".loginRequired").show();
 					selectUser(user);
+                    drawUserStatistics(firebase,user.uid);
                 }
 				milestonePage = $('#milestones-page');
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
                 myTasksPage = $('#my-tasks-page');
+                myStatisticsPage =  $('#my-statistics-page');
 				showProjects();
 				getAllUsers();
             }

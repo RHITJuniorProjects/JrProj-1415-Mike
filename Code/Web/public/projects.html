@@ -37,7 +37,7 @@
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
 			<li><a onclick="showMyTasksPage()">My Tasks</a></li>
-			<li><a>My Statistics</a></li>
+			<li><a onclick="showMyStatsticsPage()">My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
@@ -59,11 +59,7 @@
 </nav>
 		<div id="projects-page" class="wide row">
 			<div class="small-2 columns small-offset-1 tabbar">
-				
-<dl class="tabs vertical" data-tab>
-	<dd class="active"><a href="#MyProjects">My Projects</a></dd><dd><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd></dl>
-
-			</div>
+				<dl class="tabs vertical" data-tab><dd class="active"><a href="#MyProjects">My Projects</a></dd><dd onclick="showMyTasksPage()"><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd></dl>			</div>
 			<div class="small-9 columns main-content">
 				<div class="tabs-content">
 					<div class="content active" id="MyProjects">
@@ -129,17 +125,23 @@
 							</div>
 						</div>
 					</div>
+						<div class="content" id="MyStatistics">
+						<div class="row">
+							<div class="small-12 columns">
+								<div id="UserStatistics1"></div>
+							</div>
+							<div class="small-12 columns">
+								<div id="UserStatistics2"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		
-<dl class="tabs vertical" data-tab>
-	<dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>
-
-	</div>
+		<dl class="tabs vertical" data-tab><dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
 		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
@@ -265,6 +267,23 @@
         </div>-->
     </div>
 </div>
-	</body>
+        <div id='my-statistics-page' hidden>
+    <div class="main-content">
+	<!-- <div class="small-2 columns small-offset-1 tabbar">
+	</div> -->
+		<!-- <div class="content"> -->
+				<div class="row">
+					<div class="small-12 columns">
+						<div id="UserStatistics3"></div>
+					</div>
+					<div class="small-12 columns">
+						<div id="UserStatistics4"></div>
+					</div>
+				</div>
+			  </div>
+			</div>
+
+		
+		</body>
 </html>
 

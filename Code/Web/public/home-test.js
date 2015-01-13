@@ -14,21 +14,25 @@ var getNameAndDraw;
 var pieChartDrawer;
 var getMilestoneData;
 var getProjectData;
+var UserMilestoneName;
+var UserLocAdded;
+var UserLocRemoved;
+var UserTotalLoc;
+var UserTotalHours;
+
 
 function drawProjectStuff (fb) {
 
 fb.child("projects").on('value', function(snapshot) {
     var projectArray = [];
-
-    //console.log("function called");
     
     for(var item in snapshot.val()){
-        //console.log(item);
+        
         projectArray.push(item);
     }
 
     for(i = 0; i<projectArray.length; i++){
-       //console.log("milestone id " + milestoneNameArray[i]);
+       
         getProjectData(projectArray[i], projectArray);
      }
 
@@ -36,23 +40,23 @@ fb.child("projects").on('value', function(snapshot) {
 
 function getProjectData(item, array){
     fb.child("projects/" + item +"/hours_percent").on('value',function(snapshot){
-       // console.log(array);
+       
         projectHoursArray.push(snapshot.val());
 
-       // if(array.length == projectHoursArray.length){
+       
            fb.child("projects/" + item +"/name").on('value',function(snapshot){
-            //console.log(item);
+            
             projectNameArray.push(snapshot.val());
-            //console.log(snapshot.val());
+           
             });
         
-         //if(array.length == projectNameArray.length){
+         
            fb.child("projects/" + item +"/task_percent").on('value',function(snapshot){
             projectTaskArray.push(snapshot.val());
 
 
          });
-       // }
+       
     projectDrawerHours(projectNameArray, projectHoursArray);
     projectDrawerTask(projectNameArray, projectTaskArray);
 
@@ -451,4 +455,237 @@ function pieChartDrawer(temp){
         });
     });
 };
+};
+
+// Charts for users milestone metrics based on 
+
+function drawUserStatistics(fb, currentUser) {
+    var projectArr = [];
+    var UserMilestone = [];
+    UserMilestoneName = [];
+    UserLocAdded = [];
+    UserLocRemoved = [];
+    UserTotalLoc = [];
+    UserTotalHours = [];
+
+    fb.child("users/" + currentUser +"/projects").on('value', function(snapshot) {
+   
+    for(var item in snapshot.val()){
+        projectArr.push(item);
+    }
+
+    for(i = 0; i<projectArr.length; i++){
+        getUserMilestone(projectArr[i]);
+       
+        
+     }
+
+     UserStatistics1(UserMilestoneName,UserLocAdded,UserLocRemoved,UserTotalLoc);
+     UserStatistics2(UserMilestoneName,UserTotalHours);
+     UserStatistics3(UserMilestoneName,UserLocAdded,UserLocRemoved,UserTotalLoc);
+     UserStatistics4(UserMilestoneName,UserTotalHours);
+});
+
+
+function getUserMilestone(projectID){
+    fb.child("users/" + currentUser + "/projects/" + projectID + "/milestones").on('value',function(snapshot){
+         for(var item in snapshot.val()){
+            getUserLocAdded(projectArr[i],item);
+            getUserLocRemoved(projectArr[i],item);
+            getUserTotalLoc(projectArr[i],item);
+            getUserMilestoneName(projectArr[i],item);
+            getUserHours(projectID,item);
+        }
+
+    });
+
+};
+// projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/name
+function getUserMilestoneName(projectID,item){
+        fb.child("projects/" + projectID + "/milestones/" + item +"/name").on('value',function(snapshot){
+          UserMilestoneName.push(snapshot.val());
+          console.log(item);   
+        });
+    
+};
+
+function getUserLocAdded(projectID,item){
+        fb.child("users/" + currentUser +"/projects/" + projectID + "/milestones/" + item +"/add_lines_of_code").on('value',function(snapshot){
+           UserLocAdded.push(snapshot.val());  
+        });
+    
+};
+
+function getUserLocRemoved(projectID,item){
+        fb.child("users/" + currentUser +"/projects/" + projectID + "/milestones/" + item +"/removed_lines_of_code").on('value',function(snapshot){
+           UserLocRemoved.push(snapshot.val());   
+        }); 
+};
+
+function getUserTotalLoc(projectID,item){
+        fb.child("users/" + currentUser +"/projects/" + projectID + "/milestones/" + item +"/total_lines_of_code").on('value',function(snapshot){
+           UserTotalLoc.push(snapshot.val());   
+        });
+};
+
+function getUserHours(projectID,item){
+        fb.child("users/" + currentUser +"/projects/" + projectID + "/milestones/" + item +"/total_hours").on('value',function(snapshot){
+           UserTotalHours.push(snapshot.val());  
+        });
+    
+};
+
+
+function UserStatistics1(categories, loc_added, loc_removed, total_lines_of_code) {
+    $('#UserStatistics1').highcharts({
+        title: {
+            text: 'User Line of Code Statistics',
+            x: -20 //center
+        },
+        xAxis: {
+            categories: categories
+            },
+       yAxis: {
+            title: {
+                text: 'Lines of Code'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Lines of Code Added',
+            data: loc_added
+        }, {
+            name: 'Lines of Code Removed',
+            data: loc_removed
+        }, {
+            name: 'Total Lines of Code',
+            data: total_lines_of_code
+        }]
+    });
+};
+
+function UserStatistics2(categories, hours) {
+    $('#UserStatistics2').highcharts({
+        title: {
+            text: 'User Hour Statistics',
+            x: -20 //center
+        },
+        xAxis: {
+            categories: categories
+            },
+       yAxis: {
+            title: {
+                text: 'Hours'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Hours',
+            data: hours
+        }]
+    });
+};
+function UserStatistics3(categories, loc_added, loc_removed, total_lines_of_code) {
+    $('#UserStatistics3').highcharts({
+        title: {
+            text: 'User Line of Code Statistics',
+            x: -20 //center
+        },
+        xAxis: {
+            categories: categories
+            },
+       yAxis: {
+            title: {
+                text: 'Lines of Code'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Lines of Code Added',
+            data: loc_added
+        }, {
+            name: 'Lines of Code Removed',
+            data: loc_removed
+        }, {
+            name: 'Total Lines of Code',
+            data: total_lines_of_code
+        }]
+    });
+};
+
+function UserStatistics4(categories, hours) {
+    $('#UserStatistics4').highcharts({
+        title: {
+            text: 'User Hour Statistics',
+            x: -20 //center
+        },
+        xAxis: {
+            categories: categories
+            },
+       yAxis: {
+            title: {
+                text: 'Hours'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Hours',
+            data: hours
+        }]
+    });
+};
+
+
 };

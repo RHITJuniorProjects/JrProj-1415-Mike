@@ -8,8 +8,15 @@
 		<div id="projects-page" class="wide row">
 			<div class="small-2 columns small-offset-1 tabbar">
 				<?php
-					$tabs = array("My Projects","My Tasks","My Statistics","Project Statistics");
-					require 'tabbar.php';
+					require_once 'tabbar.php';
+					make_tabbar(
+						array(
+							new Tab("My Projects",["class" => "active"]),
+							new Tab("My Tasks", ["onclick" => "showMyTasksPage()"]),
+							new Tab("My Statistics"),
+							new Tab("Project Statistics")
+						)
+					);
 				?>
 			</div>
 			<div class="small-9 columns main-content">
@@ -77,12 +84,23 @@
 							</div>
 						</div>
 					</div>
+						<div class="content" id="MyStatistics">
+						<div class="row">
+							<div class="small-12 columns">
+								<div id="UserStatistics1"></div>
+							</div>
+							<div class="small-12 columns">
+								<div id="UserStatistics2"></div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		<?php require 'Milestones.php'?>
 		<?php require 'tasks.php'?>
         <?php require 'mytasks.php'?>
+        <?php require 'MyStatistics.php'?>
 	</body>
 </html>
 
