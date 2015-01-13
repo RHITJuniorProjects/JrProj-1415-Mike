@@ -439,6 +439,7 @@ public class MainActivity extends Activity implements
 
 		Intent login = new Intent(this, LoginActivity.class);
 		this.currFragment = null;
+		this.user = null;
 		this.startActivity(login);
 		this.finish();
 		Firebase ref = new Firebase(firebaseUrl);
