@@ -1,0 +1,4 @@
+How to package the MSI:
+
+candle.exe Henry_Installer.wxs
+light.exe Henry_Installer.wixobj
