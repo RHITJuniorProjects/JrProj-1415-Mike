@@ -67,10 +67,6 @@ Chart.prototype = {
 			this._renderedChart.redraw();
 		} else {
 			this._renderedChart = new Highcharts.Chart(this);
-			var chart = this;
-			$.map(this.series,function(s){
-				s.data.bind(chart._renderedChart.series[s.id]);
-			});
 		}
 	}
 };
@@ -82,10 +78,16 @@ function LineChart(id, title){
 
 LineChart.prototype = new Chart(null,null);
 
-LineChart.prototype.addSeries = function(name,points){
+LineChart.prototype.addSeries = function(points,name){
+	if(name === undefined){
+		name = points._id;
+	}
+	console.log(name);
+	points._charts.push(this);
+	console.log(points);
 	var series = {
-		data:points,
-		id:name,
+		data:points._points,
+		id:points._id,
 		name:name
 	};
 	this.series.push(series);
@@ -100,8 +102,8 @@ function BurndownChart(id,title,burndownData){
 		}
 	};
 	this.setYAxis('Hours','hrs');
-	this.addSeries('Estimated Hours',burndownData.estimatedHours());
-	this.addSeries('Completed Hours',burndownData.hoursCompleted());
+	this.addSeries(burndownData.estimatedHours());
+	this.addSeries(burndownData.hoursCompleted());
 }
 
 BurndownChart.prototype = new LineChart(null,'Burn Down Chart');
@@ -580,37 +582,35 @@ function makeAddMemberTile(project){
 	return addMemberTile;
 }
 
-function Series(){
-	this._series = [];
+function Series(id){
+	this._points = [];
+	this._id = id;
 	this._charts = [];
 }
 
-Series.prototype = [];
-
 Series.prototype.addPoint = function(point){
-	this.push(point);
-	$.each(this._series,function(s){
-		console.log(s);
-		s.addPoint(point,true);
-	});
+	this._points.push(point);
+	var id = this._id;
+	console.log(id + ' add Point');
+	var charts = this._charts;
+	var chart;
+	for(var i = charts.length;i--;){
+		chart = charts[i];
+		if(chart._renderedChart){
+			chart._renderedChart.get(id).addPoint(point,true,true);
+		}
+	}
 }
 
-Series.prototype.bind = function(hseries){
-	this._series.push(hseries);
-};
-
-Series.prototype.addToChart = function(name,chart){
-	chart.addSeries(name,this);
-}
-
-function CumulativeSeries(){
-	Series.call(this);
+function CumulativeSeries(id){
+	Series.call(this,id);
 }
 
 CumulativeSeries.prototype = new Series();
-CumulativeSeries.addPoint = function(point){
-	if(this.length > 0){
-		point = [point[0],point[1]+this[this.length-1][1]];
+CumulativeSeries.prototype.addPoint = function(point){
+	if(this._points.length > 0){
+		var lastPoint = this._points[this._points.length-1];
+		point = [point[0],point[1]+lastPoint[1]];
 	}
 	Series.prototype.addPoint.call(this,point);
 };
@@ -630,21 +630,22 @@ BurndownData.prototype._init = function(){
 	if(this._initialized){
 		return;
 	}
-	this._estimHours = new Series();
-	this._compHours = new CumulativeSeries();
-	this._remTasks = new Series();
-	this._compTasks = new Series();
+	this._estimHours = new Series('Estimated Hours');
+	this._compHours = new CumulativeSeries('Completed Hours');
+	this._remTasks = new Series('Remaining Tasks');
+	this._compTasks = new Series('Completed Tasks');
 	var bdd = this;
 	this._firebase.on('child_added',function(snap){
 		var obj = snap.val();
 		if(typeof obj === "string"){
 			return;
 		}
-		bdd._estimHours.addPoint([obj.timestamp,obj.estimated_hours_remaining]);
 		bdd._compHours.addPoint([obj.timestamp,obj.hours_completed]);
+		bdd._estimHours.addPoint([obj.timestamp,obj.estimated_hours_remaining]);
 		bdd._remTasks.addPoint([obj.timestamp,obj.tasks_remaining]);
 		bdd._compTasks.addPoint([obj.timestamp,obj.tasks_completed]);
 	});
+	this._initialized = true;
 };
 BurndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
 BurndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
@@ -1275,7 +1276,7 @@ Task.prototype = {
 };
 
 function newTask() {
-    var cats = null;
+    var cats;
 
     var nameInput = $('<input type="text">'),
         descriptionInput = $('<textarea>'),
@@ -1295,7 +1296,11 @@ function newTask() {
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
     selectedProject.getCustomCategories(function(categories){
-        cats = Object.keys(categories);
+		if(categories){
+       		cats = Object.keys(categories);
+		} else {
+			cats = [];
+		}
 		modal.children().remove();
 		$(categoriesText).hide();
 		modal.append(

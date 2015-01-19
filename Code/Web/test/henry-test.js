@@ -35,7 +35,7 @@ HenryTest.prototype.testMakeProgressBar = function(){
 
 HenryTest.prototype.testViewMyTasks = function(){
 	// Instantiate a firebase project with some tasks assigned to a specific user
-	var myTasksRef Firebase('myTasks'),
+	var myTasksRef = Firebase('myTasks'),
 		container = makeProgressBar('my-progress-class','label',myTasksRef),
 		progress = container.children('.progress'),
 		span = progress.children('.meter'),

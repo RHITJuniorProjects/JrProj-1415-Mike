@@ -60,8 +60,9 @@ function getProjectData(item, array){
 
          });
        // }
-    projectDrawerHours(projectNameArray, projectHoursArray);
-    projectDrawerTask(projectNameArray, projectTaskArray);
+	// XXX: these function freeze the website
+    // projectDrawerHours(projectNameArray, projectHoursArray);
+    // projectDrawerTask(projectNameArray, projectTaskArray);
 
 
     });
@@ -71,7 +72,7 @@ function getProjectData(item, array){
 //by hours
 function projectDrawerHours(name, hours) {
    // console.log("xxxxxx");
-    $('#projContainer1').highcharts({
+   $('#projContainer1').highcharts({
         chart: {
             type: 'column',
             margin: 75,
@@ -172,7 +173,7 @@ function drawTaskStuff (projID, mileID, fb) {
       //  console.log(item);
         taskIDArray.push(item);
     }
-     console.log(taskIDArray[0]);
+     //console.log(taskIDArray[0]);
     for(i =0; i < taskIDArray.length; i++){
        // console.log(i);
         getTaskData(projectID, milestoneID, taskIDArray[i], taskIDArray);
@@ -184,7 +185,7 @@ function getTaskData(projectID, milestoneID, item, array){
     fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item +"/name").on('value',function(snapshot){
         taskNameArray.push(snapshot.val());
         // console.log("name " + snapshot.val());
-         console.log(taskNameArray);
+         //console.log(taskNameArray);
            fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item + "/percent_complete").on('value',function(snapshot){
             taskPercentArray.push(snapshot.val());
 
@@ -499,7 +500,7 @@ function getUserMilestone(projectID){
 function getUserMilestoneName(projectID,item){
         fb.child("projects/" + projectID + "/milestones/" + item +"/name").on('value',function(snapshot){
           UserMilestoneName.push(snapshot.val());
-          console.log(item);   
+          //console.log(item);   
         });
     
 };
