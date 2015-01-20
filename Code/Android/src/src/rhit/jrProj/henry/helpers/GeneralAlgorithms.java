@@ -1,12 +1,14 @@
 package rhit.jrProj.henry.helpers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Task;
 import android.util.Log;
+
 import java.util.Random;
 
 public class GeneralAlgorithms {
@@ -190,4 +192,12 @@ public class GeneralAlgorithms {
 		}
 		return map2;
 	}
+	
+	public static Date EpochConvert(int x)
+	{
+	return new Date(x);
+	}
+	
+	
+	
 }

@@ -6,7 +6,7 @@
         <Property Id='DiskPrompt' Value='I guess this is for installing from a CD?' />
         <Directory Id='TARGETDIR' Name='SourceDir'>
             <Directory Id='ProgramFilesFolder' Name='PFiles'>
-                <Directory Id='INSTALLDIR' Name='Henry 1.1.4'>
+                <Directory Id='INSTALLDIR' Name='Henry 1.1.5'>
             <Component Id='Everything' Guid='2cc8773d-8183-40b9-8cff-90f58d71922b' >
                 <File Id='File1' Name='_ctypes.pyd' DiskId='1' Source='_ctypes.pyd' KeyPath='yes' />
                 <File Id='File2' Name='_hashlib.pyd' DiskId='1' Source='_hashlib.pyd' />
@@ -21,7 +21,7 @@
                 <File Id='File11' Name='python27.dll' DiskId='1' Source='python27.dll' />
                 <File Id='File12' Name='select.pyd' DiskId='1' Source='select.pyd' />
                 <File Id='File13' Name='unicodedata.pyd' DiskId='1' Source='unicodedata.pyd' />
-                <Environment Id="PATH" Name="PATH" Value="[INSTALLDIR]" Permanent="yes" Part="last" Action="set" System="yes" />
+                <Environment Id="PATH" Name="PATH" Value="[INSTALLDIR]" Permanent="no" Part="first" Action="set" System="yes" />
             </Component>
                 </Directory>
             </Directory>
