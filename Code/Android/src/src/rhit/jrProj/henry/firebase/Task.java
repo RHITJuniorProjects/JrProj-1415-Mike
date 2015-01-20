@@ -13,6 +13,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 public class Task implements Parcelable {
+	public static int MAX_POINTS=100;
+	public static int MIN_POINTS=0;
 
 	/**
 	 * A reference to firebase to keep the data up to date.
@@ -110,6 +112,14 @@ public class Task implements Parcelable {
 	 * The task's parent milestone Name
 	 */
 	private String parentMilestoneName;
+	/**
+	 * Gamification points
+	 */
+	private int points;
+	/**
+	 * This field is because the name of the field in firebase hasn't been decided yet
+	 */
+	public static String pointsName= "points";
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -475,6 +485,8 @@ public class Task implements Parcelable {
 				this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
 			}else if (arg0.getKey().equals("total_hours")) {
 				this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
+			}else if (arg0.getKey().equals(Task.pointsName)) {
+				this.task.points = arg0.getValue(Integer.class).intValue();
 			}
 			
 		}
@@ -511,6 +523,8 @@ public class Task implements Parcelable {
 				this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
 			}else if (arg0.getKey().equals("total_hours")) {
 				this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
+			}else if (arg0.getKey().equals(Task.pointsName)) {
+				this.task.points = arg0.getValue(Integer.class).intValue();
 			}
 		}
 
@@ -538,6 +552,22 @@ public class Task implements Parcelable {
 	 */
 	public int compareToIgnoreCase(Task p){
 		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
+	}
+	/**
+	 * Updates the points assigned to this task
+	 */
+	public void setPoints(int newPoints){
+		this.points=newPoints;
+		this.firebase.child(Task.pointsName).setValue(this.points);
+		if (this.listViewCallback!=null){
+			this.listViewCallback.onChange();
+		}
+	}
+	/**
+	 * retrieves the points value for this task
+	 */
+	public int getPoints(){
+		return this.points;
 	}
 	
 }

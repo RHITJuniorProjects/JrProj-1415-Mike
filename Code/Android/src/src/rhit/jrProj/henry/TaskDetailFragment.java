@@ -7,9 +7,11 @@ import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
+import rhit.jrProj.henry.helpers.HorizontalPicker;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,7 +31,7 @@ import android.widget.TextView;
  * contained in a {@link ItemListActivity} in two-pane mode (on tablets) or a
  * {@link ItemDetailActivity} on handsets.
  */
-public class TaskDetailFragment extends Fragment {
+public class TaskDetailFragment extends Fragment implements HorizontalPicker.Callbacks{
 
 	/**
 	 * The fragment argument representing the item ID that this fragment
@@ -40,6 +44,8 @@ public class TaskDetailFragment extends Fragment {
 	private Task taskItem;
 
 	private Callbacks mCallbacks = sDummyCallbacks;
+	
+	private TextView pointsField;
 
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
@@ -104,6 +110,8 @@ public class TaskDetailFragment extends Fragment {
 					&& role == Enums.Role.LEAD) {
 				((TextView) rootView.findViewById(R.id.task_assignee))
 						.setText("Assigned to: \t\t (Click to change)");
+				this.pointsField=((TextView) rootView.findViewById(R.id.task_points));
+				this.pointsField.setText("Points: \t"+this.taskItem.getPoints());
 
 				Spinner spinny = new Spinner(this.getActivity());
 				this.mCallbacks.getProjectMembers().getAllKeys();
@@ -169,6 +177,19 @@ public class TaskDetailFragment extends Fragment {
 			spinner.setSelection(spinnerDefaultPos);
 			spinner.setOnItemSelectedListener(new StatusSpinnerListener(
 					this.taskItem));
+			HorizontalPicker numPicker=(HorizontalPicker) rootView.findViewById(R.id.horizontal_number_picker);
+			numPicker.setMaxValue(Task.MAX_POINTS);
+			numPicker.setMinValue(Task.MIN_POINTS);
+			numPicker.setCallbacks(this);
+			numPicker.setTask(this.taskItem);
+			if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser())){
+				numPicker.setVisibility(View.VISIBLE);
+				numPicker.setEnabled(true);
+				numPicker.setValue(this.taskItem.getPoints());
+				
+				
+			}
+			
 
 			((TextView) rootView
 					.findViewById(R.id.task_hours_original_estimate))
@@ -279,4 +300,15 @@ public class TaskDetailFragment extends Fragment {
 			// do nothing
 		}
 	}
-}
+
+	@Override
+	public void fireChange(int i) {
+		Log.i("Change fired", i+"");
+		this.taskItem.setPoints(i);
+		this.pointsField.setText("Points: \t"+i);
+		
+	}
+	
+		
+		
+	}

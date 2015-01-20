@@ -9,6 +9,8 @@ import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
+import rhit.jrProj.henry.helpers.HorizontalPicker;
+
 
 import com.firebase.client.Firebase;
 
@@ -30,7 +32,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class CreateTaskFragment extends DialogFragment {
+public class CreateTaskFragment extends DialogFragment implements HorizontalPicker.Callbacks {
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
@@ -57,7 +59,10 @@ public class CreateTaskFragment extends DialogFragment {
 	 * Project id associated with the task
 	 */
 	private String projectId;
-	
+	/*
+	 * Points for the task
+	 */
+	private HorizontalPicker mPointsField;
 	/**
 	 * Create a new instance of MyDialogFragment, providing "num" as an
 	 * argument.
@@ -207,6 +212,15 @@ public class CreateTaskFragment extends DialogFragment {
 					mCategory.setAdapter(adapter);
 					
 					
+					HorizontalPicker mPointsField=(HorizontalPicker) v.findViewById(R.id.horizontal_number_picker);
+					mPointsField.setMaxValue(Task.MAX_POINTS);
+					mPointsField.setMinValue(Task.MIN_POINTS);
+					mPointsField.setCallbacks(this);
+					mPointsField.setVisibility(View.VISIBLE);
+					mPointsField.setEnabled(true);
+					mPointsField.setValue(0);
+						
+						
 					
 		this.mNameField.requestFocus();
 		
@@ -241,6 +255,7 @@ public class CreateTaskFragment extends DialogFragment {
 		map.put("due_date", "No Due Date");
 		map.put("assignedTo", user);
 		map.put("original_hour_estimate", 0);
+		//map.put(Task.pointsName, this.mPointsField.getValue());
 		
 		
 		Firebase f2=new Firebase(MainActivity.firebaseUrl + "projects/"
@@ -249,5 +264,11 @@ public class CreateTaskFragment extends DialogFragment {
 		Log.i("id", id);
 		new Firebase(MainActivity.firebaseUrl + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/"+id).setValue(map);
+	}
+
+	@Override
+	public void fireChange(int i) {
+		// TODO Auto-generated method stub
+		
 	}
 }

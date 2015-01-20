@@ -281,6 +281,13 @@ public class Project implements Parcelable {
 	public Map<Member, Enums.Role> getMembers() {
 		return this.members;
 	}
+	/**
+	 * Returns whether the user is the PM for this Project
+	 * @return
+	 */
+	public boolean isLead(User u){
+		return (Enums.Role.LEAD==u.getRole(this));
+	}
 	public GraphHelper.LineChartInfo getEstimateAccuracyInfo() {
 		GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
 		List<Milestone> ms=(List<Milestone>) this.getMilestones().clone();
