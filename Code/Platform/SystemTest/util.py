@@ -11,12 +11,12 @@
 # def getActiveMilestones(ref,userID,projectID):
 # def getAssignedTasks(ref,userID,projectID,milestoneID):
 # def createUser(ref,name,email,num):
-# def getProjects(ref,uid)
-# def addMember(ref,pid,uid,role)
-# def createProject(ref,name,description,due_date,uid)
-# def createMilestone(ref,projectID,name,due_date,description)
-# def createTask(ref,projectID,milestoneID,name,due_date_description,original_hour_estimate,category)
-# def commit(ref,projectID,milestoneID,tid,uid,hours,status,added,removed)
+# def getProjects(ref,uid):
+# def addMember(ref,pid,uid,role):
+# def createProject(ref,name,description,due_date,uid):
+# def createMilestone(ref,projectID,name,due_date,description):
+# def createTask(ref,projectID,milestoneID,name,due_date_description,original_hour_estimate,category):
+# def commit(ref,projectID,milestoneID,tid,uid,hours,status,added,removed):
 #####
 
 
@@ -121,7 +121,7 @@ def createProject(ref,name,description,due_date,uid):
     })['name']
     return pid
 
-def createMilestone(ref,projectID,name,due_date,description)
+def createMilestone(ref,projectID,name,due_date,description):
     path = '/projects/'+projectID+'/milestones'
     mid = ref.post(path, {
         'name':name,
@@ -129,8 +129,8 @@ def createMilestone(ref,projectID,name,due_date,description)
         'description':description }) ['name']
     return mid
 
-def createTask(ref,projectID,milestoneID,name,due_date,description,original_hour_estimate,category)
-    path = '/projects/'+pojectID+'/milestones/'+milestoneID+'/tasks'
+def createTask(ref,projectID,milestoneID,name,due_date,description,original_hour_estimate,category):
+    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     tid = ref.post(path, {
         'name':name,
         'due_date':due_date,
@@ -139,7 +139,7 @@ def createTask(ref,projectID,milestoneID,name,due_date,description,original_hour
         'category':category })['name']
     return tid
 
-def commit(ref,projectID,milestoneID,tid,uid,hours=0,status='New',added=0,removed=0)
+def commit(ref,projectID,milestoneID,tid,uid,hours=0,status='New',added=0,removed=0):
     path='/commits/'+projectID
     ref.post(path,{
         'added_lines_of_code':added,
