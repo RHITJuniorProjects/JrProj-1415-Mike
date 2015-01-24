@@ -1,6 +1,5 @@
 package rhit.jrProj.henry.firebase;
 
-import rhit.jrProj.henry.MainActivity;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import android.os.Parcel;

@@ -21,8 +21,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -31,7 +29,8 @@ import android.widget.TextView;
  * contained in a {@link ItemListActivity} in two-pane mode (on tablets) or a
  * {@link ItemDetailActivity} on handsets.
  */
-public class TaskDetailFragment extends Fragment implements HorizontalPicker.Callbacks{
+public class TaskDetailFragment extends Fragment implements
+		HorizontalPicker.Callbacks {
 
 	/**
 	 * The fragment argument representing the item ID that this fragment
@@ -44,7 +43,7 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 	private Task taskItem;
 
 	private Callbacks mCallbacks = sDummyCallbacks;
-	
+
 	private TextView pointsField;
 
 	/**
@@ -89,7 +88,7 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 		super.onCreate(savedInstanceState);
 
 		this.taskItem = this.mCallbacks.getSelectedTask();
-		
+
 	}
 
 	@Override
@@ -104,14 +103,17 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 			Enums.Role role = this.mCallbacks
 					.getSelectedProject()
 					.getMembers()
-					.getValue(new Member(MainActivity.firebaseUrl + "/users/"
+					.getValue(
+							new Member(MainActivity.firebaseUrl + "/users/"
 									+ this.mCallbacks.getUser().getKey()));
 			if (this.getArguments().getBoolean("Two Pane")
 					&& role == Enums.Role.LEAD) {
 				((TextView) rootView.findViewById(R.id.task_assignee))
 						.setText("Assigned to: \t\t (Click to change)");
-				this.pointsField=((TextView) rootView.findViewById(R.id.task_points));
-				this.pointsField.setText("Points: \t"+this.taskItem.getPoints());
+				this.pointsField = ((TextView) rootView
+						.findViewById(R.id.task_points));
+				this.pointsField.setText("Points: \t"
+						+ this.taskItem.getPoints());
 
 				Spinner spinny = new Spinner(this.getActivity());
 				this.mCallbacks.getProjectMembers().getAllKeys();
@@ -131,12 +133,14 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 				spinny.setSelection(spinnerDefaultPos);
 
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
-						this.taskItem));				
-				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout)).addView(spinny, 2);
+						this.taskItem));
+				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout))
+						.addView(spinny, 2);
 
 				TextView textLines = new TextView(this.getActivity());
 
-				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout)).addView(textLines, 3);
+				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout))
+						.addView(textLines, 3);
 				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
 						+ this.taskItem.getRemovedLines() + " lines of code");
 			} else {
@@ -177,19 +181,18 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 			spinner.setSelection(spinnerDefaultPos);
 			spinner.setOnItemSelectedListener(new StatusSpinnerListener(
 					this.taskItem));
-			HorizontalPicker numPicker=(HorizontalPicker) rootView.findViewById(R.id.horizontal_number_picker);
+			HorizontalPicker numPicker = (HorizontalPicker) rootView
+					.findViewById(R.id.horizontal_number_picker);
 			numPicker.setMaxValue(Task.MAX_POINTS);
 			numPicker.setMinValue(Task.MIN_POINTS);
 			numPicker.setCallbacks(this);
 			numPicker.setTask(this.taskItem);
-			if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser())){
+			if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser())) {
 				numPicker.setVisibility(View.VISIBLE);
 				numPicker.setEnabled(true);
 				numPicker.setValue(this.taskItem.getPoints());
-				
-				
+
 			}
-			
 
 			((TextView) rootView
 					.findViewById(R.id.task_hours_original_estimate))
@@ -221,6 +224,7 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 		super.onDetach();
 		this.mCallbacks = sDummyCallbacks;
 	}
+
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
@@ -231,16 +235,14 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 		createMilestone.setVisible(false);
 		createMilestone.setEnabled(false);
 
-		
-		
-			MenuItem createTask = menu.findItem(R.id.action_task);
-			createTask.setVisible(false);
-			createTask.setEnabled(false);
-			MenuItem sorting= menu.findItem(R.id.action_sorting);
-			
-			sorting.setEnabled(false);
-			sorting.setVisible(false);
-		
+		MenuItem createTask = menu.findItem(R.id.action_task);
+		createTask.setVisible(false);
+		createTask.setEnabled(false);
+		MenuItem sorting = menu.findItem(R.id.action_sorting);
+
+		sorting.setEnabled(false);
+		sorting.setVisible(false);
+
 	}
 
 	/**
@@ -303,12 +305,8 @@ public class TaskDetailFragment extends Fragment implements HorizontalPicker.Cal
 
 	@Override
 	public void fireChange(int i) {
-		Log.i("Change fired", i+"");
 		this.taskItem.setPoints(i);
-		this.pointsField.setText("Points: \t"+i);
-		
+		this.pointsField.setText("Points: \t" + i);
 	}
-	
-		
-		
-	}
+
+}

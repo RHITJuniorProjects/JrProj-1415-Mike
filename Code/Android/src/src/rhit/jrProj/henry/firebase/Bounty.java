@@ -7,21 +7,19 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.Task.ChildrenListener;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 
 public class Bounty {
-	private String claimed="None";
-	private String description="None";
-	private String dueDate= "No Due Date";
-	private double hourLimit=-1;
-	private int lineLimit=-1;
+	private String claimed = "None";
+	private String description = "None";
+	private String dueDate = "No Due Date";
+	private double hourLimit = -1;
+	private int lineLimit = -1;
 	private String name;
-	private int points=-1;
+	private int points = -1;
 	Firebase firebase;
+	
 	/**
 	 * This is the class that onChange is called from to when a field in
 	 * Firebase is updated. This then notifies the object that is displaying the
@@ -72,10 +70,10 @@ public class Bounty {
 	 * @param pc
 	 */
 	Bounty(Parcel pc) {
-		String firebaseURL=pc.readString();
+		String firebaseURL = pc.readString();
 		this.firebase = new Firebase(firebaseURL);
-//		setParentIDs(firebaseURL);
-//		setParentNames();
+		// setParentIDs(firebaseURL);
+		// setParentNames();
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.name = pc.readString();
 		this.description = pc.readString();
@@ -86,14 +84,15 @@ public class Bounty {
 
 	public Bounty(String firebaseURL) {
 		this.firebase = new Firebase(firebaseURL);
-//		setParentIDs(firebaseURL);
-//		setParentNames();
+		// setParentIDs(firebaseURL);
+		// setParentNames();
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 	}
-	public void setParentNames(String projName, String msName, String taskName){
-		this.parentProjectName=projName;
-		this.parentMilestoneName=msName;
-		this.parentTaskName=taskName;
+
+	public void setParentNames(String projName, String msName, String taskName) {
+		this.parentProjectName = projName;
+		this.parentMilestoneName = msName;
+		this.parentTaskName = taskName;
 	}
 
 	public int describeContents() {
@@ -142,6 +141,7 @@ public class Bounty {
 		}
 		return false;
 	};
+
 	/**
 	 * Gets the description of the task
 	 * 
@@ -158,53 +158,65 @@ public class Bounty {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	/**
 	 * Returns the parent milestone id
+	 * 
 	 * @return the parent milestone id
 	 */
-	public String getParentMilestoneID(){
+	public String getParentMilestoneID() {
 		return this.parentMilestoneFB.getKey();
 	}
-	
+
 	/**
 	 * Returns the parent project id
+	 * 
 	 * @return the parent project id
 	 */
-	public String getParentProjectID(){
+	public String getParentProjectID() {
 		return this.parentProjectFB.getKey();
 	}
+
 	/**
 	 * Returns the parent milestone Name
+	 * 
 	 * @return the parent milestone Name
 	 */
-	public String getParentMilestoneName(){
+	public String getParentMilestoneName() {
 		return this.parentMilestoneName;
 	}
-		
+
 	/**
 	 * Returns the parent project Name
+	 * 
 	 * @return the parent project Name
 	 */
-	public String getParentProjectName(){
+	public String getParentProjectName() {
 		return this.parentProjectName;
 	}
+
 	/**
 	 * Returns the parent task id
+	 * 
 	 * @return the parent task id
 	 */
-	public String getParentTaskID(){
+	public String getParentTaskID() {
 		return this.parentTaskFB.getKey();
 	}
+
 	/**
 	 * Returns the parent task Name
+	 * 
 	 * @return the parent task Name
 	 */
-	public String getParentTaskName(){
+	public String getParentTaskName() {
 		return this.parentTaskName;
 	}
+
 	/**
 	 * Task listener
 	 */
@@ -228,21 +240,35 @@ public class Bounty {
 		}
 
 		/**
-		 * Fills in the new milestone's properties including the milestone name,
-		 * description and list of tasks for that milestone
+		 * Fills in the new point's properties.
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			//TODO: Noah finish this.
-			
+			if (arg0.getKey().equals("claimed")) {
+				this.bounty.claimed = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("description")) {
+				this.bounty.description = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("due_date")) {
+				this.bounty.dueDate = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("hour_limit")) {
+				this.bounty.hourLimit = (double) arg0.getValue();
+			} else if (arg0.getKey().equals("line_limit")) {
+				this.bounty.lineLimit = (int) arg0.getValue();
+			} else if (arg0.getKey().equals("name")) {
+				this.bounty.name = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("points")) {
+				this.bounty.points = (int) arg0.getValue();
+			}
 		}
 
-		
-
 		/**
-		 * This will be called when the milestone data in Firebased is updated
+		 * This will be called when the points data in Firebased is updated
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
-			//TODO: Noah finish this
+			if (arg0.getKey().equals("claimed")) {
+				this.bounty.claimed = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("points")) {
+				this.bounty.points = (int) arg0.getValue();
+			}
 		}
 
 		/**
@@ -260,32 +286,34 @@ public class Bounty {
 
 		}
 	}
+
 	/**
-	 *  Compares this project with the other given project. This implementation treats lower 
-	 *  case letters the same as upper case letters. Also treats numbers differently,
-	 *   i.e. puts 10 after 9 instead of after 1
+	 * Compares this bounty with the other given bounty.
+	 * 
 	 * @param p
 	 * @return
 	 */
-	public int compareToIgnoreCase(Task p){
-		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
+	public int compareToIgnoreCase(Task p) {
+		return GeneralAlgorithms.compareToIgnoreCase(this.getName(),
+				p.getName());
 	}
+
 	/**
 	 * Updates the points assigned to this task
 	 */
-	public void setPoints(int newPoints){
-		this.points=newPoints;
+	public void setPoints(int newPoints) {
+		this.points = newPoints;
 		this.firebase.child(Task.pointsName).setValue(this.points);
-		if (this.listViewCallback!=null){
+		if (this.listViewCallback != null) {
 			this.listViewCallback.onChange();
 		}
 	}
+
 	/**
 	 * retrieves the points value for this task
 	 */
-	public int getPoints(){
+	public int getPoints() {
 		return this.points;
 	}
-	
 
 }

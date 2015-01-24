@@ -11,7 +11,6 @@ import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 
-
 import com.firebase.client.Firebase;
 
 import android.app.AlertDialog;
@@ -32,7 +31,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class CreateTaskFragment extends DialogFragment implements HorizontalPicker.Callbacks {
+public class CreateTaskFragment extends DialogFragment implements
+		HorizontalPicker.Callbacks {
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
@@ -63,6 +63,7 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 	 * Points for the task
 	 */
 	private HorizontalPicker mPointsField;
+
 	/**
 	 * Create a new instance of MyDialogFragment, providing "num" as an
 	 * argument.
@@ -77,6 +78,7 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 
 		return f;
 	}
+
 	/**
 	 * A callback interface that all activities containing this fragment must
 	 * implement. This mechanism allows activities to be notified of item
@@ -89,8 +91,9 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 		public User getUser();
 
 		public Milestone getSelectedMilestone();
-		
+
 	}
+
 	/**
 	 * A dummy implementation of the {@link Callbacks} interface that does
 	 * nothing. Used only when this fragment is not attached to an activity.
@@ -100,12 +103,11 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 		public User getUser() {
 			return null;
 		}
-		public Milestone getSelectedMilestone(){
+
+		public Milestone getSelectedMilestone() {
 			return null;
 		}
-		
-		
-		
+
 	};
 
 	@Override
@@ -135,7 +137,8 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 						.toString();
 				String des = CreateTaskFragment.this.mDescriptionField
 						.getText().toString();
-				String cat= CreateTaskFragment.this.mCategory.getSelectedItem().toString();
+				String cat = CreateTaskFragment.this.mCategory
+						.getSelectedItem().toString();
 				boolean create = true;
 
 				// Check for a valid description, if the user entered one.
@@ -143,23 +146,21 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 					showErrorDialog(getString(R.string.invalidTaskDescription));
 					create = false;
 				}
-				// Check for a valid name, if the user entered one. 
+				// Check for a valid name, if the user entered one.
 				else if (TextUtils.isEmpty(name)) {
 					showErrorDialog(getString(R.string.invalidTaskName));
 					create = false;
-				}
-				else if (TextUtils.isEmpty(name)) {
+				} else if (TextUtils.isEmpty(name)) {
 					showErrorDialog(getString(R.string.invalidTaskName));
 					create = false;
-				}
-				else if (TextUtils.isEmpty(cat)) {
+				} else if (TextUtils.isEmpty(cat)) {
 					showErrorDialog(getString(R.string.invalidTaskCategory));
 					create = false;
 				}
 				if (create) {
 					createTask();
 					CreateTaskFragment.this.dismiss();
-				} 
+				}
 			}
 		});
 
@@ -198,41 +199,40 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 					}
 				});
 		// Task category spinner
-					this.mCategory = (Spinner) v
-							.findViewById(R.id.taskCategorySpinner);
-					// Create an ArrayAdapter using the string array and a default
-					// spinner layout
-					ArrayAdapter<CharSequence> adapter = ArrayAdapter
-							.createFromResource(this.getActivity(),
-									R.array.task_categories,
-									android.R.layout.simple_spinner_item);
-					// Specify the layout to use when the list of choices appears
-					adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-					// Apply the adapter to the spinner
-					mCategory.setAdapter(adapter);
-					
-					
-					HorizontalPicker mPointsField=(HorizontalPicker) v.findViewById(R.id.horizontal_number_picker);
-					mPointsField.setMaxValue(Task.MAX_POINTS);
-					mPointsField.setMinValue(Task.MIN_POINTS);
-					mPointsField.setCallbacks(this);
-					mPointsField.setVisibility(View.VISIBLE);
-					mPointsField.setEnabled(true);
-					mPointsField.setValue(0);
-						
-						
-					
+		this.mCategory = (Spinner) v.findViewById(R.id.taskCategorySpinner);
+		// Create an ArrayAdapter using the string array and a default
+		// spinner layout
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this.getActivity(), R.array.task_categories,
+				android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		mCategory.setAdapter(adapter);
+
+		HorizontalPicker mPointsField = (HorizontalPicker) v
+				.findViewById(R.id.horizontal_number_picker);
+		System.out.println(Task.MAX_POINTS);
+		mPointsField.setMaxValue(Task.MAX_POINTS);
+		mPointsField.setMinValue(Task.MIN_POINTS);
+		mPointsField.setCallbacks(this);
+		mPointsField.setVisibility(View.VISIBLE);
+		mPointsField.setEnabled(true);
+		mPointsField.setValue(0);
+
 		this.mNameField.requestFocus();
-		
+
 		return v;
 	}
-	
+
 	/**
-	 * Opens a dialog window that displays the given error message. 
+	 * Opens a dialog window that displays the given error message.
+	 * 
 	 * @param message
 	 */
 	private void showErrorDialog(String message) {
-		new AlertDialog.Builder(this.getActivity()).setTitle("Error").setMessage(message)
+		new AlertDialog.Builder(this.getActivity()).setTitle("Error")
+				.setMessage(message)
 				.setPositiveButton(android.R.string.ok, null)
 				.setIcon(android.R.drawable.ic_dialog_alert).show();
 	}
@@ -244,31 +244,44 @@ public class CreateTaskFragment extends DialogFragment implements HorizontalPick
 
 		String name = this.mNameField.getText().toString();
 		String des = this.mDescriptionField.getText().toString();
-		String category=this.mCategory.getSelectedItem().toString();
-		Log.i("category", category);
-		String user=new Firebase(MainActivity.firebaseUrl).getAuth().getUid()
+		String category = this.mCategory.getSelectedItem().toString();
+		String user = new Firebase(MainActivity.firebaseUrl).getAuth().getUid()
 				.toString();
-		Map<String, Object> map= new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
 		map.put("description", des);
 		map.put("category", category);
 		map.put("due_date", "No Due Date");
 		map.put("assignedTo", user);
 		map.put("original_hour_estimate", 0);
-		//map.put(Task.pointsName, this.mPointsField.getValue());
-		
-		
-		Firebase f2=new Firebase(MainActivity.firebaseUrl + "projects/"
-				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/").push();
-		String id=f2.toString().substring(f2.toString().lastIndexOf("/")+1);
-		Log.i("id", id);
-		new Firebase(MainActivity.firebaseUrl + "projects/"
-				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/"+id).setValue(map);
+		// map.put(Task.pointsName, this.mPointsField.getValue());
+
+		Firebase f2 = new Firebase(MainActivity.firebaseUrl + "projects/"
+				+ this.projectId + "/milestones/" + this.milestoneId
+				+ "/tasks/").push();
+		String id = f2.toString().substring(f2.toString().lastIndexOf("/") + 1);
+		new Firebase(MainActivity.firebaseUrl + "projects/" + this.projectId
+				+ "/milestones/" + this.milestoneId + "/tasks/" + id).setValue(map);
+
+		// Create bounties:
+		Map<String, Object> bounties = new HashMap<String, Object>();
+		bounties.put("claimed", "None");
+		bounties.put("description", "get points");
+		bounties.put("due_date", "No Due Date");
+		bounties.put("hour_limit", 50);
+		bounties.put("line_limit", "None");
+		bounties.put("name", "Bounty");
+		bounties.put("point", 20);
+		Firebase f3 = new Firebase(MainActivity.firebaseUrl + "projects/"
+				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
+		String id2 = f3.toString().substring(f2.toString().lastIndexOf("/") + 1);
+		new Firebase(MainActivity.firebaseUrl + "projects/" + this.projectId
+				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
 	}
 
 	@Override
 	public void fireChange(int i) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
