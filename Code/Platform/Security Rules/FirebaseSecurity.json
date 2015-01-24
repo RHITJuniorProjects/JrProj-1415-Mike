@@ -3,8 +3,11 @@
      
       ".read":true,
       ".write": "auth.uid == 'nodeServer'",
+      
       "commits":{
         ".write":"true"
+        //".write": "auth.uid == 'clientCommit'"
+
       },
       "projects":{  
          "$projectID":{
@@ -102,9 +105,8 @@
                   },
                   "tasks":{  
                      ".validate":"true",
-                     
                      "$taskID":{  
-                       
+                        ".write":      "(root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/').hasChild($taskID) &&  root.child('projects/'+$projectID+'/members/').hasChild(auth.uid))",
                         ".validate":"newData.hasChildren(['name','due_date','description','original_hour_estimate','category']) || data.hasChildren(['name','due_date','description','original_hour_estimate','category']) || !newData.hasChildren() || !data.hasChildren()",
                         "assignedTo":{  
                            ".validate":"root.child('users').hasChild(newData.val())",
@@ -118,6 +120,11 @@
                           ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid"
 
                         },
+                        
+                        "bounties":{
+                         "$bountyID" :{
+                         }
+                        },
                         "total_hours":{  
                            ".validate":"newData.isNumber() && newData.val() >= 0"
                         },
@@ -125,12 +132,11 @@
                            ".validate":"newData.isNumber() && newData.val() >= 0"
                         },
                         "category":{  
-                          // commented out by web for feature 2 which is to allow any catagory
                          ".validate":"newData.isString() && (root.child('default_categories').hasChild(newData.val()) || root.child('projects/' + $projectID + '/custom_categories').hasChild(newData.val()))"
                         },
                         "status":{  
-                           ".validate":"newData.isString() && (newData.val().matches(/New|Implementation|Testing|Verify|Regression|Closed/))"
-                      //     ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid" 
+                           ".validate":"newData.isString() && (newData.val().matches(/New|Implementation|Testing|Verify|Regression|Closed/))",
+                            ".write":"root.child('projects/'+$projectID+'/milestones/' + $milestoneID + '/tasks/' + $taskID + '/assignedTo').val() == auth.uid" 
 
                         }
                         
