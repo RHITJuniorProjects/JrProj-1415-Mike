@@ -18,7 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.userid = [defaults objectForKey:@"id"];
     //NSLog([NSString stringWithFormat:@"The user id is: %@", self.userid]);
     //self.navigationItem.title = @"USER PROFILE";
     self.fb = [HenryFirebase getFirebaseObject];
@@ -35,18 +36,21 @@
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        NSLog(@"Got here");
+        //NSLog(@"Got here");
         NSDictionary *userInfo = snapshot.value[@"users"][self.userid];
         self.nameLabel.text = [NSString stringWithFormat:@"Name: %@",[userInfo objectForKey:@"name"]];
         self.emailLabel.text = [NSString stringWithFormat:@"Email: %@",[userInfo objectForKey:@"email"]];
-        self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
+        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
+        NSLog([NSString stringWithFormat:@"%@, %@",[userInfo objectForKey:@"name"], [userInfo objectForKey:@"email"]]);
         self.navigationItem.title = [userInfo objectForKey:@"name"];
-        
+        NSString *points = [userInfo objectForKey:@"total_points"];
+        self.pointsLabel.text = [NSString stringWithFormat:@"Total Points: %@",points];
         
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        
         exit(0);
         
     }
