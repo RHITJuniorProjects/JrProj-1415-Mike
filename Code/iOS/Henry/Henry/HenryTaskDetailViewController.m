@@ -109,6 +109,12 @@
     self.hoursLabel.text = [NSString stringWithFormat:@"%.2f/%.2f hours", (double)self.hoursSpent, (double)self.currentTimeEstimate];
 
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *username = [defaults objectForKey:@"id"];
+        NSDictionary *permissions = snapshot.value[@"projects"][self.ProjectID][@"members"];
+        if ([[permissions objectForKey:username] isEqualToString:@"Lead"])
+            self.bountyButton.hidden = NO;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
