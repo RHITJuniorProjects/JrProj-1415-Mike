@@ -42,6 +42,7 @@ public class CreateMilestoneFragment extends DialogFragment {
 	 * user id fror logged in user
 	 */
 	private String userid;
+	private GlobalVariables mGlobalVariables;
 
 	/**
 	 * Create a new instance of MyDialogFragment, providing "num" as an
@@ -84,8 +85,9 @@ public class CreateMilestoneFragment extends DialogFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mGlobalVariables =  ((GlobalVariables) getActivity().getApplicationContext());
 		this.projectid = this.getArguments().getString("projectid");
-		userid = new Firebase(MainActivity.firebaseUrl).getAuth().getUid()
+		userid = new Firebase(mGlobalVariables.getFirebaseUrl()).getAuth().getUid()
 				.toString();
 
 	}
@@ -184,7 +186,7 @@ public class CreateMilestoneFragment extends DialogFragment {
 		String name = this.mNameField.getText().toString();
 		String des = this.mDescriptionField.getText().toString();
 		
-		Firebase ref = new Firebase(MainActivity.firebaseUrl + "projects/"
+		Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectid + "/milestones/").push();
 		Map <String, Object> map=new HashMap<String, Object>();
 		map.put("name", name);

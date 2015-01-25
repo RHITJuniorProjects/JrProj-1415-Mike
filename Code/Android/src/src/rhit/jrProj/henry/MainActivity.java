@@ -35,19 +35,6 @@ public class MainActivity extends Activity implements
 		TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks,
 		ProjectDetailFragment.Callbacks, ChartsFragment.Callbacks,
 		MilestoneDetailFragment.Callbacks {
-	/**
-	 * The Url to the firebase repository
-	 */
-	public final static String firebaseUrl = "https://henry-test.firebaseio.com/";
-	/**
-	 * If the application is in tablet mode or not.
-	 */
-	private boolean mTwoPane;
-
-	/**
-	 * Created user after login
-	 */
-	private static User user;
 
 	/**
 	 * The project that has been selected from the list
@@ -82,6 +69,8 @@ public class MainActivity extends Activity implements
 	 */
 	private static Fragment currFragment;
 
+	private GlobalVariables mGlobalVariables;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,23 +80,26 @@ public class MainActivity extends Activity implements
 		int density = metrics.densityDpi;
 		Log.i("flag", ((Integer) density).toString());
 		DENSITY = density;
-
-		Firebase.setAndroidContext(this);
+		mGlobalVariables = ((GlobalVariables) getApplicationContext());
+		
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
-		Firebase ref = new Firebase(firebaseUrl);
+
+		Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl());
 
 		AuthData authData = ref.getAuth();
-		if (this.user != null) {
+		if (mGlobalVariables.getUser() != null) {
 			// I've been rotated!!!!!
 			resumeOnRotate();
 		} else if (authData != null) {
-			this.user = new User(firebaseUrl + "users/" + authData.getUid());
+			mGlobalVariables.setUser(new User(mGlobalVariables.getFirebaseUrl()
+					+ "users/" + authData.getUid()));
 			createProjectList();
 		} else if (this.getIntent().getStringExtra("user") != null) {
 			// If logged in get the user's project list
 			this.fragmentStack = new Stack<Fragment>();
-			this.user = new User(this.getIntent().getStringExtra("user"));
+			mGlobalVariables.setUser(new User(this.getIntent().getStringExtra(
+					"user")));
 			createProjectList();
 		} else {
 			// Starts the LoginActivity if the user has not been logged in just
@@ -120,8 +112,8 @@ public class MainActivity extends Activity implements
 	}
 
 	private void resumeOnRotate() {
-		this.mTwoPane = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-		if (!this.mTwoPane) {
+		mGlobalVariables.setmTwoPane((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE);
+		if (!mGlobalVariables.ismTwoPane()) {
 			setContentView(R.layout.activity_onepane);
 			getFragmentManager()
 					.beginTransaction()
@@ -141,17 +133,17 @@ public class MainActivity extends Activity implements
 	 * the fragment to display a list of projects.
 	 */
 	private void createProjectList() {
-		this.mTwoPane = (getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+		mGlobalVariables.setmTwoPane((getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE);
 		this.fragmentStack = new Stack<Fragment>();
 		Bundle args = new Bundle();
-		args.putBoolean("TwoPane", this.mTwoPane);
+		args.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		ProjectListFragment fragment = new ProjectListFragment();
 		this.fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Project_List")
 				.addToBackStack("Project_List");
 		fragment.setArguments(args);
 		this.currFragment = fragment;
-		if (!this.mTwoPane) {
+		if (!mGlobalVariables.ismTwoPane()) {
 			setContentView(R.layout.activity_onepane);
 			getFragmentManager().beginTransaction()
 					.add(R.id.main_fragment_container, fragment).commit();
@@ -197,7 +189,7 @@ public class MainActivity extends Activity implements
 			Fragment beforeFragment = this.fragmentStack.peek();
 			getActionBar().setDisplayHomeAsUpEnabled(
 					this.fragmentStack.size() > 1);
-			if (this.mTwoPane) {
+			if (mGlobalVariables.ismTwoPane()) {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.twopane_list, beforeFragment).commit();
 				Fragment fragmentID = getFragmentManager().findFragmentById(
@@ -224,17 +216,17 @@ public class MainActivity extends Activity implements
 	public void openTaskView(View view) {
 		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
 		item.setVisible(true);
-		int container = this.mTwoPane ? R.id.twopane_list
+		int container = mGlobalVariables.ismTwoPane() ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
-		args.putBoolean("TwoPane", this.mTwoPane);
+		args.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		TaskListFragment fragment = new TaskListFragment();
 		this.fragmentStack.push(fragment);
 		fragment.setArguments(args);
 		this.currFragment = fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
-		if (this.mTwoPane) {
+		if (mGlobalVariables.ismTwoPane()) {
 			getFragmentManager()
 					.beginTransaction()
 					.remove(getFragmentManager().findFragmentById(
@@ -251,10 +243,10 @@ public class MainActivity extends Activity implements
 	public void openMilestoneView(View view) {
 		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
 		item.setVisible(true);
-		int container = this.mTwoPane ? R.id.twopane_list
+		int container = mGlobalVariables.ismTwoPane() ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
-		args.putBoolean("TwoPane", this.mTwoPane);
+		args.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		MilestoneListFragment fragment = new MilestoneListFragment();
 		this.fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Milestone_List")
@@ -263,7 +255,7 @@ public class MainActivity extends Activity implements
 		this.currFragment = fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
-		if (this.mTwoPane) {
+		if (mGlobalVariables.ismTwoPane()) {
 			getFragmentManager()
 					.beginTransaction()
 					.remove(getFragmentManager().findFragmentById(
@@ -280,10 +272,10 @@ public class MainActivity extends Activity implements
 	public void openProjectView(View view) {
 		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
 		item.setVisible(true);
-		int container = this.mTwoPane ? R.id.twopane_list
+		int container = mGlobalVariables.ismTwoPane() ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
-		args.putBoolean("TwoPane", this.mTwoPane);
+		args.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		ProjectListFragment fragment = new ProjectListFragment();
 		this.fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction().add(fragment, "Project_View")
@@ -292,7 +284,7 @@ public class MainActivity extends Activity implements
 		this.currFragment = fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
-		if (this.mTwoPane) {
+		if (mGlobalVariables.ismTwoPane()) {
 			getFragmentManager()
 					.beginTransaction()
 					.remove(getFragmentManager().findFragmentById(
@@ -309,12 +301,12 @@ public class MainActivity extends Activity implements
 			FragmentTransaction frgTrans = manager.beginTransaction();
 			manager.popBackStack();
 			Bundle args = new Bundle();
-			args.putBoolean("TwoPane", this.mTwoPane);
+			args.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 			TasksAllListFragment fragment = new TasksAllListFragment();
 			this.fragmentStack.push(fragment);
 			fragment.setArguments(args);
 			this.currFragment = fragment;
-			int container = this.mTwoPane ? R.id.twopane_detail_container
+			int container = mGlobalVariables.ismTwoPane() ? R.id.twopane_detail_container
 					: R.id.main_fragment_container;
 			frgTrans.replace(container, fragment);
 			frgTrans.commit();
@@ -330,10 +322,10 @@ public class MainActivity extends Activity implements
 	public void openProjectMembersView(View view) {
 		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
 		item.setVisible(true);
-		int container = this.mTwoPane ? R.id.twopane_list
+		int container = mGlobalVariables.ismTwoPane() ? R.id.twopane_list
 				: R.id.main_fragment_container;
 		Bundle args = new Bundle();
-		args.putBoolean("TwoPane", this.mTwoPane);
+		args.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		ProjectMembersFragment fragment = new ProjectMembersFragment();
 		this.fragmentStack.push(fragment);
 		getFragmentManager().beginTransaction()
@@ -343,7 +335,7 @@ public class MainActivity extends Activity implements
 		currFragment = fragment;
 		getFragmentManager().beginTransaction().replace(container, fragment)
 				.commit();
-		if (this.mTwoPane) {
+		if (mGlobalVariables.ismTwoPane()) {
 			getFragmentManager()
 					.beginTransaction()
 					.remove(getFragmentManager().findFragmentById(
@@ -366,21 +358,21 @@ public class MainActivity extends Activity implements
 		this.selectedProject = p;
 		Bundle arguments = new Bundle();
 		ProjectDetailFragment fragment = new ProjectDetailFragment();
-		arguments.putBoolean("TwoPane", this.mTwoPane);
+		arguments.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		fragment.setArguments(arguments);
 		// currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
-						this.mTwoPane ? R.id.twopane_detail_container
+						mGlobalVariables.ismTwoPane() ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
 		// If in two pane mode, we cannot go up.
 
-		if (!this.mTwoPane) {
+		if (!mGlobalVariables.ismTwoPane()) {
 			this.fragmentStack.push(fragment);
 		}
-		getActionBar().setDisplayHomeAsUpEnabled(!this.mTwoPane);
+		getActionBar().setDisplayHomeAsUpEnabled(!mGlobalVariables.ismTwoPane());
 	}
 
 	/**
@@ -398,10 +390,10 @@ public class MainActivity extends Activity implements
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
-						this.mTwoPane ? R.id.twopane_detail_container
+						mGlobalVariables.ismTwoPane() ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
-		if (!this.mTwoPane) {
+		if (!mGlobalVariables.ismTwoPane()) {
 			this.fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -416,17 +408,17 @@ public class MainActivity extends Activity implements
 		item.setVisible(false);
 		this.selectedTask = t;
 		Bundle arguments = new Bundle();
-		arguments.putBoolean("Two Pane", this.mTwoPane);
+		arguments.putBoolean("Two Pane", mGlobalVariables.ismTwoPane());
 		TaskDetailFragment fragment = new TaskDetailFragment();
 		fragment.setArguments(arguments);
 		// currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
-						this.mTwoPane ? R.id.twopane_detail_container
+						mGlobalVariables.ismTwoPane() ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
-		if (!this.mTwoPane) {
+		if (!mGlobalVariables.ismTwoPane()) {
 			this.fragmentStack.push(fragment);
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -439,10 +431,10 @@ public class MainActivity extends Activity implements
 
 		Intent login = new Intent(this, LoginActivity.class);
 		this.currFragment = null;
-		this.user = null;
+		mGlobalVariables.setUser(null);
 		this.startActivity(login);
 		this.finish();
-		Firebase ref = new Firebase(firebaseUrl);
+		Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl());
 		ref.unauth();
 	}
 
@@ -499,21 +491,21 @@ public class MainActivity extends Activity implements
 
 		Bundle arguments = new Bundle();
 		ChartsFragment fragment = new ChartsFragment();
-		arguments.putBoolean("TwoPane", this.mTwoPane);
+		arguments.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		fragment.setArguments(arguments);
 		// currFragment=fragment;
 		getFragmentManager()
 				.beginTransaction()
 				.replace(
-						this.mTwoPane ? R.id.twopane_detail_container
+						mGlobalVariables.ismTwoPane() ? R.id.twopane_detail_container
 								: R.id.main_fragment_container, fragment)
 				.commit();
 		// If in two pane mode, we cannot go up.
 
-		if (!this.mTwoPane) {
+		if (!mGlobalVariables.ismTwoPane()) {
 			this.fragmentStack.push(fragment);
 		}
-		getActionBar().setDisplayHomeAsUpEnabled(!this.mTwoPane);
+		getActionBar().setDisplayHomeAsUpEnabled(!mGlobalVariables.ismTwoPane());
 
 	}
 
@@ -558,7 +550,7 @@ public class MainActivity extends Activity implements
 	 * @return
 	 */
 	public ArrayList<Project> getProjects() {
-		return this.user.getProjects();
+		return mGlobalVariables.getUser().getProjects();
 	}
 
 	/**
@@ -594,7 +586,7 @@ public class MainActivity extends Activity implements
 	 * @return
 	 */
 	public User getUser() {
-		return this.user;
+		return mGlobalVariables.getUser();
 	}
 
 	public Project getSelectedProject() {
@@ -628,11 +620,11 @@ public class MainActivity extends Activity implements
 	 * @return
 	 */
 	public String getUserName() {
-		return this.user.getName();
+		return mGlobalVariables.getUser().getName();
 	}
 
 	public String getUserID() {
-		return this.user.getKey();
+		return mGlobalVariables.getUser().getKey();
 	}
 
 	public void onItemSelected(Member m) {

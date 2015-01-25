@@ -50,8 +50,6 @@ public class User implements Parcelable {
 	 * projects is a Set in the form: [project_key, this_Users_role]
 	 */
 	private Map<Project, Enums.Role> projects = new Map<Project, Enums.Role>();
-	
-	
 
 	/**
 	 * tasks is a Set in the form: task_key
@@ -181,6 +179,7 @@ public class User implements Parcelable {
 	public String getEmail() {
 		return this.email;
 	}
+
 	/**
 	 * 
 	 * Gets the name of the User
@@ -334,7 +333,8 @@ public class User implements Parcelable {
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
 			Role r = Role.DEVELOPER;
-			if (arg0.getValue().equals("lead") || arg0.getValue().equals("Lead")) {
+			if (arg0.getValue().equals("lead")
+					|| arg0.getValue().equals("Lead")) {
 				r = Role.LEAD;
 			}
 			Log.i("REPO", arg0.getRef().getRepo().toString());
@@ -352,7 +352,8 @@ public class User implements Parcelable {
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			Role r = Role.DEVELOPER;
-			if (arg0.getValue().equals("lead")||arg0.getValue().equals("Lead")) {
+			if (arg0.getValue().equals("lead")
+					|| arg0.getValue().equals("Lead")) {
 				r = Role.LEAD;
 			}
 			Project p = new Project(arg0.getRef().getRepo().toString()

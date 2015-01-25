@@ -32,11 +32,11 @@ import com.firebase.client.Firebase;
  * interface.
  */
 public class MilestoneListFragment extends ListFragment {
-	
-	private String sortMode="Sort A-Z";
-	
+
+	private String sortMode = "Sort A-Z";
+
 	private ArrayAdapter adapter;
-	
+
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -56,6 +56,8 @@ public class MilestoneListFragment extends ListFragment {
 
 	private ArrayList<Milestone> milestones;
 
+	private GlobalVariables mGlobalVariables;
+
 	/**
 	 * A callback interface that all activities containing this fragment must
 	 * implement. This mechanism allows activities to be notified of item
@@ -72,7 +74,7 @@ public class MilestoneListFragment extends ListFragment {
 		public Project getSelectedProject();
 
 		public String getSortMode();
-		
+
 	}
 
 	/**
@@ -96,7 +98,7 @@ public class MilestoneListFragment extends ListFragment {
 			// TODO Auto-generated method stub
 			return null;
 		}
-		
+
 	};
 
 	/**
@@ -113,14 +115,25 @@ public class MilestoneListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Done: replace with a real list adapter.
+		mGlobalVariables = ((GlobalVariables) getActivity()
+				.getApplicationContext());
 		setHasOptionsMenu(true);
+		this.milestones = this.mCallbacks.getMilestones();
+		
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		// Done: replace with a real list adapter.
-		this.milestones = this.mCallbacks.getMilestones();
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		// Restore the previously serialized activated item position.
+		if (savedInstanceState != null
+				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
+			setActivatedPosition(savedInstanceState
+					.getInt(STATE_ACTIVATED_POSITION));
+		}
+		
 		TextView textView = new TextView(this.getActivity().getBaseContext());
 		textView.setTextSize(24);
 		int lightGray = this.getResources().getColor(R.color.grey_font);
@@ -133,35 +146,26 @@ public class MilestoneListFragment extends ListFragment {
 		TextView textView2 = new TextView(this.getActivity().getBaseContext());
 		textView2.setTextSize(18);
 		textView2.setTextColor(lightGray);
-		textView2.setText("Project: "+this.mCallbacks.getSelectedProject().getName());
+		textView2.setText("Project: "
+				+ this.mCallbacks.getSelectedProject().getName());
 		textView2.setClickable(false);
 		textView2.setEnabled(false);
 		textView2.setPadding(16, 0, 16, 0);
 		this.getListView().addHeaderView(textView2, null, false);
-		
+
 		SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
-				android.R.id.text1, this.milestones, Enums.ObjectType.MILESTONE, false);
+				android.R.id.text1, this.milestones,
+				Enums.ObjectType.MILESTONE, false);
 		SortedListChangeNotifier<Milestone> lcn = new SortedListChangeNotifier<Milestone>(
 				arrayAdapter);
 		for (Milestone m : this.milestones) {
 			m.setListChangeNotifier(lcn);
 		}
-		this.adapter=arrayAdapter;
+		this.adapter = arrayAdapter;
 		setListAdapter(arrayAdapter);
 		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
-	}
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		
-		// Restore the previously serialized activated item position.
-		if (savedInstanceState != null
-				&& savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
-			setActivatedPosition(savedInstanceState
-					.getInt(STATE_ACTIVATED_POSITION));
-		}
 	}
 
 	@Override
@@ -170,7 +174,7 @@ public class MilestoneListFragment extends ListFragment {
 
 		// This code shows the "Create Milestone" option when
 		// viewing milestones.
-		Firebase ref = new Firebase(MainActivity.firebaseUrl);
+		Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl());
 		Enums.Role role = this.mCallbacks
 				.getSelectedProject()
 				.getMembers()
@@ -185,7 +189,14 @@ public class MilestoneListFragment extends ListFragment {
 				createMilestone.setEnabled(true);
 			}
 		}
-		
+
+	}
+	
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		setListAdapter(null);
 	}
 
 	@Override
@@ -212,12 +223,12 @@ public class MilestoneListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
-		Log.i("Position:", position+"");
-		super.onListItemClick(listView, view, position-2, id);
+		Log.i("Position:", position + "");
+		super.onListItemClick(listView, view, position - 2, id);
 
 		// Notify the active call backs interface (the activity, if the
 		// fragment is attached to one) that an item has been selected.
-		mCallbacks.onItemSelected(this.milestones.get(position-2));
+		mCallbacks.onItemSelected(this.milestones.get(position - 2));
 	}
 
 	@Override
@@ -254,11 +265,13 @@ public class MilestoneListFragment extends ListFragment {
 
 		mActivatedPosition = position;
 	}
-	public void sortingChanged(){
-		this.sortMode=this.mCallbacks.getSortMode();
-		for (Milestone p : this.milestones){
-			((SortedListChangeNotifier<Milestone>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+
+	public void sortingChanged() {
+		this.sortMode = this.mCallbacks.getSortMode();
+		for (Milestone p : this.milestones) {
+			((SortedListChangeNotifier<Milestone>) p.getListChangeNotifier())
+					.changeSorting(this.sortMode);
 		}
 	}
-	
+
 }
