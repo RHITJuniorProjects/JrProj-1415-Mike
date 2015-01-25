@@ -62,13 +62,15 @@
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
+
     <string-array name="longitude_charts">
-        <item >Lines of Code Added By Milestone</item>
-        <item >Accuracy of Time Estimates By Milestone</item>
+        <item>Lines of Code Added By Milestone</item>
+        <item>Accuracy of Time Estimates By Milestone</item>
     </string-array>
-    
+
     <string name="burndown">Burndown</string>
     <string name="days">Days</string>
     <string name="hours">Hours</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
 
 </resources>

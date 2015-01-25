@@ -46,6 +46,8 @@ public class TaskDetailFragment extends Fragment implements
 
 	private TextView pointsField;
 
+	private GlobalVariables mGlobalVariables;
+
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -87,6 +89,7 @@ public class TaskDetailFragment extends Fragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mGlobalVariables =  ((GlobalVariables) getActivity().getApplicationContext());
 		this.taskItem = this.mCallbacks.getSelectedTask();
 
 	}
@@ -104,7 +107,8 @@ public class TaskDetailFragment extends Fragment implements
 					.getSelectedProject()
 					.getMembers()
 					.getValue(
-							new Member(MainActivity.firebaseUrl + "/users/"
+							new Member(mGlobalVariables.getFirebaseUrl()
+									+ "/users/"
 									+ this.mCallbacks.getUser().getKey()));
 			if (this.getArguments().getBoolean("Two Pane")
 					&& role == Enums.Role.LEAD) {
@@ -128,7 +132,7 @@ public class TaskDetailFragment extends Fragment implements
 				spinny.setAdapter(adapter);
 
 				int spinnerDefaultPos = adapter.getPosition(new Member(
-						MainActivity.firebaseUrl + "/users/"
+						mGlobalVariables.getFirebaseUrl() + "/users/"
 								+ this.taskItem.getAssignedUserId()));
 				spinny.setSelection(spinnerDefaultPos);
 

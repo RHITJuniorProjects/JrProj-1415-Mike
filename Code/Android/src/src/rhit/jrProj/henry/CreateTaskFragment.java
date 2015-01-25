@@ -63,6 +63,7 @@ public class CreateTaskFragment extends DialogFragment implements
 	 * Points for the task
 	 */
 	private HorizontalPicker mPointsField;
+	private GlobalVariables mGlobalVariables;
 
 	/**
 	 * Create a new instance of MyDialogFragment, providing "num" as an
@@ -113,6 +114,8 @@ public class CreateTaskFragment extends DialogFragment implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mGlobalVariables =  ((GlobalVariables) getActivity().getApplicationContext());
 		this.milestoneId = this.getArguments().getString("milestoneId");
 		this.projectId = this.getArguments().getString("projectId");
 
@@ -241,11 +244,11 @@ public class CreateTaskFragment extends DialogFragment implements
 	 * Initializes values for a new task in Firebase.
 	 */
 	private void createTask() {
-
+		
 		String name = this.mNameField.getText().toString();
 		String des = this.mDescriptionField.getText().toString();
 		String category = this.mCategory.getSelectedItem().toString();
-		String user = new Firebase(MainActivity.firebaseUrl).getAuth().getUid()
+		String user = new Firebase(mGlobalVariables.getFirebaseUrl()).getAuth().getUid()
 				.toString();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
@@ -256,11 +259,11 @@ public class CreateTaskFragment extends DialogFragment implements
 		map.put("original_hour_estimate", 0);
 		// map.put(Task.pointsName, this.mPointsField.getValue());
 
-		Firebase f2 = new Firebase(MainActivity.firebaseUrl + "projects/"
+		Firebase f2 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId
 				+ "/tasks/").push();
 		String id = f2.toString().substring(f2.toString().lastIndexOf("/") + 1);
-		new Firebase(MainActivity.firebaseUrl + "projects/" + this.projectId
+		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
 				+ "/milestones/" + this.milestoneId + "/tasks/" + id).setValue(map);
 
 		// Create bounties:
@@ -272,10 +275,10 @@ public class CreateTaskFragment extends DialogFragment implements
 		bounties.put("line_limit", "None");
 		bounties.put("name", "Bounty");
 		bounties.put("point", 20);
-		Firebase f3 = new Firebase(MainActivity.firebaseUrl + "projects/"
+		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
 		String id2 = f3.toString().substring(f2.toString().lastIndexOf("/") + 1);
-		new Firebase(MainActivity.firebaseUrl + "projects/" + this.projectId
+		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
 				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
 	}
 

@@ -53,6 +53,8 @@ public class TaskListFragment extends ListFragment {
 	private int mActivatedPosition = ListView.INVALID_POSITION;
 
 	private ArrayList<Task> tasks;
+	
+	private GlobalVariables mGlobalVariables;
 
 	/**
 	 * A callback interface that all activities containing this fragment must
@@ -139,6 +141,7 @@ public class TaskListFragment extends ListFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mGlobalVariables =  ((GlobalVariables) getActivity().getApplicationContext());
 		setHasOptionsMenu(true);
 	}
 
@@ -212,7 +215,7 @@ public class TaskListFragment extends ListFragment {
 		dateNewest.setVisible(false);
 		dateNewest.setEnabled(false);
 
-		Firebase ref = new Firebase(MainActivity.firebaseUrl);
+		Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl());
 		Enums.Role role = this.mCallbacks
 				.getSelectedProject()
 				.getMembers()
