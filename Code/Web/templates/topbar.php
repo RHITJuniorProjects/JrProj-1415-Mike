@@ -13,11 +13,12 @@
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
 			<li><a onclick="showMyTasksPage()">My Tasks</a></li>
-			<li><a >My Statistics</a></li>
+			<li><a onclick="showMyStatsticsPage()">My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
             <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
+			<li class="loginRequired gamification" hidden><a id="currentPoints"></a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
 			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
 			<li class="has-form">

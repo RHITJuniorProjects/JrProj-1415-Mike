@@ -37,11 +37,12 @@
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
 			<li><a onclick="showMyTasksPage()">My Tasks</a></li>
-			<li><a >My Statistics</a></li>
+			<li><a onclick="showMyStatsticsPage()">My Statistics</a></li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
             <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
+			<li class="loginRequired gamification" hidden><a id="currentPoints"></a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
 			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
 			<li class="has-form">
@@ -218,15 +219,17 @@
                 <td>Due Date</td>
                 <td>Is Completed</td>
 				<td>Estimated Hours</td>
+				<td>Bounty Points</td>
 			</thead>
 			<tbody id="task-rows">
 			</tbody>
 		</table>
-		<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
-			Add New Task
-		</div>
-		<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
-			Task Statistics
+			<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+				Add New Task
+			</div>
+			<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
+				Task Statistics
+			</div>
 		</div>
 		<div id="milestone-burn-down-chart">
 		</div>
@@ -253,6 +256,7 @@
             <td>Due Date</td>
             <td>Is Completed</td>
             <td>Estimated Hours</td>
+            <td>Bounty Points</td>
             </thead>
             <tbody id="my-tasks-rows">
             </tbody>
@@ -309,20 +313,21 @@
 	</div>
 </div>
         <div id='my-statistics-page' hidden>
-	<div class="small-2 columns small-offset-1 tabbar">
-	</div>
-		<div class="content">
-			hello
+    <div class="main-content">
+	<!-- <div class="small-2 columns small-offset-1 tabbar">
+	</div> -->
+		<!-- <div class="content"> -->
 				<div class="row">
 					<div class="small-12 columns">
-						<div id="UserStatistics1"></div>
+						<div id="UserStatistics3"></div>
 					</div>
 					<div class="small-12 columns">
-						<div id="UserStatistics2"></div>
+						<div id="UserStatistics4"></div>
 					</div>
 				</div>
+			  </div>
 			</div>
-		</div>
+
 		
 		</body>
 </html>

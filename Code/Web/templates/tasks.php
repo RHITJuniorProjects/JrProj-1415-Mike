@@ -10,15 +10,17 @@
                 <td>Due Date</td>
                 <td>Is Completed</td>
 				<td>Estimated Hours</td>
+				<td>Bounty Points</td>
 			</thead>
 			<tbody id="task-rows">
 			</tbody>
 		</table>
-		<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
-			Add New Task
-		</div>
-		<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
-			Task Statistics
+			<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+				Add New Task
+			</div>
+			<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
+				Task Statistics
+			</div>
 		</div>
 		<div id="milestone-burn-down-chart">
 		</div>

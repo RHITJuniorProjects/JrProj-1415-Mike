@@ -14,28 +14,25 @@ var getNameAndDraw;
 var pieChartDrawer;
 var getMilestoneData;
 var getProjectData;
-var UserMilestone = [];
-var UserMilestoneName = [];
-var UserLocAdded = [];
-var UserLocRemoved = [];
-var UserTotalLoc = [];
-var UserTotalHours = [];
+var UserMilestoneName;
+var UserLocAdded;
+var UserLocRemoved;
+var UserTotalLoc;
+var UserTotalHours;
 
 
 function drawProjectStuff (fb) {
 
 fb.child("projects").on('value', function(snapshot) {
     var projectArray = [];
-
-    //console.log("function called");
     
     for(var item in snapshot.val()){
-        //console.log(item);
+        
         projectArray.push(item);
     }
 
     for(i = 0; i<projectArray.length; i++){
-       //console.log("milestone id " + milestoneNameArray[i]);
+       
         getProjectData(projectArray[i], projectArray);
      }
 
@@ -43,28 +40,25 @@ fb.child("projects").on('value', function(snapshot) {
 
 function getProjectData(item, array){
     fb.child("projects/" + item +"/hours_percent").on('value',function(snapshot){
-       // console.log(array);
+       
         projectHoursArray.push(snapshot.val());
 
-       // if(array.length == projectHoursArray.length){
+       
            fb.child("projects/" + item +"/name").on('value',function(snapshot){
-            //console.log(item);
+            
             projectNameArray.push(snapshot.val());
-            //console.log(snapshot.val());
+           
             });
         
-         //if(array.length == projectNameArray.length){
+         
            fb.child("projects/" + item +"/task_percent").on('value',function(snapshot){
             projectTaskArray.push(snapshot.val());
 
 
          });
        // }
-	// XXX: these function freeze the website
-    // projectDrawerHours(projectNameArray, projectHoursArray);
-    // projectDrawerTask(projectNameArray, projectTaskArray);
-
-
+   		projectDrawerHours(projectNameArray, projectHoursArray);
+    	projectDrawerTask(projectNameArray, projectTaskArray);
     });
 
 };
@@ -160,22 +154,14 @@ function projectDrawerTask(name, taskData) {
 function drawTaskStuff (projID, mileID, fb) {
   projectID = projID.toString();
   milestoneID = mileID.toString();
-   // console.log("xx"+projectID);
-   // console.log("xx"+milestoneID);
-
-  // console.log(milestoneID);
 
   fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks").on('value', function(snapshot) {
     var taskIDArray = [];
-  //  console.log(snapshot.val());
-  // console.log("xxx");
     for(var item in snapshot.val()){
-      //  console.log(item);
         taskIDArray.push(item);
     }
      //console.log(taskIDArray[0]);
     for(i =0; i < taskIDArray.length; i++){
-       // console.log(i);
         getTaskData(projectID, milestoneID, taskIDArray[i], taskIDArray);
     }
 });
@@ -190,7 +176,7 @@ function getTaskData(projectID, milestoneID, item, array){
             taskPercentArray.push(snapshot.val());
 
             });
-        // }?
+       
         taskDrawer(taskNameArray, taskPercentArray);
     });
 };
@@ -198,7 +184,6 @@ function getTaskData(projectID, milestoneID, item, array){
 function taskDrawer(name, percent_complete){
       $('#taskContainer').highcharts({
         chart: {
-            //renderTo: 'taskContainer',
             type: 'column',
             options3d: {
                 enabled: false,
@@ -465,9 +450,15 @@ function pieChartDrawer(temp){
 
 function drawUserStatistics(fb, currentUser) {
     var projectArr = [];
+    var UserMilestone = [];
+    UserMilestoneName = [];
+    UserLocAdded = [];
+    UserLocRemoved = [];
+    UserTotalLoc = [];
+    UserTotalHours = [];
+
     fb.child("users/" + currentUser +"/projects").on('value', function(snapshot) {
    
-
     for(var item in snapshot.val()){
         projectArr.push(item);
     }
@@ -480,6 +471,8 @@ function drawUserStatistics(fb, currentUser) {
 
      UserStatistics1(UserMilestoneName,UserLocAdded,UserLocRemoved,UserTotalLoc);
      UserStatistics2(UserMilestoneName,UserTotalHours);
+     UserStatistics3(UserMilestoneName,UserLocAdded,UserLocRemoved,UserTotalLoc);
+     UserStatistics4(UserMilestoneName,UserTotalHours);
 });
 
 
@@ -575,6 +568,81 @@ function UserStatistics1(categories, loc_added, loc_removed, total_lines_of_code
 
 function UserStatistics2(categories, hours) {
     $('#UserStatistics2').highcharts({
+        title: {
+            text: 'User Hour Statistics',
+            x: -20 //center
+        },
+        xAxis: {
+            categories: categories
+            },
+       yAxis: {
+            title: {
+                text: 'Hours'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Hours',
+            data: hours
+        }]
+    });
+};
+function UserStatistics3(categories, loc_added, loc_removed, total_lines_of_code) {
+    $('#UserStatistics3').highcharts({
+        title: {
+            text: 'User Line of Code Statistics',
+            x: -20 //center
+        },
+        xAxis: {
+            categories: categories
+            },
+       yAxis: {
+            title: {
+                text: 'Lines of Code'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '°C'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: 'Lines of Code Added',
+            data: loc_added
+        }, {
+            name: 'Lines of Code Removed',
+            data: loc_removed
+        }, {
+            name: 'Total Lines of Code',
+            data: total_lines_of_code
+        }]
+    });
+};
+
+function UserStatistics4(categories, hours) {
+    $('#UserStatistics4').highcharts({
         title: {
             text: 'User Hour Statistics',
             x: -20 //center
