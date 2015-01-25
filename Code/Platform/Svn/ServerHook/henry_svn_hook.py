@@ -18,7 +18,9 @@ def commit(ref,message,diff):
     mID = firebase_utils.getMilestoneID(ref,pID,fields['milestone'])
     tID = firebase_utils.getTaskID(ref,pID,mID,fields['task'])
     firebase_utils.commit(ref,fields['message'],uID,pID,mID,tID,fields['hours'],fields['status'],fields['added_lines_of_code'],fields['removed_lines_of_code'])
-
+    if 'pp' in fields:
+        uID = firebase_utils.getUserID(ref,fields['pp'])
+        firebase_utils.commit(ref,fields['message'],uID,pID,mID,tID,fields['hours'],fields['status'],fields['added_lines_of_code'],fields['removed_lines_of_code'])
 
 def parse(message):
     field_strings = re.findall(r'\[.*?\]',message)
