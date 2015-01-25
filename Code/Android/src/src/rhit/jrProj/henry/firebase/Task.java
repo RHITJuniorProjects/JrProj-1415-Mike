@@ -1,5 +1,7 @@
 package rhit.jrProj.henry.firebase;
 
+import java.util.ArrayList;
+
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import android.os.Parcel;
@@ -85,6 +87,7 @@ public class Task implements Parcelable {
 	 * task that this object has been updated.
 	 */
 	private ListChangeNotifier<Task> listViewCallback;
+	private ListChangeNotifier<Bounty> bountyListViewCallback;
 
 	/**
 	 * The task's assignee(s)
@@ -120,6 +123,10 @@ public class Task implements Parcelable {
 	 */
 	public static String pointsName= "points";
 	/**
+	 * A List of bounties that are contained within the task
+	 */
+	private ArrayList<Bounty> bounties = new ArrayList<Bounty>();
+	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
 	public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
@@ -132,6 +139,14 @@ public class Task implements Parcelable {
 			return new Task[size];
 		}
 	};
+	/**
+	 * Gets the TaskListViewCallback for a task
+	 * 
+	 * @return
+	 */
+	public ListChangeNotifier<Bounty> getBountyListViewCallback() {
+		return this.bountyListViewCallback;
+	}
 
 	/**
 	 * Creates a new task from a parcel
@@ -543,6 +558,65 @@ public class Task implements Parcelable {
 		}
 	}
 	/**
+	 * Listener for Bounties
+	 */
+	class GrandChildrenListener implements ChildEventListener {
+		private Task task;
+
+		public GrandChildrenListener(Task task) {
+			this.task = task;
+		}
+
+		/**
+		 * Do nothing
+		 */
+		public void onCancelled(FirebaseError arg0) {
+			// nothing to do
+		}
+
+		/**
+		 * Fills in the new task's properties including the task name,
+		 * description and list of bounties for that task
+		 */
+		public void onChildAdded(DataSnapshot arg0, String arg1) {
+			Bounty t = new Bounty(arg0.getRef().toString());
+			if (!this.task.getBounties().contains(t)) {
+				t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
+				this.task.getBounties().add(t);
+			}
+			t.setListChangeNotifier(this.task.getBountyListViewCallback());
+			if (this.task.listViewCallback != null) {
+				this.task.listViewCallback.onChange();
+			}
+		}
+
+		/**
+		 * This will be called when the task data in Firebased is updated
+		 */
+		public void onChildChanged(DataSnapshot arg0, String arg1) {
+			// All changes done within Bounty
+
+		}
+
+		/**
+		 * Might do something here for the tablet
+		 */
+		public void onChildMoved(DataSnapshot arg0, String arg1) {
+			// Nada- yet
+		}
+
+		/**
+		 * Removes a bounty from a task
+		 */
+		public void onChildRemoved(DataSnapshot arg0) {
+			Bounty t = new Bounty(arg0.getRef().toString());
+			this.task.getBounties().remove(t);
+			if (this.task.listViewCallback != null) {
+				this.task.listViewCallback.onChange();
+			}
+		}
+	}
+	/**
 	 *  Compares this project with the other given project. This implementation treats lower 
 	 *  case letters the same as upper case letters. Also treats numbers differently,
 	 *   i.e. puts 10 after 9 instead of after 1
@@ -552,6 +626,10 @@ public class Task implements Parcelable {
 	public int compareToIgnoreCase(Task p){
 		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
 	}
+	public ArrayList<Bounty> getBounties() {
+		return this.bounties;
+	}
+
 	/**
 	 * Updates the points assigned to this task
 	 */

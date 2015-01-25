@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rhit.jrProj.henry.TaskListFragment.Callbacks;
+import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -273,8 +274,8 @@ public class CreateTaskFragment extends DialogFragment implements
 		bounties.put("due_date", "No Due Date");
 		bounties.put("hour_limit", 50);
 		bounties.put("line_limit", "None");
-		bounties.put("name", "Bounty");
-		bounties.put("point", 20);
+		bounties.put("name", Bounty.completionName);
+		bounties.put("points", 0);
 		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
 		String id2 = f3.toString().substring(f2.toString().lastIndexOf("/") + 1);

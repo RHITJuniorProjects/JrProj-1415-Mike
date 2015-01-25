@@ -18,6 +18,7 @@ public class Bounty {
 	private int lineLimit = -1;
 	private String name;
 	private int points = -1;
+	public static String completionName="completion";
 	Firebase firebase;
 	
 	/**
@@ -25,7 +26,7 @@ public class Bounty {
 	 * Firebase is updated. This then notifies the object that is displaying the
 	 * task that this object has been updated.
 	 */
-	private ListChangeNotifier<Task> listViewCallback;
+	private ListChangeNotifier<Bounty> listViewCallback;
 	/**
 	 * The bounty's parent project ID
 	 */
@@ -105,7 +106,7 @@ public class Bounty {
 	 * 
 	 * @param lcn
 	 */
-	public void setListChangeNotifier(ListChangeNotifier<Task> lcn) {
+	public void setListChangeNotifier(ListChangeNotifier<Bounty> lcn) {
 		this.listViewCallback = lcn;
 	}
 
