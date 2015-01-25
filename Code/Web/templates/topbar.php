@@ -18,6 +18,7 @@
 		</ul>
 		<ul class="right">
             <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
+			<li class="loginRequired gamification" hidden><a id="currentPoints"></a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
 			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
 			<li class="has-form">

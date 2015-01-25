@@ -462,6 +462,7 @@ function Project(firebase) {
     this.__taskPercent = firebase.child('task_percent');
     this.__milestonePercent = firebase.child('milestone_percent');
     this.__hoursPercent = firebase.child('hours_percent');
+    this.__totalPoints = firebase.root().child('users/' + user.uid + '/projects/' + this.uid + '/total_points');
 };
 
 Project.prototype = {
@@ -480,6 +481,15 @@ Project.prototype = {
             callback(dat.val());
         });
     },
+    getTotalPoints: function (callback) {
+        this.__totalPoints.on('value', function (dat) {
+            console.log(dat.val());
+            callback(dat.val());
+        });
+    },
+    setTotalPoints: function (points) {
+        this.__totalPoints.set(points);
+    },
     setName: function (name) {
         this.__name.set(name);
     },
@@ -492,7 +502,7 @@ Project.prototype = {
         this.__dueDate.set(due);
     },
     setDescription: function (desc) {
-        this.__description.set(description);
+        this.__description.set(desc);
     },
     getButtonDiv: function (callback) {
         var project = $('<div class="row project">'),
@@ -505,12 +515,12 @@ Project.prototype = {
             nameSpan = $('<span>'),
             descDiv = $('<div>'),
             dueDiv = $('<div>'),
+            pointsDiv = $('<div>'),
 			thisProject = this;
-
         projectA.append(nameSpan);
        	projectButton.append(projectA);
 		memberButton.append(memberA);
-        leftColumn.append(projectButton, descDiv, dueDiv, memberButton);
+        leftColumn.append(projectButton, descDiv, dueDiv, pointsDiv, memberButton);
 		memberA.attr('href','#');
 		memberA.attr('data-reveal-id','member-modal');
 		memberA.text('view members');
@@ -540,6 +550,9 @@ Project.prototype = {
         });
         this.getDescription(function (descriptionStr) {
             descDiv.html(descriptionStr);
+        });
+        this.getTotalPoints(function (points) {
+            pointsDiv.html("Project points: "  + points);
         });
         this.getDueDate(function (dateStr) {
             if (dateStr) {
@@ -1410,6 +1423,9 @@ firebase.onAuth( // called on page load to auth users
                     $(".notLoggedIn").hide();
                     $(".loginRequired").show();
 					selectUser(user);
+                    firebase.child("users/" + user.uid + "/total_points").on("value", function(snap) {
+                        $("#currentPoints").html("Points: " + snap.val());
+                    });
                     drawUserStatistics(firebase,user.uid);
                 }
 				milestonePage = $('#milestones-page');
