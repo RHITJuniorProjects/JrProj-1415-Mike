@@ -35,17 +35,15 @@
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         //NSLog(@"Got here");
         NSDictionary *userInfo = snapshot.value[@"users"][self.userid];
-        self.nameLabel.text = [NSString stringWithFormat:@"Name: %@",[userInfo objectForKey:@"name"]];
-        self.emailLabel.text = [NSString stringWithFormat:@"Email: %@",[userInfo objectForKey:@"email"]];
         //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
-        NSLog([NSString stringWithFormat:@"%@, %@",[userInfo objectForKey:@"name"], [userInfo objectForKey:@"email"]]);
+
         self.navigationItem.title = [userInfo objectForKey:@"name"];
         NSString *points = [userInfo objectForKey:@"total_points"];
+        NSLog([NSString stringWithFormat:@"%@",[userInfo objectForKey:@"total_points"]]);
         self.pointsLabel.text = [NSString stringWithFormat:@"Total Points: %@",points];
-        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
