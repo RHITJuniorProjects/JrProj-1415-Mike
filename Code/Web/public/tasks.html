@@ -10,6 +10,7 @@
                 <td>Due Date</td>
                 <td>Is Completed</td>
 				<td>Estimated Hours</td>
+				<td>Bounty Points</td>
 			</thead>
 			<tbody id="task-rows">
 			</tbody>
@@ -20,7 +21,7 @@
 				Add New Task
 			</div>
 			<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
-				Task statics
+				Task Statistics
 			</div>
 		</div>
 		<div id="task-modal" class="reveal-modal" data-reveal>

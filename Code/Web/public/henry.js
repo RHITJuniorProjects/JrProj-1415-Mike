@@ -62,6 +62,7 @@ function selectMilestone(milestone){
 }
 
 function showProjects(){
+    drawUserStatistics(firebase,user.uid);
     drawProjectStuff(firebase);
     milestonePage.hide();
     projectPage.show();
@@ -791,6 +792,7 @@ function Task(firebase) {
     this.__due_date = firebase.child('due_date');
     this.__is_completed = firebase.child('is_completed');
     this.__hour_estimate = firebase.child('updated_hour_estimate');
+    this.__bountiesPoints = firebase.child('bounties/points');
 };
 
 Task.Statuses = [
@@ -844,6 +846,11 @@ Task.prototype = {
             callback(dat.val());
         });
     },
+    getBountyPoints: function (callback) {
+        this.__bountiesPoints.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
     getFlag: function (callback) {
         this.__is_completed.on('value', function (dat) {
             callback(dat.val());
@@ -887,10 +894,11 @@ Task.prototype = {
         var due = $('<td>');
         var flag = $('<td>');
         var hoursEstimate = $('<td>');
+        var bountyPoints = $('<td>');
         var task = this;
         var modal = $('#task-modal');
 
-        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate);
+        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate, bountyPoints);
         this.getName(function (nameStr) {
             name.html(nameStr);
         });
@@ -928,11 +936,15 @@ Task.prototype = {
         this.getTimeEstimate(function (hour_estimateStr) {
             hoursEstimate.html(hour_estimateStr);
         });
+        this.getBountyPoints(function (bounty_point) {
+            bountyPoints.html(bounty_point);
+        });
         row.click(function () {
             modal.children().remove();
             task.__firebase.once('value', function (snap) {
-                var vals = snap.val(),
-                    nameInput = $('<input type="text" value="' + vals.name + '">'),
+                var vals = snap.val();
+                    console.log(vals);
+                    var nameInput = $('<input type="text" value="' + vals.name + '">'),
                     descriptionInput = $('<textarea>' + vals.description + '</textarea>'),
                     userSelect = users.getSelect(function (user) {
                         selectedUser = user;
@@ -944,6 +956,7 @@ Task.prototype = {
                     dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
                     flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
                     estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
+                    bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">'),
                     nameH = $('<h3>'),
                     submit = $('<input class="button" value="Edit Task" />'),
                     taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
@@ -963,6 +976,7 @@ Task.prototype = {
                     label(dueInput, 'Due Date'),
                     label(flagInput, 'Is Complete'),
                     label(estHoursInput, 'Estimated Hours'),
+                    label(bountyPoints, 'Bounty Points'),
                     submit,
                     taskError
                 );
@@ -1012,6 +1026,7 @@ Task.prototype = {
                     } else {
                         categoryName = categoriesText.val();
                     }
+
                     task.__firebase.update({
                         name: nameInput.val(),
                         description: descriptionInput.val(),
@@ -1020,7 +1035,8 @@ Task.prototype = {
                         category: categoryName,
                         status: statusSelect.val(),
                         is_completed: flagVal,
-                        updated_hour_estimate: estHours
+                        updated_hour_estimate: estHours,
+                        bounties: {points: bountyPoints.val()}                        
                     });
                     var cate = {};
                     cate[categoryName] = true;
@@ -1064,6 +1080,9 @@ Task.prototype = {
     setDueDate: function (dueDate) {
         this.__due_date.set(dueDate);
     },
+    setBountyPoints: function (points) {
+        this.__bountiesPoints.set(points);
+    },
     off: function () {
         this.__firebase.off();
     }
@@ -1084,6 +1103,7 @@ function newTask() {
         categoriesText = $('<input type="text" hidden=true>'),
         statusSelect = makeSelect(Task.Statuses, "New"),
         estHoursInput = $('<input type="text">'),
+        bountyInput = $('<input type="text">'),
         nameH = '<h3>Add New Task</h3>',
         submit = $('<input class="button" value="Add Task" />'),
         modal = $('#task-modal'),
@@ -1102,6 +1122,7 @@ function newTask() {
         categoriesText,
         label(statusSelect, 'Status'),
         label(estHoursInput, 'Estimated Hours'),
+        label(bountyInput, 'Bounty Points'),
         //label(completed, 'Is Completed'),
         label(dueInput, "Due Date"),
         submit,
@@ -1157,8 +1178,11 @@ function newTask() {
             status: statusSelect.val(),
             original_hour_estimate: estHours,
             is_completed: false,    //default task to uncompleted
-            due_date: dueInput.val()
+            due_date: dueInput.val(),
+            bounties : {points : bountyInput.val()}
+            
         });
+
         $("#task-modal").foundation('reveal', 'close');
     });
 }
@@ -1181,6 +1205,7 @@ function MyTasks(firebase) {
     this.__due_date = firebase.child('due_date');
     this.__is_completed = firebase.child('is_completed');
     this.__hour_estimate = firebase.child('updated_hour_estimate');
+    this.__bountiesPoints = firebase.child('bounties/points');
 };
 
 MyTasks.prototype = {
@@ -1212,6 +1237,11 @@ MyTasks.prototype = {
     },
     getStatus: function (callback) {
         this.__status.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getBountyPoints: function (callback) {
+        this.__bountiesPoints.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -1263,9 +1293,10 @@ MyTasks.prototype = {
         var due = $('<td>');
         var flag = $('<td>');
         var hoursEstimate = $('<td>');
+        var bpts = $('<td>');
         var task = this;
 
-        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate);
+        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate,bpts);
         this.getName(function (nameStr) {
             name.html(nameStr);
         });
@@ -1302,6 +1333,9 @@ MyTasks.prototype = {
         });
         this.getTimeEstimate(function (hour_estimateStr) {
             hoursEstimate.html(hour_estimateStr);
+        });
+        this.getBountyPoints(function (points) {
+            bpts.html(points);
         });
         return row;
     },
