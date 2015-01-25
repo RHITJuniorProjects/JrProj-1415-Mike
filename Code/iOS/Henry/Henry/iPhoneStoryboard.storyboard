@@ -800,6 +800,9 @@
                                         <state key="normal" title="Set Completion Bounty">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="bountyButtonPressed:" destination="t9A-hg-iUZ" eventType="touchUpInside" id="fzO-nw-fZP"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </scrollView>
@@ -810,6 +813,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO"/>
                     <connections>
                         <outlet property="assigneeNameLabel" destination="p8e-jt-aim" id="qlA-BU-Nda"/>
+                        <outlet property="bountyButton" destination="3wo-Ka-5gI" id="5dZ-o2-cjT"/>
                         <outlet property="currentEstimateField" destination="9lS-Bu-8si" id="c7F-de-OUb"/>
                         <outlet property="descriptionView" destination="aZf-oO-Mcq" id="Mmh-yT-8cj"/>
                         <outlet property="hoursLabel" destination="jJp-wA-F7o" id="ayH-TL-HJ6"/>

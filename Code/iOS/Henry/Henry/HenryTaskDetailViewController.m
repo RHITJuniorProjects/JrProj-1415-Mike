@@ -19,6 +19,7 @@
 @property double currentTimeEstimate;
 @property double hoursSpent;
 @property FDataSnapshot* snapshot;
+@property NSString *due_date;
 @end
 
 @implementation HenryTaskDetailViewController
@@ -93,7 +94,7 @@
     NSDictionary *json = snapshot.value[@"projects"][self.ProjectID][@"milestones"][self.MileStoneID][@"tasks"][self.taskID];
     
     NSDictionary *jsonForName = snapshot.value[@"users"][[json objectForKey:@"assignedTo"]];
-    
+        self.due_date = [json objectForKey:@"due_date"];
     self.taskNameLabel.text = [json objectForKey:@"name"];
     self.descriptionView.text = [json objectForKey:@"description"];
     [self.statusButton setTitle:[json objectForKey:@"category"] forState:UIControlStateNormal];
@@ -158,6 +159,56 @@
         
     }
     
+}
+
+- (IBAction)bountyButtonPressed:(id)sender {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Set Bounty"
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"Cancel"
+                                          otherButtonTitles:@"Set", nil];
+    [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [alert textFieldAtIndex:0].placeholder = @"Number of Bounty Points";
+    [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypeDecimalPad;
+    
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    @try{
+        if (buttonIndex == 1) {
+            NSString *points = [alertView textFieldAtIndex:0].text;
+            if ([points length] > 0) {
+                
+                
+                
+                NSString *urlString = [NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@/bounties/completionBounty", self.ProjectID, self.MileStoneID, self.taskID];
+                Firebase *bountyRef = [self.fb childByAppendingPath:urlString];
+                
+                NSDictionary *data = @{
+                                       @"claimed" : @"none",
+                                       @"description" : @"Complete this task",
+                                       @"due_date" : self.due_date,
+                                       @"points" : points,
+                                       @"name" : @"Completion Bounty"
+                                       };
+                
+                [bountyRef setValue:data];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
+                                                                message:@"You have an empty field."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 @end
