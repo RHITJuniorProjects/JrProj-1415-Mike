@@ -1,20 +1,16 @@
 package rhit.jrProj.henry;
 
-import java.util.Stack;
-
 import rhit.jrProj.henry.firebase.User;
-
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
-
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
 
 public class WelcomeActivity extends Activity implements OnClickListener {
 
@@ -72,8 +68,8 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		Intent intent;
 		switch (v.getId()) {
 		case R.id.go_to_profile_btn:
-			// intent = new Intent(this, );
-			// startActivity(intent);
+			intent = new Intent(this, ProfileActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.go_to_metrics_btn:
 
