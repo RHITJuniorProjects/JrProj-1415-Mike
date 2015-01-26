@@ -262,7 +262,8 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
         team_emails = teamEmails(ref,projectID)
         team_emails = [e for e in team_emails if e != email]
         if not team_emails:
-            print 'Henry: No team members, are you sure you pair programmed?'
+            print 'HENRY: No team members, are you sure you pair programmed?'
+            exit(1)
         index = 1
         for e in team_emails:
             print ' - '+str(index)+'. '+e
@@ -275,7 +276,8 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
         elif partner in team_emails:
             pp = getUserID(partner,ref)
         else:
-            pp = None
+            print 'HENRY: Invalid team member'
+            exit(1)
     else:
         pp = None
 
