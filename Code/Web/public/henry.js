@@ -1704,3 +1704,16 @@ function showDatePicker(id) {
     $(id).fdatepicker({format: 'yyyy-mm-dd'});
     $(id).fdatepicker('show');
 }
+
+$(function(){
+	var check = $('#gamification-switch');
+	check.prop('checked',true)
+	check.change(function(){
+		var checked = check.is(':checked');
+		if(checked){
+			$('.gamification').show()
+		} else {
+			$('.gamification').hide();
+		}
+	});
+});

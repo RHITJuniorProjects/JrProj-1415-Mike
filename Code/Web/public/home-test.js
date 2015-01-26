@@ -57,8 +57,8 @@ function getProjectData(item, array){
 
          });
        // }
-   		projectDrawerHours(projectNameArray, projectHoursArray);
-    	projectDrawerTask(projectNameArray, projectTaskArray);
+   		//projectDrawerHours(projectNameArray, projectHoursArray);
+    	//projectDrawerTask(projectNameArray, projectTaskArray);
     });
 
 };
@@ -414,6 +414,16 @@ var change = {
 
 function pieChartDrawer(temp){
     $(function () {
+		var check = $('#gamification-switch');
+		check.prop('checked',true)
+		check.change(function(){
+			var checked = check.is(':checked');
+			if(checked){
+				$('.gamification').show()
+			} else {
+				$('.gamification').hide();
+			}
+		});
         $('#linesOfCode').highcharts({
             chart: {
                 plotBackgroundColor: null,
