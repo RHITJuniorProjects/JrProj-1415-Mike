@@ -692,7 +692,6 @@ Project.prototype = {
     },
     getTotalPoints: function (callback) {
         this.__totalPoints.on('value', function (dat) {
-            //console.log(dat.val());
             callback(dat.val());
         });
     },
@@ -724,7 +723,7 @@ Project.prototype = {
             nameSpan = $('<span>'),
             descDiv = $('<div>'),
             dueDiv = $('<div>'),
-            pointsDiv = $('<div>'),
+            pointsDiv = $('<div class="gamification">'),
 			thisProject = this;
         projectA.append(nameSpan);
        	projectButton.append(projectA);
