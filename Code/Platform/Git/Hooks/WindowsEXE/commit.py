@@ -280,7 +280,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
         sys.stdout.write('Partner: ')
         sys.stdout.flush()
         partner = raw_input()
-        if partner.isdigit() and int(partner) < len(team_emails):
+        if partner.isdigit() and int(partner) <= len(team_emails):
             pp = getUserID(team_emails[int(partner)-1],ref)
         elif partner in team_emails:
             pp = getUserID(partner,ref)
