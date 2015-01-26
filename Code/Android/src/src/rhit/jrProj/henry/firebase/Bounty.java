@@ -20,6 +20,7 @@ public class Bounty {
 	private int points = -1;
 	public static String completionName="completion";
 	Firebase firebase;
+	private String id;
 	
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -244,6 +245,7 @@ public class Bounty {
 		 * Fills in the new point's properties.
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
+			
 			if (arg0.getKey().equals("claimed")) {
 				this.bounty.claimed = arg0.getValue().toString();
 			} else if (arg0.getKey().equals("description")) {
@@ -304,7 +306,7 @@ public class Bounty {
 	 */
 	public void setPoints(int newPoints) {
 		this.points = newPoints;
-		this.firebase.child(Task.pointsName).setValue(this.points);
+		this.firebase.child("points").setValue(this.points);
 		if (this.listViewCallback != null) {
 			this.listViewCallback.onChange();
 		}

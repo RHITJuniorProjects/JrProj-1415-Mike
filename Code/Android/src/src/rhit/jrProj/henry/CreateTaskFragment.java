@@ -214,7 +214,7 @@ public class CreateTaskFragment extends DialogFragment implements
 		// Apply the adapter to the spinner
 		mCategory.setAdapter(adapter);
 
-		HorizontalPicker mPointsField = (HorizontalPicker) v
+		mPointsField = (HorizontalPicker) v
 				.findViewById(R.id.horizontal_number_picker);
 		System.out.println(Task.MAX_POINTS);
 		mPointsField.setMaxValue(Task.MAX_POINTS);
@@ -275,10 +275,11 @@ public class CreateTaskFragment extends DialogFragment implements
 		bounties.put("hour_limit", 50);
 		bounties.put("line_limit", "None");
 		bounties.put("name", Bounty.completionName);
-		bounties.put("points", 0);
+		Log.i("points", mPointsField.getValue()+"");
+		bounties.put("points", mPointsField.getValue());
 		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
-		String id2 = f3.toString().substring(f2.toString().lastIndexOf("/") + 1);
+		String id2 = f3.toString().substring(f3.toString().lastIndexOf("/") + 1);
 		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
 				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
 	}

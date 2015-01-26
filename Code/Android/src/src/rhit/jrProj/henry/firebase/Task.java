@@ -88,6 +88,7 @@ public class Task implements Parcelable {
 	 */
 	private ListChangeNotifier<Task> listViewCallback;
 	private ListChangeNotifier<Bounty> bountyListViewCallback;
+	public Bounty completionBounty;
 
 	/**
 	 * The task's assignee(s)
@@ -499,8 +500,6 @@ public class Task implements Parcelable {
 				this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
 			}else if (arg0.getKey().equals("total_hours")) {
 				this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
-			}else if (arg0.getKey().equals(Task.pointsName)) {
-				this.task.points = arg0.getValue(Integer.class).intValue();
 			}
 			
 		}
@@ -537,8 +536,6 @@ public class Task implements Parcelable {
 				this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
 			}else if (arg0.getKey().equals("total_hours")) {
 				this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
-			}else if (arg0.getKey().equals(Task.pointsName)) {
-				this.task.points = arg0.getValue(Integer.class).intValue();
 			}
 		}
 
@@ -588,6 +585,10 @@ public class Task implements Parcelable {
 			if (this.task.listViewCallback != null) {
 				this.task.listViewCallback.onChange();
 			}
+			if (t.getName().equals(Bounty.completionName)){
+				this.task.completionBounty=t;
+				this.task.setPoints(t.getPoints());
+			}
 		}
 
 		/**
@@ -635,7 +636,12 @@ public class Task implements Parcelable {
 	 */
 	public void setPoints(int newPoints){
 		this.points=newPoints;
-		this.firebase.child(Task.pointsName).setValue(this.points);
+		if (this.completionBounty!=null){
+		this.completionBounty.setPoints(this.points);
+		}
+//		this.firebase.child("bounties").child(this.completionBounty.)
+		
+//		this.firebase.child(Task.pointsName).setValue(this.points);
 		if (this.listViewCallback!=null){
 			this.listViewCallback.onChange();
 		}
