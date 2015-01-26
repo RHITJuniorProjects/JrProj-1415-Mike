@@ -258,7 +258,7 @@ public class CreateTaskFragment extends DialogFragment implements
 		map.put("due_date", "No Due Date");
 		map.put("assignedTo", user);
 		map.put("original_hour_estimate", 0);
-		// map.put(Task.pointsName, this.mPointsField.getValue());
+		map.put("points", this.mPointsField.getValue());
 
 		Firebase f2 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId
@@ -282,6 +282,7 @@ public class CreateTaskFragment extends DialogFragment implements
 		String id2 = f3.toString().substring(f3.toString().lastIndexOf("/") + 1);
 		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
 				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
+		
 	}
 
 	@Override

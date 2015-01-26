@@ -636,12 +636,10 @@ public class Task implements Parcelable {
 	 */
 	public void setPoints(int newPoints){
 		this.points=newPoints;
+		this.firebase.child("points").setValue(this.points);
 		if (this.completionBounty!=null){
 		this.completionBounty.setPoints(this.points);
 		}
-//		this.firebase.child("bounties").child(this.completionBounty.)
-		
-//		this.firebase.child(Task.pointsName).setValue(this.points);
 		if (this.listViewCallback!=null){
 			this.listViewCallback.onChange();
 		}

@@ -187,6 +187,7 @@ public class TaskDetailFragment extends Fragment implements
 					this.taskItem));
 			HorizontalPicker numPicker = (HorizontalPicker) rootView
 					.findViewById(R.id.horizontal_number_picker);
+			numPicker.setValue(this.taskItem.getPoints());
 			numPicker.setMaxValue(Task.MAX_POINTS);
 			numPicker.setMinValue(Task.MIN_POINTS);
 			numPicker.setCallbacks(this);
