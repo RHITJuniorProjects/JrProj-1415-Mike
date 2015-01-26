@@ -47,14 +47,30 @@
     
     self.cellTitles = [[NSArray alloc] initWithObjects:@"New", @"Implementation", @"Testing", @"Verify", @"Regression", @"Closed", nil];
     
-    NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://henry-test.firebaseio.com/projects/%@/categories.json", self.projectID]];
+    NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/default_categories.json", [HenryFirebase getFirebaseURL]]];
+    NSURL *customjsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/projects/%@/categories.json", [HenryFirebase getFirebaseURL], self.projectID]];
+    NSURL *custom_jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/projects/%@/custom_categories.json", [HenryFirebase getFirebaseURL], self.projectID]];
+        
     NSData *data = [NSData dataWithContentsOfURL:jsonURL];
+    NSData *customdata = [NSData dataWithContentsOfURL:customjsonURL];
+    NSData *custom_data = [NSData dataWithContentsOfURL:custom_jsonURL];
+        
     NSError *error;
+        
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        self.cellTitles = [json allKeys];
-        self.cellTitles = [self.cellTitles sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    NSDictionary *customjson = [NSJSONSerialization JSONObjectWithData:customdata options:0 error:&error];
+    NSDictionary *custom_json = [NSJSONSerialization JSONObjectWithData:custom_data options:0 error:&error];
+        
+    self.cellTitles = [json allKeys];
+    self.cellTitles = [self.cellTitles arrayByAddingObjectsFromArray:[customjson allKeys]];
+    self.cellTitles = [self.cellTitles arrayByAddingObjectsFromArray:[custom_json allKeys]];
     
-    int initialIndex = [self.cellTitles indexOfObject:self.initialSelection];
+    NSOrderedSet *os = [NSOrderedSet orderedSetWithArray:self.cellTitles];
+    self.cellTitles = [os array];
+    
+    self.cellTitles = [self.cellTitles sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
+    int initialIndex = (int)[self.cellTitles indexOfObject:self.initialSelection];
     self.selectedIndex = initialIndex;
     self.firstTime = YES;
     self.clearChecksOnSelection = NO;

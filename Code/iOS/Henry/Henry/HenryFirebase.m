@@ -12,13 +12,17 @@
 
 +(Firebase *)getFirebaseObject {
     @try{
-    return [[Firebase alloc] initWithUrl:@"https://henry-test.firebaseio.com"];
+    return [[Firebase alloc] initWithUrl:[HenryFirebase getFirebaseURL]];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
         exit(0);
         
     }
+}
+
++(NSString *)getFirebaseURL {
+    return @"https://henry-test.firebaseio.com";
 }
 
 @end

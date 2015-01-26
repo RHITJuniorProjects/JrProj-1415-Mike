@@ -40,7 +40,7 @@
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 self.uid = [defaults objectForKey:@"id"];
                 NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
-                self.projectID = [projects objectAtIndex:0];
+                //self.projectID = [projects objectAtIndex:0];
                 [self populateMembers:snapshot];
             } withCancelBlock:^(NSError *error) {
                 NSLog(@"%@", error.description);
@@ -112,7 +112,7 @@
 {
     @try{
     //Figures out the last clicked segment.
-    int clickedSegment = [sender selectedSegmentIndex];
+    int clickedSegment = (int)[sender selectedSegmentIndex];
     if(clickedSegment == 0){
         self.pieChart.center = CGPointMake(0,1000);
         self.lineGraph.center = CGPointMake(0,2000);
@@ -137,7 +137,7 @@
 - (IBAction)ipadSegControlClicked:(id)sender {
     @try{
         //Figures out the last clicked segment.
-        int clickedSegment = [sender selectedSegmentIndex];
+        int clickedSegment = (int)[sender selectedSegmentIndex];
         if(clickedSegment == 0){
             self.pieChart.hidden = YES;
             self.hoursLoggedLabel.hidden = NO;

@@ -11,4 +11,5 @@
 
 @interface HenryFirebase : NSObject
 +(Firebase *)getFirebaseObject;
++(NSString *)getFirebaseURL;
 @end
