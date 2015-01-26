@@ -1351,6 +1351,7 @@ function newTask() {
 			label(estHoursInput, 'Estimated Hours'),
 			//label(completed, 'Is Completed'),
 			label(dueInput, "Due Date"),
+            label(bountyInput,"Bounty Points"),
 			submit,
 			taskError
 		);
@@ -1404,7 +1405,8 @@ function newTask() {
 				status: statusSelect.val(),
 				original_hour_estimate: estHours,
 				is_completed: false,    //default task to uncompleted
-				due_date: dueInput.val()
+				due_date: dueInput.val(),
+                bounties: {points: bountyInput.val()} 
 			});
 			$("#task-modal").foundation('reveal', 'close');
 		});
