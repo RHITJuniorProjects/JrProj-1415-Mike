@@ -6,6 +6,3 @@ if exists("1422304394995.png"):
 else:
     print("It failed")
 click("1422304425318.png")
-
-##Test ability to see my achievements
-
