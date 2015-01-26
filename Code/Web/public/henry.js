@@ -1116,7 +1116,7 @@ Task.prototype = {
         var due = $('<td>');
         var flag = $('<td>');
         var hoursEstimate = $('<td>');
-        var bountyPoints = $('<td>');
+        var bountyPoints = $('<td class="gamification">');
         var task = this;
         var modal = $('#task-modal');
 
@@ -1258,7 +1258,7 @@ Task.prototype = {
                         status: statusSelect.val(),
                         is_completed: flagVal,
                         updated_hour_estimate: estHours,
-                        bounties: {points: bountyPoints.val()}                        
+                        bounties: {points: bountyPoints.val()}
                     });
                     var cate = {};
                     cate[categoryName] = true;
