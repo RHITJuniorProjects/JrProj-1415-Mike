@@ -71,7 +71,7 @@
             }
         }
     }
-    
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.tasks = allTasks;
     [self.tableView reloadData];
 }

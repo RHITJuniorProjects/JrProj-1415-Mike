@@ -25,7 +25,7 @@
         [super viewDidLoad];
         // Do any additional setup after loading the view.
         self.fb = [HenryFirebase getFirebaseObject];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         self.burndownData = [[NSMutableArray alloc] init];
         self.burndown.enableYAxisLabel = YES;

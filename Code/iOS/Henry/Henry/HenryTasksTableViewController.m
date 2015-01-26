@@ -69,7 +69,7 @@
     
     self.fb = [HenryFirebase getFirebaseObject];
 
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -279,6 +279,10 @@
         exit(0);
         
     }
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.fb removeAllObservers];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {

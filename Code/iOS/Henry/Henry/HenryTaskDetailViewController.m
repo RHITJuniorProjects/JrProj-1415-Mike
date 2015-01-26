@@ -37,7 +37,7 @@
         NSLog(@"%@", error.description);
     }];
     
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -58,6 +58,7 @@
         
     }
 }
+
 
 - (IBAction)updateCurrentTimeEstimate:(id)sender {
     @try{
