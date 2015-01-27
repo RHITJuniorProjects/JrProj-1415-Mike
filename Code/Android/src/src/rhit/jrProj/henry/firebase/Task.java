@@ -2,9 +2,13 @@ package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.TaskDetailFragment;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+
+import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Milestone.GrandChildrenListener;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
+import rhit.jrProj.henry.helpers.HorizontalPicker;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -18,7 +22,8 @@ import com.firebase.client.ValueEventListener;
 public class Task implements Parcelable{
 	public static int MAX_POINTS=100;
 	public static int MIN_POINTS=0;
-
+	public TaskDetailFragment hp;
+	
 	/**
 	 * A reference to firebase to keep the data up to date.
 	 */
@@ -635,8 +640,9 @@ public class Task implements Parcelable{
 	 * Updates the points assigned to this task
 	 */
 	public void setCompletionBountyPoints(int newPoints){
-		this.points=newPoints;
+		
 		if (this.completionBounty!=null){
+			this.points=newPoints;
 			this.completionBounty.setPoints(this.points);
 		}
 		if (this.listViewCallback!=null){
@@ -659,6 +665,13 @@ public class Task implements Parcelable{
 			this.listViewCallback.onChange();
 		}
 	}
+	public void setCompletionBounty(Bounty b){
+		Log.i("setCompletionBounty", "here");
+		this.completionBounty=b;
+		
+	}
+
+	
 
 	
 }

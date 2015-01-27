@@ -20,16 +20,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
-public class HorizontalPicker extends LinearLayout {
+public class HorizontalPicker extends LinearLayout{
 	private Button minusButton;
 	private Button plusButton;
-	private Button OKButton;
 	private EditText text;
 	int max_value;
 	int min_value;
 	private Callbacks mCallbacks = sDummyCallbacks;
 	private Task task;
 	private Bounty bounty;
+	private int oldValue;
 
 	public HorizontalPicker(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -40,37 +40,34 @@ public class HorizontalPicker extends LinearLayout {
 		this.minusButton = (Button) this.findViewById(R.id.btn_minus);
 		this.plusButton = (Button) this.findViewById(R.id.btn_plus);
 		this.text = (EditText) this.findViewById(R.id.edit_text);
+		this.text.setText(this.min_value+"");
 		this.text.addTextChangedListener(new TextChangedListener(this));
-		this.minusButton
-				.setOnClickListener(new MinusButtonActionListener(this));
+		this.minusButton.setOnClickListener(new MinusButtonActionListener(this));
 		this.plusButton.setOnClickListener(new PlusButtonActionListener(this));
-		this.OKButton = (Button) this.findViewById(R.id.btn_ok);
-//		this.OKButton.setOnClickListener(new OKButtonActionListener(this));
-		this.OKButton.setVisibility(View.GONE);
+		this.oldValue=new Integer(text.getText().toString());
 
 	}
 
 	public interface Callbacks {
-		public void fireChange(int i);
+		public void fireChange(int old, int nu );
 	}
 
 	private static Callbacks sDummyCallbacks = new Callbacks() {
-		public void fireChange(int i) {
+		public void fireChange(int old, int nu) {
 		}
 	};
 
 	public void setCallbacks(Callbacks c) {
 		this.mCallbacks = c;
 	}
-
-	public void setTask(Task t) {
-		this.task = t;
-		this.setValue(task.getPoints());
-	}
-	public void setBounty(Bounty b){
-		this.bounty=b;
-		this.setValue(bounty.getPoints());
-	}
+//	public void setTask(Task t) {
+//		this.task = t;
+//		this.setValue(task.getPoints());
+//	}
+//	public void setBounty(Bounty b){
+//		this.bounty=b;
+//		this.setValue(bounty.getPoints());
+//	}
 
 	public void setValue(int val) {
 		this.text.setText(val + "");
@@ -90,17 +87,19 @@ public class HorizontalPicker extends LinearLayout {
 
 	public void textChanged() {
 		if (this.mCallbacks != null) {
-			this.mCallbacks.fireChange(new Integer(this.text.getText()
+			this.mCallbacks.fireChange(this.oldValue, new Integer(this.text.getText()
 					.toString()));
 		}
 	}
 
 	class TextChangedListener implements TextWatcher {
 		private HorizontalPicker picker;
+		
 
 		public TextChangedListener(HorizontalPicker hp) {
 			this.picker = hp;
 		}
+		
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
@@ -119,7 +118,9 @@ public class HorizontalPicker extends LinearLayout {
 		@Override
 		public void afterTextChanged(Editable s) {
 			if (s.length() > 0) {
-				this.picker.textChanged();
+				if (this.picker.bounty!=null && this.picker.bounty.getCanChangePoints()){
+					this.picker.textChanged();
+				}
 			}
 
 		}
@@ -167,18 +168,7 @@ public class HorizontalPicker extends LinearLayout {
 		}
 
 	}
-	class OKButtonActionListener implements OnClickListener {
-		private HorizontalPicker picker;
 
-		public OKButtonActionListener(HorizontalPicker hp) {
-			this.picker = hp;
-		}
-
-		@Override
-		public void onClick(View v) {
-			this.picker.textChanged();
-
-		}
-
-	}
+	
+	
 }

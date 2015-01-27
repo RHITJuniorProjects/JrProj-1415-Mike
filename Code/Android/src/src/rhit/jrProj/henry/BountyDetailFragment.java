@@ -114,17 +114,18 @@ public class BountyDetailFragment extends Fragment implements
 					+ this.bountyItem.getPoints());
 			HorizontalPicker numPicker = (HorizontalPicker) rootView
 					.findViewById(R.id.horizontal_number_picker);
-			numPicker.setValue(this.bountyItem.getPoints());
+//			numPicker.setValue(this.bountyItem.getPoints());
 			numPicker.setMaxValue(Task.MAX_POINTS);
 			numPicker.setMinValue(Task.MIN_POINTS);
 			numPicker.setCallbacks(this);
-			numPicker.setBounty(this.bountyItem);
+//			numPicker.setBounty(this.bountyItem);
 			if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser())) {
 				numPicker.setVisibility(View.VISIBLE);
 				numPicker.setEnabled(true);
-				numPicker.setValue(this.bountyItem.getPoints());
+
 
 			}
+			numPicker.setValue(this.bountyItem.getPoints());
 
 //			((TextView) rootView.findViewById(R.id.bounty_task_percent))
 //					.setText("Tasks Completed: "
@@ -180,12 +181,12 @@ public class BountyDetailFragment extends Fragment implements
 
 	
 	@Override
-	public void fireChange(int i) {
-		this.bountyItem.setPoints(i);
+	public void fireChange(int old, int nu) {
+		this.bountyItem.setPoints(nu);
 		if (this.bountyItem.isCompletion()){
 			this.bountyItem.setParentTaskPoints();
 		}
-		this.pointsField.setText("Points: \t" + i);
+		this.pointsField.setText("Points: \t" + nu);
 	}
 
 

@@ -90,10 +90,7 @@
             android:textColor="@color/blue"
             android:textIsSelectable="true"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
-        <rhit.jrProj.henry.helpers.HorizontalPicker
-         android:id ="@+id/horizontal_number_picker"
-         android:layout_width ="wrap_content"
-         android:layout_height ="wrap_content" />
+        
          <Button
                 android:id="@+id/ViewBountiesButton"
                 android:layout_width="wrap_content"

@@ -285,7 +285,7 @@ public class CreateBountyFragment extends DialogFragment implements
 	}
 
 	@Override
-	public void fireChange(int i) {
+	public void fireChange(int old, int nu) {
 		// TODO Auto-generated method stub
 
 	}
