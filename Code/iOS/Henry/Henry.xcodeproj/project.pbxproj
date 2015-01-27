@@ -473,7 +473,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = Henry;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Rose-Hulman";
 				TargetAttributes = {
 					93447F4F19C91C5500C2FC38 = {

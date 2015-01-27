@@ -66,16 +66,23 @@
     //Figures out the last clicked segment.
     int clickedSegment = [sender selectedSegmentIndex];
     if(clickedSegment == 0){
+        /*
         if(self.pieChart.hidden){
             self.pieChart.hidden = NO;
         }
         self.tasksHeader.hidden = NO;
         self.burndown.hidden = YES;
-
+         */
+        self.burndown.center = CGPointMake(0,2000);
+        self.pieChart.center = CGPointMake(147,315);
     }else{
+        /*
         self.pieChart.hidden = YES;
         self.tasksHeader.hidden = YES;
         self.burndown.hidden = NO;
+         */
+        self.pieChart.center = CGPointMake(900, 2000);
+        self.burndown.center = CGPointMake(157,315);
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
