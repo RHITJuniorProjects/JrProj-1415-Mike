@@ -136,9 +136,9 @@ public class ProjectDetailFragment extends Fragment {
 					projectMemberView.findViewById(R.id.metrics_label).setVisibility(View.VISIBLE);
 					ProgressBar metricProgress = (ProgressBar) projectMemberView.findViewById(R.id.metricsProgressBar);
 					metricProgress.setVisibility(View.VISIBLE);
-					Log.d("Henry", metricProgress.getProgress()+"|"+m.getProjectMetrics(this.projectItem.getProjectId()).getHoursPercent());
+//					Log.d("Henry", metricProgress.getProgress()+"|"+m.getProjectMetrics(this.projectItem.getProjectId()).getHoursPercent());
 					metricProgress.setProgress(m.getProjectMetrics(this.projectItem.getProjectId()).getHoursPercent());
-					Log.d("Henry", metricProgress.getProgress()+"");
+//					Log.d("Henry", metricProgress.getProgress()+"");
 				}
 				
 				Button emailButton = (Button)projectMemberView.findViewById(R.id.email_button);

@@ -337,7 +337,7 @@ public class User implements Parcelable {
 					|| arg0.getValue().equals("Lead")) {
 				r = Role.LEAD;
 			}
-			Log.i("REPO", arg0.getRef().getRepo().toString());
+//			Log.i("REPO", arg0.getRef().getRepo().toString());
 			Project p = new Project(arg0.getRef().getRepo().toString()
 					+ "/projects/" + arg0.getKey());
 			this.user.getMap().put(p, r);

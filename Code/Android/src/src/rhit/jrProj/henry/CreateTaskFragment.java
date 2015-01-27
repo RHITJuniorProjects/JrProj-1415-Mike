@@ -275,7 +275,6 @@ public class CreateTaskFragment extends DialogFragment implements
 		bounties.put("hour_limit", 50);
 		bounties.put("line_limit", "None");
 		bounties.put("name", Bounty.completionName);
-		Log.i("points", mPointsField.getValue()+"");
 		bounties.put("points", mPointsField.getValue());
 		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();

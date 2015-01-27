@@ -2,19 +2,23 @@ package rhit.jrProj.henry.firebase;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+
+import rhit.jrProj.henry.TaskDetailFragment.Callbacks;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 
 public class Bounty {
 	private String claimed = "None";
 	private String description = "None";
 	private String dueDate = "No Due Date";
-	private double hourLimit = -1;
+	private int hourLimit = -1;
 	private int lineLimit = -1;
 	private String name;
 	private int points = -1;
@@ -52,6 +56,8 @@ public class Bounty {
 	 * The bounty's parent task Name
 	 */
 	private String parentTaskName;
+	private Task parentTask;
+	
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -74,21 +80,23 @@ public class Bounty {
 	Bounty(Parcel pc) {
 		String firebaseURL = pc.readString();
 		this.firebase = new Firebase(firebaseURL);
-		// setParentIDs(firebaseURL);
-		// setParentNames();
 		this.firebase.addChildEventListener(new ChildrenListener(this));
 		this.name = pc.readString();
 		this.description = pc.readString();
-		this.hourLimit = pc.readDouble();
+		this.hourLimit = pc.readInt();
 		this.lineLimit = pc.readInt();
 		this.points = pc.readInt();
+//		this.setCompletionBounty();
 	}
 
-	public Bounty(String firebaseURL) {
+	public Bounty(String firebaseURL, Task t) {
 		this.firebase = new Firebase(firebaseURL);
+		this.id=firebaseURL
+				.substring(firebaseURL.lastIndexOf('/') + 1);
 		// setParentIDs(firebaseURL);
 		// setParentNames();
 		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.parentTask=t;
 	}
 
 	public void setParentNames(String projName, String msName, String taskName) {
@@ -119,7 +127,7 @@ public class Bounty {
 		dest.writeString(this.firebase.toString());
 		dest.writeString(this.name);
 		dest.writeString(this.description);
-		dest.writeDouble(this.hourLimit);
+		dest.writeInt(this.hourLimit);
 		dest.writeInt(this.lineLimit);
 		dest.writeInt(this.points);
 	}
@@ -218,7 +226,34 @@ public class Bounty {
 	public String getParentTaskName() {
 		return this.parentTaskName;
 	}
-
+	public String getClaimed(){
+		return this.claimed;
+	}
+	public String getDueDate(){
+		return this.dueDate;
+	}
+	public int getHourLimit(){
+		return this.hourLimit;
+	}
+	public int getLineLimit(){
+		return this.lineLimit;
+	}
+	public void setClaimed(String s){
+		this.claimed=s;
+	}
+	public void setDueDate(String s){
+		this.dueDate=s;
+	}
+	public void setHourLimit(int s){
+		this.hourLimit=s;
+	}
+	public void setLineLimit(int s){
+		this.lineLimit=s;
+	}
+	public String getID(){
+		return this.id;
+	}
+	
 	/**
 	 * Task listener
 	 */
@@ -253,13 +288,16 @@ public class Bounty {
 			} else if (arg0.getKey().equals("due_date")) {
 				this.bounty.dueDate = arg0.getValue().toString();
 			} else if (arg0.getKey().equals("hour_limit")) {
-				this.bounty.hourLimit = (double) arg0.getValue();
+				this.bounty.hourLimit =this.bounty.convertLimitFromFirebaseForm(arg0.getValue());
 			} else if (arg0.getKey().equals("line_limit")) {
-				this.bounty.lineLimit = (int) arg0.getValue();
+				this.bounty.lineLimit = this.bounty.convertLimitFromFirebaseForm(arg0.getValue());
 			} else if (arg0.getKey().equals("name")) {
+				if (arg0.getValue(String.class).equals(Bounty.completionName)){
+					this.bounty.parentTask.completionBounty=this.bounty;
+				}
 				this.bounty.name = arg0.getValue().toString();
 			} else if (arg0.getKey().equals("points")) {
-				this.bounty.points = (int) arg0.getValue();
+				this.bounty.points = (int)arg0.getValue(int.class);
 			}
 		}
 
@@ -269,8 +307,18 @@ public class Bounty {
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			if (arg0.getKey().equals("claimed")) {
 				this.bounty.claimed = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("description")) {
+				this.bounty.description = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("due_date")) {
+				this.bounty.dueDate = arg0.getValue().toString();
+			} else if (arg0.getKey().equals("hour_limit")) {
+				this.bounty.hourLimit =this.bounty.convertLimitFromFirebaseForm(arg0.getValue());
+			} else if (arg0.getKey().equals("line_limit")) {
+				this.bounty.lineLimit = this.bounty.convertLimitFromFirebaseForm(arg0.getValue());
+			} else if (arg0.getKey().equals("name")) {
+				this.bounty.name = arg0.getValue().toString();
 			} else if (arg0.getKey().equals("points")) {
-				this.bounty.points = (int) arg0.getValue();
+				this.bounty.points = (int) arg0.getValue(int.class);
 			}
 		}
 
@@ -300,6 +348,9 @@ public class Bounty {
 		return GeneralAlgorithms.compareToIgnoreCase(this.getName(),
 				p.getName());
 	}
+	public void setParentTask(Task t){
+		this.parentTask=t;
+	}
 
 	/**
 	 * Updates the points assigned to this task
@@ -317,6 +368,28 @@ public class Bounty {
 	 */
 	public int getPoints() {
 		return this.points;
+	}
+
+
+	public int convertLimitFromFirebaseForm(Object limitString){
+		try{
+			return (int) limitString;
+		}catch(java.lang.ClassCastException e){
+			if (limitString instanceof String && limitString.toString().equals("None")){
+				return -1;
+			}
+			else{
+				return -10;
+			}
+		}
+	}
+	public Object convertLimitToFirebaseForm(int limit){
+		if (limit==-1){
+			return "None";
+		}
+		else{
+			return limit;
+		}
 	}
 
 }

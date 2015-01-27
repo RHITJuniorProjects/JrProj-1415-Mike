@@ -78,7 +78,7 @@ public class MainActivity extends Activity implements
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int density = metrics.densityDpi;
-		Log.i("flag", ((Integer) density).toString());
+//		Log.i("flag", ((Integer) density).toString());
 		DENSITY = density;
 		mGlobalVariables = ((GlobalVariables) getApplicationContext());
 		
@@ -515,13 +515,11 @@ public class MainActivity extends Activity implements
 	 */
 	public void sortingMode(MenuItem item) {
 		this.sortingMode = item.getTitle().toString();
-		Log.i("SORTINGMODE", this.sortingMode);
 		if (this.currFragment != null) {
 			if (this.currFragment instanceof ProjectListFragment) {
 				((ProjectListFragment) this.currFragment).sortingChanged();
 			}
 			if (this.currFragment instanceof MilestoneListFragment) {
-				Log.i("SORTINGMODEMilestone", this.sortingMode);
 				((MilestoneListFragment) this.currFragment).sortingChanged();
 			}
 			if (this.currFragment instanceof TaskListFragment) {

@@ -22,7 +22,7 @@ public class ListChangeNotifier<T> {
 	 *
 	 */
 	public void onChange() {
-		Log.i("ListCN called", "true");
+//		Log.i("ListCN called", "true");
 		this.adapter.notifyDataSetChanged();
 	}
 	public BaseAdapter getAdapter(){

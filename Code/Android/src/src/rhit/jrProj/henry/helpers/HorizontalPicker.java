@@ -109,8 +109,6 @@ public class HorizontalPicker extends LinearLayout {
 		@Override
 		public void afterTextChanged(Editable s) {
 			if (s.length() > 0) {
-				Log.i("Text", "changed");
-				// this.picker.setValue(new Integer(s.toString()));
 				this.picker.textChanged();
 			}
 
@@ -127,7 +125,6 @@ public class HorizontalPicker extends LinearLayout {
 
 		@Override
 		public void onClick(View v) {
-			Log.i("Plus", "increase");
 			int value = this.picker.getValue();
 			if (value + 1 > picker.max_value) {
 				this.picker.setValue(this.picker.min_value);
@@ -149,7 +146,6 @@ public class HorizontalPicker extends LinearLayout {
 
 		@Override
 		public void onClick(View v) {
-			Log.i("Minus", "decrease");
 			int value = this.picker.getValue();
 			if (value - 1 < picker.min_value) {
 				this.picker.setValue(this.picker.max_value);
