@@ -1,0 +1,83 @@
+Firebase Simulation Testing
+
+Lead Testing:
+Authenticated as  { id: 110, provider: 'anonymous', uid: 'simplelogin:110' }
+
+/projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JYc_fRjZ_IV3WgHIszD
+
+{assignedTo:'simplelogin:111'}
+Write was allowed
+
+Any can create a task testing 
+{ id: 112, provider: 'anonymous', uid: 'simplelogin:112' }
+/projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/
+Attempt to write {"dummyTask":"hi"} to /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks with auth={"id":112,"provider":"anonymous","uid":"simplelogin:112"}
+    /:.write: "auth.uid == 'nodeServer'"
+    	=> false
+    /projects
+    /projects/-JYcg488tAYS5rJJT4Kh:.write: "!data.exists() || !newData.exists() ||('Lead' == root.child('projects/'+$projectID+'/members/'+auth.uid).val())"
+    	=> false
+    /projects/-JYcg488tAYS5rJJT4Kh:.validate: "newData.hasChildren(['name','due_date','description','members']) || data.hasChildren(['name','due_date','description','members'])"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones:.validate: "true"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl:.validate: "newData.hasChildren(['name','due_date','description']) || data.hasChildren(['name','due_date','description']) || !newData.hasChildren() || !data.hasChildren()"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks:.write: "root.child('projects/'+$projectID+'/members/').hasChild(auth.uid)"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks:.validate: "true"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks:.validate: "true"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/dummyTask:.validate: "newData.hasChildren(['name','due_date','description','original_hour_estimate','category']) || data.hasChildren(['name','due_date','description','original_hour_estimate','category']) || !newData.hasChildren() || !data.hasChildren()"
+    	=> true
+
+Write was allowed.
+
+Bounty Validation
+
+Same authentication
+{bounties:{dummyName:{claimed:"None",description:"Blah",due_date:"No Due Date",hour_limit:0,line_limit:0,name:"g",points:4}}}
+
+Attempt to write {"bounties":{"dummyName":{"claimed":"None","description":"Blah","due_date":"No Due Date","hour_limit":0,"line_limit":0,"name":"g","points":4}}} to /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R with auth={"id":112,"provider":"anonymous","uid":"simplelogin:112"}
+    /:.write: "auth.uid == 'nodeServer'"
+    	=> false
+    /projects
+    /projects/-JYcg488tAYS5rJJT4Kh:.write: "!data.exists() || !newData.exists() ||('Lead' == root.child('projects/'+$projectID+'/members/'+auth.uid).val())"
+    	=> false
+    /projects/-JYcg488tAYS5rJJT4Kh:.validate: "newData.hasChildren(['name','due_date','description','members']) || data.hasChildren(['name','due_date','description','members'])"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones:.validate: "true"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl:.validate: "newData.hasChildren(['name','due_date','description']) || data.hasChildren(['name','due_date','description']) || !newData.hasChildren() || !data.hasChildren()"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks:.write: "root.child('projects/'+$projectID+'/members/').hasChild(auth.uid)"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks:.validate: "true"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R:.validate: "newData.hasChildren(['name','due_date','description','original_hour_estimate','category']) || data.hasChildren(['name','due_date','description','original_hour_estimate','category']) || !newData.hasChildren() || !data.hasChildren()"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R:.validate: "newData.hasChildren(['name','due_date','description','original_hour_estimate','category']) || data.hasChildren(['name','due_date','description','original_hour_estimate','category']) || !newData.hasChildren() || !data.hasChildren()"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName:.validate: "newData.hasChildren(['claimed','description','due_date','hour_limit','line_limit','name','points'])"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName/claimed:.validate: "newData.isString()&&(newData.val()=='None'||root.child('projects/'+$projectID+'/members/').hasChild(newData.val()))"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName/description:.validate: "newData.isString()"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName/due_date:.validate: "newData.isString() && (newData.val().matches(/No Due Date/) || newData.val().matches(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/))"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName/hour_limit:.validate: "(newData.isNumber() || newData.val()=='None')"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName/line_limit:.validate: "(newData.isNumber() || newData.val()=='None')"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName/name:.validate: "newData.isString()"
+    	=> true
+    /projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM8cjChyKl/tasks/-JcG6RhiqRVPZhzn-X0R/bounties/dummyName/points:.validate: "newData.isNumber()"
+    	=> true
+
+Write was allowed.
