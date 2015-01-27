@@ -49,9 +49,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	 */
 	private ProgressDialog mAuthProgressDialog;
 
-	/* A reference to the firebase */
-	private final String firebaseUrl = MainActivity.firebaseUrl;
-	private Firebase ref = new Firebase(this.firebaseUrl);
+	private Firebase ref;
 
 	/* Data from the authenticated user */
 	private AuthData authData;
@@ -64,12 +62,16 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	private EditText mPasswordView;
 	private View mProgressView;
 	private View mLoginFormView;
+
+	private GlobalVariables mGlobalVariables;
 	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		mGlobalVariables =  ((GlobalVariables) getApplicationContext());
+		ref = new Firebase(mGlobalVariables.getFirebaseUrl());
 		ActionBar actionBar = getActionBar();
 		actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
 		
@@ -189,9 +191,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 	public void openProjectListView(AuthData authdata) {
 
 		this.mAuthProgressDialog.hide();
-		Intent intent = new Intent(this, MainActivity.class);
+		Intent intent = new Intent(this, WelcomeActivity.class);
 		intent.putExtra("user",
-				this.firebaseUrl + "users/" + this.authData.getUid());
+				mGlobalVariables.getFirebaseUrl() + "users/" + this.authData.getUid());
 		this.startActivity(intent);
 		this.finish();
 	}

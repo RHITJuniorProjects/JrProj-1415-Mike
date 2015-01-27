@@ -195,7 +195,7 @@
 {
     @try{
     //Figures out the last clicked segment.
-    int clickedSegment = [sender selectedSegmentIndex];
+    int clickedSegment = (int)[sender selectedSegmentIndex];
     switch(clickedSegment)
     {
         //Segment 1 is A-Z

@@ -102,7 +102,6 @@ public class GeneralAlgorithms {
 		else if (s2.equals("No Due Date") || s2.equals(""))
 			return 1;
 		else {
-			Log.i("DUE DATE", s1);
 			int result = 0;
 			int year1 = new Integer(s1.substring(0, 4)).intValue();
 			int year2 = new Integer(s2.substring(0, 4)).intValue();
@@ -168,7 +167,6 @@ public class GeneralAlgorithms {
 			double estimate=t.getOriginalHoursEstimate();
 //			estimate=rand.nextInt(9)+1;
 			double ratio=(actual-estimate)/estimate;
-			Log.i("Ratio", ratio+"");
 			if (map.containsKey(t.getAssignedUserName())){
 				map.get(t.getAssignedUserName()).add(ratio);
 			}

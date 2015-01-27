@@ -32,37 +32,66 @@
         android:ems="10"
         android:hint="@string/TaskNameHint" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TaskDescriptionField"
+        android:layout_below="@+id/TaskDescriptionField"
+        android:layout_marginRight="110dp"
+        android:layout_marginTop="30dp"
+        android:text="Bounty"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <rhit.jrProj.henry.helpers.HorizontalPicker
+        android:id="@+id/horizontal_number_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/TaskDescriptionField"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="5dp" >
+    </rhit.jrProj.henry.helpers.HorizontalPicker>
+
     <RelativeLayout
-        android:id="@+id/relativeLayout1"
         android:layout_width="280dp"
         android:layout_height="70dp"
-        android:layout_below="@+id/TaskDescriptionField"
+        android:layout_below="@+id/horizontal_number_picker"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp" >
 
-        <Spinner
-            android:id="@+id/taskCategorySpinner"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/TaskAddButton"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/MilestoneAddString" />
+
+        <Button
+            android:id="@+id/TaskCancelButton"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" />
-
+            android:layout_alignParentTop="true"
+            android:text="@string/MilestoneCreateCancelString" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/TaskCancelButton"
-        android:layout_width="140dp"
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/TaskDescriptionField"
-        android:layout_below="@+id/relativeLayout1"
-        android:text="@string/MilestoneCreateCancelString" />
+        android:layout_below="@+id/TaskDescriptionField"
+        android:layout_marginTop="30dp"
+        android:text="Category"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Button
-        android:id="@+id/TaskAddButton"
-        android:layout_width="140dp"
+    <Spinner
+        android:id="@+id/taskCategorySpinner"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativeLayout1"
-        android:layout_toRightOf="@+id/TaskCancelButton"
-        android:text="@string/MilestoneAddString" />
+        android:layout_alignLeft="@+id/TaskDescriptionField"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="5dp" />
 
 </RelativeLayout>

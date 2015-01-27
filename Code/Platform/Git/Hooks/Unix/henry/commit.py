@@ -143,6 +143,13 @@ def getActiveMilestones(ref,userID,projectID):
     return filtered
 
 
+def teamEmails(ref,pID):
+    path = '/projects/'+pID+'/members'
+    memberUIDs = ref.get(path,None)
+    all_users = ref.get('/users',None)
+    filtered_users = [ all_users[u]['email'] for u in all_users if u in memberUIDs]
+    return filtered_users
+
 def getAssignedTasks(ref,userID,projectID,milestoneID):
     path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     try:
@@ -164,7 +171,7 @@ def getTask(ref,projectID,milestoneID,taskID):
     return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID+'/name',None)
 
     
-def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
+def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
     # mac/linux
     sys.stdin = open('/dev/tty')
 
@@ -248,8 +255,33 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             print 'HENRY: Invalid status, commit failed'
             exit(1)
 
-    return hours,mID,tID,status
+    sys.stdout.write('Pair programmed? (y/n): ')
+    sys.stdout.flush()
+    response = raw_input()
+    if response.lower()[0] == 'y':
+        team_emails = teamEmails(ref,projectID)
+        team_emails = [e for e in team_emails if e != email]
+        if not team_emails:
+            print 'HENRY: No team members, are you sure you pair programmed?'
+            exit(1)
+        index = 1
+        for e in team_emails:
+            print ' - '+str(index)+'. '+e
+            index = index+1
+        sys.stdout.write('Partner: ')
+        sys.stdout.flush()
+        partner = raw_input()
+        if partner.isdigit() and int(partner) <= len(team_emails):
+            pp = getUserID(team_emails[int(partner)-1],ref)
+        elif partner in team_emails:
+            pp = getUserID(partner,ref)
+        else:
+            print 'HENRY: Invalid team member'
+            exit(1)
+    else:
+        pp = None
 
+    return hours,mID,tID,status,pp
 
 def updateDefaults(milestoneID,taskID,status):
     with open(defaultpath,'w+') as f:
@@ -275,11 +307,13 @@ if __name__ == '__main__':
     [hours,milestone,task,status] = parse(msg)
     pos_loc,neg_loc = getLoC()
     ts = getTime()
-    hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
+    hours,milestoneID,taskID,status,pp = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email)
 
     updateDefaults(milestoneID,taskID,status)
 
-    commitID =writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
+    writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
+    if pp != None:
+        writeCommit(ref,msg,None,pp,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
     
     #addCommitToProject(ref,projectID,commitID)
     #addCommitToUser(ref,userID,commitID)
