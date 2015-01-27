@@ -74,5 +74,9 @@
     <string name="hours">Hours</string>
     <string name="title_activity_welcome">WelcomeActivity</string>
     <string name="title_activity_profile">Profile</string>
+    <string name="ViewBounties">View Bounties</string>
+    <string name="BountyStringHint">String Name</string>
+    <string name="BountyDescriptionHint">Bounty Description</string>
+    <string name="BountyNameHint">Bounty Name</string>
 
 </resources>

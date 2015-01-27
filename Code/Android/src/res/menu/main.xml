@@ -15,6 +15,12 @@
         android:showAsAction="always"
         android:title="Create Task"/>
     <item
+        android:id="@+id/action_bounty"
+        android:icon="@drawable/ic_action_add_bounty"
+        android:onClick="createBounty"
+        android:showAsAction="always"
+        android:title="Create Bounty"/>
+    <item
         android:id="@+id/action_sorting"
         android:icon="@drawable/ic_action_sort_2"
         android:showAsAction="never"

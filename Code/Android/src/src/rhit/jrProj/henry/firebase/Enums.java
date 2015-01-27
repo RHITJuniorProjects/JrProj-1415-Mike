@@ -19,7 +19,7 @@ public class Enums {
 		Bug,
 	}
 	public enum ObjectType{
-		PROJECT, MILESTONE, TASK, MEMBER
+		PROJECT, MILESTONE, TASK, MEMBER, BOUNTY
 	}
 	public final static String NEW= "New";
 	public final static String IMP="Implementation";

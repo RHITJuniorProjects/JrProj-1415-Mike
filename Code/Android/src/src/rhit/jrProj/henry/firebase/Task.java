@@ -576,7 +576,7 @@ public class Task implements Parcelable{
 			Bounty t = new Bounty(arg0.getRef().toString(), this.task);
 			if (!this.task.getBounties().contains(t)) {
 				t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
-				this.task.addBounty(t);
+//				this.task.addBounty(t);
 			}
 			t.setListChangeNotifier(this.task.getBountyListViewCallback());
 			if (this.task.listViewCallback != null) {
@@ -634,7 +634,7 @@ public class Task implements Parcelable{
 	/**
 	 * Updates the points assigned to this task
 	 */
-	public void setPoints(int newPoints){
+	public void setCompletionBountyPoints(int newPoints){
 		this.points=newPoints;
 		if (this.completionBounty!=null){
 			this.completionBounty.setPoints(this.points);
@@ -649,7 +649,16 @@ public class Task implements Parcelable{
 	public int getPoints(){
 		return this.points;
 	}
+	public String getTaskId(){
+		return this.taskID;
+	}
 	
+	public void setPoints(int newPoints){
+		this.points=newPoints;
+		if (this.listViewCallback!=null){
+			this.listViewCallback.onChange();
+		}
+	}
 
 	
 }

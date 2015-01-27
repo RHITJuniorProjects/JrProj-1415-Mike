@@ -310,7 +310,7 @@ public class TaskDetailFragment extends Fragment implements
 
 	@Override
 	public void fireChange(int i) {
-		this.taskItem.setPoints(i);
+		this.taskItem.setCompletionBountyPoints(i);
 		this.pointsField.setText("Points: \t" + i);
 	}
 

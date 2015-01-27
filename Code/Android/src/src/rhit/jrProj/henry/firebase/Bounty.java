@@ -23,6 +23,8 @@ public class Bounty {
 	private String name;
 	private int points = -1;
 	public static String completionName="completion";
+	private boolean isCompletion=false;
+	private boolean canChangePoints=false;
 	Firebase firebase;
 	private String id;
 	
@@ -117,6 +119,15 @@ public class Bounty {
 	 */
 	public void setListChangeNotifier(ListChangeNotifier<Bounty> lcn) {
 		this.listViewCallback = lcn;
+	}
+	/**
+	 * 
+	 * gets the list changed notifier
+	 * 
+	 * @param lcn
+	 */
+	public ListChangeNotifier<Bounty> getListChangeNotifier() {
+		return this.listViewCallback;
 	}
 
 	/**
@@ -294,10 +305,12 @@ public class Bounty {
 			} else if (arg0.getKey().equals("name")) {
 				if (arg0.getValue(String.class).equals(Bounty.completionName)){
 					this.bounty.parentTask.completionBounty=this.bounty;
+					this.bounty.isCompletion=true;
 				}
 				this.bounty.name = arg0.getValue().toString();
 			} else if (arg0.getKey().equals("points")) {
 				this.bounty.points = (int)arg0.getValue(int.class);
+				this.bounty.canChangePoints=true;
 			}
 		}
 
@@ -319,6 +332,7 @@ public class Bounty {
 				this.bounty.name = arg0.getValue().toString();
 			} else if (arg0.getKey().equals("points")) {
 				this.bounty.points = (int) arg0.getValue(int.class);
+				this.bounty.canChangePoints=true;
 			}
 		}
 
@@ -356,10 +370,12 @@ public class Bounty {
 	 * Updates the points assigned to this task
 	 */
 	public void setPoints(int newPoints) {
-		this.points = newPoints;
-		this.firebase.child("points").setValue(this.points);
-		if (this.listViewCallback != null) {
-			this.listViewCallback.onChange();
+		if (this.canChangePoints){
+			this.points = newPoints;
+			this.firebase.child("points").setValue(this.points);
+			if (this.listViewCallback != null) {
+				this.listViewCallback.onChange();
+			}
 		}
 	}
 
@@ -390,6 +406,17 @@ public class Bounty {
 		else{
 			return limit;
 		}
+	}
+	public String getDueDateFormatted(){
+		return GeneralAlgorithms.getDueDateFormatted(this.getDueDate());
+	}
+	public void setParentTaskPoints(){
+		if(this.canChangePoints){
+		this.parentTask.setPoints(this.points);
+		}
+	}
+	public boolean isCompletion(){
+		return this.isCompletion;
 	}
 
 }
