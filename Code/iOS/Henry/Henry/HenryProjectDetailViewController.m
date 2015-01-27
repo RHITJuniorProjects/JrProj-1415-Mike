@@ -220,9 +220,9 @@
         for (NSString *burndownKey in burndownKeys) {
             NSMutableArray *subArray = [[NSMutableArray alloc] init];
             NSDictionary *entry = [burndownData objectForKey:burndownKey];
-            NSLog(@"Adding %@",[entry objectForKey:@"total_lines_of_code"]);
-            NSLog(@"adding %@",[entry objectForKey:@"name"]);
-            NSLog(@"Aadding %ld",(long)i);
+            //NSLog(@"Adding %@",[entry objectForKey:@"total_lines_of_code"]);
+            //NSLog(@"adding %@",[entry objectForKey:@"name"]);
+            //NSLog(@"Aadding %ld",(long)i);
             [subArray addObject:[entry objectForKey:@"total_lines_of_code"]];
             [subArray addObject:[entry objectForKey:@"name"]];
             [subArray addObject:[NSNumber numberWithInteger:i]];

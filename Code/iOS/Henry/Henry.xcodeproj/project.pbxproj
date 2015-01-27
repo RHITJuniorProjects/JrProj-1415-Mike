@@ -27,6 +27,8 @@
 		84BC3A8C1A6300FA00271DFC /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC3A881A6300FA00271DFC /* BEMLine.m */; };
 		84BC3A8D1A6300FA00271DFC /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC3A8A1A6300FA00271DFC /* BEMSimpleLineGraphView.m */; };
 		84DD890A19F551F900839255 /* HenryRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DD890919F551F900839255 /* HenryRootNavigationController.m */; };
+		871B796E1A7854BF00195D34 /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = 871B796D1A7854BF00195D34 /* HenryFirebase.m */; };
+		871B79701A78551B00195D34 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871B796F1A78551B00195D34 /* Firebase.framework */; };
 		8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 8731945C19FDCEC100CE82ED /* DLPieChart.m */; };
 		87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163219F73D4C006F574E /* HenryDevDisplayObject.m */; };
 		87A6163619F73D63006F574E /* HenryAssignDevsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163519F73D63006F574E /* HenryAssignDevsTableViewController.m */; };
@@ -110,6 +112,9 @@
 		84BC3A8A1A6300FA00271DFC /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
 		84DD890819F551F900839255 /* HenryRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRootNavigationController.h; sourceTree = "<group>"; };
 		84DD890919F551F900839255 /* HenryRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRootNavigationController.m; sourceTree = "<group>"; };
+		871B796C1A7854BF00195D34 /* HenryFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryFirebase.h; sourceTree = "<group>"; };
+		871B796D1A7854BF00195D34 /* HenryFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryFirebase.m; sourceTree = "<group>"; };
+		871B796F1A78551B00195D34 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		8731945B19FDCEC100CE82ED /* DLPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPieChart.h; sourceTree = "<group>"; };
 		8731945C19FDCEC100CE82ED /* DLPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPieChart.m; sourceTree = "<group>"; };
 		87A6163119F73D4C006F574E /* HenryDevDisplayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryDevDisplayObject.h; sourceTree = "<group>"; };
@@ -191,6 +196,7 @@
 				93447F5219C91C5600C2FC38 /* XCTest.framework in Frameworks */,
 				93447F5419C91C5600C2FC38 /* UIKit.framework in Frameworks */,
 				93447F5319C91C5600C2FC38 /* Foundation.framework in Frameworks */,
+				871B79701A78551B00195D34 /* Firebase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +358,7 @@
 				93447F5719C91C5600C2FC38 /* HenryTests */,
 				93447F3719C91C5500C2FC38 /* Frameworks */,
 				93447F3619C91C5500C2FC38 /* Products */,
+				871B796F1A78551B00195D34 /* Firebase.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -413,6 +420,8 @@
 		93447F5719C91C5600C2FC38 /* HenryTests */ = {
 			isa = PBXGroup;
 			children = (
+				871B796C1A7854BF00195D34 /* HenryFirebase.h */,
+				871B796D1A7854BF00195D34 /* HenryFirebase.m */,
 				93447F5D19C91C5600C2FC38 /* HenryTests.m */,
 				93447F5819C91C5600C2FC38 /* Supporting Files */,
 			);
@@ -573,6 +582,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93447F5E19C91C5600C2FC38 /* HenryTests.m in Sources */,
+				871B796E1A7854BF00195D34 /* HenryFirebase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -724,6 +734,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
@@ -746,6 +757,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";

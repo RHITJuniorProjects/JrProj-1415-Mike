@@ -65,7 +65,7 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
-    
+        //NSLog(@"Id is: %@",self.uid);
     //self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     SWRevealViewController *revealViewController = self.revealViewController;
