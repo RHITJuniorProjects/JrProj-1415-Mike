@@ -64,7 +64,7 @@
 {
     @try{
     //Figures out the last clicked segment.
-    int clickedSegment = [sender selectedSegmentIndex];
+    int clickedSegment = (int)[sender selectedSegmentIndex];
     if(clickedSegment == 0){
         /*
         if(self.pieChart.hidden){
@@ -101,7 +101,7 @@
     NSDateComponents* components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit fromDate:date];
     
 //    if (index == 5 || index == [self.burndownData count] - 6) {
-        NSString *dateStr = [NSString stringWithFormat:@"%d/%d", [components month], [components day]];
+        NSString *dateStr = [NSString stringWithFormat:@"%d/%d", (int)[components month], (int)[components day]];
         NSLog(@"%@", dateStr);
         return dateStr;
 ////        return @"1";

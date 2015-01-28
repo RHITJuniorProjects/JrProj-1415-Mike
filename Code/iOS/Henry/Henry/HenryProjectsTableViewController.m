@@ -83,9 +83,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.cellText = [[NSMutableArray alloc] init];
     self.fb = [HenryFirebase getFirebaseObject];
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
+        
     // Table will be updated when the projects a user is assigned to changes
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateTable:snapshot];

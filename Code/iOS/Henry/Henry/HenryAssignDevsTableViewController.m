@@ -46,7 +46,7 @@
     self.firstTime = YES;
     self.fb = [HenryFirebase getFirebaseObject];
     self.hasClicked = NO;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
     
