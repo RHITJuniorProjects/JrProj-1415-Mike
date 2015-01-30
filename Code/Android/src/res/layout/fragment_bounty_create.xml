@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    tools:context="rhit.jrProj.henry.MilestoneCreateFragment" >
+
+    <EditText
+        android:id="@+id/BountyDescriptionField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="100dp"
+        android:ems="10"
+        android:hint="@string/BountyDescriptionHint"
+        android:inputType="textMultiLine"
+        android:shadowColor="@color/black"
+        android:singleLine="false" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/bountyNameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:hint="@string/BountyNameHint" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/BountyDescriptionField"
+        android:layout_below="@+id/BountyDescriptionField"
+        android:layout_marginRight="110dp"
+        android:layout_marginTop="30dp"
+        android:text="Bounty"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <rhit.jrProj.henry.helpers.HorizontalPicker
+        android:id="@+id/horizontal_number_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/BountyDescriptionField"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="5dp" >
+    </rhit.jrProj.henry.helpers.HorizontalPicker>
+
+    <RelativeLayout
+        android:layout_width="280dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/horizontal_number_picker"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" >
+
+        <Button
+            android:id="@+id/BountyAddButton"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/MilestoneAddString" />
+
+        <Button
+            android:id="@+id/BountyCancelButton"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/MilestoneCreateCancelString" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/BountyDescriptionField"
+        android:layout_below="@+id/BountyDescriptionField"
+        android:layout_marginTop="30dp"
+        android:text="Category"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <Spinner
+        android:id="@+id/bountyCategorySpinner"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/BountyDescriptionField"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="5dp" />
+
+</RelativeLayout>

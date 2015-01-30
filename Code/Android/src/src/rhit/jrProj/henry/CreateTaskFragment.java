@@ -258,7 +258,7 @@ public class CreateTaskFragment extends DialogFragment implements
 		map.put("due_date", "No Due Date");
 		map.put("assignedTo", user);
 		map.put("original_hour_estimate", 0);
-		// map.put(Task.pointsName, this.mPointsField.getValue());
+		map.put("points", this.mPointsField.getValue());
 
 		Firebase f2 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId
@@ -275,17 +275,17 @@ public class CreateTaskFragment extends DialogFragment implements
 		bounties.put("hour_limit", 50);
 		bounties.put("line_limit", "None");
 		bounties.put("name", Bounty.completionName);
-		Log.i("points", mPointsField.getValue()+"");
 		bounties.put("points", mPointsField.getValue());
 		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
 				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
 		String id2 = f3.toString().substring(f3.toString().lastIndexOf("/") + 1);
 		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
 				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
+		
 	}
 
 	@Override
-	public void fireChange(int i) {
+	public void fireChange(int old, int nu) {
 		// TODO Auto-generated method stub
 
 	}

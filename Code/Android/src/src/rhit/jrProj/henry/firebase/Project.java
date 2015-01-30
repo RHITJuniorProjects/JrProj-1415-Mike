@@ -309,14 +309,14 @@ public class Project implements Parcelable {
 				GraphHelper.Point point = new GraphHelper.Point(new Double(i+.25), ratios.get(key));
 //				point.setX(new Double(i));
 //				point.setY(ratios.get(key));
-				Log.i("Point:", point.toString());
+//				Log.i("Point:", point.toString());
 				chartInfo.addNewPoint(key, point);
 //			chartInfo.addNewPoint("Baseline", new GraphHelper.Point(new Double(i+.25), 0.0));
 			chartInfo.addNewTick(milestone.getName());
 			
 		}
 		}
-		Log.i("ChartINFO", chartInfo.toString());
+//		Log.i("ChartINFO", chartInfo.toString());
 		chartInfo.setDisplayBaseline(true);
 		return chartInfo;
 	}
@@ -427,7 +427,7 @@ public class Project implements Parcelable {
 			} else if (arg0.getKey().equals("description")) {
 				this.project.description = arg0.getValue(String.class);
 			} else if (arg0.getKey().equals("milestones")) {
-				Log.i("Henry", "Milestone Changed!?!");
+//				Log.i("Henry", "Milestone Changed!?!");
 				if (this.project.listViewCallback != null) {
 					this.project.listViewCallback.onChange();
 				}
@@ -438,14 +438,14 @@ public class Project implements Parcelable {
 		 * Nothing to do here
 		 */
 		public void onChildMoved(DataSnapshot arg0, String arg1) {
-			Log.i("Henry", "Something Moved!?!");
+//			Log.i("Henry", "Something Moved!?!");
 		}
 
 		/**
 		 * Until further notice from Mike: do nothing
 		 */
 		public void onChildRemoved(DataSnapshot arg0) {
-			Log.i("Henry", arg0.getKey());
+//			Log.i("Henry", arg0.getKey());
 		}
 	}
 

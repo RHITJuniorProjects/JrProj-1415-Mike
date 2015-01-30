@@ -34,6 +34,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -53,6 +54,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -84,6 +86,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -116,6 +119,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -130,6 +134,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -145,6 +150,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -158,6 +164,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -184,6 +191,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -244,6 +252,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -266,6 +275,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }
@@ -295,9 +305,9 @@
             // Resign keyboard first responder
             [self.parentViewController.view endEditing:YES];
             // Update table with new cell so user doesn't have to wait on firebase
-            [self.tasks addObject:taskName];
-            [self.taskDueDates addObject:@"No Due Date"];
-            [self.tableView reloadData];
+            //[self.tasks addObject:taskName];
+            //[self.taskDueDates addObject:@"No Due Date"];
+            //[self.tableView reloadData];
         } else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
                                                             message:@"You have an empty field."
@@ -310,6 +320,7 @@
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
+        NSLog(@"%@", [exception description]);
         exit(0);
         
     }

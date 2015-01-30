@@ -290,7 +290,7 @@ public class Member implements Parcelable {
 
 		public ProjectMetrics(Member member, String projectKey) {
 			Firebase fb = member.firebase.child("projects/" + projectKey);
-			Log.d("Henry", fb.toString());
+//			Log.d("Henry", fb.toString());
 			fb.addChildEventListener(this);
 		}
 

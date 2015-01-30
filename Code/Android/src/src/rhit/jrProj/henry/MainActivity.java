@@ -3,6 +3,7 @@ package rhit.jrProj.henry;
 import java.util.ArrayList;
 import java.util.Stack;
 
+import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Map;
 import rhit.jrProj.henry.firebase.Member;
@@ -33,8 +34,9 @@ public class MainActivity extends Activity implements
 		ProjectListFragment.Callbacks, MilestoneListFragment.Callbacks,
 		ProjectMembersFragment.Callbacks, TaskListFragment.Callbacks,
 		TaskDetailFragment.Callbacks, TasksAllListFragment.Callbacks,
+		BountyListFragment.Callbacks,
 		ProjectDetailFragment.Callbacks, ChartsFragment.Callbacks,
-		MilestoneDetailFragment.Callbacks {
+		MilestoneDetailFragment.Callbacks, BountyDetailFragment.Callbacks {
 
 	/**
 	 * The project that has been selected from the list
@@ -51,6 +53,10 @@ public class MainActivity extends Activity implements
 	 * The task that is currently selected by the user
 	 */
 	private static Task selectedTask;
+	/**
+	 * The bounty that has been selected from the list
+	 */
+	private static Bounty selectedBounty;
 
 	public static int DENSITY;
 	/**
@@ -78,7 +84,7 @@ public class MainActivity extends Activity implements
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		int density = metrics.densityDpi;
-		Log.i("flag", ((Integer) density).toString());
+//		Log.i("flag", ((Integer) density).toString());
 		DENSITY = density;
 		mGlobalVariables = ((GlobalVariables) getApplicationContext());
 		
@@ -207,6 +213,31 @@ public class MainActivity extends Activity implements
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	/**
+	 * 
+	 * @param view
+	 */
+	public void openBountyView(View view) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(true);
+		int container = mGlobalVariables.ismTwoPane() ? R.id.twopane_list
+				: R.id.main_fragment_container;
+		Bundle args = new Bundle();
+		args.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
+		BountyListFragment fragment = new BountyListFragment();
+		this.fragmentStack.push(fragment);
+		fragment.setArguments(args);
+		this.currFragment = fragment;
+		getFragmentManager().beginTransaction().replace(container, fragment)
+				.commit();
+		if (mGlobalVariables.ismTwoPane()) {
+			getFragmentManager()
+					.beginTransaction()
+					.remove(getFragmentManager().findFragmentById(
+							R.id.twopane_detail_container)).commit();
+		}
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 
 	/**
@@ -423,6 +454,30 @@ public class MainActivity extends Activity implements
 		}
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
+	/**
+	 * Callback method from {@link ItemListFragment.Callbacks} indicating that
+	 * the item with the given ID was selected.
+	 */
+	public void onItemSelected(Bounty t) {
+		MenuItem item = this.actionBarmenu.findItem(R.id.action_all_tasks);
+		item.setVisible(false);
+		this.selectedBounty = t;
+		Bundle arguments = new Bundle();
+		arguments.putBoolean("Two Pane", mGlobalVariables.ismTwoPane());
+		BountyDetailFragment fragment = new BountyDetailFragment();
+		fragment.setArguments(arguments);
+		// currFragment=fragment;
+		getFragmentManager()
+				.beginTransaction()
+				.replace(
+						mGlobalVariables.ismTwoPane() ? R.id.twopane_detail_container
+								: R.id.main_fragment_container, fragment)
+				.commit();
+		if (!mGlobalVariables.ismTwoPane()) {
+			this.fragmentStack.push(fragment);
+		}
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
 
 	/**
 	 * Logout the user.
@@ -477,6 +532,26 @@ public class MainActivity extends Activity implements
 			taskFrag.show(getFragmentManager(), "Diag");
 		}
 	}
+	/**
+	 * Allows the project manager to create a new task.
+	 */
+	public void createBounty(MenuItem item) {
+
+		if (this.selectedTask != null
+				&& this.selectedTask.getTaskId() != null) {
+			CreateBountyFragment bountyFrag = new CreateBountyFragment();
+			Bundle arguments = new Bundle();
+			arguments.putString("taskId",
+					this.selectedTask.getTaskId());
+			arguments.putString("milestoneId",
+					this.selectedMilestone.getMilestoneId());
+			arguments.putString("projectId",
+					this.selectedProject.getProjectId());
+			bountyFrag.setArguments(arguments);
+			this.currFragment = bountyFrag;
+			bountyFrag.show(getFragmentManager(), "Diag");
+		}
+	}
 
 	/**
 	 * Open the search page
@@ -515,17 +590,18 @@ public class MainActivity extends Activity implements
 	 */
 	public void sortingMode(MenuItem item) {
 		this.sortingMode = item.getTitle().toString();
-		Log.i("SORTINGMODE", this.sortingMode);
 		if (this.currFragment != null) {
 			if (this.currFragment instanceof ProjectListFragment) {
 				((ProjectListFragment) this.currFragment).sortingChanged();
 			}
 			if (this.currFragment instanceof MilestoneListFragment) {
-				Log.i("SORTINGMODEMilestone", this.sortingMode);
 				((MilestoneListFragment) this.currFragment).sortingChanged();
 			}
 			if (this.currFragment instanceof TaskListFragment) {
 				((TaskListFragment) this.currFragment).sortingChanged();
+			}
+			if (this.currFragment instanceof BountyListFragment) {
+				((BountyListFragment) this.currFragment).sortingChanged();
 			}
 			if (this.currFragment instanceof TasksAllListFragment) {
 				((TasksAllListFragment) this.currFragment).sortingChanged();
@@ -633,6 +709,17 @@ public class MainActivity extends Activity implements
 
 	public ArrayList<Member> getMembers() {
 		return getProjectMembers().getAllKeys();
+	}
+
+	@Override
+	public Bounty getSelectedBounty() {
+		return this.selectedBounty;
+	}
+
+	@Override
+	public ArrayList<Bounty> getBounties() {
+		// TODO Auto-generated method stub
+		return this.selectedTask.getBounties();
 	}
 
 }

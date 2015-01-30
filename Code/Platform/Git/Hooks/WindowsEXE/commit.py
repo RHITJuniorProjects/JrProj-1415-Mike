@@ -196,7 +196,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
 
     # prompt for milestone if necessary
     if milestone == None:
-        if def_mID != None:
+        if def_mID != None and getMilestone(ref,projectID,def_mID) != None:
             def_milestone = getMilestone(ref,projectID,def_mID)
             print 'Active milestones (defaults to '+def_milestone+'):'
         else:
@@ -270,6 +270,9 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
     if response.lower()[0] == 'y':
         team_emails = teamEmails(ref,projectID)
         team_emails = [e for e in team_emails if e != email]
+        if not team_emails:
+            print 'HENRY: No team members, are you sure you pair programmed?'
+            os._exit(1)
         index = 1
         for e in team_emails:
             print ' - '+str(index)+'. '+e
@@ -277,12 +280,13 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
         sys.stdout.write('Partner: ')
         sys.stdout.flush()
         partner = raw_input()
-        if partner.isdigit() and int(partner) < len(team_emails):
+        if partner.isdigit() and int(partner) <= len(team_emails):
             pp = getUserID(team_emails[int(partner)-1],ref)
         elif partner in team_emails:
             pp = getUserID(partner,ref)
         else:
-            pp = None
+            print 'HENRY: Invalid team member'
+            os._exit(1)
     else:
         pp = None
 

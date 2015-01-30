@@ -48,6 +48,7 @@ public class TaskDetailFragment extends Fragment implements
 
 	private GlobalVariables mGlobalVariables;
 
+	private HorizontalPicker numPicker;
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -101,6 +102,7 @@ public class TaskDetailFragment extends Fragment implements
 				container, false);
 		// Show the List content as text in a TextView.
 		if (this.taskItem != null) {
+//			this.taskItem.mCallbacks=this;
 			((TextView) rootView.findViewById(R.id.task_name))
 					.setText("Name of task: " + this.taskItem.getName());
 			Enums.Role role = this.mCallbacks
@@ -185,18 +187,6 @@ public class TaskDetailFragment extends Fragment implements
 			spinner.setSelection(spinnerDefaultPos);
 			spinner.setOnItemSelectedListener(new StatusSpinnerListener(
 					this.taskItem));
-			HorizontalPicker numPicker = (HorizontalPicker) rootView
-					.findViewById(R.id.horizontal_number_picker);
-			numPicker.setMaxValue(Task.MAX_POINTS);
-			numPicker.setMinValue(Task.MIN_POINTS);
-			numPicker.setCallbacks(this);
-			numPicker.setTask(this.taskItem);
-			if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser())) {
-				numPicker.setVisibility(View.VISIBLE);
-				numPicker.setEnabled(true);
-				numPicker.setValue(this.taskItem.getPoints());
-
-			}
 
 			((TextView) rootView
 					.findViewById(R.id.task_hours_original_estimate))
@@ -308,9 +298,9 @@ public class TaskDetailFragment extends Fragment implements
 	}
 
 	@Override
-	public void fireChange(int i) {
-		this.taskItem.setPoints(i);
-		this.pointsField.setText("Points: \t" + i);
+	public void fireChange(int old, int nu) {
+		this.taskItem.setCompletionBountyPoints(nu);
+		this.pointsField.setText("Points: \t" + nu);
 	}
 
 }

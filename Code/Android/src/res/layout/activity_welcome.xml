@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="80dp"
             android:gravity="center"
             android:orientation="horizontal" >
 
@@ -23,15 +23,15 @@
                 android:id="@+id/go_to_projects_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@android:drawable/btn_star_big_on" />
+                android:layout_marginRight="40dp"
+                android:src="@android:drawable/ic_menu_today" />
 
             <ImageView
                 android:id="@+id/go_to_metrics_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@android:drawable/btn_star_big_on" />
+                android:layout_marginLeft="40dp"
+                android:src="@android:drawable/ic_menu_sort_by_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -45,15 +45,15 @@
                 android:id="@+id/go_to_tasks_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:src="@android:drawable/btn_star_big_on" />
+                android:layout_marginRight="40dp"
+                android:src="@android:drawable/ic_menu_agenda" />
 
             <ImageView
                 android:id="@+id/go_to_profile_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:src="@android:drawable/btn_star_big_on" />
+                android:layout_marginLeft="40dp"
+                android:src="@android:drawable/ic_menu_myplaces" />
         </LinearLayout>
     </LinearLayout>
 

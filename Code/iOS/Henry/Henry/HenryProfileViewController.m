@@ -36,13 +36,13 @@
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        //NSLog(@"Got here");
+        NSLog(@"%@",self.userid);
         NSDictionary *userInfo = snapshot.value[@"users"][self.userid];
         //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
 
         self.navigationItem.title = [userInfo objectForKey:@"name"];
         NSString *points = [userInfo objectForKey:@"total_points"];
-        NSLog([NSString stringWithFormat:@"%@",[userInfo objectForKey:@"total_points"]]);
+        //NSLog([NSString stringWithFormat:@"%@",[userInfo objectForKey:@"total_points"]]);
         self.pointsLabel.text = [NSString stringWithFormat:@"Total Points: %@",points];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }@catch(NSException *exception){

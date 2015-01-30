@@ -223,7 +223,6 @@ public class MilestoneListFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView listView, View view, int position,
 			long id) {
-		Log.i("Position:", position + "");
 		super.onListItemClick(listView, view, position - 2, id);
 
 		// Notify the active call backs interface (the activity, if the

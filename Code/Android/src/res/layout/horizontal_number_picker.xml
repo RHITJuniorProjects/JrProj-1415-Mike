@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal" >
  
    <Button
        android:id="@+id/btn_minus"
        android:layout_width="50dp"
        android:layout_height="wrap_content"
-       android:text="-" />
+       android:text="-"
+       android:textScaleX="1.75"
+       android:textSize="24dp" />
  
    <EditText
        android:id="@+id/edit_text"
@@ -23,5 +25,7 @@
        android:id="@+id/btn_plus"
        android:layout_width="50dp"
        android:layout_height="wrap_content"
-       android:text="+" />
+       android:text="+"
+       android:textSize="24dp" />
+
 </LinearLayout>

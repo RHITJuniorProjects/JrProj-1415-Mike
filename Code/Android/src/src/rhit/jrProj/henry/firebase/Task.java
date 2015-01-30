@@ -2,10 +2,16 @@ package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.TaskDetailFragment;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+
+import rhit.jrProj.henry.firebase.Enums.Role;
+import rhit.jrProj.henry.firebase.Milestone.GrandChildrenListener;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
+import rhit.jrProj.henry.helpers.HorizontalPicker;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -13,10 +19,11 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class Task implements Parcelable {
+public class Task implements Parcelable{
 	public static int MAX_POINTS=100;
 	public static int MIN_POINTS=0;
-
+	public TaskDetailFragment hp;
+	
 	/**
 	 * A reference to firebase to keep the data up to date.
 	 */
@@ -89,6 +96,7 @@ public class Task implements Parcelable {
 	private ListChangeNotifier<Task> listViewCallback;
 	private ListChangeNotifier<Bounty> bountyListViewCallback;
 	public Bounty completionBounty;
+	public String completionBountyID;
 
 	/**
 	 * The task's assignee(s)
@@ -127,6 +135,7 @@ public class Task implements Parcelable {
 	 * A List of bounties that are contained within the task
 	 */
 	private ArrayList<Bounty> bounties = new ArrayList<Bounty>();
+	private String taskID;
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
@@ -160,6 +169,8 @@ public class Task implements Parcelable {
 //		setParentIDs(firebaseURL);
 //		setParentNames();
 		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.firebase.child("bounties").addChildEventListener(
+				new GrandChildrenListener(this));
 		this.name = pc.readString();
 		this.description = pc.readString();
 		this.assignedUserId = pc.readString();
@@ -171,29 +182,12 @@ public class Task implements Parcelable {
 
 	public Task(String firebaseURL) {
 		this.firebase = new Firebase(firebaseURL);
-//		setParentIDs(firebaseURL);
-//		setParentNames();
+		this.taskID = firebaseURL
+				.substring(firebaseURL.lastIndexOf('/') + 1);
 		this.firebase.addChildEventListener(new ChildrenListener(this));
+		this.firebase.child("bounties").addChildEventListener(
+				new GrandChildrenListener(this));
 	}
-//	private void setParentIDs(String firebaseURL){
-//		String proj="/projects/";
-//		String ms= "/milestones/";
-//		String task="/tasks/";
-//		int indexProj=firebaseURL.indexOf(proj);
-//		int indexMS=firebaseURL.indexOf(ms);
-//		int indexTask=firebaseURL.indexOf(task);
-//		if (indexProj!=-1 && indexMS!=-1 && indexTask!=-1){
-//			this.parentProjectFB=new Firebase(firebaseURL.substring(0, indexMS));
-//			this.parentMilestoneFB=new Firebase(firebaseURL.substring(0, indexTask));
-//		}
-//	}
-//	
-//	private void setParentNames(){
-//		
-//		this.parentProjectFB.child("name").addListenerForSingleValueEvent(new ProjectNameListener(this));
-//		this.parentMilestoneFB.child("name").addListenerForSingleValueEvent(new MilestoneNameListener(this));
-//		
-//	}
 	public void setParentNames(String projName, String msName){
 		this.parentProjectName=projName;
 		this.parentMilestoneName=msName;
@@ -500,6 +494,14 @@ public class Task implements Parcelable {
 				this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
 			}else if (arg0.getKey().equals("total_hours")) {
 				this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
+			}else if (arg0.getKey().equals("bounties")) {
+				for (DataSnapshot child : arg0.getChildren()) {
+					Bounty t = new Bounty(child.getRef().toString(), this.task);
+					if (!this.task.getBounties().contains(t)) {
+						t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
+						this.task.getBounties().add(t);
+					}
+				}
 			}
 			
 		}
@@ -576,19 +578,16 @@ public class Task implements Parcelable {
 		 * description and list of bounties for that task
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			Bounty t = new Bounty(arg0.getRef().toString());
+			Bounty t = new Bounty(arg0.getRef().toString(), this.task);
 			if (!this.task.getBounties().contains(t)) {
 				t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
-				this.task.getBounties().add(t);
+//				this.task.addBounty(t);
 			}
 			t.setListChangeNotifier(this.task.getBountyListViewCallback());
 			if (this.task.listViewCallback != null) {
 				this.task.listViewCallback.onChange();
 			}
-			if (t.getName().equals(Bounty.completionName)){
-				this.task.completionBounty=t;
-				this.task.setPoints(t.getPoints());
-			}
+			
 		}
 
 		/**
@@ -610,13 +609,14 @@ public class Task implements Parcelable {
 		 * Removes a bounty from a task
 		 */
 		public void onChildRemoved(DataSnapshot arg0) {
-			Bounty t = new Bounty(arg0.getRef().toString());
+			Bounty t = new Bounty(arg0.getRef().toString(), this.task);
 			this.task.getBounties().remove(t);
 			if (this.task.listViewCallback != null) {
 				this.task.listViewCallback.onChange();
 			}
 		}
 	}
+	
 	/**
 	 *  Compares this project with the other given project. This implementation treats lower 
 	 *  case letters the same as upper case letters. Also treats numbers differently,
@@ -627,6 +627,11 @@ public class Task implements Parcelable {
 	public int compareToIgnoreCase(Task p){
 		return GeneralAlgorithms.compareToIgnoreCase(this.getName(), p.getName());
 	}
+	public void addBounty(Bounty t) {
+		this.bounties.add(t);
+		
+	}
+
 	public ArrayList<Bounty> getBounties() {
 		return this.bounties;
 	}
@@ -634,14 +639,12 @@ public class Task implements Parcelable {
 	/**
 	 * Updates the points assigned to this task
 	 */
-	public void setPoints(int newPoints){
-		this.points=newPoints;
-		if (this.completionBounty!=null){
-		this.completionBounty.setPoints(this.points);
-		}
-//		this.firebase.child("bounties").child(this.completionBounty.)
+	public void setCompletionBountyPoints(int newPoints){
 		
-//		this.firebase.child(Task.pointsName).setValue(this.points);
+		if (this.completionBounty!=null){
+			this.points=newPoints;
+			this.completionBounty.setPoints(this.points);
+		}
 		if (this.listViewCallback!=null){
 			this.listViewCallback.onChange();
 		}
@@ -652,5 +655,23 @@ public class Task implements Parcelable {
 	public int getPoints(){
 		return this.points;
 	}
+	public String getTaskId(){
+		return this.taskID;
+	}
+	
+	public void setPoints(int newPoints){
+		this.points=newPoints;
+		if (this.listViewCallback!=null){
+			this.listViewCallback.onChange();
+		}
+	}
+	public void setCompletionBounty(Bounty b){
+		Log.i("setCompletionBounty", "here");
+		this.completionBounty=b;
+		
+	}
+
+	
+
 	
 }

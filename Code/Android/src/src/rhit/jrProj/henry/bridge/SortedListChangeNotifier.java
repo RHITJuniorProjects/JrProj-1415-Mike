@@ -93,19 +93,19 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 			this.c = new Comparator<T>() {
 				public int compare(T lhs, T rhs) {
 					if (lhs instanceof Project && rhs instanceof Project) {
-						Log.i("SLCN", "PROJECT");
+//						Log.i("SLCN", "PROJECT");
 						return -1
 								* ((Project) lhs)
 										.compareToIgnoreCase((Project) rhs);
 					}
 					if (lhs instanceof Milestone && rhs instanceof Milestone) {
-						Log.i("SLCN", "Milestone");
+//						Log.i("SLCN", "Milestone");
 						return -1
 								* ((Milestone) lhs)
 										.compareToIgnoreCase((Milestone) rhs);
 					}
 					if (lhs instanceof Task && rhs instanceof Task) {
-						Log.i("SLCN", "Task");
+//						Log.i("SLCN", "Task");
 						return -1
 								* ((Task) lhs)
 										.compareToIgnoreCase((Task) rhs);
@@ -164,7 +164,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 *
 	 */
 	public void onChange() {
-		Log.i("sortmode", this.sortType);
+//		Log.i("sortmode", this.sortType);
 
 		((SortedArrayAdapter<T>) super.getAdapter()).sort(this.c);
 		super.getAdapter().notifyDataSetChanged();

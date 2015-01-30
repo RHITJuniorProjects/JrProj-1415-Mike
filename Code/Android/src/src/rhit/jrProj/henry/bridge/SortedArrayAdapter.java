@@ -2,6 +2,7 @@ package rhit.jrProj.henry.bridge;
 
 import java.util.List;
 
+import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
@@ -143,7 +144,14 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 			text2.setText(m.getEmail());
 			text1.setTextSize(20);
 			view.refreshDrawableState();
+		}else if (this.type == Enums.ObjectType.BOUNTY) {
+			Bounty m = (Bounty) super.getItem(position);
+			text1.setText(m.getName());
+			text2.setText("Points: "+m.getPoints());
+			text1.setTextSize(20);
+			view.refreshDrawableState();
 		}
+		
 
 		return view;
 	}

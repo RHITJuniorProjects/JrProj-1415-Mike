@@ -8,8 +8,15 @@
 
 #import <XCTest/XCTest.h>
 #import "HenryProjectObject.h"
-@interface HenryTests : XCTestCase
+#import "HenryFirebase.h"
 
+
+@interface HenryTests : XCTestCase
+@property Firebase *fb;
+@property NSString *testEmail;
+@property NSString *testName;
+@property NSString *actualEmail;
+@property NSString *actualName;
 @end
 
 @implementation HenryTests
@@ -18,12 +25,49 @@
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    self.fb = [HenryFirebase getFirebaseObject];
+    self.actualEmail = @"grovecj@rose-hulman.edu";
+    self.actualName = @"Carter Grove";
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateInfo:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+
+
+//Gets the info of one of our test accounts. We're just making sure we can pull correctly.
+-(void)updateInfo:(FDataSnapshot *)snapshot {
+    @try{
+        NSUserDefaults *nud = [NSUserDefaults standardUserDefaults];
+        NSString *myID = [nud objectForKey:@"id"];
+        NSLog(@"%@",myID);
+        NSDictionary *nsd = snapshot.value[@"users"][myID];
+        NSLog(@"email is: %@",self.testEmail);
+        NSLog(@"name is: %@",self.testName);
+        self.testEmail = [nsd objectForKey:@"email"];
+        self.testName = [nsd objectForKey:@"name"];
+        [self testPullData:1];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
 }
 
 - (void)tearDown
 {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
+}
+
+//We know what the name should be, let's be sure we pulled it correctly
+- (void) testPullData:(NSInteger) integ{
+    
+    XCTAssertEqual(self.testEmail,self.actualEmail);
+    XCTAssertEqual(self.testName,self.actualName);
 }
 
 //When you put in an e-mail, it should be in proper email format.
