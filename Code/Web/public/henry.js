@@ -1178,12 +1178,15 @@ Task.prototype = {
                     dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
                     flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
                     estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
-                    bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">'),
                     nameH = $('<h3>'),
                     submit = $('<input class="button" value="Edit Task" />'),
                     taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
-
-                task.getName(function (name) {
+				if(vals.bounties != undefined) {
+					bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">');
+                } else {
+					bountyPoints = $('<input type="text" value="' + 0 + '">');
+				}
+				task.getName(function (name) {
                     nameH.text('Edit Task: ' + name);
                 });
                 $(categoriesText).hide();
