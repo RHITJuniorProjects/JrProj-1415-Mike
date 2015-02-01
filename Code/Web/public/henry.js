@@ -1003,6 +1003,7 @@ firebase.child('default_categories').on('child_added', function(category){
 
 function Task(firebase) {
     this.__firebase = firebase;
+	this.__root = firebase.root();
     this.uid = firebase.key();
     this.__name = firebase.child('name');
     this.__description = firebase.child('description');
@@ -1258,11 +1259,27 @@ Task.prototype = {
                         assignedTo: userSelect.val(),
                         due_date: dueInput.val(),
                         category: categoryName,
-                        status: statusSelect.val(),
+                        //status: statusSelect.val(),
                         is_completed: flagVal,
-                        updated_hour_estimate: estHours,
+                        //updated_hour_estimate: estHours,
                         bounties: {points: bountyPoints.val()}
                     });
+					var commit = {
+						added_lines_of_code : 0,
+						hours : 0,
+						message : "direct change to task from UI",
+						milestone : selectedMilestone.uid,
+						project : selectedProject.uid,
+						removed_lines_of_code : 0,
+						status : statusSelect.val(),
+						task : task.uid,
+						timestamp : (new Date).getTime(),
+						updated_hour_estimate : estHoursInput.val(),
+						user : userSelect.val()
+					};
+					console.log(commit);
+					task.__root.child("commits/" + selectedProject.uid).push(commit);
+					
                     var cate = {};
                     cate[categoryName] = true;
                     selectedProject.__custom_categories.update(cate);
