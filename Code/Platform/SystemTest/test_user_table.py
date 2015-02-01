@@ -5,6 +5,7 @@ class UserTableTestCase(test_base.HenryTestCase):
     
     def test_user_creation(self):
         util.createUser(self.ref,'Test User','test_user@gmail.com',150)
+        time.sleep(20)
         expected_data = {u'email': u'test_user@gmail.com', u'name': u'Test User'}
         path = '/users/simplelogin:150'
         actual_data = self.ref.get(path,None)
@@ -15,5 +16,6 @@ class UserTableTestCase(test_base.HenryTestCase):
         project = 'Henry - Platform'
         pid = util.getProjectID(self.ref,project)
         util.addMember(self.ref,pid,uid,"Developer")
+        time.sleep(20)
         projects = util.getProjects(self.ref,uid)
         self.assertTrue(pid in projects)

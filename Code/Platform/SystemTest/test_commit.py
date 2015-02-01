@@ -15,5 +15,6 @@ class CommitTestCase(test_base.HenryTestCase):
         util.commit(self.ref,pid,mid,tid,uid)
         time.sleep(10)
         task = util.getTask(self.ref,pid,mid,tid)
+        print(task)
         self.assertTrue(task.original_hour_estimate == 1)
         self.assertTrue(task.due_date == '2020-02-20')
