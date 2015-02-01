@@ -4,7 +4,9 @@
 # Add more as necessary
 #
 # def getProjectID(ref,projectName):
+# def getProjectInfo(ref,pid):
 # def getMilestoneID(ref,projectID,milestone):
+# def getMilestoneInfo(ref,pid,mid):
 # def getUserID(ref,email):
 # def getTask(ref,projectID,milestoneID,taskID):
 # def getTaskInfo(ref,projectID,milestoneID,taskID): 
