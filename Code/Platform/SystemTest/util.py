@@ -6,7 +6,8 @@
 # def getProjectID(ref,projectName):
 # def getMilestoneID(ref,projectID,milestone):
 # def getUserID(ref,email):
-# def getTask(ref,projectID,milestoneID,taskID): 
+# def getTask(ref,projectID,milestoneID,taskID):
+# def getTaskInfo(ref,projectID,milestoneID,taskID): 
 # def getActiveProjects(ref,userID):
 # def getActiveMilestones(ref,userID,projectID):
 # def getAssignedTasks(ref,userID,projectID,milestoneID):
@@ -81,7 +82,8 @@ def getMilestoneID(ref,projectID,milestone):
 def getTask(ref,projectID,milestoneID,taskID): 
     return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID+'/name',None) 
 
-
+def getTaskInfo(ref,projectID,milestoneID,taskID): 
+    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID,None) 
 
 def getAssignedTasks(ref,userID,projectID,milestoneID):
     path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
