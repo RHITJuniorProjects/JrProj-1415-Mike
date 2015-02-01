@@ -16,7 +16,7 @@ class CommitTestCase(test_base.HenryTestCase):
         time.sleep(10)
         task = util.getTaskInfo(self.ref,pid,mid,tid)
         
-        self.asserTrue(task['added_lines_of_code'] == 2)
+        self.assertTrue(task['added_lines_of_code'] == 2)
         self.assertTrue(task['assignedTo'] == uid)
         self.assertTrue(task['due_date'] == '2020-02-20')
         self.assertFalse(task['is_completed'])
@@ -32,7 +32,7 @@ class CommitTestCase(test_base.HenryTestCase):
         time.sleep(10)
         task = util.getTaskInfo(self.ref,pid,mid,tid)
 
-        self.asserTrue(task['added_lines_of_code'] == 7)
+        self.assertTrue(task['added_lines_of_code'] == 7)
         self.assertTrue(task['assignedTo'] == uid)
         self.assertTrue(task['due_date'] == '2020-02-20')
         self.assertTrue(task['is_completed'])
