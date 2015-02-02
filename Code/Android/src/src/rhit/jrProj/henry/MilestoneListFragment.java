@@ -189,6 +189,9 @@ public class MilestoneListFragment extends ListFragment {
 				createMilestone.setEnabled(true);
 			}
 		}
+		MenuItem createbounty = menu.findItem(R.id.action_bounty);
+		createbounty.setVisible(false);
+		createbounty.setEnabled(false); 
 
 	}
 	

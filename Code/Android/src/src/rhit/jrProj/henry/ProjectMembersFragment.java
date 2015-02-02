@@ -11,6 +11,7 @@ import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -146,6 +147,9 @@ public class ProjectMembersFragment extends ListFragment {
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
+		MenuItem createbounty = menu.findItem(R.id.action_bounty);
+		createbounty.setVisible(false);
+		createbounty.setEnabled(false); 
 	}
 
 	@Override

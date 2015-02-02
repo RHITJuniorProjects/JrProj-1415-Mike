@@ -10,6 +10,7 @@ import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
+import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 
 import com.firebase.client.Firebase;
@@ -33,35 +34,42 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 public class CreateBountyFragment extends DialogFragment implements
-		HorizontalPicker.Callbacks {
+		HorizontalPicker.Callbacks, DatePickerFragment.Callbacks {
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
 	 */
 	private Callbacks mCallbacks = sDummyCallbacks;
+	
 	/*
-	 * Name of the Task
+	 * Name of the Bounty
 	 */
 	private EditText mNameField;
 	/*
-	 * \ Description of the Task
+	 * \ Description of the Bounty
 	 */
 	private EditText mDescriptionField;
 	/*
-	 * \ Category of the Task
+	 * \ Category of the Bounty
 	 */
 	private Spinner mCategory;
 	/*
-	 * Milestone id associated with the Task
+	 * Milestone id associated with the Bounty
 	 */
 	private String milestoneId;
+	/*
+	 * Milestone id associated with the Bounty
+	 */
+	private TextView mDueDate;
 
 	/*
-	 * Project id associated with the task
+	 * Project id associated with the Bounty
 	 */
 	private String projectId;
+	
+	private String dueDate;
 	/*
-	 * Points for the task
+	 * Points for the Bounty
 	 */
 	private HorizontalPicker mPointsField;
 	private GlobalVariables mGlobalVariables;
@@ -95,6 +103,7 @@ public class CreateBountyFragment extends DialogFragment implements
 		public Milestone getSelectedMilestone();
 
 	}
+	
 
 	/**
 	 * A dummy implementation of the {@link Callbacks} interface that does
@@ -111,6 +120,7 @@ public class CreateBountyFragment extends DialogFragment implements
 		}
 
 	};
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -126,14 +136,24 @@ public class CreateBountyFragment extends DialogFragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		getDialog().setTitle("New Task");
+		getDialog().setTitle("New Bounty");
 
-		View v = inflater.inflate(R.layout.fragment_task_create, container,
+		View v = inflater.inflate(R.layout.fragment_bounty_create, container,
 				false);
+		Button choose=(Button)v.findViewById(R.id.button1);
+		choose.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				chooseDate();
+				
+			}
+			
+		});
 
 		// Watch for button clicks.
-		Button addTask = (Button) v.findViewById(R.id.TaskAddButton);
-		addTask.setOnClickListener(new OnClickListener() {
+		Button addBounty = (Button) v.findViewById(R.id.BountyAddButton);
+		addBounty.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 
@@ -162,26 +182,26 @@ public class CreateBountyFragment extends DialogFragment implements
 					create = false;
 				}
 				if (create) {
-					createTask();
+					createBounty();
 					CreateBountyFragment.this.dismiss();
 				}
 			}
 		});
 
-		Button cancel = (Button) v.findViewById(R.id.TaskCancelButton);
+		Button cancel = (Button) v.findViewById(R.id.BountyCancelButton);
 		cancel.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				CreateBountyFragment.this.dismiss();
 			}
 		});
-
-		this.mNameField = (EditText) v.findViewById(R.id.taskNameField);
+		this.mDueDate = (TextView) v.findViewById(R.id.textView6);
+		this.mNameField = (EditText) v.findViewById(R.id.bountyNameField);
 		this.mNameField
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					public boolean onEditorAction(TextView textView, int id,
 							KeyEvent keyEvent) {
-						if (id == R.id.taskNameField
+						if (id == R.id.bountyNameField
 								|| id == EditorInfo.IME_NULL) {
 							return true;
 						}
@@ -190,29 +210,19 @@ public class CreateBountyFragment extends DialogFragment implements
 				});
 
 		this.mDescriptionField = (EditText) v
-				.findViewById(R.id.TaskDescriptionField);
+				.findViewById(R.id.BountyDescriptionField);
 		this.mDescriptionField
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					public boolean onEditorAction(TextView textView, int id,
 							KeyEvent keyEvent) {
-						if (id == R.id.TaskDescriptionField
+						if (id == R.id.BountyDescriptionField
 								|| id == EditorInfo.IME_NULL) {
 							return true;
 						}
 						return false;
 					}
 				});
-		// Task category spinner
-		this.mCategory = (Spinner) v.findViewById(R.id.taskCategorySpinner);
-		// Create an ArrayAdapter using the string array and a default
-		// spinner layout
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this.getActivity(), R.array.task_categories,
-				android.R.layout.simple_spinner_item);
-		// Specify the layout to use when the list of choices appears
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		mCategory.setAdapter(adapter);
+		
 
 		mPointsField = (HorizontalPicker) v
 				.findViewById(R.id.horizontal_number_picker);
@@ -242,45 +252,45 @@ public class CreateBountyFragment extends DialogFragment implements
 	}
 
 	/**
-	 * Initializes values for a new task in Firebase.
+	 * Initializes values for a new bounty in Firebase.
 	 */
-	private void createTask() {
+	private void createBounty() {
 		
-		String name = this.mNameField.getText().toString();
-		String des = this.mDescriptionField.getText().toString();
-		String category = this.mCategory.getSelectedItem().toString();
-		String user = new Firebase(mGlobalVariables.getFirebaseUrl()).getAuth().getUid()
-				.toString();
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("name", name);
-		map.put("description", des);
-		map.put("category", category);
-		map.put("due_date", "No Due Date");
-		map.put("assignedTo", user);
-		map.put("original_hour_estimate", 0);
-		map.put("points", this.mPointsField.getValue());
-
-		Firebase f2 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
-				+ this.projectId + "/milestones/" + this.milestoneId
-				+ "/tasks/").push();
-		String id = f2.toString().substring(f2.toString().lastIndexOf("/") + 1);
-		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
-				+ "/milestones/" + this.milestoneId + "/tasks/" + id).setValue(map);
-
-		// Create bounties:
-		Map<String, Object> bounties = new HashMap<String, Object>();
-		bounties.put("claimed", "None");
-		bounties.put("description", "get points");
-		bounties.put("due_date", "No Due Date");
-		bounties.put("hour_limit", 50);
-		bounties.put("line_limit", "None");
-		bounties.put("name", Bounty.completionName);
-		bounties.put("points", mPointsField.getValue());
-		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
-				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
-		String id2 = f3.toString().substring(f3.toString().lastIndexOf("/") + 1);
-		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
-				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
+//		String name = this.mNameField.getText().toString();
+//		String des = this.mDescriptionField.getText().toString();
+//		String category = this.mCategory.getSelectedItem().toString();
+//		String user = new Firebase(mGlobalVariables.getFirebaseUrl()).getAuth().getUid()
+//				.toString();
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("name", name);
+//		map.put("description", des);
+//		map.put("category", category);
+//		map.put("due_date", "No Due Date");
+//		map.put("assignedTo", user);
+//		map.put("original_hour_estimate", 0);
+//		map.put("points", this.mPointsField.getValue());
+//
+//		Firebase f2 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
+//				+ this.projectId + "/milestones/" + this.milestoneId
+//				+ "/tasks/").push();
+//		String id = f2.toString().substring(f2.toString().lastIndexOf("/") + 1);
+//		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
+//				+ "/milestones/" + this.milestoneId + "/tasks/" + id).setValue(map);
+//
+//		// Create bounties:
+//		Map<String, Object> bounties = new HashMap<String, Object>();
+//		bounties.put("claimed", "None");
+//		bounties.put("description", "get points");
+//		bounties.put("due_date", "No Due Date");
+//		bounties.put("hour_limit", 50);
+//		bounties.put("line_limit", "None");
+//		bounties.put("name", Bounty.completionName);
+//		bounties.put("points", mPointsField.getValue());
+//		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
+//				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
+//		String id2 = f3.toString().substring(f3.toString().lastIndexOf("/") + 1);
+//		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
+//				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
 		
 	}
 
@@ -288,5 +298,15 @@ public class CreateBountyFragment extends DialogFragment implements
 	public void fireChange(int old, int nu) {
 		// TODO Auto-generated method stub
 
+	}
+	public void chooseDate(){
+		DatePickerFragment taskFrag = new DatePickerFragment(this);
+		taskFrag.show(getFragmentManager(), "Diag");
+		
+	}
+	public void setDate(String d){
+		this.dueDate=d;
+		this.mDueDate.setText(GeneralAlgorithms.getDueDateFormatted(d));
+		
 	}
 }
