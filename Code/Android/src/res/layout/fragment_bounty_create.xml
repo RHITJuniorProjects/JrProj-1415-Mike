@@ -117,20 +117,26 @@
 	     android:layout_below="@+id/button1"
 	     android:layout_alignRight="@+id/horizontal_number_picker_lines"
 	     android:text="" />
+	  <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+         />
 
 	 <Button
 	     android:id="@+id/BountyCancelButton"
 	     android:layout_width="135dp"
 	     android:layout_height="wrap_content"
 	     android:layout_alignLeft="@+id/textView1"
-	     android:layout_below="@+id/button1"
+	     android:layout_below="@+id/datePicker1"
 	     android:text="@string/MilestoneCreateCancelString" />
 
 	 <Button
 	     android:id="@+id/BountyAddButton"
 	     android:layout_width="135dp"
 	     android:layout_height="wrap_content"
-	     android:layout_below="@+id/button1"
+	     android:layout_below="@+id/datePicker1"
 	     android:layout_alignRight="@+id/BountyDescriptionField"
 	     android:text="@string/MilestoneAddString" />
 
