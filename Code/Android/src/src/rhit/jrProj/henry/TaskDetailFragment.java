@@ -236,6 +236,9 @@ public class TaskDetailFragment extends Fragment implements
 
 		sorting.setEnabled(false);
 		sorting.setVisible(false);
+		MenuItem createbounty = menu.findItem(R.id.action_bounty);
+		createbounty.setVisible(false);
+		createbounty.setEnabled(false); 
 
 	}
 

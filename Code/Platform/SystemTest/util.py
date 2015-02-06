@@ -4,9 +4,12 @@
 # Add more as necessary
 #
 # def getProjectID(ref,projectName):
+# def getProjectInfo(ref,pid):
 # def getMilestoneID(ref,projectID,milestone):
+# def getMilestoneInfo(ref,pid,mid):
 # def getUserID(ref,email):
-# def getTask(ref,projectID,milestoneID,taskID): 
+# def getTask(ref,projectID,milestoneID,taskID):
+# def getTaskInfo(ref,projectID,milestoneID,taskID): 
 # def getActiveProjects(ref,userID):
 # def getActiveMilestones(ref,userID,projectID):
 # def getAssignedTasks(ref,userID,projectID,milestoneID):
@@ -15,7 +18,7 @@
 # def addMember(ref,pid,uid,role):
 # def createProject(ref,name,description,due_date,uid):
 # def createMilestone(ref,projectID,name,due_date,description):
-# def createTask(ref,projectID,milestoneID,name,due_date_description,original_hour_estimate,category):
+# def createTask(ref,projectID,milestoneID,uid,name,due_date_description,original_hour_estimate,category):
 # def commit(ref,projectID,milestoneID,tid,uid,hours,status,added,removed):
 #####
 
@@ -59,6 +62,9 @@ def getActiveProjects(ref,userID):
     all_projects = ref.get('/projects/',None)
     return {p:all_projects[p]['name'] for p in all_projects for q in my_projects if p == q}
 
+def getProjectInfo(ref,pid):
+    return ref.get('/projects/'+pid,None)
+
 
 def getActiveMilestones(ref,userID,projectID):
     path = '/projects/'+projectID+'/milestones'
@@ -77,11 +83,15 @@ def getMilestoneID(ref,projectID,milestone):
         exit(1)
     return mID
 
+def getMilestoneInfo(ref,pid,mid):
+    return ref.get('/projects/'+pid+'/milestones/'+mid,None)
+
 
 def getTask(ref,projectID,milestoneID,taskID): 
     return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID+'/name',None) 
 
-
+def getTaskInfo(ref,projectID,milestoneID,taskID): 
+    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID,None) 
 
 def getAssignedTasks(ref,userID,projectID,milestoneID):
     path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
@@ -129,10 +139,11 @@ def createMilestone(ref,projectID,name,due_date,description):
         'description':description }) ['name']
     return mid
 
-def createTask(ref,projectID,milestoneID,name,due_date,description,original_hour_estimate,category):
+def createTask(ref,projectID,milestoneID,uid,name,due_date,description,original_hour_estimate,category):
     path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     tid = ref.post(path, {
         'name':name,
+        'assignedTo':uid,
         'due_date':due_date,
         'description':description,
         'original_hour_estimate':original_hour_estimate,

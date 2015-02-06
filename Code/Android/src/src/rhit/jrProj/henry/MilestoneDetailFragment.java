@@ -115,6 +115,10 @@ public class MilestoneDetailFragment extends Fragment implements
 
 		// This code shows the "Create Task" option when
 		// viewing tasks.
+		MenuItem createbounty = menu.findItem(R.id.action_bounty);
+		createbounty.setVisible(false);
+		createbounty.setEnabled(false); 
+		
 		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 		createMilestone.setVisible(false);
 		createMilestone.setEnabled(false);

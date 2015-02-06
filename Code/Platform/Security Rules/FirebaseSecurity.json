@@ -5,9 +5,42 @@
       ".write": "auth.uid == 'nodeServer'",
       
       "commits":{
-        ".write":"true"
-        //".write": "auth.uid == 'clientCommit'"
-
+        ".write":"true",
+        "$projectID":{
+           ".validate":"root.child('projects').hasChild($projectID)",
+        "$commitId":{
+          "added_lines_of_code":{
+            ".validate":"newData.isNumber()"
+          },
+          "hours":{
+            ".validate":"newData.isNumber()"
+          },
+          "message":{
+            ".validate":"newData.isString()"
+          },
+          "milestone":{
+           ".validate":"newData.isString()&&root.child('projects/'+$projectID+'/milestones').hasChild(newData.val())" 
+          },
+          "project":{
+           ".validate":"newData.isString()&&root.child('projects').hasChild(newData.val())" 
+          },
+          "removed_lines_of_code":{
+           ".validate":"newData.isNumber()" 
+          },
+          "status":{
+           ".validate":"newData.isString()" 
+          },
+          "task":{
+           ".validate":"newData.isString()" //Not sure how to check if it is a task in the projects table
+          },
+          "timestamp":{
+           ".validate":"newData.isNumber()"
+          },
+          "user":{
+           ".validate":"newData.isString() && root.child('users').hasChild(newData.val())" 
+          }
+        }
+        }
       },
       "projects":{  
          "$projectID":{
@@ -155,6 +188,21 @@
             },
             "email":{
              ".write":"auth.uid == $user"              
+            },
+            "total_points":{
+              ".validate":"newData.isNumber()"
+            },
+            "added_lines_of_code":{
+              ".validate":"newData.isNumber()"
+            },
+           "removed_lines_of_code":{
+              ".validate":"newData.isNumber()"
+            },
+            "total_lines_of_code":{
+              ".validate":"newData.isNumber()"
+            },
+           "total_hours":{
+              ".validate":"newData.isNumber()"
             },
             "projects":{  
                "$project":{  

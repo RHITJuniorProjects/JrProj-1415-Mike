@@ -33,6 +33,10 @@
     // Do any additional setup after loading the view.
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.fb removeAllObservers];
+}
+
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

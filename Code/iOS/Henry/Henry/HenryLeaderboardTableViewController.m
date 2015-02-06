@@ -69,18 +69,39 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [self.top25 count];
+    return [self.top25 count] + 1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HenryLeaderboardCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leaderboardCell" forIndexPath:indexPath];
     
-    cell.nameLabel.text = [[self.users valueForKey:self.top25[indexPath.row]] valueForKey:@"name"];
-    cell.rankLabel.text = [NSString stringWithFormat:@"%i.", (int)indexPath.row+1];
-    cell.pointsLabel.text = [[[self.users valueForKey:self.top25[indexPath.row]] valueForKey:@"total_points"] stringValue];
+    if (indexPath.row == 0) {
+        cell.nameLabel.text = [[self.users valueForKey:self.uid] valueForKey:@"name"];
+        cell.rankLabel.text = @"";
+        cell.pointsLabel.text = [[[self.users valueForKey:self.uid] valueForKey:@"total_points"] stringValue];
+    } else {
+    
+        cell.nameLabel.text = [[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"name"];
+        cell.rankLabel.text = [NSString stringWithFormat:@"%i.", (int)indexPath.row];
+        cell.pointsLabel.text = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"total_points"] stringValue];
+    
+        if (![[[self.users valueForKey:self.top25[indexPath.row-1]] allKeys] containsObject:@"total_points"]) {
+            cell.pointsLabel.text = @"0";
+        }
+    
+        if ([self.top25[indexPath.row-1] isEqualToString:self.uid]) {
+            cell.backgroundColor = [UIColor lightGrayColor];
+        } else {
+            cell.backgroundColor = [UIColor whiteColor];
+        }
+    }
     
     return cell;
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.fb removeAllObservers];
 }
 
 

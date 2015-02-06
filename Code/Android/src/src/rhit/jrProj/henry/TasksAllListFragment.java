@@ -211,6 +211,9 @@ public class TasksAllListFragment extends ListFragment {
 			dateOldest.setEnabled(false);
 			dateNewest.setVisible(false);
 			dateNewest.setEnabled(false);
+			MenuItem createbounty = menu.findItem(R.id.action_bounty);
+			createbounty.setVisible(false);
+			createbounty.setEnabled(false); 
 		
 	}
 	

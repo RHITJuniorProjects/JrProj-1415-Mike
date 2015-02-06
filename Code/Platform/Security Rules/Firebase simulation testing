@@ -81,3 +81,37 @@ Attempt to write {"bounties":{"dummyName":{"claimed":"None","description":"Blah"
     	=> true
 
 Write was allowed.
+
+Commit Table test:
+location:/commits/-Jd8qQvsIiWKW07od4fS/newID
+Data: { added_lines_of_code: 0, hours: 0, message: "direct change to task from UI", milestone: "-Jd9dFrZZ05kicCr3y3z", project: "-Jd8qQvsIiWKW07od4fS", removed_lines_of_code: 0, status: "New", task: "-Jd9dY5lDt6_09emlPcR", timestamp: 1423073190261, user: "simplelogin:48" } 
+
+Attempt to write {"added_lines_of_code":0,"hours":0,"message":"direct change to task from UI","milestone":"-Jd9dFrZZ05kicCr3y3z","project":"-Jd8qQvsIiWKW07od4fS","removed_lines_of_code":0,"status":"New","task":"-Jd9dY5lDt6_09emlPcR","timestamp":1423073190261,"user":"simplelogin:48"} to /commits/-Jd8qQvsIiWKW07od4fS/newID with auth=null
+    /:.write: "auth.uid == 'nodeServer'"
+    	=> false
+    /commits:.write: "true"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS:.validate: "root.child('projects').hasChild($projectID)"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/added_lines_of_code:.validate: "newData.isNumber()"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/hours:.validate: "newData.isNumber()"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/message:.validate: "newData.isString()"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/milestone:.validate: "newData.isString()&&root.child('projects/'+$projectID+'/milestones').hasChild(newData.val())"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/project:.validate: "newData.isString()&&root.child('projects').hasChild(newData.val())"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/removed_lines_of_code:.validate: "newData.isNumber()"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/status:.validate: "newData.isString()"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/task:.validate: "newData.isString()"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/timestamp:.validate: "newData.isNumber()"
+    	=> true
+    /commits/-Jd8qQvsIiWKW07od4fS/newID/user:.validate: "newData.isString() && root.child('users').hasChild(newData.val())"
+    	=> true
+
+Write was allowed.

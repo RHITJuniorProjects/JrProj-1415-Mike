@@ -24,14 +24,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="40dp"
-                android:src="@android:drawable/ic_menu_today" />
+                android:src="@drawable/ic_projects" />
 
             <ImageView
                 android:id="@+id/go_to_metrics_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:src="@android:drawable/ic_menu_sort_by_size" />
+                android:src="@drawable/ic_metrics" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,14 +46,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="40dp"
-                android:src="@android:drawable/ic_menu_agenda" />
+                android:src="@drawable/ic_tasks" />
 
             <ImageView
                 android:id="@+id/go_to_profile_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
-                android:src="@android:drawable/ic_menu_myplaces" />
+                android:src="@drawable/ic_profile" />
         </LinearLayout>
     </LinearLayout>
 

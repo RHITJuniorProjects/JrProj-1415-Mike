@@ -202,6 +202,9 @@ public class ProjectListFragment extends ListFragment {
 				MenuItem createTask = menu.findItem(R.id.action_task);
 				createTask.setVisible(false);
 				createTask.setEnabled(false);
+				MenuItem createbounty = menu.findItem(R.id.action_bounty);
+				createbounty.setVisible(false);
+				createbounty.setEnabled(false); 
 				
 					
 					

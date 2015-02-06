@@ -184,6 +184,9 @@ public class MainActivity extends Activity implements
 		MenuItem createTask = menu.findItem(R.id.action_task);
 		createTask.setVisible(false);
 		createTask.setEnabled(false);
+		MenuItem createbounty = menu.findItem(R.id.action_bounty);
+		createbounty.setVisible(false);
+		createbounty.setEnabled(false); 
 		return true;
 	}
 
@@ -552,6 +555,26 @@ public class MainActivity extends Activity implements
 			bountyFrag.show(getFragmentManager(), "Diag");
 		}
 	}
+	/**
+	 * Allows the project manager to create a new task.
+	 */
+//	public void createBounty(MenuItem item) {
+//
+//		if (this.selectedTask != null
+//				&& this.selectedTask.getTaskId() != null) {
+//			DatePickerFragment bountyFrag = new DatePickerFragment();
+//			Bundle arguments = new Bundle();
+//			arguments.putString("taskId",
+//					this.selectedTask.getTaskId());
+//			arguments.putString("milestoneId",
+//					this.selectedMilestone.getMilestoneId());
+//			arguments.putString("projectId",
+//					this.selectedProject.getProjectId());
+//			bountyFrag.setArguments(arguments);
+//			this.currFragment = bountyFrag;
+//			bountyFrag.show(getFragmentManager(), "Diag");
+//		}
+//	}
 
 	/**
 	 * Open the search page

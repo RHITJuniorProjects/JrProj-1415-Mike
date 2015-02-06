@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="60dp"
         android:ems="10"
         android:hint="@string/BountyDescriptionHint"
         android:inputType="textMultiLine"
@@ -28,70 +28,116 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:hint="@string/BountyNameHint" />
+
+   
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/BountyDescriptionField"
+        android:layout_alignLeft="@+id/BountyDescriptionField"
         android:layout_below="@+id/BountyDescriptionField"
-        android:layout_marginRight="110dp"
-        android:layout_marginTop="30dp"
-        android:text="Bounty"
+        android:text="Points:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    
 
     <rhit.jrProj.henry.helpers.HorizontalPicker
         android:id="@+id/horizontal_number_picker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/BountyDescriptionField"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="5dp" >
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView2" >
     </rhit.jrProj.henry.helpers.HorizontalPicker>
-
-    <RelativeLayout
-        android:layout_width="280dp"
-        android:layout_height="70dp"
-        android:layout_below="@+id/horizontal_number_picker"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" >
-
-        <Button
-            android:id="@+id/BountyAddButton"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/MilestoneAddString" />
-
-        <Button
-            android:id="@+id/BountyCancelButton"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/MilestoneCreateCancelString" />
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/BountyDescriptionField"
-        android:layout_below="@+id/BountyDescriptionField"
-        android:layout_marginTop="30dp"
-        android:text="Category"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/horizontal_number_picker"
+        android:text="Requirements:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Spinner
-        android:id="@+id/bountyCategorySpinner"
-        android:layout_width="100dp"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/BountyDescriptionField"
+        android:layout_alignRight="@+id/textView1"
         android:layout_below="@+id/textView1"
-        android:layout_marginTop="5dp" />
+        android:text="Hour Limit:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <rhit.jrProj.henry.helpers.HorizontalPicker
+        android:id="@+id/horizontal_number_picker_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_below="@+id/textView3" >
+    </rhit.jrProj.henry.helpers.HorizontalPicker>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/horizontal_number_picker_hours"
+        android:layout_below="@+id/horizontal_number_picker_hours"
+        android:text="Lines of Code Limit:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+     <rhit.jrProj.henry.helpers.HorizontalPicker
+        android:id="@+id/horizontal_number_picker_lines"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_below="@+id/textView4" >
+    </rhit.jrProj.henry.helpers.HorizontalPicker>
+	 <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/horizontal_number_picker_lines"
+        android:layout_below="@+id/horizontal_number_picker_lines"
+        android:text="Due Date:"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+	 <Button
+	     android:id="@+id/button1"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:layout_alignLeft="@+id/textView5"
+	     android:layout_below="@+id/textView5"
+	     android:text="Choose"
+	      />
+
+	 <TextView
+	     android:id="@+id/textView6"
+	     android:layout_width="wrap_content"
+	     android:layout_height="wrap_content"
+	     android:layout_below="@+id/button1"
+	     android:layout_alignRight="@+id/horizontal_number_picker_lines"
+	     android:text="" />
+	  <DatePicker
+        android:id="@+id/datePicker1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+         />
+
+	 <Button
+	     android:id="@+id/BountyCancelButton"
+	     android:layout_width="135dp"
+	     android:layout_height="wrap_content"
+	     android:layout_alignLeft="@+id/textView1"
+	     android:layout_below="@+id/datePicker1"
+	     android:text="@string/MilestoneCreateCancelString" />
+
+	 <Button
+	     android:id="@+id/BountyAddButton"
+	     android:layout_width="135dp"
+	     android:layout_height="wrap_content"
+	     android:layout_below="@+id/datePicker1"
+	     android:layout_alignRight="@+id/BountyDescriptionField"
+	     android:text="@string/MilestoneAddString" />
 
 </RelativeLayout>
