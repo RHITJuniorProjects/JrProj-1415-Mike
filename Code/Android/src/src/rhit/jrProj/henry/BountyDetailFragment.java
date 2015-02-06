@@ -1,9 +1,5 @@
 package rhit.jrProj.henry;
 
-import org.achartengine.GraphicalView;
-import org.achartengine.model.Point;
-
-import rhit.jrProj.henry.TaskDetailFragment.Callbacks;
 import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Map;
@@ -12,7 +8,6 @@ import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import rhit.jrProj.henry.firebase.Enums.Role;
-import rhit.jrProj.henry.helpers.GraphHelper;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 import android.app.Activity;
 import android.app.Fragment;
@@ -23,12 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 /**

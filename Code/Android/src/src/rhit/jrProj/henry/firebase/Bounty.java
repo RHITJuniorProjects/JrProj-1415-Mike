@@ -397,7 +397,6 @@ public class Bounty {
 		 * Fills in the new point's properties.
 		 */
 		public void onChildAdded(DataSnapshot arg0, String arg1) {
-			
 			if (arg0.getKey().equals("claimed")) {
 				this.bounty.claimed = arg0.getValue().toString();
 			} else if (arg0.getKey().equals("description")) {
@@ -425,7 +424,7 @@ public class Bounty {
 		}
 
 		/**
-		 * This will be called when the points data in Firebased is updated
+		 * This will be called when the points data in Firebase is updated
 		 */
 		public void onChildChanged(DataSnapshot arg0, String arg1) {
 			if (arg0.getKey().equals("claimed")) {

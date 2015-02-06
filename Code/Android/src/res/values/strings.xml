@@ -46,6 +46,8 @@
     <string name="invalidTaskName">The task name is invalid.</string>
     <string name="Task_Category">Task Category</string>
     <string name="invalidTaskCategory">The task category is invalid.</string>
+    <string name="invalidBountyDescription">The bounty description is invalid.</string>
+    <string name="invalidBountyName">The bounty name is invalid.</string>
 
     <string-array name="task_categories">
         <item>Bug Fix</item>

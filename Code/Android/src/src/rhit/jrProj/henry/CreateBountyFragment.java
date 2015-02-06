@@ -1,16 +1,12 @@
 package rhit.jrProj.henry;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import rhit.jrProj.henry.TaskListFragment.Callbacks;
 import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
-import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 
 import com.firebase.client.Firebase;
@@ -28,8 +24,6 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -55,10 +49,6 @@ public class CreateBountyFragment extends DialogFragment implements
 	 */
 	private EditText mDescriptionField;
 	/*
-	 * \ Category of the Bounty
-	 */
-	private Spinner mCategory;
-	/*
 	 * Milestone id associated with the Bounty
 	 */
 	private String milestoneId;
@@ -72,7 +62,13 @@ public class CreateBountyFragment extends DialogFragment implements
 	 */
 	private String projectId;
 	
+	/*
+	 * Task id associated with the Bounty.
+	 */
+	private String taskId;
+	
 	private String dueDate;
+	
 	private boolean hasDueDate=false;
 	/*
 	 * Points for the Bounty
@@ -137,6 +133,7 @@ public class CreateBountyFragment extends DialogFragment implements
 		mGlobalVariables =  ((GlobalVariables) getActivity().getApplicationContext());
 		this.milestoneId = this.getArguments().getString("milestoneId");
 		this.projectId = this.getArguments().getString("projectId");
+		this.taskId = this.getArguments().getString("taskId");
 
 	}
 
@@ -161,26 +158,18 @@ public class CreateBountyFragment extends DialogFragment implements
 						.toString();
 				String des = CreateBountyFragment.this.mDescriptionField
 						.getText().toString();
-				String cat = CreateBountyFragment.this.mCategory
-						.getSelectedItem().toString();
 				boolean create = true;
 
 				// Check for a valid description, if the user entered one.
 				if (TextUtils.isEmpty(des)) {
-					showErrorDialog(getString(R.string.invalidTaskDescription));
+					showErrorDialog(getString(R.string.invalidBountyDescription));
 					create = false;
 				}
 				// Check for a valid name, if the user entered one.
 				else if (TextUtils.isEmpty(name)) {
-					showErrorDialog(getString(R.string.invalidTaskName));
+					showErrorDialog(getString(R.string.invalidBountyName));
 					create = false;
-				} else if (TextUtils.isEmpty(name)) {
-					showErrorDialog(getString(R.string.invalidTaskName));
-					create = false;
-				} else if (TextUtils.isEmpty(cat)) {
-					showErrorDialog(getString(R.string.invalidTaskCategory));
-					create = false;
-				}
+				} 
 				if (create) {
 					createBounty();
 					CreateBountyFragment.this.dismiss();
@@ -313,41 +302,23 @@ public class CreateBountyFragment extends DialogFragment implements
 			s=mDatePicker.getYear()+"-"+(mDatePicker.getMonth()+1)+"-"+mDatePicker.getDayOfMonth();
 		}
 		
-//		String name = this.mNameField.getText().toString();
-//		String des = this.mDescriptionField.getText().toString();
-//		String category = this.mCategory.getSelectedItem().toString();
-//		String user = new Firebase(mGlobalVariables.getFirebaseUrl()).getAuth().getUid()
-//				.toString();
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("name", name);
-//		map.put("description", des);
-//		map.put("category", category);
-//		map.put("due_date", "No Due Date");
-//		map.put("assignedTo", user);
-//		map.put("original_hour_estimate", 0);
-//		map.put("points", this.mPointsField.getValue());
-//
-//		Firebase f2 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
-//				+ this.projectId + "/milestones/" + this.milestoneId
-//				+ "/tasks/").push();
-//		String id = f2.toString().substring(f2.toString().lastIndexOf("/") + 1);
-//		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
-//				+ "/milestones/" + this.milestoneId + "/tasks/" + id).setValue(map);
-//
-//		// Create bounties:
-//		Map<String, Object> bounties = new HashMap<String, Object>();
-//		bounties.put("claimed", "None");
-//		bounties.put("description", "get points");
-//		bounties.put("due_date", "No Due Date");
-//		bounties.put("hour_limit", 50);
-//		bounties.put("line_limit", "None");
-//		bounties.put("name", Bounty.completionName);
-//		bounties.put("points", mPointsField.getValue());
-//		Firebase f3 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
-//				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/").push();
-//		String id2 = f3.toString().substring(f3.toString().lastIndexOf("/") + 1);
-//		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
-//				+ "/milestones/" + this.milestoneId + "/tasks/" + id + "/bounties/" + id2).setValue(bounties);
+		String name = this.mNameField.getText().toString();
+		String des = this.mDescriptionField.getText().toString();
+
+		// Create bounties:
+		Map<String, Object> bounties = new HashMap<String, Object>();
+		bounties.put("claimed", "None");
+		bounties.put("description", des);
+		bounties.put("due_date", s);
+		bounties.put("hour_limit", mHoursField.getValue());
+		bounties.put("line_limit", mLinesField.getValue());
+		bounties.put("name", name);
+		bounties.put("points", mPointsField.getValue());
+		Firebase f1 = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
+				+ this.projectId + "/milestones/" + this.milestoneId + "/tasks/" + this.taskId + "/bounties/").push();
+		String id = f1.toString().substring(f1.toString().lastIndexOf("/") + 1);
+		new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/" + this.projectId
+				+ "/milestones/" + this.milestoneId + "/tasks/" + this.taskId + "/bounties/" + id).setValue(bounties);
 		
 	}
 
