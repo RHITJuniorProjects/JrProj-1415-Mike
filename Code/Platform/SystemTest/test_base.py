@@ -37,14 +37,14 @@ def start_commit_server(commit_server_path):
     #sync_metric_server(server_path,base_url)
     devnull = open(os.devnull,'w')
     pid = subprocess.Popen(["nodejs 1_CommitListener.js henry-qa",commit_server_path],stdout=devnull)
-	time.sleep(20)
+    time.sleep(20)
     return pid
 
 def start_user_server(user_server_path):
-	devnull = open(os.devnull, 'w')
-	pid = subprocess.Popen(["nodejs 2_UserListener.js henry-qa",user_server_path],stdout=devnull)
+    devnull = open(os.devnull, 'w')
+    pid = subprocess.Popen(["nodejs 2_UserListener.js henry-qa",user_server_path],stdout=devnull)
     time.sleep(20)
-	return pid
+    return pid
 
 class HenryTestCase(unittest.TestCase):
 
@@ -53,12 +53,11 @@ class HenryTestCase(unittest.TestCase):
         self.ref = firebase.FirebaseApplication(base_url)
         initialize_database(self.ref,self.init_json)
         self.nodejs1 = start_commit_server(commit_server_path)
-		time.sleep(20)
-		self.nodejs2 = start_user_server(user_server_path)
+	self.nodejs2 = start_user_server(user_server_path)
 
     def tearDown(self):
         self.nodejs1.terminate()
-		self.nodejs2.terminate()
+	self.nodejs2.terminate()
 
 if __name__ == '__main__':
     unittest.main()
