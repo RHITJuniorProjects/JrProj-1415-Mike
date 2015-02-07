@@ -92,7 +92,7 @@ def commit(ref,message,uID,pID,mID,tID,hours,status,pos_loc,neg_loc):
         'project': pID,
         'milestone': mID,
         'task': tID,
-        'hours': hours,
+        'hours': float(hours),
         'status': status,
         'added_lines_of_code': pos_loc,
         'removed_lines_of_code': neg_loc,
