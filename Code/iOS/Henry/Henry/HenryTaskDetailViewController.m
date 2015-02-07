@@ -12,6 +12,7 @@
 #import "HenryTaskStatusTableViewController.h"
 #import "HenryFirebase.h"
 #import "HenryAssignDevsTableViewController.h"
+#import "HenryCreateBountyViewController.h"
 
 @interface HenryTaskDetailViewController ()
 @property Firebase *fb;
@@ -149,6 +150,21 @@
         vc.milestoneID = self.MileStoneID;
         vc.taskID = self.taskID;
         vc.projectID = self.ProjectID;
+    } else if([segue.identifier isEqualToString:@"CreateBounty"]){
+        //do something
+        Firebase *bountyRef = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@/bounties/", self.ProjectID, self.MileStoneID, self.taskID]];
+//        __block NSUInteger numBounties = 0;
+//        [bountyRef observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+//            numBounties = [[snapshot.value allKeys] count];
+//        }];
+        
+//        bountyRef = [bountyRef childByAppendingPath:[NSString stringWithFormat:@"bounty %ld", numBounties + 1]];
+        
+        bountyRef = [bountyRef childByAutoId];
+        
+        HenryCreateBountyViewController *vc = [segue destinationViewController];
+        vc.fb = bountyRef;
+        
     }else{
         HenryAssignDevsTableViewController *vc = [segue destinationViewController];
         vc.initialSelection = self.statusButton.titleLabel.text;
@@ -158,6 +174,7 @@
         vc.taskID = self.taskID;
         vc.projectID = self.ProjectID;
         vc.initialSelection = self.assigneeNameLabel.text;
+
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];

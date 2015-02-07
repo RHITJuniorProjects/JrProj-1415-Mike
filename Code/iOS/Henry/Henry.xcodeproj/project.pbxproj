@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */; };
 		83059FDE1A7967D0004F5090 /* trophy-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 83059FDD1A7967D0004F5090 /* trophy-32.png */; };
 		83059FE21A7968D9004F5090 /* HenryLeaderboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83059FE11A7968D9004F5090 /* HenryLeaderboardTableViewController.m */; };
 		83059FE51A7968F7004F5090 /* HenryLeaderboardCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83059FE41A7968F7004F5090 /* HenryLeaderboardCellTableViewCell.m */; };
@@ -82,6 +83,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A959BC31A8695B900356DC2 /* HenryCreateBountyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCreateBountyViewController.h; sourceTree = "<group>"; };
+		0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCreateBountyViewController.m; sourceTree = "<group>"; };
 		83059FDD1A7967D0004F5090 /* trophy-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trophy-32.png"; sourceTree = "<group>"; };
 		83059FE01A7968D9004F5090 /* HenryLeaderboardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeaderboardTableViewController.h; sourceTree = "<group>"; };
 		83059FE11A7968D9004F5090 /* HenryLeaderboardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeaderboardTableViewController.m; sourceTree = "<group>"; };
@@ -306,6 +309,8 @@
 				843D240E19F476DF00DBC2CB /* HenryTaskDetailViewController.m */,
 				843D240F19F476DF00DBC2CB /* HenryTaskStatusTableViewController.h */,
 				843D241019F476DF00DBC2CB /* HenryTaskStatusTableViewController.m */,
+				0A959BC31A8695B900356DC2 /* HenryCreateBountyViewController.h */,
+				0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */,
 			);
 			name = Tasks;
 			sourceTree = "<group>";
@@ -569,6 +574,7 @@
 			files = (
 				843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */,
 				8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */,
 				83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */,
 				84BC3A8C1A6300FA00271DFC /* BEMLine.m in Sources */,
