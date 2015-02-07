@@ -131,7 +131,6 @@ usersRef.on('child_added', function(user) {
                 task.ref().on('value', function(taskVal) {
                     aggregateUserProjectData(userProject);
                     var project = projectsRef.child(userProject.key());
-                    console.log(userProject.key());
                     updateLocAndHoursContribs(project);
 
                 });
@@ -253,7 +252,6 @@ function updatedHourEstChange(updatedHrEst, milestoneRef, task, isStartup) {
 // makes appropriate updates whenever a task is changed
 function taskChanged(milestoneRef, taskRef) {
     //note: do not set defaults
-    console.log('in taskChanged');
 
     //re-initialize milestone and aggregate task data for all tasks
     milestoneRef.update({
@@ -304,16 +302,13 @@ function taskChanged(milestoneRef, taskRef) {
         if (assignee !== null) {
             var taskNode = usersRef.child(assignee + '/projects/' + projectRef.key() + '/milestones/' + milestoneRef.key() + '/tasks/' + taskRef.key()).ref();
             var bountyPoints = 0;
-            console.log('before checking bounties');
             taskBranch.child('bounties').forEach(function(bounty) {
                 if ((bounty.child('hour_limit').val() === 'None') || (bounty.child('hour_limit').val() >= taskBranch.child(totalHours).val())) {
                     if ((bounty.child('line_limit').val() === 'None') || (bounty.child('line_limit').val() >= taskBranch.child(totalHours).val()))
-                        console.log('before checking date');
                         // due_date_stamp = blah
                         // commit_stamp = blah
                     var date = bounty.child('due_date').val();
                     if (date === 'No Due Date' || Date.parse(date) >= new Date().getTime()) {
-                        console.log('got here');
                         bountyPoints += bounty.child('points').val();
                     }
                 }
@@ -347,7 +342,6 @@ function taskChanged(milestoneRef, taskRef) {
 
 // aggregates all the data for the project and milestones over the tasks in the USER'S branch
 function aggregateUserProjectData(project) {
-    console.log('aggregating user project data');
 
     var totalProjectHours = 0;
     var totalProjectAddedLOC = 0;
@@ -371,7 +365,6 @@ function aggregateUserProjectData(project) {
                 totalMilestoneLOC += task.child(totalLines).val();
                 if (task.child('points') !== null) {
                     totalMilestonePoints += task.child('points').val();
-                    console.log('adding points to milestone: ' + totalMilestonePoints);
                 }
             });
         });
@@ -415,7 +408,6 @@ function aggregateUserProjectData(project) {
             }
         });
     });
-    console.log('changing user');
     userRef.update({
         'total_points': userPoints
     });
@@ -562,7 +554,6 @@ function calculatePercentage(current, total) {
 //once milestone data is aggregated, updates the percentage of each user's percentage of contributed LOC and hours on the project and milestone levels
 function updateLocAndHoursContribs(projectRef) {
     projectRef.once('value', function(project) {
-        console.log(project.key());
         // console.log(project.val());
         var projAddedLOC = project.child(addedLines).val();
         var projRemovedLOC = project.child(removedLines).val();
@@ -616,12 +607,6 @@ function updateLocAndHoursContribs(projectRef) {
                 var projRemovedLOCPercent = calculatePercentage(projContribRemovedLOC, projRemovedLOC);
                 var projTotalLOCPercent = calculatePercentage(projContribTotalLOC, projTotalLOC);
                 var projHoursPercent = calculatePercentage(projContribHours, projHours);
-
-                // console.log("User = " + member.key());
-                // console.log("Project Added: " + projAddedLOC + " " + projContribAddedLOC);
-                // console.log("Project Rmved: " + projRemovedLOC + " " + projContribRemovedLOC);
-                // console.log("Project total: " + projTotalLOC + " " + projContribTotalLOC);
-                // console.log("Project hours: " + projHours + " " + projContribHours + "\n");
 
                 member.child('projects/' + projectID).ref().update({
                     'hours_percent': projHoursPercent,
@@ -755,7 +740,6 @@ function aggregateMilestoneData(projectRef) {
     projectRef.child('milestones').once('value', function(milestones) {
         milestones.forEach(function(milestone) {
             projectRef.once('value', function(project) {
-                console.log('inside milestone aggregator');
                 //increase # milestones in project    
                 var milestoneCount = project.child('total_milestones').val() + 1;
 
