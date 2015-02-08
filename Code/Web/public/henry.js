@@ -1001,6 +1001,120 @@ firebase.child('default_categories').on('child_added', function(category){
     defaultCategories.push(category.key());
 });
 
+function Bounty(firebase){
+	this.uid = firebase.name();
+	this.__claimed = firebase.child('claimed');
+	this.__description = firebase.child('description');
+	this.__due_date = firebase.child('due_date');
+	this.__hour_limit = firebase.child('hour_limit');
+	this.__line_limit = firebase.child('line_limit');
+	this.__name = firebase.child('name');
+	this.__points = firebase.child('points')l
+}
+
+Bounty.Types = ["Lines","Hours"];
+
+Bounty.Conditions = ["By Date","Whenever"];
+
+Bounty.makeTypeSelect = function(onselect){
+	return makeSelect(Bounty.Types,Bounty.Types[0],onselect);
+};
+
+Bounty.makeConditionSelect = function(onselect){
+	return makeSelect(Bounty.Conditions,Bount.Conditions[0],onselect);
+};
+
+Bounty.prototype = {
+	getName:function(callback){
+		this.__name.on('value',function(snap){
+			callback(snap.val);
+		});
+	},
+	getType:function(callback){
+		this.getHourLimit(function(hours){
+			if(hours > 0){
+				callback('Hours');
+			} else {
+				callback('Lines');
+			}
+		});
+	},
+	getCondition:function(callback){
+		this.getDueDate(function(date){
+			if(date === 'No Due Date'){
+				callback('Whenever');
+			} else {
+				callback('By Date');
+			}
+		});
+	},
+	getClaiment:function(callback){
+		this.__claimed.on('value',function(snap){
+			callback(snap.val());
+		});
+	},
+	getHourLimit:function(callback){
+		this.__hour_limit.on('value',function(snap){
+			callback(snap.val());
+		});
+	},
+	getLneLimit:function(callback){
+		this.__line_limit.on('value',function(snap){
+			callback(snap.val);
+		});
+	},
+	getName:function(callback){
+		this.__name.on('value',function(snap){
+			callback(snap.val());
+		});
+	},
+	getPoints:function(callback){
+		this.__points.on('value',function(snap){
+			callback(snap.val());
+		});
+	},
+	getDueDate:function(callback){
+		this.__due_date.on('value',function(snap){
+			callback(snap.val());
+		}
+	},
+	getRow:function(){
+		var row = $('<div class="row">'),
+			typeSpan = $('<span>'),
+			condSpan = $('<span>'),
+			claimSpan = $('<span>'),
+			bounty = this;
+
+		this.getType(function(type){
+			if(type === 'Lines'){
+				bounty.getLineLimit(function(lim){
+					typeSpan.text(lim.toString()+' Lines');
+				});
+			} else {
+				bounty.getHourLimit(function(lim){
+					typeSpan.text(lim.toString()+' Hours');
+				});
+			}
+		});
+
+		this.getCondition(function(cond){
+			if(cond === "Whenever"){
+				condSpan.text('');
+			} else {
+				bounty.getDueDate(function(date){
+					condSpan.text("By "+date);
+				});
+			}
+		});
+
+		this.getClaiment(function(claiment){
+			claimSpan.text('claimed by '+claiment);
+		});
+		row.append(typeSpan,condSpan,claimSpan);
+		return row;
+	}
+}
+
 function Task(firebase) {
     this.__firebase = firebase;
     this.uid = firebase.key();
@@ -1015,6 +1129,7 @@ function Task(firebase) {
     this.__is_completed = firebase.child('is_completed');
     this.__hour_estimate = firebase.child('updated_hour_estimate');
     this.__bountiesPoints = firebase.child('bounties/points');
+	this.__bounties = firebase.child('bounties');
 };
 
 Task.Statuses = [
@@ -1032,6 +1147,14 @@ Task.Flags = [
 ];
 
 Task.prototype = {
+	getBounties: function(){
+		return new Table(
+			function(ref){
+				new Bounty(ref);
+			},
+			this.__bounties
+		);
+	},
     getName: function (callback) {
         this.__name.on('value', function (dat) {
             callback(dat.val());
@@ -1164,9 +1287,11 @@ Task.prototype = {
         row.click(function () {
             modal.children().remove();
             task.__firebase.once('value', function (snap) {
-                var vals = snap.val();
-                    //console.log(vals);
-                    var nameInput = $('<input type="text" value="' + vals.name + '">'),
+
+				// make edit page
+				var	taskEdit = $('<div id="task-edit">'),
+					vals = snap.val(),
+                	nameInput = $('<input type="text" value="' + vals.name + '">'),
                     descriptionInput = $('<textarea>' + vals.description + '</textarea>'),
                     userSelect = users.getSelect(function (user) {
                         selectedUser = user;
@@ -1179,16 +1304,16 @@ Task.prototype = {
                     flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
                     estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
                     bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">'),
-                    nameH = $('<h3>'),
+                    eNameH = $('<h3>'),
                     submit = $('<input class="button" value="Edit Task" />'),
                     taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
                 task.getName(function (name) {
-                    nameH.text('Edit Task: ' + name);
+                    eNameH.text('Edit Task: ' + name);
                 });
                 $(categoriesText).hide();
-                modal.append(
-                    nameH,
+                taskEdit.append(
+                    eNameH,
                     label(nameInput, 'Name'),
                     label(descriptionInput, 'Description'),
                     label(userSelect, 'User'),
@@ -1198,10 +1323,19 @@ Task.prototype = {
                     label(dueInput, 'Due Date'),
                     label(flagInput, 'Is Complete'),
                     label(estHoursInput, 'Estimated Hours'),
-                    label(bountyPoints, 'Bounty Points'),
-                    submit,
-                    taskError
+                    label(bountyPoints, 'Bounty Points')
+                    //submit,
+                    //taskError
                 );
+
+				// make bounty page
+				var bNameH = $('<h3>'),
+					taskBounties = $('<div id="task-bounties">');
+				
+
+				this.getBounties().onItemAdded(function(bounty){
+					taskBounties.append(bounty.getRow());
+				});
                 modal.keypress(function (e) {
                     if (e.which == 13) {
                         submit.click();
