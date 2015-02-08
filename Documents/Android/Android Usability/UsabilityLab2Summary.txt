@@ -1,0 +1,31 @@
+Iteration	Task ID	User ID	Observer	Time on Task	Task Resolution	Task Notes	
+1	(task ID not found) 	User 01	Main Logger	00:00:36.350 (1 segment)	Somewhat Successful	Hard time with keyboard	
+1	(task ID not found) 	User 01	Main Logger	00:00:40.541 (1 segment)	Not Successful At All	Error crash on finish	
+1	(task ID not found) 	User 01	Main Logger	00:00:16.380 (1 segment)	Very Successful	Fairly straight forward	
+1	(task ID not found) 	User 01	Main Logger	00:00:14.744 (1 segment)	Somewhat Successful	Started timer too early.	
+1	(task ID not found) 	User 01	Main Logger	00:00:10.920 (1 segment)	Very Successful	Forgot to start timer	
+1	(task ID not found) 	User 01	Main Logger	00:00:01.344 (1 segment)	Very Successful	 Easy for user to complete.	
+1	(task ID not found) 	User 02	Main Logger	00:00:24.192 (1 segment)	Somewhat Successful	user was distracted & had to wait for charge on device before	
+1	(task ID not found) 	User 02	Main Logger	00:00:14.016 (1 segment)	Very Successful	Easily done without guidance	
+1	(task ID not found) 	User 02	Main Logger	00:00:21.938 (1 segment)	Somewhat Unsuccessful	This was not intuitive for the user. User could not see the light text	
+1	(task ID not found) 	User 02	Main Logger	00:00:53.887 (1 segment)	Not Successful At All	User had to search back and forth in the application to find this chart and needed a repeat to find it.	
+1	(task ID not found) 	User 02	Main Logger	00:00:18.497 (1 segment)	Somewhat Unsuccessful	User had to search for it but eventually found the button on the home screen.	
+1	(task ID not found) 	User 02	Main Logger	00:05:29.517 (1 segment)	Very Successful	Super intuitive!	
+1	(task ID not found) 	User 03	Main Logger	00:01:02.079 (1 segment)	Somewhat Successful	Observer forgot to turn on wifi	
+1	(task ID not found) 	User 03	Main Logger	00:00:33.792 (1 segment)	Neutral	User was not familiar with Project Management and once familiarized, completed the task with ease.	
+1	(task ID not found) 	User 03	Main Logger	00:01:45.792 (1 segment)	Somewhat Unsuccessful	User was not familiar with PM software and could not see the white text. User noticed a crash on the device.	
+1	(task ID not found) 	User 03	Main Logger	00:00:28.135 (1 segment)	Somewhat Unsuccessful	The user had to search around, but evenutally found it	
+1	(task ID not found) 	User 03	Main Logger	00:00:27.339 (1 segment)	Not Successful At All	There is an issue with SHOW MY TASK not appearing on the project page. User had to go forward and then backwards to see it on the project listing. 	
+1	(task ID not found) 	User 03	Main Logger	00:00:01.436 (1 segment)	Very Successful	Easy.	
+1	(task ID not found) 	User 04	Main Logger	00:00:32.553 (1 segment)	Very Successful	Has used the Android device before & has seen the application before.	
+1	(task ID not found) 	User 04	Main Logger	00:00:12.672 (1 segment)	Very Successful	Easily found the task owner.	
+1	(task ID not found) 	User 04	Main Logger	00:00:17.376 (1 segment)	Very Successful	User quickly navigated, tried to send email straight from the bounty/task view.	
+1	(task ID not found) 	User 04	Main Logger	00:00:10.010 (1 segment)	Very Successful	Easily navigated straight towards the graph button on the top of the menu bar. 	
+1	(task ID not found) 	User 04	Main Logger	00:00:32.508 (1 segment)	Somewhat Unsuccessful	Yet again, user had issues seeing the my tasks button on the main screen. That needs to hold when a project is selected/appear. Also, the users have not been looking for the show my tasks on the Milestone list/view even though it is there.	
+1	(task ID not found) 	User 04	Main Logger	00:00:02.342 (1 segment)	Very Successful	Stop Task	
+1	(task ID not found) 	User 05	Main Logger	00:00:39.596 (1 segment)	Somewhat Successful	Had to move the tablet over (-5 seconds)	
+1	(task ID not found) 	User 05	Main Logger	00:00:27.840 (1 segment)	Neutral	Had to hear instructions more than twice.	
+1	(task ID not found) 	User 05	Main Logger	00:02:38.057 (1 segment)	Neutral	The slider would not work (hardware issue).	
+1	(task ID not found) 	User 05	Main Logger	00:00:40.540 (1 segment)	Neutral	Person came in and interrupted him. 	
+1	(task ID not found) 	User 05	Main Logger	00:00:35.502 (1 segment)	Somewhat Successful	User found it on the milestone view, looked for it on the project view. Tasks not loading on the milestone view.	
+1	(task ID not found) 	User 05	Main Logger	00:00:09.338 (1 segment)	Neutral	User does not have an Android device.	
