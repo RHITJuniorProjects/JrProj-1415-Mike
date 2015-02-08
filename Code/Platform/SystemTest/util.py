@@ -15,6 +15,9 @@
 # def getAssignedTasks(ref,userID,projectID,milestoneID):
 # def createUser(ref,name,email,num):
 # def getProjects(ref,uid):
+# def getUserProject(ref,uid,pid):
+# def getUserMilestone(ref,uid,pid,mid):
+# def getUserTask(ref,uid,pid,mid,tid):
 # def addMember(ref,pid,uid,role):
 # def createProject(ref,name,description,due_date,uid):
 # def createMilestone(ref,projectID,name,due_date,description):
@@ -116,6 +119,15 @@ def createUser(ref,name,email,num):
 def getProjects(ref,uid):
     path = '/users/'+uid+'/projects'
     return ref.get(path,None)
+
+def getUserProject(ref,uid,pid):
+    return ref.get('/users/'+uid+'/projects/'+pid,None)
+    
+def getUserMilestone(ref,uid,pid,mid):
+    return ref.get('/users/'+uid+'/projects/'+pid+'/milestones/'+mid,None)
+    
+def getUserTask(ref,uid,pid,mid,tid):
+    return ref.get('/users/'+uid+'/projects/'+pid+'/milestones/'+mid+'/tasks/'+tid,None)
 
 def addMember(ref,pid,uid,role):
     path = '/projects/'+pid+'/members'
