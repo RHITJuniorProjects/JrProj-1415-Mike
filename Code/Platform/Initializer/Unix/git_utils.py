@@ -20,12 +20,11 @@ def initialize_git(projectID,opsys):
         base_url = base_url + '/Windows'
 
     sh_url = base_url+'/commit-msg'
-    py_url = base_url+'/henry/commit.py'
+    py_urls = ['/commit.py', '/git_utils.py', '/firebase_utils.py', '/__init__.py']
 
     hook_dir = os.getcwd()+'/.git/hooks'
     henry_dir = hook_dir+'/henry'
     sh_path = hook_dir+'/commit-msg'
-    py_path = henry_dir+'/commit.py'
 
     if not inGitRepo():
         print 'HENRY Error: Must be in the root of a Git repository'
@@ -34,24 +33,23 @@ def initialize_git(projectID,opsys):
     # retrieve and decode the shell script
     r = requests.get(sh_url)
     sh = b64decode(json.loads(r.text)['content'])
-
-    # retrieve and decode the python script
-    r = requests.get(py_url)
-    py = b64decode(json.loads(r.text)['content'])
-    py = '\n'.join([fillGitHookTemplate(line,projectID) for line in py.split('\n')])
-
+    
     # write the shell script
     with open(sh_path,'w') as f:
         f.write(sh)
-
     os.system('chmod +x .git/hooks/commit-msg') 
 
     if not os.path.exists(henry_dir):
         os.makedirs(henry_dir)
 
-    # write the python script
-    with open(py_path,'w') as f:
-        f.write(py)
+    # retrieve and decode the python scripts
+    for py_url in py_urls:
+        r = requests.get(base_url+'/henry'+py_url)
+        py = b64decode(json.loads(r.text)['content'])
+        if py_url == '/commit.py':
+            py = '\n'.join([fillGitHookTemplate(line,projectID) for line in py.split('\n')])
+        with open(henry_dir+py_url,'w') as f:
+            f.write(py)
     print 'HENRY: Repository succesfully connected to Henry'
 
 

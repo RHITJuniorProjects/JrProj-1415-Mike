@@ -1,27 +1,89 @@
 #!/usr/bin/python
-import sys
-import re
-import subprocess
-import time
+
+from base64 import b64decode
 from firebase import firebase
+import json
+import os
+import requests
+import subprocess
+import sys
+import traceback
+import re
+import time
+
+def initialize_git(projectID,opsys):
+    # github API 3.0
+    base_url = 'https://api.github.com/repos/RHITJuniorProjects/JrProj-1415-Mike/contents/Code/Platform/Git/Hooks'
+    if opsys == 'unix':
+        base_url = base_url + '/Unix'
+    else:
+        base_url = base_url + '/Windows'
+
+    sh_url = base_url+'/commit-msg'
+    py_url = base_url+'/henry/commit.py'
+
+    hook_dir = os.getcwd()+'/.git/hooks'
+    henry_dir = hook_dir+'/henry'
+    sh_path = hook_dir+'/commit-msg'
+    py_path = henry_dir+'/commit.py'
+
+    if not inGitRepo():
+        print 'HENRY Error: Must be in the root of a Git repository'
+        exit()
+
+    # retrieve and decode the shell script
+    r = requests.get(sh_url)
+    sh = b64decode(json.loads(r.text)['content'])
+
+    # retrieve and decode the python script
+    r = requests.get(py_url)
+    py = b64decode(json.loads(r.text)['content'])
+    py = '\n'.join([fillGitHookTemplate(line,projectID) for line in py.split('\n')])
+
+    # write the shell script
+    with open(sh_path,'w') as f:
+        f.write(sh)
+
+    os.system('chmod +x .git/hooks/commit-msg') 
+
+    if not os.path.exists(henry_dir):
+        os.makedirs(henry_dir)
+
+    # write the python script
+    with open(py_path,'w') as f:
+        f.write(py)
+    print 'HENRY: Repository succesfully connected to Henry'
 
 
-##
-#   These fields are populated by the initializer
-##
-projectID = '-JYcg488tAYS5rJJT4Kh'
-githubID = 'aj-michael'
+def fillGitHookTemplate(line,projectID):
+    if line.startswith('projectID = '):
+        return "projectID = '"+projectID+"'"
+    else:
+        return line
 
-prodUrl = 'https://henry-production.firebaseio.com'
-stagUrl = 'https://henry-staging.firebaseio.com'
-testUrl = 'https://henry-test.firebaseio.com'
 
-defaultpath = '.git/.henrydefaults'
+def inGitRepo():
+    try:
+        with open(os.getcwd()+'/.git/hooks/commit-msg.sample','r') as f:
+            pass
+        return True
+    except IOError:
+        return False
+
+
+def getGitEmail():
+    command = 'git config --global user.email'.split(' ')
+    pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
+    return pipe.communicate()[0].strip()
+
 
 def readCommit(path):
     with open(path,'r') as msgfile:
         msg = msgfile.read()
-    return msg.strip()
+    try:
+        return msg.strip().split('\n#')[0]
+    except:
+        return ''
     
 
 def getLoC():
@@ -37,7 +99,7 @@ def getLoC():
         raise Exception('HENRY: Unexpected output of `git diff --cached --shortstat`')
     else:
         vals = ['0','0']
-    nums = map(lambda x: int(x[0]),vals) 
+    nums = map(lambda y: int(filter(lambda x: x.isdigit(),y)),vals)
     return nums[0],nums[1]
 
 
@@ -52,20 +114,21 @@ def parse(msg):
     results = [res.group(1) if res != None else None for res in results]
     return results
 
-
+# exact duplicate of getGitEmail, not sure why both exist but too lazy to fix
 def getEmail():
     command = 'git config --global user.email'.split(' ')
     pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
     return pipe.communicate()[0].strip()
     
 
-def getUserID(gituser,ref):
+def getUserID(email,ref):
     users = ref.get('/users',None)
-    filteredusers = {u:users[u] for u in users if 'github' in users[u]}
+    filteredusers = {u:users[u] for u in users if 'email' in users[u]}
     try:
-        userID = [u for u in filteredusers if filteredusers[u]['github']==gituser][0]
+        userID = [u for u in filteredusers if filteredusers[u]['email']==email][0]
     except:
-        raise Exception('HENRY: Invalid username, commit failed')
+        print 'HENRY: Invalid or nonexistant email, commit failed'
+        exit(1)
     return userID
 
 
@@ -79,7 +142,8 @@ def getMilestoneID(projectID,milestone):
     try:
         mID = [m for m in filtered if filtered[m]['name']==milestone][0]
     except:
-        raise Exception('HENRY: Nonexistent milestone, commit failed')
+        print 'HENRY: Invalid or nonexistent milestone, commit failed'
+        exit(1)
     return mID
 
 
@@ -90,7 +154,8 @@ def getTaskID(projectID,milestoneID,task):
     try:
         tID = [t for t in filtered if filtered[t]['name']==task][0]
     except:
-        raise Exception('HENRY: Nonexistent task, commit failed')
+        print 'HENRY: Invalid or nonexistant task, commit failed'
+        exit(1)
     return tID
 
 
@@ -139,20 +204,32 @@ def getActiveMilestones(ref,userID,projectID):
 
 def getAssignedTasks(ref,userID,projectID,milestoneID):
     path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
-    taskIDs = ref.get(path,None).keys()
+    try:
+        taskIDs = ref.get(path,None).keys()
+    except:
+        print 'HENRY: You have no assigned tasks for this milestone, commit failed'
+        exit(1)
     path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
     allTasks = ref.get(path,None)
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
     return assignedTasks
 
+
+def getMilestone(ref,projectID,milestoneID):
+    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/name',None)
+
+
+def getTask(ref,projectID,milestoneID,taskID):
+    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID+'/name',None)
+
     
 def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
     # mac/linux
-    #sys.stdin = open('/dev/tty')
+    sys.stdin = open('/dev/tty')
 
     # windows
-    sys.stdin = open('CON')
-    
+    #sys.stdin = open('CON')
+
     def_mID, def_tID, def_status = getDefaults()
 
     if hours == None:
@@ -162,7 +239,11 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for milestone if necessary
     if milestone == None:
-        print 'Active milestones:'
+        if def_mID != None:
+            def_milestone = getMilestone(ref,projectID,def_mID)
+            print 'Active milestones (defaults to '+def_milestone+'):'
+        else:
+            print 'Active milestones:'
         sys.stdout.flush()
         idsByIndex = [] ; index = 1
         for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
@@ -174,7 +255,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
         milestone = raw_input()
         if milestone.isdigit() and int(milestone) <= len(idsByIndex):
             mID = idsByIndex[int(milestone)-1]
-        elif milestone == '' and mID != 0:
+        elif milestone == '' and def_mID != 0:
             mID = def_mID
         else:
             mID = getMilestoneID(projectID,milestone)
@@ -183,7 +264,11 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for task if necessary
     if task == None:
-        print 'Tasks assigned to you:'
+        if def_tID != None:
+            def_task = getTask(ref,projectID,mID,def_tID)
+            print 'Tasks assigned to you (defaults to '+def_task+'):'
+        else:
+            print 'Tasks assigned to you:'
         idsByIndex = [] ; index = 1
         for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
             print ' - '+str(index)+'. '+tName
@@ -203,7 +288,11 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
 
     # prompt for status if necessary
     if status == None:
-        print 'Select status from:' # New, Implementation, Testing, Verify, Regression, Closed'
+        # New, Implementation, Testing, Verify, Regression, Closed'
+        if def_status != None:
+            print 'Select status (defaults to '+def_status+'):'
+        else:
+            print 'Select status:'
         possibleStatuses = ['New', 'Implementation', 'Testing', 'Verify', 'Regression', 'Closed']
         for i in range(len(possibleStatuses)):
             print ' - ' + str(i + 1) + ': ', possibleStatuses[i]
@@ -214,40 +303,22 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status):
             status = possibleStatuses[int(status) - 1]
         elif status == '' and def_status != 0:
             status = def_status
+        else:
+            print 'HENRY: Invalid status, commit failed'
+            exit(1)
 
     return hours,mID,tID,status
 
 
-def updateDefaults(milestoneID,taskID,status):
+def updateDefaults(defaultpath,milestoneID,taskID,status):
     with open(defaultpath,'w+') as f:
         f.write(milestoneID+'\t'+taskID+'\t'+status)
 
 
 # returns milestoneID, taskID, status
-def getDefaults():
+def getDefaults(defaultpath):
     try:
         with open(defaultpath,'r') as f:
             return f.read().strip().split('\t')
     except:
-        return 0,0,0
-
-
-if __name__ == '__main__':
-    # set this to the correct database
-    ref = firebase.FirebaseApplication(testUrl, None)
-
-    email = getEmail()
-    userID = getUserID(githubID,ref)
-    msg = readCommit(sys.argv[1])
-    [hours,milestone,task,status] = parse(msg)
-    pos_loc,neg_loc = getLoC()
-    ts = getTime()
-    hours,milestoneID,taskID,status = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status)
-
-    updateDefaults(milestoneID,taskID,status)
-
-    commitID =writeCommit(ref,msg,None,userID,int(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
-    addCommitToProject(ref,projectID,commitID)
-    addCommitToUser(ref,userID,commitID)
-
-    #raise Exception('Reached end, prevents commit from executing')
+        return None,None,None

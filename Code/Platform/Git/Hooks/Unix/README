@@ -1,0 +1,1 @@
+The commit-msg file needs to be named as is and need to be executable. Git looks for a file with it's name in .git/hooks and executes it before each commit.
