@@ -1,0 +1,1134 @@
+/* These three styles are listed first because they are accessed by JavaScript.
+/* div.detail must always be the first style, index 0 (zero)
+/* img.graphs must always be the second style, index 1
+/* div.logsForUser p.colObsMetaData must always be the third style, index 2 */
+
+div.detail {
+	display: none;
+	color: gray;
+	border-bottom: 0;}
+
+img.graphs {
+	border: solid gray 1px;
+	width: 24em;
+	height: 18em;
+	margin-top: 1em;}
+
+div.logsForUser p.colObsMetaData {
+/* Used for logged obs'n hidden details on logs.htm */
+	clear: both;
+	width: 53em;
+	font-size: .9em;
+	text-align: Left;
+	margin: 0; 
+	margin: 0 0 0 7em;
+	padding: 0 0 0 1em;
+	display: none; 
+	border-left: solid silver 1px;}
+
+/*====================================================================================
+/* This stylesheet controls the appearance of your report. Report page structure is as follows:
+/* 	<div id="wrapper">
+/* 		<div id="header">
+/* 			Optional user-generated header goes here. Header include is incHeader.js.
+/* 		</div><!--"header" -->
+/* 		<div id="navbar">
+/* 			Auto-generated navigation bar goes here.
+/* 			This navbar is duplicated at the bottom of each page.
+/* 		</div><!--"navbar" -->
+/*
+/* 		<div id="page-name">
+/* 			Each page in the report has a DIV whose ID corresponds to the name of the page.
+/* 			IDs include: #homepage, #findings, #video, #surveys, #eventLogs #scenario, #users, #tasktimes,
+/* 			#categories, #logs.
+/* 		</div><!--"page-name"-->
+/*
+/* 		<div id="navbar">
+/* 			Auto-generated navigation bar goes here.
+/* 			This navbar is duplicated at the top of the page.
+/* 		</div><!--"navbar" -->
+/* 		<div id="footer">
+/* 			Optional user-generated footer goes here. Header include is incFooter.js.
+/* 		</div><!--"footer" -->
+/* 	</div><!-- "wrapper" -->
+====================================================================================*/
+
+
+/*====================================================================================
+/* Structural styles
+====================================================================================*/
+
+* {
+	margin: 0; 
+	padding: 0;
+	font-family: arial, sans-serif; } 
+	
+html {
+	overflow: -moz-scrollbars-vertical; }
+
+html, body {
+	height: 100%; 
+	background-color: silver;}
+	
+#wrapper {
+	min-height: 100%;
+	height: auto;
+	width: 800px;
+	margin: 0 auto;
+	background-color: white;
+	border: solid white 1px;}
+
+div.clearfloats, 
+div.clearFloats
+{
+	clear: both;
+	border: 0;
+	padding: 0;
+	margin: 0; }
+
+/*====================================================================================
+/* Page DIV styles that are report-wide
+/* These styles wrap page-specific content, which is everything between the navbars.
+====================================================================================*/
+
+#homepage, #findings, #video, #surveys, #tasks, #users, #taskdata,
+#categories, #logs, #eventLogs {
+	padding-left: 10px;
+	padding-right: 10px; }
+
+/*====================================================================================
+/* User-Generated Header and Footer Styles
+/* These styles apply to content from two user-generated files: incHeader.js and incFooter.js.
+/* Content in these files is wrapped in IDed DIVs named "header" and "footer" respectively.
+====================================================================================*/
+
+#header {
+	text-align: center; }
+	
+#footer {
+	text-align: center; }
+
+/*====================================================================================
+/*
+/* Global Tag Styles
+/*
+====================================================================================*/
+
+li {
+	margin: auto auto auto 2em; }
+
+h1, h2, h3, h4, p, ol, ul {
+	margin-bottom: 10px;
+	margin-top: 1em;}
+
+h1, h2, h3, h4 {
+	clear: both; }
+
+li, li p {
+	margin-bottom: 0px;
+	margin-top: 0px;
+	margin-left: 20px; }
+	
+a {
+	color: blue;
+	text-decoration: none; }
+
+a:hover {
+	text-decoration: underline; }
+
+p {
+	margin-top: 1em;}
+
+div.image {
+	margin: 1em 0 0 0;
+	clear: both;
+	text-align: center; }
+
+
+/*====================================================================================
+/* Top and Bottom NavBar DIV Styles
+/* These navbars are auto-generated, based on the pages in your report, and appear at the
+/* top and bottom of every page. Navbar structure is as follows:
+/* 
+/* <div id="navbarTop">
+/* 	<p>
+/* 		<a href="reference">InnerText</a>
+/* 		<a ... as needed
+/* 	</p>
+/* </div>
+====================================================================================*/
+
+div#navbarTop {
+	text-align: center;
+	clear: both; 
+	margin-top: 1em;}
+
+div#navbarBottom {
+	text-align: center;
+	clear: both;
+	margin-top: 1em;}
+	
+#navbarTop a:first-child, 
+#navbarBottom a:first-child {
+	border: 0; }
+
+#navbarTop a, 
+#navbarBottom a {
+	padding: 0 5px 0 5px;
+	border-left: solid black 2px;}
+
+#navbarTop .selected, 
+#navbarBottom .selected {
+	font-weight: bold;
+	color: black; }
+
+/*====================================================================================
+/* Home Page Content Styles
+/* Home page structure is as follows:
+/* <div id="homepage">
+/*	<h1>Report Title</h1>
+/*	<h2>Section Title</h2>
+/*	<div class="rowWrap">
+/*		<div class="leftcol">...</div>
+/*		<div class="rightcol">...</div>
+/*	</div><!--rowWrap-->
+/*		...
+/*	...
+/* </div><!--homepage-->
+====================================================================================*/
+
+div#homepage .rowWrap {
+	clear: both;
+	padding-left: 40px; }
+
+div#homepage .leftcol {
+	font-weight: bold;
+	float: left;
+	margin-bottom: 10px;
+	width: 30%;
+	padding-right: 1em;}
+
+div#homepage .rightcol {
+	float: left;
+	width: 65%;
+	margin-bottom: 10px;}
+
+div#homepage .rightcol p {
+	margin: 0 0 1em 0;
+	padding: 0;}
+
+/*====================================================================================
+/* Tasks Page Content Styles
+/* Tasks  page structure is as follows:
+/* <div id="tasks">
+/*	<h1>Report Title</h1>
+/*      <h2>Task Name</h2>
+/*	<div class="taskDesc">
+/*		Task/Scenario materials go here
+/*	</div><!-- #taskDesc-->
+/*	<div class="paramTable">
+/*		Task/Scenario materials go here
+/*	</div><!-- #taskDesc-->
+/*	...
+/* </div><!-- #tasks -->
+====================================================================================*/
+
+div#tasks div#intro {
+	margin-bottom: 1em; }
+
+div#tasks div#intro .scenarioid {
+	margin: 0 0 0 40px; }
+
+p.taskName {
+	font-weight: bold; }
+
+div.taskDesc {
+	margin-left: 50px;}
+
+div.paramTable {
+	margin-left: 50px;
+	margin-top: 1em;
+	margin-bottom: 2em;
+	width: 700px;
+	clear: both;}
+
+div.paramTable div {
+	clear: both; 	
+	border-bottom: solid silver 1px;
+	padding-bottom: 2px;}
+
+div.paramTable div:first-child {
+	font-weight: bold;
+	border: 0;}
+
+div.paramTable p.colA {
+	float: left;
+	width: 200px;
+	margin: 0; padding: 0;}
+
+div.paramTable p.colB {
+	float: left;
+	width: 500px;
+	margin: 0; padding: 0;}
+
+div.paramTable p.colB span.paramDesc {
+	font-size: .75em;}
+
+
+/*====================================================================================
+/* Users Page Content Styles
+/* Users page structure is as follows:
+/* <div id="users">
+/*	<h1>Report Title</h1>
+/*	<div class="intro">
+/*		<p class="userid"><a href="#">UserID</a></p>
+/*		...
+/*	</div><!-- #intro-->
+/*	<div class="demogsWrap">
+/*		<p class="demogName">
+/*		<p class="demogDesc">
+/*		<div class="demogTable">
+/*			<div>
+/*				<p class="colLabel">
+/*				<p class="colData">
+/*			</div>
+/*		</div><!--.demog-->
+/*	</div><!--.demogsWrap-->
+/*	<div class="useridwrap">
+/*		<div class="userDemogWrap">
+/*			<div class="userDemogName">
+/*			</div><!--.userDemogName-->
+/*			<div class="userDemogLevel">
+/*			</div><!--.userDemogLevel-->
+/*			<div class="userDemogAbsVal">
+/*			</div><!--.userDemogAbsVal-->
+/*		</div><!--.userDemogWrap-->
+/*	</div><!--.useridwrap-->
+/* </div><!-- #users -->
+====================================================================================*/
+
+div#users div#intro { 
+	margin-bottom: 1em; }
+
+div#users div#intro .userid {
+	margin: 0 0 0 40px; }
+
+div.demogWrap {}
+
+p.demogName {
+	font-weight: bold;}
+
+p.demogDesc {
+	margin-left: 50px; }
+
+div.demogTable {
+	margin-left: 50px;
+	margin-bottom: 40px;
+	width: 350px;
+	clear: both;}
+
+div.demogTable div {
+	clear: both; 	
+	border-bottom: solid silver 1px;
+	padding-bottom: 2px;}
+
+div.demogTable div:first-child {
+	font-weight: bold;
+	border: 0;}
+
+div.demogTable p.colLabel {
+	float: left;
+	width: 200px;
+	margin: 0; padding: 0;}
+
+div.demogTable p.colData {
+	float: left;
+	width: 150px;
+	margin: 0; padding: 0;}
+
+p.userName {
+	font-weight: bold; }
+
+p.userDesc {
+	margin-left: 50px; }
+
+div.userDemogTable {
+	margin-left: 50px;
+	width: 550px;
+	margin-bottom: 40px;
+	clear: both;}
+
+div.userDemogTable div {
+	clear: both; 	
+	border-bottom: solid silver 1px;
+	padding-bottom: 2px;}
+
+div.userDemogTable div:first-child {
+	font-weight: bold;
+	border: 0;}
+
+div.userDemogTable p.colLabel {
+	float: left;
+	width: 200px;
+	margin: 0; padding: 0;}
+
+div.userDemogTable p.colData {
+	float: left;
+	width: 150px;
+	margin: 0; padding: 0;
+	padding-left: 10px;}
+
+/*====================================================================================
+/* Findings Page Content Styles
+/* Findings page structure is as follows:
+/* <div id="findings">
+/*	<h1>Report Title</h1>
+/*	<div class="findingWrap">
+/*		<h2>Finding #</h2>
+/*		<div class="finding">Finding Text</div>
+/*		<div class="recWrap">
+/*			<h3>Recommendations:</h3>
+/*			<div class="recommendations">...</div>
+/*		</div><!-- recWrap -->
+/*		<div class="obsWrap">
+/*			<h3>Supporting Observations:</h3>
+/*			<div class="supportingObs">...</div>
+/*		</div><!-- obsWrap -->
+/*	</div><!--findingWrap -->
+/*	...
+/* </div><!--findings-->
+====================================================================================*/
+
+div#finding {
+	/* do not confuse this ID with "findings" which is the wrapper for the entire findings page. */ }
+
+div.recWrap {
+	/* Wraps the H3 and recommendations*/
+	padding-left: 20px; }
+
+div.recommendations {  
+	padding-left: 40px;}
+
+p.recommendationnumber {
+	float: left;
+	font-weight: bold;
+	margin-right: 1em; }
+
+div.obsWrap {
+	/* Wraps the H3 and observations */ 
+	padding-left: 20px; }
+	
+div.supportingobs { 
+	font-size: .75em;
+	padding-left: 40px;
+	margin-bottom: 1em;}
+
+.userLabel, .scenarioLabel, .idLabel, .categoryLabel, .obsLabel, .videoLinkLabel {
+	float: left;
+	margin: 0 .5em 0 0;
+	font-weight: bold; }
+
+.userValue, .scenarioValue {
+	float: left;
+	margin: 0 1em 0 0;  }
+
+.idValue, .categoryValue, .obsValue{
+	margin: 0;  }	
+
+.highlightLink {
+	float: left; 
+	padding: 0 .5em;
+	border-right: solid black 1px;}
+
+.videoLink {
+	float: left;
+	padding-left: .5em; }	
+
+/*====================================================================================
+/* Taskdata Page Content Styles
+/* Taskdata  page structure is as follows:
+/* <div id="taskdata">
+/* 	<div id="taskTime">
+/* 	</div><!-- #taskTime -->
+/* 	<div id="taskResolution">
+/* 	</div><!-- #taskResolution -->
+/* 	<div id="taskDemogResolution">
+/* 	</div><!-- #taskDemogResolution -->
+/* 	<div id="taskGenParmOverall">
+/* 	</div><!-- #taskGenParmOverall -->
+/* 	<div id="taskOutput">
+/* 	</div><!-- #taskOutput -->
+/* </div><!-- #taskdata -->
+====================================================================================*/
+
+div.taskTime, 
+div.taskResolution, 
+div.taskDemogResolution, 
+div.taskGenParmOverall,
+div.taskOutput, 
+div.taskDemogDetails  { 
+	clear: both;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-size: .8em; }
+
+div.taskTime div, 
+div.taskResolution div, 
+div.taskDemogResolution div, 
+div.taskGenParmOverall div,
+div.taskOutput div, 
+div.taskDemogDetails div {
+	clear: both;	
+	margin: 0px;
+	padding: 0px; 
+	border-bottom: solid silver 1px; }
+
+div.taskTime div:first-child, 
+div.taskResolution div:first-child, 
+div.taskDemogResolution div:first-child, 
+div.taskGenParmOverall div:first-child,
+div.taskOutput div:first-child, 
+div.taskDemogDetails div:first-child{
+/* This is the "header" row of the table */
+	font-weight: bold; }
+
+div.taskTime p.colA, 
+div.taskResolution p.colA, 
+div.taskDemogResolution p.colA, 
+div.taskGenParmOverall p.colA,
+div.taskOutput p.colA,
+div.taskDemogDetails p.colA {
+	width: 20em;
+	float: left;
+	margin: 0; padding; 0; }
+
+div.taskTime p.colA1, 
+div.taskResolution p.colA1,
+div.taskDemogResolution p.colA1, 
+div.taskGenParmOverall p.colA1,
+div.taskOutput p.colA1,
+div.taskDemogDetails p.colA1  {
+	width: 19em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 1em;
+}
+
+div.taskTime p.colA2, 
+div.taskResolution p.colA2,
+div.taskDemogResolution p.colA2, 
+div.taskGenParmOverall p.colA2,
+div.taskOutput p.colA2,
+div.taskDemogDetails p.colA2 {
+	font-size: .8em;
+	width: 18em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 2em;
+}
+
+div.taskTime p.colB, 
+div.taskResolution p.colB, 
+div.taskDemogResolution p.colB, 
+div.taskGenParmOverall p.colB,
+div.taskOutput p.colB,
+div.taskDemogDetails p.colB {
+	width: 5em;
+	float: left;
+	text-align: right;
+	margin: 0; padding; 0; }
+
+div.taskTimeWrap p.colC, 
+div.taskResolution p.colC, 
+div.taskGenParmOverall p.colC, 
+div.taskOutput p.colC, 
+div.taskDemogResolution p.colC,
+div.taskDemogDetails p.colC {
+	float: left;
+	font-size: .8em;
+	width: 46em;
+	text-align: left;
+	margin: 0; 
+	padding: 0 0 0 3em; }
+
+div.taskTimeWrap p.colC1, 
+div.taskResolution p.colC1, 
+div.taskGenParmOverall p.colC1, 
+div.taskOutput p.colC1, 
+div.taskDemogResolution p.colC1,
+div.taskDemogDetails p.colC1 {
+	float: left;
+	font-size: .8em;
+	width: 46em;
+	text-align: left;
+	margin: 0; 
+	padding: 0 0 0 6em; }
+
+.genParmLabel {
+	font-weight: bold;
+	margin: 0 .5em 0 0;} 
+
+.genParmValue {
+	margin: 0 .5em 0 0;}
+
+
+p.taskNameTD {
+	clear: both;
+	font-weight: bold; }
+
+h4 {
+	padding: 0 0 0 1em;}
+	
+
+/*====================================================================================
+/* Logs Page Content Styles
+/*====================================================================================*/
+
+div.logsForUser { 
+	clear: both;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-size: .75em;}
+
+div.logsForUser div {
+	clear: both;	
+	margin: 0px;
+	padding: 0px; 
+	border-bottom: solid silver 1px; }
+
+div.logsForUser div:first-child {
+/* This is the "header" row of the table */
+	font-weight: bold;}
+
+div.logsForUser p.colNoteID { 
+	width: 6em;
+	float: left;
+	text-align: Left;
+	margin: 0; padding; 0; }
+
+div.logsForUser p.colLoggedObs { 
+	width: 30em;
+	float: left;
+	text-align: Left;
+	margin: 0; padding; 0; }
+
+div.logsForUser p.colCats { 
+	width: 25em;
+	float: left;
+	font-size: .9em;
+	text-align: Left;
+	margin: 0; 
+	padding: 0 0 0 3em; }
+
+div.logsForUser p.colObsVidLinks {
+	clear: both;
+	width: 53em;
+	font-size: .9em;
+	text-align: Left;
+	margin: 0; 
+	padding: 0 0 0 7em;}
+
+.logLabel {
+	font-weight: bold;
+	margin: 0 .5em 0 0;} 
+
+.logValue {
+	margin: 0 .5em 0 0;}
+
+div.crossTabsWrap a.stealth, 
+div.logsForUser a.stealth {
+	color: black;}
+
+div.crossTabsWrap a.stealth, 
+div.logsForUser a.stealth:hover {
+	color: black; }
+
+
+/*====================================================================================
+/* Categories Page Content Styles
+/*====================================================================================*/
+
+div.crossTabsWrap, 
+div.heurWrap {}
+
+div.catCrossTabs, 
+div.QLSumm, 
+div.catSumm { 
+	clear: both;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-size: .8em; }
+
+div.catCrossTabs div, 
+div.QLSumm div, 
+div.catSumm div {
+	clear: both;
+	margin: 0px;
+	padding: 0px; 
+	border-bottom: solid silver 1px; }
+
+div.catCrossTabs div:first-child, 
+div.QLSumm div:first-child, 
+div.catSumm div:first-child {
+/* This is the "header" row of the table */
+	font-weight: bold; }
+
+
+div.QLSumm p.colA {
+	width: 20em;
+	float: left;
+	margin: 0; padding; 0; }
+
+div.catCrossTabs p.colA, 
+div.catSumm p.colA {
+	width: 40em;
+	float: left;
+	margin: 0; padding; 0; }
+
+div.catCrossTabs p.colA1, 
+div.QLSumm p.colA1, 
+div.catSumm p.colA1 {
+	width: 19em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 1em; }
+
+div.catCrossTabs p.colA2, 
+div.QLSumm p.colA2, 
+div.catSumm p.colA2 {
+	font-size: .8em;
+	width: 18em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 2em; }
+
+div.catCrossTabs p.colB, 
+div.QLSumm p.colB, 
+div.catSumm p.colB {
+	width: 5em;
+	float: left;
+	text-align: right;
+	margin: 0; padding; 0; }
+
+div.catCrossTabs p.colC, 
+div.QLSumm p.colC, 
+div.catSumm p.colC {
+	float: left;
+	font-size: .8em;
+	width: 46em;
+	text-align: left;
+	margin: 0; 
+	padding: 0 0 0 3em; }
+
+/*====================================================================================
+/* Surveys Page
+/*====================================================================================*/
+
+div.surveyWrap {}
+
+div.instructionWrap, 
+div.shortAnswerWrap, 
+div.essayWrap, 
+div.bulletWrap, 
+div.likertWrap, 
+div.multChoiceWrap, 
+div.multChoiceMatrixWrap, 
+div.rankingWrap {}
+
+div.instructionWrap p {
+	margin-left: 1.5em; }
+
+div.surveyWrap div.pageInstructions li {
+	list-style-type: none;}
+
+div.responseWrap, 
+div.matrixWrap { 
+	clear: both;
+	margin-left: 4em;
+	margin-bottom: 2em;
+	font-size: .8em; }
+
+div.responseWrap div {
+	clear: both;
+	margin: 0;
+	padding: 0px; 
+	border-bottom: solid silver 1px; }
+
+div.responseWrap div.noLine {
+	clear: both;
+	margin: 0;
+	padding: 0px;
+	border: 0;}
+
+div.responseWrap div:first-child {
+/* This is the "header" row of the table */
+	font-weight: bold; }
+
+div.quisWrap div.responseWrap {
+	margin: 1em 0 0 0; }
+
+div.quisWrap div.responseWrap div {
+	height: auto; }
+
+div.quisWrap div.responseWrap p.colA, 
+div.useWrap div.responseWrap p.colA {
+	width: 20em;
+	float: left;
+	margin: 0; 
+	padding; 0;}
+
+div.quisWrap div.quisItemLayout, 
+div.useWrap div.useItemLayout 
+{
+	width: 700px;
+	padding-left: 40px;
+}
+
+div.quisWrap div.quisItemLayout div, 
+div.useWrap div.useItemLayout div
+{
+	clear: both;
+	text-align: center;
+}
+
+div.useWrap div.useItemLayout div p 
+{
+	float: left;
+	width: 100px;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+
+div.quisWrap div.quisItemLayout div p
+{
+	float: left;
+	width: 70px;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}	
+	
+div.responseWrap p.colA {
+	width: 15em;
+	float: left;
+	margin: 0; 
+	padding; 0; }
+
+div.responseWrap p.colA1 {
+	width: 19em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 1em; }
+
+div.responseWrap p.colA2 {
+	font-size: .8em;
+	width: 18em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 2em; }
+
+
+div.responseWrap p.colB {
+	width: 5em;
+	float: left;
+	text-align: right;
+	margin: 0; padding; 0; }
+
+div.responseWrap p.colBWide {
+	width: 35em;
+	float: left;
+	margin: 0; padding; 0; }
+
+div.responseWrap p.colBMedium {
+	/*Used for longer text values*/
+	width: 10em;
+	float: left;
+	margin: 0; padding; 0; }
+
+div.responseWrap ol.colB {
+	padding-left: .5em; }
+
+div.responseWrap p.colC {
+	float: left;
+	font-size: .8em;
+	width: 55em;
+	text-align: left;
+	margin: 0; 
+	padding: 0 0 0 3em; }
+
+div.responseWrap p.colD {
+	float: left;
+	width: 6em; }
+
+.surveyLabel {
+	font-weight: bold;
+	margin: 0 .5em 0 0;} 
+
+.surveyValue {
+	margin: 0 .5em 0 0;}
+
+/* .bulletWrap*/
+
+div.bulletWrap div.responseWrap p.colB 
+{
+	padding-right: 1em;
+}
+
+
+/* Matrix Grid, General Styles */
+
+div.matrixWrap div {
+	clear: both; }
+
+div.matrixWrap div p {
+	width: 3em;
+	margin: 0; 
+	padding: 0;
+	float: left;
+	height: 100%;}
+
+div.matrixWrap div p.label {
+	width: 15em; 
+	text-align: left;}
+
+div.matrixWrap div p.labelIn {
+	width: 14em; 
+	padding-left: 1em;
+	text-align: left;}
+
+
+div.matrixWrap div.detail p.label {
+	padding-left: 1em;
+	width: 14em;}
+
+div.matrixWrap div.detail p.addlComments {
+	clear: both;
+	padding-left: 1em;
+	width: 55em;
+	text-align: left;
+	font-size: .8em;}
+
+div.matrixWrap div.detail p.addlComments .label {
+	font-weight: bold; }
+
+/* For Matrix Header Row with Rotated Text */
+
+div.matrixWrap div:first-child {
+	height: 12em;}
+
+div.matrixWrap div.matrixVHead p {
+	/* used for Likert legend */
+	position: relative;
+	height: 12em;
+	text-align: left; }
+
+span.vertical {
+	position: absolute;
+	width: 12em;
+	left: .5em;
+	top: -.5em;
+	-webkit-transform: rotate(-90deg); 
+	-moz-transform:rotate(-90deg);
+	-moz-transform-origin: 6em 6em;
+	filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+	-ms-filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);}
+
+/* For Matrix Data Rows That Follow the Header Row */
+
+div.matrixWrap div {
+	text-align: center;
+	border-bottom: solid gray 1px;}
+
+/*====================================================================================
+/* Event Logs Page
+/*====================================================================================*/
+
+div.eventWrap, 
+div.eventSummWrap { 
+	clear: both;
+	margin-left: 4em;
+	margin-bottom: 2em;
+	font-size: .8em; }
+
+div.eventWrap div, 
+div.eventSummWrap div {
+	clear: both;
+	margin: 0;
+	padding: 0px; 
+	border-bottom: solid silver 1px; }
+
+div.eventWrap div.noLine, 
+div.eventSummWrap div.noLine {
+	clear: both;
+	margin: 0;
+	padding: 0px;
+	border: 0;}
+
+div.eventWrap div:first-child, 
+div.eventSummWrap div:first-child {
+/* This is the "header" row of the table */
+	font-weight: bold; }
+
+div.eventWrap p.colA, 
+div.eventSummWrap p.colA {
+	width: 15em;
+	float: left;
+	margin: 0; 
+	padding; 0; }
+
+div.eventWrap p.colA1 {
+	width: 9em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 16em; }
+
+div.eventSummWrap p.colA1 {
+	width: 13em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 2em; }
+
+div.eventWrap p.colA2, 
+div.eventSummWrap p.colA2 {
+	font-size: .8em;
+	width: 18em;
+	float: left;
+	margin: 0; 
+	padding: 0 0 0 2em; }
+
+
+div.eventWrap p.colB, 
+div.eventSummWrap p.colB {
+	width: 5em;
+	float: left;
+	text-align: right;
+	margin: 0; padding; 0; }
+
+div.eventWrap p.colBWide,
+div.eventSummWrap p.colBWide {
+	width: 10em;
+	float: left;
+	margin: 0; padding; 0; }
+
+div.eventWrap p.colBMedium, 
+div.eventSummWrap p.colBMedium {
+	/*Used for longer text values*/
+	width: 10em;
+	float: left;
+	margin: 0; padding; 0; }
+
+div.eventWrap ol.colB {
+	padding-left: .5em; }
+
+div.eventWrap p.colC {
+	float: left;
+	font-size: .8em;
+	width: 55em;
+	text-align: left;
+	margin: 0; 
+	padding: 0 0 0 3em; }
+
+div.eventWrap p.colD {
+	float: left;
+	width: 6em; }
+
+.eventLabel {
+	font-weight: bold;
+	margin: 0 .5em 0 0;} 
+
+.eventValue {
+	margin: 0 .5em 0 0;}
+
+/* Events listing for users */
+
+div.eventsForUser { 
+	clear: both;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-size: .75em;}
+
+div.eventsForUser div {
+	clear: both;	
+	margin: 0px;
+	padding: 0px; 
+	border-bottom: solid silver 1px; }
+
+div.eventsForUser div:first-child {
+/* This is the "header" row of the table */
+	font-weight: bold;}
+
+div.eventsForUser p.colNoteID { 
+	width: 8em;
+	float: left;
+	text-align: Left;
+	margin: 0; padding; 0; }
+
+div.eventsForUser p.colEventType { 
+/* update coming from Rich */
+	width: 10em;
+	float: left;
+	text-align: Left;
+	margin: 0; padding; 0; }
+
+div.eventsForUser p.colLoggedObs { 
+	width: 41em;
+	float: left;
+	text-align: Left;
+	margin: 0; padding; 0;
+	overflow: hidden; }
+
+div.eventsForUser p.colObsVidLinks {
+	clear: both;
+	width: 59em;
+	font-size: .9em;
+	text-align: Left;
+	margin: 0; 
+	padding: 0 0 0 20em;}
+/*====================================================================================
+/* Video Page
+/*====================================================================================*/
+div.highlightWrap, 
+div.videoFilesWrap { 
+	clear: both;
+	margin-left: 20px;
+	margin-bottom: 20px;
+	font-size: .75em;}
+
+div.highlightWrap div, 
+div.videoFilesWrap div {
+	clear: both;	
+	margin: 0px;
+	padding: 0px; 
+	border-bottom: solid silver 1px; }
+
+div.highlightWrap div:first-child, 
+div.videoFilesWrap div:first-child {
+/* This is the "header" row of the table */
+	font-weight: bold;}
+
+div.highlightWrap p.colA, 
+div.videoFilesWrap p.colA { 
+	width: 15em;
+	float: left;
+	margin: 0; 
+	padding; 0;  }
+
+div.highlightWrap p.colB { 
+	width: 30em;
+	float: left;
+	margin: 0; 
+	padding; 0;  }
+
+div.videoFilesWrap p.colB { 
+	width: 15em;
+	float: left;
+	margin: 0; 
+	padding; 0;  }
+
+.vidLabel {
+	font-weight: bold;
+	margin: 0 .5em 0 0;} 
+
+.vidValue {
+	margin: 0 .5em 0 0;}
