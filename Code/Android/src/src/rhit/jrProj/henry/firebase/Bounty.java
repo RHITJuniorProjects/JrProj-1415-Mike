@@ -482,7 +482,7 @@ public class Bounty {
 
 	public int convertLimitFromFirebaseForm(Object limitString){
 		try{
-			return (int) limitString;
+			return (Integer) limitString;
 		}catch(java.lang.ClassCastException e){
 			if (limitString instanceof String && limitString.toString().equals("None")){
 				return -1;
