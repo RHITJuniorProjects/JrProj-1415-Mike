@@ -575,10 +575,6 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYe-u4-Z2g" customClass="DLPieChart">
-                                <rect key="frame" x="900" y="2000" width="320" height="202"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jT8-86-AGE" customClass="BEMSimpleLineGraphView">
                                 <rect key="frame" x="5000" y="1000" width="288" height="194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -598,6 +594,10 @@
                                     <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>
                                 </connections>
                             </segmentedControl>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JDu-90-EBO" customClass="DLPieChart">
+                                <rect key="frame" x="900" y="2000" width="320" height="197"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -615,10 +615,9 @@
                         <outlet property="dueDateLabel" destination="etw-cn-nv5" id="fAf-Xa-TtY"/>
                         <outlet property="milestoneName" destination="zau-mB-96S" id="Rnn-eh-oJq"/>
                         <outlet property="milestoneNameLabel" destination="zau-mB-96S" id="KP9-7l-yf1"/>
-                        <outlet property="pieChart" destination="HYe-u4-Z2g" id="Rk4-fu-JCJ"/>
+                        <outlet property="pieChart" destination="JDu-90-EBO" id="Y4l-MB-9li"/>
                         <outlet property="tasksCompleteBar" destination="y6M-f7-yQu" id="6Wm-JG-pl5"/>
                         <outlet property="tasksCompletedLabel" destination="bd8-Ha-SLz" id="cVX-QO-6Xr"/>
-                        <outlet property="view" destination="HYe-u4-Z2g" id="3va-q5-ABv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMD-wX-8Vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1040,7 +1039,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="dfn-7L-7pg"/>
-        <segue reference="Fwr-B4-Jg0"/>
+        <segue reference="y6A-s5-3um"/>
         <segue reference="cAM-55-Mtn"/>
     </inferredMetricsTieBreakers>
 </document>

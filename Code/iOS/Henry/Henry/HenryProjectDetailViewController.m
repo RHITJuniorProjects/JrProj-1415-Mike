@@ -102,7 +102,6 @@
 
 -(CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
     NSArray *subArray = [self.lineGraphData objectAtIndex:index];
-    NSLog(@"Called value for point");
     return [[subArray objectAtIndex:0] floatValue];
 }
 

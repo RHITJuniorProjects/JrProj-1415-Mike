@@ -49,7 +49,6 @@
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        NSLog(@"%@",self.userid);
         NSDictionary *userInfo = snapshot.value[@"users"][self.userid];
         //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
 
