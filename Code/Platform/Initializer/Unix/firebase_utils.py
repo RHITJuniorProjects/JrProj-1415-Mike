@@ -9,6 +9,7 @@ import subprocess
 import sys
 import traceback
 import re
+import time
 
 def getProjectID(ref,projectName):
     path = '/projects'
@@ -74,3 +75,22 @@ def getAssignedTasks(ref,userID,projectID,milestoneID):
     assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
     return assignedTasks
 
+def getCurrentHourEstimate(ref,pID,mID,tID):
+    path = '/projects/'+pID+'/milestones/'+mID+'/tasks/'+tID
+    return ref.get(path,None)['updated_hour_estimate']
+
+def setCurrentHourEstimate(ref,hours,uID,pID,mID,tID):
+    path = '/commits/'+pID
+    ref.post(path,{
+        'added_lines_of_code':0,
+        'hours':0,
+        'message':'direct change to task from command line',
+        'milestone':mID,
+        'project':pID,
+        'removed_lines_of_code':0,
+        'status':'New',  # This is a bug, bonus points to whoever fixes it
+        'task':tID,
+        'timestamp':int(time.time()*1000),
+        'updated_hour_estimate':hours,
+        'user':uID
+    })
