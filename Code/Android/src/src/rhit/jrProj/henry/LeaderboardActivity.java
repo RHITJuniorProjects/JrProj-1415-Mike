@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -33,6 +34,8 @@ public class LeaderboardActivity extends Activity {
 	private TextView mUserPosition;
 	private TextView mUserName;
 	private TextView mUserValue;
+	
+	private String mUserKey;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,8 @@ public class LeaderboardActivity extends Activity {
 
 		String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
 		Firebase firebase = new Firebase(fireBaseUrl);
-
-		String userKey = firebase.getAuth().getUid();
+		
+		mUserKey = firebase.getAuth().getUid();
 
 		Firebase usersRef = firebase.child("users");
 		usersRef.addChildEventListener(new ChildEventListener() {
@@ -136,19 +139,27 @@ public class LeaderboardActivity extends Activity {
 
 		mLeaderboard.removeAllViews();
 		
+		TableRow userRow = null;
+		List<TableRow> rows = new ArrayList<TableRow>();
 		for (int i = 0; i < 25 && i < usersList.size(); i++) {
-			addRow(usersList.get(i), i + 1);
+			LeaderboardUser user = usersList.get(i);
+			TableRow row = createRow(user, i + 1, user.getName().equals(mUserKey));
+			rows.add(row);
+			if (user.getName().equals(mUserKey)) {
+				userRow = row;
+			}
 		}
-
-//		if (usersList.size() > 0) {
-//			LeaderboardUser user = usersList.get(0);
-//			mUserName.setText(user.getName());
-//			mUserPosition.setText("1");
-//			mUserValue.setText("" + user.getTotalPoints());
-//		}
+		
+		if (userRow != null) {
+			mLeaderboard.addView(userRow);
+		}
+		
+		for (TableRow row : rows) {
+			mLeaderboard.addView(row);
+		}
 	}
 
-	private void addRow(LeaderboardUser user, int position) {
+	private TableRow createRow(LeaderboardUser user, int position, boolean bold) {
 		TableRow row = new TableRow(this);
 		row.setLayoutParams(new TableRow.LayoutParams(
 				TableRow.LayoutParams.MATCH_PARENT,
@@ -156,26 +167,30 @@ public class LeaderboardActivity extends Activity {
 		
 		TextView positionView = new TextView(this);
 		positionView.setText("" + position);
-		positionView.setPadding(dpToPixel(3), dpToPixel(3), dpToPixel(3), dpToPixel(3));
 		positionView.setLayoutParams(new TableRow.LayoutParams(1));
 		
 		TextView nameView = new TextView(this);
 		nameView.setText(user.getName());
-		nameView.setPadding(dpToPixel(3), dpToPixel(3), dpToPixel(3), dpToPixel(3));
 		nameView.setLayoutParams(new TableRow.LayoutParams(2));
 		nameView.setGravity(Gravity.LEFT);
 		
 		TextView userView = new TextView(this);
 		userView.setText("" + user.getTotalPoints());
-		userView.setPadding(dpToPixel(3), dpToPixel(3), dpToPixel(500), dpToPixel(3));
+		userView.setWidth(dpToPixel(50));
 		userView.setLayoutParams(new TableRow.LayoutParams(3));
 		userView.setGravity(Gravity.RIGHT);	
+		
+		if (bold) {
+			positionView.setTypeface(null, Typeface.BOLD);
+			nameView.setTypeface(null, Typeface.BOLD);
+			userView.setTypeface(null, Typeface.BOLD);
+		}
 		
 		row.addView(positionView);
 		row.addView(nameView);
 		row.addView(userView);
 		
-		mLeaderboard.addView(row);
+		return row;
 	}
 	
 	private int dpToPixel(int dp) {
