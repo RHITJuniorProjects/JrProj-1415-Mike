@@ -37,6 +37,15 @@
     [self.fb removeAllObservers];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    self.fb = [HenryFirebase getFirebaseObject];
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateInfo:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;

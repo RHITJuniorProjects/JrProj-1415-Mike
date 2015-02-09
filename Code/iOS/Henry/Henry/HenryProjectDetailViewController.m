@@ -22,6 +22,10 @@
 /*
  * View details for the first project when the user logs in
  */
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.fb removeAllObservers];
+}
 -(void)viewWillAppear:(BOOL)animated {
     @try{
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

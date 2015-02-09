@@ -49,6 +49,18 @@
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    self.fb = [HenryFirebase getFirebaseObject];
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateInfo:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.fb removeAllObservers];
+}
+
 -(void)viewDidAppear:(BOOL)animated {
     @try{
     [self updateInfo: self.snapshot];
