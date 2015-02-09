@@ -10,10 +10,12 @@ import java.util.Map;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -138,20 +140,18 @@ public class LeaderboardActivity extends Activity {
 		Collections.sort(usersList);
 
 		mLeaderboard.removeAllViews();
-		
-		TableRow userRow = null;
+
 		List<TableRow> rows = new ArrayList<TableRow>();
 		for (int i = 0; i < 25 && i < usersList.size(); i++) {
 			LeaderboardUser user = usersList.get(i);
-			TableRow row = createRow(user, i + 1, user.getName().equals(mUserKey));
+			TableRow row = createRow(user, i + 1, user.getId().equals(mUserKey));
 			rows.add(row);
-			if (user.getName().equals(mUserKey)) {
-				userRow = row;
+			if (user.getId().equals(mUserKey)) {
+				TableRow row2 = createRow(user, i + 1, user.getId().equals(mUserKey));
+				rows.add(0, row2);
+				
+				//mLeaderboard.addView(row);
 			}
-		}
-		
-		if (userRow != null) {
-			mLeaderboard.addView(userRow);
 		}
 		
 		for (TableRow row : rows) {
@@ -219,6 +219,11 @@ public class LeaderboardActivity extends Activity {
 
 		public void setTotalPoints(int total_points) {
 			mTotal_Points = total_points;
+		}
+		
+		public String getId()
+		{
+			return this.mId;
 		}
 
 		@Override
