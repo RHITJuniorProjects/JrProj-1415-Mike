@@ -1541,7 +1541,7 @@ Task.prototype = {
 						status : statusSelect.val(),
 						task : task.uid,
 						timestamp : (new Date).getTime(),
-						updated_hour_estimate : estHoursInput.val(),
+						updated_hour_estimate : Number(estHoursInput.val()),
 						user : userSelect.val()
 					};
 					console.log(commit);
