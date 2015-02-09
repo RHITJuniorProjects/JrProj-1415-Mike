@@ -47,6 +47,85 @@ def helpmenu():
 def version():
     print 'henry version',str(VERSION)
 
+def editHours(ref):
+    email = git_utils.getEmail()
+    uID = firebase_utils.getUserID(ref,email)
+
+    pID = getProjectID()
+    if pID == None:
+        print 'Henry repository not initialized or corrupted'
+        return
+    mID = promptForMilestone(ref,pID)
+    if mID == None:
+        return
+    tID = promptForTask(ref,uID,pID,mID)
+    current = firebase_utils.getCurrentHourEstimate(ref,pID,mID,tID)
+    update = promptForUpdate(current)
+    if update != None:
+        firebase_utils.setCurrentHourEstimate(ref,update,uID,pID,mID,tID)
+
+
+def promptForMilestone(ref,pID):
+    print 'Milestones:'
+    milestoneIDs = firebase_utils.getActiveMilestones(ref,None,pID)
+    if len(milestoneIDs) == 0:
+        print 'No milestones in this project'
+        return None
+    for index,(mID,mName) in zip(range(len(milestoneIDs)),milestoneIDs.iteritems()):
+        print ' - '+str(index)+'. '+mName
+    try:
+        sys.stdout.write('Milestone: ')
+        selection = int(raw_input())
+        assert selection >= 0
+        assert selection < len(milestoneIDs)
+    except:
+        print 'Invalid entry, input should be an integer from the list'
+        return None
+    return list(milestoneIDs)[selection]
+
+
+def promptForTask(ref,uID,pID,mID):
+    print 'Tasks:'
+    taskIDs = firebase_utils.getAssignedTasks(ref,uID,pID,mID)
+    if len(taskIDs) == 0:
+        print 'No tasks assigned to you for this milestone'
+        return None
+    for index,(tID,tName) in zip(range(len(taskIDs)),taskIDs.iteritems()):
+        print ' - '+str(index)+'. '+tName
+    try:
+        sys.stdout.write('Task: ')
+        selection = int(raw_input())
+        assert selection >= 0
+        assert selection < len(taskIDs)
+    except:
+        print 'Invalid entry, input should be an integer from the list'
+        return None
+    return list(taskIDs)[selection]
+
+
+def promptForUpdate(current):
+    print 'Current Hour Estimate: '+str(current)
+    sys.stdout.write('Updated Hour Estimate: ')
+    try:
+        update = int(raw_input())
+        assert update >= 0
+        return update
+    except:
+        print 'Invalid number of hours, must be positive number'
+
+def getProjectID():
+    if not git_utils.inGitRepo():
+        return None
+    elif os.path.isfile(os.getcwd()+'/.git/hooks/commit-msg'):
+        with open (os.getcwd()+'/.git/hooks/henry/commit.py') as f:
+            fullfile = f.read()
+        try:
+            return re.findall(r"projectID = '([-\w]+)'",fullfile)[0]
+        except:
+            return None
+    else:
+        return None
+
 
 def status(ref):
     if not git_utils.inGitRepo():
@@ -95,6 +174,8 @@ if __name__ == '__main__':
             helpmenu()
         elif sys.argv[1] in {'status'}:
             status(ref)
+        elif sys.argv[1] in {'edit','edithours'}:
+            editHours(ref)
         elif sys.argv[1] in {'svn'}:
             if len(sys.argv) == 1:
                 svn_utils.usage()
