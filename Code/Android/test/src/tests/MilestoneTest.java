@@ -19,25 +19,27 @@ public class MilestoneTest extends TestCase {
 	private JSONObject milestone;
 	private String itemUrl;
 
+	private final String firebaseUrl = "https://henry-test.firebaseio.com/";
+	
 	public MilestoneTest(String name) {
 		super(name);
 		try {
 			JSONObject json = TestHelpers
-					.getFirebaseSync(MainActivity.firebaseUrl
+					.getFirebaseSync(firebaseUrl
 							+ ".json?shallow=true");
 			assertEquals(json.get("projects"), Boolean.TRUE);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ "projects.json?shallow=true");
 			String projectKey = TestHelpers.getFirstKey(json);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ String.format("projects/%s/.json?shallow=true",
 							projectKey));
 			assertEquals(json.get("milestones"), Boolean.TRUE);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ String.format("projects/%s/milestones.json?shallow=true",
 							projectKey));
 			String milestoneKey = TestHelpers.getFirstKey(json);
-			this.itemUrl = MainActivity.firebaseUrl
+			this.itemUrl = firebaseUrl
 					+ String.format("projects/%s/milestones/%s", projectKey,
 							milestoneKey);
 			this.milestone = TestHelpers.getFirebaseSync(this.itemUrl

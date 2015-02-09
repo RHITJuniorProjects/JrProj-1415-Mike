@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import rhit.jrProj.henry.helpers.Checkers;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -32,10 +33,6 @@ public class LeaderboardActivity extends Activity {
 	private Map<String, LeaderboardUser> mUsers;
 
 	private TableLayout mLeaderboard;
-
-	private TextView mUserPosition;
-	private TextView mUserName;
-	private TextView mUserValue;
 	
 	private String mUserKey;
 
@@ -47,10 +44,6 @@ public class LeaderboardActivity extends Activity {
 		mGlobalVariables = ((GlobalVariables) getApplicationContext());
 
 		mLeaderboard = (TableLayout) findViewById(R.id.leaderboard);
-
-		mUserPosition = (TextView) findViewById(R.id.user_position);
-		mUserName = (TextView) findViewById(R.id.user_name);
-		mUserValue = (TextView) findViewById(R.id.user_value);
 
 		mUsers = new HashMap<String, LeaderboardUser>();
 
@@ -113,9 +106,11 @@ public class LeaderboardActivity extends Activity {
 	private void updateUser(DataSnapshot arg0) {
 		String id = arg0.getKey();
 		String name = arg0.child("name").getValue(String.class);
-		if (name == null) {
-			// TODO: Throw error instead
-			return;
+		try {
+			Checkers.checkNotNull(name);
+		} catch (Exception e) {
+			//Reference was null,
+			 return;
 		}
 
 		LeaderboardUser user = mUsers.get(id);
@@ -126,9 +121,12 @@ public class LeaderboardActivity extends Activity {
 
 		Integer total_points = arg0.child("total_points").getValue(
 				Integer.class);
-		if (total_points != null) {
+		try {
+			Checkers.checkNotNull(total_points);
+			Checkers.checkNotNegative(total_points);
 			user.setTotalPoints(total_points);
-		} else {
+		} catch (Exception e) {
+			//Reference did not exist or corrupt data
 			mUsers.remove(id);
 		}
 	}

@@ -18,18 +18,20 @@ public class ProjectTest extends TestCase {
 	 */
 	private JSONObject project;
 	private String itemUrl;
+	
+	private final String firebaseUrl = "https://henry-test.firebaseio.com/";
 
 	public ProjectTest(String name) {
 		super(name);
 		try {
 			JSONObject json = TestHelpers
-					.getFirebaseSync(MainActivity.firebaseUrl
+					.getFirebaseSync(firebaseUrl
 							+ ".json?shallow=true");
 			assertEquals(json.get("projects"), Boolean.TRUE);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ "projects.json?shallow=true");
 			String projectKey = TestHelpers.getFirstKey(json);
-			this.itemUrl = MainActivity.firebaseUrl
+			this.itemUrl = firebaseUrl
 					+ String.format("projects/%s/", projectKey);
 			this.project = TestHelpers.getFirebaseSync(this.itemUrl
 					+ ".json?shallow=true");

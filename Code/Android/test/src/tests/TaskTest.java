@@ -8,37 +8,39 @@ public class TaskTest extends TestCase {
 
 	private JSONObject task;
 	private String itemUrl;
+	
+	private final String firebaseUrl = "https://henry-test.firebaseio.com/";
 
 	public TaskTest(String name) {
 		super(name);
 		try {
 			JSONObject json = TestHelpers
-					.getFirebaseSync(MainActivity.firebaseUrl
+					.getFirebaseSync(firebaseUrl
 							+ ".json?shallow=true");
 			assertEquals(json.get("projects"), Boolean.TRUE);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ "projects.json?shallow=true");
 			String projectKey = TestHelpers.getFirstKey(json);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ String.format("projects/%s/.json?shallow=true",
 							projectKey));
 			assertEquals(json.get("milestones"), Boolean.TRUE);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ String.format("projects/%s/milestones.json?shallow=true",
 							projectKey));
 			String milestoneKey = TestHelpers.getFirstKey(json);
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ String.format(
 							"projects/%s/milestones/%s.json?shallow=true",
 							projectKey, milestoneKey));
 			assertEquals(json.get("tasks"), Boolean.TRUE);
 			json = TestHelpers
-					.getFirebaseSync(MainActivity.firebaseUrl
+					.getFirebaseSync(firebaseUrl
 							+ String.format(
 									"projects/%s/milestones/%s/tasks.json?shallow=true",
 									projectKey, milestoneKey));
 			String taskKey = TestHelpers.getFirstKey(json);
-			this.itemUrl = MainActivity.firebaseUrl
+			this.itemUrl = firebaseUrl
 					+ String.format("projects/%s/milestones/%s/tasks/%s",
 							projectKey, milestoneKey, taskKey);
 			this.task = TestHelpers.getFirebaseSync(this.itemUrl
@@ -76,7 +78,7 @@ public class TaskTest extends TestCase {
 		JSONObject json;
 		// Test that that is a valid user.
 		try {
-			json = TestHelpers.getFirebaseSync(MainActivity.firebaseUrl
+			json = TestHelpers.getFirebaseSync(firebaseUrl
 					+ "users.json?shallow=true");
 			assertTrue(json.has(userId));
 		} catch (Exception e) {
