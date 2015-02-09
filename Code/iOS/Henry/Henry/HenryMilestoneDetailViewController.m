@@ -31,6 +31,8 @@
         self.burndown.enableYAxisLabel = YES;
         self.burndown.enableXAxisLabel = YES;
         self.burndown.enableBezierCurve = NO;
+        self.burndown.enableReferenceXAxisLines = YES;
+        self.burndown.enableReferenceYAxisLines = YES;
         
         // Attach a block to read the data at our posts reference
         [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
