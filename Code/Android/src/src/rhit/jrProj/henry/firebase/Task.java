@@ -498,7 +498,7 @@ public class Task implements Parcelable{
 					Bounty t = new Bounty(child.getRef().toString(), this.task);
 					if (!this.task.getBounties().contains(t)) {
 						t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
-						this.task.getBounties().add(t);
+//						this.task.getBounties().add(t);
 					}
 				}
 			}
