@@ -24,14 +24,18 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 public class CreateBountyFragment extends DialogFragment implements
-		HorizontalPicker.Callbacks{
+		HorizontalPicker.Callbacks,
+		OnItemSelectedListener{
 	/**
 	 * The fragment's current callback object, which is notified of list item
 	 * clicks.
@@ -68,8 +72,12 @@ public class CreateBountyFragment extends DialogFragment implements
 	private String taskId;
 	
 	private String dueDate;
-	
+	private TextView linesLabel;
+	private TextView hoursLabel;
+	private TextView dueDateLabel;
+	private TextView requirementsLabel;
 	private boolean hasDueDate=false;
+	private Spinner mCategory;
 	/*
 	 * Points for the Bounty
 	 */
@@ -147,8 +155,20 @@ public class CreateBountyFragment extends DialogFragment implements
 				false);
 		mDatePicker=(DatePicker)v.findViewById(R.id.datePicker1);
 		mDatePicker.setVisibility(View.GONE);
-
+		// Task category spinner
+				this.mCategory = (Spinner) v.findViewById(R.id.taskCategorySpinner);
+				// Create an ArrayAdapter using the string array and a default
+				// spinner layout
+				ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+						this.getActivity(), R.array.bounty_categories,
+						android.R.layout.simple_spinner_item);
+				// Specify the layout to use when the list of choices appears
+				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				// Apply the adapter to the spinner
+				mCategory.setAdapter(adapter);
+				mCategory.setOnItemSelectedListener(this);
 		// Watch for button clicks.
+		
 		Button addBounty = (Button) v.findViewById(R.id.BountyAddButton);
 		addBounty.setOnClickListener(new OnClickListener() {
 
@@ -176,6 +196,14 @@ public class CreateBountyFragment extends DialogFragment implements
 				}
 			}
 		});
+		this.dueDateLabel=(TextView) v.findViewById(R.id.textView5);
+		this.hoursLabel= (TextView) v.findViewById(R.id.textView3);
+		this.linesLabel=(TextView) v.findViewById(R.id.textView4);
+		this.requirementsLabel=(TextView) v.findViewById(R.id.textView1);
+		this.dueDateLabel.setVisibility(View.GONE);
+		this.hoursLabel.setVisibility(View.GONE);
+		this.linesLabel.setVisibility(View.GONE);
+		this.requirementsLabel.setVisibility(View.GONE);
 
 		Button cancel = (Button) v.findViewById(R.id.BountyCancelButton);
 		cancel.setOnClickListener(new OnClickListener() {
@@ -199,7 +227,9 @@ public class CreateBountyFragment extends DialogFragment implements
 			}
 			
 		});
+		choose.setVisibility(View.GONE);
 		this.mDueDate = (TextView) v.findViewById(R.id.textView6);
+		this.mDueDate.setVisibility(View.GONE);
 		this.mNameField = (EditText) v.findViewById(R.id.bountyNameField);
 		this.mNameField
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -244,16 +274,15 @@ public class CreateBountyFragment extends DialogFragment implements
 		mHoursField.setMaxValue(100);
 		mHoursField.setMinValue(0);
 		mHoursField.setCallbacks(this);
-		mHoursField.setVisibility(View.VISIBLE);
+		mHoursField.setVisibility(View.GONE);
 		mHoursField.setEnabled(true);
 		mHoursField.setValue(0);
-		
 		mLinesField = (HorizontalPicker) v
 				.findViewById(R.id.horizontal_number_picker_lines);
 		mLinesField.setMaxValue(10000);
 		mLinesField.setMinValue(0);
 		mLinesField.setCallbacks(this);
-		mLinesField.setVisibility(View.VISIBLE);
+		mLinesField.setVisibility(View.GONE);
 		mLinesField.setEnabled(true);
 		mLinesField.setValue(0);
 
@@ -280,6 +309,39 @@ public class CreateBountyFragment extends DialogFragment implements
 		this.choose.setText("No Due Date");
 		
 	}
+	protected void hideHoursField(){
+		this.mHoursField.setVisibility(View.GONE);
+		this.hoursLabel.setVisibility(View.GONE);
+	}
+	protected void showHoursField(){
+		this.mHoursField.setVisibility(View.VISIBLE);
+		this.hoursLabel.setVisibility(View.VISIBLE);
+	}
+	protected void hideLinesField(){
+		this.mLinesField.setVisibility(View.GONE);
+		this.linesLabel.setVisibility(View.GONE);
+	}
+	protected void showLinesField(){
+		this.mLinesField.setVisibility(View.VISIBLE);
+		this.linesLabel.setVisibility(View.VISIBLE);
+	}
+	protected void hideDueDate(){
+		this.mDueDate.setVisibility(View.GONE);
+		this.dueDateLabel.setVisibility(View.GONE);
+		this.choose.setVisibility(View.GONE);
+	}
+	protected void showDueDate(){
+		this.mDueDate.setVisibility(View.VISIBLE);
+		this.dueDateLabel.setVisibility(View.VISIBLE);
+		this.choose.setVisibility(View.VISIBLE);
+	}
+	protected void hideRequirements(){
+		this.requirementsLabel.setVisibility(View.GONE);
+	}
+	protected void showRequirements(){
+		this.requirementsLabel.setVisibility(View.VISIBLE);
+	}
+
 
 	/**
 	 * Opens a dialog window that displays the given error message.
@@ -326,6 +388,39 @@ public class CreateBountyFragment extends DialogFragment implements
 	public void fireChange(int old, int nu) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		if (position==0){
+			showRequirements();
+			showDueDate();
+			hideLinesField();
+			hideHoursField();
+		}
+		else if (position==1){
+			showRequirements();
+			hideDueDate();
+			showLinesField();
+			hideHoursField();
+		}
+		else if (position==2){
+			showRequirements();
+			hideDueDate();
+			hideLinesField();
+			showHoursField();
+		}
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// TODO Auto-generated method stub
+		hideRequirements();
+		hideDueDate();
+		hideLinesField();
+		hideHoursField();
+		
 	}
 	
 }
