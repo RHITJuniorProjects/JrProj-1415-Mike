@@ -12,7 +12,7 @@ class CommitTestCase(test_base.HenryTestCase):
         time.sleep(10)
         tid1 = util.createTask(self.ref,pid,mid1,uid,'task 1','2020-02-20','',1,'')
         time.sleep(10)
-        tid2 = util.createTask(self.ref,pid,mid1,uid,'task 2'. '2020-02-20','',2,'')
+        tid2 = util.createTask(self.ref,pid,mid1,uid,'task 2', '2020-02-20','',2,'')
         time.sleep(10)
         util.commit(self.ref,pid,mid1,tid1,uid,1,'Testing',2,1)
         time.sleep(10)
