@@ -1009,7 +1009,7 @@ function Bounty(firebase){
 	this.__hour_limit = firebase.child('hour_limit');
 	this.__line_limit = firebase.child('line_limit');
 	this.__name = firebase.child('name');
-	this.__points = firebase.child('points')l
+	this.__points = firebase.child('points');
 }
 
 Bounty.Types = ["Lines","Hours"];
@@ -1021,7 +1021,7 @@ Bounty.makeTypeSelect = function(onselect){
 };
 
 Bounty.makeConditionSelect = function(onselect){
-	return makeSelect(Bounty.Conditions,Bount.Conditions[0],onselect);
+	return makeSelect(Bounty.Conditions,Bounty.Conditions[0],onselect);
 };
 
 Bounty.prototype = {
@@ -1058,9 +1058,9 @@ Bounty.prototype = {
 			callback(snap.val());
 		});
 	},
-	getLneLimit:function(callback){
+	getLineLimit:function(callback){
 		this.__line_limit.on('value',function(snap){
-			callback(snap.val);
+			callback(snap.val());
 		});
 	},
 	getName:function(callback){
@@ -1076,13 +1076,18 @@ Bounty.prototype = {
 	getDueDate:function(callback){
 		this.__due_date.on('value',function(snap){
 			callback(snap.val());
-		}
+		});
 	},
 	getRow:function(){
 		var row = $('<div class="row">'),
 			typeSpan = $('<span>'),
+			tc = $('<div class="small-3 columns">'),
 			condSpan = $('<span>'),
+			coc = $('<div class="small-3 columns">'),
 			claimSpan = $('<span>'),
+			clc = $('<div class="small-3 columns">'),
+			pointsSpan = $('<span>'),
+			pc = $('<div class="small-3 columns">'),
 			bounty = this;
 
 		this.getType(function(type){
@@ -1095,6 +1100,10 @@ Bounty.prototype = {
 					typeSpan.text(lim.toString()+' Hours');
 				});
 			}
+		});
+
+		this.getPoints(function(p){
+			pointsSpan.html(p.toString()+' Points');
 		});
 
 		this.getCondition(function(cond){
@@ -1110,7 +1119,12 @@ Bounty.prototype = {
 		this.getClaiment(function(claiment){
 			claimSpan.text('claimed by '+claiment);
 		});
-		row.append(typeSpan,condSpan,claimSpan);
+		row.append(
+			tc.append(typeSpan),
+			coc.append(condSpan),
+			clc.append(claimSpan),
+			pc.append(pointsSpan)
+		);
 		return row;
 	}
 }
@@ -1150,7 +1164,7 @@ Task.prototype = {
 	getBounties: function(){
 		return new Table(
 			function(ref){
-				new Bounty(ref);
+				return new Bounty(ref);
 			},
 			this.__bounties
 		);
@@ -1288,6 +1302,17 @@ Task.prototype = {
             modal.children().remove();
             task.__firebase.once('value', function (snap) {
 
+				var nav = $('<nav class="breadcrumbs gamification">'),
+					editA = $('<a class="current" href="#">Edit Task</a>'),
+					bountyA = $('<a href="#">View Bounties</a>');
+
+				var check = $('#gamification-switch');
+				if(!check.is(':checked')){
+					nav.hide();
+				}
+
+				nav.append(editA,bountyA);
+
 				// make edit page
 				var	taskEdit = $('<div id="task-edit">'),
 					vals = snap.val(),
@@ -1300,16 +1325,18 @@ Task.prototype = {
                     categoriesSelect = makeSelect(defaultCategories.concat(cats), vals.category).append(newCategory);
                     categoriesText = $('<input type="text">'),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
-                    dueInput = $('<input type="text" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
+                    dueInput = $('<input type="date" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
                     flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
                     estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
-                    bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">'),
+                    //bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">'),
                     eNameH = $('<h3>'),
-                    submit = $('<input class="button" value="Edit Task" />'),
+                    submit = $('<input class="button" value="Submit" />'),
+					bNameH = $('<h3>'),
                     taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
                 task.getName(function (name) {
                     eNameH.text('Edit Task: ' + name);
+					bNameH.text('Bounties for Task: ' + name);
                 });
                 $(categoriesText).hide();
                 taskEdit.append(
@@ -1323,19 +1350,97 @@ Task.prototype = {
                     label(dueInput, 'Due Date'),
                     label(flagInput, 'Is Complete'),
                     label(estHoursInput, 'Estimated Hours'),
-                    label(bountyPoints, 'Bounty Points')
-                    //submit,
-                    //taskError
+                    //label(bountyPoints, 'Bounty Points')
+                    submit,
+                    taskError
                 );
 
 				// make bounty page
-				var bNameH = $('<h3>'),
-					taskBounties = $('<div id="task-bounties">');
-				
+				var	taskBounties = $('<div id="task-bounties">'),
+					list = $('<div>'),
+					newBounty = $('<div id="row">'),
+					numc = $('<div class="small-2 columns">'),
+					num = $('<input type="number" placeholder="amount">'),
+					addc = $('<div class="small-2 columns">'),
+					add= $('<input type="button" class="button small" value="Add Bounty">'),
+					datec = $('<div class="small-2 columns">'),
+					date = $('<input type="date" placeholder="yyyy-mm-dd">'),
+					typec = $('<div class="small-2 columns">'),
+					typeS = Bounty.makeTypeSelect(),
+					condc = $('<div class="small-2 columns">'),
+					condS = Bounty.makeConditionSelect(function(){
+						if(condS.val() === "Whenever"){
+							datec.hide();
+						} else {
+							datec.show();
+						}
+					}),
+					pointsc = $('<div class="small-2 columns">'),
+					points = $('<input type="number" placeholder="points">');
 
-				this.getBounties().onItemAdded(function(bounty){
-					taskBounties.append(bounty.getRow());
+					addc.append(add);
+					numc.append(num);
+					typec.append(typeS);
+					datec.append(date);
+					condc.append(condS);
+					pointsc.append(points);
+					newBounty.append(
+						addc,
+						numc,
+						typec,
+						condc,
+						datec,
+						pointsc
+					);
+					date.click(function(){
+						date.fdatepicker({format: 'yyyy-mm-dd'});
+						date.fdatepicker('show');
+					});
+				list.append(newBounty);
+				task.getBounties().onItemAdded(function(bounty){
+					list.prepend(bounty.getRow());
 				});
+
+				taskBounties.append(bNameH,list);
+				taskBounties.hide();
+				modal.append(nav,taskEdit,taskBounties);
+				editA.click(function(){
+					editA.attr('class','current');
+					bountyA.attr('class','');
+					taskEdit.show();
+					taskBounties.hide();
+				});
+
+				bountyA.click(function(){
+					bountyA.attr('class','current');
+					editA.attr('class','');
+					taskEdit.hide();
+					taskBounties.show();
+				});
+
+				add.click(function(){
+					msg = {
+						claimed:"None",
+						points:Number(points.val()),
+						name:"Name",
+						description:'Description'
+					};
+					if(typeS.val() === "Lines"){
+						msg.line_limit = Number(num.val());
+						msg.hour_limit = 'None';
+					} else {
+						msg.hour_limit = Number(num.val());
+						msg.line_limit = 'None';
+					}
+
+					if(condS.val() === "Whenever"){
+						msg.due_date = 'No Due Date';
+					} else {
+						msg.due_date = date.val();
+					}
+					task.__firebase.child('bounties').push(msg);
+				});
+
                 modal.keypress(function (e) {
                     if (e.which == 13) {
                         submit.click();
@@ -1391,8 +1496,8 @@ Task.prototype = {
                         category: categoryName,
                         status: statusSelect.val(),
                         is_completed: flagVal,
-                        updated_hour_estimate: estHours,
-                        bounties: {points: bountyPoints.val()}
+                        updated_hour_estimate: estHours//,
+                        //bounties: {points: bountyPoints.val()}
                     });
                     var cate = {};
                     cate[categoryName] = true;
