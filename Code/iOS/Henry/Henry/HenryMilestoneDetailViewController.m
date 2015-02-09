@@ -38,7 +38,6 @@
         // Do any additional setup after loading the view.
         self.fb = [HenryFirebase getFirebaseObject];
         //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        
         self.burndownData = [[NSMutableArray alloc] init];
         self.burndown.enableYAxisLabel = YES;
         self.burndown.enableXAxisLabel = YES;
@@ -97,11 +96,13 @@
         self.tasksHeader.hidden = YES;
         self.burndown.hidden = NO;
          */
+        self.burndown.hidden = NO;
         self.descriptionView.hidden = YES;
         self.tasksCompleteBar.hidden = YES;
         self.pieChart.center = CGPointMake(900, 2000);
         self.burndown.center = CGPointMake(157,315);
     }else{
+        self.pieChart.hidden = NO;
         self.descriptionView.hidden = YES;
         self.tasksCompleteBar.hidden = YES;
         self.pieChart.center = CGPointMake(147,315);

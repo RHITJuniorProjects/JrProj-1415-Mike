@@ -479,16 +479,21 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Go0-zU-qnV">
-                                <rect key="frame" x="114" y="178" width="103" height="29"/>
+                                <rect key="frame" x="16" y="178" width="288" height="29"/>
                                 <segments>
-                                    <segment title="Bars"/>
-                                    <segment title="Pie"/>
-                                    <segment title="Line"/>
+                                    <segment title="Info"/>
+                                    <segment title="LOC Pie"/>
+                                    <segment title="LOC Line"/>
+                                    <segment title="Hours Line"/>
                                 </segments>
                                 <connections>
                                     <action selector="segControlClicked:" destination="igH-6v-tal" eventType="valueChanged" id="Dhi-ad-fvw"/>
                                 </connections>
                             </segmentedControl>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ywn-E1-XYL" customClass="BEMSimpleLineGraphView">
+                                <rect key="frame" x="900" y="900" width="300" height="190"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -507,6 +512,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="dueDateLabel" destination="0du-Yx-HTV" id="sr6-f1-M6a"/>
+                        <outlet property="hoursLineChart" destination="Ywn-E1-XYL" id="ePg-V2-sr8"/>
                         <outlet property="hoursLoggedLabel" destination="I9o-kE-uW1" id="qBN-h7-rTa"/>
                         <outlet property="hoursLoggedProgressBar" destination="ue6-P9-dlr" id="COY-jM-bHF"/>
                         <outlet property="lineGraph" destination="sB2-sh-DJT" id="4FM-f0-gcO"/>
@@ -575,7 +581,7 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jT8-86-AGE" customClass="BEMSimpleLineGraphView">
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jT8-86-AGE" customClass="BEMSimpleLineGraphView">
                                 <rect key="frame" x="5000" y="1000" width="288" height="194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -594,7 +600,7 @@
                                     <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>
                                 </connections>
                             </segmentedControl>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JDu-90-EBO" customClass="DLPieChart">
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JDu-90-EBO" customClass="DLPieChart">
                                 <rect key="frame" x="900" y="2000" width="320" height="197"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>

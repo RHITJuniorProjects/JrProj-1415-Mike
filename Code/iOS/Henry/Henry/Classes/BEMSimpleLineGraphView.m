@@ -90,6 +90,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 /// The smallest value out of all of the data points
 @property (nonatomic) CGFloat minValue;
 
+
 /// Find which point is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromtouchInputLine:(UIView *)touchInputLine;
 
@@ -98,6 +99,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 /// Determines the smallest Y-axis value from all the points
 - (CGFloat)minValue;
+
 
 //Change font size
 -(void)changeFontSize:(NSInteger)size;
@@ -117,6 +119,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     self = [super initWithCoder:coder];
     if (self) [self commonInit];
     return self;
+}
+-(void)setName:(NSString *)name{
+    _name = name;
 }
 -(void)changeFontSize:(NSInteger)size{
     _labelFont = [UIFont fontWithName:DEFAULT_FONT_NAME size:10];

@@ -281,6 +281,8 @@
 /// Color of the pop up label's background displayed when the user touches the graph.
 @property (strong, nonatomic) UIColor *colorBackgroundPopUplabel;
 
+@property (strong, nonatomic) NSString *name;
+
 
 @end
 
@@ -347,7 +349,7 @@
 
 
 //----- CUSTOMIZATION -----//
-
+-(void)setName:(NSString *)name;
 
 /** The optional suffix to append to the popup report.
  @param graph The graph object requesting the total number of points.
