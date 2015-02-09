@@ -36,13 +36,13 @@ def initialize_database(ref,init_json):
 def start_commit_server(commit_server_path):
     #sync_metric_server(server_path,base_url)
     devnull = open(os.devnull,'w')
-    pid = subprocess.Popen(["nodejs 1_CommitListener.js henry-qa",commit_server_path],stdout=devnull)
+    pid = subprocess.Popen(["nodejs", commit_server_path, "henry-qa"],stdout=devnull)
     time.sleep(20)
     return pid
 
 def start_user_server(user_server_path):
     devnull = open(os.devnull, 'w')
-    pid = subprocess.Popen(["nodejs 2_UserListener.js henry-qa",user_server_path],stdout=devnull)
+    pid = subprocess.Popen(["nodejs", 2_UserListener.js, "henry-qa"],stdout=devnull)
     time.sleep(20)
     return pid
 
