@@ -40,6 +40,19 @@
     }
 }
 
+
+-(void)viewWillAppear:(BOOL)animated{
+    self.fb = [HenryFirebase getFirebaseObject];
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.fb removeAllObservers];
+}
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     @try{
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
@@ -281,9 +294,6 @@
     }
 }
 
-- (void) viewWillDisappear:(BOOL)animated {
-    [self.fb removeAllObservers];
-}
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     @try{

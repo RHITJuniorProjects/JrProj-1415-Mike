@@ -22,6 +22,10 @@
 /*
  * View details for the first project when the user logs in
  */
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.fb removeAllObservers];
+}
 -(void)viewWillAppear:(BOOL)animated {
     @try{
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -62,12 +66,15 @@
     self.fb = [HenryFirebase getFirebaseObject];
     
     self.lineGraphData = [[NSMutableArray alloc] init];
-        self.lineGraph.alwaysDisplayPopUpLabels = YES;
+        self.lineGraph.alwaysDisplayPopUpLabels = NO;
+        self.lineGraph.enablePopUpReport = YES;
         self.lineGraph.alwaysDisplayDots = YES;
         self.lineGraph.dataSource = self;
         self.lineGraph.enableYAxisLabel = YES;
         self.lineGraph.enableXAxisLabel = YES;
-        self.lineGraph.enableBezierCurve = NO;
+        self.lineGraph.enableBezierCurve = YES;
+        self.lineGraph.enableReferenceXAxisLines = YES;
+        self.lineGraph.enableReferenceYAxisLines = YES;
         [self.lineGraph changeFontSize:5];
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -95,7 +102,6 @@
 
 -(CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
     NSArray *subArray = [self.lineGraphData objectAtIndex:index];
-    NSLog(@"Called value for point");
     return [[subArray objectAtIndex:0] floatValue];
 }
 
@@ -211,11 +217,6 @@
         NSArray *burndownKeys = [burndownData allKeys];
         burndownKeys = [[burndownKeys reverseObjectEnumerator] allObjects];
         self.lineGraphData = [[NSMutableArray alloc] init];
-        NSMutableArray *dummy = [[NSMutableArray alloc] init];
-        [dummy addObject:[NSNumber numberWithInteger:0]];
-        [dummy addObject:@" "];
-        [dummy addObject:[NSNumber numberWithInteger:0]];
-        [self.lineGraphData addObject:dummy];
         NSInteger i = 0;
         for (NSString *burndownKey in burndownKeys) {
             NSMutableArray *subArray = [[NSMutableArray alloc] init];
@@ -229,7 +230,6 @@
             i++;
             [self.lineGraphData addObject:subArray];
         }
-        [self.lineGraphData addObject:dummy];
         
     self.projectNameLabel.text = [json objectForKey:@"name"];
     self.projectDescriptionView.text = [json objectForKey:@"description"];

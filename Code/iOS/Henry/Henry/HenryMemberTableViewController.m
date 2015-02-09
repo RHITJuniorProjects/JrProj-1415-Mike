@@ -26,6 +26,18 @@
 //YET
 @implementation HenryMemberTableViewController
 
+-(void)viewWillAppear:(BOOL)animated{
+    self.fb = [HenryFirebase getFirebaseObject];
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.fb removeAllObservers];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Members";
