@@ -443,6 +443,34 @@ User.prototype = {
         this.__firebase.off(arg1, arg2);
     }
 };
+function userLeaderboard(){
+    var pointsArray = [];
+    var arr = [];
+    console.log("here");
+    firebase.child("users").on('value', function(snapshot) {
+        var users = snapshot.val();
+        for(var id in users){
+            var name =users[id].name;
+            var points = users[id].total_points; 
+            pointsArray.push(name);
+            pointsArray.push(points);
+            arr.push(pointsArray);
+            pointsArray = [];
+        } 
+        
+    });
+    arr.sort(function(a,b) {return b[1] - a[1]});
+    console.log(arr);
+    var i =1;
+    for(var element in arr){
+        console.log(element);
+        $('#' + i).html(i);
+        $('#name' + i).html(arr[i-1][0]);
+        $('#pointValue' + i).html(arr[i-1][1]);
+        i++;
+    }
+
+};
 
 
 // Adds the currently member selected in the "Add member" modal to the project
@@ -1131,6 +1159,7 @@ Bounty.prototype = {
 
 function Task(firebase) {
     this.__firebase = firebase;
+	this.__root = firebase.root();
     this.uid = firebase.key();
     this.__name = firebase.child('name');
     this.__description = firebase.child('description');
@@ -1328,13 +1357,16 @@ Task.prototype = {
                     dueInput = $('<input type="date" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
                     flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
                     estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
-                    //bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">'),
                     eNameH = $('<h3>'),
-                    submit = $('<input class="button" value="Submit" />'),
 					bNameH = $('<h3>'),
+                    submit = $('<input class="button" value="Edit Task" />'),
                     taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
-
-                task.getName(function (name) {
+				if(vals.bounties != undefined) {
+					bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">');
+                } else {
+					bountyPoints = $('<input type="text" value="' + 0 + '">');
+				}
+				task.getName(function (name) {
                     eNameH.text('Edit Task: ' + name);
 					bNameH.text('Bounties for Task: ' + name);
                 });
@@ -1494,11 +1526,27 @@ Task.prototype = {
                         assignedTo: userSelect.val(),
                         due_date: dueInput.val(),
                         category: categoryName,
-                        status: statusSelect.val(),
+                        //status: statusSelect.val(),
                         is_completed: flagVal,
-                        updated_hour_estimate: estHours//,
                         //bounties: {points: bountyPoints.val()}
+                        //updated_hour_estimate: estHours,
                     });
+					var commit = {
+						added_lines_of_code : 0,
+						hours : 0,
+						message : "direct change to task from UI",
+						milestone : selectedMilestone.uid,
+						project : selectedProject.uid,
+						removed_lines_of_code : 0,
+						status : statusSelect.val(),
+						task : task.uid,
+						timestamp : (new Date).getTime(),
+						updated_hour_estimate : estHoursInput.val(),
+						user : userSelect.val()
+					};
+					console.log(commit);
+					task.__root.child("commits/" + selectedProject.uid).push(commit);
+					
                     var cate = {};
                     cate[categoryName] = true;
                     selectedProject.__custom_categories.update(cate);
