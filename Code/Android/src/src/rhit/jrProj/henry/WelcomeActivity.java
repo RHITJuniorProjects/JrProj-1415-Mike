@@ -72,9 +72,8 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.go_to_metrics_btn:
-
-			// intent = new Intent(this, MainActivity.class);
-			// startActivity(intent);
+			intent = new Intent(this, LeaderboardActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.go_to_projects_btn:
 			intent = new Intent(this, MainActivity.class);
