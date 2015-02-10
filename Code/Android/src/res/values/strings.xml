@@ -26,7 +26,7 @@
         <item>Lines of Code Total</item>
         <item>Burndown Chart</item>
     </string-array>
-    <string-array name="tasks_all_charts">
+    <string-array name="tasks_all">
         <item>All Tasks</item>
         <item>Unfinished</item>
         <item>Finished</item>

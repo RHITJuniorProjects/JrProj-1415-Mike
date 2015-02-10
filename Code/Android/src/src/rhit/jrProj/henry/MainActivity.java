@@ -114,6 +114,9 @@ public class MainActivity extends Activity implements
 			this.startActivity(intent);
 			this.finish();
 		}
+		String s=mGlobalVariables.getFirebaseUrl()
+				+ "users/" + authData.getUid();
+		Log.i("User Info", s);
 
 	}
 

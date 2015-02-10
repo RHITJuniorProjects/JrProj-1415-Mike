@@ -669,7 +669,6 @@ public class Task implements Parcelable{
 		}
 	}
 	public void setCompletionBounty(Bounty b){
-		Log.i("setCompletionBounty", "here");
 		this.completionBounty=b;
 		
 	}

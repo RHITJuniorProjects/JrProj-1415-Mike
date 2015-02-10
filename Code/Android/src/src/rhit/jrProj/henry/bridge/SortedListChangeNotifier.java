@@ -7,6 +7,7 @@ import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 /**
  * 
@@ -31,7 +32,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 * 
 	 * @param adapter
 	 */
-	public SortedListChangeNotifier(SortedArrayAdapter<T> adapter) {
+	public SortedListChangeNotifier(ArrayAdapter<T> adapter) {
 		super(adapter);
 		createComparator();
 
@@ -42,7 +43,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 * 
 	 * @param adapter
 	 */
-	public SortedListChangeNotifier(SortedArrayAdapter<T> adapter,
+	public SortedListChangeNotifier(ArrayAdapter<T> adapter,
 			String sorttype) {
 		super(adapter);
 		if (sorttype != null) {

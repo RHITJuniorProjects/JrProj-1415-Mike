@@ -2,6 +2,8 @@ package rhit.jrProj.henry;
 
 import java.util.ArrayList;
 
+import com.firebase.client.Firebase;
+
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -10,6 +12,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,10 +21,18 @@ import android.view.ViewGroup;
 import android.os.Build;
 
 public class TasksAllActivity extends Activity implements TasksAllListFragment.Callbacks {
-
+	private GlobalVariables mGlobalVariables;
+	private User user;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//		mGlobalVariables = ((GlobalVariables) getApplicationContext());
+//		String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
+//		Firebase firebase = new Firebase(fireBaseUrl);
+//
+//		String userKey = firebase.getAuth().getUid();
+//		Log.i(fireBaseUrl+"users/"+userKey, "URL");
+//		this.user=new User(fireBaseUrl+"users/"+userKey);
 		setContentView(R.layout.activity_tasks_all);
 		if (savedInstanceState == null) {
 			getFragmentManager().beginTransaction()
@@ -69,7 +80,8 @@ public class TasksAllActivity extends Activity implements TasksAllListFragment.C
 	@Override
 	public User getUser() {
 		return new User(this.getIntent().getStringExtra(
-				"user"));
+					"user"));
+//		return this.user;
 		
 	}
 
