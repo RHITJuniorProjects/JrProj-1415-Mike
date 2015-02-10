@@ -39,6 +39,8 @@ public class HorizontalPicker extends LinearLayout{
 		layoutInflater.inflate(R.layout.horizontal_number_picker, this);
 		this.minusButton = (Button) this.findViewById(R.id.btn_minus);
 		this.plusButton = (Button) this.findViewById(R.id.btn_plus);
+//		this.minusButton.setVisibility(View.GONE);
+//		this.plusButton.setVisibility(View.GONE);
 		this.text = (EditText) this.findViewById(R.id.edit_text);
 		this.text.setText(this.min_value+"");
 		this.text.addTextChangedListener(new TextChangedListener(this));

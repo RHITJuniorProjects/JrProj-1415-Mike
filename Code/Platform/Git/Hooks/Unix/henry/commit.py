@@ -5,172 +5,19 @@ import re
 import subprocess
 import time
 from firebase import firebase
+import firebase_utils
+import git_utils
 
 
 ##
-#   These fields are populated by the initializer
+#   This field is populated by the initializer
+#   Any change will be overwritten
 ##
 projectID = '-JYcg488tAYS5rJJT4Kh'
-
-prodUrl = 'https://henry-production.firebaseio.com'
-stagUrl = 'https://henry-staging.firebaseio.com'
-testUrl = 'https://henry-test.firebaseio.com'
-
+databaseUrl = 'https://henry-test.firebaseio.com'
 defaultpath = '.git/.henrydefaults'
 
-def readCommit(path):
-    with open(path,'r') as msgfile:
-        msg = msgfile.read()
-    try:
-        return msg.strip().split('\n#')[0]
-    except:
-        return ''
-    
 
-def getLoC():
-    command = 'git diff --cached --shortstat'.split(' ')
-    pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
-    pair = pipe.communicate()[0]
-    vals = pair.replace(' ','').split(',') 
-    if len(vals) == 3:
-        vals = vals[1:]
-    elif len(vals) == 2:
-        vals = [vals[1]]+['0'] if 'insertion' in pair else ['0']+[vals[1]]
-    elif len(vals) == 1:
-        raise Exception('HENRY: Unexpected output of `git diff --cached --shortstat`')
-    else:
-        vals = ['0','0']
-    nums = map(lambda y: int(filter(lambda x: x.isdigit(),y)),vals)
-    return nums[0],nums[1]
-
-
-def parse(msg):
-    hoursRE = r"\[hours:([0-9]+)\]"
-    milestoneRE = r"\[milestone:([^\]]*)\]"
-    taskRE = r"\[task:([^\]]*)\]"
-    statusRE = r"\[status:([^\]]*)\]"
-
-    rexs = [hoursRE,milestoneRE,taskRE,statusRE]
-    results = [re.search(rex,msg) for rex in rexs]
-    results = [res.group(1) if res != None else None for res in results]
-    return results
-
-
-def getEmail():
-    command = 'git config --global user.email'.split(' ')
-    pipe = subprocess.Popen(command,stdout=subprocess.PIPE)
-    return pipe.communicate()[0].strip()
-    
-
-def getUserID(email,ref):
-    users = ref.get('/users',None)
-    filteredusers = {u:users[u] for u in users if 'email' in users[u]}
-    try:
-        userID = [u for u in filteredusers if filteredusers[u]['email']==email][0]
-    except:
-        print 'HENRY: Invalid or nonexistant email, commit failed'
-        exit(1)
-    return userID
-
-
-getTime = lambda: int(time.time()*1000)
-
-
-def getMilestoneID(projectID,milestone):
-    path = '/projects/'+projectID+'/milestones'
-    milestones = ref.get(path,None)
-    filtered = {m:milestones[m] for m in milestones if 'name' in milestones[m]}
-    try:
-        mID = [m for m in filtered if filtered[m]['name']==milestone][0]
-    except:
-        print 'HENRY: Invalid or nonexistent milestone, commit failed'
-        exit(1)
-    return mID
-
-
-def getTaskID(projectID,milestoneID,task):
-    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
-    tasks = ref.get(path,None)
-    filtered = {t:tasks[t] for t in tasks if 'name' in tasks[t]}
-    try:
-        tID = [t for t in filtered if filtered[t]['name']==task][0]
-    except:
-        print 'HENRY: Invalid or nonexistant task, commit failed'
-        exit(1)
-    return tID
-
-
-def writeCommit(ref,msg,project,uid,hours,status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID):
-    path = '/commits/'+projectID+'/'
-    try:
-        result = ref.post(path,{
-            'hours':hours,
-            'user':uid,
-            'added_lines_of_code':pos_loc,
-            'removed_lines_of_code':neg_loc,
-            'message':msg,
-            'timestamp':ts,
-            'milestone':milestoneID,
-            'task':taskID,
-            'status':status,
-            'project':projectID
-        })
-    except:
-        raise Exception('Connection to Firebase commits table denied')
-    return result.values()[0]
-
-
-def addCommitToUser(ref,uid,commitid):
-    path = '/users/' + uid + '/commits'
-    try:
-        ref.patch(path,{commitid:commitid})
-    except:
-        raise Exception('Connection to Firebase users table denied')
-
-
-def addCommitToProject(ref,projectid,commitid):
-    path = '/projects/'+projectid+'/commits'
-    try:
-        ref.patch(path,{commitid:commitid})
-    except:
-        raise Exception('Connection to Firebase projects table denied')
-   
-
-def getActiveMilestones(ref,userID,projectID):
-    path = '/projects/'+projectID+'/milestones'
-    milestones = ref.get(path,None)
-    filtered = {m:milestones[m]['name'] for m in milestones if 'name' in milestones[m]}
-    return filtered
-
-
-def teamEmails(ref,pID):
-    path = '/projects/'+pID+'/members'
-    memberUIDs = ref.get(path,None)
-    all_users = ref.get('/users',None)
-    filtered_users = [ all_users[u]['email'] for u in all_users if u in memberUIDs]
-    return filtered_users
-
-def getAssignedTasks(ref,userID,projectID,milestoneID):
-    path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
-    try:
-        taskIDs = ref.get(path,None).keys()
-    except:
-        print 'HENRY: You have no assigned tasks for this milestone, commit failed'
-        exit(1)
-    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
-    allTasks = ref.get(path,None)
-    assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
-    return assignedTasks
-
-
-def getMilestone(ref,projectID,milestoneID):
-    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/name',None)
-
-
-def getTask(ref,projectID,milestoneID,taskID):
-    return ref.get('/projects/'+projectID+'/milestones/'+milestoneID+'/tasks/'+taskID+'/name',None)
-
-    
 def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
     # mac/linux
     sys.stdin = open('/dev/tty')
@@ -188,13 +35,13 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
     # prompt for milestone if necessary
     if milestone == None:
         if def_mID != None:
-            def_milestone = getMilestone(ref,projectID,def_mID)
+            def_milestone = firebase_utils.getMilestone(ref,projectID,def_mID)
             print 'Active milestones (defaults to '+def_milestone+'):'
         else:
             print 'Active milestones:'
         sys.stdout.flush()
         idsByIndex = [] ; index = 1
-        for mID, mName in getActiveMilestones(ref,userID,projectID).iteritems():
+        for mID, mName in firebase_utils.getActiveMilestones(ref,userID,projectID).iteritems():
             print ' - '+str(index)+'. '+mName
             idsByIndex = idsByIndex + [mID]
             index = index + 1
@@ -206,19 +53,19 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
         elif milestone == '' and def_mID != 0:
             mID = def_mID
         else:
-            mID = getMilestoneID(projectID,milestone)
+            mID = firebase_utils.getMilestoneID(ref,projectID,milestone)
     else:
-        mID = getMilestoneID(projectID,milestone)
+        mID = firebase_utils.getMilestoneID(ref,projectID,milestone)
 
     # prompt for task if necessary
     if task == None:
         if def_tID != None and mID == def_mID:
-            def_task = getTask(ref,projectID,mID,def_tID)
+            def_task = firebase_utils.getTask(ref,projectID,mID,def_tID)
             print 'Tasks assigned to you (defaults to '+def_task+'):'
         else:
             print 'Tasks assigned to you:'
         idsByIndex = [] ; index = 1
-        for tID, tName in getAssignedTasks(ref,userID,projectID,mID).iteritems():
+        for tID, tName in firebase_utils.getAssignedTasks(ref,userID,projectID,mID).iteritems():
             print ' - '+str(index)+'. '+tName
             idsByIndex = idsByIndex + [tID]
             index = index + 1
@@ -230,9 +77,9 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
         elif task == '' and def_tID != 0:
             tID = def_tID
         else:
-            tID = getTaskID(projectID,mID,task)
+            tID = firebase_utils.getTaskID(projectID,mID,task)
     else:
-        tID = getTaskID(projectID,mID,task)
+        tID = firebase_utils.getTaskID(projectID,mID,task)
 
     # prompt for status if necessary
     if status == None:
@@ -259,7 +106,7 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
     sys.stdout.flush()
     response = raw_input()
     if response.lower()[0] == 'y':
-        team_emails = teamEmails(ref,projectID)
+        team_emails = firebase_utils.teamEmails(ref,projectID)
         team_emails = [e for e in team_emails if e != email]
         if not team_emails:
             print 'HENRY: No team members, are you sure you pair programmed?'
@@ -272,9 +119,9 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
         sys.stdout.flush()
         partner = raw_input()
         if partner.isdigit() and int(partner) <= len(team_emails):
-            pp = getUserID(team_emails[int(partner)-1],ref)
+            pp = firebase_utils.getUserID(ref,team_emails[int(partner)-1])
         elif partner in team_emails:
-            pp = getUserID(partner,ref)
+            pp = firebase_utils.getUserID(ref,partner)
         else:
             print 'HENRY: Invalid team member'
             exit(1)
@@ -283,6 +130,9 @@ def promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email):
 
     return hours,mID,tID,status,pp
 
+
+# honestly, this default values stuff was a mistake
+# its a minor feature, but causes 95% of errors
 def updateDefaults(milestoneID,taskID,status):
     with open(defaultpath,'w+') as f:
         f.write(milestoneID+'\t'+taskID+'\t'+status)
@@ -298,25 +148,21 @@ def getDefaults():
 
 
 if __name__ == '__main__':
-    # set this to the correct database
-    ref = firebase.FirebaseApplication(testUrl, None)
+    ref = firebase.FirebaseApplication(databaseUrl, None)
 
-    email = getEmail()
-    userID = getUserID(email,ref)
-    msg = readCommit(sys.argv[1])
-    [hours,milestone,task,status] = parse(msg)
-    pos_loc,neg_loc = getLoC()
-    ts = getTime()
+    email = git_utils.getEmail()
+    userID = firebase_utils.getUserID(ref,email)
+    msg = git_utils.readCommit(sys.argv[1])
+    [hours,milestone,task,status] = git_utils.parse(msg)
+    pos_loc,neg_loc = git_utils.getLoC()
+    ts = int(time.time()*1000)  # time.time() returns seconds, so ts is in ms (which is the standard)
     hours,milestoneID,taskID,status,pp = promptAsNecessary(ref,userID,projectID,hours,milestone,task,status,email)
 
     updateDefaults(milestoneID,taskID,status)
 
-    writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
+    firebase_utils.writeCommit(ref,msg,None,userID,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
     if pp != None:
-        writeCommit(ref,msg,None,pp,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
-    
-    #addCommitToProject(ref,projectID,commitID)
-    #addCommitToUser(ref,userID,commitID)
+        firebase_utils.writeCommit(ref,msg,None,pp,float(hours),status,pos_loc,neg_loc,ts,projectID,milestoneID,taskID)
 
     # This bypasses exit handlers to skip the Firebase-Windows errors
     os._exit(0)

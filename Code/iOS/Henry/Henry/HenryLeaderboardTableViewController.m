@@ -37,6 +37,7 @@
     }];
 }
 
+
 -(void)updateTable:(FDataSnapshot *)snapshot {
     self.users = snapshot.value;
     NSMutableArray *ids = [NSMutableArray arrayWithArray:[self.users allKeys]];
@@ -100,9 +101,6 @@
     return cell;
 }
 
-- (void) viewWillDisappear:(BOOL)animated {
-    [self.fb removeAllObservers];
-}
 
 
 /*

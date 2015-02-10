@@ -31,6 +31,7 @@
 @property NSString *uid;
 @property (weak, nonatomic) IBOutlet DLPieChart *pieChart;
 @property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *lineGraph;
+@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *hoursLineChart;
 
 
 

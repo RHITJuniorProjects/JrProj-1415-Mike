@@ -13,7 +13,6 @@
     <string name="ViewMilestones">View Milestones</string>
     <string name="ViewMembers">View Project Members</string>
 
-
     <string-array name="task_statuses">
         <item>New</item>
         <item>Implementation</item>
@@ -59,6 +58,11 @@
         <item>QA</item>
         <item>No Category</item>
     </string-array>
+    <string-array name="bounty_categories">
+        <item>Due Date</item>
+        <item>Line Limit</item>
+        <item>Hour Limit</item>
+    </string-array>
 
     <string name="email">Email</string>
     <string name="title_activity_charts_fragment">ChartsFragment</string>
@@ -80,5 +84,6 @@
     <string name="BountyStringHint">String Name</string>
     <string name="BountyDescriptionHint">Bounty Description</string>
     <string name="BountyNameHint">Bounty Name</string>
+    <string name="title_activity_leaderboard">LeaderboardActivity</string>
 
 </resources>

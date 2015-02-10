@@ -30,6 +30,7 @@
         NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
         [self.fb updateChildValues:newValue];
     }
+        [self.fb removeAllObservers];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -37,6 +38,14 @@
         
     }
     
+}
+-(void)viewWillAppear:(BOOL)animated{
+    self.fb = [HenryFirebase getFirebaseObject];
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
 }
 
 - (void)viewDidLoad {

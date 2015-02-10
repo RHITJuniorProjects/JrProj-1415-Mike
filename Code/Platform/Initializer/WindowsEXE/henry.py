@@ -12,6 +12,7 @@ import traceback
 import re
 import multiprocessing
 import urllib
+import time
 
 VERSION = '0.1.4'
 OPSYS = 'windows'
@@ -36,30 +37,14 @@ def initialize_git(projectID,opsys):
         print 'HENRY Error: Must be in the root of a Git repository'
         sys.exit(1)
     
-    
-    #r = requests.get(base_url+'commit-msg', verify=sys.argv[0].replace('henry.exe','cacert.pem'))
-    #s = b64decode(json.loads(r.text)['content'])
-    #with open(hook_dir+'commit-msg','w') as f:
-    #    f.write(s)
-    #urllib.urlretrieve(base_url+'commit-msg', hook_dir+'commit-msg')
     with open(hook_dir+'commit-msg','w') as f:
         f.write('#!/usr/bin/env bash\n.git/hooks/henry/commit.exe $1 "'+projectID+'"')
-    #os.system('chmod +x .git/hooks/commit-msg')
 
     if not os.path.exists(henry_dir):
         os.makedirs(henry_dir)
 
     for my_file in files:
         urllib.urlretrieve(base_url+my_file, os.path.join(henry_dir,my_file))
-
-    #for my_file in files:
-    #    print base_url+my_file
-    #    r = requests.get(base_url+my_file, verify=sys.argv[0].replace('henry.exe','cacert.pem'))
-    #    s = b64decode(json.loads(r.text)['content'])
-    #    #with open(henry_dir+my_file) as f:
-    #    with open(os.path.join(henry_dir,my_file),'w') as f:
-    #        f.write(s)
-
 
     print 'HENRY: Repository succesfully connected to Henry'
 
@@ -70,7 +55,122 @@ def fillTemplate(line,projectID):
     else:
         return line
 
-    
+
+def editHours(ref):
+    email = getEmail()
+    uID = getUserID(email)
+    pID = readProjectID()
+    if pID == None:
+        print 'Henry repository not initialized or corrupted'
+        return
+    mID = promptForMilestone(ref,pID)
+    if mID == None:
+        return
+    tID = promptForTask(ref,uID,pID,mID)
+    current = getCurrentHourEstimate(ref,pID,mID,tID)
+    update = promptForUpdate(current)
+    if update != None:
+        setCurrentHourEstimate(ref,update,uID,pID,mID,tID)
+
+
+def readProjectID():
+    try:
+        with open('.git/hooks/commit-msg','r') as f:
+            return f.read().strip().split(' ')[-1][1:-1]
+    except:
+        return None
+
+
+def promptForMilestone(ref,pID):
+    print 'Milestones:'
+    milestoneIDs = getActiveMilestones(ref,None,pID)
+    if len(milestoneIDs) == 0:
+        print 'No milestones in this project'
+        return None
+    for index,(mID,mName) in zip(range(len(milestoneIDs)),milestoneIDs.iteritems()):
+        print ' - '+str(index)+'. '+mName
+    try:
+        sys.stdout.write('Milestone: ')
+        selection = int(raw_input())
+        assert selection >= 0
+        assert selection < len(milestoneIDs)
+    except:
+        print 'Invalid entry, input should be an integer from the list'
+        return None
+    return list(milestoneIDs)[selection]
+
+
+def promptForTask(ref,uID,pID,mID):
+    print 'Tasks:'
+    taskIDs = getAssignedTasks(ref,uID,pID,mID)
+    if len(taskIDs) == 0:
+        print 'No tasks assigned to you for this milestone'
+        return None
+    for index,(tID,tName) in zip(range(len(taskIDs)),taskIDs.iteritems()):
+        print ' - '+str(index)+'. '+tName
+    try:
+        sys.stdout.write('Task: ')
+        selection = int(raw_input())
+        assert selection >= 0
+        assert selection < len(taskIDs)
+    except:
+        print 'Invalid entry, input should be an integer from the list'
+        return None
+    return list(taskIDs)[selection]
+
+
+def promptForUpdate(current):
+    print 'Current Hour Estimate: '+str(current)
+    sys.stdout.write('Updated Hour Estimate: ')
+    try:
+        update = int(raw_input())
+        assert update >= 0
+        return update
+    except:
+        print 'Invalid number of hours, must be positive number'
+
+
+def getActiveMilestones(ref,userID,projectID):
+    path = '/projects/'+projectID+'/milestones'
+    milestones = ref.get(path,None)
+    filtered = {m:milestones[m]['name'] for m in milestones if 'name' in milestones[m]}
+    return filtered
+
+
+def getAssignedTasks(ref,userID,projectID,milestoneID):
+    path = '/users/'+userID+'/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    try:
+        taskIDs = ref.get(path,None).keys()
+    except:
+        print 'HENRY: You have no assigned tasks for this milestone, commit failed'
+        exit(1)
+    path = '/projects/'+projectID+'/milestones/'+milestoneID+'/tasks'
+    allTasks = ref.get(path,None)
+    assignedTasks = {tID:allTasks[tID]['name'] for tID in taskIDs}
+    return assignedTasks
+
+
+def getCurrentHourEstimate(ref,pID,mID,tID):
+    path = '/projects/'+pID+'/milestones/'+mID+'/tasks/'+tID
+    return ref.get(path,None)['updated_hour_estimate']
+
+def setCurrentHourEstimate(ref,hours,uID,pID,mID,tID):
+    path = '/commits/'+pID
+    ref.post(path,{
+        'added_lines_of_code':0,
+        'hours':0,
+        'message':'direct change to task from command line',
+        'milestone':mID,
+        'project':pID,
+        'removed_lines_of_code':0,
+        'status':'New',  # This is a bug, bonus points to whoever fixes it
+        'task':tID,
+        'timestamp':int(time.time()*1000),
+        'updated_hour_estimate':hours,
+        'user':uID
+    })
+
+
 def usage():
     print 'HENRY Error: invalid command'
     print
@@ -102,7 +202,7 @@ def version():
     print 'henry version',str(VERSION)
 
 
-def status():
+def status(ref):
     if not inGitRepo():
         print 'This is not a Git repository, Henry cannot be initialized here'
     elif os.path.isfile(os.getcwd()+'/.git/hooks/commit-msg'):
@@ -163,7 +263,7 @@ def getEmail():
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
-
+    ref = firebase.FirebaseApplication(firebase_url,None)
     sys.argv = [v.strip() for v in sys.argv]
     try:
         if len(sys.argv) == 1:
@@ -190,7 +290,9 @@ if __name__ == '__main__':
         elif sys.argv[1] in {'help','-help','--help','-h'}:
             helpmenu()
         elif sys.argv[1] in {'status'}:
-            status()
+            status(ref)
+        elif sys.argv[1] in {'edit','edithours'}:
+            editHours(ref)
         else:
             usage()
 

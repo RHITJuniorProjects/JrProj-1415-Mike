@@ -15,6 +15,8 @@
 @interface HenryProjectDetailViewController ()
 @property Firebase *fb;
 @property NSMutableArray *lineGraphData;
+@property NSMutableArray *hoursGraphData;
+@property int activeChart;
 @end
 
 @implementation HenryProjectDetailViewController
@@ -22,6 +24,10 @@
 /*
  * View details for the first project when the user logs in
  */
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.fb removeAllObservers];
+}
 -(void)viewWillAppear:(BOOL)animated {
     @try{
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -59,15 +65,30 @@
     @try{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+        [self.lineGraph setName:@"lines"];
+        [self.hoursLineChart setName:@"hours"];
     self.fb = [HenryFirebase getFirebaseObject];
-    
+    self.hoursGraphData = [[NSMutableArray alloc] init];
+        self.hoursLineChart.alwaysDisplayPopUpLabels = NO;
+        self.hoursLineChart.enablePopUpReport = YES;
+        self.hoursLineChart.alwaysDisplayDots = YES;
+        self.hoursLineChart.dataSource = self;
+        self.hoursLineChart.enableYAxisLabel = YES;
+        self.hoursLineChart.enableXAxisLabel = YES;
+        self.hoursLineChart.enableBezierCurve = YES;
+        self.hoursLineChart.enableReferenceXAxisLines = YES;
+        self.hoursLineChart.enableReferenceYAxisLines = YES;
+        [self.hoursLineChart changeFontSize:5];
     self.lineGraphData = [[NSMutableArray alloc] init];
-        self.lineGraph.alwaysDisplayPopUpLabels = YES;
+        self.lineGraph.alwaysDisplayPopUpLabels = NO;
+        self.lineGraph.enablePopUpReport = YES;
         self.lineGraph.alwaysDisplayDots = YES;
         self.lineGraph.dataSource = self;
         self.lineGraph.enableYAxisLabel = YES;
         self.lineGraph.enableXAxisLabel = YES;
-        self.lineGraph.enableBezierCurve = NO;
+        self.lineGraph.enableBezierCurve = YES;
+        self.lineGraph.enableReferenceXAxisLines = YES;
+        self.lineGraph.enableReferenceYAxisLines = YES;
         [self.lineGraph changeFontSize:5];
     // Attach a block to read the data at our posts reference
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -86,7 +107,10 @@
 
 
 -(NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
-    return [self.lineGraphData count];
+    if([graph.name isEqualToString:@"lines"]){
+        return [self.lineGraphData count];
+    }
+    return [self.hoursGraphData count];
 }
 
 -(NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
@@ -94,8 +118,11 @@
 }
 
 -(CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
-    NSArray *subArray = [self.lineGraphData objectAtIndex:index];
-    NSLog(@"Called value for point");
+    if([graph.name isEqualToString:@"lines"]){
+        NSArray *subArray = [self.lineGraphData objectAtIndex:index];
+        return [[subArray objectAtIndex:0] floatValue];
+    }
+    NSArray *subArray = [self.hoursGraphData objectAtIndex:index];
     return [[subArray objectAtIndex:0] floatValue];
 }
 
@@ -113,17 +140,28 @@
     @try{
     //Figures out the last clicked segment.
     int clickedSegment = (int)[sender selectedSegmentIndex];
+    
+    //Get the info
     if(clickedSegment == 0){
         self.pieChart.center = CGPointMake(0,1000);
         self.lineGraph.center = CGPointMake(0,2000);
+        self.hoursLineChart.center = CGPointMake(900,900);
     }else if(clickedSegment == 1){
         self.pieChart.hidden = NO;
         self.lineGraph.center = CGPointMake(0,2000);
         self.pieChart.center = CGPointMake(147,300);
-    }else{
+        self.hoursLineChart.center = CGPointMake(900,900);
+    }else if(clickedSegment == 2){
         self.lineGraph.hidden = NO;
         self.pieChart.center = CGPointMake(0, 1000);
         self.lineGraph.center = CGPointMake(157,310);
+        self.hoursLineChart.center = CGPointMake(900,900);
+    
+    }else{
+        self.lineGraph.hidden = NO;
+        self.pieChart.center = CGPointMake(0, 1000);
+        self.hoursLineChart.center = CGPointMake(157,310);
+        self.lineGraph.center = CGPointMake(0,2000);
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -211,25 +249,24 @@
         NSArray *burndownKeys = [burndownData allKeys];
         burndownKeys = [[burndownKeys reverseObjectEnumerator] allObjects];
         self.lineGraphData = [[NSMutableArray alloc] init];
-        NSMutableArray *dummy = [[NSMutableArray alloc] init];
-        [dummy addObject:[NSNumber numberWithInteger:0]];
-        [dummy addObject:@" "];
-        [dummy addObject:[NSNumber numberWithInteger:0]];
-        [self.lineGraphData addObject:dummy];
         NSInteger i = 0;
         for (NSString *burndownKey in burndownKeys) {
             NSMutableArray *subArray = [[NSMutableArray alloc] init];
+            NSMutableArray *hoursSubArray = [[NSMutableArray alloc] init];
             NSDictionary *entry = [burndownData objectForKey:burndownKey];
             //NSLog(@"Adding %@",[entry objectForKey:@"total_lines_of_code"]);
             //NSLog(@"adding %@",[entry objectForKey:@"name"]);
             //NSLog(@"Aadding %ld",(long)i);
+            [hoursSubArray addObject:[entry objectForKey:@"total_hours"]];
+            [hoursSubArray addObject:[entry objectForKey:@"name"]];
+            [hoursSubArray addObject:[NSNumber numberWithInteger:i]];
             [subArray addObject:[entry objectForKey:@"total_lines_of_code"]];
             [subArray addObject:[entry objectForKey:@"name"]];
             [subArray addObject:[NSNumber numberWithInteger:i]];
             i++;
             [self.lineGraphData addObject:subArray];
+            [self.hoursGraphData addObject:hoursSubArray];
         }
-        [self.lineGraphData addObject:dummy];
         
     self.projectNameLabel.text = [json objectForKey:@"name"];
     self.projectDescriptionView.text = [json objectForKey:@"description"];
@@ -262,6 +299,7 @@
         }
     }
     [self.lineGraph reloadGraph];
+    [self.hoursLineChart reloadGraph];
     [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];

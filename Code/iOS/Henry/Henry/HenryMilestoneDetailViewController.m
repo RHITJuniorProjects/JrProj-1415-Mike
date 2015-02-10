@@ -20,17 +20,30 @@
 
 @synthesize pieChart;
 
+-(void)viewWillAppear:(BOOL)animated{
+    self.fb = [HenryFirebase getFirebaseObject];
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateInfo:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.fb removeAllObservers];
+}
+
 - (void)viewDidLoad {
     @try{
         [super viewDidLoad];
         // Do any additional setup after loading the view.
         self.fb = [HenryFirebase getFirebaseObject];
         //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        
         self.burndownData = [[NSMutableArray alloc] init];
         self.burndown.enableYAxisLabel = YES;
         self.burndown.enableXAxisLabel = YES;
         self.burndown.enableBezierCurve = NO;
+        self.burndown.enableReferenceXAxisLines = YES;
+        self.burndown.enableReferenceYAxisLines = YES;
         
         // Attach a block to read the data at our posts reference
         [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -73,16 +86,27 @@
         self.tasksHeader.hidden = NO;
         self.burndown.hidden = YES;
          */
+        self.descriptionView.hidden = NO;
+        self.tasksCompleteBar.hidden = NO;
         self.burndown.center = CGPointMake(0,2000);
-        self.pieChart.center = CGPointMake(147,315);
-    }else{
+        self.pieChart.center = CGPointMake(900,2000);
+    }else if(clickedSegment == 1){
         /*
         self.pieChart.hidden = YES;
         self.tasksHeader.hidden = YES;
         self.burndown.hidden = NO;
          */
+        self.burndown.hidden = NO;
+        self.descriptionView.hidden = YES;
+        self.tasksCompleteBar.hidden = YES;
         self.pieChart.center = CGPointMake(900, 2000);
         self.burndown.center = CGPointMake(157,315);
+    }else{
+        self.pieChart.hidden = NO;
+        self.descriptionView.hidden = YES;
+        self.tasksCompleteBar.hidden = YES;
+        self.pieChart.center = CGPointMake(147,315);
+        self.burndown.center = CGPointMake(0,2000);
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];

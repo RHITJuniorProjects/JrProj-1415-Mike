@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
     <dependencies>
+        <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -478,16 +479,21 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Go0-zU-qnV">
-                                <rect key="frame" x="114" y="178" width="103" height="29"/>
+                                <rect key="frame" x="16" y="178" width="288" height="29"/>
                                 <segments>
-                                    <segment title="Bars"/>
-                                    <segment title="Pie"/>
-                                    <segment title="Line"/>
+                                    <segment title="Info"/>
+                                    <segment title="LOC Pie"/>
+                                    <segment title="LOC Line"/>
+                                    <segment title="Hours Line"/>
                                 </segments>
                                 <connections>
                                     <action selector="segControlClicked:" destination="igH-6v-tal" eventType="valueChanged" id="Dhi-ad-fvw"/>
                                 </connections>
                             </segmentedControl>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ywn-E1-XYL" customClass="BEMSimpleLineGraphView">
+                                <rect key="frame" x="900" y="900" width="300" height="190"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -506,6 +512,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="dueDateLabel" destination="0du-Yx-HTV" id="sr6-f1-M6a"/>
+                        <outlet property="hoursLineChart" destination="Ywn-E1-XYL" id="ePg-V2-sr8"/>
                         <outlet property="hoursLoggedLabel" destination="I9o-kE-uW1" id="qBN-h7-rTa"/>
                         <outlet property="hoursLoggedProgressBar" destination="ue6-P9-dlr" id="COY-jM-bHF"/>
                         <outlet property="lineGraph" destination="sB2-sh-DJT" id="4FM-f0-gcO"/>
@@ -553,48 +560,49 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Milestone Description" translatesAutoresizingMaskIntoConstraints="NO" id="OEm-ed-V2y">
-                                <rect key="frame" x="11" y="137" width="293" height="39"/>
+                                <rect key="frame" x="14" y="259" width="293" height="39"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Tasks Completed:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jmv-SC-tbs">
-                                <rect key="frame" x="16" y="445" width="138" height="21"/>
+                                <rect key="frame" x="14" y="334" width="138" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="y6M-f7-yQu">
-                                <rect key="frame" x="21" y="474" width="288" height="3"/>
+                                <rect key="frame" x="14" y="363" width="288" height="3"/>
                                 <color key="trackTintColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </progressView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="x/y" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bd8-Ha-SLz">
-                                <rect key="frame" x="162" y="445" width="291" height="21"/>
+                                <rect key="frame" x="160" y="334" width="291" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-d5-4FJ">
-                                <rect key="frame" x="77" y="179" width="167" height="29"/>
-                                <segments>
-                                    <segment title="LOC"/>
-                                    <segment title="Burndown"/>
-                                </segments>
-                                <connections>
-                                    <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>
-                                </connections>
-                            </segmentedControl>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYe-u4-Z2g" customClass="DLPieChart">
-                                <rect key="frame" x="900" y="2000" width="320" height="202"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jT8-86-AGE" customClass="BEMSimpleLineGraphView">
-                                <rect key="frame" x="13" y="222" width="288" height="194"/>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jT8-86-AGE" customClass="BEMSimpleLineGraphView">
+                                <rect key="frame" x="5000" y="1000" width="288" height="194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="mNG-p1-7Vr" id="X0S-8I-gzV"/>
                                     <outlet property="delegate" destination="mNG-p1-7Vr" id="R5Y-mk-cvS"/>
                                 </connections>
+                            </view>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="UHN-d5-4FJ">
+                                <rect key="frame" x="16" y="179" width="288" height="29"/>
+                                <segments>
+                                    <segment title="Basic Info"/>
+                                    <segment title="Burndown"/>
+                                    <segment title="LOC by Dev"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segControlClicked:" destination="mNG-p1-7Vr" eventType="valueChanged" id="ADi-vm-eFc"/>
+                                </connections>
+                            </segmentedControl>
+                            <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JDu-90-EBO" customClass="DLPieChart">
+                                <rect key="frame" x="900" y="2000" width="320" height="197"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -613,10 +621,9 @@
                         <outlet property="dueDateLabel" destination="etw-cn-nv5" id="fAf-Xa-TtY"/>
                         <outlet property="milestoneName" destination="zau-mB-96S" id="Rnn-eh-oJq"/>
                         <outlet property="milestoneNameLabel" destination="zau-mB-96S" id="KP9-7l-yf1"/>
-                        <outlet property="pieChart" destination="HYe-u4-Z2g" id="Rk4-fu-JCJ"/>
+                        <outlet property="pieChart" destination="JDu-90-EBO" id="Y4l-MB-9li"/>
                         <outlet property="tasksCompleteBar" destination="y6M-f7-yQu" id="6Wm-JG-pl5"/>
                         <outlet property="tasksCompletedLabel" destination="bd8-Ha-SLz" id="cVX-QO-6Xr"/>
-                        <outlet property="view" destination="HYe-u4-Z2g" id="3va-q5-ABv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HMD-wX-8Vw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1038,7 +1045,7 @@
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="dfn-7L-7pg"/>
-        <segue reference="Fwr-B4-Jg0"/>
+        <segue reference="y6A-s5-3um"/>
         <segue reference="cAM-55-Mtn"/>
     </inferredMetricsTieBreakers>
 </document>

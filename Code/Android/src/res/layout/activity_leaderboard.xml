@@ -1,0 +1,63 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TableLayout
+        android:id="@+id/leaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/user_position"
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="56" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_column="2"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="Austin Willis" />
+            
+            <TextView
+                android:id="@+id/user_value"
+                android:layout_column="3"
+                android:gravity="right"
+                android:paddingLeft="50dip"
+                android:text="300" />
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="56" />
+
+            <TextView
+                android:layout_column="1"
+                android:gravity="left"
+                android:padding="3dip"
+                android:text="Edward Goldthorpe" />
+
+            <TextView
+                android:layout_column="1"
+                android:gravity="right"
+                android:paddingLeft="50dip"
+                android:text="300" />
+        </TableRow>
+    </TableLayout>
+
+</ScrollView>

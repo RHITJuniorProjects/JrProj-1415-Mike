@@ -2,6 +2,7 @@ package rhit.jrProj.henry.bridge;
 
 import java.util.Comparator;
 
+import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -84,6 +85,10 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 					if (lhs instanceof Task && rhs instanceof Task) {
 						return ((Task) lhs)
 								.compareToIgnoreCase((Task) rhs);
+					}
+					if (lhs instanceof Bounty && rhs instanceof Bounty) {
+						return ((Bounty) lhs)
+								.compareToIgnoreCase((Bounty) rhs);
 					}
 
 					return 0;

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import rhit.jrProj.henry.TaskDetailFragment;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-
 import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Milestone.GrandChildrenListener;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
@@ -499,7 +498,7 @@ public class Task implements Parcelable{
 					Bounty t = new Bounty(child.getRef().toString(), this.task);
 					if (!this.task.getBounties().contains(t)) {
 						t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
-						this.task.getBounties().add(t);
+//						this.task.getBounties().add(t);
 					}
 				}
 			}
@@ -581,11 +580,15 @@ public class Task implements Parcelable{
 			Bounty t = new Bounty(arg0.getRef().toString(), this.task);
 			if (!this.task.getBounties().contains(t)) {
 				t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
-//				this.task.addBounty(t);
+				this.task.addBounty(t);
 			}
-			t.setListChangeNotifier(this.task.getBountyListViewCallback());
+			t.setListChangeNotifier(this.task.bountyListViewCallback);
 			if (this.task.listViewCallback != null) {
 				this.task.listViewCallback.onChange();
+			}
+			if (this.task.bountyListViewCallback!=null){
+				Log.i("test3", "non-null BLVC");
+				this.task.bountyListViewCallback.onChange();
 			}
 			
 		}

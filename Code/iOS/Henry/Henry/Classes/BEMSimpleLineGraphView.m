@@ -90,6 +90,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 /// The smallest value out of all of the data points
 @property (nonatomic) CGFloat minValue;
 
+
 /// Find which point is currently the closest to the vertical line
 - (BEMCircle *)closestDotFromtouchInputLine:(UIView *)touchInputLine;
 
@@ -98,6 +99,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
 
 /// Determines the smallest Y-axis value from all the points
 - (CGFloat)minValue;
+
 
 //Change font size
 -(void)changeFontSize:(NSInteger)size;
@@ -117,6 +119,9 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     self = [super initWithCoder:coder];
     if (self) [self commonInit];
     return self;
+}
+-(void)setName:(NSString *)name{
+    _name = name;
 }
 -(void)changeFontSize:(NSInteger)size{
     _labelFont = [UIFont fontWithName:DEFAULT_FONT_NAME size:10];
@@ -161,7 +166,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     _enableBezierCurve = NO;
     _enableXAxisLabel = YES;
     _enableYAxisLabel = NO;
-    _YAxisLabelXOffset = 0;
+    _YAxisLabelXOffset = 5;
     _autoScaleYAxis = YES;
     _alwaysDisplayDots = NO;
     _alwaysDisplayPopUpLabels = NO;
@@ -224,7 +229,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         if (self.delegate &&
             [self.delegate respondsToSelector:@selector(noDataLabelEnableForLineGraph:)] &&
             ![self.delegate noDataLabelEnableForLineGraph:self]) return;
-
+        
         NSLog(@"[BEMSimpleLineGraph] Data source contains no data. A no data label will be displayed and drawing will stop. Add data to the data source and then reload the graph.");
         
         self.noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.viewForBaselineLayout.frame.size.width, self.viewForBaselineLayout.frame.size.height)];
@@ -292,7 +297,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 [maxValueString sizeWithAttributes:labelAttributes].width)
                 longestString = minValueString;
             else longestString = maxValueString;
-
+            
             self.popUpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
             if ([self.delegate respondsToSelector:@selector(popUpSuffixForlineGraph:)])
                 self.popUpLabel.text = [NSString stringWithFormat:@"%@%@", longestString, [self.delegate popUpSuffixForlineGraph:self]];
@@ -330,7 +335,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         if (self.autoScaleYAxis == YES){
             NSString *maxValueString = [NSString stringWithFormat:@"%i", (int)self.maxValue];
             NSString *minValueString = [NSString stringWithFormat:@"%i", (int)self.minValue];
-
+            
             self.YAxisLabelXOffset = MAX([maxValueString sizeWithAttributes:attributes].width,
                                          [minValueString sizeWithAttributes:attributes].width) + 5;
         }
@@ -339,18 +344,23 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             self.YAxisLabelXOffset = [longestString sizeWithAttributes:attributes].width + 5;
         }
     } else self.YAxisLabelXOffset = 0;
-
-    // Draw the X-Axis
-    [self drawXAxis];
-
+    
+    
+    
     // Draw the graph
     [self drawDots];
-
+    
     // Draw the Y-Axis
     if (self.enableYAxisLabel) [self drawYAxis];
+    
+    // Draw the X-Axis
+    [self drawXAxis];
 }
 
 - (void)drawDots {
+    
+    
+    
     CGFloat positionOnXAxis; // The position on the X-axis of the point currently being created.
     CGFloat positionOnYAxis; // The position on the Y-axis of the point currently being created.
     
@@ -393,10 +403,11 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             [dataPoints addObject:[NSNumber numberWithFloat:dotValue]];
             
             positionOnXAxis = (((self.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints - 1)) * i) + self.YAxisLabelXOffset;
+            NSLog(@"THE LOG SCORE : %f", positionOnXAxis);
             positionOnYAxis = [self yPositionForDotValue:dotValue];
             
             [yAxisValues addObject:[NSNumber numberWithFloat:positionOnYAxis]];
-
+            
             BEMCircle *circleDot = [[BEMCircle alloc] initWithFrame:CGRectMake(0, 0, self.sizePoint, self.sizePoint)];
             circleDot.center = CGPointMake(positionOnXAxis, positionOnYAxis);
             circleDot.tag = i+ DotFirstTag100;
@@ -550,7 +561,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
         [self addSubview:firstLabel];
         [xAxisValues addObject:firstXLabel];
         [xAxisLabels addObject:firstLabel];
-
+        
         NSNumber *xFirstAxisLabelCoordinate = @(firstLabel.center.x - self.YAxisLabelXOffset);
         [xAxisLabelPoints addObject:xFirstAxisLabelCoordinate];
         
@@ -613,11 +624,21 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
                 labelXAxis.frame = rect;
                 [labelXAxis setCenter:CGPointMake(((self.viewForBaselineLayout.frame.size.width - self.YAxisLabelXOffset) / (numberOfPoints-1)) * (i*numberOfGaps - 1 - offset) + self.YAxisLabelXOffset, self.frame.size.height - lRect.size.height/2)];
                 
+                rect = labelXAxis.frame;
+                
+                
+                
                 NSNumber *xAxisLabelCoordinate = [NSNumber numberWithFloat:labelXAxis.center.x-self.YAxisLabelXOffset];
                 [xAxisLabelPoints addObject:xAxisLabelCoordinate];
                 
                 [self addSubview:labelXAxis];
                 [xAxisValues addObject:xAxisLabelText];
+                
+                if (rect.origin.x < self.YAxisLabelXOffset)
+                    rect.origin.x = self.YAxisLabelXOffset;
+                if (CGRectGetMaxX(rect) > CGRectGetMaxX(self.frame))
+                    rect.origin.x -= (CGRectGetMaxX(rect) - CGRectGetMaxX(self.frame));
+                labelXAxis.frame = rect;
             }
             
             __block NSUInteger lastMatchIndex;
@@ -730,7 +751,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
             [yAxisLabelPoints addObject:yAxisLabelCoordinate];
         }
     }
-
+    
     // Detect overlapped labels
     __block NSUInteger lastMatchIndex = 0;
     NSMutableArray *overlapLabels = [NSMutableArray arrayWithCapacity:0];
@@ -853,7 +874,7 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     for (UIView *subviews in self.subviews) {
         [subviews removeFromSuperview];
     }
-
+    
     [self setNeedsLayout];
 }
 
@@ -1135,10 +1156,10 @@ typedef NS_ENUM(NSInteger, BEMInternalTags)
     if (padding > 90.0) {
         padding = 90.0;
     }
-
+    
     if([self.delegate respondsToSelector:@selector(staticPaddingForLineGraph:)])
         padding = [self.delegate staticPaddingForLineGraph:self];
-
+    
     if (self.enableXAxisLabel) {
         if ([self.dataSource respondsToSelector:@selector(lineGraph:labelOnXAxisForIndex:)] || [self.dataSource respondsToSelector:@selector(labelOnXAxisForIndex:)]) {
             if ([xAxisLabels count] > 0) {
