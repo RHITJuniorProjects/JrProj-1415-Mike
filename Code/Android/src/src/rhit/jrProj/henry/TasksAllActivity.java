@@ -26,6 +26,7 @@ public class TasksAllActivity extends Activity implements TasksAllListFragment.C
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.user = new User(this.getIntent().getStringExtra("user"));
 //		mGlobalVariables = ((GlobalVariables) getApplicationContext());
 //		String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
 //		Firebase firebase = new Firebase(fireBaseUrl);
