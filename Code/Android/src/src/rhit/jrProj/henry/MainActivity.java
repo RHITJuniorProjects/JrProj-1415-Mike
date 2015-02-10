@@ -169,6 +169,9 @@ public class MainActivity extends Activity implements
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		this.actionBarmenu = menu;
+		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
+		allTasks.setVisible(true);
+		allTasks.setEnabled(true);
 		MenuItem search = menu.findItem(R.id.action_search);
 		search.setEnabled(false);
 		search.setVisible(false);
@@ -743,6 +746,12 @@ public class MainActivity extends Activity implements
 	public ArrayList<Bounty> getBounties() {
 		// TODO Auto-generated method stub
 		return this.selectedTask.getBounties();
+	}
+
+	@Override
+	public boolean isFromMainActivity() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

@@ -74,6 +74,8 @@ public class TasksAllListFragment extends ListFragment {
 		public Milestone getSelectedMilestone();
 
 		public String getSortMode();
+		
+		public boolean isFromMainActivity();
 
 	}
 
@@ -107,6 +109,9 @@ public class TasksAllListFragment extends ListFragment {
 		public String getSortMode() {
 			// TODO Auto-generated method stub
 			return null;
+		}
+		public boolean isFromMainActivity(){
+			return false;
 		}
 
 	};
@@ -169,7 +174,9 @@ public class TasksAllListFragment extends ListFragment {
 			t.setListChangeNotifier(lcn);
 		}
 		setListAdapter(adapter);
-		this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+		if (this.mCallbacks.isFromMainActivity()){
+			this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+		}
 	}
 
 	@Override
@@ -191,6 +198,7 @@ public class TasksAllListFragment extends ListFragment {
 
 		// This code shows the "Create Task" option when
 		// viewing tasks.
+		if (this.mCallbacks.isFromMainActivity()){
 		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 		createMilestone.setVisible(false);
 		createMilestone.setEnabled(false);
@@ -214,6 +222,7 @@ public class TasksAllListFragment extends ListFragment {
 			MenuItem createbounty = menu.findItem(R.id.action_bounty);
 			createbounty.setVisible(false);
 			createbounty.setEnabled(false); 
+		}
 		
 	}
 	
@@ -292,6 +301,8 @@ public class TasksAllListFragment extends ListFragment {
 		textView2.setEnabled(false);
 		textView2.setPadding(16, 0, 16, 0);
 		this.getListView().addHeaderView(textView2, null, false);
+//		View headerView = View.inflate(this.getActivity(), R.layout.switch_header_layout, null);
+//		this.getListView().addHeaderView(headerView);
 		ArrayList<Task> t = new ArrayList<Task>();
 		ArrayList<Project> projects;
 		ArrayList<Milestone> milestones;

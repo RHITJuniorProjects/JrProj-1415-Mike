@@ -26,6 +26,11 @@
         <item>Lines of Code Total</item>
         <item>Burndown Chart</item>
     </string-array>
+    <string-array name="tasks_all_charts">
+        <item>All Tasks</item>
+        <item>Unfinished</item>
+        <item>Finished</item>
+    </string-array>
 
     <string name="register">Register</string>
     <string name="sign_in">Sign in</string>
@@ -85,5 +90,6 @@
     <string name="BountyDescriptionHint">Bounty Description</string>
     <string name="BountyNameHint">Bounty Name</string>
     <string name="title_activity_leaderboard">LeaderboardActivity</string>
+    <string name="title_activity_tasks_all">TasksAllActivity</string>
 
 </resources>

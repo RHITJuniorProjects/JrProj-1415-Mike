@@ -113,6 +113,10 @@
             android:name=".LeaderboardActivity"
             android:label="@string/title_activity_leaderboard" >
         </activity>
+        <activity
+            android:name=".TasksAllActivity"
+            android:label="@string/title_activity_tasks_all" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

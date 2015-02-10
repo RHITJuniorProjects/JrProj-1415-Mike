@@ -92,6 +92,9 @@ public class ProjectDetailFragment extends Fragment {
 		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 		createMilestone.setVisible(false);
 		createMilestone.setEnabled(false);
+		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
+		allTasks.setVisible(true);
+		allTasks.setEnabled(true);
 
 		
 		
