@@ -26,13 +26,13 @@ def initialize_database(ref,init_json):
 def start_commit_server(commit_server_path):
     devnull = open(os.devnull, 'w')
     pid = subprocess.Popen(["nodejs", commit_server_path, "henry-qa"], stdout=devnull)
-    time.sleep(10)
+    time.sleep(1)
     return pid
 
 def start_user_server(user_server_path):
     devnull = open(os.devnull, 'w')
     pid = subprocess.Popen(["nodejs", user_server_path, "henry-qa"], stdout=devnull)
-    time.sleep(10)
+    time.sleep(1)
     return pid
 
 class HenryTestCase(unittest.TestCase):
