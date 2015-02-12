@@ -172,6 +172,6 @@ def commit(ref, projectID, milestoneID, tid, uid, hours, status, added, removed)
         'removed_lines_of_code': removed,
         'status': status,
         'task': tid,
-        'timestamp': time.time(),
+        'timestamp': int(time.time()),
         'user': uid })
     
