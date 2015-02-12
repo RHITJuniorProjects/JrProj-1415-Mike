@@ -142,10 +142,7 @@ public class TaskDetailFragment extends Fragment implements
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
 						this.taskItem));
 
-				TextView textLines = new TextView(this.getActivity());
-
-				((RelativeLayout) rootView.findViewById(R.id.taskDetailLayout))
-						.addView(textLines, 3);
+				TextView textLines = (TextView) rootView.findViewById(R.id.task_lines_of_code);
 				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
 						+ this.taskItem.getRemovedLines() + " lines of code");
 			} else {
