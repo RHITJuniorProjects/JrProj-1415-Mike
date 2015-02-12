@@ -68,10 +68,9 @@ public class MilestoneDetailFragment extends Fragment implements
 		this.milestoneItem = this.mCallbacks.getSelectedMilestone();
 		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_name))
-					.setText("Name of Milestone: "
-							+ this.milestoneItem.getName());
+					.setText(this.milestoneItem.getName());
 			((TextView) rootView.findViewById(R.id.milestone_due_date))
-					.setText("Due on: "
+					.setText("Due: "
 							+ this.milestoneItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.milestone_description))
 					.setText("Description: "

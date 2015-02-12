@@ -14,8 +14,11 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_marginLeft="10sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:textSize="@dimen/header2"
             tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
 
         <TextView
@@ -24,7 +27,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
+            android:layout_marginLeft="10sp"
             android:textIsSelectable="true"
+            android:textSize="@dimen/body"
             tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
 
         <TextView
@@ -32,6 +37,7 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
             tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
@@ -57,6 +63,7 @@
 
             <Spinner
                 android:id="@+id/milestone_chart_spinner"
+                android:layout_marginTop="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -70,7 +77,9 @@
                 android:id="@+id/milestone_task_percent"
                 style="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
+                android:layout_marginTop="20sp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
                 tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
@@ -80,6 +89,7 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="311dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"
                 android:layout_gravity="center_horizontal" />
 
             <Button
