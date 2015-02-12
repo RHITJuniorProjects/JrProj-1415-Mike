@@ -8,18 +8,18 @@ class CommitTestCase(test_base.HenryTestCase):
         uid = 'simplelogin:100'
         
         pid = util.createProject(self.ref, 'test commits', '', '2020-02-20', uid)
-        time.sleep(5)
+        time.sleep(1)
         mid1 = util.createMilestone(self.ref, pid, 'milestone 1', '2020-02-20', '')
-        time.sleep(5)
+        time.sleep(1)
         tid1 = util.createTask(self.ref, pid, mid1, uid, 'task 1', '2020-02-20', '', 1, '')
-        time.sleep(5)
+        time.sleep(1)
         tid2 = util.createTask(self.ref, pid, mid1, uid, 'task 2', '2020-02-20', '', 2, '')
-        time.sleep(5)
+        time.sleep(1)
         
         util.commit(self.ref, pid, mid1, tid1, uid, 1, 'Testing', 2, 1)
-        time.sleep(10)
+        time.sleep(1)
         util.commit(self.ref, pid, mid1, tid2, uid, 1, 'New', 3, 0)
-        time.sleep(10)
+        time.sleep(1)
 
         # task in projects table
         task = util.getTaskInfo(self.ref, pid, mid1, tid1)
@@ -98,7 +98,7 @@ class CommitTestCase(test_base.HenryTestCase):
         self.assertEqual(project['total_points'], 0)
 
         util.commit(self.ref, pid, mid1, tid1, uid, 2, 'Closed', 5, 1)
-        time.sleep(10)
+        time.sleep(1)
 
         # task in projects table
         task = util.getTaskInfo(self.ref, pid, mid1, tid1)
@@ -167,11 +167,11 @@ class CommitTestCase(test_base.HenryTestCase):
         self.assertEqual(project['total_points'], 0)
 
         mid2 = util.createMilestone(self.ref, pid, 'milestone 2', '2020-02-20', '')
-        time.sleep(10)
+        time.sleep(1)
         tid3 = util.createTask(self.ref, pid, mid2, uid, 'task 0', '2020-02-20', '', 2, '')
-        time.sleep(10)
+        time.sleep(1)
         util.commit(self.ref, pid, mid2, tid3, uid, 3, 'Closed', 10, 2)
-        time.sleep(10)
+        time.sleep(1)
 
         # task in projects table
         task = util.getTaskInfo(self.ref, pid, mid2, tid3)
