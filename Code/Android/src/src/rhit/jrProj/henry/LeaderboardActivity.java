@@ -9,6 +9,7 @@ import java.util.Map;
 
 import rhit.jrProj.henry.helpers.Checkers;
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +34,7 @@ public class LeaderboardActivity extends Activity {
 	private Map<String, LeaderboardUser> mUsers;
 
 	private TableLayout mLeaderboard;
-	
+
 	private String mUserKey;
 
 	@Override
@@ -49,7 +50,7 @@ public class LeaderboardActivity extends Activity {
 
 		String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
 		Firebase firebase = new Firebase(fireBaseUrl);
-		
+
 		mUserKey = firebase.getAuth().getUid();
 
 		Firebase usersRef = firebase.child("users");
@@ -109,8 +110,8 @@ public class LeaderboardActivity extends Activity {
 		try {
 			Checkers.checkNotNull(name);
 		} catch (Exception e) {
-			//Reference was null,
-			 return;
+			// Reference was null,
+			return;
 		}
 
 		LeaderboardUser user = mUsers.get(id);
@@ -126,7 +127,7 @@ public class LeaderboardActivity extends Activity {
 			Checkers.checkNotNegative(total_points);
 			user.setTotalPoints(total_points);
 		} catch (Exception e) {
-			//Reference did not exist or corrupt data
+			// Reference did not exist or corrupt data
 			mUsers.remove(id);
 		}
 	}
@@ -145,13 +146,14 @@ public class LeaderboardActivity extends Activity {
 			TableRow row = createRow(user, i + 1, user.getId().equals(mUserKey));
 			rows.add(row);
 			if (user.getId().equals(mUserKey)) {
-				TableRow row2 = createRow(user, i + 1, user.getId().equals(mUserKey));
+				TableRow row2 = createRow(user, i + 1,
+						user.getId().equals(mUserKey));
 				rows.add(0, row2);
-				
-				//mLeaderboard.addView(row);
+
+				// mLeaderboard.addView(row);
 			}
 		}
-		
+
 		for (TableRow row : rows) {
 			mLeaderboard.addView(row);
 		}
@@ -162,37 +164,40 @@ public class LeaderboardActivity extends Activity {
 		row.setLayoutParams(new TableRow.LayoutParams(
 				TableRow.LayoutParams.MATCH_PARENT,
 				TableRow.LayoutParams.MATCH_PARENT));
-		
+
 		TextView positionView = new TextView(this);
 		positionView.setText("" + position);
 		positionView.setLayoutParams(new TableRow.LayoutParams(1));
-		
+
 		TextView nameView = new TextView(this);
 		nameView.setText(user.getName());
 		nameView.setLayoutParams(new TableRow.LayoutParams(2));
 		nameView.setGravity(Gravity.LEFT);
-		
+
 		TextView userView = new TextView(this);
 		userView.setText("" + user.getTotalPoints());
 		userView.setWidth(dpToPixel(50));
 		userView.setLayoutParams(new TableRow.LayoutParams(3));
-		userView.setGravity(Gravity.RIGHT);	
-		
+		userView.setGravity(Gravity.RIGHT);
+
 		if (bold) {
 			positionView.setTypeface(null, Typeface.BOLD);
 			nameView.setTypeface(null, Typeface.BOLD);
 			userView.setTypeface(null, Typeface.BOLD);
+			
+			row.setBackgroundColor(Color.BLUE);
 		}
-		
+
 		row.addView(positionView);
 		row.addView(nameView);
 		row.addView(userView);
-		
+
 		return row;
 	}
-	
+
 	private int dpToPixel(int dp) {
-		return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+				getResources().getDisplayMetrics());
 	}
 
 	private class LeaderboardUser implements Comparable<LeaderboardUser> {
@@ -218,9 +223,8 @@ public class LeaderboardActivity extends Activity {
 		public void setTotalPoints(int total_points) {
 			mTotal_Points = total_points;
 		}
-		
-		public String getId()
-		{
+
+		public String getId() {
 			return this.mId;
 		}
 

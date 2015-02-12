@@ -50,10 +50,7 @@
             android:layout_marginTop="20sp"
             android:layout_marginBottom="10sp"
             android:checked="false"
-            android:textColor="@color/blue"
-            android:textColorHighlight="@color/blue"
-            android:textColorHint="@color/blue"
-            android:textColorLink="@color/blue"
+            android:switchTextAppearance="@style/SwitchTextAppearance"
             android:textOff="Metrics"
             android:textOn="Members"
             android:thumb="@android:color/darker_gray" />

@@ -63,6 +63,7 @@
         <item>QA</item>
         <item>No Category</item>
     </string-array>
+    
     <string-array name="bounty_categories">
         <item>Due Date</item>
         <item>Line Limit</item>

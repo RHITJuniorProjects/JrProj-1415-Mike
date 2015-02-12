@@ -122,7 +122,7 @@ public class TaskDetailFragment extends Fragment implements
 				this.pointsField.setText("Points: \t"
 						+ this.taskItem.getPoints());
 
-				Spinner spinny = new Spinner(this.getActivity());
+				Spinner spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
 				this.mCallbacks.getProjectMembers().getAllKeys();
 
 				ArrayAdapter<Member> adapter = new ArrayAdapter<Member>(
@@ -141,8 +141,6 @@ public class TaskDetailFragment extends Fragment implements
 
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
 						this.taskItem));
-				((RelativeLayout) rootView.findViewById(R.id.taskDetailLayout))
-						.addView(spinny, 2);
 
 				TextView textLines = new TextView(this.getActivity());
 
