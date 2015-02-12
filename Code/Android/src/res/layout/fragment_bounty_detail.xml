@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
@@ -11,42 +11,61 @@
 
         <TextView
             android:id="@+id/bounty_name"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="20sp"
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:textSize="@dimen/header2"
             tools:context="rhit.jrProj.henry.BountyDetailFragment" />
 
         <TextView
             android:id="@+id/bounty_due_date"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
             style="?android:attr/textAppearanceLarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:textSize="@dimen/body"
+            android:layout_below="@+id/bounty_name"
             tools:context="rhit.jrProj.henry.BountyDetailFragment" />
 
         <TextView
             android:id="@+id/bounty_description"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:layout_below="@+id/bounty_due_date"
             tools:context="rhit.jrProj.henry.BountyDetailFragment" />
+        
         <TextView
             android:id="@+id/bounty_points"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/blue"
+            android:layout_below="@+id/bounty_description"
             tools:context="rhit.jrProj.henry.BountyDetailFragment" />
+        
         <rhit.jrProj.henry.helpers.HorizontalPicker
          android:id ="@+id/horizontal_number_picker"
          android:layout_width ="wrap_content"
-         android:layout_height ="wrap_content" />
+         android:layout_height ="wrap_content" 
+         android:layout_below="@+id/bounty_description"
+         android:layout_marginLeft="20sp"
+         android:layout_marginBottom="40sp"
+         android:layout_toRightOf="@id/bounty_points" />
 
         <!--
             <Switch
@@ -105,6 +124,6 @@
         </LinearLayout>
         </LinearLayout>
         -->
-    </LinearLayout>
+    </RelativeLayout>
 
 </ScrollView>

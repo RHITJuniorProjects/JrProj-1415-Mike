@@ -89,10 +89,9 @@ public class BountyDetailFragment extends Fragment implements
 		this.bountyItem = this.mCallbacks.getSelectedBounty();
 		if (this.bountyItem != null) {
 			((TextView) rootView.findViewById(R.id.bounty_name))
-					.setText("Name of Bounty: "
-							+ this.bountyItem.getName());
+					.setText(this.bountyItem.getName());
 			((TextView) rootView.findViewById(R.id.bounty_due_date))
-					.setText("Due on: "
+					.setText("Due: "
 							+ this.bountyItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.bounty_description))
 					.setText("Description: "
