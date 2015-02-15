@@ -23,45 +23,22 @@ var UserTotalHours;
 
 function drawProjectStuff (fb) {
 
-fb.child("projects").on('value', function(snapshot) {
-    var projectArray = [];
-    
-    for(var item in snapshot.val()){
-        
-        projectArray.push(item);
-    }
+ fb.child("projects").on('value', function(snapshot) {
+        var projectHoursArray = [];
+        var projectNameArray = [];
+        var projectTaskArray = [];
+        var project = snapshot.val();
+        for(var id in snapshot.val()){
+            projectNameArray.push(project[id].name);
+            projectHoursArray.push(project[id].hours_percent);
+            projectTaskArray.push(project[id].task_percent);
+        }
+        projectDrawerHours(projectNameArray, projectHoursArray);
+        projectDrawerTask(projectNameArray, projectTaskArray);
 
-    for(i = 0; i<projectArray.length; i++){
-       
-        getProjectData(projectArray[i], projectArray);
-     }
-
-});
-
-function getProjectData(item, array){
-    fb.child("projects/" + item +"/hours_percent").on('value',function(snapshot){
-       
-        projectHoursArray.push(snapshot.val());
-
-       
-           fb.child("projects/" + item +"/name").on('value',function(snapshot){
-            
-            projectNameArray.push(snapshot.val());
-           
-            });
-        
-         
-           fb.child("projects/" + item +"/task_percent").on('value',function(snapshot){
-            projectTaskArray.push(snapshot.val());
-
-
-         });
-       // }
-   		//projectDrawerHours(projectNameArray, projectHoursArray);
-    	//projectDrawerTask(projectNameArray, projectTaskArray);
     });
-
 };
+
 
 //by hours
 function projectDrawerHours(name, hours) {
@@ -148,7 +125,7 @@ function projectDrawerTask(name, taskData) {
     });
 };
 
-};
+// };
 
 
 function drawTaskStuff (projID, mileID, fb) {
