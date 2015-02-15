@@ -1243,11 +1243,11 @@ Task.prototype = {
             callback(dat.val());
         });
     },
-    getFlag: function (callback) {
-        this.__is_completed.on('value', function (dat) {
-            callback(dat.val());
-        });
-    },
+    // getFlag: function (callback) {
+    //     this.__is_completed.on('value', function (dat) {
+    //         callback(dat.val());
+    //     });
+    // },
     getTotalLinesOfCode: function (callback) {
         this.__total_lines_of_code.on('value', function (dat) {
             callback(dat.val());
@@ -1284,13 +1284,13 @@ Task.prototype = {
         var stat = $('<td>');
         var user = $('<td>');
         var due = $('<td>');
-        var flag = $('<td>');
+        // var flag = $('<td>');
         var hoursEstimate = $('<td>');
         var bountyPoints = $('<td class="gamification">');
         var task = this;
         var modal = $('#task-modal');
 
-        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate, bountyPoints);
+        row.append(name, desc, user, cat, stat, due, hoursEstimate, bountyPoints);
         this.getName(function (nameStr) {
             name.html(nameStr);
         });
@@ -1318,13 +1318,13 @@ Task.prototype = {
         this.getDueDate(function (dueDate) {
             due.html(dueDate);
         });
-        this.getFlag(function (f) {
-            if(f){
-                flag.html('<img src="completed.png" />');
-            } else {
-                flag.html('<img src="notcompleted.png" />');
-            }
-        });
+        // this.getFlag(function (f) {
+        //     if(f){
+        //         flag.html('<img src="completed.png" />');
+        //     } else {
+        //         flag.html('<img src="notcompleted.png" />');
+        //     }
+        // });
         this.getTimeEstimate(function (hour_estimateStr) {
             hoursEstimate.html(hour_estimateStr);
         });
@@ -1359,7 +1359,7 @@ Task.prototype = {
                     categoriesText = $('<input type="text">'),
                     statusSelect = makeSelect(Task.Statuses, vals.status),
                     dueInput = $('<input type="date" placeholder="yyyy-mm-dd" value="' + vals.due_date + '">'),
-                    flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
+                    // flagInput = makeSelect(Task.Flags, String(vals.is_completed)),
                     estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
                     eNameH = $('<h3>'),
 					bNameH = $('<h3>'),
@@ -1384,7 +1384,7 @@ Task.prototype = {
                     categoriesText,
                     label(statusSelect, 'Status'),
                     label(dueInput, 'Due Date'),
-                    label(flagInput, 'Is Complete'),
+                    // label(flagInput, 'Is Complete'),
                     label(estHoursInput, 'Estimated Hours'),
                     //label(bountyPoints, 'Bounty Points')
                     submit,
@@ -1501,7 +1501,7 @@ Task.prototype = {
 
                     var estHours = Number(estHoursInput.val());
                     // console.log(estHours);
-                    var flagVal = flagInput.val() == 'true' ? true : false;
+                    // var flagVal = flagInput.val() == 'true' ? true : false;
                     // console.log(typeof(flagInput.val()));
                     // console.log(flagInput.val());
                     // console.log(typeof(flagVal));
@@ -1531,7 +1531,7 @@ Task.prototype = {
                         due_date: dueInput.val(),
                         category: categoryName,
                         //status: statusSelect.val(),
-                        is_completed: flagVal,
+                        // is_completed: flagVal,
                         //bounties: {points: bountyPoints.val()}
                         //updated_hour_estimate: estHours,
                     });
@@ -1587,9 +1587,9 @@ Task.prototype = {
     setName: function (name) {
         this.__name.set(name);
     },
-    setFlag: function (flag) {
-        this.__is_completed.set(flag);
-    },
+    // setFlag: function (flag) {
+    //     this.__is_completed.set(flag);
+    // },
     setDueDate: function (dueDate) {
         this.__due_date.set(dueDate);
     },
@@ -1720,7 +1720,7 @@ function MyTasks(firebase) {
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
     this.__due_date = firebase.child('due_date');
-    this.__is_completed = firebase.child('is_completed');
+    // this.__is_completed = firebase.child('is_completed');
     this.__hour_estimate = firebase.child('updated_hour_estimate');
     this.__bountiesPoints = firebase.child('bounties/points');
 };
@@ -1767,11 +1767,11 @@ MyTasks.prototype = {
             callback(dat.val());
         });
     },
-    getFlag: function (callback) {
-        this.__is_completed.on('value', function (dat) {
-            callback(dat.val());
-        });
-    },
+    // getFlag: function (callback) {
+    //     this.__is_completed.on('value', function (dat) {
+    //         callback(dat.val());
+    //     });
+    // },
     getTotalLinesOfCode: function (callback) {
         this.__total_lines_of_code.on('value', function (dat) {
             callback(dat.val());
@@ -1813,7 +1813,7 @@ MyTasks.prototype = {
         var bpts = $('<td>');
         var task = this;
 
-        row.append(name, desc, user, cat, stat, due, flag, hoursEstimate,bpts);
+        row.append(name, desc, user, cat, stat, due, hoursEstimate,bpts);
         this.getName(function (nameStr) {
             name.html(nameStr);
         });
@@ -1841,13 +1841,13 @@ MyTasks.prototype = {
         this.getDueDate(function (dueDate) {
             due.html(dueDate);
         });
-        this.getFlag(function (f) {
-            if(f){
-                flag.html('<img src="completed.png" />');
-            } else {
-                flag.html('<img src="notcompleted.png" />');
-            }
-        });
+        // this.getFlag(function (f) {
+        //     if(f){
+        //         flag.html('<img src="completed.png" />');
+        //     } else {
+        //         flag.html('<img src="notcompleted.png" />');
+        //     }
+        // });
         this.getTimeEstimate(function (hour_estimateStr) {
             hoursEstimate.html(hour_estimateStr);
         });
