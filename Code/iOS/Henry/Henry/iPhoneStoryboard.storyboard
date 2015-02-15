@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
     <dependencies>
         <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
@@ -720,6 +720,33 @@
             </objects>
             <point key="canvasLocation" x="2038" y="1427"/>
         </scene>
+        <!--Henry Category Table View Controller-->
+        <scene sceneID="9ML-Gi-Lyw">
+            <objects>
+                <tableViewController id="hxn-qu-FNB" customClass="HenryCategoryTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="2Ca-f7-667">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCellIdentifier" id="KGM-zP-pkU">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGM-zP-pkU" id="8O4-uY-4xP">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="hxn-qu-FNB" id="jiX-HN-wSB"/>
+                            <outlet property="delegate" destination="hxn-qu-FNB" id="PYV-eX-uFu"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="7Cv-5e-uPS"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="r9t-XF-8ms" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2586" y="1412"/>
+        </scene>
         <!--Task Details-->
         <scene sceneID="xSb-cB-lbN">
             <objects>
@@ -748,13 +775,13 @@
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5.00 hrs" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cde-qz-TdU">
-                                        <rect key="frame" x="152" y="239" width="147" height="21"/>
+                                        <rect key="frame" x="152" y="266" width="147" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GMM-1M-hn5">
-                                        <rect key="frame" x="64" y="206" width="235" height="30"/>
+                                        <rect key="frame" x="91" y="206" width="208" height="30"/>
                                         <state key="normal" title="Implementation!">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -763,19 +790,19 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Original Estimate:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EbW-hB-1Ug">
-                                        <rect key="frame" x="8" y="239" width="136" height="21"/>
+                                        <rect key="frame" x="7" y="266" width="136" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Co4-aw-ENE">
-                                        <rect key="frame" x="8" y="210" width="55" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Category:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Co4-aw-ENE">
+                                        <rect key="frame" x="8" y="210" width="75" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="4.00 hrs" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="9lS-Bu-8si">
-                                        <rect key="frame" x="145" y="268" width="162" height="30"/>
+                                        <rect key="frame" x="145" y="295" width="162" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits" keyboardType="decimalPad" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                         <connections>
@@ -783,7 +810,7 @@
                                         </connections>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Current Estimate:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s0h-rf-UlW">
-                                        <rect key="frame" x="8" y="271" width="134" height="21"/>
+                                        <rect key="frame" x="8" y="299" width="134" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <nil key="highlightedColor"/>
@@ -801,7 +828,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMG-nB-2D8">
-                                        <rect key="frame" x="64" y="306" width="192" height="30"/>
+                                        <rect key="frame" x="64" y="333" width="192" height="30"/>
                                         <state key="normal" title="Set a Developer to this Task">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -815,12 +842,27 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKo-ju-0au">
-                                        <rect key="frame" x="122" y="344" width="76" height="30"/>
+                                        <rect key="frame" x="122" y="371" width="76" height="30"/>
                                         <state key="normal" title="Set Bounty">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <segue destination="bTo-5Q-to1" kind="modal" identifier="CreateBounty" id="ejT-YW-zjk"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Status:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Ua-ZM-Swh">
+                                        <rect key="frame" x="8" y="237" width="55" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PhA-NM-gkB">
+                                        <rect key="frame" x="71" y="233" width="228" height="30"/>
+                                        <state key="normal" title="Closed">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="hxn-qu-FNB" kind="push" identifier="projectCategory" id="ewF-h5-pgB"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -833,6 +875,7 @@
                     <connections>
                         <outlet property="assigneeNameLabel" destination="p8e-jt-aim" id="qlA-BU-Nda"/>
                         <outlet property="bountyButton" destination="yKo-ju-0au" id="zzE-2f-Yuw"/>
+                        <outlet property="categoryButton" destination="PhA-NM-gkB" id="JjE-7y-Lfh"/>
                         <outlet property="currentEstimateField" destination="9lS-Bu-8si" id="c7F-de-OUb"/>
                         <outlet property="descriptionView" destination="aZf-oO-Mcq" id="Mmh-yT-8cj"/>
                         <outlet property="hoursLabel" destination="jJp-wA-F7o" id="ayH-TL-HJ6"/>
@@ -843,7 +886,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SBJ-DJ-tsP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2038" y="681"/>
+            <point key="canvasLocation" x="2029" y="705"/>
         </scene>
         <!--projectStatus-->
         <scene sceneID="7Zx-Pp-2sm">
@@ -870,7 +913,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p5d-ic-Thz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2566" y="1157"/>
+            <point key="canvasLocation" x="2586" y="780"/>
         </scene>
         <!--Henry Home View Controller-->
         <scene sceneID="6SF-N1-bvM">

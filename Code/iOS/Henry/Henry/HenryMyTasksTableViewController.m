@@ -20,7 +20,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     self.fb = [HenryFirebase getFirebaseObject];
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    [self.fb observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateTable:snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
@@ -30,6 +30,10 @@
     [self.fb removeAllObservers];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //show the second view..
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 - (void)viewDidLoad {
     @try{
@@ -39,17 +43,6 @@
         self.uid = [defaults objectForKey:@"id"];
         
         self.tasks = [[NSMutableArray alloc] init];
-        
-        self.fb = [HenryFirebase getFirebaseObject];
-        
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-        
-        // Attach a block to read the data at our posts reference
-        [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-            [self updateTable:snapshot];
-        } withCancelBlock:^(NSError *error) {
-            NSLog(@"%@", error.description);
-        }];
         
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -84,7 +77,6 @@
             }
         }
     }
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     self.tasks = allTasks;
     [self.tableView reloadData];
 }
@@ -169,7 +161,6 @@
     vc.ProjectID = taskInfo[@"projectID"];
     vc.MileStoneID = taskInfo[@"milestoneID"];
     vc.taskID = taskInfo[@"taskID"];
-
 }
 
 @end
