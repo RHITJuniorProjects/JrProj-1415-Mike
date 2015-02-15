@@ -149,7 +149,7 @@ function selectMilestone(milestone){
     myTasksPage.hide();
 	profilePage.hide();
 	if(selectedMilestone){
-		currentMilestone.off();
+		seletedMilestone.off();
 	}
     selectedMilestone = milestone;
 	var tasks = selectedMilestone.getTasks();
@@ -684,6 +684,7 @@ BurndownData.prototype._init = function(){
 	});
 	this._initialized = true;
 };
+
 BurndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
 BurndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
 BurndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
@@ -1603,7 +1604,6 @@ Task.prototype = {
 
 function newTask() {
     var cats;
-
     var nameInput = $('<input type="text">'),
         descriptionInput = $('<textarea>'),
         userSelect = users.getSelect(function (user) {
@@ -1622,6 +1622,7 @@ function newTask() {
         dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
         taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
+	$('#task-modal').foundation('reveal','open');
     selectedProject.getCustomCategories(function(categories){
 		if(categories){
        		cats = Object.keys(categories);
@@ -1704,6 +1705,7 @@ function newTask() {
     });
 }
 function taskStatics(){
+	$('#taskContainer').foundation('reveal','open');
     // console.log(selectedMilestone);
     drawTaskStuff(selectedProject.uid,selectedMilestone.uid,firebase);
 
