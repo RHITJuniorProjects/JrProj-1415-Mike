@@ -1,0 +1,3 @@
+To bundle the initializer into an EXE and dlls use the following command
+
+python setup.py build
