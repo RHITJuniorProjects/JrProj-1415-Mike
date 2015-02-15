@@ -81,8 +81,9 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.go_to_tasks_btn:
-			// intent = new Intent(this, MainActivity.class);
-			// startActivity(intent);
+			 intent = new Intent(this, TasksAllActivity.class);
+			 intent.putExtra("user", mUser.toString());
+			 startActivity(intent);
 			break;
 		default:
 			break;

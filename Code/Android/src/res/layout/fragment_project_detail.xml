@@ -12,25 +12,31 @@
         <TextView
             android:id="@+id/project_name"
             style="?android:attr/textAppearanceMedium"
+            android:layout_marginLeft="10sp"
             android:layout_width="match_parent"
+            android:layout_marginTop="20sp"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:textSize="@dimen/header"
             tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
 
         <TextView
             android:id="@+id/project_due_date"
             style="?android:attr/textAppearanceLarge"
+            android:layout_marginLeft="10sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:textSize="@dimen/body"
             tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
 
         <TextView
             android:id="@+id/project_description"
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
+            android:layout_marginLeft="10sp"
             android:layout_height="wrap_content"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
@@ -41,12 +47,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="10sp"
             android:checked="false"
-            android:textColor="@color/blue"
-            android:textColorHighlight="@color/blue"
-            android:textColorHint="@color/blue"
-            android:textColorLink="@color/blue"
-            android:textOff="Details"
+            android:switchTextAppearance="@style/SwitchTextAppearance"
+            android:textOff="Metrics"
             android:textOn="Members"
             android:thumb="@android:color/darker_gray" />
 
@@ -72,7 +77,9 @@
                 android:id="@+id/project_hours_percent"
                 style="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
+                android:layout_marginTop="20sp"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
                 tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
@@ -89,6 +96,7 @@
                 style="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
                 tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
@@ -105,6 +113,7 @@
                 style="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:textColor="@color/blue"
                 android:textIsSelectable="true"
                 tools:context="rhit.jrProj.henry.ProjectDetailFragment" />
@@ -114,6 +123,7 @@
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="311dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"
                 android:layout_gravity="center_horizontal" />
 
             <Button

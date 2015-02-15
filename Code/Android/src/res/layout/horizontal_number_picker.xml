@@ -6,9 +6,10 @@
  
    <Button
        android:id="@+id/btn_minus"
-       android:layout_width="50dp"
+       android:layout_width="25dp"
        android:layout_height="wrap_content"
        android:text="-"
+       android:background="#00000000"
        android:textScaleX="1.75"
        android:textSize="24dp" />
  
@@ -23,9 +24,10 @@
  
    <Button
        android:id="@+id/btn_plus"
-       android:layout_width="50dp"
+       android:layout_width="24dp"
        android:layout_height="wrap_content"
        android:text="+"
+       android:background="#00000000"
        android:textSize="24dp" />
 
 </LinearLayout>

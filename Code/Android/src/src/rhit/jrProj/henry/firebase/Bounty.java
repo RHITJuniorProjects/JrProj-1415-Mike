@@ -421,6 +421,10 @@ public class Bounty {
 				this.bounty.canChangePoints=true;
 				this.bounty.parentTask.setPoints(this.bounty.points);
 			}
+			if (this.bounty.listViewCallback != null) {
+				this.bounty.listViewCallback.onChange();
+			}
+			
 		}
 
 		/**
@@ -447,6 +451,9 @@ public class Bounty {
 				if (this.bounty.isCompletion()){
 					this.bounty.parentTask.setPoints(this.bounty.points);
 				}
+			}
+			if (this.bounty.listViewCallback != null) {
+				this.bounty.listViewCallback.onChange();
 			}
 		}
 

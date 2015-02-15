@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/taskDetailLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,17 +15,43 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="20sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:textSize="@dimen/header2"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
 
         <TextView
             android:id="@+id/task_assignee"
             style="?android:attr/textAppearanceMedium"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:layout_below="@+id/task_name"
+            tools:context="rhit.jrProj.henry.TaskDetailFragment" />
+        
+        <Spinner
+            android:id="@+id/task_assignee_spinner"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/task_assignee"
+            android:layout_toRightOf="@id/task_assignee" 
+            android:drawSelectorOnTop="true" />
+        
+        <TextView
+            android:id="@+id/task_lines_of_code"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            android:layout_below="@id/task_assignee"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
 
         <TextView
@@ -33,8 +59,11 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:layout_below="@id/task_lines_of_code"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
 
         <TextView
@@ -42,20 +71,29 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:layout_below="@+id/task_hours_complete"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
+
         <TextView
             android:id="@+id/task_points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/blue"
+            android:layout_below="@+id/task_description"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
 
         <FrameLayout
+            android:id="@+id/status_space"
             android:layout_width="match_parent"
+            android:layout_below="@+id/task_points"
             android:layout_height="20dp" >
         </FrameLayout>
 
@@ -63,6 +101,9 @@
             android:id="@+id/status_descriptor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/status_space"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:text="Medium Text"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/blue"
@@ -70,16 +111,22 @@
 
         <Spinner
             android:id="@+id/task_status_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/status_descriptor"
+            android:layout_toRightOf="@id/status_descriptor" 
+            android:drawSelectorOnTop="true" />
 
         <TextView
             android:id="@+id/task_hours_original_estimate"
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:layout_below="@+id/status_descriptor"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
 
         <TextView
@@ -87,19 +134,24 @@
             style="?android:attr/textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="10sp"
             android:textColor="@color/blue"
             android:textIsSelectable="true"
+            android:layout_below="@+id/task_hours_original_estimate"
             tools:context="rhit.jrProj.henry.TaskDetailFragment" />
-        
-         <Button
-                android:id="@+id/ViewBountiesButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="openBountyView"
-                android:text="@string/ViewBounties"
-                android:textColor="@color/blue" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/ViewBountiesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20sp"
+            android:onClick="openBountyView"
+            android:text="@string/ViewBounties"
+            android:layout_below="@+id/task_hours_current_estimate"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/blue" />
+    </RelativeLayout>
 
 </ScrollView>

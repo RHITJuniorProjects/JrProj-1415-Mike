@@ -2,10 +2,12 @@ package rhit.jrProj.henry.bridge;
 
 import java.util.Comparator;
 
+import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 /**
  * 
@@ -30,7 +32,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 * 
 	 * @param adapter
 	 */
-	public SortedListChangeNotifier(SortedArrayAdapter<T> adapter) {
+	public SortedListChangeNotifier(ArrayAdapter<T> adapter) {
 		super(adapter);
 		createComparator();
 
@@ -41,7 +43,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 * 
 	 * @param adapter
 	 */
-	public SortedListChangeNotifier(SortedArrayAdapter<T> adapter,
+	public SortedListChangeNotifier(ArrayAdapter<T> adapter,
 			String sorttype) {
 		super(adapter);
 		if (sorttype != null) {
@@ -84,6 +86,10 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 					if (lhs instanceof Task && rhs instanceof Task) {
 						return ((Task) lhs)
 								.compareToIgnoreCase((Task) rhs);
+					}
+					if (lhs instanceof Bounty && rhs instanceof Bounty) {
+						return ((Bounty) lhs)
+								.compareToIgnoreCase((Bounty) rhs);
 					}
 
 					return 0;

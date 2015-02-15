@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -104,7 +104,7 @@ public class TaskDetailFragment extends Fragment implements
 		if (this.taskItem != null) {
 //			this.taskItem.mCallbacks=this;
 			((TextView) rootView.findViewById(R.id.task_name))
-					.setText("Name of task: " + this.taskItem.getName());
+					.setText(this.taskItem.getName());
 			Enums.Role role = this.mCallbacks
 					.getSelectedProject()
 					.getMembers()
@@ -114,14 +114,15 @@ public class TaskDetailFragment extends Fragment implements
 									+ this.mCallbacks.getUser().getKey()));
 			if (this.getArguments().getBoolean("Two Pane")
 					&& role == Enums.Role.LEAD) {
+				
 				((TextView) rootView.findViewById(R.id.task_assignee))
-						.setText("Assigned to: \t\t (Click to change)");
+						.setText("Assignee:");
 				this.pointsField = ((TextView) rootView
 						.findViewById(R.id.task_points));
 				this.pointsField.setText("Points: \t"
 						+ this.taskItem.getPoints());
 
-				Spinner spinny = new Spinner(this.getActivity());
+				Spinner spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
 				this.mCallbacks.getProjectMembers().getAllKeys();
 
 				ArrayAdapter<Member> adapter = new ArrayAdapter<Member>(
@@ -140,13 +141,8 @@ public class TaskDetailFragment extends Fragment implements
 
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
 						this.taskItem));
-				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout))
-						.addView(spinny, 2);
 
-				TextView textLines = new TextView(this.getActivity());
-
-				((LinearLayout) rootView.findViewById(R.id.taskDetailLayout))
-						.addView(textLines, 3);
+				TextView textLines = (TextView) rootView.findViewById(R.id.task_lines_of_code);
 				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
 						+ this.taskItem.getRemovedLines() + " lines of code");
 			} else {
@@ -165,7 +161,7 @@ public class TaskDetailFragment extends Fragment implements
 					.setText("Description: " + this.taskItem.getDescription());
 
 			((TextView) rootView.findViewById(R.id.status_descriptor))
-					.setText("The current task status is: \t\t (Click to change) ");
+					.setText("Category:");
 
 			// Task status spinner
 			Spinner spinner = (Spinner) rootView
@@ -239,6 +235,9 @@ public class TaskDetailFragment extends Fragment implements
 		MenuItem createbounty = menu.findItem(R.id.action_bounty);
 		createbounty.setVisible(false);
 		createbounty.setEnabled(false); 
+		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
+		allTasks.setVisible(true);
+		allTasks.setEnabled(true);
 
 	}
 
