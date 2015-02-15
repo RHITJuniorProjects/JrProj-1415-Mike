@@ -453,7 +453,11 @@ function userLeaderboard(){
             var name =users[id].name;
             var points = users[id].total_points; 
             pointsArray.push(name);
+            if(points != null){
             pointsArray.push(points);
+            }else{
+                pointsArray.push(0);
+            }
             arr.push(pointsArray);
             pointsArray = [];
         } 
