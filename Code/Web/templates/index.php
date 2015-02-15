@@ -58,6 +58,11 @@
 	                    <div class="button" onclick="$('#myAboutModal').foundation('reveal', 'close');">Close</div>
 	                </div> -->
 				</div>
+				<div class="small-4 columns">
+					<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/wiki">
+						<button class="expand">Documentation</button>
+					</a>
+				</div>
 		</div>
 		</div>
 		<div class="main-box lightblue">
