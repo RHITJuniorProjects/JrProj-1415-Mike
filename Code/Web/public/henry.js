@@ -1977,7 +1977,7 @@ firebase.onAuth( // called on page load to auth users
                     firebase.child("users/" + user.uid + "/total_points").on("value", function(snap) {
                         $("#currentPoints").html("Points: " + snap.val());
                     });
-                    drawUserStatistics(firebase,user.uid);
+                    // drawUserStatistics(firebase,user.uid);
                 }
 				milestonePage = $('#milestones-page');
 			    projectPage = $('#projects-page');
