@@ -139,3 +139,7 @@ h2 {
     background-color: #F04124;
     color: white;
 }
+#buttonWrapper {
+	margin: auto;
+	width: 60%;
+}
