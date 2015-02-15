@@ -15,7 +15,7 @@
 							new Tab("My Tasks", ["onclick" => "showMyTasksPage()"]),
 							new Tab("My Statistics"),
 							new Tab("Project Statistics"),
-							new Tab("LeaderBoard", ["onclick" => "userLeaderboard()"])
+							new Tab("LeaderBoard", ["class" => "gamification", "onclick" => "userLeaderboard()"])
 						)
 					);
 				?>

@@ -668,7 +668,7 @@ BurndownData.prototype._init = function(){
 		return;
 	}
 	this._estimHours = new Series('Estimated Hours');
-	this._compHours = new CumulativeSeries('Completed Hours');
+	this._compHours = new Series('Completed Hours');
 	this._remTasks = new Series('Remaining Tasks');
 	this._compTasks = new Series('Completed Tasks');
 	var bdd = this;

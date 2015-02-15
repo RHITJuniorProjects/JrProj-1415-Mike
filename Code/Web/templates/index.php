@@ -46,15 +46,16 @@
                 </div>
 			</div>
 			<div class="small-4 columns">
-				<button data-reveal-id="myAboutModal" class="expand">About</button>
-                <div id="myAboutModal" class="reveal-modal" data-reveal>
+				<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/blob/master/Code/Platform/Installer/Windows/Henry_Installer.msi?raw=true">
+				<button class="expand">Download</button></a>
+               <!--  <div id="myAboutModal" class="reveal-modal" data-reveal>
                     <h2>About</h2> <br />
                     <p>
                         Henry is a service that provides a simple way to create and manage projects and project tasks.<br>
                         Register or login to begin!
                     </p>
                     <div class="button" onclick="$('#myAboutModal').foundation('reveal', 'close');">Close</div>
-                </div>
+                </div> -->
 			</div>
 		</div>
 		<div class="main-box lightblue">

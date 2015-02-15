@@ -61,7 +61,8 @@
 </nav>
 <div id="preference-modal" class="reveal-modal tiny" data-reveal>
 	<div class="row collapse">
-		<h2>Gamification</h2>
+		<h1>Gamification</h1>
+		<h3>Toggles bounty points and User leaderboard display</h3>
 	</div>
 	<div class="row collapse">
 		<div class="small-4 columns right">
@@ -70,12 +71,12 @@
 				<label for="gamification-switch"></label>
 			</div> 
 		</div>
-		<a class="close-reveal-modal">&#215;</a>
+		<!-- <a class="close-reveal-modal">&#215;</a> -->
 	</div>
 </div>
 		<div id="projects-page" class="wide row">
 			<div class="small-2 columns small-offset-1 tabbar">
-				<dl class="tabs vertical" data-tab><dd class="active"><a href="#MyProjects">My Projects</a></dd><dd onclick="showMyTasksPage()"><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd><dd onclick="userLeaderboard()"><a href="#LeaderBoard">LeaderBoard</a></dd></dl>			</div>
+				<dl class="tabs vertical" data-tab><dd class="active"><a href="#MyProjects">My Projects</a></dd><dd onclick="showMyTasksPage()"><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd><dd class="gamification" onclick="userLeaderboard()"><a href="#LeaderBoard">LeaderBoard</a></dd></dl>			</div>
 			<div class="small-9 columns main-content">
 				<div class="tabs-content">
 					<div class="content active" id="MyProjects">
@@ -372,7 +373,6 @@
 				<td>Category</td>
 				<td>Status</td>
                 <td>Due Date</td>
-                <td>Is Completed</td>
 				<td>Estimated Hours</td>
 				<td class="gamification">Bounty Points</td>
 			</thead>
@@ -409,7 +409,6 @@
             <td>Category</td>
             <td>Status</td>
             <td>Due Date</td>
-            <td>Is Completed</td>
             <td>Estimated Hours</td>
             <td>Bounty Points</td>
             </thead>
