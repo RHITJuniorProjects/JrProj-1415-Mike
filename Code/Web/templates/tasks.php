@@ -1,4 +1,19 @@
 <div id='tasks-page' hidden>
+	<div class="main-content">
+		<table id="tasks-table" style="width:100%">
+			<thead>
+				<td>Task Name</td>
+				<td>Description</td>
+				<td>Assigned User</td> 
+				<td>Category</td>
+				<td>Status</td>
+                <td>Due Date</td>
+				<td>Estimated Hours</td>
+				<td class="gamification">Bounty Points</td>
+			</thead>
+			<tbody id="task-rows">
+			</tbody>
+		</table>
 	<div class="small-2 columns small-offset-1 tabbar">
 		<?php
 			require_once 'tabbar.php';
@@ -26,7 +41,6 @@
 						<td>Category</td>
 						<td>Status</td>
 						<td>Due Date</td>
-						<td>Is Completed</td>
 						<td>Estimated Hours</td>
 						<td class="gamification">Bounty Points</td>
 					</thead>
@@ -34,14 +48,12 @@
 					</tbody>
 				</table>
 			</div>
-		<!--
 		<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
 			Add New Task
 		</div>
 		<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
 			Task Statistics
 		</div>
-		-->
 			<div class="content" id="BurndownChart">
 				<br />
 				<div id="milestone-burn-down-chart">

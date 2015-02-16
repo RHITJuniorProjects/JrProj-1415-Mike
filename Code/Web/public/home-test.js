@@ -42,7 +42,6 @@ function drawProjectStuff (fb) {
 
 //by hours
 function projectDrawerHours(name, hours) {
-   // console.log("xxxxxx");
    $('#projContainer1').highcharts({
         chart: {
             type: 'column',

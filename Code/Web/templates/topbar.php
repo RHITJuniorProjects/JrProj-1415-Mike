@@ -37,7 +37,8 @@
 </nav>
 <div id="preference-modal" class="reveal-modal tiny" data-reveal>
 	<div class="row collapse">
-		<h2>Gamification</h2>
+		<h1>Gamification</h1>
+		<h3>Toggles bounty points and User leaderboard display</h3>
 	</div>
 	<div class="row collapse">
 		<div class="small-4 columns right">
@@ -46,6 +47,6 @@
 				<label for="gamification-switch"></label>
 			</div> 
 		</div>
-		<a class="close-reveal-modal">&#215;</a>
+		<!-- <a class="close-reveal-modal">&#215;</a> -->
 	</div>
 </div>
