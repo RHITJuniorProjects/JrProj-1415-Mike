@@ -12,7 +12,7 @@
 	<section class="top-bar-section">
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
-			<li><a onclick="showMyTasksPage()">My Tasks</a></li>
+			<!-- <li><a onclick="showMyTasksPage()">My Tasks</a></li> -->
 			<!-- <li><a onclick="showMyStatsticsPage()">My Statistics</a></li> -->
 			<li><a data-reveal-id="preference-modal" href="#">User Preferences</a><li>
 			<!-- add top bar links here> -->
