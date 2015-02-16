@@ -4,7 +4,7 @@
 			require_once 'tabbar.php';
 			make_tabbar(
 				array(
-					new Tab("Back To Project",
+					new Tab("Back To Milestone",
 					        ["onclick" => "selectProject(selectedProject)"],
 							"#ViewTasks"),
 					new Tab("View Tasks",["class" => "active"]),
