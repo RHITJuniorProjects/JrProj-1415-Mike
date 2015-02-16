@@ -6,10 +6,10 @@
 				array(
 					new Tab("Back To Project",
 					        ["onclick" => "selectProject(selectedProject)"],
-							"#"),
+							"#ViewTasks"),
 					new Tab("View Tasks",["class" => "active"]),
-					new Tab("Add New Task",["onclick" => "newTask()"],"#"),
-					new Tab("Task Statistics",["onclick" => "taskStatics()"],"#"),
+					new Tab("Add New Task",["onclick" => "newTask()"],"#ViewTasks"),
+					new Tab("Task Statistics",["onclick" => "taskStatics()"],"#ViewTasks"),
 					new Tab("Burndown Chart")
 				)
 			);

@@ -149,7 +149,7 @@ function selectMilestone(milestone){
     myTasksPage.hide();
 	profilePage.hide();
 	if(selectedMilestone){
-		seletedMilestone.off();
+		selectedMilestone.off();
 	}
     selectedMilestone = milestone;
 	var tasks = selectedMilestone.getTasks();
@@ -237,8 +237,6 @@ function selectUser(selectedUser){
         $panel.append(project.getButtonDiv())
     });
 }
-
-
 
 function Table(factory, firebase) {
     this.__factory = factory;
@@ -370,6 +368,8 @@ User.prototype = {
         });
     },
     getTasks: function (panel) {
+		var projects = this.getProjects();
+		var table = new Table
         this.__all_projects.on('child_added', function(project){
             project.child('milestones').forEach(function(milestone){
                 milestone.child('tasks').forEach(function(task){
@@ -668,7 +668,7 @@ BurndownData.prototype._init = function(){
 		return;
 	}
 	this._estimHours = new Series('Estimated Hours');
-	this._compHours = new CumulativeSeries('Completed Hours');
+	this._compHours = new Series('Completed Hours');
 	this._remTasks = new Series('Remaining Tasks');
 	this._compTasks = new Series('Completed Tasks');
 	var bdd = this;
@@ -861,6 +861,7 @@ Project.prototype = {
 		});
 	}
 };
+
 // creates new projects and are added into firebase
 function addNewProject() {
     var docName = $("#projectName").val();
@@ -1705,7 +1706,9 @@ function newTask() {
     });
 }
 function taskStatics(){
+	console.log('one');
 	$('#taskContainer').foundation('reveal','open');
+	console.log('two');
     // console.log(selectedMilestone);
     drawTaskStuff(selectedProject.uid,selectedMilestone.uid,firebase);
 
