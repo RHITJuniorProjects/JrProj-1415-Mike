@@ -1179,6 +1179,7 @@ function Task(firebase) {
     this.__hour_estimate = firebase.child('updated_hour_estimate');
     this.__bountiesPoints = firebase.child('bounties/points');
 	this.__bounties = firebase.child('bounties');
+	this.__members = firebase.parent().parent().parent().parent().child('members');
 };
 
 Task.Statuses = [
@@ -1353,7 +1354,7 @@ Task.prototype = {
 					vals = snap.val(),
                 	nameInput = $('<input type="text" value="' + vals.name + '">'),
                     descriptionInput = $('<textarea>' + vals.description + '</textarea>'),
-                    userSelect = users.getSelect(function (user) {
+					userSelect = new ReferenceTable(users,task.__members).getSelect(function (user) {
                         selectedUser = user;
                     }, vals.assignedTo),
                     newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>');
