@@ -1167,7 +1167,6 @@ function Task(firebase) {
     this.__due_date = firebase.child('due_date');
     // this.__is_completed = firebase.child('is_completed');
     this.__hour_estimate = firebase.child('updated_hour_estimate');
-    this.__bountiesPoints = firebase.child('bounties/points');
 	this.__bounties = firebase.child('bounties');
 	this.__members = firebase.parent().parent().parent().parent().child('members');
 };
@@ -1232,9 +1231,13 @@ Task.prototype = {
         });
     },
     getBountyPoints: function (callback) {
-        this.__bountiesPoints.on('value', function (dat) {
-            callback(dat.val());
-        });
+		var totalPoints = 0;
+		this.getBounties().onItemAdded(function(bounty){
+			bounty.getPoints(function(points){
+				totalPoints += points;
+				callback(totalPoints);
+			});
+		});
     },
     // getFlag: function (callback) {
     //     this.__is_completed.on('value', function (dat) {
