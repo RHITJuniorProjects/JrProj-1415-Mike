@@ -674,13 +674,15 @@ BurndownData.prototype._init = function(){
 	var bdd = this;
 	this._firebase.on('child_added',function(snap){
 		var obj = snap.val();
+		var time = Number(snap.key());
 		if(typeof obj === "string"){
 			return;
 		}
-		bdd._compHours.addPoint([obj.timestamp,obj.hours_completed]);
-		bdd._estimHours.addPoint([obj.timestamp,obj.estimated_hours_remaining]);
-		bdd._remTasks.addPoint([obj.timestamp,obj.tasks_remaining]);
-		bdd._compTasks.addPoint([obj.timestamp,obj.tasks_completed]);
+		console.log(time);
+		bdd._compHours.addPoint([time, obj.hours_completed]);
+		bdd._estimHours.addPoint([time,obj.estimated_hours_remaining]);
+		bdd._remTasks.addPoint([time,  obj.tasks_remaining]);
+		bdd._compTasks.addPoint([time, obj.tasks_completed]);
 	});
 	this._initialized = true;
 };
