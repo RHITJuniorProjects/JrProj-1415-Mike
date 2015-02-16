@@ -128,6 +128,9 @@ function projectDrawerTask(name, taskData) {
 
 
 function drawTaskStuff (projID, mileID, fb) {
+projectTaskArray = [];
+taskNameArray = [];
+taskPercentArray = [];
   projectID = projID.toString();
   milestoneID = mileID.toString();
 
@@ -218,7 +221,8 @@ var change = {
     120: 'Closed'
 };
 function drawMilestoneStuff(projId, fb){        
-    
+    milestoneNameArray = [];
+    milestonePercentArray = [];
 projectID = projId.toString();
 
 
