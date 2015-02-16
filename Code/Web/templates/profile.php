@@ -1,5 +1,15 @@
 
 <div id="profile-page" class="main-content" hidden>
+	<div class="small-2 columns small-offset-1 tabbar">
+		<?php
+			require_once 'tabbar.php';
+			make_tabbar(
+				array(
+					new Tab("Back to My Projects", ["onclick" => "showProjects()"]),
+				)
+			);
+		?>
+	</div>
 	<div class="small-10 columns small-offset-1">
 			<div class="content" id="Profile">
 				<div class="small-10 columns small-offset-1 panel">
