@@ -22,7 +22,7 @@
 			<li class="loginRequired gamification" hidden><a id="currentPoints"></a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
 			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
-			<li class="has-form">
+			<!-- <li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">
 						<input type="text" placeholder="search bar">
@@ -31,7 +31,7 @@
 						<a href="#" class="button expand">Search</a>
 					</div>
 				</div>
-			</li>
+			</li> -->
 		</ul>
 	</section>
 </nav>
