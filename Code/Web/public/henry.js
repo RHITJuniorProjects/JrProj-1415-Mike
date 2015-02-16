@@ -279,7 +279,7 @@ Table.prototype = {
 
 function ReferenceTable(referencedTable, firebase) {
     this.__factory = function (ref) {
-        return referencedTable.get(ref.name());
+        return referencedTable.get(ref.key());
     };
     this.__firebase = firebase;
 }
@@ -343,11 +343,11 @@ User.prototype = {
             milestoneData = projectData.child('milestones');
         milestoneData.on('child_added', function (snap) {
             var milestoneData = snap.ref(),
-                milestone = milestones.get(snap.name()),
+                milestone = milestones.get(snap.key()),
                 taskData = milestoneData.child('tasks'),
                 tasks = milestone.getTasks();
             taskData.orderByChild("name").on('child_added', function (snap) {
-                taskid = snap.name();
+                taskid = snap.key();
                 callback(tasks.get(taskid));
             });
         });
@@ -482,7 +482,7 @@ function addNewMember() {
 User.ProjectData = function (user, ref) {
     this.user = user;
     this.__firebase = ref;
-    this.uid = ref.name();
+    this.uid = ref.key();
     this.__added_lines_of_code = ref.child('added_lines_of_code');
     this.__removed_lines_of_code = ref.child('removed_lines_of_code');
     this.__total_lines_of_code = ref.child('total_lines_of_code');
@@ -517,7 +517,7 @@ User.ProjectData.prototype = {
 User.MilestoneData = function (user, ref) {
     this.user = user;
     this.__firebase = ref;
-    this.uid = ref.name();
+    this.uid = ref.key();
     this.__added_lines_of_code = ref.child('added_lines_of_code');
     this.__removed_lines_of_code = ref.child('removed_lines_of_code');
     this.__total_lines_of_code = ref.child('total_lines_of_code');
@@ -1026,7 +1026,7 @@ firebase.child('default_categories').on('child_added', function(category){
 });
 
 function Bounty(firebase){
-	this.uid = firebase.name();
+	this.uid = firebase.key();
 	this.__claimed = firebase.child('claimed');
 	this.__description = firebase.child('description');
 	this.__due_date = firebase.child('due_date');
