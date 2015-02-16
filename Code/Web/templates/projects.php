@@ -12,7 +12,7 @@
 					make_tabbar(
 						array(
 							new Tab("My Projects",["class" => "active"]),
-							new Tab("My Tasks", ["onclick" => "showMyTasksPage()"]),
+							new Tab("My Tasks"),
 							new Tab("My Statistics"),
 							new Tab("Project Statistics"),
 							new Tab("LeaderBoard", ["class" => "gamification", "onclick" => "userLeaderboard()"])
@@ -22,6 +22,22 @@
 			</div>
 			<div class="small-9 columns main-content">
 				<div class="tabs-content">
+					<div class="content" id="MyTasks">
+						<table id="tasks-table" style="width:100%">
+							<thead>
+								<td>Task Name</td>
+								<td>Description</td>
+								<td>Assigned User</td> 
+								<td>Category</td>
+								<td>Status</td>
+								<td>Due Date</td>
+								<td>Estimated Hours</td>
+								<td class="gamification">Bounty Points</td>
+							</thead>
+							<tbody id="my-tasks-rows">
+							</tbody>
+						</table>
+					</div>
 					<div class="content active" id="MyProjects">
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
