@@ -5,7 +5,7 @@
 			require_once 'tabbar.php';
 			make_tabbar(
 				array(
-					new Tab("Back to My Projects", ["onclick" => "showProjects()"]),
+					new Tab("Back to My Projects", ["onclick" => "showProjects()"],"#ProjectMilestones"),
 					new Tab("Project Milestones",["class" => "active"]),
 					new Tab("Team Members"),
 					new Tab("Milestone Statistics")
