@@ -26,7 +26,7 @@
 						<td>Category</td>
 						<td>Status</td>
 						<td>Due Date</td>
-						<td>Is Completed</td>
+						<!-- <td>Is Completed</td> -->
 						<td>Estimated Hours</td>
 						<td class="gamification">Bounty Points</td>
 					</thead>
