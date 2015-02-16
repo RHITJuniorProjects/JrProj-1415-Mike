@@ -559,7 +559,11 @@ function makeProgressBar(divClass, text, percentRef) {
     div.append(label, progress);
     progress.append(span);
     percentRef.on('value', function (snap) {
-        span.width(String(snap.val()) + "%");
+        var percent = snap.val();
+        if(percent > 100){
+            percent = 100;
+        }
+        span.width(String(percent) + "%");
     });
     return div;
 }
