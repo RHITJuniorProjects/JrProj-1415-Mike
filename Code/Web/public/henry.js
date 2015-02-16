@@ -1232,8 +1232,15 @@ Task.prototype = {
     },
     getBountyPoints: function (callback) {
 		var totalPoints = 0;
+        callback(0);
 		this.getBounties().onItemAdded(function(bounty){
+            if(bounty === null){
+                return;
+            }
 			bounty.getPoints(function(points){
+                if(points === null){
+                    return;
+                }
 				totalPoints += points;
 				callback(totalPoints);
 			});
@@ -1608,7 +1615,7 @@ function newTask() {
         categoriesText = $('<input type="text" hidden=true>'),
         statusSelect = makeSelect(Task.Statuses, "New"),
         estHoursInput = $('<input type="text">'),
-        bountyInput = $('<input type="text">'),
+       // bountyInput = $('<input type="text">'),
         nameH = '<h3>Add New Task</h3>',
         submit = $('<input class="button" value="Add Task" />'),
         modal = $('#task-modal'),
@@ -1636,7 +1643,7 @@ function newTask() {
 			label(estHoursInput, 'Estimated Hours'),
 			//label(completed, 'Is Completed'),
 			label(dueInput, "Due Date"),
-            label(bountyInput,"Bounty Points"),
+            //label(bountyInput,"Bounty Points"),
 			submit,
 			taskError
 		);
@@ -1679,9 +1686,11 @@ function newTask() {
 			} else {
 				categoryName = categoriesText.val();
 			}
-			var cate = {};
-			cate[categoryName] = true;
-			selectedProject.__custom_categories.update(cate);
+            if(categoryName){
+			    var cate = {};
+			    cate[categoryName] = true;
+		      	selectedProject.__custom_categories.update(cate);
+            }
 			selectedMilestone.__tasks.push({
 				name: nameInput.val(),
 				description: descriptionInput.val(),
@@ -1690,8 +1699,7 @@ function newTask() {
 				status: statusSelect.val(),
 				original_hour_estimate: estHours,
 				// is_completed: false,    //default task to uncompleted
-				due_date: dueInput.val(),
-                bounties: {points: bountyInput.val()} 
+				due_date: dueInput.val() 
 			});
 			$("#task-modal").foundation('reveal', 'close');
 		});
@@ -1829,10 +1837,11 @@ MyTasks.prototype.getTableRow =  function () {
 			var	taskBounties = $('<div id="task-bounties">'),
 				list = $('<div>'),
 				newBounty = $('<div id="row">'),
+                bName = $('<input type="text" placeholder="name"></input>'),
 				numc = $('<div class="small-2 columns">'),
 				num = $('<input type="number" placeholder="amount">'),
 				addc = $('<div class="small-2 columns">'),
-				add= $('<input type="button" class="button small" value="Add Bounty">'),
+				add = $('<input type="button" class="button small" value="Add Bounty">'),
 				datec = $('<div class="small-2 columns">'),
 				date = $('<input type="date" placeholder="yyyy-mm-dd">'),
 				typec = $('<div class="small-2 columns">'),
@@ -1889,10 +1898,10 @@ MyTasks.prototype.getTableRow =  function () {
 			});
 
 			add.click(function(){
-				msg = {
+				var msg = {
 					claimed:"None",
 					points:Number(points.val()),
-					name:"Name",
+					name:"Bounty",
 					description:'Description'
 				};
 				if(typeS.val() === "Lines"){
@@ -1908,6 +1917,7 @@ MyTasks.prototype.getTableRow =  function () {
 				} else {
 					msg.due_date = date.val();
 				}
+                console.log(msg);
 				task.__firebase.child('bounties').push(msg);
 			});
 
@@ -1984,10 +1994,12 @@ MyTasks.prototype.getTableRow =  function () {
 				};
 				// console.log(commit);
 				task.__root.child("commits/" + projectID).push(commit);
-				
-				var cate = {};
-				cate[categoryName] = true;
-				projects.get(projectID).__custom_categories.update(cate);
+				if(categoryName){
+				    var cate = {};
+				    cate[categoryName] = true;
+                    console.log(cate);
+				    projects.get(projectID).__custom_categories.update(cate);
+                }
 				$("#task-modal").foundation('reveal', 'close');
 			});
 		});
