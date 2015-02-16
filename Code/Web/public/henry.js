@@ -293,11 +293,17 @@ function User(firebase2) {
     this.__name = firebase2.child('name');
     this.__email = firebase2.child('email');
     this.__all_projects = firebase.child('projects');
+    this.__points = firebase2.child('total_points');
 }
 
 User.prototype = {
     getName: function (callback) {
         this.__name.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getPoints: function (callback) {
+        this.__points.on('value', function (dat) {
             callback(dat.val());
         });
     },
@@ -450,6 +456,17 @@ function userLeaderboard(){
     });
     arr.sort(function(a,b) {return b[1] - a[1]});
     // console.log(arr);
+    $('#' + 0).html('Current User');
+    user.getName(function(name){
+        console.log(name);
+        $('#name' + 0).html(name);
+    });
+
+    user.getPoints(function(points){
+        $('#pointValue' + 0).html(points);
+    });
+
+    $('#pointValue' + 0).html(0);
     var i =1;
     for(var element in arr){
         // console.log(element);
@@ -1526,6 +1543,7 @@ Task.prototype = {
                     } else {
                         categoryName = categoriesText.val();
                     }
+                    // var bpoints = task.getBountiesPoints();
                     task.__firebase.update({
                         name: nameInput.val(),
                         description: descriptionInput.val(),
@@ -1534,7 +1552,8 @@ Task.prototype = {
                         category: categoryName,
                         //status: statusSelect.val(),
                         // is_completed: ,
-                        //bounties: {points: bountyPoints.val()}
+                        //update here not sure how to though
+                        // bounties: {points: task.getBountiesPoints()},
                         updated_hour_estimate: estHours,
                     });
 					var commit = {
