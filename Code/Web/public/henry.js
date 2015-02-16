@@ -446,7 +446,7 @@ User.prototype = {
 function userLeaderboard(){
     var pointsArray = [];
     var arr = [];
-    console.log("here");
+    // console.log("here");
     firebase.child("users").on('value', function(snapshot) {
         var users = snapshot.val();
         for(var id in users){
@@ -464,10 +464,10 @@ function userLeaderboard(){
         
     });
     arr.sort(function(a,b) {return b[1] - a[1]});
-    console.log(arr);
+    // console.log(arr);
     var i =1;
     for(var element in arr){
-        console.log(element);
+        // console.log(element);
         $('#' + i).html(i);
         $('#name' + i).html(arr[i-1][0]);
         $('#pointValue' + i).html(arr[i-1][1]);
@@ -1175,7 +1175,7 @@ function Task(firebase) {
     this.__status = firebase.child('status');
     this.__lines_of_code = firebase.child('total_lines_of_code');
     this.__due_date = firebase.child('due_date');
-    this.__is_completed = firebase.child('is_completed');
+    // this.__is_completed = firebase.child('is_completed');
     this.__hour_estimate = firebase.child('updated_hour_estimate');
     this.__bountiesPoints = firebase.child('bounties/points');
 	this.__bounties = firebase.child('bounties');
@@ -1191,10 +1191,10 @@ Task.Statuses = [
     'Closed'
 ];
 
-Task.Flags = [
-    'true',
-    'false'
-];
+// Task.Flags = [
+//     'true',
+//     'false'
+// ];
 
 Task.prototype = {
 	getBounties: function(){
@@ -1526,7 +1526,6 @@ Task.prototype = {
                     } else {
                         categoryName = categoriesText.val();
                     }
-
                     task.__firebase.update({
                         name: nameInput.val(),
                         description: descriptionInput.val(),
@@ -1534,9 +1533,9 @@ Task.prototype = {
                         due_date: dueInput.val(),
                         category: categoryName,
                         //status: statusSelect.val(),
-                        // is_completed: flagVal,
+                        // is_completed: ,
                         //bounties: {points: bountyPoints.val()}
-                        //updated_hour_estimate: estHours,
+                        updated_hour_estimate: estHours,
                     });
 					var commit = {
 						added_lines_of_code : 0,
@@ -1551,7 +1550,7 @@ Task.prototype = {
 						updated_hour_estimate : Number(estHoursInput.val()),
 						user : userSelect.val()
 					};
-					console.log(commit);
+					// console.log(commit);
 					task.__root.child("commits/" + selectedProject.uid).push(commit);
 					
                     var cate = {};
@@ -1697,7 +1696,7 @@ function newTask() {
 				category: categoryName,
 				status: statusSelect.val(),
 				original_hour_estimate: estHours,
-				is_completed: false,    //default task to uncompleted
+				// is_completed: false,    //default task to uncompleted
 				due_date: dueInput.val(),
                 bounties: {points: bountyInput.val()} 
 			});

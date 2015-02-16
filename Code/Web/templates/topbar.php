@@ -13,7 +13,7 @@
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
 			<li><a onclick="showMyTasksPage()">My Tasks</a></li>
-			<li><a onclick="showMyStatsticsPage()">My Statistics</a></li>
+			<!-- <li><a onclick="showMyStatsticsPage()">My Statistics</a></li> -->
 			<li><a data-reveal-id="preference-modal" href="#">User Preferences</a><li>
 			<!-- add top bar links here> -->
 		</ul>
@@ -22,7 +22,7 @@
 			<li class="loginRequired gamification" hidden><a id="currentPoints"></a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
 			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
-			<li class="has-form">
+			<!-- <li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">
 						<input type="text" placeholder="search bar">
@@ -31,7 +31,7 @@
 						<a href="#" class="button expand">Search</a>
 					</div>
 				</div>
-			</li>
+			</li> -->
 		</ul>
 	</section>
 </nav>
