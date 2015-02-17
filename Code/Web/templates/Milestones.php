@@ -5,6 +5,7 @@
 			require_once 'tabbar.php';
 			make_tabbar(
 				array(
+					new Tab("Back to My Projects", ["onclick" => "showProjects()"],"#ProjectMilestones"),
 					new Tab("Project Milestones",["class" => "active"]),
 					new Tab("Team Members"),
 					new Tab("Milestone Statistics")
@@ -77,6 +78,9 @@
 						<div class="small-12 column">
 							<div id="linesOfCode"></div>
 						</div>
+					</div>
+					<div class="row" id="burndownchart">
+						<!-- burn down chart inserted by script -->
 					</div>
 				</div>
 			</div>

@@ -8,8 +8,8 @@
             <td>Category</td>
             <td>Status</td>
             <td>Due Date</td>
-            <td>Is Completed</td>
             <td>Estimated Hours</td>
+            <td>Bounty Points</td>
             </thead>
             <tbody id="my-tasks-rows">
             </tbody>

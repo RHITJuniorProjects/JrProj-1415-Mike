@@ -110,6 +110,7 @@
 	padding-left:0 !important;
 	padding-right:0 !important;
 	overflow: hidden;
+	position: fixed;
 }
 
 .tabbar * {
@@ -137,4 +138,8 @@ h2 {
     padding-left: 1%;
     background-color: #F04124;
     color: white;
+}
+#buttonWrapper {
+	margin: auto;
+	width: 60%;
 }

@@ -36,15 +36,17 @@
 	<section class="top-bar-section">
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
-			<li><a onclick="showMyTasksPage()">My Tasks</a></li>
-			<li><a onclick="showMyStatsticsPage()">My Statistics</a></li>
+			<!-- <li><a onclick="showMyTasksPage()">My Tasks</a></li> -->
+			<!-- <li><a onclick="showMyStatsticsPage()">My Statistics</a></li> -->
+			<li><a data-reveal-id="preference-modal" href="#">User Preferences</a><li>
 			<!-- add top bar links here> -->
 		</ul>
 		<ul class="right">
             <li class="notLoggedIn" id="loginButton"><a href="javascript:showLoginModal()">Login</a></li>
+			<li class="loginRequired gamification" hidden><a id="currentPoints"></a></li>
 			<li class="loginRequired" hidden><a id="currentUser"></a></li>
 			<li class="loginRequired" hidden><a id="logoutButton" href="javascript:logout()">Logout</a></li>
-			<li class="has-form">
+			<!-- <li class="has-form">
 				<div class="row collapse">
 					<div class="small-8 columns">
 						<input type="text" placeholder="search bar">
@@ -53,15 +55,48 @@
 						<a href="#" class="button expand">Search</a>
 					</div>
 				</div>
-			</li>
+			</li> -->
 		</ul>
 	</section>
 </nav>
+<div id="preference-modal" class="reveal-modal tiny" data-reveal>
+	<div class="row collapse">
+		<h1>Gamification</h1>
+	</div>
+	<div class="row collapse">
+		<div class="small-8 colums">
+			<span>Toggles bounty points and User leaderboard display</span>
+		</div>
+		<div class="small-4 columns">
+			<div class="switch radius">
+				<input id="gamification-switch" type="checkbox" name="testGroup">
+				<label for="gamification-switch"></label>
+			</div> 
+		</div>
+		<!-- <a class="close-reveal-modal">&#215;</a> -->
+	</div>
+</div>
 		<div id="projects-page" class="wide row">
 			<div class="small-2 columns small-offset-1 tabbar">
-				<dl class="tabs vertical" data-tab><dd class="active"><a href="#MyProjects">My Projects</a></dd><dd onclick="showMyTasksPage()"><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd></dl>			</div>
+				<dl class="tabs vertical" data-tab><dd class="active"><a href="#MyProjects">My Projects</a></dd><dd><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd><dd class="gamification" onclick="userLeaderboard()"><a href="#LeaderBoard">LeaderBoard</a></dd></dl>			</div>
 			<div class="small-9 columns main-content">
 				<div class="tabs-content">
+					<div class="content" id="MyTasks">
+						<table id="tasks-table" style="width:100%">
+							<thead>
+								<td>Task Name</td>
+								<td>Description</td>
+								<td>Assigned User</td> 
+								<td>Category</td>
+								<td>Status</td>
+								<td>Due Date</td>
+								<td>Estimated Hours</td>
+								<td class="gamification">Bounty Points</td>
+							</thead>
+							<tbody id="my-tasks-rows">
+							</tbody>
+						</table>
+					</div>
 					<div class="content active" id="MyProjects">
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
@@ -135,13 +170,158 @@
 							</div>
 						</div>
 					</div>
+					<div class="content" id="LeaderBoard">
+						<div class="row">
+							<div class="small-12 columns">
+								<div>
+								<table>
+									<tr>
+										<td> Place</td>
+										<td> Name</td>
+										<td> Points</td>
+									</tr>
+									<tr id = "currentUser">
+										<td id = "0"></td>
+										<td id = "name0"></td>
+										<td id = "pointValue0"></td>
+									</tr>
+									<tr id = "firstPlace">
+										<td id = "1"></td>
+										<td id = "name1"></td>
+										<td id = "pointValue1"></td>
+									</tr>
+									<tr id = "secondPlace">
+										<td id = "2"></td>
+										<td id = "name2"></td>
+										<td id = "pointValue2"></td>
+									</tr>
+									<tr id = "thirdPlace">
+										<td id = "3"></td>
+										<td id = "name3"></td>
+										<td id = "pointValue3"></td>
+									</tr>
+									<tr id = "fourthPlace">
+										<td id = "4"></td>
+										<td id = "name4"></td>
+										<td id = "pointValue4"></td>
+									</tr>
+									<tr id = "fifthPlace">
+										<td id = "5"></td>
+										<td id = "name5"></td>
+										<td id = "pointValue5"></td>
+									</tr>
+									<tr id = "sixthPlace">
+										<td id = "6"></td>
+										<td id = "name6"></td>
+										<td id = "pointValue6"></td>
+									</tr>	
+									<tr id = "seventhPlace">
+										<td id = "7"></td>
+										<td id = "name7"></td>
+										<td id = "pointValue7"></td>
+									</tr>	
+									<tr id = "eighthPlace">	
+										<td id = "8"></td>
+										<td id = "name8"></td>
+										<td id = "pointValue8"></td>
+									</tr>
+									<tr id = "ninthPlace">	
+										<td id = "9"></td>
+										<td id = "name9"></td>
+										<td id = "pointValue9"></td>
+									</tr>
+									<tr id = "tenthPlace">	
+										<td id = "10"></td>
+										<td id = "name10"></td>
+										<td id = "pointValue10"></td>
+									</tr>
+									<tr id = "eleventhPlace">	
+										<td id = "11"></td>
+										<td id = "name11"></td>
+										<td id = "pointValue11"></td>
+									</tr>
+									<tr id = "twelfthPlace">
+										<td id = "12"></td>
+										<td id = "name12"></td>
+										<td id = "pointValue12"></td>
+									</tr>	
+									<tr id = "thirteenthPlace">	
+										<td id = "13"></td>
+										<td id = "name13"></td>
+										<td id = "pointValue13"></td>
+									</tr>
+									<tr id = "fourthteenthPlace">	
+										<td id = "14"></td>
+										<td id = "name14"></td>
+										<td id = "pointValue14"></td>
+									</tr>
+									<tr id = "fifthteenthPlace">
+										<td id = "15"></td>
+										<td id = "name15"></td>
+										<td id = "pointValue15"></td>
+									</tr>	
+									<tr id = "sixthteenthPlace">	
+										<td id = "16"></td>
+										<td id = "name16"></td>
+										<td id = "pointValue16"></td>
+									</tr>
+									<tr id = "seventeenthPlace">	
+										<td id = "17"></td>
+										<td id = "name17"></td>
+										<td id = "pointValue17"></td>
+									</tr>
+									<tr id = "eighteenthPlace">
+										<td id = "18"></td>
+										<td id = "name18"></td>
+										<td id = "pointValue18"></td>
+									</tr>
+									<tr id = "nineteenthPlace">
+										<td id = "19"></td>
+										<td id = "name19"></td>
+										<td id = "pointValue19"></td>
+									</tr>	
+									<tr id = "twentiethPlace">
+										<td id = "20"></td>
+										<td id = "name20"></td>
+										<td id = "pointValue20"></td>
+									</tr>	
+									<tr id = "twentyfirstPlace">
+										<td id = "21"></td>
+										<td id = "name21"></td>
+										<td id = "pointValue21"></td>
+									</tr>	
+									<tr id = "twentysecondPlace">
+										<td id = "22"></td>
+										<td id = "name22"></td>
+										<td id = "pointValue22"></td>
+									</tr>	
+									<tr id = "twentythridPlace">
+										<td id = "23"></td>
+										<td id = "name23"></td>
+										<td id = "pointValue23"></td>
+									</tr>	
+									<tr id = "twentyfourPlace">
+										<td id = "24"></td>
+										<td id = "name24"></td>
+										<td id = "pointValue24"></td>
+									</tr>
+									<tr id = "twentyfivePlace">
+										<td id = "25"></td>
+										<td id = "name25"></td>
+										<td id = "pointValue25"></td>
+									</tr>
+								</table>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		<dl class="tabs vertical" data-tab><dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
+		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#ProjectMilestones">Back to My Projects</a></dd><dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
 		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
@@ -198,45 +378,59 @@
 							<div id="linesOfCode"></div>
 						</div>
 					</div>
+					<div class="row" id="burndownchart">
+						<!-- burn down chart inserted by script -->
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>	
 </div>
 		<div id='tasks-page' hidden>
-	<div class="main-content">
-		<table id="tasks-table" style="width:100%">
-			<thead>
-				<td>Task Name</td>
-				<td>Description</td>
-				<td>Assigned User</td> 
-				<td>Category</td>
-				<td>Status</td>
-                <td>Due Date</td>
-                <td>Is Completed</td>
-				<td>Estimated Hours</td>
-			</thead>
-			<tbody id="task-rows">
-			</tbody>
-
-		</table>
-			<div
-			<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
-				Add New Task
+	<div class="small-2 columns small-offset-1 tabbar">
+		<dl class="tabs vertical" data-tab><dd onclick="selectProject(selectedProject)"><a href="#ViewTasks">Back To Milestone</a></dd><dd class="active"><a href="#ViewTasks">View Tasks</a></dd><dd onclick="newTask()"><a href="#ViewTasks">Add New Task</a></dd><dd onclick="taskStatics()"><a href="#ViewTasks">Task Statistics</a></dd><dd><a href="#BurndownChart">Burndown Chart</a></dd></dl>	</div>
+	<div class="small-9 columns main-content">
+		<div class="tabs-content">
+			<div class="content active" id="ViewTasks">
+				<table id="tasks-table" style="width:100%">
+					<thead>
+						<td>Task Name</td>
+						<td>Description</td>
+						<td>Assigned User</td> 
+						<td>Category</td>
+						<td>Status</td>
+						<td>Due Date</td>
+						<td>Estimated Hours</td>
+						<td class="gamification">Bounty Points</td>
+					</thead>
+					<tbody id="task-rows">
+					</tbody>
+				</table>
 			</div>
-			<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
-				Task statics
+		<!--
+		<div class="button task-row" data-reveal-id="task-modal" onclick="newTask()">
+			Add New Task
+		</div>
+		<div class="button task-row" data-reveal-id="taskContainer" onclick="taskStatics()">
+			Task Statistics
+		</div>
+		-->
+			<div class="content" id="BurndownChart">
+				<br />
+				<div id="milestone-burn-down-chart">
+				</div>
 			</div>
 		</div>
-		<div id="task-modal" class="reveal-modal" data-reveal>
-		<div id="taskContainer" class="reveal-modal" data-reveal>
-		</div>
+	</div>
+</div>
+<div id="task-modal" class="reveal-modal" data-reveal>
 		<!-- <div class="small-12 columns wide" id="tasks-table">
 			<div class="row wide collapse" id="tasks-table-header">
 				<div class="small-1 columns" 
 			</div>
 		</div>-->
-	</div>
+</div>
+<div id="taskContainer" class="reveal-modal" data-reveal>
 </div>
         <div id='my-tasks-page' hidden>
     <div class="main-content">
@@ -248,8 +442,8 @@
             <td>Category</td>
             <td>Status</td>
             <td>Due Date</td>
-            <td>Is Completed</td>
             <td>Estimated Hours</td>
+            <td>Bounty Points</td>
             </thead>
             <tbody id="my-tasks-rows">
             </tbody>
@@ -266,6 +460,46 @@
             </div>
         </div>-->
     </div>
+</div>
+		
+<div id="profile-page" class="main-content" hidden>
+	<div class="small-2 columns small-offset-1 tabbar">
+		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#BacktoMyProjects">Back to My Projects</a></dd></dl>	</div>
+	<div class="small-10 columns small-offset-1">
+			<div class="content" id="Profile">
+				<div class="small-10 columns small-offset-1 panel">
+					<div class="row collapse text-center">
+						<h1><span class="profile-name"></span>'s Profile</h1>
+					</div>
+					<div class="row text-center">
+						About
+					</div>
+					<div class="row">
+						<div class="small-8 columns small-offset-2 text-center">
+							<span id="biography"></span>
+						</div>
+					</div>
+					<div class="row text-center">
+						Contact Information
+					<div>
+					<div id="contact-row" class="row">
+						<!-- email added by henry.js -->
+					</div>
+					<div class="row text-center">
+						<div class="small-12 columns">
+							<h2><span class="profile-name"></span>'s Projects</h2>
+							<h1>&nbsp;</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div id="profile-projects" class="small-12 columns">
+							<!-- populated by henry.js -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
         <div id='my-statistics-page' hidden>
     <div class="main-content">
