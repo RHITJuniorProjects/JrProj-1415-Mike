@@ -1554,7 +1554,7 @@ Task.prototype = {
                         // is_completed: ,
                         //update here not sure how to though
                         // bounties: {points: task.getBountiesPoints()},
-                        updated_hour_estimate: estHours,
+                        updated_hour_estimate: estHours
                     });
 					var commit = {
 						added_lines_of_code : 0,
@@ -1994,7 +1994,7 @@ MyTasks.prototype.getTableRow =  function () {
 					//status: statusSelect.val(),
 					// is_completed: ,
 					//bounties: {points: bountyPoints.val()}
-					updated_hour_estimate: estHours,
+					updated_hour_estimate: estHours
 				});
 				var milestoneID = task.__firebase.parent().parent().key();
 				var projectID = task.__firebase.parent().parent().parent().parent().key();
