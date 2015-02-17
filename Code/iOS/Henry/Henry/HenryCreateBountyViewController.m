@@ -55,14 +55,21 @@
     NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
     [newData setObject:@"None" forKey:@"claimed"];
     [newData setObject:@"None" forKey:@"description"];
-    [newData setObject:self.PointsField.text forKey:@"points"];
+    
+    NSString *fieldText2 = self.PointsField.text;
+    double number2 = [fieldText2 doubleValue];
+    
+    [newData setObject:[[NSNumber alloc] initWithDouble:number2] forKey:@"points"];
     
     NSUInteger selectedRow = [self.ConditionPicker selectedRowInComponent:0];
+    
+    NSString *fieldText = self.MutatableField.text;
+    double number = [fieldText doubleValue];
     
     if (selectedRow == 0) {
         // Completion Bounty
         [newData setObject:@"Completion" forKey:@"name"];
-        [newData setObject:@"None" forKey:@"due_date"];
+        [newData setObject:@"No Due Date" forKey:@"due_date"];
         [newData setObject:@"None" forKey:@"hour_limit"];
         [newData setObject:@"None" forKey:@"line_limit"];
     } else if (selectedRow == 1) {
@@ -79,15 +86,15 @@
     } else if (selectedRow == 2) {
         // Hours Bonty
         [newData setObject:@"Hours" forKey:@"name"];
-        [newData setObject:@"None" forKey:@"due_date"];
-        [newData setObject:self.MutatableField.text forKey:@"hour_limit"];
+        [newData setObject:@"No Due Date" forKey:@"due_date"];
+        [newData setObject:[[NSNumber alloc] initWithDouble:number] forKey:@"hour_limit"];
         [newData setObject:@"None" forKey:@"line_limit"];
     } else {
         // Min Lines Bounty
         [newData setObject:@"Lines" forKey:@"name"];
-        [newData setObject:@"None" forKey:@"due_date"];
+        [newData setObject:@"No Due Date" forKey:@"due_date"];
         [newData setObject:@"None" forKey:@"hour_limit"];
-        [newData setObject:self.MutatableField.text forKey:@"line_limit"];
+        [newData setObject:[[NSNumber alloc] initWithDouble:number] forKey:@"line_limit"];
     }
     
     [self.fb setValue:newData];

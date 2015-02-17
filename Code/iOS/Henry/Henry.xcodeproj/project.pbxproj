@@ -27,6 +27,7 @@
 		843D241719F476DF00DBC2CB /* HenryTaskStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241019F476DF00DBC2CB /* HenryTaskStatusTableViewController.m */; };
 		843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241219F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m */; };
 		843D241919F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		846E418E1A91614100D12DE9 /* HenryCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 846E418D1A91614100D12DE9 /* HenryCategoryTableViewController.m */; };
 		84BC3A8B1A6300FA00271DFC /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC3A861A6300FA00271DFC /* BEMCircle.m */; };
 		84BC3A8C1A6300FA00271DFC /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC3A881A6300FA00271DFC /* BEMLine.m */; };
 		84BC3A8D1A6300FA00271DFC /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC3A8A1A6300FA00271DFC /* BEMSimpleLineGraphView.m */; };
@@ -115,6 +116,8 @@
 		843D241219F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
 		843D241319F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
 		843D241419F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		846E418C1A91614100D12DE9 /* HenryCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCategoryTableViewController.h; sourceTree = "<group>"; };
+		846E418D1A91614100D12DE9 /* HenryCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCategoryTableViewController.m; sourceTree = "<group>"; };
 		84BC3A851A6300FA00271DFC /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
 		84BC3A861A6300FA00271DFC /* BEMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
 		84BC3A871A6300FA00271DFC /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
@@ -311,6 +314,8 @@
 				843D241019F476DF00DBC2CB /* HenryTaskStatusTableViewController.m */,
 				0A959BC31A8695B900356DC2 /* HenryCreateBountyViewController.h */,
 				0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */,
+				846E418C1A91614100D12DE9 /* HenryCategoryTableViewController.h */,
+				846E418D1A91614100D12DE9 /* HenryCategoryTableViewController.m */,
 			);
 			name = Tasks;
 			sourceTree = "<group>";
@@ -591,6 +596,7 @@
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
 				84BC3A8D1A6300FA00271DFC /* BEMSimpleLineGraphView.m in Sources */,
 				87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */,
+				846E418E1A91614100D12DE9 /* HenryCategoryTableViewController.m in Sources */,
 				87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,

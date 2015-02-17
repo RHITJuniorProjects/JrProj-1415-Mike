@@ -92,6 +92,9 @@ public class ProjectDetailFragment extends Fragment {
 		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
 		createMilestone.setVisible(false);
 		createMilestone.setEnabled(false);
+		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
+		allTasks.setVisible(true);
+		allTasks.setEnabled(true);
 
 		
 		
@@ -118,9 +121,9 @@ public class ProjectDetailFragment extends Fragment {
 		
 		if (this.projectItem != null) {
 			((TextView) rootView.findViewById(R.id.project_name))
-				.setText("Name of project: " + this.projectItem.getName());
+				.setText(this.projectItem.getName());
 			((TextView) rootView.findViewById(R.id.project_due_date))
-				.setText("Due on: " + this.projectItem.getDueDateFormatted());
+				.setText("Due: " + this.projectItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.project_description))
 				.setText("Description: " + this.projectItem.getDescription());
 			
@@ -166,7 +169,7 @@ public class ProjectDetailFragment extends Fragment {
 			
 			//Progress Bars for Hours, Tasks, and Milestones
 			((TextView) rootView.findViewById(R.id.project_hours_percent))
-				.setText("Hours Completed: " + this.projectItem.getHoursPercent() + "%");
+				.setText("Hours Logged: " + this.projectItem.getHoursPercent() + "%");
 			ProgressBar hoursCompleteBar = ((ProgressBar) rootView.findViewById(R.id.project_hours_progress_bar));
 			hoursCompleteBar.setMax(100);
 			hoursCompleteBar.setProgress(this.projectItem.getHoursPercent());

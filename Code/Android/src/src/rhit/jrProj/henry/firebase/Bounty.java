@@ -422,7 +422,6 @@ public class Bounty {
 				this.bounty.parentTask.setPoints(this.bounty.points);
 			}
 			if (this.bounty.listViewCallback != null) {
-				Log.i("test1", "non-null BLVC");
 				this.bounty.listViewCallback.onChange();
 			}
 			
@@ -454,7 +453,6 @@ public class Bounty {
 				}
 			}
 			if (this.bounty.listViewCallback != null) {
-				Log.i("test2", "non-null BLVC");
 				this.bounty.listViewCallback.onChange();
 			}
 		}

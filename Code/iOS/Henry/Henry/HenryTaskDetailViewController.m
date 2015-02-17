@@ -13,6 +13,7 @@
 #import "HenryFirebase.h"
 #import "HenryAssignDevsTableViewController.h"
 #import "HenryCreateBountyViewController.h"
+#import "HenryCategoryTableViewController.h"
 
 @interface HenryTaskDetailViewController ()
 @property Firebase *fb;
@@ -29,16 +30,7 @@
     @try{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.fb = [HenryFirebase getFirebaseObject];
-    // Attach a block to read the data at our posts reference
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo: snapshot];
-        self.snapshot = snapshot;
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
-    
-    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -53,6 +45,7 @@
     self.fb = [HenryFirebase getFirebaseObject];
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateInfo:snapshot];
+        self.snapshot = snapshot;
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
@@ -112,6 +105,7 @@
     self.taskNameLabel.text = [json objectForKey:@"name"];
     self.descriptionView.text = [json objectForKey:@"description"];
     [self.statusButton setTitle:[json objectForKey:@"category"] forState:UIControlStateNormal];
+    [self.categoryButton setTitle:json[@"status"] forState:UIControlStateNormal];
     [self.statusButton setTitle:[json objectForKey:@"category"] forState:UIControlStateHighlighted];
     
     [self.assigneeNameLabel setText:[jsonForName objectForKey:@"name"]];
@@ -177,7 +171,15 @@
         HenryCreateBountyViewController *vc = [segue destinationViewController];
         vc.fb = bountyRef;
         
-    }else{
+    }else if ([segue.identifier isEqualToString:@"projectCategory"]) {
+        HenryCategoryTableViewController *vc = [segue destinationViewController];
+        vc.initialSelection = self.categoryButton.titleLabel.text;
+        vc.detailView = self;
+        vc.taskID = self.taskID;
+        vc.milestoneID = self.MileStoneID;
+        vc.taskID = self.taskID;
+        vc.projectID = self.ProjectID;
+    } else {
         HenryAssignDevsTableViewController *vc = [segue destinationViewController];
         vc.initialSelection = self.statusButton.titleLabel.text;
         //vc.detailView = self;

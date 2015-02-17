@@ -28,6 +28,7 @@
     if(self.hasClicked){
         self.detailView.statusButton.titleLabel.text = [self.names objectAtIndex:self.selectedIndex];
         NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
+        self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",self.ProjectID, self.MilestoneID, self.taskID] ];
         [self.fb updateChildValues:newValue];
     }
         [self.fb removeAllObservers];
@@ -41,6 +42,9 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     self.fb = [HenryFirebase getFirebaseObject];
+    
+    
+    
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateTable:snapshot];
     } withCancelBlock:^(NSError *error) {

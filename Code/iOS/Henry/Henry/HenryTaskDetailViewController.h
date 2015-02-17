@@ -13,6 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *assigneeNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *hoursLabel;
 @property (weak, nonatomic) IBOutlet UIButton *statusButton;
+@property (weak, nonatomic) IBOutlet UIButton *categoryButton;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionView;
 @property (weak, nonatomic) IBOutlet UILabel *originalEstimateLabel;
 @property (weak, nonatomic) IBOutlet UITextField *currentEstimateField;

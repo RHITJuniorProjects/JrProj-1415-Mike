@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HenryMemberTableViewController : UITableViewController
+@interface HenryMemberTableViewController : UITableViewController <UIAlertViewDelegate>
 @property NSString *ProjectID;
 @property NSString *tasks;
 @property NSString *uid;

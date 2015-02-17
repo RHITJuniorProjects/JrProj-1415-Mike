@@ -17,6 +17,7 @@
 @property NSMutableArray *memberRoles;
 @property NSMutableArray *memberIds;
 @property Firebase *fb;
+@property NSIndexPath *selectedRow;
 @end
 
 //NOTE
@@ -127,9 +128,17 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *recipients = [self.memberEmails objectAtIndex:indexPath.row];
-    NSString *email = [NSString stringWithFormat:@"mailto:%@",recipients];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+    self.selectedRow = indexPath;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Warning" message:@"You are about to leave henry to set an email" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Ok", nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSString *recipients = [self.memberEmails objectAtIndex:self.selectedRow.row];
+        NSString *email = [NSString stringWithFormat:@"mailto:%@",recipients];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:email]];
+    }
 }
 
 

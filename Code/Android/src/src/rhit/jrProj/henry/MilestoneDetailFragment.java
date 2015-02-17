@@ -68,10 +68,9 @@ public class MilestoneDetailFragment extends Fragment implements
 		this.milestoneItem = this.mCallbacks.getSelectedMilestone();
 		if (this.milestoneItem != null) {
 			((TextView) rootView.findViewById(R.id.milestone_name))
-					.setText("Name of Milestone: "
-							+ this.milestoneItem.getName());
+					.setText(this.milestoneItem.getName());
 			((TextView) rootView.findViewById(R.id.milestone_due_date))
-					.setText("Due on: "
+					.setText("Due: "
 							+ this.milestoneItem.getDueDateFormatted());
 			((TextView) rootView.findViewById(R.id.milestone_description))
 					.setText("Description: "
@@ -112,6 +111,9 @@ public class MilestoneDetailFragment extends Fragment implements
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
+		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
+		allTasks.setVisible(true);
+		allTasks.setEnabled(true);
 
 		// This code shows the "Create Task" option when
 		// viewing tasks.
