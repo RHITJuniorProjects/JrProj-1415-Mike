@@ -458,7 +458,7 @@ function userLeaderboard(){
     // console.log(arr);
     $('#' + 0).html('Current User');
     user.getName(function(name){
-        console.log(name);
+        //console.log(name);
         $('#name' + 0).html(name);
     });
 
@@ -1726,9 +1726,9 @@ function newTask() {
     });
 }
 function taskStatics(){
-	console.log('one');
+	//console.log('one');
 	$('#taskContainer').foundation('reveal','open');
-	console.log('two');
+	//console.log('two');
     // console.log(selectedMilestone);
     drawTaskStuff(selectedProject.uid,selectedMilestone.uid,firebase);
 
@@ -1936,7 +1936,7 @@ MyTasks.prototype.getTableRow =  function () {
 				} else {
 					msg.due_date = date.val();
 				}
-                console.log(msg);
+                //console.log(msg);
 				task.__firebase.child('bounties').push(msg);
 			});
 
@@ -2016,7 +2016,7 @@ MyTasks.prototype.getTableRow =  function () {
 				if(categoryName){
 				    var cate = {};
 				    cate[categoryName] = true;
-                    console.log(cate);
+                    //console.log(cate);
 				    projects.get(projectID).__custom_categories.update(cate);
                 }
 				$("#task-modal").foundation('reveal', 'close');
