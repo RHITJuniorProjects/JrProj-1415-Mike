@@ -121,6 +121,11 @@
 										<td> Name</td>
 										<td> Points</td>
 									</tr>
+									<tr id = "currentUser">
+										<td id = "0"></td>
+										<td id = "name0"></td>
+										<td id = "pointValue0"></td>
+									</tr>
 									<tr id = "firstPlace">
 										<td id = "1"></td>
 										<td id = "name1"></td>

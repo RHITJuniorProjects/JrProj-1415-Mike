@@ -456,6 +456,17 @@ function userLeaderboard(){
     });
     arr.sort(function(a,b) {return b[1] - a[1]});
     // console.log(arr);
+    $('#' + 0).html('Current User');
+    user.getName(function(name){
+        //console.log(name);
+        $('#name' + 0).html(name);
+    });
+
+    user.getPoints(function(points){
+        $('#pointValue' + 0).html(points);
+    });
+
+    $('#pointValue' + 0).html(0);
     var i =1;
     for(var element in arr){
         // console.log(element);
@@ -1533,6 +1544,7 @@ Task.prototype = {
                     } else {
                         categoryName = categoriesText.val();
                     }
+                    // var bpoints = task.getBountiesPoints();
                     task.__firebase.update({
                         name: nameInput.val(),
                         description: descriptionInput.val(),
@@ -1541,8 +1553,9 @@ Task.prototype = {
                         category: categoryName,
                         //status: statusSelect.val(),
                         // is_completed: ,
-                        //bounties: {points: bountyPoints.val()}
-                        updated_hour_estimate: estHours,
+                        //update here not sure how to though
+                        // bounties: {points: task.getBountiesPoints()},
+                        updated_hour_estimate: estHours
                     });
 					var commit = {
 						added_lines_of_code : 0,
@@ -1714,9 +1727,9 @@ function newTask() {
     });
 }
 function taskStatics(){
-	console.log('one');
+	//console.log('one');
 	$('#taskContainer').foundation('reveal','open');
-	console.log('two');
+	//console.log('two');
     // console.log(selectedMilestone);
     drawTaskStuff(selectedProject.uid,selectedMilestone.uid,firebase);
 
@@ -1924,7 +1937,7 @@ MyTasks.prototype.getTableRow =  function () {
 				} else {
 					msg.due_date = date.val();
 				}
-                console.log(msg);
+                //console.log(msg);
 				task.__firebase.child('bounties').push(msg);
 			});
 
@@ -1982,7 +1995,7 @@ MyTasks.prototype.getTableRow =  function () {
 					//status: statusSelect.val(),
 					// is_completed: ,
 					//bounties: {points: bountyPoints.val()}
-					updated_hour_estimate: estHours,
+					updated_hour_estimate: estHours
 				});
 				var milestoneID = task.__firebase.parent().parent().key();
 				var projectID = task.__firebase.parent().parent().parent().parent().key();
@@ -2004,7 +2017,7 @@ MyTasks.prototype.getTableRow =  function () {
 				if(categoryName){
 				    var cate = {};
 				    cate[categoryName] = true;
-                    console.log(cate);
+                    //console.log(cate);
 				    projects.get(projectID).__custom_categories.update(cate);
                 }
 				$("#task-modal").foundation('reveal', 'close');
