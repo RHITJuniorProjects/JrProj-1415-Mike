@@ -293,6 +293,7 @@ function User(firebase2) {
     this.__name = firebase2.child('name');
     this.__email = firebase2.child('email');
     this.__all_projects = firebase.child('projects');
+	this.__total_points = firebase.child('total_points');
 }
 
 User.prototype = {
@@ -301,6 +302,11 @@ User.prototype = {
             callback(dat.val());
         });
     },
+	getBountyPoints: function(callback){
+		this.__total_points.on('value',function(snap){
+			callback(snap.val());
+		});
+	},
 	getEmailLink: function(){
 		var a = $('<a>');
 		this.getEmail(function(email){
@@ -1094,7 +1100,11 @@ Bounty.prototype = {
 	},
 	getPoints:function(callback){
 		this.__points.on('value',function(snap){
-			callback(snap.val());
+			var v = snap.val();
+			if(v === null){
+				callback(0);
+			}
+			callback(v);
 		});
 	},
 	getDueDate:function(callback){
@@ -1232,15 +1242,12 @@ Task.prototype = {
     },
     getBountyPoints: function (callback) {
 		var totalPoints = 0;
-        callback(0);
+		callback(0);
 		this.getBounties().onItemAdded(function(bounty){
             if(bounty === null){
                 return;
             }
 			bounty.getPoints(function(points){
-                if(points === null){
-                    return;
-                }
 				totalPoints += points;
 				callback(totalPoints);
 			});
@@ -1458,7 +1465,7 @@ Task.prototype = {
 				});
 
 				add.click(function(){
-					msg = {
+					var msg = {
 						claimed:"None",
 						points:Number(points.val()),
 						name:"Name",
