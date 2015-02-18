@@ -7,8 +7,8 @@
 					new Tab("Back To Milestone",
 					        ["onclick" => "selectProject(selectedProject)"],
 							"#ViewTasks"),
-					new Tab("View Tasks",["class" => "active"]),
-					new Tab("Add New Task",["onclick" => "newTask()"],"#ViewTasks"),
+					new Tab("View Tasks",["id" => "TaskTab", "class" => "active"]),
+					new Tab("Add New Task",["onclick" => "newTask() || setTimeout(function(){ $('#TaskTab a').click() });"],"#ViewTasks"),
 					new Tab("Task Statistics",["onclick" => "taskStatics()"],"#ViewTasks"),
 					new Tab("Burndown Chart")
 				)

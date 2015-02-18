@@ -11,10 +11,11 @@
 					require_once 'tabbar.php';
 					make_tabbar(
 						array(
-							new Tab("My Projects",["class" => "active"]),
+							new Tab("My Projects",["id" => "MyProjectsTab","class" => "active"]),
 							new Tab("My Tasks"),
 							new Tab("My Statistics"),
 							new Tab("Project Statistics"),
+							new Tab("Add Project",["onclick" => "$('#myProjectModal').foundation('reveal','open') && setTimeout(function(){ $('#MyProjectsTab a').click() })"],"#MyProjects"),
 							new Tab("LeaderBoard", ["class" => "gamification", "onclick" => "userLeaderboard()"])
 						)
 					);
@@ -42,7 +43,7 @@
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
 								<h1>My Projects</h1>
-								<button data-reveal-id="myProjectModal">Add Project</button>
+								<!--<button data-reveal-id="myProjectModal">Add Project</button>-->
 								<div id="myProjectModal" class="reveal-modal small-4" data-reveal>
                                     <h2>New Project</h2><br />
                                     <form action="" onsubmit="addNewProject(); return false;">

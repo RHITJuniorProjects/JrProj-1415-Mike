@@ -78,7 +78,7 @@
 </div>
 		<div id="projects-page" class="wide row">
 			<div class="small-2 columns small-offset-1 tabbar">
-				<dl class="tabs vertical" data-tab><dd class="active"><a href="#MyProjects">My Projects</a></dd><dd><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd><dd class="gamification" onclick="userLeaderboard()"><a href="#LeaderBoard">LeaderBoard</a></dd></dl>			</div>
+				<dl class="tabs vertical" data-tab><dd id="MyProjectsTab" class="active"><a href="#MyProjects">My Projects</a></dd><dd><a href="#MyTasks">My Tasks</a></dd><dd><a href="#MyStatistics">My Statistics</a></dd><dd><a href="#ProjectStatistics">Project Statistics</a></dd><dd onclick="$('#myProjectModal').foundation('reveal','open') && setTimeout(function(){ $('#MyProjectsTab a').click() })"><a href="#MyProjects">Add Project</a></dd><dd class="gamification" onclick="userLeaderboard()"><a href="#LeaderBoard">LeaderBoard</a></dd></dl>			</div>
 			<div class="small-9 columns main-content">
 				<div class="tabs-content">
 					<div class="content" id="MyTasks">
@@ -101,7 +101,7 @@
 						<div class="small-10 columns small-offset-1 ">
 							<div class="row collapse text-center outlined">
 								<h1>My Projects</h1>
-								<button data-reveal-id="myProjectModal">Add Project</button>
+								<!--<button data-reveal-id="myProjectModal">Add Project</button>-->
 								<div id="myProjectModal" class="reveal-modal small-4" data-reveal>
                                     <h2>New Project</h2><br />
                                     <form action="" onsubmit="addNewProject(); return false;">
@@ -321,14 +321,13 @@
 		
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#ProjectMilestones">Back to My Projects</a></dd><dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
+		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#ProjectMilestones">Back to My Projects</a></dd><dd id="MilestoneTab" class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd onclick="$('#myMilestoneModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"><a href="#ProjectMilestones">Add New Milestone</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
 		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
 					<div class="small-10 columns small-offset-1">
 						<div class="row collapse text-center outlined">
 							<h1 id="project-name"></h1>
-														<button data-reveal-id="myMilestoneModal">Add Milestone</button>
 							<div id="myMilestoneModal" class="reveal-modal small-4" data-reveal>
 								<h2>New Milestone</h2><br />
                                 <form action="" onsubmit="addNewMilestone(); return false;">
@@ -388,7 +387,7 @@
 </div>
 		<div id='tasks-page' hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		<dl class="tabs vertical" data-tab><dd onclick="selectProject(selectedProject)"><a href="#ViewTasks">Back To Milestone</a></dd><dd class="active"><a href="#ViewTasks">View Tasks</a></dd><dd onclick="newTask()"><a href="#ViewTasks">Add New Task</a></dd><dd onclick="taskStatics()"><a href="#ViewTasks">Task Statistics</a></dd><dd><a href="#BurndownChart">Burndown Chart</a></dd></dl>	</div>
+		<dl class="tabs vertical" data-tab><dd onclick="selectProject(selectedProject)"><a href="#ViewTasks">Back To Milestone</a></dd><dd id="TaskTab" class="active"><a href="#ViewTasks">View Tasks</a></dd><dd onclick="newTask() || setTimeout(function(){ $('#TaskTab a').click() });"><a href="#ViewTasks">Add New Task</a></dd><dd onclick="taskStatics()"><a href="#ViewTasks">Task Statistics</a></dd><dd><a href="#BurndownChart">Burndown Chart</a></dd></dl>	</div>
 	<div class="small-9 columns main-content">
 		<div class="tabs-content">
 			<div class="content active" id="ViewTasks">
