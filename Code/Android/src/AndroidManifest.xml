@@ -111,11 +111,11 @@
         </activity>
         <activity
             android:name=".LeaderboardActivity"
-            android:label="@string/title_activity_leaderboard" >
+            android:label="Leaderboard" >
         </activity>
         <activity
             android:name=".TasksAllActivity"
-            android:label="@string/title_activity_tasks_all" >
+            android:label="All My Tasks" >
         </activity>
     </application>
 

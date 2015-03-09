@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+
 import rhit.jrProj.henry.firebase.Enums.Role;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -46,6 +48,8 @@ public class User implements Parcelable {
 	 * User that this object has been updated.
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
+	
+	
 	/**
 	 * projects is a Set in the form: [project_key, this_Users_role]
 	 */
@@ -122,6 +126,7 @@ public class User implements Parcelable {
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.listViewCallback = lcn;
 	}
+	
 
 	/**
 	 * Passes the Firebase URL, the name of the User and the description of the
@@ -232,6 +237,7 @@ public class User implements Parcelable {
 	ListChangeNotifier<Project> getListChangeNotifier() {
 		return this.listViewCallback;
 	}
+	
 
 	/**
 	 * TODO
@@ -272,6 +278,7 @@ public class User implements Parcelable {
 			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
 			}
+			
 		}
 
 		/**

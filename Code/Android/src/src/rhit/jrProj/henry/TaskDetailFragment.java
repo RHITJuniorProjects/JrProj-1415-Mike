@@ -49,6 +49,7 @@ public class TaskDetailFragment extends Fragment implements
 	private GlobalVariables mGlobalVariables;
 
 	private HorizontalPicker numPicker;
+	private Spinner spinny;
 	/**
 	 * Mandatory empty constructor for the fragment manager to instantiate the
 	 * fragment (e.g. upon screen orientation changes).
@@ -112,7 +113,7 @@ public class TaskDetailFragment extends Fragment implements
 							new Member(mGlobalVariables.getFirebaseUrl()
 									+ "/users/"
 									+ this.mCallbacks.getUser().getKey()));
-			if (this.getArguments().getBoolean("Two Pane")
+			if (this.getArguments().getBoolean("TwoPane")
 					&& role == Enums.Role.LEAD) {
 				
 				((TextView) rootView.findViewById(R.id.task_assignee))
@@ -121,8 +122,8 @@ public class TaskDetailFragment extends Fragment implements
 						.findViewById(R.id.task_points));
 				this.pointsField.setText("Points: \t"
 						+ this.taskItem.getPoints());
-
-				Spinner spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
+				
+				spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
 				this.mCallbacks.getProjectMembers().getAllKeys();
 
 				ArrayAdapter<Member> adapter = new ArrayAdapter<Member>(
@@ -138,14 +139,14 @@ public class TaskDetailFragment extends Fragment implements
 						mGlobalVariables.getFirebaseUrl() + "/users/"
 								+ this.taskItem.getAssignedUserId()));
 				spinny.setSelection(spinnerDefaultPos);
-
 				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
 						this.taskItem));
-
+				spinny.setVisibility(View.VISIBLE);
 				TextView textLines = (TextView) rootView.findViewById(R.id.task_lines_of_code);
 				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
 						+ this.taskItem.getRemovedLines() + " lines of code");
 			} else {
+				rootView.findViewById(R.id.task_assignee_spinner).setVisibility(View.GONE);
 				((TextView) rootView.findViewById(R.id.task_assignee))
 						.setText("Assigned to: "
 								+ this.taskItem.getAssignedUserName() + " \n +"
@@ -236,8 +237,8 @@ public class TaskDetailFragment extends Fragment implements
 		createbounty.setVisible(false);
 		createbounty.setEnabled(false); 
 		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
-		allTasks.setVisible(true);
-		allTasks.setEnabled(true);
+		allTasks.setVisible(false);
+		allTasks.setEnabled(false);
 
 	}
 

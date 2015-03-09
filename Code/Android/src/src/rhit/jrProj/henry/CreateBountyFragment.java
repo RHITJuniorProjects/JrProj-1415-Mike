@@ -1,5 +1,7 @@
 package rhit.jrProj.henry;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +46,7 @@ public class CreateBountyFragment extends DialogFragment implements
 	private DatePicker mDatePicker;
 	private Button choose;
 	
+	private Calendar currDate=Calendar.getInstance(); 
 	/*
 	 * Name of the Bounty
 	 */
@@ -361,6 +364,11 @@ public class CreateBountyFragment extends DialogFragment implements
 	private void createBounty() {
 		String s= "No Due Date";
 		if (hasDueDate){
+			
+			if (mDatePicker.getYear()<currDate.get(Calendar.YEAR) || mDatePicker.getMonth()<currDate.get(Calendar.MONTH) || mDatePicker.getDayOfMonth()<currDate.get(Calendar.DAY_OF_MONTH)){
+				showErrorDialog("Please select a valid date.");
+				return;
+			}
 			s=mDatePicker.getYear()+"-"+(mDatePicker.getMonth()+1)+"-"+mDatePicker.getDayOfMonth();
 		}
 		

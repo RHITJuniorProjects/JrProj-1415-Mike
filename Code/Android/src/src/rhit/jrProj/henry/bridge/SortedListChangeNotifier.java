@@ -171,8 +171,12 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 	 */
 	public void onChange() {
 //		Log.i("sortmode", this.sortType);
-
-		((SortedArrayAdapter<T>) super.getAdapter()).sort(this.c);
+		if (super.getAdapter() instanceof SortedArrayAdapter){
+			((SortedArrayAdapter<T>) super.getAdapter()).sort(this.c);
+		}
+		else if (super.getAdapter() instanceof FilteredArrayAdapter){
+			
+		}
 		super.getAdapter().notifyDataSetChanged();
 
 	}

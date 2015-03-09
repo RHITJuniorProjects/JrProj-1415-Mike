@@ -17,7 +17,7 @@ public class GlobalVariables extends Application {
 	/**
 	 * The Url to the firebase repository
 	 */
-	private final String firebaseUrl = "https://henry-test.firebaseio.com/";
+	private static final String firebaseUrl = "https://henry-test.firebaseio.com/";
 	
 	
 	public boolean ismTwoPane() {
@@ -36,7 +36,7 @@ public class GlobalVariables extends Application {
 		this.user = user;
 	}
 
-	public String getFirebaseUrl() {
+	public static String getFirebaseUrl() {
 		return firebaseUrl;
 	}
 

@@ -170,6 +170,10 @@ public class HorizontalPicker extends LinearLayout{
 		}
 
 	}
+	public void hideButtons(){
+		this.plusButton.setVisibility(View.GONE);
+		this.minusButton.setVisibility(View.GONE);
+	}
 
 	
 	

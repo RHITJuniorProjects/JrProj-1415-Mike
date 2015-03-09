@@ -191,7 +191,12 @@ public class Task implements Parcelable{
 		this.parentProjectName=projName;
 		this.parentMilestoneName=msName;
 	}
-
+	public void setParentProjectName(String projName){
+		this.parentProjectName=projName;
+	}
+	public void setParentMilestoneName(String msName){
+		this.parentMilestoneName=msName;
+	}
 	public int describeContents() {
 		return 0;
 	}

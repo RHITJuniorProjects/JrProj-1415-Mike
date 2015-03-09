@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class SpinnerHeader extends LinearLayout implements OnItemSelectedListene
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 			long id) {
+		Log.i("spinner header changed2", "hi");
 		this.mCallbacks.onSpinnerHeaderChange(position);
 		
 	}

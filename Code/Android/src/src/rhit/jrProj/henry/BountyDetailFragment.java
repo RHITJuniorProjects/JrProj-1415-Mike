@@ -106,8 +106,11 @@ public class BountyDetailFragment extends Fragment implements
 			numPicker.setMaxValue(Task.MAX_POINTS);
 			numPicker.setMinValue(Task.MIN_POINTS);
 			numPicker.setCallbacks(this);
+//			if (!this.getArguments().getBoolean("TwoPane")){
+//				numPicker.hideButtons();
+//			}
 //			numPicker.setBounty(this.bountyItem);
-			if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser())) {
+			if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser())&&this.getArguments().getBoolean("TwoPane")) {
 				numPicker.setVisibility(View.VISIBLE);
 				numPicker.setEnabled(true);
 

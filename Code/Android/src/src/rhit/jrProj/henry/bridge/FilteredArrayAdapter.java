@@ -1,5 +1,6 @@
 package rhit.jrProj.henry.bridge;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rhit.jrProj.henry.firebase.Bounty;
@@ -34,6 +35,20 @@ public class FilteredArrayAdapter<T> extends ArrayAdapter<T> {
 	private boolean viewAllMyTasks=false;
 
 	public FilteredArrayAdapter(Context context, int resource,
+			int textViewResourceId, List<T> list, List<Filter<T>>filters,  Enums.ObjectType type, boolean flag) {
+		super(context, R.layout.list_image_layout, textViewResourceId, list);
+		this.context = context;
+		List<List<T>> ls=new ArrayList<List<T>>();
+		for (int i=0; i<filters.size(); i++){
+			ls.add(filters.get(i).filter(list));
+		}
+		this.lists=ls;
+		this.objects = lists.get(0);
+		this.type = type;
+		this.usersName = "";
+		this.flag=flag;
+	}
+	public FilteredArrayAdapter(Context context, int resource,
 			int textViewResourceId, List<List<T>> lists, Enums.ObjectType type, boolean flag) {
 		super(context, R.layout.list_image_layout, textViewResourceId, lists.get(0));
 		this.context = context;
@@ -44,7 +59,22 @@ public class FilteredArrayAdapter<T> extends ArrayAdapter<T> {
 		this.flag=flag;
 	}
 	public FilteredArrayAdapter(Context context, int resource,
-			int textViewResourceId, List<List<T>> lists, Enums.ObjectType type, boolean flag, boolean viewAllMyTasks) {
+			int textViewResourceId, List<T> list, List<Filter<T>> filters, Enums.ObjectType type, boolean flag, boolean viewAllMyTasks) {
+		super(context, R.layout.list_image_layout, textViewResourceId, list);
+		this.context = context;
+		List<List<T>> ls=new ArrayList<List<T>>();
+		for (int i=0; i<filters.size(); i++){
+			ls.add(filters.get(i).filter(list));
+		}
+		this.lists=ls;
+		this.objects = lists.get(0);
+		this.type = type;
+		this.usersName = "";
+		this.flag=flag;
+		this.viewAllMyTasks=viewAllMyTasks;
+	}
+	public FilteredArrayAdapter(Context context, int resource,
+			int textViewResourceId, List<List<T>> lists,  Enums.ObjectType type, boolean flag, boolean viewAllMyTasks) {
 		super(context, R.layout.list_image_layout, textViewResourceId, lists.get(0));
 		this.context = context;
 		this.lists=lists;
@@ -66,6 +96,21 @@ public class FilteredArrayAdapter<T> extends ArrayAdapter<T> {
 	 * @param type
 	 * @param usersName
 	 */
+	public FilteredArrayAdapter(Context context, int resource,
+			int textViewResourceId, List<T> list, List<Filter<T>> filters, Enums.ObjectType type,
+			String usersName, boolean flag) {
+		super(context, R.layout.list_image_layout, textViewResourceId, list);
+		this.context = context;
+		List<List<T>> ls=new ArrayList<List<T>>();
+		for (int i=0; i<filters.size(); i++){
+			ls.add(filters.get(i).filter(list));
+		}
+		this.lists=ls;
+		this.objects = lists.get(0);
+		this.type = type;
+		this.usersName = usersName;
+		this.flag=flag;
+	}
 	public FilteredArrayAdapter(Context context, int resource,
 			int textViewResourceId, List<List<T>> lists, Enums.ObjectType type,
 			String usersName, boolean flag) {
@@ -134,6 +179,15 @@ public class FilteredArrayAdapter<T> extends ArrayAdapter<T> {
 			} 
 			else if (this.viewAllMyTasks){
 				text2.setText("Project: " + t.getParentProjectName()+"\nMilestone: "+t.getParentMilestoneName());
+				if (t.getStatus().equals(Enums.CLOSED)) {
+					//If task is done, show a little green trophy.
+						img1.setImageResource(R.drawable.ic_action_achievement);
+					} else {
+						 //If task is not done, show a red flag.
+						img1.setImageResource(R.drawable.ic_action_flag);
+					}
+					//Show the image if the task is assigned to the logged in user.
+					img1.setVisibility(View.VISIBLE);
 			}
 			else{
 				text2.setText("Assigned to: " + t.getAssignedUserName());
@@ -161,7 +215,7 @@ public class FilteredArrayAdapter<T> extends ArrayAdapter<T> {
 	}
 	public void changeFilter(int i){
 		this.objects=this.lists.get(i);
-		notifyDataSetChanged();
+		super.notifyDataSetChanged();
 	}
 
 }

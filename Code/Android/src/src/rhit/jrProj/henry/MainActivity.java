@@ -173,8 +173,8 @@ public class MainActivity extends Activity implements
 		getMenuInflater().inflate(R.menu.main, menu);
 		this.actionBarmenu = menu;
 		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
-		allTasks.setVisible(true);
-		allTasks.setEnabled(true);
+		allTasks.setVisible(false);
+		allTasks.setEnabled(false);
 		MenuItem search = menu.findItem(R.id.action_search);
 		search.setEnabled(false);
 		search.setVisible(false);
@@ -448,7 +448,7 @@ public class MainActivity extends Activity implements
 		item.setVisible(false);
 		this.selectedTask = t;
 		Bundle arguments = new Bundle();
-		arguments.putBoolean("Two Pane", mGlobalVariables.ismTwoPane());
+		arguments.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		TaskDetailFragment fragment = new TaskDetailFragment();
 		fragment.setArguments(arguments);
 		// currFragment=fragment;
@@ -472,7 +472,7 @@ public class MainActivity extends Activity implements
 		item.setVisible(false);
 		this.selectedBounty = t;
 		Bundle arguments = new Bundle();
-		arguments.putBoolean("Two Pane", mGlobalVariables.ismTwoPane());
+		arguments.putBoolean("TwoPane", mGlobalVariables.ismTwoPane());
 		BountyDetailFragment fragment = new BountyDetailFragment();
 		fragment.setArguments(arguments);
 		// currFragment=fragment;

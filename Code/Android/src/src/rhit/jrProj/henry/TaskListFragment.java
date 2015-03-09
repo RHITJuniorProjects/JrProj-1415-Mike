@@ -202,8 +202,8 @@ public class TaskListFragment extends ListFragment {
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
-		allTasks.setVisible(true);
-		allTasks.setEnabled(true);
+		allTasks.setVisible(false);
+		allTasks.setEnabled(false);
 
 		// This code shows the "Create Task" option when
 		// viewing tasks.

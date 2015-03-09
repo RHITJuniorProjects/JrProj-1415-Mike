@@ -12,12 +12,12 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -148,6 +148,7 @@ public class LeaderboardActivity extends Activity {
 			if (user.getId().equals(mUserKey)) {
 				TableRow row2 = createRow(user, i + 1,
 						user.getId().equals(mUserKey));
+				row2.setPadding(0, 0, 0, dpToPixel(10));
 				rows.add(0, row2);
 
 				// mLeaderboard.addView(row);
@@ -160,6 +161,10 @@ public class LeaderboardActivity extends Activity {
 	}
 
 	private TableRow createRow(LeaderboardUser user, int position, boolean bold) {
+		Display display = getWindowManager().getDefaultDisplay();
+	    DisplayMetrics outMetrics = new DisplayMetrics ();
+	    display.getMetrics(outMetrics);	
+		
 		TableRow row = new TableRow(this);
 		row.setLayoutParams(new TableRow.LayoutParams(
 				TableRow.LayoutParams.MATCH_PARENT,
@@ -167,16 +172,18 @@ public class LeaderboardActivity extends Activity {
 
 		TextView positionView = new TextView(this);
 		positionView.setText("" + position);
+		positionView.setWidth((int) (outMetrics.widthPixels * 0.10));
 		positionView.setLayoutParams(new TableRow.LayoutParams(1));
 
 		TextView nameView = new TextView(this);
 		nameView.setText(user.getName());
+		nameView.setWidth((int) (outMetrics.widthPixels * 0.4));
 		nameView.setLayoutParams(new TableRow.LayoutParams(2));
 		nameView.setGravity(Gravity.LEFT);
 
 		TextView userView = new TextView(this);
 		userView.setText("" + user.getTotalPoints());
-		userView.setWidth(dpToPixel(50));
+		userView.setWidth((int) (outMetrics.widthPixels * 0.30));
 		userView.setLayoutParams(new TableRow.LayoutParams(3));
 		userView.setGravity(Gravity.RIGHT);
 
@@ -185,7 +192,7 @@ public class LeaderboardActivity extends Activity {
 			nameView.setTypeface(null, Typeface.BOLD);
 			userView.setTypeface(null, Typeface.BOLD);
 			
-			row.setBackgroundColor(Color.BLUE);
+			row.setBackgroundColor(Color.LTGRAY);
 		}
 
 		row.addView(positionView);

@@ -26,5 +26,6 @@
     <color name="light_grey">#c0c0c0</color>
     <color name="white">#FFFFFF</color>
     <color name="light_blue">#15B8E6</color>
+    <color name="dark_grey">#656565</color>
 
 </resources>

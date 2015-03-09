@@ -77,6 +77,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 			break;
 		case R.id.go_to_projects_btn:
 			intent = new Intent(this, MainActivity.class);
+			mGlobalVariables.setUser(null);
 			intent.putExtra("user", mUser.toString());
 			startActivity(intent);
 			break;

@@ -5,10 +5,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import rhit.jrProj.henry.bridge.DescendantsListener;
 import rhit.jrProj.henry.bridge.FilteredArrayAdapter;
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
+import rhit.jrProj.henry.firebase.Enums.ObjectType;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
@@ -16,13 +42,21 @@ import rhit.jrProj.henry.firebase.User;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 /**
@@ -34,8 +68,12 @@ import android.widget.TextView;
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
-public class TasksAllListFragment extends ListFragment implements SpinnerHeader.Callbacks{
+public class TasksAllListFragment extends ListFragment implements OnItemSelectedListener{
 	private String sortMode = "A-Z";
+	private User user;
+	private TextView textView;
+	private TextView textView2;
+	private View header;
 	/**
 	 * The serialization (saved instance state) Bundle key representing the
 	 * activated item position. Only used on tablets.
@@ -56,8 +94,11 @@ public class TasksAllListFragment extends ListFragment implements SpinnerHeader.
 	private ArrayList<Task> tasks;
 	private ArrayList<Task> finishedTasks;
 	private ArrayList<Task> unfinishedTasks;
-	
+	private ArrayList<List<Task>> lists;
 	private FilteredArrayAdapter<Task> allTasksAdapter;
+	private SortedListChangeNotifier<Task> lcn;
+	
+	private GlobalVariables mGlobalVariables;
 	
 
 	private String userID;
@@ -161,30 +202,46 @@ public class TasksAllListFragment extends ListFragment implements SpinnerHeader.
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		super.onActivityCreated(savedInstanceState);
-		this.userID = this.mCallbacks.getUser().getKey();
-		getAllMyTasks();
+		mGlobalVariables = ((GlobalVariables) (this.getActivity().getApplicationContext()));
+		String fireBaseUrl = GlobalVariables.getFirebaseUrl();
+		Firebase firebase = new Firebase(fireBaseUrl);
 
-		// This still doesn't account for dynamically adding and removing tasks
-		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		for (Task task : this.tasks) {
-			Map<String, Object> datum = new HashMap<String, Object>(2);
-			datum.put("title", task);
-			datum.put("assignee", new Assignee(task));
-			data.add(datum);
-		}
-		List<List<Task>> lists=new ArrayList<List<Task>>();
+		String userKey = firebase.getAuth().getUid();
+		firebase.child("users").child(userKey)
+		.addChildEventListener(new DescendantsListener(this));
+		this.user=new User(firebase.child("users").child(userKey).toString());
+		this.userID = user.getKey();
+		this.tasks=new ArrayList<Task>();
+		this.finishedTasks=new ArrayList<Task>();
+		this.unfinishedTasks=new ArrayList<Task>();
+//		this.projects=new ArrayList<Project>();
+//		SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
+//				getActivity(), android.R.layout.simple_list_item_activated_2,
+//				android.R.id.text1, this.projects, Enums.ObjectType.PROJECT, false);
+////		setListAdapter(arrayAdapter);
+//		
+//		SortedListChangeNotifier<Project> lcn2 = new SortedListChangeNotifier<Project>(
+//				arrayAdapter, this.sortMode);
+//		
+//		user.setListChangeNotifier(lcn2);
+		getAllMyTasks();
+//
+//		// This still doesn't account for dynamically adding and removing tasks
+
+		lists=new ArrayList<List<Task>>();
 		lists.add(this.tasks);
 		lists.add(this.unfinishedTasks);
 		lists.add(this.finishedTasks);
 		allTasksAdapter = new FilteredArrayAdapter<Task>(
 				getActivity(), android.R.layout.simple_list_item_activated_2,
 				android.R.id.text1, lists, Enums.ObjectType.TASK,
-				false, true);
-		SortedListChangeNotifier<Task> lcn = new SortedListChangeNotifier<Task>(allTasksAdapter);
+				true, true);
 
-		for (Task t : this.tasks) {
-			t.setListChangeNotifier(lcn);
-		}
+		lcn = new SortedListChangeNotifier<Task>(allTasksAdapter);
+
+//		for (Task t : this.tasks) {
+//			t.setListChangeNotifier(lcn);
+//		}
 		setListAdapter(allTasksAdapter);
 		if (this.mCallbacks.isFromMainActivity()){
 			this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
@@ -299,100 +356,51 @@ public class TasksAllListFragment extends ListFragment implements SpinnerHeader.
 
 		this.mActivatedPosition = position;
 	}
-
+	public void changeName(String s){
+		textView.setText(s+"'s Tasks");
+	}
+	public void fireChangeInData(){
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		for (Task task : this.tasks) {
+			Map<String, Object> datum = new HashMap<String, Object>(2);
+			datum.put("title", task);
+			datum.put("assignee", new Assignee(task));
+			data.add(datum);
+		}
+		
+	}
 	private void getAllMyTasks() {
-		TextView textView = new TextView(this.getActivity().getBaseContext());
+		textView = new TextView(this.getActivity().getBaseContext());
 		textView.setTextSize(24);
 		textView.setTextColor(R.color.light_blue);
 		textView.setPadding(16, 0, 16, 0);
-		textView.setText(this.mCallbacks.getUser().getName()+"'s Tasks");
-		User u=this.mCallbacks.getUser();
-		TextView textView2 = new TextView(this.getActivity().getBaseContext());
-		textView2.setTextSize(18);
-		textView2.setTextColor(R.color.light_blue);
-		textView2.setClickable(false);
-		textView2.setEnabled(false);
-		textView2.setPadding(16, 0, 16, 0);
-		this.getListView().addHeaderView(textView2, null, false);
-		View header=(View)View.inflate(this.getActivity(), R.layout.switch_header_layout, null);
-//		View headerView = View.inflate(this.getActivity(), R.layout.switch_header_layout, null);
-//		this.getListView().addHeaderView(headerView);
-		this.getListView().addHeaderView(header);
-		ArrayList<Task> t = new ArrayList<Task>();
-		ArrayList<Project> projects;
-		ArrayList<Milestone> milestones;
-		ArrayList<Task> t2;
-		if (this.mCallbacks.getSelectedProject() == null) {
-			textView2.setText("All Projects");
-
-			
-			projects = u.getProjects();
-			for (Project p : projects) {
-				milestones = p.getMilestones();
-				for (Milestone m : milestones) {
-					t2= m.getTasks();
-					for (Task task : t2){
-						if (task.getAssignedUserId().equals(u.getKey())){
-							task.setParentNames(p.getName(), m.getName());
-							t.add(task);
-							if (task.getStatus()==Enums.CLOSED){
-								finishedTasks.add(task);
-							}
-							else{
-								unfinishedTasks.add(task);
-							}
-						}
-					}
-				}
-			}
-		}
-		else if (this.mCallbacks.getSelectedMilestone() == null){
-			
-			Project p = this.mCallbacks.getSelectedProject();
-			textView2.setText("All Milestones in "+p.getName());
-			milestones = p.getMilestones();
-			for (Milestone m : milestones) {
-				t2= m.getTasks();
-				for (Task task : t2){
-					if (task.getAssignedUserId().equals(u.getKey())){
-						task.setParentNames(p.getName(), m.getName());
-						t.add(task);
-						if (task.getStatus()==Enums.CLOSED){
-							finishedTasks.add(task);
-						}
-						else{
-							unfinishedTasks.add(task);
-						}
-					}
-				}
-			}
-		}
-		else{
-			Project p = this.mCallbacks.getSelectedProject();
-			Milestone m= this.mCallbacks.getSelectedMilestone();
-			textView2.setText("In "+m.getName()+" of "+p.getName());
-			t2= m.getTasks();
-			for (Task task : t2){
-				if (task.getAssignedUserId().equals(u.getKey())){
-					task.setParentNames(p.getName(), m.getName());
-					t.add(task);
-					if (task.getStatus()==Enums.CLOSED){
-						finishedTasks.add(task);
-					}
-					else{
-						unfinishedTasks.add(task);
-					}
-				}
-			}
-			
-		}
+		textView.setText(this.user.getName()+"'s Tasks");
+//		textView2 = new TextView(this.getActivity().getBaseContext());
+//		textView2.setTextSize(18);
+//		textView2.setTextColor(R.color.light_blue);
+//		textView2.setClickable(false);
+//		textView2.setEnabled(false);
+//		textView2.setPadding(16, 0, 16, 0);
+//		this.getListView().addHeaderView(textView2, null, false);
+//		header=(View)View.inflate(this.getActivity(), R.layout.switch_header_layout, null);
+//		Spinner spinner = (Spinner) header.findViewById(R.id.show_spinner);
+//		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+//				this.getActivity().getBaseContext(), R.array.tasks_all,
+//				android.R.layout.simple_spinner_item);
+//		// Specify the layout to use when the list of choices appears
+//		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//		spinner.setAdapter(adapter);
+//		spinner.setOnItemSelectedListener(this);
+////		View headerView = View.inflate(this.getActivity(), R.layout.switch_header_layout, null);
+////		this.getListView().addHeaderView(headerView);
+//		this.getListView().addHeaderView(header);
+		fireChangeInData();
 		textView.setClickable(false);
 		textView.setEnabled(false);
 		this.getListView().addHeaderView(textView, null, false);
-		textView2.setClickable(false);
-		textView2.setEnabled(false);
-		this.getListView().addHeaderView(textView2, null, false);
-		this.tasks=t;
+//		textView2.setClickable(false);
+//		textView2.setEnabled(false);
+//		this.getListView().addHeaderView(textView2, null, false);
 	}
 	public void sortingChanged(){
 		this.sortMode=this.mCallbacks.getSortMode();
@@ -401,12 +409,38 @@ public class TasksAllListFragment extends ListFragment implements SpinnerHeader.
 		}
 	}
 
-	@Override
+
 	public void onSpinnerHeaderChange(int nu) {
+		Log.i("filter changed", "hi");
 		this.allTasksAdapter.changeFilter(nu);
 		
 	}
+	public void addTask(Task t){
+		this.tasks.add(t);
+		if (t.getStatus().equals(Enums.CLOSED)){
+			Log.i("CLOSED", t.getName());
+			this.finishedTasks.add(t);
+		}
+		else{
+			this.unfinishedTasks.add(t);
+		}
+		t.setListChangeNotifier(lcn);
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position,
+			long id) {
+		this.onSpinnerHeaderChange(position);
+		
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// TODO Auto-generated method stub
+		
+	}
 	
+		
 	
 
 }
