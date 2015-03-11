@@ -1,0 +1,115 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/milestone_name"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
+            android:layout_marginLeft="10sp"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/header2"
+            tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+        <TextView
+            android:id="@+id/milestone_due_date"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:layout_marginLeft="10sp"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/body"
+            tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+        <TextView
+            android:id="@+id/milestone_description"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+        <!--
+            <Switch
+            android:id="@+id/milestoneMemberSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:textOff="Details"
+            android:textOn="Members"
+            android:thumb="@android:color/darker_gray" />
+        -->
+
+        <LinearLayout
+            android:id="@+id/milestoneDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <Spinner
+                android:id="@+id/milestone_chart_spinner"
+                android:layout_marginTop="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" >
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/milestone_task_percent"
+                style="?android:attr/textAppearanceLarge"
+                android:layout_width="match_parent"
+                android:layout_marginTop="20sp"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true"
+                tools:context="rhit.jrProj.henry.MilestoneDetailFragment" />
+
+            <ProgressBar
+                android:id="@+id/milestone_task_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="311dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/MilestoneCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="openTaskView"
+                android:text="@string/ViewTasks"
+                android:textColor="@color/blue" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/milestoneMembers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone" >
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
