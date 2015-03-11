@@ -1,0 +1,129 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/bounty_name"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="20sp"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/header2"
+            tools:context="rhit.jrProj.henry.BountyDetailFragment" />
+
+        <TextView
+            android:id="@+id/bounty_due_date"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/body"
+            android:layout_below="@+id/bounty_name"
+            tools:context="rhit.jrProj.henry.BountyDetailFragment" />
+
+        <TextView
+            android:id="@+id/bounty_description"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            android:layout_below="@+id/bounty_due_date"
+            tools:context="rhit.jrProj.henry.BountyDetailFragment" />
+        
+        <TextView
+            android:id="@+id/bounty_points"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/blue"
+            android:layout_below="@+id/bounty_description"
+            tools:context="rhit.jrProj.henry.BountyDetailFragment" />
+        
+        <rhit.jrProj.henry.helpers.HorizontalPicker
+         android:id ="@+id/horizontal_number_picker"
+         android:layout_width ="wrap_content"
+         android:layout_height ="wrap_content" 
+         android:layout_below="@+id/bounty_description"
+         android:layout_marginLeft="20sp"
+         android:layout_marginBottom="40sp"
+         android:layout_toRightOf="@id/bounty_points" />
+
+        <!--
+            <Switch
+            android:id="@+id/bountyMemberSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:checked="false"
+            android:textOff="Details"
+            android:textOn="Members"
+            android:thumb="@android:color/darker_gray" />
+        
+
+        <LinearLayout
+            android:id="@+id/bountyDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical" >
+
+            <Spinner
+                android:id="@+id/bounty_chart_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@+id/pieChart"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" >
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/bounty_task_percent"
+                style="?android:attr/textAppearanceLarge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/blue"
+                android:textIsSelectable="true"
+                tools:context="rhit.jrProj.henry.BountyDetailFragment" />
+
+            <ProgressBar
+                android:id="@+id/bounty_task_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="311dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/BountyCancelButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:onClick="openTaskView"
+                android:text="@string/ViewTasks"
+                android:textColor="@color/blue" />
+        </LinearLayout>
+        </LinearLayout>
+        -->
+    </RelativeLayout>
+
+</ScrollView>

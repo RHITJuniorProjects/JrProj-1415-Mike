@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Henry</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_milestone_list">Milestones</string>
+    <string name="title_milestone_detail">Milestone Detail</string>
+    <string name="projectButtonName">View Projects</string>
+    <string name="title_project_list">Projects</string>
+    <string name="title_project_detail">Project Detail</string>
+    <string name="ViewTasks">View Tasks</string>
+    <string name="ViewMilestones">View Milestones</string>
+    <string name="ViewMembers">View Project Members</string>
+
+    <string-array name="task_statuses">
+        <item>New</item>
+        <item>Implementation</item>
+        <item>Testing</item>
+        <item>Verify</item>
+        <item>Regression</item>
+        <item>Closed</item>
+    </string-array>
+    <string-array name="milestone_charts">
+        <item>Lines of Code Added</item>
+        <item>Lines of Code Total</item>
+        <item>Burndown Chart</item>
+    </string-array>
+    <string-array name="tasks_all">
+        <item>All Tasks</item>
+        <item>Unfinished</item>
+        <item>Finished</item>
+    </string-array>
+
+    <string name="register">Register</string>
+    <string name="sign_in">Sign in</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="MilestoneCreateTitle">New Milestone</string>
+    <string name="MilestoneStringHint">Milestone Name</string>
+    <string name="MilestoneDescriptionHint">Milestone Description</string>
+    <string name="MilestoneCreateCancelString">Cancel</string>
+    <string name="MilestoneCreateAddString">Add</string>
+    <string name="MilestoneAddString">Add</string>
+    <string name="TaskStringHint">String Name</string>
+    <string name="TaskDescriptionHint">Task Description</string>
+    <string name="TaskNameHint">Task Name</string>
+    <string name="invalidMilestoneDescription">The milestone description is invalid.</string>
+    <string name="invalidMilestoneName">The milestone name is invalid.</string>
+    <string name="invalidTaskDescription">The task description is invalid.</string>
+    <string name="invalidTaskName">The task name is invalid.</string>
+    <string name="Task_Category">Task Category</string>
+    <string name="invalidTaskCategory">The task category is invalid.</string>
+    <string name="invalidBountyDescription">The bounty description is invalid.</string>
+    <string name="invalidBountyName">The bounty name is invalid.</string>
+
+    <string-array name="task_categories">
+        <item>Bug Fix</item>
+        <item>Enhancement</item>
+        <item>Feature</item>
+        <item>Business</item>
+        <item>General</item>
+        <item>Infrastructure</item>
+        <item>QA</item>
+        <item>No Category</item>
+    </string-array>
+    
+    <string-array name="bounty_categories">
+        <item>Due Date</item>
+        <item>Line Limit</item>
+        <item>Hour Limit</item>
+    </string-array>
+
+    <string name="email">Email</string>
+    <string name="title_activity_charts_fragment">ChartsFragment</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string-array name="longitude_charts">
+        <item>Lines of Code Added By Milestone</item>
+        <item>Accuracy of Time Estimates By Milestone</item>
+    </string-array>
+
+    <string name="burndown">Burndown</string>
+    <string name="days">Days</string>
+    <string name="hours">Hours</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="title_activity_profile">Profile</string>
+    <string name="ViewBounties">View Bounties</string>
+    <string name="BountyStringHint">String Name</string>
+    <string name="BountyDescriptionHint">Bounty Description</string>
+    <string name="BountyNameHint">Bounty Name</string>
+    <string name="title_activity_leaderboard">LeaderboardActivity</string>
+    <string name="title_activity_tasks_all">TasksAllActivity</string>
+
+</resources>
