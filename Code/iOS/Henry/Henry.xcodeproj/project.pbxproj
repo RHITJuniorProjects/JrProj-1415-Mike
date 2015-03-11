@@ -19,7 +19,6 @@
 		83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83B24CFD19F5A0160018A790 /* iPadLoginStoryboard.storyboard */; };
 		83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B26D9219F5AD98001DEE31 /* HenryHomeViewController.m */; };
 		83B26D9519F5B1B4001DEE31 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B26D9419F5B1B4001DEE31 /* menu@2x.png */; };
-		83FB8D6B1A097381000FB8E8 /* combo_chart-25.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FB8D6A1A097381000FB8E8 /* combo_chart-25.png */; };
 		83FB8D6D1A097456000FB8E8 /* list-26.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FB8D6C1A097456000FB8E8 /* list-26.png */; };
 		843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D240919F476BC00DBC2CB /* HenryMilestoneDetailViewController.m */; };
 		843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 843D240C19F476DF00DBC2CB /* HenryProjectDetailViewController.m */; };
@@ -557,7 +556,6 @@
 				83FB8D6D1A097456000FB8E8 /* list-26.png in Resources */,
 				83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */,
 				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
-				83FB8D6B1A097381000FB8E8 /* combo_chart-25.png in Resources */,
 				87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
