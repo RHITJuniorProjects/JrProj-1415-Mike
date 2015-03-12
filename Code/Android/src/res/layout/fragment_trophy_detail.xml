@@ -1,0 +1,65 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/trophy_name"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="20sp"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/header2"
+            tools:context="rhit.jrProj.henry.TrophyDetailFragment" />
+
+        <TextView
+            android:id="@+id/trophy_cost"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/blue"
+            android:layout_toLeftOf="@+id/trophy_name"
+            tools:context="rhit.jrProj.henry.TrophyDetailFragment" />
+
+        <TextView
+            android:id="@+id/trophy_description"
+            android:layout_marginLeft="10sp"
+            android:layout_marginTop="5sp"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/blue"
+            android:textIsSelectable="true"
+            android:layout_below="@+id/trophy_name"
+            tools:context="rhit.jrProj.henry.TrophyDetailFragment" />
+        
+         <Button
+                android:id="@+id/buyTrophyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_below="@+id/trophy_description"
+                android:onClick="buyTrophy"
+                android:text="@string/BuyTrophy"
+                android:textColor="@color/blue" />
+        
+       
+        
+      
+
+    </RelativeLayout>
+
+</ScrollView>
+

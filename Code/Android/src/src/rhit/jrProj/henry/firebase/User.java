@@ -41,6 +41,10 @@ public class User implements Parcelable {
 	 * Key is the Firebase Key of the user.
 	 */
 	private String key = "no key assigned";
+	
+	
+	private int allPoints=0;
+	private int availablePoints=0;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -48,6 +52,9 @@ public class User implements Parcelable {
 	 * User that this object has been updated.
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
+	private ListChangeNotifier<Trophy> trophyListViewCallback;
+	
+	private Set<Trophy> trophies=new HashSet<Trophy>();
 	
 	
 	/**
@@ -126,6 +133,9 @@ public class User implements Parcelable {
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.listViewCallback = lcn;
 	}
+	public void setTrophyListChangeNotifier(ListChangeNotifier<Trophy> lcn) {
+		this.trophyListViewCallback = lcn;
+	}
 	
 
 	/**
@@ -163,6 +173,25 @@ public class User implements Parcelable {
 	 */
 	public ArrayList<Project> getProjects() {
 		return this.projects.getAllKeys();
+	}
+	public int getAllPoints(){
+		return this.allPoints;
+	}
+	public int getAvailablePoints(){
+		return this.availablePoints;
+	}
+	public void setAllPoints(int s){
+		this.allPoints=s;
+	}
+	public void setAvailablePoints(int s){
+		this.availablePoints=s;
+	}
+	public void changeAvailablePoints(int s){
+		this.availablePoints+=s;
+		this.firebase.child("available_points").setValue(this.availablePoints);
+	}
+	public void addTrophy(Trophy t){
+		this.trophies.add(t);
 	}
 
 	/**

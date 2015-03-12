@@ -8,6 +8,7 @@ import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
+import rhit.jrProj.henry.firebase.Trophy;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -149,6 +150,14 @@ public class SortedArrayAdapter<T> extends ArrayAdapter<T> {
 			text1.setText(m.getName());
 			text2.setText("Points: "+m.getPoints());
 			text1.setTextSize(20);
+			view.refreshDrawableState();
+		}
+		else if (this.type==Enums.ObjectType.TROPHY){
+			Trophy t=(Trophy) super.getItem(position);
+			img1.setImageResource(t.getIconImagePath());
+			img1.setVisibility(View.VISIBLE);
+			text1.setText(t.getName());
+			text2.setText("Cost: "+t.getCost());
 			view.refreshDrawableState();
 		}
 		

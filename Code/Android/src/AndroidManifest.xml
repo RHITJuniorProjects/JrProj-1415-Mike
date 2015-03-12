@@ -117,6 +117,18 @@
             android:name=".TasksAllActivity"
             android:label="All My Tasks" >
         </activity>
+        <activity
+            android:name=".TrophyListActivity"
+            android:label="@string/title_trophy_list" >
+        </activity>
+        <activity
+            android:name=".TrophyDetailActivity"
+            android:label="@string/title_trophy_detail"
+            android:parentActivityName=".TrophyListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="rhit.jrProj.henry.TrophyListActivity" />
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

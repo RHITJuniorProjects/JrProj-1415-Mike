@@ -42,6 +42,14 @@
                 android:id="@+id/sortNewest"
                 android:onClick="sortingMode"
                 android:title="Newest First"/>
+            <item
+                android:id="@+id/sortLowest"
+                android:onClick="sortingMode"
+                android:title="Least Expensive First"/>
+            <item
+                android:id="@+id/sortHighest"
+                android:onClick="sortingMode"
+                android:title="Most Expensive First"/>
         </menu>
     </item>
     <item
