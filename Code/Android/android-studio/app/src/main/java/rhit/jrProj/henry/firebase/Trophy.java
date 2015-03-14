@@ -2,13 +2,19 @@ package rhit.jrProj.henry.firebase;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+
+import rhit.jrProj.henry.bridge.ListChangeNotifier;
 
 /**
  * Created by johnsoaa on 3/14/2015.
  */
-public class Trophy implements Parcelable {
+public class Trophy implements Parcelable, ChildEventListener {
 
     /**
      * A Creator object that allows this object to be created by a parcel
@@ -28,9 +34,12 @@ public class Trophy implements Parcelable {
     private String mDescription;
     private String mImage;
     private String mName;
+    private ListChangeNotifier<Trophy> listChangeNotifier;
 
     public Trophy(String firebaseURL) {
         mFirebase = new Firebase(firebaseURL);
+        Log.d("RHH", "trophy created at:" + firebaseURL);
+        mFirebase.addChildEventListener(this);
         this.mCost = 0;
         this.mDescription = "";
         this.mImage = "";
@@ -39,6 +48,7 @@ public class Trophy implements Parcelable {
 
     public Trophy(Parcel pc) {
         mFirebase = new Firebase(pc.readString());
+
         this.mCost = pc.readInt();
         this.mDescription = pc.readString();
         this.mImage = pc.readString();
@@ -90,5 +100,46 @@ public class Trophy implements Parcelable {
 
     public void setName(String mName) {
         this.mName = mName;
+    }
+
+    public void setListChangeNotifier(ListChangeNotifier<Trophy> listChangeNotifier) {
+        this.listChangeNotifier = listChangeNotifier;
+    }
+
+
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        String key = dataSnapshot.getKey();
+        Log.d("RHH", "trophy recieved: " + key);
+        if (key.equals("cost")) {
+            setCost(dataSnapshot.getValue(Integer.class));
+        } else if (key.equals("description")) {
+            setDescription(dataSnapshot.getValue(String.class));
+        } else if (key.equals("image")) {
+            setImage(dataSnapshot.getValue(String.class));
+        } else if (key.equals("name")) {
+            setName(dataSnapshot.getValue(String.class));
+        }
+        listChangeNotifier.onChange();
+    }
+
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+    }
+
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+    }
+
+    @Override
+    public void onCancelled(FirebaseError firebaseError) {
+
     }
 }

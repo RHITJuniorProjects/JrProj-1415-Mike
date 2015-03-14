@@ -63,7 +63,6 @@
         <item>QA</item>
         <item>No Category</item>
     </string-array>
-    
     <string-array name="bounty_categories">
         <item>Due Date</item>
         <item>Line Limit</item>
@@ -92,5 +91,7 @@
     <string name="BountyNameHint">Bounty Name</string>
     <string name="title_activity_leaderboard">LeaderboardActivity</string>
     <string name="title_activity_tasks_all">TasksAllActivity</string>
+    <string name="title_activity_profile_list">ProfileListActivity</string>
+    <string name="profiles">Profiles</string>
 
 </resources>

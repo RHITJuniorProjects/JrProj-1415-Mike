@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="${relativePackage}.${activityClass}" >
+    tools:context="${relativePackage}.${activityClass}">
 
     <TextView
         android:id="@+id/user_name"
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/user_points"
         android:layout_marginTop="20dp"
-        android:numColumns="auto_fit"
+        android:listSelector="@android:color/transparent"
+        android:numColumns="3"
         android:stretchMode="columnWidth"></GridView>
 </RelativeLayout>
