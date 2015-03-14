@@ -11,6 +11,7 @@
         android:layout_alignLeft="@+id/user_email"
         android:layout_alignParentTop="true"
         android:layout_marginTop="22dp"
+        android:text="hello"
         android:textSize="20dp" />
 
     <TextView
@@ -21,6 +22,7 @@
         android:layout_below="@+id/user_name"
         android:layout_marginLeft="26dp"
         android:layout_marginTop="20dp"
+        android:text="helllo"
         android:textSize="20dp" />
 
     <TextView
@@ -30,6 +32,15 @@
         android:layout_alignLeft="@+id/user_email"
         android:layout_below="@+id/user_email"
         android:layout_marginTop="17dp"
+        android:text="hellllo"
         android:textSize="20dp" />
 
+    <GridView
+        android:id="@+id/trophies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_points"
+        android:layout_marginTop="20dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"></GridView>
 </RelativeLayout>
