@@ -17,18 +17,22 @@
 							);
 						?>
 			</div>
-			<div class= "main-content">
-                    <table style="width:100%">
-                            <thead>
-                                <td>Name</td>
-                                <td>Description</td>
-                                <td>Cost</td> 
-                                <td>Image</td>
-                            </thead>
-                            <tbody id="trophy-store-rows">
-                            </tbody>
+		<div class="small-9 columns main-content">
+			<div class="tabs-content">
+				<div class= "content active">
+                	    <table style="width:100%">
+                    	        <thead>
+                        	        <td>Name</td>
+                            	    <td>Description</td>
+                                	<td>Cost</td> 
+                              	  <td>Image</td>
+                            	</thead>
+                            	<tbody id="trophy-store-rows">
+                           	 </tbody>
                         </table>
+            	</div>
             </div>
+          </div>
 		</div>
 	</body>
 </html>
