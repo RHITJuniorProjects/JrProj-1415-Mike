@@ -13,6 +13,11 @@ var myTrophyStorePage;
 var defaultCategories = [];
 
 
+function backFromStore(){
+    console.log("going back");
+    window.location = "https://henry-test.firebaseapp.com/projects"
+}
+
 function Chart(id,title){
 	this.chart = {
 		renderTo:id,

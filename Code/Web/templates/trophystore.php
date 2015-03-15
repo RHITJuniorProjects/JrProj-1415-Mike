@@ -8,16 +8,15 @@
 		<div id="store-page" class="wide row">
 			<div class="small-2 columns small-offset-1 tabbar">
 				<?php
-					require_once 'tabbar.php';
-					make_tabbar(
-						array(
-							new Tab("Back to My Projects", ["onclick" => "showProjects()"],"#ProjectMilestones")
-							
-						)
-					);
-				?>
+						require_once 'tabbar.php';
+							make_tabbar(
+								array(
+									new Tab("Back to My Projects", ["onclick" => "backFromStore()"],"#ProjectMilestones")
+									
+								)
+							);
+						?>
 			</div>
 		</div>
 	</body>
 </html>
-
