@@ -9,6 +9,7 @@ var selectedProject;
 var selectedMilestone;
 var myTasks;
 var myStatisticsPage;
+var myTrophyStorePage;
 var defaultCategories = [];
 
 
@@ -143,6 +144,7 @@ function selectProject(project){
 function selectMilestone(milestone){
     milestonePage.hide();
     projectPage.hide();
+    myTrophyStorePage.hide();
     taskPage.show();
 	profilePage.hide();
 	if(selectedMilestone){
@@ -183,10 +185,19 @@ function showProjects(){
     drawProjectStuff(firebase);
     milestonePage.hide();
     taskPage.hide();
+    myTrophyStorePage.hide();
 	profilePage.hide();
     projectPage.show();
     myStatisticsPage.hide();
 	selectMyTasks();
+}
+
+function showMyTrophyStore() {
+    milestonePage.hide();
+    projectPage.hide();
+    taskPage.hide();
+    myStatisticsPage.hide();
+    myTrophyStorePage.show();
 }
 
 function selectMyTasks(){
@@ -2155,6 +2166,7 @@ firebase.onAuth( // called on page load to auth users
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
 				profilePage = $('#profile-page');
+		myTrophyStorePage = $('#store-page');
                 myStatisticsPage =  $('#my-statistics-page');
 				showProjects();
 				getAllUsers();

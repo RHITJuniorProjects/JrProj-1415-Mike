@@ -1,14 +1,13 @@
 
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#ProjectMilestones">Back to My Projects</a></dd><dd class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
+		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#ProjectMilestones">Back to My Projects</a></dd><dd id="MilestoneTab" class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd onclick="$('#myMilestoneModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"><a href="#ProjectMilestones">Add New Milestone</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
 		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
 					<div class="small-10 columns small-offset-1">
 						<div class="row collapse text-center outlined">
 							<h1 id="project-name"></h1>
-														<button data-reveal-id="myMilestoneModal">Add Milestone</button>
 							<div id="myMilestoneModal" class="reveal-modal small-4" data-reveal>
 								<h2>New Milestone</h2><br />
                                 <form action="" onsubmit="addNewMilestone(); return false;">
