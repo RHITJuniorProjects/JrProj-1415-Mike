@@ -185,20 +185,20 @@ function showProjects(){
     drawProjectStuff(firebase);
     milestonePage.hide();
     taskPage.hide();
-    myTrophyStorePage.hide();
+    // myTrophyStorePage.hide();
 	profilePage.hide();
     projectPage.show();
     myStatisticsPage.hide();
 	selectMyTasks();
 }
 
-function showMyTrophyStore() {
-    milestonePage.hide();
-    projectPage.hide();
-    taskPage.hide();
-    myStatisticsPage.hide();
-    myTrophyStorePage.show();
-}
+// function showMyTrophyStore() {
+//     milestonePage.hide();
+//     projectPage.hide();
+//     taskPage.hide();
+//     myStatisticsPage.hide();
+//     myTrophyStorePage.show();
+// }
 
 function selectMyTasks(){
     var $panel = $('#my-tasks-rows');
@@ -2166,7 +2166,7 @@ firebase.onAuth( // called on page load to auth users
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
 				profilePage = $('#profile-page');
-		        myTrophyStorePage = $('#store-page');
+		        // myTrophyStorePage = $('#store-page');
                 myStatisticsPage =  $('#my-statistics-page');
 				showProjects();
 				getAllUsers();

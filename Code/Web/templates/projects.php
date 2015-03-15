@@ -17,8 +17,7 @@
 							new Tab("Project Statistics"),
 							new Tab("Add Project",["onclick" => "$('#myProjectModal').foundation('reveal','open') && setTimeout(function(){ $('#MyProjectsTab a').click() })"],"#MyProjects"),
 							new Tab("LeaderBoard", ["class" => "gamification", "onclick" => "userLeaderboard()"])
-							// new Tab("Trophy Store", ["onclick" => "showMyTrophyStore()"])
-						)
+							)
 					);
 				?>
 			</div>
@@ -266,7 +265,7 @@
         <?php require 'mytasks.php'?>
 		<?php require 'profile.php'?>
         <?php require 'myStatistics.php'?>
-        <?php require 'trophystore.php'?>
+        
 	</body>
 </html>
 

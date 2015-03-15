@@ -1,7 +1,6 @@
-
 <html>
 	<head>
-		<title>Henry - Projects</title>
+		<title>Henry - Trophy Store</title>
 		<?php require 'header.php';?>
 	</head>
 	<body class="wide">
@@ -12,7 +11,7 @@
 					require_once 'tabbar.php';
 					make_tabbar(
 						array(
-							new Tab("Back to My Projects")
+							new Tab("Back to My Projects", ["onclick" => "showProjects()"],"#ProjectMilestones")
 							
 						)
 					);
@@ -21,3 +20,4 @@
 		</div>
 	</body>
 </html>
+
