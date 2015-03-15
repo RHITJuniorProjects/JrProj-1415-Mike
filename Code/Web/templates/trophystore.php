@@ -1,6 +1,7 @@
+
 <html>
 	<head>
-		<title>Henry - Trophy Store</title>
+		<title>Henry - Projects</title>
 		<?php require 'header.php';?>
 	</head>
 	<body class="wide">
@@ -11,14 +12,12 @@
 					require_once 'tabbar.php';
 					make_tabbar(
 						array(
-							new Tab("My Projects",["id" => "MyProjectsTab","class" => "active"]),
-							new Tab("My Tasks"),
-							new Tab("My Statistics"),
-							new Tab("Project Statistics"),
-							new Tab("Add Project",["onclick" => "$('#myProjectModal').foundation('reveal','open') && setTimeout(function(){ $('#MyProjectsTab a').click() })"],"#MyProjects"),
-							new Tab("LeaderBoard", ["class" => "gamification", "onclick" => "userLeaderboard()"])
+							new Tab("Back to My Projects")
+							
 						)
 					);
 				?>
 			</div>
+		</div>
+	</body>
 </html>

@@ -2166,7 +2166,7 @@ firebase.onAuth( // called on page load to auth users
 			    projectPage = $('#projects-page');
 			    taskPage = $('#tasks-page');
 				profilePage = $('#profile-page');
-		myTrophyStorePage = $('#store-page');
+		        myTrophyStorePage = $('#store-page');
                 myStatisticsPage =  $('#my-statistics-page');
 				showProjects();
 				getAllUsers();
