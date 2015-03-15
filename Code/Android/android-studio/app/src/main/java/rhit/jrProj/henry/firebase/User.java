@@ -41,6 +41,10 @@ public class User implements Parcelable {
 	 * Key is the Firebase Key of the user.
 	 */
 	private String key = "no key assigned";
+	
+	
+	private int allPoints=0;
+	private int availablePoints=0;
 
 	/**
 	 * This is the class that onChange is called from to when a field in
@@ -48,12 +52,15 @@ public class User implements Parcelable {
 	 * User that this object has been updated.
 	 */
 	private ListChangeNotifier<Project> listViewCallback;
+	private ListChangeNotifier<Trophy> trophyListViewCallback;
+	
+	private Set<Trophy> trophies=new HashSet<Trophy>();
 	
 	
 	/**
 	 * projects is a Set in the form: [project_key, this_Users_role]
 	 */
-	private Map<Project, Enums.Role> projects = new Map<Project, Enums.Role>();
+	private Map<Project, Role> projects = new Map<Project, Role>();
 
 	/**
 	 * tasks is a Set in the form: task_key
@@ -72,7 +79,7 @@ public class User implements Parcelable {
 	/**
 	 * A Creator object that allows this object to be created by a parcel
 	 */
-	public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+	public static final Creator<User> CREATOR = new Creator<User>() {
 
 		public User createFromParcel(Parcel pc) {
 			return new User(pc);
@@ -126,6 +133,9 @@ public class User implements Parcelable {
 	public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
 		this.listViewCallback = lcn;
 	}
+	public void setTrophyListChangeNotifier(ListChangeNotifier<Trophy> lcn) {
+		this.trophyListViewCallback = lcn;
+	}
 	
 
 	/**
@@ -163,6 +173,25 @@ public class User implements Parcelable {
 	 */
 	public ArrayList<Project> getProjects() {
 		return this.projects.getAllKeys();
+	}
+	public int getAllPoints(){
+		return this.allPoints;
+	}
+	public int getAvailablePoints(){
+		return this.availablePoints;
+	}
+	public void setAllPoints(int s){
+		this.allPoints=s;
+	}
+	public void setAvailablePoints(int s){
+		this.availablePoints=s;
+	}
+	public void changeAvailablePoints(int s){
+		this.availablePoints+=s;
+		this.firebase.child("available_points").setValue(this.availablePoints);
+	}
+	public void addTrophy(Trophy t){
+		this.trophies.add(t);
 	}
 
 	/**

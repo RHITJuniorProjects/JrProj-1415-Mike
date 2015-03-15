@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="0dp"
     tools:context="${relativePackage}.${activityClass}" >
 
     <LinearLayout
@@ -10,115 +11,192 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:orientation="vertical" >
-
+        <!--Row 1-->
         <LinearLayout
+
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
             android:orientation="horizontal" >
+            <!-- Row 1, Column 1 -->
             <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/go_to_projects_btn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/ic_projects"
-                 />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/go_to_projects_btn"
-                android:layout_marginLeft="20dp"
-                android:text="Projects"
-                android:textColor="@color/black"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                 />
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
 
-			</LinearLayout>
-			<LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-            <ImageView
-                android:id="@+id/go_to_metrics_btn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/ic_metrics" />
-            <TextView
+                <ImageView
+                    android:id="@+id/go_to_projects_btn"
+                    android:layout_width="@string/pictureSize"
+                    android:layout_height="@string/pictureSize"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/ic_projects"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/go_to_projects_btn"
+                    android:layout_marginLeft="10dp"
+                    android:text="Projects"
+                    android:textColor="@color/black"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    />
+                <!-- End R1, C1 -->
+            </LinearLayout>
+            <!-- Row 1, Column 2 -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/go_to_metrics_btn"
-                android:layout_marginLeft="50dp"
-                android:text="Metrics"
-                android:textColor="@color/black"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                 />
-
-			</LinearLayout>
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
+                <ImageView
+                    android:id="@+id/go_to_metrics_btn"
+                    android:layout_width="@string/pictureSize"
+                    android:layout_height="@string/pictureSize"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/ic_metrics" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/go_to_metrics_btn"
+                    android:layout_marginLeft="40dp"
+                    android:text="Metrics"
+                    android:textColor="@color/black"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    />
+                <!-- End R1, C2 -->
+            </LinearLayout>
+            <!-- End Row 1 -->
         </LinearLayout>
-
+        <!-- Row 2-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:orientation="horizontal" >
-			<LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/go_to_tasks_btn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginRight="30dp"
-                android:background="@drawable/ic_tasks" />
-            <TextView
+            <!-- Row 2, Column 1 -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/go_to_tasks_btn"
-                android:layout_marginLeft="30dp"
-                android:text="Tasks"
-                android:textColor="@color/black"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                 />
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
 
-			</LinearLayout>
-			<LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/go_to_profile_btn"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginLeft="30dp"
-                android:background="@drawable/ic_profile" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/go_to_profile_btn"
-                android:layout_marginLeft="60dp"
-                android:text="Profile"
-                android:textColor="@color/black"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                 />
+                <ImageView
+                    android:id="@+id/go_to_tasks_btn"
+                    android:layout_width="@string/pictureSize"
+                    android:layout_height="@string/pictureSize"
+                    android:layout_marginRight="30dp"
+                    android:background="@drawable/ic_tasks" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/go_to_tasks_btn"
+                    android:layout_marginLeft="20dp"
+                    android:text="Tasks"
+                    android:textColor="@color/black"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    />
+                <!-- End R2, C1 -->
             </LinearLayout>
+            <!-- Row 2, Column 2 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/go_to_profile_btn"
+                    android:layout_width="@string/pictureSize"
+                    android:layout_height="@string/pictureSize"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/ic_profile" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/go_to_profile_btn"
+                    android:layout_marginLeft="50dp"
+                    android:text="Profile"
+                    android:textColor="@color/black"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    />
+                <!-- End R2, C2 -->
+            </LinearLayout>
+            <!-- End Row 2 -->
         </LinearLayout>
+        <!-- Row 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="horizontal" >
+            <!-- Row 3, Column 1 -->
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/go_to_store_btn"
+                    android:layout_width="@string/pictureSize"
+                    android:layout_height="@string/pictureSize"
+                    android:layout_alignRight="@+id/go_to_tasks_btn"
+                    android:layout_marginLeft="0dp"
+                    android:background="@drawable/ic_shopping_cart" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_alignLeft="@+id/go_to_store_btn"
+                    android:text="Trophy"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="Store"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/black" />
+
+                <!-- End R3, C1 -->
+            </LinearLayout>
+            <!-- Row 3, Column 2 -->
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/go_to_placeholder_btn"
+                    android:layout_width="@string/pictureSize"
+                    android:layout_height="@string/pictureSize"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/ic_action_rocket" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/go_to_placeholder_btn"
+                    android:layout_marginLeft="50dp"
+                    android:text="Future"
+                    android:textColor="@color/black"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    />
+                <!-- End R3, C2 -->
+            </LinearLayout>
+            <!-- End Row 3 -->
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

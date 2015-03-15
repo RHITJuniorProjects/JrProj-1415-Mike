@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.firebase.client.Firebase;
+import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 
 /**
  * Created by johnsoaa on 3/14/2015.
@@ -58,6 +59,20 @@ public class Trophy implements Parcelable {
         parcel.writeString(mImage);
         parcel.writeString(mName);
 
+    }
+
+    /**
+     * Compares this Trophy with the other given Trophy.
+     *
+     * @param p
+     * @return
+     */
+    public int compareToIgnoreCase(Trophy p) {
+        return GeneralAlgorithms.compareToIgnoreCase(this.getName(),
+                p.getName());
+    }
+    public int compareToByPoints(Trophy p){
+        return ((Integer)this.mCost).compareTo((Integer)p.getCost());
     }
 
     public int getCost() {

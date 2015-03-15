@@ -6,6 +6,7 @@ import rhit.jrProj.henry.firebase.Bounty;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
+import rhit.jrProj.henry.firebase.Trophy;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -91,6 +92,10 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 						return ((Bounty) lhs)
 								.compareToIgnoreCase((Bounty) rhs);
 					}
+					if (lhs instanceof Trophy && rhs instanceof Trophy) {
+						return ((Trophy) lhs)
+								.compareToIgnoreCase((Trophy) rhs);
+					}
 
 					return 0;
 				}
@@ -115,6 +120,15 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 						return -1
 								* ((Task) lhs)
 										.compareToIgnoreCase((Task) rhs);
+					}
+					if (lhs instanceof Bounty && rhs instanceof Bounty) {
+						return -1*((Bounty) lhs)
+								.compareToIgnoreCase((Bounty) rhs);
+					}
+					
+					if (lhs instanceof Trophy && rhs instanceof Trophy) {
+						return -1*((Trophy) lhs)
+								.compareToIgnoreCase((Trophy) rhs);
 					}
 
 					return 0;
@@ -153,7 +167,32 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
 					return 0;
 				}
 			};
-		} else {
+		} else if (this.sortType.equals("Least Expensive First")) {
+			// Not yet implemented
+			// Standard date form needed!
+			this.c = new Comparator<T>() {
+				public int compare(T lhs, T rhs) {
+					if (lhs instanceof Trophy && rhs instanceof Trophy) {
+						return ((Trophy) lhs)
+								.compareToByPoints((Trophy) rhs);
+					}
+					return 0;
+				}
+			};
+		} else if (this.sortType.equals("Most Expensive First")) {
+			// Not yet implemented
+			// Standard date form needed!
+			this.c = new Comparator<T>() {
+				public int compare(T lhs, T rhs) {
+					if (lhs instanceof Trophy && rhs instanceof Trophy) {
+						return -1* ((Trophy) lhs)
+								.compareToByPoints((Trophy) rhs);
+					}
+					return 0;
+				}
+			};
+		}
+		else {
 			// Not yet implemented
 			this.c = new Comparator<T>() {
 				public int compare(T lhs, T rhs) {
