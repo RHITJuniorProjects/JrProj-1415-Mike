@@ -55,9 +55,13 @@ public class TrophySquareImageView extends FrameLayout {
         new DownloadImageTask(mThumbnail).execute(trophy.getImage());
         mThumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
         View ofDoom = LayoutInflater.from(mContext).inflate(R.layout.view_trophy_text, this, false);
-        ((TextView) ofDoom.findViewById(R.id.trophy_name_of_doom)).setText(trophy.getName());
+        ((TextView) ofDoom.findViewById(R.id.trophy_name_of_doom)).setText(getLabel(trophy));
         this.addView(mThumbnail);
         this.addView(ofDoom);
+    }
+
+    protected String getLabel(Trophy trophy) {
+        return trophy.getName();
     }
 
     private static class ImageThumbnail extends ImageView {
@@ -79,7 +83,6 @@ public class TrophySquareImageView extends FrameLayout {
         public DownloadImageTask(ImageThumbnail trophyPicImage) {
             mTrophyPicViewer = trophyPicImage;
         }
-
 
         @Override
         protected Bitmap doInBackground(String... urls) {

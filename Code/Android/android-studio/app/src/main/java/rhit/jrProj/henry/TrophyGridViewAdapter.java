@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Trophy;
 import rhit.jrProj.henry.ui.TrophySquareImageView;
+import rhit.jrProj.henry.ui.TrophyStoreImageView;
 
 /**
  * Created by johnsoaa & rockwotj on 3/14/2015.
@@ -18,6 +19,7 @@ public class TrophyGridViewAdapter extends BaseAdapter {
 
     private Context mContext;
     private ArrayList<Trophy> mTrophies;
+    private boolean mIsStore;
 
 
     public TrophyGridViewAdapter(Context context) {
@@ -49,11 +51,19 @@ public class TrophyGridViewAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         TrophySquareImageView trophySquareImageView;
         if (view == null) {
-            trophySquareImageView = new TrophySquareImageView(mContext);
+            if (mIsStore) {
+                trophySquareImageView = new TrophyStoreImageView(mContext);
+            } else {
+                trophySquareImageView = new TrophySquareImageView(mContext);
+            }
         } else {
             trophySquareImageView = (TrophySquareImageView) view;
         }
         trophySquareImageView.initialize(mTrophies.get(i));
         return trophySquareImageView;
+    }
+
+    public void setIsStore(boolean isStore) {
+        this.mIsStore = isStore;
     }
 }

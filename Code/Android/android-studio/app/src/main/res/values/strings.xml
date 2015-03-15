@@ -93,5 +93,6 @@
     <string name="title_activity_tasks_all">TasksAllActivity</string>
     <string name="title_activity_profile_list">ProfileListActivity</string>
     <string name="profiles">Profiles</string>
+    <string name="title_activity_trophy_store">Trophy Store</string>
 
 </resources>

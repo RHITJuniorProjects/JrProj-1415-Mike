@@ -81,7 +81,6 @@ public class ProfileActivity extends Activity {
                             updatePoints(arg0.getValue(Integer.class));
                         }
                     }
-
                 });
 
     }

@@ -33,13 +33,13 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
+            android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".ProfileActivity"
-            android:label="@string/title_activity_profile"></activity>
+            android:label="@string/title_activity_profile" />
 
         <fragment
             android:id="@+id/activity_project_list"
@@ -113,21 +113,25 @@
         <activity
             android:name=".WelcomeActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LeaderboardActivity"
-            android:label="Leaderboard"></activity>
+            android:label="Leaderboard" />
         <activity
             android:name=".TasksAllActivity"
-            android:label="All My Tasks"></activity>
+            android:label="All My Tasks" />
         <activity
             android:name=".ProfileListActivity"
-            android:label="@string/profiles"></activity>
+            android:label="@string/profiles" />
+        <activity
+            android:name=".TrophyStoreActivity"
+            android:label="@string/title_activity_trophy_store">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
