@@ -195,6 +195,7 @@ function showProjects(){
     projectPage.show();
     myStatisticsPage.hide();
 	selectMyTasks();
+    getTrophies();
 }
 
 // function showMyTrophyStore() {
@@ -236,6 +237,69 @@ function selectUser(selectedUser){
     var $panel = $('#projects-panel');
     userProjects.onItemAdded(function(project) {
         $panel.append(project.getButtonDiv())
+    });
+}
+function Trophy(firebase) {
+    this.__firebase = firebase;
+    this.uid = firebase.key();
+    this.__name = firebase.child('name');
+    this.__description = firebase.child('description');    
+    this.__image = firebase.child('image')
+    this.__cost = firebase.child('cost');
+}
+
+Trophy.prototype = {
+    getName: function (callback) {
+        this.__name.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getDescription: function (callback) {
+        this.__description.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getCost: function (callback) {
+        this.__cost.on('value', function (dat) {
+            callback(dat.val());
+        });
+    },
+    getImage: function(callback) {
+        this.__image.on('value', function (dat) {
+            callback(dat.val());
+        });
+    }
+};
+Trophy.prototype.getTableRow =  function () {
+    var row = $('<tr class="trophy-row" data-reveal-id="trophy-modal">');
+    var name = $('<td>');
+    var desc = $('<td>');
+    var cost = $('<td>');
+    var image = $('<td>');
+    var trophy = this;
+    var modal = $('#trophy-modal');
+
+    row.append(name, desc, cost, image);
+    this.getName(function (nameStr) {
+        name.html(nameStr);
+    });
+    this.getDescription(function (descriptionStr) {
+        desc.html(descriptionStr);
+    });
+    this.getCost(function (costStr) {
+        cost.html(costStr);
+    });
+    this.getImage(function (imageStr) {
+        image.html(imageStr);
+    });
+    return row;
+};
+
+function getTrophies() {
+    var $panel = $('#trophy-store-rows');
+    $panel.children().remove();
+    trophies.onItemAdded(function(trophy){
+        $panel.append(trophy.getTableRow());              
     });
 }
 
@@ -2056,6 +2120,11 @@ var projects = new Table(function (fb) {
 var users = new Table(function (fb) {
     return new User(fb);
 }, firebase.child('users'));
+
+
+var trophies = new Table(function (fb) {
+    return new Trophy(fb);
+}, firebase.child('trophies'));
 
 
 function getLoginData() { // Takes the login data from the form and places it into variables
