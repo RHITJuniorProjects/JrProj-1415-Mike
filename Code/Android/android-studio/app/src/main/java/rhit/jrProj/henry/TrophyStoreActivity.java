@@ -28,7 +28,6 @@ public class TrophyStoreActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trophy_store);
-        Firebase.setAndroidContext(this);
         GridView trophyGridView = (GridView) findViewById(R.id.trophies);
         mAdapter = new TrophyGridViewAdapter(this);
         mAdapter.setIsStore(true);
