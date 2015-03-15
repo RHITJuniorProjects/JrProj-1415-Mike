@@ -42,6 +42,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
         findViewById(R.id.go_to_metrics_btn).setOnClickListener(this);
         findViewById(R.id.go_to_profile_btn).setOnClickListener(this);
         findViewById(R.id.go_to_tasks_btn).setOnClickListener(this);
+        findViewById(R.id.go_to_store_btn).setOnClickListener(this);
     }
 
     @Override
@@ -84,6 +85,11 @@ public class WelcomeActivity extends Activity implements OnClickListener {
                 break;
             case R.id.go_to_tasks_btn:
                 intent = new Intent(this, TasksAllActivity.class);
+                intent.putExtra("user", mUser.toString());
+                startActivity(intent);
+                break;
+            case R.id.go_to_store_btn:
+                intent = new Intent(this, TrophyStoreActivity.class);
                 intent.putExtra("user", mUser.toString());
                 startActivity(intent);
                 break;
