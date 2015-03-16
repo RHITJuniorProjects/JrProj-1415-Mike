@@ -59,16 +59,14 @@ public class TrophyStoreActivity extends Activity {
                 final int position2 = position;
                 AlertDialog.Builder builder = new AlertDialog.Builder(TrophyStoreActivity.this);
                 builder.setTitle("Purchase Trophy");
-                if (mUser.hasTrophy(mAdapter.getItem(position).getName())) {
+                if (mUser.hasTrophy(mAdapter.getItem(position))) {
                     builder.setMessage("You already own that trophy!");
                     builder.setNeutralButton("Ok", null);
                 } else if (mUser.getTotalPoints() < mAdapter.getItem(position).getCost()) {
-                    Log.i("User:", mUser.getName());
-                    Log.i("Points:", String.valueOf(mUser.getTotalPoints()));
                     builder.setMessage("Oops, you do not have enough points to purchase this trophy.");
                     builder.setNeutralButton("Ok", null);
                 } else {
-                    builder.setMessage("Are you sure you want to buy " + mAdapter.getItem(position).getName() + " for " + mAdapter.getItem(position).getCost() + " points?");
+                    builder.setMessage("Are you sure you want to buy a " + mAdapter.getItem(position).getName() + " trophy for " + mAdapter.getItem(position).getCost() + " points?");
                     builder.setPositiveButton("Buy", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -83,7 +81,6 @@ public class TrophyStoreActivity extends Activity {
         firebase.child("trophies").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot child, String s) {
-                Log.d("RHH", child.getKey());
                 mAdapter.addTrophy(new Trophy("https://henry-test.firebaseio.com/trophies/" + child.getKey()));
             }
 
