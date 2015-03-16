@@ -62,7 +62,7 @@ public class TrophyStoreActivity extends Activity {
                 if (mUser.hasTrophy(mAdapter.getItem(position))) {
                     builder.setMessage("You already own that trophy!");
                     builder.setNeutralButton("Ok", null);
-                } else if (mUser.getTotalPoints() < mAdapter.getItem(position).getCost()) {
+                } else if (mUser.getAvailablePoints() < mAdapter.getItem(position).getCost()) {
                     builder.setMessage("Oops, you do not have enough points to purchase this trophy.");
                     builder.setNeutralButton("Ok", null);
                 } else {

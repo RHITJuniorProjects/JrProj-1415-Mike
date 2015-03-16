@@ -251,10 +251,10 @@ public class User implements Parcelable {
      * Purchase a trophy from the store.
      */
     public void buyTrophy(Trophy trophy) {
-        Log.i("TEST!", trophy.getName());
-        Log.i("USER: ", firebase.child("total_points").toString());
         changeAvailablePoints(-1 * trophy.getCost());
-        this.firebase.getRef().child("trophies").push().setValue(trophy.getName());
+        Firebase f1 = this.firebase.getRef().child("trophies/" + trophy.getKey());
+        Log.i("URL: ", f1.toString());
+        f1.setValue(trophy.getName());
     }
 
     /**
@@ -305,9 +305,9 @@ public class User implements Parcelable {
     /**
      * @param s
      */
-    public void changeAvailablePoints(int s) {
-        this.mTotalPoints += s;
-        this.firebase.child("total_points").setValue(this.mTotalPoints);
+    public void changeAvailablePoints(long s) {
+        long newTotal = this.mAvailablePoints + s;
+        this.firebase.child("total_points").setValue(newTotal);
     }
 
     /**
@@ -379,6 +379,7 @@ public class User implements Parcelable {
             } else if (arg0.getKey().equals("email")) {
                 this.user.setEmail(arg0.getValue().toString());
             } else if (arg0.getKey().equals("total_points")) {
+                Log.i("TEST BUY", arg0.getValue().toString());
                 this.user.setTotalPoints((Long) arg0.getValue());
             } else if (arg0.getKey().equals("available_points")) {
                 this.user.setAvailablePoints((Long) arg0.getValue());
