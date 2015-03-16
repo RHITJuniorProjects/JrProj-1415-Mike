@@ -55,7 +55,7 @@ public class User implements Parcelable {
     /**
      * Set of trophies the user has purchased.
      */
-    private Set<Trophy> mTrophies = new HashSet<Trophy>();
+    private HashSet<Trophy> mTrophies = new HashSet<Trophy>();
 
     /**
      * Amount of points the user has.
@@ -252,6 +252,7 @@ public class User implements Parcelable {
      */
     public void buyTrophy(Trophy trophy) {
         changeAvailablePoints(-1 * trophy.getCost());
+        mTrophies.add(trophy);
         Firebase f1 = this.firebase.getRef().child("trophies/" + trophy.getKey());
         Log.i("URL: ", f1.toString());
         f1.setValue(trophy.getName());
@@ -307,7 +308,7 @@ public class User implements Parcelable {
      */
     public void changeAvailablePoints(long s) {
         long newTotal = this.mAvailablePoints + s;
-        this.firebase.child("total_points").setValue(newTotal);
+        this.firebase.child("available_points").setValue(newTotal);
     }
 
     /**
