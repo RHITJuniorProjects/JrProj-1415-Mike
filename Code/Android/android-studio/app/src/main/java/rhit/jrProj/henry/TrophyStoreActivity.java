@@ -2,7 +2,9 @@ package rhit.jrProj.henry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,18 +13,23 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.Stack;
+
 import rhit.jrProj.henry.firebase.Trophy;
+import rhit.jrProj.henry.firebase.User;
 
 
 public class TrophyStoreActivity extends Activity {
 
     private GlobalVariables mGlobalVariables;
     private TrophyGridViewAdapter mAdapter;
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +42,41 @@ public class TrophyStoreActivity extends Activity {
         mGlobalVariables = ((GlobalVariables) getApplicationContext());
         String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
         Firebase firebase = new Firebase(fireBaseUrl);
+        AuthData authData = firebase.getAuth();
+        if (authData != null) {
+            mGlobalVariables.setUser(new User(mGlobalVariables.getFirebaseUrl()
+                    + "users/" + authData.getUid()));
+        } else if (this.getIntent().getStringExtra("user") != null) {
+            // If logged in get the user's project list
+            mGlobalVariables.setUser(new User(this.getIntent().getStringExtra(
+                    "user")));
+        }
+        mUser = mGlobalVariables.getUser();
+
         trophyGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final int position2 = position;
                 AlertDialog.Builder builder = new AlertDialog.Builder(TrophyStoreActivity.this);
-                builder.setTitle("Trophy");
-                builder.setMessage("You clicked a trophy! " + mAdapter.getItem(position).getName());
-                builder.setPositiveButton("Buy", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Log.d("RHH", "You clicked buy!");
-                    }
-                });
-                builder.setNegativeButton("Cancel", null);
+                builder.setTitle("Purchase Trophy");
+                if (mUser.hasTrophy(mAdapter.getItem(position).getName())) {
+                    builder.setMessage("You already own that trophy!");
+                    builder.setNeutralButton("Ok", null);
+                } else if (mUser.getTotalPoints() < mAdapter.getItem(position).getCost()) {
+                    Log.i("User:", mUser.getName());
+                    Log.i("Points:", String.valueOf(mUser.getTotalPoints()));
+                    builder.setMessage("Oops, you do not have enough points to purchase this trophy.");
+                    builder.setNeutralButton("Ok", null);
+                } else {
+                    builder.setMessage("Are you sure you want to buy " + mAdapter.getItem(position).getName() + " for " + mAdapter.getItem(position).getCost() + " points?");
+                    builder.setPositiveButton("Buy", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mUser.buyTrophy(mAdapter.getItem(position2));
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", null);
+                }
                 builder.show();
             }
         });

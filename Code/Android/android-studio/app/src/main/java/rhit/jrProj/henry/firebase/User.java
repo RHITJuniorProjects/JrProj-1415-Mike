@@ -42,6 +42,25 @@ public class User implements Parcelable {
 	 */
 	private String key = "no key assigned";
 
+    /**
+     * Accumulated bounty points for leaderboards.
+     */
+    private long mTotalPoints = 0;
+
+    /**
+     * Available points for the trophy store.
+     */
+    private long mAvailablePoints = 0;
+
+    /**
+     * Set of trophies the user has purchased.
+     */
+    private Set<Trophy> trophies = new HashSet<Trophy>();
+
+    /**
+     * Amount of points the user has.
+     */
+
 	/**
 	 * This is the class that onChange is called from to when a field in
 	 * Firebase is updated. This then notifies the object that is displaying the
@@ -229,6 +248,65 @@ public class User implements Parcelable {
 		return this.projects;
 	}
 
+    /**
+     * Purchase a trophy from the store.
+     */
+    public void buyTrophy(Trophy trophy) {
+        setTotalPoints(-1 * trophy.getCost());
+        this.firebase.getRef().child("trophies").push().setValue(trophy.getName());
+    }
+
+    /**
+     * Checks to see if the user already owns the given trophy.
+     */
+    public boolean hasTrophy(String trophy) {
+        return trophies.contains(trophy);
+    }
+
+    public void addTrophy(Trophy trophy) {
+        trophies.add(trophy);
+    }
+
+    /**
+     * Returns the amount of points the user has.
+     */
+    public long getTotalPoints() {
+        return mTotalPoints;
+    }
+
+    /**
+     * Return the amount of points that are available to spend.
+     * @return
+     */
+    public long getAvailablePoints(){
+        return this.mAvailablePoints;
+    }
+
+    /**
+     * Set total amount of points to the given value.
+     * @param s
+     */
+    public void setTotalPoints(long s){
+        this.mTotalPoints = s;
+    }
+
+    /**
+     * Set available amount of points to the given value.
+     * @param s
+     */
+    public void setAvailablePoints(long s){
+        this.mAvailablePoints = s;
+    }
+
+    /**
+     *
+     * @param s
+     */
+    public void changeAvailablePoints(int s){
+        this.mAvailablePoints += s;
+        this.firebase.child("available_points").setValue(this.mAvailablePoints);
+    }
+
 	/**
 	 * Gets the listChangeNotifier associated with a User
 	 * 
@@ -277,8 +355,11 @@ public class User implements Parcelable {
 				this.user.setGitName(arg0.getValue().toString());
 			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
-			}
-			
+			} else if (arg0.getKey().equals("total_points")) {
+                this.user.setTotalPoints((Long) arg0.getValue());
+            } else if (arg0.getKey().equals("available_points")) {
+                this.user.setAvailablePoints((Long) arg0.getValue());
+            }
 		}
 
 		/**
@@ -292,7 +373,11 @@ public class User implements Parcelable {
 				this.user.setGitName(arg0.getValue().toString());
 			} else if (arg0.getKey().equals("email")) {
 				this.user.setEmail(arg0.getValue().toString());
-			}
+			}  else if (arg0.getKey().equals("total_points")) {
+                this.user.setTotalPoints((Long) arg0.getValue());
+            } else if (arg0.getKey().equals("available_points")) {
+                this.user.setAvailablePoints((Long) arg0.getValue());
+            }
 		}
 
 		/**

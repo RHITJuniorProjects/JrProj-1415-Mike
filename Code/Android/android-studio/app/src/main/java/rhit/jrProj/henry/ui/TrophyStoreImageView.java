@@ -23,6 +23,6 @@ public class TrophyStoreImageView extends TrophySquareImageView {
 
     @Override
     protected String getLabel(Trophy trophy) {
-        return trophy.getName() + " - " + trophy.getCost();
+        return trophy.getName() + " - " + trophy.getCost() + " points";
     }
 }
