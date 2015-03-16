@@ -257,6 +257,7 @@ public class User implements Parcelable {
         Firebase f1 = this.firebase.getRef().child("trophies/" + trophy.getKey());
         Log.i("TROPHIES", mTrophies.toString());
         f1.setValue(trophy.getName());
+        Log.i("If you can see this,","L.E. can commit");
     }
 
     /**
