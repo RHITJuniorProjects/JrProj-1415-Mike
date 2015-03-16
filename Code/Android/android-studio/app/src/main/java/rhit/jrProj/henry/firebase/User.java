@@ -132,6 +132,7 @@ public class User implements Parcelable {
         this.firebase.addChildEventListener(new ChildrenListener(this));
         this.firebase.child("projects").addChildEventListener(
                 new GrandChildrenListener(this));
+        this.firebase.child("trophies").addChildEventListener(new TrophyGrandChildrenListener(this));
     }
 
     public int describeContents() {
@@ -252,9 +253,9 @@ public class User implements Parcelable {
      */
     public void buyTrophy(Trophy trophy) {
         changeAvailablePoints(-1 * trophy.getCost());
-        mTrophies.add(trophy);
+//        mTrophies.add(trophy);
         Firebase f1 = this.firebase.getRef().child("trophies/" + trophy.getKey());
-        Log.i("URL: ", f1.toString());
+        Log.i("TROPHIES", mTrophies.toString());
         f1.setValue(trophy.getName());
     }
 
@@ -265,8 +266,21 @@ public class User implements Parcelable {
         return mTrophies.contains(trophy);
     }
 
+    /**
+     * Add a trophy to the user's set of trophies.
+     * @param trophy
+     */
     public void addTrophy(Trophy trophy) {
         mTrophies.add(trophy);
+    }
+
+    /**
+     * Replace the given trophy with the new trophy.
+     * @param trophy
+     */
+    public void replaceTrophy(Trophy trophy, Trophy newTrophy) {
+        mTrophies.remove(trophy);
+        mTrophies.add(newTrophy);
     }
 
     /**
@@ -499,14 +513,19 @@ public class User implements Parcelable {
          * Adds a Trophy to a user's list of Trophies
          */
         public void onChildAdded(DataSnapshot arg0, String arg1) {
-           // not implemented
+            Log.i("TEST ADDED", "TEST");
+            Trophy t = new Trophy(arg0.getRef().getRepo().toString()
+                    + "/trophies/" + arg0.getKey());
+            Log.i("TROHPY URL: ", arg0.getRef().getRepo().toString()
+                    + "/trophies/" + arg0.getKey().toString());
+            this.user.addTrophy(t);
         }
 
         /**
          * Updates a user's information after a change
          */
         public void onChildChanged(DataSnapshot arg0, String arg1) {
-           // not implemented
+            // Not implemented
         }
 
         public void onChildMoved(DataSnapshot arg0, String arg1) {
