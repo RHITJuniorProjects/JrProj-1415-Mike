@@ -290,7 +290,7 @@ Trophy.prototype.getTableRow =  function () {
         cost.html(costStr);
     });
     this.getImage(function (imageStr) {
-        image.html(imageStr);
+        image.html("<img src=" + imageStr + " height=42 width=42>");
     });
     return row;
 };
