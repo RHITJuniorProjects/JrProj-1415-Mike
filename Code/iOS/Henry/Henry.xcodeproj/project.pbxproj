@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */; };
+		5E65B7551AB15551001324CD /* Shop-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E65B7541AB15551001324CD /* Shop-40.png */; };
+		5E746AD81AB1F0DF0064E257 /* Trophy-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E746AD71AB1F0DF0064E257 /* Trophy-40.png */; };
+		5E746ADA1AB1F12B0064E257 /* Design-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E746AD91AB1F12B0064E257 /* Design-40.png */; };
+		5E746ADC1AB1F1D10064E257 /* Checklist-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E746ADB1AB1F1D10064E257 /* Checklist-40.png */; };
+		5E746ADE1AB1F2060064E257 /* User Male4-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E746ADD1AB1F2060064E257 /* User Male4-40.png */; };
 		83059FDE1A7967D0004F5090 /* trophy-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 83059FDD1A7967D0004F5090 /* trophy-32.png */; };
 		83059FE21A7968D9004F5090 /* HenryLeaderboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83059FE11A7968D9004F5090 /* HenryLeaderboardTableViewController.m */; };
 		83059FE51A7968F7004F5090 /* HenryLeaderboardCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83059FE41A7968F7004F5090 /* HenryLeaderboardCellTableViewCell.m */; };
@@ -85,6 +90,11 @@
 /* Begin PBXFileReference section */
 		0A959BC31A8695B900356DC2 /* HenryCreateBountyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCreateBountyViewController.h; sourceTree = "<group>"; };
 		0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCreateBountyViewController.m; sourceTree = "<group>"; };
+		5E65B7541AB15551001324CD /* Shop-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Shop-40.png"; sourceTree = "<group>"; };
+		5E746AD71AB1F0DF0064E257 /* Trophy-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trophy-40.png"; sourceTree = "<group>"; };
+		5E746AD91AB1F12B0064E257 /* Design-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Design-40.png"; sourceTree = "<group>"; };
+		5E746ADB1AB1F1D10064E257 /* Checklist-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Checklist-40.png"; sourceTree = "<group>"; };
+		5E746ADD1AB1F2060064E257 /* User Male4-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User Male4-40.png"; sourceTree = "<group>"; };
 		83059FDD1A7967D0004F5090 /* trophy-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "trophy-32.png"; sourceTree = "<group>"; };
 		83059FE01A7968D9004F5090 /* HenryLeaderboardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeaderboardTableViewController.h; sourceTree = "<group>"; };
 		83059FE11A7968D9004F5090 /* HenryLeaderboardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeaderboardTableViewController.m; sourceTree = "<group>"; };
@@ -248,7 +258,12 @@
 		832BDD4E19F6CD4B00642CD8 /* Sidenav */ = {
 			isa = PBXGroup;
 			children = (
+				5E65B7541AB15551001324CD /* Shop-40.png */,
+				5E746AD71AB1F0DF0064E257 /* Trophy-40.png */,
 				83059FDD1A7967D0004F5090 /* trophy-32.png */,
+				5E746AD91AB1F12B0064E257 /* Design-40.png */,
+				5E746ADD1AB1F2060064E257 /* User Male4-40.png */,
+				5E746ADB1AB1F1D10064E257 /* Checklist-40.png */,
 				F278E0C81A6073CB008C62E5 /* user_male_4-25.png */,
 				F278E0C61A607365008C62E5 /* user_male3-25.png */,
 				83FB8D6C1A097456000FB8E8 /* list-26.png */,
@@ -550,13 +565,18 @@
 				93447F4319C91C5500C2FC38 /* InfoPlist.strings in Resources */,
 				832BDD5A19F6D90100642CD8 /* combo_chart-25.png in Resources */,
 				93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */,
+				5E746ADA1AB1F12B0064E257 /* Design-40.png in Resources */,
 				F278E0C71A607365008C62E5 /* user_male3-25.png in Resources */,
 				83059FDE1A7967D0004F5090 /* trophy-32.png in Resources */,
+				5E65B7551AB15551001324CD /* Shop-40.png in Resources */,
 				832BDD5619F6D89000642CD8 /* exit-25.png in Resources */,
 				83FB8D6D1A097456000FB8E8 /* list-26.png in Resources */,
+				5E746AD81AB1F0DF0064E257 /* Trophy-40.png in Resources */,
 				83B24CFE19F5A0160018A790 /* iPadLoginStoryboard.storyboard in Resources */,
+				5E746ADE1AB1F2060064E257 /* User Male4-40.png in Resources */,
 				93447F6819C91C8400C2FC38 /* iPhoneStoryboard.storyboard in Resources */,
 				87E54D3D19EEEA36009D3906 /* iPadStoryboard.storyboard in Resources */,
+				5E746ADC1AB1F1D10064E257 /* Checklist-40.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

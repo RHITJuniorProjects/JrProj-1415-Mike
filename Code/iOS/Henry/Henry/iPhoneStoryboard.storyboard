@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
     <dependencies>
         <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -927,20 +927,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="design-25.png" translatesAutoresizingMaskIntoConstraints="NO" id="7Xb-Pg-itv">
-                                <rect key="frame" x="71" y="211" width="40" height="40"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Design-40.png" translatesAutoresizingMaskIntoConstraints="NO" id="7Xb-Pg-itv">
+                                <rect key="frame" x="73" y="181" width="40" height="40"/>
                             </imageView>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="list-26.png" translatesAutoresizingMaskIntoConstraints="NO" id="aZ8-5v-WnR">
-                                <rect key="frame" x="202" y="211" width="40" height="40"/>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Checklist-40.png" translatesAutoresizingMaskIntoConstraints="NO" id="aZ8-5v-WnR">
+                                <rect key="frame" x="204" y="181" width="40" height="40"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="user_male_4-25.png" translatesAutoresizingMaskIntoConstraints="NO" id="bWd-ky-eqt">
-                                <rect key="frame" x="202" y="333" width="40" height="40"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="User Male4-40.png" translatesAutoresizingMaskIntoConstraints="NO" id="bWd-ky-eqt">
+                                <rect key="frame" x="204" y="303" width="40" height="40"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="trophy-32.png" translatesAutoresizingMaskIntoConstraints="NO" id="fvS-g4-PAL">
-                                <rect key="frame" x="71" y="333" width="40" height="40"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Trophy-40.png" translatesAutoresizingMaskIntoConstraints="NO" id="fvS-g4-PAL">
+                                <rect key="frame" x="73" y="303" width="40" height="40"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpD-lO-3QU">
-                                <rect key="frame" x="200" y="333" width="44" height="70"/>
+                                <rect key="frame" x="192" y="303" width="64" height="66"/>
                                 <state key="normal" title="Profile">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -950,7 +950,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R8C-Iv-pRO">
-                                <rect key="frame" x="63" y="211" width="56" height="66"/>
+                                <rect key="frame" x="65" y="181" width="56" height="66"/>
                                 <state key="normal" title="Projects">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -960,7 +960,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sut-Ci-OJ4">
-                                <rect key="frame" x="190" y="211" width="64" height="66"/>
+                                <rect key="frame" x="192" y="181" width="64" height="66"/>
                                 <state key="normal" title="My Tasks">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -970,7 +970,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="27G-0g-adg">
-                                <rect key="frame" x="63" y="333" width="56" height="70"/>
+                                <rect key="frame" x="65" y="303" width="56" height="66"/>
                                 <state key="normal" title="Top 25">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -985,6 +985,16 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Shop-40.png" translatesAutoresizingMaskIntoConstraints="NO" id="tbr-9L-Zyx">
+                                <rect key="frame" x="140" y="425" width="40" height="40"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ySa-22-mF5">
+                                <rect key="frame" x="132" y="425" width="56" height="66"/>
+                                <state key="normal" title="Store">
+                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -1075,11 +1085,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="design-25.png" width="25" height="25"/>
+        <image name="Checklist-40.png" width="40" height="40"/>
+        <image name="Design-40.png" width="40" height="40"/>
+        <image name="Shop-40.png" width="40" height="40"/>
+        <image name="Trophy-40.png" width="40" height="40"/>
+        <image name="User Male4-40.png" width="40" height="40"/>
         <image name="exit-25.png" width="25" height="25"/>
-        <image name="list-26.png" width="26" height="26"/>
-        <image name="trophy-32.png" width="32" height="32"/>
-        <image name="user_male_4-25.png" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
