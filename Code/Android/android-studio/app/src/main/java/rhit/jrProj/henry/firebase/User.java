@@ -1,6 +1,7 @@
 package rhit.jrProj.henry.firebase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,7 +56,7 @@ public class User implements Parcelable {
     /**
      * Set of trophies the user has purchased.
      */
-    private HashSet<Trophy> mTrophies = new HashSet<Trophy>();
+    private HashMap<String, Trophy> mTrophies = new HashMap<String, Trophy>();
 
     /**
      * Amount of points the user has.
@@ -253,18 +254,15 @@ public class User implements Parcelable {
      */
     public void buyTrophy(Trophy trophy) {
         changeAvailablePoints(-1 * trophy.getCost());
-//        mTrophies.add(trophy);
         Firebase f1 = this.firebase.getRef().child("trophies/" + trophy.getKey());
-        Log.i("TROPHIES", mTrophies.toString());
         f1.setValue(trophy.getName());
-        Log.i("If you can see this,","L.E. can commit");
     }
 
     /**
      * Checks to see if the user already owns the given trophy.
      */
     public boolean hasTrophy(Trophy trophy) {
-        return mTrophies.contains(trophy);
+        return mTrophies.containsKey(trophy.getKey());
     }
 
     /**
@@ -272,7 +270,7 @@ public class User implements Parcelable {
      * @param trophy
      */
     public void addTrophy(Trophy trophy) {
-        mTrophies.add(trophy);
+        mTrophies.put(trophy.getKey(), trophy);
     }
 
     /**
@@ -280,8 +278,8 @@ public class User implements Parcelable {
      * @param trophy
      */
     public void replaceTrophy(Trophy trophy, Trophy newTrophy) {
-        mTrophies.remove(trophy);
-        mTrophies.add(newTrophy);
+        mTrophies.remove(trophy.getKey());
+        mTrophies.put(newTrophy.getKey(), newTrophy);
     }
 
     /**
@@ -395,7 +393,6 @@ public class User implements Parcelable {
             } else if (arg0.getKey().equals("email")) {
                 this.user.setEmail(arg0.getValue().toString());
             } else if (arg0.getKey().equals("total_points")) {
-                Log.i("TEST BUY", arg0.getValue().toString());
                 this.user.setTotalPoints((Long) arg0.getValue());
             } else if (arg0.getKey().equals("available_points")) {
                 this.user.setAvailablePoints((Long) arg0.getValue());
@@ -450,7 +447,7 @@ public class User implements Parcelable {
                     || arg0.getValue().equals("Lead")) {
                 r = Role.LEAD;
             }
-//			Log.i("REPO", arg0.getRef().getRepo().toString());
+
             Project p = new Project(arg0.getRef().getRepo().toString()
                     + "/projects/" + arg0.getKey());
             this.user.getMap().put(p, r);
@@ -514,11 +511,8 @@ public class User implements Parcelable {
          * Adds a Trophy to a user's list of Trophies
          */
         public void onChildAdded(DataSnapshot arg0, String arg1) {
-            Log.i("TEST ADDED", "TEST");
             Trophy t = new Trophy(arg0.getRef().getRepo().toString()
                     + "/trophies/" + arg0.getKey());
-            Log.i("TROHPY URL: ", arg0.getRef().getRepo().toString()
-                    + "/trophies/" + arg0.getKey().toString());
             this.user.addTrophy(t);
         }
 

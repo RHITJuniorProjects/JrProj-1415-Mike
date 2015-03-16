@@ -60,7 +60,6 @@ public class TrophyStoreActivity extends Activity {
                 final int position2 = position;
                 AlertDialog.Builder builder = new AlertDialog.Builder(TrophyStoreActivity.this);
                 builder.setTitle("Purchase Trophy");
-                Log.i("TROPHY STORE: ", mAdapter.getItem(position).toString());
                 if (mUser.hasTrophy(mAdapter.getItem(position))) {
                     builder.setMessage("You already own that trophy!");
                     builder.setNeutralButton("Ok", null);

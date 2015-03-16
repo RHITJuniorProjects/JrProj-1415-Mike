@@ -115,8 +115,6 @@ public class Trophy implements Parcelable, ChildEventListener {
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         String key = dataSnapshot.getKey();
-        Log.i("DATASNAPSHOT: ", dataSnapshot.toString());
-        Log.d("RHH", "trophy recieved: " + key);
         if (key.equals("cost")) {
             setCost(dataSnapshot.getValue(Integer.class));
         } else if (key.equals("description")) {
