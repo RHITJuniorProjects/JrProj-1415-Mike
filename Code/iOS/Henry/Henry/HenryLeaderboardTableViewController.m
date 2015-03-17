@@ -15,6 +15,7 @@
 @property NSString *uid;
 @property NSDictionary *users;
 @property NSMutableArray *top25;
+@property NSMutableArray *top25Trophies;
 
 @end
 
@@ -28,6 +29,7 @@
     self.uid = [defaults objectForKey:@"id"];
     
     self.top25 = [[NSMutableArray alloc] init];
+    self.top25Trophies = [[NSMutableArray alloc] init];
     
     self.fb = [HenryFirebase getFirebaseObject];
     self.fb = [self.fb childByAppendingPath:@"/users"];
@@ -43,10 +45,24 @@
 -(void)updateTable:(FDataSnapshot *)snapshot {
     self.users = snapshot.value;
     NSMutableArray *ids = [NSMutableArray arrayWithArray:[self.users allKeys]];
+    NSMutableArray *idT = [NSMutableArray arrayWithArray:[self.users allKeys]];
+    long points = 0;
+    long trophies = 0;
+    for (int n = 0; n < 25 && 0 < idT.count; n++) {
+        int idt = 0;
+        for (int i = 0; i < idT.count; i++) {
+            trophies = [[[self.users valueForKey:idT[i]] valueForKey:@"trophies"] count]-1;
+            if (trophies > [[[self.users valueForKey:idT[idt]] valueForKey:@"trophies"] count]-1) {
+                idt = i;
+            }
+        }
+        [self.top25Trophies addObject:idT[idt]];
+        [idT removeObjectAtIndex:idt];
+    }
     for (int n = 0; n < 25 && 0 < ids.count; n++) {
         int id = 0;
         for (int i = 0; i < ids.count; i++) {
-            long points = [[[self.users valueForKey:ids[i]] valueForKey:@"total_points"] longValue];
+            points = [[[self.users valueForKey:ids[i]] valueForKey:@"total_points"] longValue];
             
             if (points > [[[self.users valueForKey:ids[id]] valueForKey:@"total_points"] longValue]) {
                 id = i;
@@ -55,6 +71,7 @@
         [self.top25 addObject:ids[id]];
         [ids removeObjectAtIndex:id];
     }
+    NSLog(@"%@",self.users);
     [self.tableView reloadData];
 }
 
@@ -72,7 +89,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return [self.top25 count] + 1;
+    return [self.top25Trophies count]>[self.top25 count]?[self.top25Trophies count] + 1 : [self.top25 count] + 1;
 }
 
 
@@ -82,21 +99,37 @@
     if (indexPath.row == 0) {
         cell.nameLabel.text = [[self.users valueForKey:self.uid] valueForKey:@"name"];
         cell.rankLabel.text = @"";
+        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+            cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] count]-1];
+        } else {
         cell.pointsLabel.text = [[[self.users valueForKey:self.uid] valueForKey:@"total_points"] stringValue];
+        }
     } else {
-    
-        cell.nameLabel.text = [[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"name"];
+        
+        BOOL userRow = false;
         cell.rankLabel.text = [NSString stringWithFormat:@"%i.", (int)indexPath.row];
+        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+            userRow = [self.top25Trophies[indexPath.row-1] isEqualToString:self.uid];
+            cell.nameLabel.text = [[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"name"];
+            cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] count]-1];
+            if (![[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] allKeys] containsObject:@"trophies"]) {
+                cell.pointsLabel.text = @"0";
+            }
+
+        } else {
+            userRow = [self.top25[indexPath.row-1] isEqualToString:self.uid];
+        cell.nameLabel.text = [[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"name"];
         cell.pointsLabel.text = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"total_points"] stringValue];
     
         if (![[[self.users valueForKey:self.top25[indexPath.row-1]] allKeys] containsObject:@"total_points"]) {
             cell.pointsLabel.text = @"0";
         }
-        
-        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
-            cell.pointsLabel.text = @"0";
         }
-        if ([self.top25[indexPath.row-1] isEqualToString:self.uid]) {
+        
+//        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+//            cell.pointsLabel.text = @"0";
+//        }
+        if (userRow) {
             cell.backgroundColor = [UIColor lightGrayColor];
         } else {
             cell.backgroundColor = [UIColor whiteColor];
@@ -160,12 +193,22 @@
         {
                 //Segment 1 is Points
             case 0:
-                 [self.tableView reloadData];
+                [self.tableView reloadData];
                 break;
                 
                 //Segment 2 is Trophies
             case 1:
                  [self.tableView reloadData];
+//                @try{
+//                    NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"total_points" ascending:NO];
+//                    [self.top25 sortUsingDescriptors:[NSArray arrayWithObject:sort2]];
+//                    [self.tableView reloadData];
+//                }@catch(NSException *exception){
+//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+//                    [alert show];
+//                    exit(0);
+//                    
+//                }
                 break;
         }
     }
@@ -176,5 +219,19 @@
     }
     
     
+}
+
+-(void)sortByPoints{
+    @try{
+        NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"total_points" ascending:YES];
+        [self.top25 sortUsingDescriptors:[NSArray arrayWithObject:sort]];
+        [self.tableView reloadData];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+
 }
 @end

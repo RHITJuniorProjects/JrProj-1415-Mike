@@ -229,6 +229,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E3086031AB823AE004293BC /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */,
+				5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */,
+			);
+			name = Store;
+			sourceTree = "<group>";
+		};
 		83059FDF1A7968BC004F5090 /* Leaderboard */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,8 +252,7 @@
 		832BDD4C19F6CC7800642CD8 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
-				5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */,
-				5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */,
+				5E3086031AB823AE004293BC /* Store */,
 				83059FDF1A7968BC004F5090 /* Leaderboard */,
 				87D813241A324F8200BEDD3E /* Profile */,
 				832BDD4E19F6CD4B00642CD8 /* Sidenav */,
