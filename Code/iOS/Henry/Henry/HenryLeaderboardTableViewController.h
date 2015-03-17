@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface HenryLeaderboardTableViewController : UITableViewController
+@property (weak, nonatomic) IBOutlet UISegmentedControl *leaderboardSegmentedControl;
+- (IBAction)leaderboardSegControlClicked:(id)sender;
 
 @end

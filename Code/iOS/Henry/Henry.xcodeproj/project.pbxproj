@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */; };
+		5E3086021AB7C34F004293BC /* HenryStoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */; };
 		5E65B7551AB15551001324CD /* Shop-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E65B7541AB15551001324CD /* Shop-40.png */; };
 		5E746AD81AB1F0DF0064E257 /* Trophy-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E746AD71AB1F0DF0064E257 /* Trophy-40.png */; };
 		5E746ADA1AB1F12B0064E257 /* Design-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E746AD91AB1F12B0064E257 /* Design-40.png */; };
@@ -90,6 +91,8 @@
 /* Begin PBXFileReference section */
 		0A959BC31A8695B900356DC2 /* HenryCreateBountyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCreateBountyViewController.h; sourceTree = "<group>"; };
 		0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCreateBountyViewController.m; sourceTree = "<group>"; };
+		5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreTableViewController.h; sourceTree = SOURCE_ROOT; };
+		5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreTableViewController.m; sourceTree = SOURCE_ROOT; };
 		5E65B7541AB15551001324CD /* Shop-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Shop-40.png"; sourceTree = "<group>"; };
 		5E746AD71AB1F0DF0064E257 /* Trophy-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trophy-40.png"; sourceTree = "<group>"; };
 		5E746AD91AB1F12B0064E257 /* Design-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Design-40.png"; sourceTree = "<group>"; };
@@ -240,6 +243,8 @@
 		832BDD4C19F6CC7800642CD8 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */,
+				5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */,
 				83059FDF1A7968BC004F5090 /* Leaderboard */,
 				87D813241A324F8200BEDD3E /* Profile */,
 				832BDD4E19F6CD4B00642CD8 /* Sidenav */,
@@ -615,6 +620,7 @@
 				84BC3A8D1A6300FA00271DFC /* BEMSimpleLineGraphView.m in Sources */,
 				87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */,
 				846E418E1A91614100D12DE9 /* HenryCategoryTableViewController.m in Sources */,
+				5E3086021AB7C34F004293BC /* HenryStoreTableViewController.m in Sources */,
 				87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
 				93447F7119C91F0500C2FC38 /* HenryTasksTableViewController.m in Sources */,

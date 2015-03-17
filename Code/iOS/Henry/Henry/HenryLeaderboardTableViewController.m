@@ -15,9 +15,11 @@
 @property NSString *uid;
 @property NSDictionary *users;
 @property NSMutableArray *top25;
+
 @end
 
 @implementation HenryLeaderboardTableViewController
+@synthesize leaderboardSegmentedControl;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -90,7 +92,10 @@
         if (![[[self.users valueForKey:self.top25[indexPath.row-1]] allKeys] containsObject:@"total_points"]) {
             cell.pointsLabel.text = @"0";
         }
-    
+        
+        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+            cell.pointsLabel.text = @"0";
+        }
         if ([self.top25[indexPath.row-1] isEqualToString:self.uid]) {
             cell.backgroundColor = [UIColor lightGrayColor];
         } else {
@@ -147,4 +152,29 @@
 }
 */
 
+- (IBAction)leaderboardSegControlClicked:(id)sender {
+    @try {
+        //Figures out the last clicked segment.
+        int clickedSegment = (int)[sender selectedSegmentIndex];
+        switch(clickedSegment)
+        {
+                //Segment 1 is Points
+            case 0:
+                 [self.tableView reloadData];
+                break;
+                
+                //Segment 2 is Trophies
+            case 1:
+                 [self.tableView reloadData];
+                break;
+        }
+    }
+    @catch (NSException *exception) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+    }
+    
+    
+}
 @end
