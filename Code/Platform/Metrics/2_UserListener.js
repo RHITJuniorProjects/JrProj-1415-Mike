@@ -3,11 +3,11 @@
  * Handles read/write operations directly relating to Users.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 6 Feb 2015, 1:16pm
+ * Last Modified: 16 March 2015, 7:48pm
  */
-
 var Firebase = require('firebase');
 
+// various firebase DBs in use
 var production = 'https://henry-production.firebaseio.com';
 var staging = 'https://henry-staging.firebaseio.com';
 var test = 'https://henry-test.firebaseio.com';
@@ -16,24 +16,31 @@ var qa = 'https://henry-qa.firebaseio.com';
 
 var firebaseUrl = metricsTest;
 
-// optional commandline arg: name of the DB to connect to. Defaults to test or metrics-test otherwise.
+// optional commandline arg: name of the DB to connect to. Defaults to henry-metrics-test otherwise.
 if (process.argv.length === 3) {
     firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
     console.log("Connecting to " + firebaseUrl);
 }
+else if (process.argv.length === 4) {
+    // TODO: override auth token?
+}
 
+// Firebase references for root and top-level trees
 var fbRef = new Firebase(firebaseUrl);
 var commitsRef = new Firebase(firebaseUrl + '/commits');
 var usersRef = new Firebase(firebaseUrl + '/users');
 var projectsRef = new Firebase(firebaseUrl + '/projects');
+var trophiesRef = new Firebase(firebaseUrl + '/trophies');
 
+// authorization stuff
 var FirebaseTokenGenerator = require('firebase-token-generator');
+
+// TODO: add more as needed, or do commandline override for auth token
 var metricsTestToken = 'swPpsOgpNn7isrfxeoWNNV7yxLy85j94JO7p9lDf';
 var testToken = 'FDrYDBNvRCgq0kGonjmsPl0gUwXvxcqUdgaCQ1FI';
 
 var tokenVal = null;
 
-// TODO: add more
 if (firebaseUrl === test) {
     tokenVal = testToken;
 }
@@ -41,6 +48,7 @@ else if (firebaseUrl === metricsTest) {
     tokenVal = metricsTestToken;
 }
 
+// authorize the script to read/write data to the firebase
 if (tokenVal !== null) {
     var tokenGenerator = new FirebaseTokenGenerator(tokenVal);
     var token = tokenGenerator.createToken({
@@ -56,6 +64,9 @@ if (tokenVal !== null) {
         }
     });
 }
+
+// Various strings that are used in several places
+// TODO: chack for adding more?
 var addedLines = 'added_lines_of_code';
 var removedLines = 'removed_lines_of_code';
 var totalLines = 'total_lines_of_code';
@@ -68,19 +79,46 @@ var updatedHourEst = 'updated_hour_estimate';
  */
 
 usersRef.on('child_added', function(user) {
+    console.log('New user ' + user.key() + ' added');
+    // Deal with new trophies
+    if (!user.hasChild('trophies')) {
+        user.ref().update({
+            'trophies': {
+                'placeholder': 'placeholder'
+            }
+        });
+    }
+    var userTrophies = user.child('trophies');
+    user.ref().child('trophies').on('child_added', function(trophy) {
+        console.log('new trophy added');
+        calculateAvailablePoints(user.ref(), user.child('total_points').val());
+        
+        if (userTrophies.hasChild('placeholder') && userTrophies.numChildren() >= 2) {
+            userTrophies.ref().update({
+                'placeholder': null
+            });
+        }
+    });
     user.ref().on('child_added', function(projects) {
+        // are there projects? drill down into them
         if (projects.key() == 'projects') {
             projects.ref().on('child_added', function(userProject) {
+                console.log('New project ' + userProject.key() + ' added for user ' + user.key());
                 userProject.ref().on('child_added', function(milestones) {
+                    // are there milestones? drill down into them
                     if (milestones.key() == 'milestones') {
                         milestones.ref().on('child_added', function(milestone) {
+                            console.log('New milestone ' + milestone.key() + ' added to project ' + userProject.key() + ' for user ' + user.key());
                             milestone.ref().on('child_added', function(tasks) {
+                                // are there tasks? drill down into them
                                 if (tasks.key() == 'tasks') {
                                     tasks.ref().on('child_added', function(task) {
+                                        console.log('New task ' + task.key() + ' added to milestone ' + milestone.key() + ' and project ' + userProject.key() + ' for user ' + user.key());
                                         task.ref().on('value', function(taskVal) {
+                                            // Propagate up from the task level
                                             aggregateUserProjectData(userProject);
                                             var project = projectsRef.child(userProject.key());
-                                            // console.log(userProject.key());
+                                            // calculate percentage contribution for loc and hours
                                             updateLocAndHoursContribs(project);
                                         });
                                     });
@@ -94,10 +132,11 @@ usersRef.on('child_added', function(user) {
     });
 });
 
-
-
-function aggregateUserProjectData(project) {
-    console.log('aggregating user project data');
+/* 
+ * Aggragates data upward from the task level to the top level for one user
+ */
+function aggregateUserProjectData(userProject) {
+    // console.log('aggregating user project data for project ' + userProject.key());
 
     var totalProjectHours = 0;
     var totalProjectAddedLOC = 0;
@@ -105,7 +144,9 @@ function aggregateUserProjectData(project) {
     var totalProjectLOC = 0;
     var totalProjectPoints = 0;
 
-    project.child('milestones').forEach(function(milestone) {
+    var userRef = userProject.ref().parent().parent();
+    userProject.child('milestones').forEach(function(userMilestone) {
+        // aggregate milestone data
         var totalMilestoneHours = 0;
         var totalAddedMilestoneLOC = 0;
         var totalRemovedMilestoneLOC = 0;
@@ -113,7 +154,7 @@ function aggregateUserProjectData(project) {
         var totalMilestonePoints = 0;
 
         // console.log('Messing with tasks for milestone ' + milestone.key() + ' and project ' + project.key() + ' at time ' + new Date().toLocaleTimeString());
-        milestone.ref().once('value', function(milestoneSnapshot) {
+        userMilestone.ref().once('value', function(milestoneSnapshot) {
             milestoneSnapshot.child('tasks').forEach(function(task) {
                 totalMilestoneHours += task.child(totalHours).val();
                 totalAddedMilestoneLOC += task.child(addedLines).val();
@@ -125,8 +166,14 @@ function aggregateUserProjectData(project) {
                 }
             });
         });
-
-        milestone.ref().update({
+        // console.log('Updating milestone ' + userMilestone.key() + ' in project ' + userProject.key() + ' for user ' + userRef.key());
+        // console.log('total_hours: ' + totalMilestoneHours +
+        //     '\nadded_lines_of_code: ' + totalAddedMilestoneLOC +
+        //     '\nremoved_lines_of_code: ' + totalRemovedMilestoneLOC +
+        //     '\ntotal_lines_of_code: ' + totalMilestoneLOC +
+        //     '\ntotal_points: ' + totalMilestonePoints
+        // );
+        userMilestone.ref().update({
             'total_hours': totalMilestoneHours,
             'added_lines_of_code': totalAddedMilestoneLOC,
             'removed_lines_of_code': totalRemovedMilestoneLOC,
@@ -134,6 +181,7 @@ function aggregateUserProjectData(project) {
             'total_points': totalMilestonePoints
         });
 
+        // aggregate project data
         totalProjectHours += totalMilestoneHours;
         totalProjectAddedLOC += totalAddedMilestoneLOC;
         totalProjectRemovedLOC += totalRemovedMilestoneLOC;
@@ -141,7 +189,14 @@ function aggregateUserProjectData(project) {
         totalProjectPoints += totalMilestonePoints;
 
     });
-    project.ref().update({
+    // console.log('Updating project ' + userProject.key() + ' for user ' + userRef.key());
+    // console.log('total_hours: ' + totalProjectHours +
+    //     '\nadded_lines_of_code: ' + totalProjectAddedLOC +
+    //     '\nremoved_lines_of_code: ' + totalProjectRemovedLOC +
+    //     '\ntotal_lines_of_code: ' + totalProjectLOC +
+    //     '\ntotal_points: ' + totalProjectPoints
+    // );
+    userProject.ref().update({
         'total_hours': totalProjectHours,
         'added_lines_of_code': totalProjectAddedLOC,
         'removed_lines_of_code': totalProjectRemovedLOC,
@@ -149,15 +204,8 @@ function aggregateUserProjectData(project) {
         'total_points': totalProjectPoints
     });
 
-    //TODO: add total_points for user
-    // TRIGGERS AN ON() LISTENER
-    var userRef = project.ref().parent().parent().ref();
     var userPoints = 0;
     userRef.once('value', function(user) {
-        // if (user.hasChild('total_points')) {
-        //     userPoints += user.child('total_points').val();
-        //     // console.log(userPoints);
-        // }
         user.child('projects').forEach(function(project) {
             if (project.hasChild('total_points')) {
                 // console.log('adding user points');
@@ -165,59 +213,50 @@ function aggregateUserProjectData(project) {
             }
         });
     });
-    console.log('changing user');
+    calculateAvailablePoints(userRef, userPoints);
+    // console.log('changing user ' + userRef.key());
     userRef.update({
-        'total_points': userPoints
+        'total_points': userPoints,
     });
-
 }
 
-
-
-
+/*
+ * Calculates percentage contribution to lines of code and hours spent at the milestone and project levels.
+ */
 function updateLocAndHoursContribs(projectRef) {
     projectRef.once('value', function(project) {
-        // console.log('hi. i am calculating contributions of a user. have a good day.');
-        // console.log(project.val());
+        // add total project contributions here
         var projAddedLOC = project.child(addedLines).val();
         var projRemovedLOC = project.child(removedLines).val();
         var projTotalLOC = project.child(totalLines).val();
         var projHours = project.child(totalHours).val();
 
         project.child('milestones').forEach(function(milestone) {
-            // console.log('hi. i am iterating over another milestone');
+            // add total milestone contributions here
             var mileAddedLOC = milestone.child('added_lines_of_code').val();
             var mileRemovedLOC = milestone.child('removed_lines_of_code').val();
             var mileTotalLOC = milestone.child('total_lines_of_code').val();
             var mileHours = milestone.child('total_hours').val();
 
             project.child('members').forEach(function(memberSnapshot) {
-                // the above forEach executes the correct number of times
-                // console.log('i am calculating percentages for another member');
                 var memberRef = usersRef.child(memberSnapshot.key());
-                // console.log('in between the thing that calculates correctly and the thing that does not');
                 memberRef.once('value', function(member) {
-                    // the above once happens more than it should
-                    // console.log('i just got a new snapshot of the member ' + member.key());
                     if (member.hasChild('projects/' + project.key() + '/milestones/' + milestone.key())) {
                         var userMilestone = member.child('projects/' + project.key() + '/milestones/' + milestone.key());
+                        // add user milestone contributions here
                         var mileContribAddedLOC = userMilestone.child(addedLines).val();
                         var mileContribRemovedLOC = userMilestone.child(removedLines).val();
                         var mileContribHours = userMilestone.child(totalHours).val();
                         var mileContribTotalLOC = userMilestone.child(totalLines).val();
 
                         // update milestone stuff 
+                        // Add new percentage calculations here
                         var mileAddPercent = calculatePercentage(mileContribAddedLOC, mileAddedLOC);
                         var mileRemPercent = calculatePercentage(mileContribRemovedLOC, mileRemovedLOC);
                         var mileLOCPercent = calculatePercentage(mileContribTotalLOC, mileTotalLOC);
                         var mileHourPercent = calculatePercentage(mileContribHours, mileHours);
 
-                        // console.log('calculate the percent!');
-                        // console.log(milestone.key());
-                        // console.log(member.key());
-                        // console.log(mileAddedLOC);
-                        // console.log(mileAddPercent);
-
+                        console.log("Updating percents for user " + memberSnapshot.key() + " At milestone " + userMilestone.key() + " and project " + projectRef.key());
                         userMilestone.ref().update({
                             'added_loc_percent': mileAddPercent,
                             'removed_loc_percent': mileRemPercent,
@@ -233,23 +272,20 @@ function updateLocAndHoursContribs(projectRef) {
             var memberRef = usersRef.child(memberSnapshot.key());
             memberRef.once('value', function(member) {
                 var projectID = project.key();
+                // add user project contributions here
                 var projContribAddedLOC = member.child('projects/' + projectID + '/added_lines_of_code').val();
                 var projContribRemovedLOC = member.child('projects/' + projectID + '/removed_lines_of_code').val();
                 var projContribTotalLOC = member.child('projects/' + projectID + '/total_lines_of_code').val();
                 var projContribHours = member.child('projects/' + projectID + '/total_hours').val();
 
                 // update project stuff
+                // add new percentage calculations here
                 var projAddedLOCPercent = calculatePercentage(projContribAddedLOC, projAddedLOC);
                 var projRemovedLOCPercent = calculatePercentage(projContribRemovedLOC, projRemovedLOC);
                 var projTotalLOCPercent = calculatePercentage(projContribTotalLOC, projTotalLOC);
                 var projHoursPercent = calculatePercentage(projContribHours, projHours);
 
-                // console.log("User = " + member.key());
-                // console.log("Project Added: " + projAddedLOC + " " + projContribAddedLOC);
-                // console.log("Project Rmved: " + projRemovedLOC + " " + projContribRemovedLOC);
-                // console.log("Project total: " + projTotalLOC + " " + projContribTotalLOC);
-                // console.log("Project hours: " + projHours + " " + projContribHours + "\n");
-
+                console.log("Updating percents for user " + memberSnapshot.key() + " at project " + projectRef.key());
                 member.child('projects/' + projectID).ref().update({
                     'hours_percent': projHoursPercent,
                     'removed_loc_percent': projRemovedLOCPercent,
@@ -262,10 +298,8 @@ function updateLocAndHoursContribs(projectRef) {
     });
 }
 
-
-
 /* 
- * calculates percentage current/total
+ * Calculates percentage current/total
  */
 function calculatePercentage(current, total) {
     var percentage = 0;
@@ -278,4 +312,25 @@ function calculatePercentage(current, total) {
     else {
         return 0;
     }
+}
+
+/*
+ * Calculates the number of available points after a trophy has been added
+ */
+function calculateAvailablePoints(userRef, totalPoints) {
+    var availablePoints = totalPoints;
+    trophiesRef.once('value', function(trophies) {
+        userRef.once('value', function(user) {
+            user.child('trophies').forEach(function(trophy) {
+                if (trophy.key() === 'placeholder') return;
+                if (trophies.child(trophy.key()) !== null) {
+                    availablePoints -= trophies.child(trophy.key()).child('cost').val();
+                }
+                
+            });
+            userRef.update({
+                'available_points': availablePoints
+            });
+        });
+    });
 }
