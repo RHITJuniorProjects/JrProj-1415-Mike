@@ -42,7 +42,7 @@
                                 <rect key="frame" x="0.0" y="329" width="320" height="195"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="CPc-jk-V9I" detailTextLabel="EXc-05-vdL" imageView="VJ9-zf-7tH" style="IBUITableViewCellStyleSubtitle" id="b9h-4D-xT0">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProfileTrophyCell" textLabel="CPc-jk-V9I" detailTextLabel="EXc-05-vdL" imageView="VJ9-zf-7tH" style="IBUITableViewCellStyleSubtitle" id="b9h-4D-xT0">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b9h-4D-xT0" id="1nW-fJ-jKh">
@@ -67,6 +67,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="AX5-Pa-lsU" id="0P6-AK-oPP"/>
+                                    <outlet property="delegate" destination="AX5-Pa-lsU" id="t4X-t8-KjP"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -74,6 +78,7 @@
                     <navigationItem key="navigationItem" title="Profile" id="4N5-1K-rnb"/>
                     <connections>
                         <outlet property="pointsLabel" destination="vHt-eJ-COz" id="gAc-22-Dqb"/>
+                        <outlet property="trophyTable" destination="dFe-4D-KNq" id="Xs7-R7-YPt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iCd-qZ-qLb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1186,8 +1191,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="cAM-55-Mtn"/>
+        <segue reference="5b4-0E-tfw"/>
+        <segue reference="TUL-V0-Fep"/>
         <segue reference="Fwr-B4-Jg0"/>
-        <segue reference="dfn-7L-7pg"/>
     </inferredMetricsTieBreakers>
 </document>
