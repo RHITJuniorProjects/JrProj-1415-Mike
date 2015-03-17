@@ -104,6 +104,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileTrophyCell" forIndexPath:indexPath];
     cell.textLabel.text = [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"name"];
+    cell.detailTextLabel.text= [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"description"];
+   // cell.imageView.image = [UI]
     
     return cell;
 }
