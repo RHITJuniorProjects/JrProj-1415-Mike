@@ -82,7 +82,7 @@ public class TrophyStoreActivity extends Activity {
         firebase.child("trophies").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot child, String s) {
-                mAdapter.addTrophy(new Trophy("https://henry-test.firebaseio.com/trophies/" + child.getKey()));
+                mAdapter.addTrophy(new Trophy(GlobalVariables.getFirebaseUrl().toString()+"/trophies/" + child.getKey()));
             }
 
             @Override
