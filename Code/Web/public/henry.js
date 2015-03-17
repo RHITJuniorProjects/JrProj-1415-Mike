@@ -11,6 +11,7 @@ var myTasks;
 var myStatisticsPage;
 var myTrophyStorePage;
 var defaultCategories = [];
+var userTrophies = [];
 
 
 function backFromStore(){
@@ -296,10 +297,28 @@ Trophy.prototype.getTableRow =  function () {
 };
 
 function getTrophies() {
+    console.log("get called");
     var $panel = $('#trophy-store-rows');
     $panel.children().remove();
+    //var userTrophies = [];
+    user.__trophies.orderByChild("name").on('child_added', function (snap) {
+            var val = new Trophy(snap.ref());
+            userTrophies[userTrophies.length] = val;
+        });
     trophies.onItemAdded(function(trophy){
-        $panel.append(trophy.getTableRow());              
+        var arrayLength = userTrophies.length;
+        var needs = true;
+        for (var i = 0; i < arrayLength; i++) {
+            if(userTrophies[i].uid == trophy.uid) {
+
+                needs = false;
+                break;
+            }
+            
+        }
+        if (Boolean(needs)) {
+            $panel.append(trophy.getTableRow());
+        }              
     });
 }
 
@@ -372,6 +391,7 @@ function User(firebase2) {
     this.__projects = firebase2.child('projects');
     this.__name = firebase2.child('name');
     this.__email = firebase2.child('email');
+    this.__trophies = firebase2.child('trophies');
     this.__all_projects = firebase.child('projects');
 	this.__total_points = firebase.child('total_points');
 }
@@ -395,7 +415,7 @@ User.prototype = {
 		});
 		return a;
 	},
-	getEmail: function(callback){
+    getEmail: function(callback){
 		this.__email.on('value',function(value){
 			callback(value.val());
 		});
@@ -2242,8 +2262,8 @@ firebase.onAuth( // called on page load to auth users
 				profilePage = $('#profile-page');
 		        // myTrophyStorePage = $('#store-page');
                 myStatisticsPage =  $('#my-statistics-page');
-				showProjects();
-				getAllUsers();
+                getAllUsers();
+                showProjects();
             }
         );
     }
