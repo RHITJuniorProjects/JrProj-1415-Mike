@@ -2,11 +2,8 @@ package rhit.jrProj.henry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,8 +15,6 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-
-import java.util.Stack;
 
 import rhit.jrProj.henry.firebase.Trophy;
 import rhit.jrProj.henry.firebase.User;
@@ -82,7 +77,7 @@ public class TrophyStoreActivity extends Activity {
         firebase.child("trophies").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot child, String s) {
-                mAdapter.addTrophy(new Trophy(GlobalVariables.getFirebaseUrl().toString()+"/trophies/" + child.getKey()));
+                mAdapter.addTrophy(new Trophy(GlobalVariables.getFirebaseUrl() + "trophies/" + child.getKey()));
             }
 
             @Override

@@ -17,15 +17,12 @@ public class ProfileActivity extends Activity {
     private TextView mNameTextView;
     private TextView mEmailTextView;
     private TextView mPointTextView;
-    private GlobalVariables mGlobalVariables;
     private TrophyGridViewAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_profile);
-
-        mGlobalVariables = ((GlobalVariables) getApplicationContext());
+        setContentView(R.layout.activity_profile);
         mAdapter = new TrophyGridViewAdapter(this);
         GridView trophies = (GridView) findViewById(R.id.trophies);
         trophies.setAdapter(mAdapter);
@@ -33,12 +30,11 @@ public class ProfileActivity extends Activity {
         mEmailTextView = (TextView) findViewById(R.id.user_email);
         mPointTextView = (TextView) findViewById(R.id.user_points);
 
-        String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
+        final String fireBaseUrl = GlobalVariables.getFirebaseUrl();
         Firebase firebase = new Firebase(fireBaseUrl);
 
-        String userKey = firebase.getAuth().getUid();
+        String userKey = getIntent().getStringExtra("USER");
 
-        // String userKey = mGlobalVariables.getUser().getKey();
         firebase.child("users").child(userKey)
                 .addChildEventListener(new ChildEventListener() {
 
@@ -70,7 +66,8 @@ public class ProfileActivity extends Activity {
                     public void updateUI(DataSnapshot arg0) {
                         if (arg0.getKey().equals("trophies")) {
                             for (DataSnapshot child : arg0.getChildren()) {
-                                mAdapter.addTrophy(new Trophy("https://henry-test.firebaseio.com/trophies/" + child.getKey()));
+                                Trophy t = new Trophy(fireBaseUrl + "trophies/" + child.getKey());
+                                mAdapter.addTrophy(t);
                             }
                         }
                         if (arg0.getKey().equals("name")) {
@@ -94,6 +91,6 @@ public class ProfileActivity extends Activity {
     }
 
     private void updatePoints(int newPoints) {
-        mPointTextView.setText("Points: " + newPoints);
+        mPointTextView.setText("Total Points: " + newPoints);
     }
 }
