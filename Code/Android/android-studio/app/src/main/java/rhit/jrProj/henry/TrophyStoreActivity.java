@@ -131,7 +131,7 @@ public class TrophyStoreActivity extends Activity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                // not implemented
             }
 
             @Override
