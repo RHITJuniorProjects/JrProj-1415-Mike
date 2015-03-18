@@ -55,7 +55,7 @@
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         NSDictionary *userInfo = snapshot.value[@"users"][self.userid];
-        self.trophies = [snapshot.value[@"trophies"] allKeys];
+        self.trophies = snapshot.value[@"trophies"];
         NSArray *userT = [snapshot.value[@"users"][self.userid][@"trophies"] allKeys] ;
         for (int i = 0; i < userT.count; i++) {
             if (![userT[i]  isEqual: @"placeholder"]) {

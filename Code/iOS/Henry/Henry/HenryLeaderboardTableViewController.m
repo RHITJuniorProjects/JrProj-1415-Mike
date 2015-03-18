@@ -8,6 +8,7 @@
 
 #import "HenryLeaderboardTableViewController.h"
 #import "HenryLeaderboardCellTableViewCell.h"
+#import "HenryUsersProfileViewController.h"
 #import "HenryFirebase.h"
 
 @interface HenryLeaderboardTableViewController ()
@@ -71,7 +72,6 @@
         [self.top25 addObject:ids[id]];
         [ids removeObjectAtIndex:id];
     }
-    NSLog(@"%@",self.users);
     [self.tableView reloadData];
 }
 
@@ -218,6 +218,28 @@
         exit(0);
     }
     
+    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    @try {
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        HenryUsersProfileViewController *vc = [segue destinationViewController];
+         if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+             vc.upid =self.top25Trophies[indexPath.row-1];
+             vc.profile = [self.users valueForKey:self.top25Trophies[indexPath.row-1]];
+         } else {
+             vc.upid = self.top25[indexPath.row-1];
+             vc.profile = [self.users valueForKey:self.top25[indexPath.row-1]];
+         }
+        
+    }
+    @catch (NSException *exception) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+    }
+
     
 }
 
