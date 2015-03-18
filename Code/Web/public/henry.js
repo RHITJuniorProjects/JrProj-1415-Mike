@@ -363,7 +363,8 @@ var users = new Table(function (fb) {
 
 
 var trophies = new Table(function (fb) {
-	return new Trophy(fb);
+	// console.log(user);
+	return new Trophy(fb,user);
 }, firebase.child('trophies'));
 
 
