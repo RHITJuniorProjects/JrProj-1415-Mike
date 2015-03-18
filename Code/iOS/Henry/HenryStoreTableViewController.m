@@ -7,9 +7,11 @@
 //
 
 #import "HenryStoreTableViewController.h"
+#import "HenryFirebase.h"
 
 @interface HenryStoreTableViewController ()
-
+@property Firebase *fb;
+@property NSMutableArray *trophies;
 @end
 
 @implementation HenryStoreTableViewController
@@ -22,6 +24,22 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.fb = [HenryFirebase getFirebaseObject];
+    self.fb = [self.fb childByAppendingPath:@"/trophies"];
+    
+    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateTable:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+}
+
+-(void)updateTable:(FDataSnapshot *)snapshot {
+    self.trophies = snapshot.value;
+    NSLog(@"%@", self.trophies);
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
