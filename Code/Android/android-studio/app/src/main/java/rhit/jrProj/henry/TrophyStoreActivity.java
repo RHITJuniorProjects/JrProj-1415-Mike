@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.ChildEventListener;
@@ -31,6 +32,7 @@ public class TrophyStoreActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trophy_store);
         Firebase.setAndroidContext(this);
+
         GridView trophyGridView = (GridView) findViewById(R.id.trophies);
         mAdapter = new TrophyGridViewAdapter(this);
         mAdapter.setIsStore(true);
@@ -48,6 +50,8 @@ public class TrophyStoreActivity extends Activity {
                     "user")));
         }
         mUser = mGlobalVariables.getUser();
+        TextView availablePoints = (TextView) findViewById(R.id.textViewPoints);
+        availablePoints.setText("Your available points: " + mUser.getAvailablePoints());
 
         trophyGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -56,7 +60,7 @@ public class TrophyStoreActivity extends Activity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(TrophyStoreActivity.this);
                 builder.setTitle("Purchase Trophy");
                 if (mUser.hasTrophy(mAdapter.getItem(position))) {
-                    builder.setMessage("You already own that trophy!");
+                    builder.setMessage("You already own this trophy!");
                     builder.setNeutralButton("Ok", null);
                 } else if (mUser.getAvailablePoints() < mAdapter.getItem(position).getCost()) {
                     builder.setMessage("Oops, you do not have enough points to purchase this trophy.");
