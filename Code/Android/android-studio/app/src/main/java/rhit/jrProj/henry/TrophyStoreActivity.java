@@ -22,7 +22,7 @@ import rhit.jrProj.henry.firebase.User;
 
 
 public class TrophyStoreActivity extends Activity {
-
+    private TextView mAvailablePoints;
     private GlobalVariables mGlobalVariables;
     private TrophyGridViewAdapter mAdapter;
     private User mUser;
@@ -40,6 +40,7 @@ public class TrophyStoreActivity extends Activity {
         mGlobalVariables = ((GlobalVariables) getApplicationContext());
         String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
         Firebase firebase = new Firebase(fireBaseUrl);
+
         AuthData authData = firebase.getAuth();
         if (authData != null) {
             mGlobalVariables.setUser(new User(mGlobalVariables.getFirebaseUrl()
@@ -50,8 +51,46 @@ public class TrophyStoreActivity extends Activity {
                     "user")));
         }
         mUser = mGlobalVariables.getUser();
-        TextView availablePoints = (TextView) findViewById(R.id.textViewPoints);
-        availablePoints.setText("Your available points: " + mUser.getAvailablePoints());
+        firebase.child("users").child(mUser.getKey())
+                .addChildEventListener(new ChildEventListener() {
+
+                    @Override
+                    public void onCancelled(FirebaseError arg0) {
+                        // do nothing
+                    }
+
+                    @Override
+                    public void onChildAdded(DataSnapshot arg0, String arg1) {
+                        updateUI(arg0);
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot arg0, String arg1) {
+                        updateUI(arg0);
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot arg0, String arg1) {
+                        // do nothing
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot arg0) {
+                        // do nothing
+                    }
+
+                    public void updateUI(DataSnapshot arg0) {
+                       if (arg0.getKey().equals("available_points")) {
+                            updatePoints(arg0.getValue(Integer.class));
+                        }
+                    }
+                });
+
+
+
+
+        mAvailablePoints = (TextView) findViewById(R.id.textViewPoints);
+        mAvailablePoints.setText("Your available points: " + mUser.getAvailablePoints());
 
         trophyGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -127,5 +166,9 @@ public class TrophyStoreActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void updatePoints(int newPoints) {
+        mAvailablePoints.setText("Your available points: " + newPoints);
     }
 }

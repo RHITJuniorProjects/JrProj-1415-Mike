@@ -79,6 +79,9 @@ public class Trophy implements Parcelable, ChildEventListener {
 
     public void setCost(int mCost) {
         this.mCost = mCost;
+        if (this.listChangeNotifier != null){
+            this.listChangeNotifier.onChange();
+        }
     }
 
     public String getDescription() {
