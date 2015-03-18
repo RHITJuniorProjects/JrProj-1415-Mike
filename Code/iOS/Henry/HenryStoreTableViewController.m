@@ -7,13 +7,14 @@
 //
 
 #import "HenryStoreTableViewController.h"
+#import "HenryStoreCellTableViewCell.h"
 #import "HenryFirebase.h"
 
 @interface HenryStoreTableViewController ()
 @property Firebase *fb;
 @property NSMutableArray *trophies;
+@property NSArray *trophykey;
 @end
-
 @implementation HenryStoreTableViewController
 
 - (void)viewDidLoad {
@@ -24,7 +25,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    self.trophies = [[NSMutableArray alloc] init];
+    self.trophykey = [[NSArray alloc] init];
     self.fb = [HenryFirebase getFirebaseObject];
     self.fb = [self.fb childByAppendingPath:@"/trophies"];
     
@@ -38,7 +40,7 @@
 -(void)updateTable:(FDataSnapshot *)snapshot {
     self.trophies = snapshot.value;
     NSLog(@"%@", self.trophies);
-    
+    self.trophykey = [snapshot.value allKeys];
     [self.tableView reloadData];
 }
 
@@ -52,13 +54,27 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [self.trophies count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    HenryStoreCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"trophyCell" forIndexPath:indexPath];
+    
+    cell.trophyName.text = [[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"name"];
+    
+    cell.trophyDescription.text = [[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"description"];
+    
+    NSLog(@"%@",[[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"cost"]);
+    
+    cell.trophyPrice.text = [[[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"cost"] stringValue];
+    
+    return cell;
 }
 
 /*

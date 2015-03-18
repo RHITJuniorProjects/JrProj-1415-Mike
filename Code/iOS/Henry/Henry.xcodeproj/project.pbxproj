@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */; };
+		0A96F1BF1AB9150C001FF58C /* HenryStoreCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A96F1BE1AB9150C001FF58C /* HenryStoreCellTableViewCell.m */; };
 		5E3086021AB7C34F004293BC /* HenryStoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */; };
 		5E3086091AB85ED5004293BC /* HenryUsersProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E3086081AB85ED5004293BC /* HenryUsersProfileViewController.m */; };
 		5E65B7551AB15551001324CD /* Shop-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E65B7541AB15551001324CD /* Shop-40.png */; };
@@ -92,6 +93,8 @@
 /* Begin PBXFileReference section */
 		0A959BC31A8695B900356DC2 /* HenryCreateBountyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCreateBountyViewController.h; sourceTree = "<group>"; };
 		0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCreateBountyViewController.m; sourceTree = "<group>"; };
+		0A96F1BD1AB9150C001FF58C /* HenryStoreCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreCellTableViewCell.h; sourceTree = "<group>"; };
+		0A96F1BE1AB9150C001FF58C /* HenryStoreCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreCellTableViewCell.m; sourceTree = "<group>"; };
 		5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreTableViewController.h; sourceTree = SOURCE_ROOT; };
 		5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreTableViewController.m; sourceTree = SOURCE_ROOT; };
 		5E3086071AB85ED5004293BC /* HenryUsersProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryUsersProfileViewController.h; sourceTree = "<group>"; };
@@ -237,6 +240,8 @@
 			children = (
 				5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */,
 				5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */,
+				0A96F1BD1AB9150C001FF58C /* HenryStoreCellTableViewCell.h */,
+				0A96F1BE1AB9150C001FF58C /* HenryStoreCellTableViewCell.m */,
 			);
 			name = Store;
 			sourceTree = "<group>";
@@ -647,6 +652,7 @@
 				843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */,
 				87D8132D1A32509800BEDD3E /* HenryMemberTableViewCell.m in Sources */,
 				843D241719F476DF00DBC2CB /* HenryTaskStatusTableViewController.m in Sources */,
+				0A96F1BF1AB9150C001FF58C /* HenryStoreCellTableViewCell.m in Sources */,
 				84BC3A8B1A6300FA00271DFC /* BEMCircle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
