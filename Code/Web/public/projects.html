@@ -10,7 +10,16 @@
 <script type="text/javascript" src="/firebase.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
 <script type="text/javascript" src="/foundation-datepicker.js"></script>
+<script type="text/javascript" src="/tables.js"></script>
 <script type="text/javascript" src="/henry.js"></script>
+<script type="text/javascript" src="/trophies.js"></script>
+<script type="text/javascript" src="/milestones.js"></script>
+<script type="text/javascript" src="/tasks.js"></script>
+<script type="text/javascript" src="/mytasks.js"></script>
+<script type="text/javascript" src="/bounties.js"></script>
+<script type="text/javascript" src="/projects.js"></script>
+<script type="text/javascript" src="/charts.js"></script>
+<script type="text/javascript" src="/user.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -105,16 +114,16 @@
 								<h1>My Projects</h1>
 								<!--<button data-reveal-id="myProjectModal">Add Project</button>-->
 								<div id="myProjectModal" class="reveal-modal small-4" data-reveal>
-                                    <h2>New Project</h2><br />
-                                    <form action="" onsubmit="addNewProject(); return false;">
-                                        <label for="projectName">Project Name:</label> <input type="text" id="projectName">
-                                        <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
-                                        <label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
-                                        <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
-                                        <input type="submit" class="button" id="project-submit" value="Add Project" />
-                                        <div id="project-error" class="my-error" hidden>All fields must be specified</div>
-                                    </form>
-							    </div>
+									<h2>New Project</h2><br />
+									<form action="" onsubmit="addNewProject(); return false;">
+										<label for="projectName">Project Name:</label> <input type="text" id="projectName">
+										<label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
+										<label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
+										<label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
+										<input type="submit" class="button" id="project-submit" value="Add Project" />
+										<div id="project-error" class="my-error" hidden>All fields must be specified</div>
+									</form>
+								</div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
 								<dd class="accordion-navigation">
@@ -187,7 +196,132 @@
 										<td id = "name0"></td>
 										<td id = "pointValue0"></td>
 									</tr>
-									<tr id = "firstPlace">
+																				<tr id="place1">
+												<td id="1"></td>
+												<td id="name1"></td>
+												<td id="pointValue1"></td>
+											</tr>
+																				<tr id="place2">
+												<td id="2"></td>
+												<td id="name2"></td>
+												<td id="pointValue2"></td>
+											</tr>
+																				<tr id="place3">
+												<td id="3"></td>
+												<td id="name3"></td>
+												<td id="pointValue3"></td>
+											</tr>
+																				<tr id="place4">
+												<td id="4"></td>
+												<td id="name4"></td>
+												<td id="pointValue4"></td>
+											</tr>
+																				<tr id="place5">
+												<td id="5"></td>
+												<td id="name5"></td>
+												<td id="pointValue5"></td>
+											</tr>
+																				<tr id="place6">
+												<td id="6"></td>
+												<td id="name6"></td>
+												<td id="pointValue6"></td>
+											</tr>
+																				<tr id="place7">
+												<td id="7"></td>
+												<td id="name7"></td>
+												<td id="pointValue7"></td>
+											</tr>
+																				<tr id="place8">
+												<td id="8"></td>
+												<td id="name8"></td>
+												<td id="pointValue8"></td>
+											</tr>
+																				<tr id="place9">
+												<td id="9"></td>
+												<td id="name9"></td>
+												<td id="pointValue9"></td>
+											</tr>
+																				<tr id="place10">
+												<td id="10"></td>
+												<td id="name10"></td>
+												<td id="pointValue10"></td>
+											</tr>
+																				<tr id="place11">
+												<td id="11"></td>
+												<td id="name11"></td>
+												<td id="pointValue11"></td>
+											</tr>
+																				<tr id="place12">
+												<td id="12"></td>
+												<td id="name12"></td>
+												<td id="pointValue12"></td>
+											</tr>
+																				<tr id="place13">
+												<td id="13"></td>
+												<td id="name13"></td>
+												<td id="pointValue13"></td>
+											</tr>
+																				<tr id="place14">
+												<td id="14"></td>
+												<td id="name14"></td>
+												<td id="pointValue14"></td>
+											</tr>
+																				<tr id="place15">
+												<td id="15"></td>
+												<td id="name15"></td>
+												<td id="pointValue15"></td>
+											</tr>
+																				<tr id="place16">
+												<td id="16"></td>
+												<td id="name16"></td>
+												<td id="pointValue16"></td>
+											</tr>
+																				<tr id="place17">
+												<td id="17"></td>
+												<td id="name17"></td>
+												<td id="pointValue17"></td>
+											</tr>
+																				<tr id="place18">
+												<td id="18"></td>
+												<td id="name18"></td>
+												<td id="pointValue18"></td>
+											</tr>
+																				<tr id="place19">
+												<td id="19"></td>
+												<td id="name19"></td>
+												<td id="pointValue19"></td>
+											</tr>
+																				<tr id="place20">
+												<td id="20"></td>
+												<td id="name20"></td>
+												<td id="pointValue20"></td>
+											</tr>
+																				<tr id="place21">
+												<td id="21"></td>
+												<td id="name21"></td>
+												<td id="pointValue21"></td>
+											</tr>
+																				<tr id="place22">
+												<td id="22"></td>
+												<td id="name22"></td>
+												<td id="pointValue22"></td>
+											</tr>
+																				<tr id="place23">
+												<td id="23"></td>
+												<td id="name23"></td>
+												<td id="pointValue23"></td>
+											</tr>
+																				<tr id="place24">
+												<td id="24"></td>
+												<td id="name24"></td>
+												<td id="pointValue24"></td>
+											</tr>
+																				<tr id="place25">
+												<td id="25"></td>
+												<td id="name25"></td>
+												<td id="pointValue25"></td>
+											</tr>
+																		<!-- <tr id = "firstPlace">
 										<td id = "1"></td>
 										<td id = "name1"></td>
 										<td id = "pointValue1"></td>
@@ -311,7 +445,7 @@
 										<td id = "25"></td>
 										<td id = "name25"></td>
 										<td id = "pointValue25"></td>
-									</tr>
+									</tr> -->
 								</table>
 								</div>
 							</div>
@@ -387,9 +521,9 @@
 		</div>
 	</div>	
 </div>
-		<div id='tasks-page' hidden>
+<div id='tasks-page' hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		<dl class="tabs vertical" data-tab><dd onclick="selectProject(selectedProject)"><a href="#ViewTasks">Back To Milestone</a></dd><dd id="TaskTab" class="active"><a href="#ViewTasks">View Tasks</a></dd><dd onclick="newTask() || setTimeout(function(){ $('#TaskTab a').click() });"><a href="#ViewTasks">Add New Task</a></dd><dd onclick="taskStatics()"><a href="#ViewTasks">Task Statistics</a></dd><dd><a href="#BurndownChart">Burndown Chart</a></dd></dl>	</div>
+		<dl class="tabs vertical" data-tab><dd onclick="selectProject(selectedProject)"><a href="#ViewTasks">Back To Milestone</a></dd><dd id="TaskTab" class="active"><a href="#ViewTasks">View Tasks</a></dd><dd onclick="newTask() || setTimeout(function(){ $('#TaskTab a').click() });"><a href="#ViewTasks">Add New Task</a></dd><dd onclick="taskStatistics()"><a href="#ViewTasks">Task Statistics</a></dd><dd><a href="#BurndownChart">Burndown Chart</a></dd></dl>	</div>
 	<div class="small-9 columns main-content">
 		<div class="tabs-content">
 			<div class="content active" id="ViewTasks">
@@ -433,7 +567,7 @@
 </div>
 <div id="taskContainer" class="reveal-modal" data-reveal>
 </div>
-        <div id='my-tasks-page' hidden>
+<div id='my-tasks-page' hidden>
     <div class="main-content">
         <table style="width:100%">
             <thead>
@@ -462,7 +596,7 @@
         </div>-->
     </div>
 </div>
-		
+
 <div id="profile-page" class="main-content" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
 		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#BacktoMyProjects">Back to My Projects</a></dd></dl>	</div>
@@ -502,7 +636,7 @@
 		</div>
 	</div>
 </div>
-        <div id='my-statistics-page' hidden>
+<div id='my-statistics-page' hidden>
     <div class="main-content">
 	<!-- <div class="small-2 columns small-offset-1 tabbar">
 	</div> -->
@@ -519,7 +653,6 @@
 			</div>
 
 		
-	        
+			
 	</body>
 </html>
-

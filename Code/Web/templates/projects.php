@@ -45,16 +45,16 @@
 								<h1>My Projects</h1>
 								<!--<button data-reveal-id="myProjectModal">Add Project</button>-->
 								<div id="myProjectModal" class="reveal-modal small-4" data-reveal>
-                                    <h2>New Project</h2><br />
-                                    <form action="" onsubmit="addNewProject(); return false;">
-                                        <label for="projectName">Project Name:</label> <input type="text" id="projectName">
-                                        <label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
-                                        <label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
-                                        <label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
-                                        <input type="submit" class="button" id="project-submit" value="Add Project" />
-                                        <div id="project-error" class="my-error" hidden>All fields must be specified</div>
-                                    </form>
-							    </div>
+									<h2>New Project</h2><br />
+									<form action="" onsubmit="addNewProject(); return false;">
+										<label for="projectName">Project Name:</label> <input type="text" id="projectName">
+										<label for="projectDescription">Description:</label> <input type="text"id="projectDescription" />
+										<label for="projectDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="projectDueDate" onclick="showDatePicker('#projectDueDate')" />
+										<label for="projectEstimatedHours">Total Estimated Hours:</label> <input type="text" id="projectEstimatedHours">
+										<input type="submit" class="button" id="project-submit" value="Add Project" />
+										<div id="project-error" class="my-error" hidden>All fields must be specified</div>
+									</form>
+								</div>
 							</div>
 							<dl class="row collapse accordion outlined" data-accordion>
 								<dd class="accordion-navigation">
@@ -127,7 +127,18 @@
 										<td id = "name0"></td>
 										<td id = "pointValue0"></td>
 									</tr>
-									<tr id = "firstPlace">
+									<?php
+										for($i = 1; $i < 26; $i++) {
+									?>
+											<tr id="place<?php echo $i; ?>">
+												<td id="<?php echo $i; ?>"></td>
+												<td id="name<?php echo $i; ?>"></td>
+												<td id="pointValue<?php echo $i; ?>"></td>
+											</tr>
+									<?php		
+										}
+									?>
+									<!-- <tr id = "firstPlace">
 										<td id = "1"></td>
 										<td id = "name1"></td>
 										<td id = "pointValue1"></td>
@@ -251,7 +262,7 @@
 										<td id = "25"></td>
 										<td id = "name25"></td>
 										<td id = "pointValue25"></td>
-									</tr>
+									</tr> -->
 								</table>
 								</div>
 							</div>
@@ -260,12 +271,13 @@
 				</div>
 			</div>
 		</div>
-		<?php require 'Milestones.php'?>
-		<?php require 'tasks.php'?>
-        <?php require 'mytasks.php'?>
-		<?php require 'profile.php'?>
-        <?php require 'myStatistics.php'?>
-        
+		<?php
+			require 'Milestones.php';
+			require 'tasks.php';
+			require 'mytasks.php';
+			require 'profile.php';
+			require 'myStatistics.php'
+		?>
+		
 	</body>
 </html>
-

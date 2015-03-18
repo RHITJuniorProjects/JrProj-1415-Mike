@@ -9,7 +9,7 @@
 							"#ViewTasks"),
 					new Tab("View Tasks",["id" => "TaskTab", "class" => "active"]),
 					new Tab("Add New Task",["onclick" => "newTask() || setTimeout(function(){ $('#TaskTab a').click() });"],"#ViewTasks"),
-					new Tab("Task Statistics",["onclick" => "taskStatics()"],"#ViewTasks"),
+					new Tab("Task Statistics",["onclick" => "taskStatistics()"],"#ViewTasks"),
 					new Tab("Burndown Chart")
 				)
 			);
