@@ -117,6 +117,7 @@ public class TrophyStoreActivity extends Activity {
                 builder.show();
             }
         });
+
         firebase.child("trophies").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot child, String s) {
@@ -168,6 +169,10 @@ public class TrophyStoreActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Updtaes the users points when changed in Firebase.
+     * @param newPoints
+     */
     private void updatePoints(int newPoints) {
         mAvailablePoints.setText("Your available points: " + newPoints);
     }

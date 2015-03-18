@@ -28,8 +28,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: rhit.jrProj.henry" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f14f8908-cf7b-4b34-b64f-8ecca00984f7" name="Default" comment="Removed displaying available points since it doesnt work.">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java" />
+    <list default="true" id="f14f8908-cf7b-4b34-b64f-8ecca00984f7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -62,8 +61,8 @@
       <file leaf-file-name="TrophyStoreActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7842031" vertical-offset="1926" max-vertical-offset="2635">
-              <caret line="171" column="61" selection-start-line="171" selection-start-column="61" selection-end-line="171" selection-end-column="61" />
+            <state vertical-scroll-proportion="0.23272215" vertical-offset="1433" max-vertical-offset="2720">
+              <caret line="119" column="8" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="8" />
               <folding>
                 <element signature="e#3388#4874#0" expanded="true" />
                 <element signature="e#4863#4864#0" expanded="true" />
@@ -75,8 +74,8 @@
       <file leaf-file-name="TaskDetailFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="4777">
-              <caret line="31" column="49" selection-start-line="31" selection-start-column="49" selection-end-line="32" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="4777">
+              <caret line="51" column="27" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -1929,7 +1928,11 @@
       <created>1426637202656</created>
       <updated>1426637202656</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fixed displaying available points in trophy store">
+      <created>1426700332272</created>
+      <updated>1426700332272</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2044,7 +2047,8 @@
     <MESSAGE value="Added trophy grand child listener to User" />
     <MESSAGE value="commit" />
     <MESSAGE value="Fixed grammar issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed grammar issue" />
+    <MESSAGE value="Fixed displaying available points in trophy store" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed displaying available points in trophy store" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2433,16 +2437,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="527" max-vertical-offset="5355">
-          <caret line="31" column="49" selection-start-line="31" selection-start-column="49" selection-end-line="32" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="4777">
+          <caret line="51" column="27" selection-start-line="51" selection-start-column="27" selection-end-line="51" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7842031" vertical-offset="1926" max-vertical-offset="2635">
-          <caret line="171" column="61" selection-start-line="171" selection-start-column="61" selection-end-line="171" selection-end-column="61" />
+        <state vertical-scroll-proportion="0.23272215" vertical-offset="1433" max-vertical-offset="2720">
+          <caret line="119" column="8" selection-start-line="119" selection-start-column="8" selection-end-line="119" selection-end-column="8" />
           <folding>
             <element signature="e#3388#4874#0" expanded="true" />
             <element signature="e#4863#4864#0" expanded="true" />
