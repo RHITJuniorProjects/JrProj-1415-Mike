@@ -175,7 +175,7 @@ User.prototype = {
 		this.__avail_points.set(pts);
 	},
 	getTrophies: function() {
-		var $panel = $('#profile-trophies');
+		var $panel = $('#profile-trophies-rows');
 		$panel.children().remove();
 
 		this.__trophies.orderByChild("name").on('child_added', function (snap) {
