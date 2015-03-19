@@ -31,6 +31,7 @@
     
     self.top25 = [[NSMutableArray alloc] init];
     self.top25Trophies = [[NSMutableArray alloc] init];
+    self.users = [[NSDictionary alloc] init];
     
     self.fb = [HenryFirebase getFirebaseObject];
     self.fb = [self.fb childByAppendingPath:@"/users"];
@@ -52,8 +53,13 @@
     for (int n = 0; n < 25 && 0 < idT.count; n++) {
         int idt = 0;
         for (int i = 0; i < idT.count; i++) {
-            trophies = [[[self.users valueForKey:idT[i]] valueForKey:@"trophies"] count]-1;
-            if (trophies > [[[self.users valueForKey:idT[idt]] valueForKey:@"trophies"] count]-1) {
+            if (n == 0) {
+                NSLog(@"%@: %@", idT[i], [[self.users valueForKey:idT[i]] valueForKey:@"trophies"]);
+            }
+            trophies = [[[self.users valueForKey:idT[i]] valueForKey:@"trophies"] containsObject:@"placeholder"] ? -1 : 0;
+            trophies += [[[self.users valueForKey:idT[i]] valueForKey:@"trophies"] count];
+            
+            if (trophies > [[[self.users valueForKey:idT[idt]] valueForKey:@"trophies"] count]-([[[self.users valueForKey:idT[idt]] valueForKey:@"trophies"] containsObject:@"placeholder"] ? 1 : 0)) {
                 idt = i;
             }
         }
@@ -89,6 +95,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
+    
+    NSLog(@"%@", self.top25);
     return [self.top25Trophies count]>[self.top25 count]?[self.top25Trophies count] + 1 : [self.top25 count] + 1;
 }
 
@@ -100,7 +108,7 @@
         cell.nameLabel.text = [[self.users valueForKey:self.uid] valueForKey:@"name"];
         cell.rankLabel.text = @"";
         if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
-            cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] count]-1];
+            cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] count]-([[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
         } else {
         cell.pointsLabel.text = [[[self.users valueForKey:self.uid] valueForKey:@"total_points"] stringValue];
         }
@@ -111,7 +119,7 @@
         if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
             userRow = [self.top25Trophies[indexPath.row-1] isEqualToString:self.uid];
             cell.nameLabel.text = [[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"name"];
-            cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] count]-1];
+            cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] count]- ([[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
             if (![[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] allKeys] containsObject:@"trophies"]) {
                 cell.pointsLabel.text = @"0";
             }
@@ -223,14 +231,15 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     @try {
+        NSLog(@"%@",self.top25[2]);
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         HenryUsersProfileViewController *vc = [segue destinationViewController];
          if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
-             vc.upid =self.top25Trophies[indexPath.row-1];
-             vc.profile = [self.users valueForKey:self.top25Trophies[indexPath.row-1]];
+             vc.upid =[self.top25Trophies objectAtIndex:indexPath.row-1];
+             vc.profile = [self.users valueForKey:[self.top25Trophies objectAtIndex:indexPath.row-1]];
          } else {
-             vc.upid = self.top25[indexPath.row-1];
-             vc.profile = [self.users valueForKey:self.top25[indexPath.row-1]];
+             vc.upid = [self.top25 objectAtIndex:indexPath.row-1];
+             vc.profile = [self.users valueForKey:[self.top25 objectAtIndex:indexPath.row-1]];
          }
         
     }

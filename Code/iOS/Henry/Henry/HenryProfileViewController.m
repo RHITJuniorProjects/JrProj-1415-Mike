@@ -102,7 +102,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileTrophyCell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileTrophyCell"];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"ProfileTrophyCell"];
+    }
     cell.textLabel.text = [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"name"];
     cell.detailTextLabel.text= [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"description"];
    // cell.imageView.image = [UI]

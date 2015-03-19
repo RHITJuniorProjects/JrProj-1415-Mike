@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ggz-Aj-65w">
     <dependencies>
         <deployment identifier="iOS"/>
         <development version="5100" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -19,16 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZa-BD-f8x">
-                                <rect key="frame" x="135" y="145" width="50" height="68"/>
-                                <state key="normal" title="Logout">
-                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="exit-25.png" translatesAutoresizingMaskIntoConstraints="NO" id="KHz-KV-OJk">
-                                <rect key="frame" x="140" y="145" width="40" height="40"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Total Points: 0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vHt-eJ-COz">
                                 <rect key="frame" x="16" y="236" width="288" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -1207,7 +1197,7 @@
                                 <rect key="frame" x="0.0" y="329" width="320" height="195"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProfileUserTrophyCell" textLabel="ZiK-Ah-jDC" detailTextLabel="hZ1-Ei-hUy" imageView="oUL-GI-mSF" style="IBUITableViewCellStyleSubtitle" id="eX7-8M-aUZ">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ProfileUser" textLabel="ZiK-Ah-jDC" detailTextLabel="hZ1-Ei-hUy" imageView="oUL-GI-mSF" style="IBUITableViewCellStyleSubtitle" id="eX7-8M-aUZ">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eX7-8M-aUZ" id="6GB-iR-X0D">
@@ -1242,7 +1232,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="MiE-lm-fcy"/>
                     <connections>
-                        <outlet property="UsersTrophyTable" destination="Taf-Jn-yeR" id="ul7-aG-hhA"/>
+                        <outlet property="UsersTrophyTable" destination="Taf-Jn-yeR" id="wm7-4v-hwq"/>
+                        <outlet property="totalPts" destination="Zy1-Zg-NcI" id="2Oc-0x-i7N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Su2-zh-Bs2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1256,7 +1247,6 @@
         <image name="Shop-40.png" width="40" height="40"/>
         <image name="Trophy-40.png" width="40" height="40"/>
         <image name="User Male4-40.png" width="40" height="40"/>
-        <image name="exit-25.png" width="25" height="25"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

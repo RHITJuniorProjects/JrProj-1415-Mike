@@ -17,6 +17,7 @@
 @end
 
 @implementation HenryUsersProfileViewController
+@synthesize UsersTrophyTable;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,11 +57,12 @@
             }
         }
         if ([self.userTrophies count] == 0) {
-            self.UsersTrophyTable .hidden = true;
+            self.UsersTrophyTable.hidden = true;
         }
         //NSLog(@"%@", self.trophies);
-              NSLog(@"%@", [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:0]]valueForKey:@"description"]);
+       
         self.navigationItem.title = [self.profile valueForKey:@"name"];
+        self.totalPts.text = [NSString stringWithFormat:@"Total Points: %@",[self.profile valueForKey:@"total_points"]];
         [self.UsersTrophyTable reloadData];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -71,15 +73,32 @@
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileUserTrophyCell"];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileUserTrophyCell" forIndexPath:indexPath];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"ProfileUserTrophyCell"];
+    }
     cell.textLabel.text = [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"name"];
-    cell.detailTextLabel.text= [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"description"];
+    cell.detailTextLabel.text= [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]] valueForKey:@"description"];
+//    dispatch_async(dispatch_get_global_queue(0,0), ^{
+//        NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"image"]]];
+//        if ( data == nil )
+//            return;
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            // WARNING: is the cell still using the same data by this point??
+//            cell.image = [UIImage imageWithData: data];
+//        });
+//       // [data release];
+//    });
+    
     return cell;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if ([[[self.profile valueForKey:@"trophies"] allKeys]  count] -([[self.profile valueForKey:@"trophies"] containsObject:@"placeholder"] ? 1 : 0) < 1) {
+        self.UsersTrophyTable.hidden = true;
+    }
 
     return [[[self.profile valueForKey:@"trophies"] allKeys]  count];
 }

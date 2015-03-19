@@ -9,7 +9,6 @@
 #import "HenryProjectsTableViewController.h"
 #import "HenryProjectDetailViewController.h"
 #import "HenryMilestonesTableViewController.h"
-#import "HenryRootNavigationController.h"
 #import "SWRevealViewController.h"
 #import "HenryFirebase.h"
 #import "HenryProjectObject.h"

@@ -97,7 +97,7 @@
 		0A96F1BE1AB9150C001FF58C /* HenryStoreCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreCellTableViewCell.m; sourceTree = "<group>"; };
 		5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreTableViewController.h; sourceTree = SOURCE_ROOT; };
 		5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreTableViewController.m; sourceTree = SOURCE_ROOT; };
-		5E3086071AB85ED5004293BC /* HenryUsersProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryUsersProfileViewController.h; sourceTree = "<group>"; };
+		5E3086071AB85ED5004293BC /* HenryUsersProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryUsersProfileViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		5E3086081AB85ED5004293BC /* HenryUsersProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryUsersProfileViewController.m; sourceTree = "<group>"; };
 		5E65B7541AB15551001324CD /* Shop-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Shop-40.png"; sourceTree = "<group>"; };
 		5E746AD71AB1F0DF0064E257 /* Trophy-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Trophy-40.png"; sourceTree = "<group>"; };
@@ -360,10 +360,10 @@
 		93054B0B19C961E000911AB4 /* Projects */ = {
 			isa = PBXGroup;
 			children = (
-				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
 				93447F6A19C91CC100C2FC38 /* HenryProjectsTableViewController.m */,
 				843D240B19F476DF00DBC2CB /* HenryProjectDetailViewController.h */,
 				843D240C19F476DF00DBC2CB /* HenryProjectDetailViewController.m */,
+				93447F6919C91CC100C2FC38 /* HenryProjectsTableViewController.h */,
 				87E4646F1A085D9300A18BF7 /* HenryProjectObject.h */,
 				87E464701A085D9300A18BF7 /* HenryProjectObject.m */,
 				87D813281A32504900BEDD3E /* HenryMemberTableViewController.h */,

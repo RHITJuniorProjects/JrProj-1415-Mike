@@ -9,7 +9,6 @@
 #import "HenryMilestoneDetailViewController.h"
 #import "HenryTasksTableViewController.h"
 #import "HenryFirebase.h"
-#import "BEMSimpleLineGraphView.h"
 
 @interface HenryMilestoneDetailViewController ()
 @property Firebase *fb;

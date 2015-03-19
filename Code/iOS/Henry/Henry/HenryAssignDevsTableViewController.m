@@ -9,7 +9,6 @@
 #import "HenryAssignDevsTableViewController.h"
 #import "HenryAssignDevTableViewCell.h"
 #import "HenryDevDisplayObject.h"
-#import "HenryTaskDetailViewController.h"
 #import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
 @property Firebase* fb;

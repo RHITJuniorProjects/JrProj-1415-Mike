@@ -10,7 +10,8 @@
 
 @interface HenryUsersProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *UsersTrophyTable;
+@property (weak, nonatomic) IBOutlet UILabel *totalPts;
 @property NSString *upid;
-@property NSMutableArray *profile;
+@property NSMutableDictionary *profile;
 
 @end
