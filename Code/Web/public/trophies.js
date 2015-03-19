@@ -40,6 +40,7 @@ Trophy.prototype.getTableRow =  function () {
 	var buttonCell = $('<td>');
 	var trophy = this;
 	var modal = $('#trophy-modal');
+	// var currentImage = trophy.image;
 	// console.log(this.uid);
 
 	row.append(name, desc, cost, image, buttonCell);
@@ -84,7 +85,7 @@ function buyTrophy(name, desc, cost, img, trophy) {
 				// console.log(cost);
 				if(pts >= cost) {
 					user.setPoints(pts - cost);
-					user.trophy.push({
+					firebase.child("user/" + user.uid + "/trophies").push({
 						// value: name,
 						cost: cost,
 						description: desc,
@@ -100,6 +101,7 @@ function buyTrophy(name, desc, cost, img, trophy) {
 		}
 		
 	});
+	console.log(img);
 	// // console.log(tid);
 	// // console.log(tid.name);
 	// getTrophies();
