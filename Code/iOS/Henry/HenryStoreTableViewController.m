@@ -11,8 +11,11 @@
 #import "HenryFirebase.h"
 
 @interface HenryStoreTableViewController ()
-@property Firebase *fb;
+@property Firebase *fbTrophies;
+@property Firebase *fbUsers;
+@property Firebase *fbUser;
 @property NSMutableArray *trophies;
+@property NSMutableArray *users;
 @property NSArray *trophykey;
 @end
 @implementation HenryStoreTableViewController
@@ -25,13 +28,28 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.trophies = [[NSMutableArray alloc] init];
-    self.trophykey = [[NSArray alloc] init];
-    self.fb = [HenryFirebase getFirebaseObject];
-    self.fb = [self.fb childByAppendingPath:@"/trophies"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.userid = [defaults objectForKey:@"id"];
     
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    self.trophies = [[NSMutableArray alloc] init];
+    self.users = [[NSMutableArray alloc] init];
+    self.trophykey = [[NSArray alloc] init];
+    self.fbTrophies = [HenryFirebase getFirebaseObject];
+    self.fbTrophies = [self.fbTrophies childByAppendingPath:@"/trophies"];
+    self.fbUsers = [HenryFirebase getFirebaseObject];
+    self.fbUsers = [self.fbUsers childByAppendingPath:@"/users"];
+    self.fbUser = [HenryFirebase getFirebaseObject];
+    
+    // get snapshot of trophies
+    [self.fbTrophies observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateTable:snapshot];
+    } withCancelBlock:^(NSError *error) {
+        NSLog(@"%@", error.description);
+    }];
+    
+    // get snapshot of user
+    [self.fbUsers observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        [self updateInfo:snapshot];
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
     }];
@@ -39,9 +57,31 @@
 
 -(void)updateTable:(FDataSnapshot *)snapshot {
     self.trophies = snapshot.value;
-    NSLog(@"%@", self.trophies);
+//    NSLog(@"%@", self.trophies);
     self.trophykey = [snapshot.value allKeys];
     [self.tableView reloadData];
+}
+
+-(void)updateInfo:(FDataSnapshot *)snapshot {
+    @try{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        self.userInfo = snapshot.value[self.userid];
+
+        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
+        
+        self.availablePoints = [self.userInfo objectForKey:@"available_points"];
+        
+        NSLog(@"%@", self.userInfo);
+//        NSLog([NSString stringWithFormat:@"Available points: %@",[self.userInfo objectForKey:@"available_points"]]);
+
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    }@catch(NSException *exception) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        
+        exit(0);
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,6 +115,54 @@
     cell.trophyPrice.text = [[[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"cost"] stringValue];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSLog(@"Row %@ pressed!", [@(indexPath.row) stringValue]);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Purchase" message:@"Are you sure you want to purchase this trophy?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Other", nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == [alertView cancelButtonIndex]){
+        NSLog(@"Cancel button clicked!");
+    }else{
+        NSLog(@"Other button clicked!");
+        self.fbUser = [self.fbUser childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", self.userid]];
+        
+        // Decrement points by trophy point amount
+        NSString *trophy = [[self.trophies valueForKey:[self.trophykey objectAtIndex:buttonIndex]] valueForKey:@"name"];
+        NSNumber *cost = [[self.trophies valueForKey:[self.trophykey objectAtIndex:buttonIndex]] valueForKey:@"cost"];
+        NSLog(@"Trophy selected: %@", trophy);
+        NSLog(@"Trophy cost: %@", cost);
+        
+        NSNumber *newAvailablePoints = [[NSNumber alloc] initWithFloat:([self.availablePoints floatValue] - [cost floatValue])];
+        
+        // user can't buy trophy if not enough points
+        if(newAvailablePoints < 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You don't have enough points to buy this trophy!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+        // restoring original - FOR TESTING ONLY
+        NSNumber *originalPoints = [[NSNumber alloc] initWithFloat:29];
+        NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
+        [newData setObject:originalPoints forKey:@"available_points"];
+        [self.fbUser updateChildValues:newData];
+        [self.tableView reloadData];
+        
+        [newData setObject:newAvailablePoints forKey:@"available_points"];
+        
+        // Add trophy to inventory
+        // TODO: add trophy!!!
+        [newData setObject:trophy forKey:@"trophies"];
+        [self.fbUser updateChildValues:newData];
+        [self.tableView reloadData];
+        NSLog(@"New points: %@", newAvailablePoints);
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
 }
 
 /*

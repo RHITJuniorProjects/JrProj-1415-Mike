@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HenryStoreTableViewController : UITableViewController
-
+@interface HenryStoreTableViewController : UITableViewController <UIAlertViewDelegate>
+@property NSString* userid;
+@property NSDictionary *userInfo;
+@property NSNumber *availablePoints;
 @end
