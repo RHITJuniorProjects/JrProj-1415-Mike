@@ -42,7 +42,7 @@
     [self.fb removeAllObservers];
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated {
     self.fb = [HenryFirebase getFirebaseObject];
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateInfo:snapshot];
