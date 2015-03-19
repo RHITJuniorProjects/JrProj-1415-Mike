@@ -13,6 +13,7 @@
 @interface HenryStoreTableViewController ()
 @property Firebase *fbTrophies;
 @property Firebase *fbUsers;
+@property Firebase *fbUser;
 @property NSMutableArray *trophies;
 @property NSMutableArray *users;
 @property NSArray *trophykey;
@@ -37,6 +38,7 @@
     self.fbTrophies = [self.fbTrophies childByAppendingPath:@"/trophies"];
     self.fbUsers = [HenryFirebase getFirebaseObject];
     self.fbUsers = [self.fbUsers childByAppendingPath:@"/users"];
+    self.fbUser = [HenryFirebase getFirebaseObject];
     
     // get snapshot of trophies
     [self.fbTrophies observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -127,13 +129,39 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"Cancel button clicked!");
     }else{
         NSLog(@"Other button clicked!");
+        self.fbUser = [self.fbUser childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", self.userid]];
+        
         // Decrement points by trophy point amount
         NSString *trophy = [[self.trophies valueForKey:[self.trophykey objectAtIndex:buttonIndex]] valueForKey:@"name"];
         NSNumber *cost = [[self.trophies valueForKey:[self.trophykey objectAtIndex:buttonIndex]] valueForKey:@"cost"];
         NSLog(@"Trophy selected: %@", trophy);
         NSLog(@"Trophy cost: %@", cost);
         
+        NSNumber *newAvailablePoints = [[NSNumber alloc] initWithFloat:([self.availablePoints floatValue] - [cost floatValue])];
+        
+        // user can't buy trophy if not enough points
+        if(newAvailablePoints < 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You don't have enough points to buy this trophy!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+        // restoring original - FOR TESTING ONLY
+        NSNumber *originalPoints = [[NSNumber alloc] initWithFloat:29];
+        NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
+        [newData setObject:originalPoints forKey:@"available_points"];
+        [self.fbUser updateChildValues:newData];
+        [self.tableView reloadData];
+        
+        [newData setObject:newAvailablePoints forKey:@"available_points"];
+        
         // Add trophy to inventory
+        // TODO: add trophy!!!
+        [newData setObject:trophy forKey:@"trophies"];
+        [self.fbUser updateChildValues:newData];
+        [self.tableView reloadData];
+        NSLog(@"New points: %@", newAvailablePoints);
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
     }
 }
 
