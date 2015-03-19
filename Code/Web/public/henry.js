@@ -12,6 +12,7 @@ var myStatisticsPage;
 var myTrophyStorePage;
 var defaultCategories = [];
 var userTrophies = [];
+// var selectedUserTrophies = [];
 
 
 function backFromStore(){
@@ -173,6 +174,30 @@ User.prototype = {
 	setPoints: function (pts) {
 		this.__avail_points.set(pts);
 	},
+	getTrophies: function() {
+		var $panel = $('#profile-trophies');
+		$panel.children().remove();
+
+		this.__trophies.orderByChild("name").on('child_added', function (snap) {
+			var val = new Trophy(snap.ref());
+			userTrophies[userTrophies.length] = val;
+		});
+		trophies.onItemAdded(function(trophy){
+			var arrayLength = userTrophies.length;
+			var needs = true;
+			for (var i = 0; i < arrayLength; i++) {
+				if(userTrophies[i].uid == trophy.uid) {
+
+					needs = false;
+					break;
+				}
+			
+			}
+			if (Boolean(needs)) {
+				$panel.append(trophy.getTableRow());
+			}              
+		});
+	},
 	off: function (arg1, arg2) {
 		this.__firebase.off(arg1, arg2);
 	}
@@ -248,6 +273,9 @@ function viewProfile(user){
 	user.getProjects().onItemAdded(function(project){
 		projPanel.prepend(project.getButtonDiv());
 	});
+	var trophyPanel = $('#profile-trophies');
+	trophyPanel.children().remove();
+	user.getTrophies();
 }
 
 function showProjects(){
