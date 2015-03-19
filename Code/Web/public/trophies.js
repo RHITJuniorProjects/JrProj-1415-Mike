@@ -72,6 +72,29 @@ Trophy.prototype.getTableRow =  function () {
 	return row;
 };
 
+Trophy.prototype.getUserTableRow =  function () {
+	var row = $('<tr class="trophy-row">');//for later: data-reveal-id="trophy-modal">');
+	var name = $('<td>');
+	var desc = $('<td>');
+	var image = $('<td>');
+	var trophy = this;
+	var modal = $('#trophy-modal');
+	// var currentImage = trophy.image;
+	// console.log(this.uid);
+
+	row.append(name, desc, image);
+	this.getName(function (nameStr) {
+		name.html(nameStr);
+	});
+	this.getDescription(function (descriptionStr) {
+		desc.html(descriptionStr);
+	});
+	this.getImage(function (imageStr) {
+		image.html("<img src=" + imageStr + " height=42 width=42>");
+	});
+
+	return row;
+};
 function buyTrophy(name, desc, cost, img, trophy) {
 	// console.log(user);
 	user.getBountyPoints(function(pts) {

@@ -187,7 +187,7 @@ User.prototype = {
 			var needs = true;
 			for (var i = 0; i < arrayLength; i++) {
 				if(userTrophies[i].uid === trophy.uid) {
-					$panel.append(trophy.getTableRow());
+					$panel.append(trophy.getUserTableRow());
 					// needs = true;
 				}	
 				// }else {
