@@ -37,7 +37,7 @@
 						</div>
 					</div>
 					<div class="row text-center">
-						<h2>Bounty Points: <span id="profile-points"></span></h2>
+						<h2>Bounty Points: <span class="profile-points"></span></h2>
 					</div>
 					<div class="row">
 						<div id="profile-projects" class="small-12 columns">
