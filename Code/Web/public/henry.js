@@ -266,6 +266,9 @@ function viewProfile(user){
 	user.getName(function(name){
 		$('span.profile-name').text(name);
 	});
+	user.getPoints(function(total_points){
+		$('#profile-points').text(total_points)
+	});
 	user.getEmailLink(function(email){
 		$('#contact-row').append(email);
 	});
