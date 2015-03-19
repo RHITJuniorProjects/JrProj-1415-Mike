@@ -40,7 +40,19 @@
 						<div id="profile-projects" class="small-12 columns">
 							<!-- populated by henry.js -->
 						</div>
-					</div>
+					<div class= "content active">
+						<table style="width:100%">
+							<thead>
+								<td>Name</td>
+								<td>Description</td>
+								<td>Image</td>
+							</thead>
+							<tbody id="profile-trophies-rows">
+						 </tbody>
+					</table>
+				</div>
+			</div>
+		  </div>
 				</div>
 			</div>
 		</div>

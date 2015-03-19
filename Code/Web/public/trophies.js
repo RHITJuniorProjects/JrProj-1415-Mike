@@ -90,7 +90,15 @@ function buyTrophy(name, desc, cost, img, trophy) {
 						cost: cost,
 						description: desc,
 						image: img,
-						name:  name				
+						name:  name	
+					// 		user.setPoints(pts - cost);
+					// var trophyUID = trophy.uid;
+					// trophy = {};
+					// trophy[trophyUID] = name;
+					// firebase.child("user/" + user.uid + "/trophies").push({
+					// 	// value: name,
+					// 	name: name
+					// });			
 					});
 
 				}
