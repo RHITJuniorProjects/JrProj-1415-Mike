@@ -1,3 +1,4 @@
+
 function Trophy(firebase) {
 	this.__firebase = firebase;
 	this.uid = firebase.key();
@@ -5,6 +6,7 @@ function Trophy(firebase) {
 	this.__description = firebase.child('description');    
 	this.__image = firebase.child('image')
 	this.__cost = firebase.child('cost');
+	
 }
 
 Trophy.prototype = {
@@ -38,7 +40,8 @@ Trophy.prototype.getTableRow =  function () {
 	var buttonCell = $('<td>');
 	var trophy = this;
 	var modal = $('#trophy-modal');
-	console.log(this.uid);
+	// var currentImage = trophy.image;
+	// console.log(this.uid);
 
 	row.append(name, desc, cost, image, buttonCell);
 	this.getName(function (nameStr) {
@@ -56,37 +59,52 @@ Trophy.prototype.getTableRow =  function () {
 
 	var button = $('<button>');
 	button.html("Buy");
-	button.attr("id", this.uid);
+	// button.attr("id", trophy.uid);
 	button.click(function() {
-		buyTrophy(name.html(), desc.html(), cost.html(), image.html(), $(this).attr("id"));
+		buyTrophy(name.html(), desc.html(), cost.html(), image.html(), trophy);
+		// buyTrophy(trophy);
+		// console.log(trophy);
+		// console.log(this.uid.__name);
+		// console.log(this.uid.name);
 	});
 	buttonCell.append(button);
 	
 	return row;
 };
 
-function buyTrophy(name, desc, cost, img, tid) {
+function buyTrophy(name, desc, cost, img, trophy) {
+	// console.log(user);
 	user.getBountyPoints(function(pts) {
-		console.log(pts)
+		// console.log(pts);
 		for(var i = 0; i < userTrophies.length; i++) {
-			if(userTrophies[i].uid == tid) break;
-			else if(i === userTrophies.length - 1) {
+			if(userTrophies[i].uid == trophy.uid){
+				console.log("you already have that trophy");
+				break;
+			}
+			else {
+				// console.log(cost);
 				if(pts >= cost) {
 					user.setPoints(pts - cost);
-					user.__trophies.push({
-						// value: name
+					firebase.child("user/" + user.uid + "/trophies").push({
+						// value: name,
 						cost: cost,
-						name: name,
+						description: desc,
 						image: img,
-						description: desc
+						name:  name				
 					});
+
 				}
-				else console.log("not enough points");
+				else {
+					console.log("not enough points");
+				}
 			}
 		}
-		console.log("you already have that trophy");
+		
 	});
-	console.log(tid);
+	console.log(img);
+	// // console.log(tid);
+	// // console.log(tid.name);
+	// getTrophies();
 }
 
 function getTrophies() {
