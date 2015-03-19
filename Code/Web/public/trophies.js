@@ -139,4 +139,6 @@ function getTrophies() {
 			$panel.append(trophy.getTableRow());
 		}              
 	});
+
 }
+

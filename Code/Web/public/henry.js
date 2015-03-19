@@ -186,16 +186,19 @@ User.prototype = {
 			var arrayLength = userTrophies.length;
 			var needs = true;
 			for (var i = 0; i < arrayLength; i++) {
-				if(userTrophies[i].uid == trophy.uid) {
+				if(userTrophies[i].uid === trophy.uid) {
+					$panel.append(trophy.getTableRow());
+					// needs = true;
+				}	
+				// }else {
 
-					needs = false;
-					break;
-				}
+				// 	needs = false;
+				// }
 			
 			}
-			if (Boolean(needs)) {
-				$panel.append(trophy.getTableRow());
-			}              
+			// if (Boolean(needs)) {
+			// 	$panel.append(trophy.getTableRow());
+			// }              
 		});
 	},
 	off: function (arg1, arg2) {
