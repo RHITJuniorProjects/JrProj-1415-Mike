@@ -9,6 +9,7 @@ import java.util.Set;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 
 import rhit.jrProj.henry.firebase.Enums.Role;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -18,7 +19,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class User implements Parcelable {
+public class User implements Parcelable, ListChangeNotifiable<Project> {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -267,6 +268,7 @@ public class User implements Parcelable {
 
     /**
      * Add a trophy to the user's set of trophies.
+     *
      * @param trophy
      */
     public void addTrophy(Trophy trophy) {
@@ -275,6 +277,7 @@ public class User implements Parcelable {
 
     /**
      * Replace the given trophy with the new trophy.
+     *
      * @param trophy
      */
     public void replaceTrophy(Trophy trophy, Trophy newTrophy) {
@@ -324,12 +327,13 @@ public class User implements Parcelable {
         this.firebase.child("available_points").setValue(newTotal);
     }
 
+
     /**
      * Gets the listChangeNotifier associated with a User
      *
      * @return
      */
-    ListChangeNotifier<Project> getListChangeNotifier() {
+    public ListChangeNotifier<Project> getListChangeNotifier() {
         return this.listViewCallback;
     }
 

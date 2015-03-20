@@ -1,69 +1,74 @@
 package rhit.jrProj.henry;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.bridge.GridViewAdapter;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Trophy;
 import rhit.jrProj.henry.ui.TrophySquareImageView;
-import rhit.jrProj.henry.ui.TrophyStoreImageView;
+
 
 /**
  * Created by johnsoaa & rockwotj on 3/14/2015.
  */
-public class TrophyGridViewAdapter extends BaseAdapter {
+public class TrophyGridViewAdapter extends GridViewAdapter<Trophy> {
 
-    private Context mContext;
-    private ArrayList<Trophy> mTrophies;
+
     private boolean mIsStore;
 
 
     public TrophyGridViewAdapter(Context context) {
-        mTrophies = new ArrayList<Trophy>();
-        mContext = context;
-    }
-
-    @Override
-    public int getCount() {
-        return mTrophies.size();
-    }
-
-    @Override
-    public Trophy getItem(int i) {
-        return mTrophies.get(i);
+        super(context);
     }
 
     public void addTrophy(Trophy t) {
-        mTrophies.add(t);
+        super.addItem(t);
         t.setListChangeNotifier(new ListChangeNotifier<Trophy>(this));
     }
 
-    @Override
-    public long getItemId(int i) {
-        return 0;
-    }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         TrophySquareImageView trophySquareImageView;
         if (view == null) {
             if (mIsStore) {
-                trophySquareImageView = new TrophyStoreImageView(mContext);
+                trophySquareImageView = new TrophyStoreImageView(super.getContext());
             } else {
-                trophySquareImageView = new TrophySquareImageView(mContext);
+                trophySquareImageView = new TrophySquareImageView(super.getContext());
             }
         } else {
             trophySquareImageView = (TrophySquareImageView) view;
         }
-        trophySquareImageView.initialize(mTrophies.get(i));
+        trophySquareImageView.initialize(super.getItem(i));
         return trophySquareImageView;
     }
 
     public void setIsStore(boolean isStore) {
         this.mIsStore = isStore;
+    }
+
+    private class TrophyStoreImageView extends TrophySquareImageView {
+        public TrophyStoreImageView(Context context) {
+            super(context);
+        }
+
+        public TrophyStoreImageView(Context context, AttributeSet attrs) {
+            super(context, attrs);
+        }
+
+        public TrophyStoreImageView(Context context, AttributeSet attrs, int defStyle) {
+            super(context, attrs, defStyle);
+        }
+
+        @Override
+        protected String getLabel(Trophy trophy) {
+            return trophy.getName() + " - " + trophy.getCost() + " points";
+        }
     }
 }

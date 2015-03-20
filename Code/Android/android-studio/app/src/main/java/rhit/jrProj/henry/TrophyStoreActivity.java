@@ -2,8 +2,10 @@ package rhit.jrProj.henry;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import com.firebase.client.FirebaseError;
 
 import rhit.jrProj.henry.firebase.Trophy;
 import rhit.jrProj.henry.firebase.User;
+import rhit.jrProj.henry.ui.TrophySquareImageView;
 
 
 public class TrophyStoreActivity extends Activity {
@@ -80,13 +83,11 @@ public class TrophyStoreActivity extends Activity {
                     }
 
                     public void updateUI(DataSnapshot arg0) {
-                       if (arg0.getKey().equals("available_points")) {
+                        if (arg0.getKey().equals("available_points")) {
                             updatePoints(arg0.getValue(Integer.class));
                         }
                     }
                 });
-
-
 
 
         mAvailablePoints = (TextView) findViewById(R.id.textViewPoints);
@@ -171,9 +172,11 @@ public class TrophyStoreActivity extends Activity {
 
     /**
      * Updtaes the users points when changed in Firebase.
+     *
      * @param newPoints
      */
     private void updatePoints(int newPoints) {
         mAvailablePoints.setText("Your available points: " + newPoints);
     }
+
 }

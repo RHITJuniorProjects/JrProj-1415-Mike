@@ -8,6 +8,7 @@ import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
+
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -30,280 +31,281 @@ import android.widget.TextView;
  * {@link ItemDetailActivity} on handsets.
  */
 public class TaskDetailFragment extends Fragment implements
-		HorizontalPicker.Callbacks {
+        HorizontalPicker.Callbacks {
 
-	/**
-	 * The fragment argument representing the item ID that this fragment
-	 * represents.
-	 */
+    /**
+     * The fragment argument representing the item ID that this fragment
+     * represents.
+     */
 
-	/**
-	 * The List content this fragment is presenting.
-	 */
-	private Task taskItem;
+    /**
+     * The List content this fragment is presenting.
+     */
+    private Task taskItem;
 
-	private Callbacks mCallbacks = sDummyCallbacks;
+    private Callbacks mCallbacks = sDummyCallbacks;
 
-	private TextView pointsField;
+    private TextView pointsField;
 
-	private GlobalVariables mGlobalVariables;
+    private GlobalVariables mGlobalVariables;
 
-	private HorizontalPicker numPicker;
-	private Spinner spinny;
-	/**
-	 * Mandatory empty constructor for the fragment manager to instantiate the
-	 * fragment (e.g. upon screen orientation changes).
-	 */
-	public TaskDetailFragment() {
-	}
+    private HorizontalPicker numPicker;
+    private Spinner spinny;
 
-	public interface Callbacks {
-		public Map<Member, Enums.Role> getProjectMembers();
+    /**
+     * Mandatory empty constructor for the fragment manager to instantiate the
+     * fragment (e.g. upon screen orientation changes).
+     */
+    public TaskDetailFragment() {
+    }
 
-		public Task getSelectedTask();
+    public interface Callbacks extends ICallbacks {
+        public Map<Member, Enums.Role> getProjectMembers();
 
-		public Project getSelectedProject();
+        public Task getSelectedTask();
 
-		public User getUser();
-	}
+        public Project getSelectedProject();
 
-	private static Callbacks sDummyCallbacks = new Callbacks() {
+        public User getUser();
+    }
 
-		public Map<Member, Role> getProjectMembers() {
-			return null;
-		}
+    private static Callbacks sDummyCallbacks = new Callbacks() {
 
-		public Project getSelectedProject() {
-			return null;
-		}
+        public Map<Member, Role> getProjectMembers() {
+            return null;
+        }
 
-		public Task getSelectedTask() {
-			return null;
-		}
+        public Project getSelectedProject() {
+            return null;
+        }
 
-		public User getUser() {
-			return null;
-		}
+        public Task getSelectedTask() {
+            return null;
+        }
 
-	};
+        public User getUser() {
+            return null;
+        }
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    };
 
-		mGlobalVariables =  ((GlobalVariables) getActivity().getApplicationContext());
-		this.taskItem = this.mCallbacks.getSelectedTask();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	}
+        mGlobalVariables = ((GlobalVariables) getActivity().getApplicationContext());
+        this.taskItem = this.mCallbacks.getSelectedTask();
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_task_detail,
-				container, false);
-		// Show the List content as text in a TextView.
-		if (this.taskItem != null) {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_task_detail,
+                container, false);
+        // Show the List content as text in a TextView.
+        if (this.taskItem != null) {
 //			this.taskItem.mCallbacks=this;
-			((TextView) rootView.findViewById(R.id.task_name))
-					.setText(this.taskItem.getName());
-			Enums.Role role = this.mCallbacks
-					.getSelectedProject()
-					.getMembers()
-					.getValue(
-							new Member(mGlobalVariables.getFirebaseUrl()
-									+ "/users/"
-									+ this.mCallbacks.getUser().getKey()));
-			if (this.getArguments().getBoolean("TwoPane")
-					&& role == Enums.Role.LEAD) {
-				
-				((TextView) rootView.findViewById(R.id.task_assignee))
-						.setText("Assignee:");
-				this.pointsField = ((TextView) rootView
-						.findViewById(R.id.task_points));
-				this.pointsField.setText("Points: \t"
-						+ this.taskItem.getPoints());
-				
-				spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
-				this.mCallbacks.getProjectMembers().getAllKeys();
+            ((TextView) rootView.findViewById(R.id.task_name))
+                    .setText(this.taskItem.getName());
+            Enums.Role role = this.mCallbacks
+                    .getSelectedProject()
+                    .getMembers()
+                    .getValue(
+                            new Member(mGlobalVariables.getFirebaseUrl()
+                                    + "/users/"
+                                    + this.mCallbacks.getUser().getKey()));
+            if (this.getArguments().getBoolean("TwoPane")
+                    && role == Enums.Role.LEAD) {
 
-				ArrayAdapter<Member> adapter = new ArrayAdapter<Member>(
-						this.getActivity(),
-						android.R.layout.simple_spinner_item, this.mCallbacks
-								.getProjectMembers().getAllKeys());
-				// Specify the layout to use when the list of choices appears
-				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				// Apply the adapter to the spinner
-				spinny.setAdapter(adapter);
+                ((TextView) rootView.findViewById(R.id.task_assignee))
+                        .setText("Assignee:");
+                this.pointsField = ((TextView) rootView
+                        .findViewById(R.id.task_points));
+                this.pointsField.setText("Points: \t"
+                        + this.taskItem.getPoints());
 
-				int spinnerDefaultPos = adapter.getPosition(new Member(
-						mGlobalVariables.getFirebaseUrl() + "/users/"
-								+ this.taskItem.getAssignedUserId()));
-				spinny.setSelection(spinnerDefaultPos);
-				spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
-						this.taskItem));
-				spinny.setVisibility(View.VISIBLE);
-				TextView textLines = (TextView) rootView.findViewById(R.id.task_lines_of_code);
-				textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
-						+ this.taskItem.getRemovedLines() + " lines of code");
-			} else {
-				rootView.findViewById(R.id.task_assignee_spinner).setVisibility(View.GONE);
-				((TextView) rootView.findViewById(R.id.task_assignee))
-						.setText("Assigned to: "
-								+ this.taskItem.getAssignedUserName() + " \n +"
-								+ this.taskItem.getAddedLines() + "/" + "-"
-								+ this.taskItem.getRemovedLines()
-								+ " lines of code");
-			}
-			((TextView) rootView.findViewById(R.id.task_hours_complete))
-					.setText("" + this.taskItem.getHoursSpent() + " / "
-							+ this.taskItem.getCurrentHoursEstimate()
-							+ " hours");
-			((TextView) rootView.findViewById(R.id.task_description))
-					.setText("Description: " + this.taskItem.getDescription());
+                spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
+                this.mCallbacks.getProjectMembers().getAllKeys();
 
-			((TextView) rootView.findViewById(R.id.status_descriptor))
-					.setText("Category:");
+                ArrayAdapter<Member> adapter = new ArrayAdapter<Member>(
+                        this.getActivity(),
+                        android.R.layout.simple_spinner_item, this.mCallbacks
+                        .getProjectMembers().getAllKeys());
+                // Specify the layout to use when the list of choices appears
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Apply the adapter to the spinner
+                spinny.setAdapter(adapter);
 
-			// Task status spinner
-			Spinner spinner = (Spinner) rootView
-					.findViewById(R.id.task_status_spinner);
-			// Create an ArrayAdapter using the string array and a default
-			// spinner layout
-			ArrayAdapter<CharSequence> adapter = ArrayAdapter
-					.createFromResource(this.getActivity(),
-							R.array.task_statuses,
-							android.R.layout.simple_spinner_item);
-			// Specify the layout to use when the list of choices appears
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			// Apply the adapter to the spinner
-			spinner.setAdapter(adapter);
+                int spinnerDefaultPos = adapter.getPosition(new Member(
+                        mGlobalVariables.getFirebaseUrl() + "/users/"
+                                + this.taskItem.getAssignedUserId()));
+                spinny.setSelection(spinnerDefaultPos);
+                spinny.setOnItemSelectedListener(new AssigneeSpinnerListener(
+                        this.taskItem));
+                spinny.setVisibility(View.VISIBLE);
+                TextView textLines = (TextView) rootView.findViewById(R.id.task_lines_of_code);
+                textLines.setText(this.taskItem.getAddedLines() + "/" + "-"
+                        + this.taskItem.getRemovedLines() + " lines of code");
+            } else {
+                rootView.findViewById(R.id.task_assignee_spinner).setVisibility(View.GONE);
+                ((TextView) rootView.findViewById(R.id.task_assignee))
+                        .setText("Assigned to: "
+                                + this.taskItem.getAssignedUserName() + " \n +"
+                                + this.taskItem.getAddedLines() + "/" + "-"
+                                + this.taskItem.getRemovedLines()
+                                + " lines of code");
+            }
+            ((TextView) rootView.findViewById(R.id.task_hours_complete))
+                    .setText("" + this.taskItem.getHoursSpent() + " / "
+                            + this.taskItem.getCurrentHoursEstimate()
+                            + " hours");
+            ((TextView) rootView.findViewById(R.id.task_description))
+                    .setText("Description: " + this.taskItem.getDescription());
 
-			// Set the default for the spinner to be the task's current status
-			String myString = this.taskItem.getStatus();
-			int spinnerDefaultPos = adapter.getPosition(myString);
-			spinner.setSelection(spinnerDefaultPos);
-			spinner.setOnItemSelectedListener(new StatusSpinnerListener(
-					this.taskItem));
+            ((TextView) rootView.findViewById(R.id.status_descriptor))
+                    .setText("Category:");
 
-			((TextView) rootView
-					.findViewById(R.id.task_hours_original_estimate))
-					.setText("Original Estimate: "
-							+ this.taskItem.getOriginalHoursEstimate()
-							+ " hours");
-			((TextView) rootView.findViewById(R.id.task_hours_current_estimate))
-					.setText("Current Estimate: "
-							+ this.taskItem.getCurrentHoursEstimate()
-							+ " hours");
+            // Task status spinner
+            Spinner spinner = (Spinner) rootView
+                    .findViewById(R.id.task_status_spinner);
+            // Create an ArrayAdapter using the string array and a default
+            // spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter
+                    .createFromResource(this.getActivity(),
+                            R.array.task_statuses,
+                            android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            spinner.setAdapter(adapter);
 
-		}
+            // Set the default for the spinner to be the task's current status
+            String myString = this.taskItem.getStatus();
+            int spinnerDefaultPos = adapter.getPosition(myString);
+            spinner.setSelection(spinnerDefaultPos);
+            spinner.setOnItemSelectedListener(new StatusSpinnerListener(
+                    this.taskItem));
 
-		return rootView;
-	}
+            ((TextView) rootView
+                    .findViewById(R.id.task_hours_original_estimate))
+                    .setText("Original Estimate: "
+                            + this.taskItem.getOriginalHoursEstimate()
+                            + " hours");
+            ((TextView) rootView.findViewById(R.id.task_hours_current_estimate))
+                    .setText("Current Estimate: "
+                            + this.taskItem.getCurrentHoursEstimate()
+                            + " hours");
 
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (!(activity instanceof Callbacks)) {
-			throw new IllegalStateException(
-					"Activity must implement fragment's callbacks.");
-		}
-		this.mCallbacks = (Callbacks) activity;
-	}
+        }
 
-	@Override
-	public void onDetach() {
-		super.onDetach();
-		this.mCallbacks = sDummyCallbacks;
-	}
+        return rootView;
+    }
 
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException(
+                    "Activity must implement fragment's callbacks.");
+        }
+        this.mCallbacks = (Callbacks) activity;
+    }
 
-		// This code shows the "Create Task" option when
-		// viewing tasks.
-		MenuItem createMilestone = menu.findItem(R.id.action_milestone);
-		createMilestone.setVisible(false);
-		createMilestone.setEnabled(false);
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.mCallbacks = sDummyCallbacks;
+    }
 
-		MenuItem createTask = menu.findItem(R.id.action_task);
-		createTask.setVisible(false);
-		createTask.setEnabled(false);
-		MenuItem sorting = menu.findItem(R.id.action_sorting);
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
 
-		sorting.setEnabled(false);
-		sorting.setVisible(false);
-		MenuItem createbounty = menu.findItem(R.id.action_bounty);
-		createbounty.setVisible(false);
-		createbounty.setEnabled(false); 
-		MenuItem allTasks=menu.findItem(R.id.action_all_tasks);
-		allTasks.setVisible(false);
-		allTasks.setEnabled(false);
+        // This code shows the "Create Task" option when
+        // viewing tasks.
+        MenuItem createMilestone = menu.findItem(R.id.action_milestone);
+        createMilestone.setVisible(false);
+        createMilestone.setEnabled(false);
 
-	}
+        MenuItem createTask = menu.findItem(R.id.action_task);
+        createTask.setVisible(false);
+        createTask.setEnabled(false);
+        MenuItem sorting = menu.findItem(R.id.action_sorting);
 
-	/**
-	 * Status Spinner Listener class
-	 */
-	class StatusSpinnerListener implements OnItemSelectedListener {
-		/**
-		 * The selected task item
-		 */
-		private Task taskItem;
+        sorting.setEnabled(false);
+        sorting.setVisible(false);
+        MenuItem createbounty = menu.findItem(R.id.action_bounty);
+        createbounty.setVisible(false);
+        createbounty.setEnabled(false);
+        MenuItem allTasks = menu.findItem(R.id.action_all_tasks);
+        allTasks.setVisible(false);
+        allTasks.setEnabled(false);
 
-		/**
-		 * Creates a new Status Listener
-		 * 
-		 * @param taskItem
-		 */
-		public StatusSpinnerListener(Task taskItem) {
-			this.taskItem = taskItem;
-		}
+    }
 
-		public void onItemSelected(AdapterView<?> parent, View view,
-				int position, long id) {
-			String taskStatus = parent.getItemAtPosition(position).toString();
-			this.taskItem.updateStatus(taskStatus);
-		}
+    /**
+     * Status Spinner Listener class
+     */
+    class StatusSpinnerListener implements OnItemSelectedListener {
+        /**
+         * The selected task item
+         */
+        private Task taskItem;
 
-		public void onNothingSelected(AdapterView<?> parent) {
-			// do nothing
-		}
-	}
+        /**
+         * Creates a new Status Listener
+         *
+         * @param taskItem
+         */
+        public StatusSpinnerListener(Task taskItem) {
+            this.taskItem = taskItem;
+        }
 
-	/**
-	 * Status Spinner Listener class
-	 */
-	class AssigneeSpinnerListener implements OnItemSelectedListener {
-		/**
-		 * The selected task item
-		 */
-		private Task taskItem;
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int position, long id) {
+            String taskStatus = parent.getItemAtPosition(position).toString();
+            this.taskItem.updateStatus(taskStatus);
+        }
 
-		/**
-		 * Creates a new Status Listener
-		 * 
-		 * @param taskItem
-		 */
-		public AssigneeSpinnerListener(Task taskItem) {
-			this.taskItem = taskItem;
-		}
+        public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+        }
+    }
 
-		public void onItemSelected(AdapterView<?> parent, View view,
-				int position, long id) {
-			Member member = (Member) parent.getItemAtPosition(position);
-			this.taskItem.updateAssignee(member);
-		}
+    /**
+     * Status Spinner Listener class
+     */
+    class AssigneeSpinnerListener implements OnItemSelectedListener {
+        /**
+         * The selected task item
+         */
+        private Task taskItem;
 
-		public void onNothingSelected(AdapterView<?> parent) {
-			// do nothing
-		}
-	}
+        /**
+         * Creates a new Status Listener
+         *
+         * @param taskItem
+         */
+        public AssigneeSpinnerListener(Task taskItem) {
+            this.taskItem = taskItem;
+        }
 
-	@Override
-	public void fireChange(int old, int nu) {
-		this.taskItem.setCompletionBountyPoints(nu);
-		this.pointsField.setText("Points: \t" + nu);
-	}
+        public void onItemSelected(AdapterView<?> parent, View view,
+                                   int position, long id) {
+            Member member = (Member) parent.getItemAtPosition(position);
+            this.taskItem.updateAssignee(member);
+        }
+
+        public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+        }
+    }
+
+    @Override
+    public void fireChange(int old, int nu) {
+        this.taskItem.setCompletionBountyPoints(nu);
+        this.pointsField.setText("Points: \t" + nu);
+    }
 
 }

@@ -15,7 +15,7 @@ import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 /**
  * Created by johnsoaa on 3/14/2015.
  */
-public class Trophy implements Parcelable, ChildEventListener {
+public class Trophy implements Parcelable, ChildEventListener, ListChangeNotifiable<Trophy> {
 
     /**
      * A Creator object that allows this object to be created by a parcel
@@ -79,7 +79,7 @@ public class Trophy implements Parcelable, ChildEventListener {
 
     public void setCost(int mCost) {
         this.mCost = mCost;
-        if (this.listChangeNotifier != null){
+        if (this.listChangeNotifier != null) {
             this.listChangeNotifier.onChange();
         }
     }
@@ -108,10 +108,17 @@ public class Trophy implements Parcelable, ChildEventListener {
         this.mName = mName;
     }
 
-    public String getKey() {return this.mKey; }
+    public String getKey() {
+        return this.mKey;
+    }
 
     public void setListChangeNotifier(ListChangeNotifier<Trophy> listChangeNotifier) {
         this.listChangeNotifier = listChangeNotifier;
+    }
+
+    @Override
+    public ListChangeNotifier<Trophy> getListChangeNotifier() {
+        return this.listChangeNotifier;
     }
 
 
@@ -163,26 +170,26 @@ public class Trophy implements Parcelable, ChildEventListener {
                 p.getName());
     }
 
-    public int compareToByPoints(Trophy p){
-        return ((Integer)this.mCost).compareTo((Integer)p.getCost());
+    public int compareToByPoints(Trophy p) {
+        return ((Integer) this.mCost).compareTo((Integer) p.getCost());
     }
 
-    public int convertLimitFromFirebaseForm(Object limitString){
-        try{
+    public int convertLimitFromFirebaseForm(Object limitString) {
+        try {
             return (Integer) limitString;
-        }catch(java.lang.ClassCastException e){
+        } catch (java.lang.ClassCastException e) {
             if (limitString instanceof String && limitString.toString().equals("None")) {
                 return -1;
-            } else{
+            } else {
                 return -10;
             }
         }
     }
 
-    public Object convertLimitToFirebaseForm(int limit){
-        if (limit==-1){
+    public Object convertLimitToFirebaseForm(int limit) {
+        if (limit == -1) {
             return "None";
-        } else{
+        } else {
             return limit;
         }
     }

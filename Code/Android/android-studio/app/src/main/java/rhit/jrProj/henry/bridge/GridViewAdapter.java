@@ -35,7 +35,7 @@ public abstract class GridViewAdapter<T> extends BaseAdapter {
         return mItems.get(i);
     }
 
-    public void addItem(T t){
+    public void addItem(T t) {
         mItems.add(t);
     }
 
@@ -47,7 +47,7 @@ public abstract class GridViewAdapter<T> extends BaseAdapter {
     @Override
     public abstract View getView(int i, View view, ViewGroup viewGroup);
 
-    public Context getContext(){
+    public Context getContext() {
         return mContext;
     }
 }

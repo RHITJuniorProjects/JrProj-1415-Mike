@@ -30,16 +30,25 @@ public abstract class ItemSquareImageView<T> extends FrameLayout {
     public ItemSquareImageView(Context context) {
         super(context);
         mContext = context;
+        mThumbnail = new ImageThumbnail(context);
+        mThumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        this.addView(mThumbnail);
     }
 
     public ItemSquareImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
+        mThumbnail = new ImageThumbnail(context);
+        mThumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        this.addView(mThumbnail);
     }
 
     public ItemSquareImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
+        mThumbnail = new ImageThumbnail(context);
+        mThumbnail.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        this.addView(mThumbnail);
     }
 
     @Override
@@ -64,13 +73,16 @@ public abstract class ItemSquareImageView<T> extends FrameLayout {
             setMeasuredDimension(getMeasuredWidth(), getMeasuredWidth()); //snap to width
         }
     }
-    protected ImageThumbnail getThumbnail(){
+
+    protected ImageThumbnail getThumbnail() {
         return this.mThumbnail;
     }
-    protected void setThumbnail(ImageThumbnail thumb){
-        this.mThumbnail=thumb;
+
+    protected void setThumbnail(ImageThumbnail thumb) {
+        this.mThumbnail = thumb;
     }
-    public Context getmContext(){
+
+    public Context getmContext() {
         return this.mContext;
     }
 
