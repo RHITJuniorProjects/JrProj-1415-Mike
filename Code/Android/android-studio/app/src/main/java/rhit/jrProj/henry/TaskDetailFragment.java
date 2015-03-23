@@ -122,11 +122,8 @@ public class TaskDetailFragment extends Fragment implements
 
                 ((TextView) rootView.findViewById(R.id.task_assignee))
                         .setText("Assignee:");
-                this.pointsField = ((TextView) rootView
-                        .findViewById(R.id.task_points));
-                this.pointsField.setText("Points: \t"
-                        + this.taskItem.getPoints());
 
+//                pointsField.setVisibility(View.GONE);
                 spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
                 this.mCallbacks.getProjectMembers().getAllKeys();
 
@@ -167,7 +164,10 @@ public class TaskDetailFragment extends Fragment implements
 
             ((TextView) rootView.findViewById(R.id.status_descriptor))
                     .setText("Category:");
-
+            this.pointsField = ((TextView) rootView
+                    .findViewById(R.id.task_points));
+            this.pointsField.setText("Points: \t"
+                    + this.taskItem.getPoints());
             // Task status spinner
             Spinner spinner = (Spinner) rootView
                     .findViewById(R.id.task_status_spinner);
