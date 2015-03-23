@@ -17,9 +17,11 @@ public class DueDate {
             month = -1;
             year = -1;
         } else {
-            year = new Integer(s1.substring(0, 4)).intValue();
-            month = new Integer(s1.substring(5, 7)).intValue();
-            day = new Integer(s1.substring(8)).intValue();
+            int index1=s1.indexOf("-");
+            int index2=s1.indexOf("-", index1+1);
+            year = new Integer(s1.substring(0, index1)).intValue();
+            month = new Integer(s1.substring(index1+1, index2)).intValue();
+            day = new Integer(s1.substring(index2+1)).intValue();
         }
     }
 

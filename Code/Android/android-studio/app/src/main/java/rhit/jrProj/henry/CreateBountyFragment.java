@@ -109,7 +109,7 @@ public class CreateBountyFragment extends DialogFragment implements
      * implement. This mechanism allows activities to be notified of item
      * selections.
      */
-    public interface Callbacks extends ICallbacks {
+    public interface Callbacks {
         /**
          * Callback for when an item has been selected.
          */

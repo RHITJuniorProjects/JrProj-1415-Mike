@@ -1,11 +1,13 @@
 package rhit.jrProj.henry;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.SubMenu;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
@@ -28,13 +30,28 @@ public class ProjectListFragment extends DataListFragment<Project> {
      */
     private Callbacks mCallbacks = sDummyCallbacks;
 
+    @Override
+    public void onItemSelected(Project p) {
+        mCallbacks.onItemSelected(p);
+    }
+
+    @Override
+    public String getSortMode() {
+        return mCallbacks.getSortMode();
+    }
+
+    @Override
+    public Project getSelectedProject() {
+        return mCallbacks.getSelectedProject();
+    }
+
 
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
      * selections.
      */
-    public interface Callbacks extends ICallbacks<Project> {
+    public interface Callbacks{
         /**
          * Callback for when an item has been selected.
          */
@@ -84,14 +101,25 @@ public class ProjectListFragment extends DataListFragment<Project> {
     public ProjectListFragment() {
     }
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        super.type=Enums.ObjectType.PROJECT;
         createAdapter();
         this.mCallbacks.getUser()
                 .setListChangeNotifier(super.getListChangeNotifier());
 
 
+    }
+
+    @Override
+    public void createAdapter() {
+        SortedArrayAdapter<Project> arrayAdapter = new SortedArrayAdapter<Project>(
+                getActivity(), android.R.layout.simple_list_item_activated_2,
+                android.R.id.text1, this.items,
+                Enums.ObjectType.PROJECT, false);
+        attachAdapter(arrayAdapter);
     }
 
 
@@ -129,5 +157,13 @@ public class ProjectListFragment extends DataListFragment<Project> {
         return this.mCallbacks.getProjects();
     }
 
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException(
+                    "Activity must implement fragment's callbacks.");
+        }
+        this.mCallbacks = (Callbacks) activity;
+    }
 }

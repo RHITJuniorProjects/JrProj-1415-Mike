@@ -1,5 +1,6 @@
 package rhit.jrProj.henry;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -9,6 +10,7 @@ import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
@@ -32,13 +34,28 @@ public class MilestoneListFragment extends DataListFragment<Milestone> {
      */
     private Callbacks mCallbacks = sDummyCallbacks;
 
+    @Override
+    public void onItemSelected(Milestone p) {
+        mCallbacks.onItemSelected(p);
+    }
+
+    @Override
+    public String getSortMode() {
+        return mCallbacks.getSortMode();
+    }
+
+    @Override
+    public Project getSelectedProject() {
+        return mCallbacks.getSelectedProject();
+    }
+
 
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
      * selections.
      */
-    public interface Callbacks extends ICallbacks<Milestone> {
+    public interface Callbacks{
         /**
          * Callback for when an item has been selected.
          */
@@ -94,6 +111,15 @@ public class MilestoneListFragment extends DataListFragment<Milestone> {
         createAdapter();
     }
 
+    @Override
+    public void createAdapter() {
+        SortedArrayAdapter<Milestone> arrayAdapter = new SortedArrayAdapter<Milestone>(
+                getActivity(), android.R.layout.simple_list_item_activated_2,
+                android.R.id.text1, this.items,
+                Enums.ObjectType.MILESTONE, false);
+        attachAdapter(arrayAdapter);
+    }
+
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -138,6 +164,15 @@ public class MilestoneListFragment extends DataListFragment<Milestone> {
                                 long id) {
         super.onListItemClick(listView, view, position - 2, id);
         selectItem(position);
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException(
+                    "Activity must implement fragment's callbacks.");
+        }
+        this.mCallbacks = (Callbacks) activity;
     }
 
 

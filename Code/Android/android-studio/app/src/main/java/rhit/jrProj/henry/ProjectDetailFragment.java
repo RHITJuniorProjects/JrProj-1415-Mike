@@ -53,7 +53,7 @@ public class ProjectDetailFragment extends Fragment {
 
     private Callbacks mCallbacks;
 
-    public interface Callbacks extends ICallbacks {
+    public interface Callbacks {
         public Project getSelectedProject();
     }
 

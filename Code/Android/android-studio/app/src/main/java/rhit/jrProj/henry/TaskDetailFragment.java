@@ -59,7 +59,7 @@ public class TaskDetailFragment extends Fragment implements
     public TaskDetailFragment() {
     }
 
-    public interface Callbacks extends ICallbacks {
+    public interface Callbacks{
         public Map<Member, Enums.Role> getProjectMembers();
 
         public Task getSelectedTask();
@@ -67,6 +67,9 @@ public class TaskDetailFragment extends Fragment implements
         public Project getSelectedProject();
 
         public User getUser();
+
+
+
     }
 
     private static Callbacks sDummyCallbacks = new Callbacks() {
@@ -86,6 +89,7 @@ public class TaskDetailFragment extends Fragment implements
         public User getUser() {
             return null;
         }
+
 
     };
 

@@ -58,7 +58,7 @@ public class CreateMilestoneFragment extends DialogFragment {
         return f;
     }
 
-    public interface Callbacks extends ICallbacks {
+    public interface Callbacks{
         /**
          * Callback for when an item has been selected.
          */

@@ -1,6 +1,7 @@
 package rhit.jrProj.henry;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -31,11 +32,27 @@ import rhit.jrProj.henry.firebase.Task;
  */
 public class TaskListFragment extends DataListFragment<Task> {
 
+
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
     private Callbacks mCallbacks = sDummyCallbacks;
+
+    @Override
+    public void onItemSelected(Task p) {
+        mCallbacks.onItemSelected(p);
+    }
+
+    @Override
+    public String getSortMode() {
+        return mCallbacks.getSortMode();
+    }
+
+    @Override
+    public Project getSelectedProject() {
+       return mCallbacks.getSelectedProject();
+    }
 
 
     /**
@@ -43,7 +60,7 @@ public class TaskListFragment extends DataListFragment<Task> {
      * implement. This mechanism allows activities to be notified of item
      * selections.
      */
-    public interface Callbacks extends ICallbacks<Task> {
+    public interface Callbacks{
         /**
          * Callback for when an item has been selected.
          */
@@ -86,6 +103,8 @@ public class TaskListFragment extends DataListFragment<Task> {
         public String getUserName() {
             return "";
         }
+
+
 
         public String getSortMode() {
             // TODO Auto-generated method stub
@@ -140,6 +159,15 @@ public class TaskListFragment extends DataListFragment<Task> {
         super.attachAdapter(adapter);
     }
 
+    @Override
+    public void createAdapter() {
+        SortedArrayAdapter<Task> arrayAdapter = new SortedArrayAdapter<Task>(
+                getActivity(), android.R.layout.simple_list_item_activated_2,
+                android.R.id.text1, this.items,
+                Enums.ObjectType.TASK, false);
+        attachAdapter(arrayAdapter);
+    }
+
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -188,6 +216,14 @@ public class TaskListFragment extends DataListFragment<Task> {
     public ArrayList<Task> getDataItems() {
         return mCallbacks.getTasks();
     }
-
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException(
+                    "Activity must implement fragment's callbacks.");
+        }
+        this.mCallbacks = (Callbacks) activity;
+    }
 
 }

@@ -25,16 +25,16 @@ import rhit.jrProj.henry.firebase.Project;
 /**
  * Created by daveyle on 3/19/2015.
  */
-public abstract class DataListFragment<T extends ListChangeNotifiable> extends ListFragment {
+public abstract class DataListFragment<T extends ListChangeNotifiable> extends ListFragment implements HasCallbacks<T> {
 
     ArrayList<T> items;
 
     String sortMode = Enums.AZ;
     private ArrayAdapter mAdapter;
-    ICallbacks mCallbacks;
+    HasCallbacks mCallbacks=sDummyCallbacks;
     private ListChangeNotifier<T> lcn;
 
-    public interface Callbacks extends ICallbacks<Object> {
+    public interface Callbacks extends HasCallbacks{
         /**
          * Callback for when an item has been selected.
          */
@@ -75,7 +75,7 @@ public abstract class DataListFragment<T extends ListChangeNotifiable> extends L
 
     private GlobalVariables mGlobalVariables;
 
-    private Enums.ObjectType type;
+    protected Enums.ObjectType type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,13 +93,7 @@ public abstract class DataListFragment<T extends ListChangeNotifiable> extends L
         this.setActivateOnItemClick(this.getArguments().getBoolean(Enums.TWOPANE));
     }
 
-    public void createAdapter() {
-        SortedArrayAdapter<T> arrayAdapter = new SortedArrayAdapter<T>(
-                getActivity(), android.R.layout.simple_list_item_activated_2,
-                android.R.id.text1, this.items,
-                this.type, false);
-        attachAdapter(arrayAdapter);
-    }
+    public abstract void createAdapter();
 
     public void attachAdapter(ArrayAdapter<T> adapter) {
         lcn = new SortedListChangeNotifier<T>(
@@ -122,15 +116,7 @@ public abstract class DataListFragment<T extends ListChangeNotifiable> extends L
 
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (!(activity instanceof ICallbacks)) {
-            throw new IllegalStateException(
-                    "Activity must implement fragment's callbacks.");
-        }
-        this.mCallbacks = (ICallbacks) activity;
-    }
+
 
     @Override
     public void onDetach() {
