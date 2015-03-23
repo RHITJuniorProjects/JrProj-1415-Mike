@@ -122,10 +122,7 @@ public class TaskDetailFragment extends Fragment implements
 
                 ((TextView) rootView.findViewById(R.id.task_assignee))
                         .setText("Assignee:");
-                this.pointsField = ((TextView) rootView
-                        .findViewById(R.id.task_points));
-                this.pointsField.setText("Points: \t"
-                        + this.taskItem.getPoints());
+
 
                 spinny = (Spinner) rootView.findViewById(R.id.task_assignee_spinner);
                 this.mCallbacks.getProjectMembers().getAllKeys();
@@ -158,6 +155,10 @@ public class TaskDetailFragment extends Fragment implements
                                 + this.taskItem.getRemovedLines()
                                 + " lines of code");
             }
+            this.pointsField = ((TextView) rootView
+                    .findViewById(R.id.task_points));
+            this.pointsField.setText("Points: \t"
+                    + this.taskItem.getPoints());
             ((TextView) rootView.findViewById(R.id.task_hours_complete))
                     .setText("" + this.taskItem.getHoursSpent() + " / "
                             + this.taskItem.getCurrentHoursEstimate()
