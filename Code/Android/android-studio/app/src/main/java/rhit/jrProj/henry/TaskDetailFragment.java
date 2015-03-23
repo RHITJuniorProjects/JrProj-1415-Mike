@@ -1,5 +1,19 @@
 package rhit.jrProj.henry;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Map;
@@ -9,26 +23,10 @@ import rhit.jrProj.henry.firebase.Task;
 import rhit.jrProj.henry.firebase.User;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-
 /**
  * A fragment representing a single Item detail screen. This fragment is either
- * contained in a {@link ItemListActivity} in two-pane mode (on tablets) or a
- * {@link ItemDetailActivity} on handsets.
+ * contained in a {ItemListActivity} in two-pane mode (on tablets) or a
+ * {ItemDetailActivity} on handsets.
  */
 public class TaskDetailFragment extends Fragment implements
         HorizontalPicker.Callbacks {

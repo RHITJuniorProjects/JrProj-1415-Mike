@@ -29,18 +29,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f14f8908-cf7b-4b34-b64f-8ecca00984f7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/HasCallbacks.java" />
-      <change type="DELETED" beforePath="C:\Users\daveyle\Desktop\JrProject\JrProj-1415-Mike\Code\Android\android-studio\app\src\main\java\rhit\jrProj\henry\ICallbacks.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateBountyFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateBountyFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateMilestoneFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateMilestoneFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateTaskFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateTaskFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/DueDate.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/DueDate.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/MilestoneListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/MilestoneListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskListFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
@@ -74,30 +64,22 @@
       <file leaf-file-name="DataListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="341" max-vertical-offset="3485">
-              <caret line="82" column="56" selection-start-line="82" selection-start-column="56" selection-end-line="82" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1309" max-vertical-offset="3485">
+              <caret line="128" column="41" selection-start-line="128" selection-start-column="41" selection-end-line="128" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DueDate.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/DueDate.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="97" max-vertical-offset="1887">
-              <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TaskListFragment.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TaskListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.84977907" vertical-offset="2653" max-vertical-offset="3332">
-              <caret line="229" column="0" selection-start-line="229" selection-start-column="0" selection-end-line="229" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3332">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="e#4500#4506#0" expanded="true" />
+                <element signature="e#6188#6189#0" expanded="true" />
+                <element signature="e#6255#6256#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -113,13 +95,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TaskDetailFragment.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="TaskDetailFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2686" max-vertical-offset="4862">
-              <caret line="212" column="13" selection-start-line="212" selection-start-column="13" selection-end-line="212" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.7010309" vertical-offset="0" max-vertical-offset="4862">
+              <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
               <folding>
-                <element signature="e#4164#4172#0" expanded="true" />
+                <element signature="e#4152#4160#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -128,17 +110,17 @@
       <file leaf-file-name="BountyListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2058" max-vertical-offset="3910">
-              <caret line="173" column="36" selection-start-line="173" selection-start-column="36" selection-end-line="173" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2958" max-vertical-offset="3944">
+              <caret line="212" column="75" selection-start-line="212" selection-start-column="75" selection-end-line="212" selection-end-column="75" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1272#1273#0" expanded="true" />
-                <element signature="e#1316#1317#0" expanded="true" />
-                <element signature="e#1365#1366#0" expanded="true" />
-                <element signature="e#1412#1413#0" expanded="true" />
-                <element signature="e#1469#1470#0" expanded="true" />
-                <element signature="e#1523#1524#0" expanded="true" />
-                <element signature="e#4816#4824#0" expanded="true" />
+                <element signature="e#1297#1298#0" expanded="true" />
+                <element signature="e#1341#1342#0" expanded="true" />
+                <element signature="e#1390#1391#0" expanded="true" />
+                <element signature="e#1437#1438#0" expanded="true" />
+                <element signature="e#1494#1495#0" expanded="true" />
+                <element signature="e#1548#1549#0" expanded="true" />
+                <element signature="e#4841#4849#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -147,17 +129,27 @@
       <file leaf-file-name="MilestoneListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/MilestoneListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1072" max-vertical-offset="2788">
-              <caret line="118" column="42" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2194" max-vertical-offset="2873">
+              <caret line="154" column="39" selection-start-line="154" selection-start-column="31" selection-end-line="154" selection-end-column="39" />
               <folding>
-                <element signature="e#1133#1134#0" expanded="true" />
-                <element signature="e#1177#1178#0" expanded="true" />
-                <element signature="e#1226#1227#0" expanded="true" />
-                <element signature="e#1273#1274#0" expanded="true" />
-                <element signature="e#1330#1331#0" expanded="true" />
-                <element signature="e#1384#1385#0" expanded="true" />
-                <element signature="e#3118#3129#0" expanded="true" />
+                <element signature="e#1158#1159#0" expanded="true" />
+                <element signature="e#1202#1203#0" expanded="true" />
+                <element signature="e#1251#1252#0" expanded="true" />
+                <element signature="e#1298#1299#0" expanded="true" />
+                <element signature="e#1355#1356#0" expanded="true" />
+                <element signature="e#1409#1410#0" expanded="true" />
+                <element signature="e#3144#3155#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SortedArrayAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/SortedArrayAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1752" max-vertical-offset="2431">
+              <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -165,8 +157,8 @@
       <file leaf-file-name="ProjectListFragment.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectListFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1326" max-vertical-offset="2669">
-              <caret line="128" column="59" selection-start-line="128" selection-start-column="59" selection-end-line="128" selection-end-column="59" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1309" max-vertical-offset="2669">
+              <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
               <folding>
                 <element signature="e#1009#1010#0" expanded="true" />
                 <element signature="e#1053#1054#0" expanded="true" />
@@ -1305,7 +1297,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Milestone.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Project.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GeneralAlgorithms.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateBountyFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateTaskFragment.java" />
@@ -1313,11 +1304,12 @@
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/HasCallbacks.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/DueDate.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectListFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/MilestoneListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyListFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskListFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java" />
       </list>
     </option>
   </component>
@@ -2000,7 +1992,11 @@
       <created>1427121327642</created>
       <updated>1427121327642</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Major Bugs in Adapters Fixed">
+      <created>1427125202500</created>
+      <updated>1427125202500</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2118,7 +2114,8 @@
     <MESSAGE value="Fixed displaying available points in trophy store" />
     <MESSAGE value="Refactored the ListFragments into a DataListFragment and had Bounty, Task, Milestone and ProjectListFragments extend DataListFragment. Also replaced common Strings with static Strings in Enums. Also created a small interface, ListChangeNotifiable, that is implemented by Bounty, Task, Milestone and Project and deals with getting and setting ListChangeNotifiers.&#10;&#10;Additional testing is required, and many eyes work better. Please run through the app and make a note of any errors or bugs." />
     <MESSAGE value="Using the technique mentioned in class, replaced all String dueDates with an instance of the DueDate class." />
-    <option name="LAST_COMMIT_MESSAGE" value="Using the technique mentioned in class, replaced all String dueDates with an instance of the DueDate class." />
+    <MESSAGE value="Major Bugs in Adapters Fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major Bugs in Adapters Fixed" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2231,14 +2228,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
           <caret line="52" column="1" selection-start-line="52" selection-start-column="1" selection-end-line="52" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/SortedArrayAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1587" max-vertical-offset="2516">
-          <caret line="159" column="0" selection-start-line="159" selection-start-column="0" selection-end-line="159" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2484,14 +2473,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/HasCallbacks.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="369" max-vertical-offset="12614">
@@ -2512,36 +2493,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/DueDate.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="97" max-vertical-offset="1887">
-          <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2686" max-vertical-offset="4862">
-          <caret line="212" column="13" selection-start-line="212" selection-start-column="13" selection-end-line="212" selection-end-column="13" />
-          <folding>
-            <element signature="e#4164#4172#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="341" max-vertical-offset="3485">
-          <caret line="82" column="56" selection-start-line="82" selection-start-column="56" selection-end-line="82" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1326" max-vertical-offset="2669">
-          <caret line="128" column="59" selection-start-line="128" selection-start-column="59" selection-end-line="128" selection-end-column="59" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1309" max-vertical-offset="2669">
+          <caret line="111" column="0" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
           <folding>
             <element signature="e#1009#1010#0" expanded="true" />
             <element signature="e#1053#1054#0" expanded="true" />
@@ -2554,45 +2509,89 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/SortedArrayAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1752" max-vertical-offset="2431">
+          <caret line="156" column="0" selection-start-line="156" selection-start-column="0" selection-end-line="156" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/MilestoneListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1072" max-vertical-offset="2788">
-          <caret line="118" column="42" selection-start-line="118" selection-start-column="42" selection-end-line="118" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2194" max-vertical-offset="2873">
+          <caret line="154" column="39" selection-start-line="154" selection-start-column="31" selection-end-line="154" selection-end-column="39" />
           <folding>
-            <element signature="e#1133#1134#0" expanded="true" />
-            <element signature="e#1177#1178#0" expanded="true" />
-            <element signature="e#1226#1227#0" expanded="true" />
-            <element signature="e#1273#1274#0" expanded="true" />
-            <element signature="e#1330#1331#0" expanded="true" />
-            <element signature="e#1384#1385#0" expanded="true" />
-            <element signature="e#3118#3129#0" expanded="true" />
+            <element signature="e#1158#1159#0" expanded="true" />
+            <element signature="e#1202#1203#0" expanded="true" />
+            <element signature="e#1251#1252#0" expanded="true" />
+            <element signature="e#1298#1299#0" expanded="true" />
+            <element signature="e#1355#1356#0" expanded="true" />
+            <element signature="e#1409#1410#0" expanded="true" />
+            <element signature="e#3144#3155#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyListFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/DueDate.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2058" max-vertical-offset="3910">
-          <caret line="173" column="36" selection-start-line="173" selection-start-column="36" selection-end-line="173" selection-end-column="36" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1272#1273#0" expanded="true" />
-            <element signature="e#1316#1317#0" expanded="true" />
-            <element signature="e#1365#1366#0" expanded="true" />
-            <element signature="e#1412#1413#0" expanded="true" />
-            <element signature="e#1469#1470#0" expanded="true" />
-            <element signature="e#1523#1524#0" expanded="true" />
-            <element signature="e#4816#4824#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.4580265" vertical-offset="97" max-vertical-offset="1887">
+          <caret line="24" column="9" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1309" max-vertical-offset="3485">
+          <caret line="128" column="41" selection-start-line="128" selection-start-column="41" selection-end-line="128" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskListFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.84977907" vertical-offset="2653" max-vertical-offset="3332">
-          <caret line="229" column="0" selection-start-line="229" selection-start-column="0" selection-end-line="229" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3332">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#4500#4506#0" expanded="true" />
+            <element signature="e#6188#6189#0" expanded="true" />
+            <element signature="e#6255#6256#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/HasCallbacks.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
+          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2958" max-vertical-offset="3944">
+          <caret line="212" column="75" selection-start-line="212" selection-start-column="75" selection-end-line="212" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1297#1298#0" expanded="true" />
+            <element signature="e#1341#1342#0" expanded="true" />
+            <element signature="e#1390#1391#0" expanded="true" />
+            <element signature="e#1437#1438#0" expanded="true" />
+            <element signature="e#1494#1495#0" expanded="true" />
+            <element signature="e#1548#1549#0" expanded="true" />
+            <element signature="e#4841#4849#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7010309" vertical-offset="0" max-vertical-offset="4862">
+          <caret line="51" column="29" selection-start-line="51" selection-start-column="29" selection-end-line="51" selection-end-column="29" />
+          <folding>
+            <element signature="e#4152#4160#0" expanded="true" />
           </folding>
         </state>
       </provider>

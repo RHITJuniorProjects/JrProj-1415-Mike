@@ -106,9 +106,10 @@ public class MilestoneListFragment extends DataListFragment<Milestone> {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        createAdapter();
         super.createHeaders("Milestones in:", "Project: "
                 + this.mCallbacks.getSelectedProject().getName());
-        createAdapter();
     }
 
     @Override
@@ -151,7 +152,11 @@ public class MilestoneListFragment extends DataListFragment<Milestone> {
 
     @Override
     public void selectItem(int position) {
-        mCallbacks.onItemSelected(this.items.get(position - 2));
+//        int headerCount=
+//        Log.i("Position " + position, "Is Valid? "+this.getSelectedItemPosition());
+
+
+        mCallbacks.onItemSelected(this.items.get(position));
     }
 
     @Override
@@ -163,7 +168,7 @@ public class MilestoneListFragment extends DataListFragment<Milestone> {
     public void onListItemClick(ListView listView, View view, int position,
                                 long id) {
         super.onListItemClick(listView, view, position - 2, id);
-        selectItem(position);
+        //selectItem(position);
     }
     @Override
     public void onAttach(Activity activity) {

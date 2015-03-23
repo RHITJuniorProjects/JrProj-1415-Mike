@@ -2,6 +2,7 @@ package rhit.jrProj.henry;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.SubMenu;
 import android.view.View;
@@ -211,8 +212,9 @@ public class BountyListFragment extends DataListFragment<Bounty> {
     @Override
     public void onListItemClick(ListView listView, View view, int position,
                                 long id) {
+        Log.i("Selected " + position, "Actual " + (position - 2));
         super.onListItemClick(listView, view, position - 2, id);
-        selectItem(position);
+        //selectItem(position);
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
 
@@ -220,7 +222,7 @@ public class BountyListFragment extends DataListFragment<Bounty> {
 
     @Override
     public void selectItem(int position) {
-        mCallbacks.onItemSelected(this.items.get(position - 2));
+        mCallbacks.onItemSelected(this.items.get(position));
 
     }
 

@@ -203,13 +203,13 @@ public class TaskListFragment extends DataListFragment<Task> {
     public void onListItemClick(ListView listView, View view, int position,
                                 long id) {
         super.onListItemClick(listView, view, position - 2, id);
-        selectItem(position);
+//        selectItem(position);
     }
 
 
     @Override
     public void selectItem(int position) {
-        mCallbacks.onItemSelected(this.items.get(position - 2));
+        mCallbacks.onItemSelected(this.items.get(position));
     }
 
     @Override
