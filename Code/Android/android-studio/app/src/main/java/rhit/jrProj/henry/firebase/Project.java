@@ -38,7 +38,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
     /**
      * The due date of the project
      */
-    private String dueDate = "No Due Date";
+    private DueDate dueDate = new DueDate();
 
     /**
      * The members that are working on the project
@@ -126,7 +126,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
         this.firebase.child("milestones").addChildEventListener(
                 new GrandChildrenListener(this));
         this.name = in.readString();
-        this.dueDate = in.readString();
+        this.dueDate = new DueDate(in.readString());
         this.description = in.readString();
         this.hoursPercent = in.readInt();
         this.tasksPercent = in.readInt();
@@ -149,7 +149,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      * @return formatted due date as String
      */
     public String getDueDateFormatted() {
-        return GeneralAlgorithms.getDueDateFormatted(this.getDueDate());
+        return this.getDueDate().toStringFormatted();
     }
 
     /**
@@ -200,7 +200,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.firebase.toString());
         dest.writeString(this.name);
-        dest.writeString(this.dueDate);
+        dest.writeString(this.dueDate.toString());
         dest.writeString(this.description);
         dest.writeInt(this.hoursPercent);
         dest.writeInt(this.tasksPercent);
@@ -233,7 +233,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      *
      * @return the due date of the project
      */
-    public String getDueDate() {
+    public DueDate getDueDate() {
         return this.dueDate;
     }
 
@@ -381,7 +381,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
             } else if (arg0.getKey().equals("description")) {
                 this.project.description = arg0.getValue(String.class);
             } else if (arg0.getKey().equals("due_date")) {
-                this.project.dueDate = arg0.getValue(String.class);
+                this.project.dueDate = new DueDate(arg0.getValue(String.class));
             } else if (arg0.getKey().equals("hours_percent")) {
                 this.project.hoursPercent = arg0.getValue(Integer.class);
             } else if (arg0.getKey().equals("task_percent")) {
@@ -532,7 +532,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      * @return
      */
     public int compareToByDate(Project p, boolean newestFirst) {
-        return GeneralAlgorithms.compareToByDate(this.getDueDate(), p.getDueDate(), newestFirst);
+        return this.getDueDate().compareTo(p.getDueDate(), newestFirst);
     }
 
 

@@ -37,7 +37,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
     /**
      * The due date of a milestone
      */
-    private String dueDate = "No Due Date";
+    private DueDate dueDate = new DueDate();
 
     /**
      * The percentage of tasks completed for this milestone
@@ -113,7 +113,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
         this.firebase.child("tasks").addChildEventListener(
                 new GrandChildrenListener(this));
         this.setName(in.readString());
-        this.setDueDate(in.readString());
+        this.setDueDate(new DueDate(in.readString()));
         this.setDescription(in.readString());
         this.setTaskPercent(in.readInt());
         in.readTypedList(this.tasks, Task.CREATOR);
@@ -186,7 +186,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.firebase.toString());
         dest.writeString(this.getName());
-        dest.writeString(this.getDueDate());
+        dest.writeString(this.getDueDate().toString());
         dest.writeString(this.getDescription());
         dest.writeInt(this.getTaskPercent());
         dest.writeTypedList(this.tasks);
@@ -221,7 +221,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      *
      * @return the due date of the milestone
      */
-    public String getDueDate() {
+    public DueDate getDueDate() {
         return this.dueDate;
     }
 
@@ -230,7 +230,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      *
      * @param dueDate the due date of the milestone
      */
-    public void setDueDate(String dueDate) {
+    public void setDueDate(DueDate dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -320,7 +320,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      * @return formatted due date as String
      */
     public String getDueDateFormatted() {
-        return GeneralAlgorithms.getDueDateFormatted(this.getDueDate());
+        return this.dueDate.toStringFormatted();
     }
 
 
@@ -413,7 +413,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
             } else if (arg0.getKey().equals("description")) {
                 this.milestone.setDescription(arg0.getValue(String.class));
             } else if (arg0.getKey().equals("due_date")) {
-                this.milestone.setDueDate(arg0.getValue(String.class));
+                this.milestone.setDueDate(new DueDate(arg0.getValue(String.class)));
             } else if (arg0.getKey().equals("task_percent")) {
                 this.milestone.setTaskPercent(arg0.getValue(Integer.class));
             } else if (arg0.getKey().equals("tasks")) {
@@ -531,6 +531,6 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      * @return
      */
     public int compareToByDate(Milestone p, boolean newestFirst) {
-        return GeneralAlgorithms.compareToByDate(this.getDueDate(), p.getDueDate(), newestFirst);
+        return this.getDueDate().compareTo(p.getDueDate(), newestFirst);
     }
 }

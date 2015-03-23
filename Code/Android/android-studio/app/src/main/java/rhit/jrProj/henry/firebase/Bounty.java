@@ -19,7 +19,7 @@ import rhit.jrProj.henry.helpers.HorizontalPicker;
 public class Bounty implements ListChangeNotifiable<Bounty> {
     private String claimed = "None";
     private String description = "None";
-    private String dueDate = "No Due Date";
+    private DueDate dueDate=new DueDate();
     private int hourLimit = -1;
     private int lineLimit = -1;
     private String name;
@@ -267,7 +267,7 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
      *
      * @return
      */
-    public String getDueDate() {
+    public DueDate getDueDate() {
         return this.dueDate;
     }
 
@@ -305,9 +305,10 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
      *
      * @param s
      */
-    public void setDueDate(String s) {
+    public void setDueDate(DueDate s) {
         this.dueDate = s;
     }
+    //public void setDueDate()
 
     /**
      * sets the hour limit using int form
@@ -355,7 +356,7 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
      * @return
      */
     public String getDueDateFormatted() {
-        return GeneralAlgorithms.getDueDateFormatted(this.getDueDate());
+        return this.getDueDate().toStringFormatted();
     }
 
     /**
@@ -428,7 +429,7 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
             } else if (arg0.getKey().equals("description")) {
                 this.bounty.description = arg0.getValue().toString();
             } else if (arg0.getKey().equals("due_date")) {
-                this.bounty.dueDate = arg0.getValue().toString();
+                this.bounty.dueDate = new DueDate(arg0.getValue().toString());
             } else if (arg0.getKey().equals("hour_limit")) {
                 this.bounty.hourLimit = this.bounty.convertLimitFromFirebaseForm(arg0.getValue());
             } else if (arg0.getKey().equals("line_limit")) {
@@ -462,7 +463,7 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
             } else if (arg0.getKey().equals("description")) {
                 this.bounty.description = arg0.getValue().toString();
             } else if (arg0.getKey().equals("due_date")) {
-                this.bounty.dueDate = arg0.getValue().toString();
+                this.bounty.dueDate = new DueDate(arg0.getValue().toString());
             } else if (arg0.getKey().equals("hour_limit")) {
                 this.bounty.hourLimit = this.bounty.convertLimitFromFirebaseForm(arg0.getValue());
             } else if (arg0.getKey().equals("line_limit")) {
