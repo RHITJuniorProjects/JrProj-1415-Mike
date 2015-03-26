@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface HenryStoreTableViewController : UITableViewController <UIAlertViewDelegate>
-@property NSString* userid;
-@property NSDictionary *userInfo;
-@property NSNumber *availablePoints;
+@property (weak, nonatomic) IBOutlet UILabel *pointsAvailable;
+//@property NSString* userid;
+//@property NSDictionary *userInfo;
+//@property NSNumber *availablePoints;
 @end

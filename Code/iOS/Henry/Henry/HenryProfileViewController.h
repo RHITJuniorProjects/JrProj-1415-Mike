@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *githubLabel;
 @property (weak, nonatomic) IBOutlet UILabel *pointsLabel;
 @property (weak, nonatomic) IBOutlet UITableView *trophyTable;
+@property (weak, nonatomic) IBOutlet UILabel *availablePointsLabel;
 
 - (IBAction)logoutButtonPressed:(id)sender;
 

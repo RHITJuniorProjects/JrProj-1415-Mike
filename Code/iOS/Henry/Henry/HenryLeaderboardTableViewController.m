@@ -105,6 +105,8 @@
     HenryLeaderboardCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"leaderboardCell" forIndexPath:indexPath];
     
     if (indexPath.row == 0) {
+        cell.nameLabel.font = [UIFont boldSystemFontOfSize:17];
+        cell.pointsLabel.font = [UIFont boldSystemFontOfSize:17];
         cell.nameLabel.text = [[self.users valueForKey:self.uid] valueForKey:@"name"];
         cell.rankLabel.text = @"";
         if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
