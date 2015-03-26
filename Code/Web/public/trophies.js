@@ -99,37 +99,40 @@ function buyTrophy(name, desc, cost, img, trophy) {
 	// console.log(user);
 	user.getBountyPoints(function(pts) {
 		// console.log(pts);
+	var haveTrophy = false;
 		for(var i = 0; i < userTrophies.length; i++) {
 			if(userTrophies[i].uid == trophy.uid){
 				console.log("you already have that trophy");
+				haveTrophy = true;
 				break;
 			}
-			else {
+		}
+		if (!haveTrophy){
 				// console.log(cost);
 				if(pts >= cost) {
 					user.setPoints(pts - cost);
-					firebase.child("user/" + user.uid + "/trophies").push({
-						// value: name,
-						cost: cost,
-						description: desc,
-						image: img,
-						name:  name	
+					//firebase.child("user/" + user.uid + "/trophies").push({
+					//	trophy.uid.val(): name
+					//	cost: cost,
+					//	description: desc,
+					//	image: img,
+					//	name:  name	
 					// 		user.setPoints(pts - cost);
-					// var trophyUID = trophy.uid;
-					// trophy = {};
-					// trophy[trophyUID] = name;
-					// firebase.child("user/" + user.uid + "/trophies").push({
+					console.log("buying");
+					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).push();
+					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).set(name);
 					// 	// value: name,
 					// 	name: name
 					// });			
-					});
+					//});
+					console.log("finished buying");
 
 				}
 				else {
 					console.log("not enough points");
 				}
 			}
-		}
+		
 		
 	});
 	console.log(img);
