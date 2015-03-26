@@ -118,14 +118,12 @@ function buyTrophy(name, desc, cost, img, trophy) {
 					//	image: img,
 					//	name:  name	
 					// 		user.setPoints(pts - cost);
-					console.log("buying");
 					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).push();
 					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).set(name, getTrophies);
 					// 	// value: name,
 					// 	name: name
 					// });			
 					//});
-					console.log("finished buying");
 
 				}
 				else {
@@ -135,9 +133,7 @@ function buyTrophy(name, desc, cost, img, trophy) {
 		
 		
 	});
-	console.log(img);
-	// // console.log(tid);
-	// // console.log(tid.name);
+	getTrophies();
 }
 
 function getTrophies() {

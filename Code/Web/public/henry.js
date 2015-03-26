@@ -12,7 +12,6 @@ var myStatisticsPage;
 var myTrophyStorePage;
 var defaultCategories = [];
 var userTrophies = [];
-// var selectedUserTrophies = [];
 
 
 function backFromStore(){
@@ -172,12 +171,13 @@ User.prototype = {
 		});
 	},
 	setPoints: function (pts) {
+        console.log("setting points");
 		this.__avail_points.set(pts);
 	},
 	getTrophies: function() {
 		var $panel = $('#profile-trophies-rows');
 		$panel.children().remove();
-
+		userTrophies = [];
 		this.__trophies.orderByChild("name").on('child_added', function (snap) {
 			var val = new Trophy(snap.ref());
 			userTrophies[userTrophies.length] = val;
