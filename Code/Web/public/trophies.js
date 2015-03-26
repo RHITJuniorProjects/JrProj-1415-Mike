@@ -120,7 +120,7 @@ function buyTrophy(name, desc, cost, img, trophy) {
 					// 		user.setPoints(pts - cost);
 					console.log("buying");
 					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).push();
-					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).set(name);
+					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).set(name, getTrophies);
 					// 	// value: name,
 					// 	name: name
 					// });			
@@ -138,11 +138,11 @@ function buyTrophy(name, desc, cost, img, trophy) {
 	console.log(img);
 	// // console.log(tid);
 	// // console.log(tid.name);
-	// getTrophies();
 }
 
 function getTrophies() {
 	// console.log("get called");
+	userTrophies = [];
 	var $panel = $('#trophy-store-rows');
 	$panel.children().remove();
 	//var userTrophies = [];
