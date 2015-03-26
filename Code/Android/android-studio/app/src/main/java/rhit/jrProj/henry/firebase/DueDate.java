@@ -21,20 +21,21 @@ public class DueDate {
             month = -1;
             year = -1;
         }
-       Calendar cal= Calendar.getInstance();
-        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            cal.setTime(sdf.parse(s1));
-            day=cal.get(Calendar.DAY_OF_MONTH);
-            month=cal.get(Calendar.MONTH);
-            year=cal.get(Calendar.YEAR);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            day = -1;
-            month = -1;
-            year = -1;
+        else {
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                cal.setTime(sdf.parse(s1));
+                day = cal.get(Calendar.DAY_OF_MONTH);
+                month = cal.get(Calendar.MONTH);
+                year = cal.get(Calendar.YEAR);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                day = -1;
+                month = -1;
+                year = -1;
+            }
         }
-
     }
 
     public DueDate(int day, int month, int year) {
