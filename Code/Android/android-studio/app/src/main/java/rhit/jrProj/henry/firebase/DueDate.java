@@ -1,5 +1,9 @@
 package rhit.jrProj.henry.firebase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 /**
  * Created by daveyle on 3/23/2015.
  */
@@ -12,17 +16,25 @@ public class DueDate {
     static String nullDate = "No Due Date";
 
     public DueDate(String s1) {
-        if (s1.equals(nullDate) || s1.equals("")) {
+        if (s1.equals(nullDate) || s1.equals("")){
             day = -1;
             month = -1;
             year = -1;
-        } else {
-            int index1=s1.indexOf("-");
-            int index2=s1.indexOf("-", index1+1);
-            year = new Integer(s1.substring(0, index1)).intValue();
-            month = new Integer(s1.substring(index1+1, index2)).intValue();
-            day = new Integer(s1.substring(index2+1)).intValue();
         }
+       Calendar cal= Calendar.getInstance();
+        SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            cal.setTime(sdf.parse(s1));
+            day=cal.get(Calendar.DAY_OF_MONTH);
+            month=cal.get(Calendar.MONTH);
+            year=cal.get(Calendar.YEAR);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            day = -1;
+            month = -1;
+            year = -1;
+        }
+
     }
 
     public DueDate(int day, int month, int year) {
@@ -55,7 +67,7 @@ public class DueDate {
 
     public String toString() {
         if (!hasNoDueDate()) {
-            return year + "/" + month + "/" + day;
+            return year + "-" + month + "-" + day;
         } else {
             return nullDate;
         }
