@@ -16,7 +16,7 @@ public class DueDate {
     static String nullDate = "No Due Date";
 
     public DueDate(String s1) {
-        if (s1.equals(nullDate) || s1.equals("")){
+        if (s1.equals(nullDate) || s1.equals("") || s1.equals("None")){
             day = -1;
             month = -1;
             year = -1;
