@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A91BA011AC724FD002F9A2C /* GlobalVariables.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A91BA001AC724FD002F9A2C /* GlobalVariables.m */; };
+		0A91BA051AC7289B002F9A2C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A91BA041AC7289B002F9A2C /* User.m */; };
+		0A91BA081AC73498002F9A2C /* DatabaseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A91BA071AC73498002F9A2C /* DatabaseClient.m */; };
 		0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */; };
 		0A96F1BF1AB9150C001FF58C /* HenryStoreCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A96F1BE1AB9150C001FF58C /* HenryStoreCellTableViewCell.m */; };
 		5E3086021AB7C34F004293BC /* HenryStoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */; };
@@ -91,6 +94,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0A91B9FF1AC724FD002F9A2C /* GlobalVariables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
+		0A91BA001AC724FD002F9A2C /* GlobalVariables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalVariables.m; sourceTree = "<group>"; };
+		0A91BA031AC7289B002F9A2C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		0A91BA041AC7289B002F9A2C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		0A91BA061AC73498002F9A2C /* DatabaseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseClient.h; sourceTree = "<group>"; };
+		0A91BA071AC73498002F9A2C /* DatabaseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseClient.m; sourceTree = "<group>"; };
 		0A959BC31A8695B900356DC2 /* HenryCreateBountyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCreateBountyViewController.h; sourceTree = "<group>"; };
 		0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCreateBountyViewController.m; sourceTree = "<group>"; };
 		0A96F1BD1AB9150C001FF58C /* HenryStoreCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreCellTableViewCell.h; sourceTree = "<group>"; };
@@ -235,6 +244,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A91BA021AC7287F002F9A2C /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				0A91BA031AC7289B002F9A2C /* User.h */,
+				0A91BA041AC7289B002F9A2C /* User.m */,
+				0A91BA061AC73498002F9A2C /* DatabaseClient.h */,
+				0A91BA071AC73498002F9A2C /* DatabaseClient.m */,
+			);
+			name = Firebase;
+			sourceTree = "<group>";
+		};
 		5E3086031AB823AE004293BC /* Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,6 +478,7 @@
 		93447F3E19C91C5500C2FC38 /* Henry */ = {
 			isa = PBXGroup;
 			children = (
+				0A91BA021AC7287F002F9A2C /* Firebase */,
 				84BC3A841A6300FA00271DFC /* Burndown */,
 				8731945A19FDCEC100CE82ED /* Pie Chart Library */,
 				832BDD4C19F6CC7800642CD8 /* iPhone */,
@@ -470,6 +491,8 @@
 				93447F3F19C91C5500C2FC38 /* Supporting Files */,
 				83A0BDB91A017A8000CC9190 /* HenryFirebase.h */,
 				83A0BDBA1A017A8000CC9190 /* HenryFirebase.m */,
+				0A91B9FF1AC724FD002F9A2C /* GlobalVariables.h */,
+				0A91BA001AC724FD002F9A2C /* GlobalVariables.m */,
 			);
 			path = Henry;
 			sourceTree = "<group>";
@@ -620,6 +643,7 @@
 			files = (
 				843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				0A91BA011AC724FD002F9A2C /* GlobalVariables.m in Sources */,
 				0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */,
 				8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */,
 				83B26D9319F5AD98001DEE31 /* HenryHomeViewController.m in Sources */,
@@ -651,7 +675,9 @@
 				843D241619F476DF00DBC2CB /* HenryTaskDetailViewController.m in Sources */,
 				843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */,
 				87D8132D1A32509800BEDD3E /* HenryMemberTableViewCell.m in Sources */,
+				0A91BA051AC7289B002F9A2C /* User.m in Sources */,
 				843D241719F476DF00DBC2CB /* HenryTaskStatusTableViewController.m in Sources */,
+				0A91BA081AC73498002F9A2C /* DatabaseClient.m in Sources */,
 				0A96F1BF1AB9150C001FF58C /* HenryStoreCellTableViewCell.m in Sources */,
 				84BC3A8B1A6300FA00271DFC /* BEMCircle.m in Sources */,
 			);
