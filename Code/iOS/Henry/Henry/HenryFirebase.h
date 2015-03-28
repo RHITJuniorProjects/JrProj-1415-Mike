@@ -8,8 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <Firebase/Firebase.h>
+#import <Firebase/FDataSnapshot.h>
 
-@interface HenryFirebase : NSObject
+@interface HenryFirebase : Firebase
+
 +(Firebase *)getFirebaseObject;
-+(NSString *)getFirebaseURL;
++ (NSString *)getFirebaseURL;
+- (void) updateDataSnapshot;
+- (NSDictionary *) getAllProjects;
+- (NSDictionary *) getMilestones:(NSString*) projectId;
+- (NSDictionary *) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId;
+- (NSDictionary *) getTasksForUser:(NSString*) userId;
+- (NSDictionary *) getAllTrophies;
+- (NSArray*) getBounties:(NSString*) taskId;
 @end

@@ -71,6 +71,7 @@
 
 -(void)updateInfo:(FDataSnapshot *)snapshot {
     @try{
+       
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.navigationItem.title = @"Trophy Store";
         self.userInfo = snapshot.value[@"users"][self.userid];

@@ -8,20 +8,20 @@
 
 #import "User.h"
 
-@implementation User
--(instancetype)init {
-    self = [super init];
-    if(self) {
-        _firebase = "";
-        _name = "";
-        _gitName = "";
-        _email = "";
-        _key = "";
-        _totalPoints = 0;
-        _availablePoints = 0;
-        _trophies = [[NSMutableDictionary alloc] init];
-        _tasks = [[NSMutableArray alloc] init];
-    }
-    return self;
-}
+@implementation User : NSObject
+//-(instancetype)init {
+//    self = [super init];
+//    if(self) {
+//        _firebase = "";
+//        _name = "";
+//        _gitName = "";
+//        _email = "";
+//        _key = "";
+//        _totalPoints = 0;
+//        _availablePoints = 0;
+//        _trophies = [[NSMutableDictionary alloc] init];
+//        _tasks = [[NSMutableArray alloc] init];
+//    }
+//    return self;
+//}
 @end
