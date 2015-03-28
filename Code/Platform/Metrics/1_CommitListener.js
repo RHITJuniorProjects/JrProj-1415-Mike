@@ -1,14 +1,13 @@
-/**
+/*
  * Commit Listener script for CSSE371/CSSE374/CSSE375 Henry project.
  * Handles read/write operations directly relating to commits.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 6 Feb 2015, 8:02pm
+ * Last Modified:16 March 2015, 7:48pm
  */
-
-
 var Firebase = require('firebase');
 
+// various firebase DBs in use
 var production = 'https://henry-production.firebaseio.com';
 var staging = 'https://henry-staging.firebaseio.com';
 var test = 'https://henry-test.firebaseio.com';
@@ -17,24 +16,29 @@ var qa = 'https://henry-qa.firebaseio.com';
 
 var firebaseUrl = metricsTest;
 
-// optional commandline arg: name of the DB to connect to. Defaults to test or metrics-test otherwise.
+// optional commandline arg: name of the DB to connect to. Defaults to henry-metrics-test otherwise.
 if (process.argv.length === 3) {
     firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
     console.log("Connecting to " + firebaseUrl);
+} else if (process.argv.length === 4) {
+    // TODO: override auth token?
 }
 
+// Firebase references for root and top-level trees
 var fbRef = new Firebase(firebaseUrl);
 var commitsRef = new Firebase(firebaseUrl + '/commits');
 var usersRef = new Firebase(firebaseUrl + '/users');
 var projectsRef = new Firebase(firebaseUrl + '/projects');
 
+// authorization stuff
 var FirebaseTokenGenerator = require('firebase-token-generator');
+
+// TODO: add more as needed, or do commandline override for auth token
 var metricsTestToken = 'swPpsOgpNn7isrfxeoWNNV7yxLy85j94JO7p9lDf';
 var testToken = 'FDrYDBNvRCgq0kGonjmsPl0gUwXvxcqUdgaCQ1FI';
 
 var tokenVal = null;
 
-// TODO: add more
 if (firebaseUrl === test) {
     tokenVal = testToken;
 }
@@ -42,6 +46,7 @@ else if (firebaseUrl === metricsTest) {
     tokenVal = metricsTestToken;
 }
 
+// authorize the script to read/write data to the firebase
 if (tokenVal !== null) {
     var tokenGenerator = new FirebaseTokenGenerator(tokenVal);
     var token = tokenGenerator.createToken({
@@ -57,6 +62,9 @@ if (tokenVal !== null) {
         }
     });
 }
+
+// Various strings that are used in several places
+// TODO: chack for adding more?
 var addedLines = 'added_lines_of_code';
 var removedLines = 'removed_lines_of_code';
 var totalLines = 'total_lines_of_code';
@@ -64,9 +72,7 @@ var totalHours = 'total_hours';
 var updatedHourEst = 'updated_hour_estimate';
 
 
-/**
- * -------------------------COMMIT LISTENER STUFF-------------------------
- */
+/* -------------------------COMMIT LISTENER STUFF------------------------- */
 
 // Add any nonexisting commit branches for projects
 projectsRef.once('value', function(projects) {
@@ -86,6 +92,7 @@ projectsRef.once('value', function(projects) {
     });
 });
 
+// zero out data in preparation for startup aggregation
 projectsRef.once('value', function(projects) {
     projects.forEach(function(project) {
         project.child('milestones').ref().once('value', function(milestones) {
@@ -121,7 +128,6 @@ commitsRef.on('child_added', function(project) {
     });
     // console.log('added commit listener for project ' + project.key());
 });
-
 
 /* 
  * calculates metrics that need to be updated on a commit
@@ -189,25 +195,6 @@ function calculateMetrics(projectRef, commit) {
         var taskHrPercent = calculatePercentage(newHours, updatedHourEstimate);
         var status = commit.child('status').val();
         
-        // if (taskBranch.ref().parent().parent().key() === '-JYc_9ZGEPFM8cjChyKl') {
-        //     console.log({
-        //         'commit': commit.key(),
-        //         'task': taskBranch.key(),
-        //         'added_loc': addedLOC, 
-        //         'removed_loc': removedLOC,
-        //         'hours': commit.child('hours').val()
-        //     });
-        // }
-        // if (taskBranch.key() === "-JYc_fRjZ_IV3WgHIszD") {
-        //     console.log({
-        //         'commit': commit.key(),
-        //         'task': taskBranch.key(),
-        //         'added_loc': totalAddedLOC, 
-        //         'removed_loc': totalRemovedLOC,
-        //         'hours': newHours
-        //     });
-        // }
-        
         if (currentHours !== newHours || 
             addedLOC !== totalAddedLOC || 
             removedLOC !== totalRemovedLOC || 
@@ -272,7 +259,6 @@ function calculateMetrics(projectRef, commit) {
 
 }
 
-
 /* 
  * calculates percentage current/total
  */
@@ -292,9 +278,7 @@ function calculatePercentage(current, total) {
 
 
 
-/**
- * -------------------------PROJECT LISTENER STUFF-------------------------
- */
+/* -------------------------PROJECT LISTENER STUFF------------------------- */
 
 // on 'child added' returns each child one at a time the first run, then only the one child that is added
 projectsRef.on('child_added', function(project) {
@@ -303,7 +287,9 @@ projectsRef.on('child_added', function(project) {
     console.log('Added listener for project ' + project.key());
 });
 
-
+/*
+ * Listens for new / deleted members, and adds listeners for milestones
+ */
 function listenToProject(project) {
     var projectID = project.key();
     var projectMembers = project.child('members');
@@ -332,13 +318,12 @@ function listenToProject(project) {
     });
 }
 
-
+/* 
+ * Adds various listeners at the milestone level: 
+ *     sets defaults for new tasks
+ *     listens for changes to existing tasks
+ */
 function addMilestoneListeners(milestoneRef) {
-    // TODO: separate task update and data aggregation?
-    // Alternatively, only aggregate the first time, then overwrite values as necessary, same as our plan for commits
-    //     This would allow us to do on('child_changed'), instead of on('value'), and thus not cause a listener trigger
-    //     Potential downside: new task may cause strangeness.
-
     //initialize everything in the milestone to 0 so everything aggregates correctly in following listeners
     milestoneRef.update({
         'task_percent': 0,
@@ -360,11 +345,11 @@ function addMilestoneListeners(milestoneRef) {
         //set defaults
         setDefaults(newTask);
 
-        //updated_hour_estimate listener
-        newTask.child('updated_hour_estimate').ref().on('value', function(updatedHrEst) {
-            if (isStartup) return;
-            updatedHourEstChange(updatedHrEst, milestoneRef, newTask, isStartup);
-        });
+        // //updated_hour_estimate listener
+        // newTask.child('updated_hour_estimate').ref().on('value', function(updatedHrEst) {
+        //     if (isStartup) return;
+        //     updatedHourEstChange(updatedHrEst, milestoneRef, newTask, isStartup);
+        // });
 
     });
 
@@ -377,43 +362,45 @@ function addMilestoneListeners(milestoneRef) {
     isStartup = false;
 }
 
+/* 
+ * Potentially dead. Listens for a direct change to a task's updated_hour_estimate field.
+ */
+// function updatedHourEstChange(updatedHrEst, milestoneRef, task, isStartup) {
+//     var projectID = milestoneRef.parent().parent().key();
 
-function updatedHourEstChange(updatedHrEst, milestoneRef, task, isStartup) {
-    var projectID = milestoneRef.parent().parent().key();
-
-    // commit maker for change to updated_hour_estimate
-    var newCommit = {
-        'added_lines_of_code': 0,
-        'hours': 0,
-        'message': 'Change to updated_hour_estimate from Metrics Script',
-        'milestone': milestoneRef.key(),
-        'project': projectID,
-        'removed_lines_of_code': 0,
-        'status': task.child('status').val(),
-        'task': task.key(),
-        'timestamp': Firebase.ServerValue.TIMESTAMP,
-        'user': task.child('assignedTo').val(),
-        'updated_hour_estimate': updatedHrEst.val()
-    };
+//     // commit maker for change to updated_hour_estimate
+//     var newCommit = {
+//         'added_lines_of_code': 0,
+//         'hours': 0,
+//         'message': 'Change to updated_hour_estimate from Metrics Script',
+//         'milestone': milestoneRef.key(),
+//         'project': projectID,
+//         'removed_lines_of_code': 0,
+//         'status': task.child('status').val(),
+//         'task': task.key(),
+//         'timestamp': Firebase.ServerValue.TIMESTAMP,
+//         'user': task.child('assignedTo').val(),
+//         'updated_hour_estimate': updatedHrEst.val()
+//     };
     
-    var childExists = false;
-    commitsRef.child(projectID).once('value', function(commits) {
-        commits.forEach(function(commit) {
-            if (commit.child('message') === newCommit['message'] && 
-                commit.child('task') === newCommit['task'] && 
-                commit.child('updated_hour_estimate') !== null && 
-                commit.child('updated_hour_estimate') === newCommit['updated_hour_estimate']) {
-                childExists = true;
-            }
-        });
-    });
+//     var childExists = false;
+//     commitsRef.child(projectID).once('value', function(commits) {
+//         commits.forEach(function(commit) {
+//             if (commit.child('message') === newCommit['message'] && 
+//                 commit.child('task') === newCommit['task'] && 
+//                 commit.child('updated_hour_estimate') !== null && 
+//                 commit.child('updated_hour_estimate') === newCommit['updated_hour_estimate']) {
+//                 childExists = true;
+//             }
+//         });
+//     });
 
-    if (!childExists) {
-        console.log("Pushing commit for new updated_hour_estimate");
-        commitsRef.child(projectID).push(newCommit);
-    }
+//     if (!childExists) {
+//         console.log("Pushing commit for new updated_hour_estimate");
+//         commitsRef.child(projectID).push(newCommit);
+//     }
 
-}
+// }
 
 /* 
  * makes appropriate updates whenever a task is changed
@@ -464,7 +451,8 @@ function taskChanged(milestoneRef, taskRef) {
         });
 
     });
-
+    
+    // bounty stuff
     taskRef.once('value', function(taskBranch) {
         // update user with task info
         var assignee = taskBranch.child('assignedTo').val();
@@ -519,8 +507,9 @@ function taskChanged(milestoneRef, taskRef) {
     // //TODO: add for each
 }
 
-
-// sets defaults for a new task
+/*
+ * sets defaults for a new task
+ */
 function setDefaults(task) {
     // var isCompleted = task.child('is_completed').val();
     var taskStatus = task.child('status').val();
@@ -567,8 +556,9 @@ function setDefaults(task) {
 
 }
 
-
-// updates a miletone's data given a task (this should only be called in a loop over all its tasks)
+/* 
+ * updates a milestone's data given a task (this should only be called in a loop over all its tasks)
+ */
 function aggregateTaskData(milestoneRef, task) {
     milestoneRef.once('value', function(milestone) {
         //increase # tasks in milestone    
@@ -636,7 +626,9 @@ function aggregateTaskData(milestoneRef, task) {
     });
 }
 
-// updates a project's data by looping over all its milestones
+/*
+ * updates a project's data by looping over all its milestones
+ */
 function aggregateMilestoneData(projectRef) {
     projectRef.child('milestones').once('value', function(milestones) {
         milestones.forEach(function(milestone) {

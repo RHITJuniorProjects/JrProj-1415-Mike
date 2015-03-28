@@ -10,11 +10,12 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 
 /**
  * Created by johnsoaa on 3/14/2015.
  */
-public class Trophy implements Parcelable, ChildEventListener {
+public class Trophy implements Parcelable, ChildEventListener, ListChangeNotifiable<Trophy> {
 
     /**
      * A Creator object that allows this object to be created by a parcel
@@ -34,6 +35,7 @@ public class Trophy implements Parcelable, ChildEventListener {
     private String mDescription;
     private String mImage;
     private String mName;
+    private String mKey;
     private ListChangeNotifier<Trophy> listChangeNotifier;
 
     public Trophy(String firebaseURL) {
@@ -44,15 +46,16 @@ public class Trophy implements Parcelable, ChildEventListener {
         this.mDescription = "";
         this.mImage = "";
         this.mName = "";
+        this.mKey = firebaseURL.substring(firebaseURL.lastIndexOf('/') + 1);
     }
 
     public Trophy(Parcel pc) {
         mFirebase = new Firebase(pc.readString());
-
         this.mCost = pc.readInt();
         this.mDescription = pc.readString();
         this.mImage = pc.readString();
         this.mName = pc.readString();
+        this.mKey = mFirebase.toString().substring(mFirebase.toString().lastIndexOf('/') + 1);
     }
 
     @Override
@@ -76,6 +79,9 @@ public class Trophy implements Parcelable, ChildEventListener {
 
     public void setCost(int mCost) {
         this.mCost = mCost;
+        if (this.listChangeNotifier != null) {
+            this.listChangeNotifier.onChange();
+        }
     }
 
     public String getDescription() {
@@ -102,15 +108,23 @@ public class Trophy implements Parcelable, ChildEventListener {
         this.mName = mName;
     }
 
+    public String getKey() {
+        return this.mKey;
+    }
+
     public void setListChangeNotifier(ListChangeNotifier<Trophy> listChangeNotifier) {
         this.listChangeNotifier = listChangeNotifier;
+    }
+
+    @Override
+    public ListChangeNotifier<Trophy> getListChangeNotifier() {
+        return this.listChangeNotifier;
     }
 
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         String key = dataSnapshot.getKey();
-        Log.d("RHH", "trophy recieved: " + key);
         if (key.equals("cost")) {
             setCost(dataSnapshot.getValue(Integer.class));
         } else if (key.equals("description")) {
@@ -120,7 +134,9 @@ public class Trophy implements Parcelable, ChildEventListener {
         } else if (key.equals("name")) {
             setName(dataSnapshot.getValue(String.class));
         }
-        listChangeNotifier.onChange();
+        if (listChangeNotifier != null) {
+            listChangeNotifier.onChange();
+        }
     }
 
     @Override
@@ -141,5 +157,40 @@ public class Trophy implements Parcelable, ChildEventListener {
     @Override
     public void onCancelled(FirebaseError firebaseError) {
 
+    }
+
+    /**
+     * Compares this Trophy with the other given Trophy.
+     *
+     * @param p
+     * @return
+     */
+    public int compareToIgnoreCase(Trophy p) {
+        return GeneralAlgorithms.compareToIgnoreCase(this.getName(),
+                p.getName());
+    }
+
+    public int compareToByPoints(Trophy p) {
+        return ((Integer) this.mCost).compareTo((Integer) p.getCost());
+    }
+
+    public int convertLimitFromFirebaseForm(Object limitString) {
+        try {
+            return (Integer) limitString;
+        } catch (java.lang.ClassCastException e) {
+            if (limitString instanceof String && limitString.toString().equals("None")) {
+                return -1;
+            } else {
+                return -10;
+            }
+        }
+    }
+
+    public Object convertLimitToFirebaseForm(int limit) {
+        if (limit == -1) {
+            return "None";
+        } else {
+            return limit;
+        }
     }
 }

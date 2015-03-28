@@ -8,11 +8,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="rhit.jrProj.henry.TrophyStoreActivity">
 
+    <TextView
+        android:id="@+id/textViewPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/BountyDescriptionField"
+        android:layout_below="@+id/BountyDescriptionField"
+        android:layout_marginTop="5dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
     <GridView
         android:id="@+id/trophies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:numColumns="3"
+        android:layout_marginTop="30dp"
         android:stretchMode="columnWidth"></GridView>
 
 </RelativeLayout>

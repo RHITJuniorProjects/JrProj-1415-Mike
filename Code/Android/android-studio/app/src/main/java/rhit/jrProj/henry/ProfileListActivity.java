@@ -1,6 +1,7 @@
 package rhit.jrProj.henry;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,22 +22,38 @@ import rhit.jrProj.henry.firebase.User;
 
 public class ProfileListActivity extends Activity {
 
-    private GlobalVariables mGlobalVariables;
     private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_list);
-        mGlobalVariables = ((GlobalVariables) getApplicationContext());
-        String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
-        Firebase firebase = new Firebase(fireBaseUrl);
-        mUser = new User(mGlobalVariables.getFirebaseUrl()
+        String fireBaseUrl = GlobalVariables.getFirebaseUrl();
+        final Firebase firebase = new Firebase(fireBaseUrl);
+        mUser = new User(GlobalVariables.getFirebaseUrl()
                 + "users/" + firebase.getAuth().getUid());
         ExpandableListView stickyList = (ExpandableListView) findViewById(R.id.list);
-        ProfileListAdapter adapter = new ProfileListAdapter();
+        final ProfileListAdapter adapter = new ProfileListAdapter();
         mUser.setListChangeNotifier(new ExpandableListChangeNotifier<Project>(adapter));
         stickyList.setAdapter(adapter);
+        stickyList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                String key = adapter.getChild(groupPosition, childPosition).getKey();
+                Intent i = new Intent(ProfileListActivity.this, ProfileActivity.class);
+                i.putExtra("USER", key);
+                startActivity(i);
+                return true;
+            }
+        });
+        findViewById(R.id.my_profile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ProfileListActivity.this, ProfileActivity.class);
+                i.putExtra("USER", firebase.getAuth().getUid());
+                startActivity(i);
+            }
+        });
     }
 
 
