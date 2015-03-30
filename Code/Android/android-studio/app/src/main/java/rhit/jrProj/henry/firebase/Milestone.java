@@ -3,9 +3,9 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 import java.util.List;
 
+import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.bridge.ListChangeNotifiable;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.User.ChildrenListener;
-import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
@@ -17,7 +17,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
+public class Milestone implements Parcelable, ListChangeNotifiable {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -63,7 +63,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      * Firebase is updated. This then notifies the object that is displaying the
      * Milestone that this object has been updated.
      */
-    private ListChangeNotifier<Milestone> listViewCallback;
+    private ChangeNotifier listViewCallback;
 
     /**
      * A string of the milestone's firebase id.
@@ -124,7 +124,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Milestone> lcn) {
+    public void setListChangeNotifier(ChangeNotifier lcn) {
         this.setListViewCallback(lcn);
     }
 
@@ -301,7 +301,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      * @return
      */
 
-    public ListChangeNotifier<Milestone> getListChangeNotifier() {
+    public ChangeNotifier getListChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -330,7 +330,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      * @param listViewCallback
      */
     public void setListViewCallback(
-            ListChangeNotifier<Milestone> listViewCallback) {
+            ChangeNotifier listViewCallback) {
         this.listViewCallback = listViewCallback;
     }
 

@@ -190,7 +190,7 @@ public class CreateMilestoneFragment extends DialogFragment {
         String name = this.mNameField.getText().toString();
         String des = this.mDescriptionField.getText().toString();
 
-        Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl() + "projects/"
+        Firebase ref = new Firebase(GlobalVariables.getFirebaseUrl() + "projects/"
                 + this.projectid + "/milestones/").push();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", name);

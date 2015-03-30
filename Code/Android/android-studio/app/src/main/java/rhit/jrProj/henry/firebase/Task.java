@@ -3,11 +3,10 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 
 import rhit.jrProj.henry.TaskDetailFragment;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.bridge.ListChangeNotifiable;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.Enums.Role;
-import rhit.jrProj.henry.firebase.Milestone.GrandChildrenListener;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
-import rhit.jrProj.henry.helpers.HorizontalPicker;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -19,7 +18,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class Task implements Parcelable, ListChangeNotifiable<Task> {
+public class Task implements Parcelable, ListChangeNotifiable {
     public static int MAX_POINTS = 100;
     public static int MIN_POINTS = 0;
     public TaskDetailFragment hp;
@@ -93,8 +92,8 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      * Firebase is updated. This then notifies the object that is displaying the
      * task that this object has been updated.
      */
-    private ListChangeNotifier<Task> listViewCallback;
-    private ListChangeNotifier<Bounty> bountyListViewCallback;
+    private ChangeNotifier listViewCallback;
+    private ChangeNotifier bountyListViewCallback;
     public Bounty completionBounty;
     public String completionBountyID;
 
@@ -155,7 +154,7 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      *
      * @return
      */
-    public ListChangeNotifier<Bounty> getBountyListViewCallback() {
+    public ChangeNotifier getBountyListViewCallback() {
         return this.bountyListViewCallback;
     }
 
@@ -212,7 +211,7 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Task> lcn) {
+    public void setListChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -395,7 +394,7 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      *
      * @return
      */
-    public ListChangeNotifier<Task> getListChangeNotifier() {
+    public ChangeNotifier getListChangeNotifier() {
         return this.listViewCallback;
     }
 

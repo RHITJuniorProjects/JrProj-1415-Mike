@@ -9,13 +9,14 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import rhit.jrProj.henry.bridge.ChangeNotifier;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 
 /**
  * Created by johnsoaa on 3/14/2015.
  */
-public class Trophy implements Parcelable, ChildEventListener, ListChangeNotifiable<Trophy> {
+public class Trophy implements Parcelable, ChildEventListener {
 
     /**
      * A Creator object that allows this object to be created by a parcel
@@ -36,7 +37,7 @@ public class Trophy implements Parcelable, ChildEventListener, ListChangeNotifia
     private String mImage;
     private String mName;
     private String mKey;
-    private ListChangeNotifier<Trophy> listChangeNotifier;
+    private ChangeNotifier listChangeNotifier;
 
     public Trophy(String firebaseURL) {
         mFirebase = new Firebase(firebaseURL);
@@ -112,12 +113,12 @@ public class Trophy implements Parcelable, ChildEventListener, ListChangeNotifia
         return this.mKey;
     }
 
-    public void setListChangeNotifier(ListChangeNotifier<Trophy> listChangeNotifier) {
+    public void setListChangeNotifier(ChangeNotifier listChangeNotifier) {
         this.listChangeNotifier = listChangeNotifier;
     }
 
-    @Override
-    public ListChangeNotifier<Trophy> getListChangeNotifier() {
+
+    public ChangeNotifier getListChangeNotifier() {
         return this.listChangeNotifier;
     }
 

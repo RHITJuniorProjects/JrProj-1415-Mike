@@ -2,21 +2,19 @@ package rhit.jrProj.henry.firebase;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.provider.ContactsContract;
-import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import rhit.jrProj.henry.TaskDetailFragment.Callbacks;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.bridge.ListChangeNotifiable;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 
-public class Bounty implements ListChangeNotifiable<Bounty> {
+public class Bounty implements ListChangeNotifiable {
     private String claimed = "None";
     private String description = "None";
     private DueDate dueDate=new DueDate();
@@ -40,7 +38,7 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
      * Firebase is updated. This then notifies the object that is displaying the
      * task that this object has been updated.
      */
-    private ListChangeNotifier<Bounty> listViewCallback;
+    private ChangeNotifier listViewCallback;
     /**
      * The bounty's parent project ID
      */
@@ -131,7 +129,7 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Bounty> lcn) {
+    public void setListChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -139,7 +137,7 @@ public class Bounty implements ListChangeNotifiable<Bounty> {
     /**
      * gets the list changed notifier
      */
-    public ListChangeNotifier<Bounty> getListChangeNotifier() {
+    public ChangeNotifier getListChangeNotifier() {
         return this.listViewCallback;
     }
 

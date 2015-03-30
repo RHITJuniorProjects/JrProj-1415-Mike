@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
  *
  * @author rockwotj. Created Oct 10, 2014.
  */
-public class ListChangeNotifier<T> {
+public class ListChangeNotifier<T> implements ChangeNotifier {
 
     private BaseAdapter adapter;
 

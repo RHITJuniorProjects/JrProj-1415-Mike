@@ -1,7 +1,6 @@
 package rhit.jrProj.henry;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,10 +15,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.bridge.SortedArrayAdapter;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
-import rhit.jrProj.henry.firebase.ListChangeNotifiable;
+import rhit.jrProj.henry.bridge.ListChangeNotifiable;
 import rhit.jrProj.henry.firebase.Project;
 
 /**

@@ -6,6 +6,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import rhit.jrProj.henry.GlobalVariables;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.bridge.ListChangeNotifiable;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
@@ -19,7 +22,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable, ListChangeNotifiable<Project> {
+public class Project implements Parcelable, ListChangeNotifiable {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -79,9 +82,9 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      * Firebase is updated. This then notifies the object that is displaying the
      * project that this object has been updated.
      */
-    private ListChangeNotifier<Project> listViewCallback;
+    private ChangeNotifier listViewCallback;
 
-    private ListChangeNotifier<Milestone> milestoneListViewCallback;
+    private ChangeNotifier milestoneListViewCallback;
     /**
      * A Creator object that allows this object to be created by a parcel
      */
@@ -157,7 +160,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
+    public void setListChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -166,7 +169,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      *
      * @return
      */
-    public ListChangeNotifier<Project> getListChangeNotifier() {
+    public ChangeNotifier getListChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -535,5 +538,14 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
         return this.getDueDate().compareTo(p.getDueDate(), newestFirst);
     }
 
+    public void createMilestone(String name, String des) {
+        Firebase ref = new Firebase(GlobalVariables.getFirebaseUrl() + "projects/"
+                + this.projectId + "/milestones/").push();
+        java.util.Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", name);
+        map.put("description", des);
+        map.put("due_date", "No Due Date");
+        ref.setValue(map);
+    }
 
 }
