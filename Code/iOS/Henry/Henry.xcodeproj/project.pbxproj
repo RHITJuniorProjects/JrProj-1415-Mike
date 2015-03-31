@@ -42,7 +42,6 @@
 		84BC3A8C1A6300FA00271DFC /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC3A881A6300FA00271DFC /* BEMLine.m */; };
 		84BC3A8D1A6300FA00271DFC /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC3A8A1A6300FA00271DFC /* BEMSimpleLineGraphView.m */; };
 		84DD890A19F551F900839255 /* HenryRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84DD890919F551F900839255 /* HenryRootNavigationController.m */; };
-		871B796E1A7854BF00195D34 /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = 871B796D1A7854BF00195D34 /* HenryFirebase.m */; };
 		871B79701A78551B00195D34 /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 871B796F1A78551B00195D34 /* Firebase.framework */; };
 		8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 8731945C19FDCEC100CE82ED /* DLPieChart.m */; };
 		87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 87A6163219F73D4C006F574E /* HenryDevDisplayObject.m */; };
@@ -78,9 +77,11 @@
 		ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */; };
 		ADB3A4E419E48A4300C687D5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E319E48A4300C687D5 /* Security.framework */; };
 		ADB3A4E619E48A4C00C687D5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */; };
-		E10480511ACA245900BB4A9C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E10480501ACA245900BB4A9C /* libOCMock.a */; };
 		E104805D1ACA24EC00BB4A9C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E10480501ACA245900BB4A9C /* libOCMock.a */; };
-		E104805F1ACA257400BB4A9C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E104805E1ACA257400BB4A9C /* XCTest.framework */; };
+		E10480601ACA2B5800BB4A9C /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A0BDBA1A017A8000CC9190 /* HenryFirebase.m */; };
+		E1AB0BCF1ACA46F5009DF7F6 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E10480631ACA30E800BB4A9C /* XCTest.framework */; };
+		E1CF2CC41ACA491D004BF1A8 /* BountyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CF2CC11ACA491D004BF1A8 /* BountyModel.m */; };
+		E1CF2CC51ACA491D004BF1A8 /* TaskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E1CF2CC31ACA491D004BF1A8 /* TaskModel.m */; };
 		F278E0C71A607365008C62E5 /* user_male3-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F278E0C61A607365008C62E5 /* user_male3-25.png */; };
 		F278E0C91A6073CB008C62E5 /* user_male_4-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F278E0C81A6073CB008C62E5 /* user_male_4-25.png */; };
 /* End PBXBuildFile section */
@@ -155,8 +156,6 @@
 		84BC3A8A1A6300FA00271DFC /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
 		84DD890819F551F900839255 /* HenryRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRootNavigationController.h; sourceTree = "<group>"; };
 		84DD890919F551F900839255 /* HenryRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRootNavigationController.m; sourceTree = "<group>"; };
-		871B796C1A7854BF00195D34 /* HenryFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryFirebase.h; sourceTree = "<group>"; };
-		871B796D1A7854BF00195D34 /* HenryFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryFirebase.m; sourceTree = "<group>"; };
 		871B796F1A78551B00195D34 /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		8731945B19FDCEC100CE82ED /* DLPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPieChart.h; sourceTree = "<group>"; };
 		8731945C19FDCEC100CE82ED /* DLPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPieChart.m; sourceTree = "<group>"; };
@@ -222,6 +221,12 @@
 		E104805B1ACA24A900BB4A9C /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
 		E104805C1ACA24A900BB4A9C /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
 		E104805E1ACA257400BB4A9C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		E10480611ACA30BA00BB4A9C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		E10480631ACA30E800BB4A9C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		E1CF2CC01ACA491D004BF1A8 /* BountyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BountyModel.h; path = Henry/Classes/BountyModel.h; sourceTree = "<group>"; };
+		E1CF2CC11ACA491D004BF1A8 /* BountyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BountyModel.m; path = Henry/Classes/BountyModel.m; sourceTree = "<group>"; };
+		E1CF2CC21ACA491D004BF1A8 /* TaskModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TaskModel.h; path = Henry/Classes/TaskModel.h; sourceTree = "<group>"; };
+		E1CF2CC31ACA491D004BF1A8 /* TaskModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TaskModel.m; path = Henry/Classes/TaskModel.m; sourceTree = "<group>"; };
 		F278E0C61A607365008C62E5 /* user_male3-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_male3-25.png"; sourceTree = "<group>"; };
 		F278E0C81A6073CB008C62E5 /* user_male_4-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_male_4-25.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -240,7 +245,6 @@
 				93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */,
 				93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */,
 				93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */,
-				E10480511ACA245900BB4A9C /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,8 +252,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1AB0BCF1ACA46F5009DF7F6 /* XCTest.framework in Frameworks */,
 				E104805D1ACA24EC00BB4A9C /* libOCMock.a in Frameworks */,
-				E104805F1ACA257400BB4A9C /* XCTest.framework in Frameworks */,
 				93447F5419C91C5600C2FC38 /* UIKit.framework in Frameworks */,
 				93447F5319C91C5600C2FC38 /* Foundation.framework in Frameworks */,
 				871B79701A78551B00195D34 /* Firebase.framework in Frameworks */,
@@ -456,6 +460,7 @@
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
+				E1CF2CC71ACA4931004BF1A8 /* Modelz */,
 				E10480521ACA247300BB4A9C /* OCMock */,
 				90A0274B1A3CB5E300884462 /* Firebase.framework */,
 				93447F3E19C91C5500C2FC38 /* Henry */,
@@ -478,6 +483,8 @@
 		93447F3719C91C5500C2FC38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E10480631ACA30E800BB4A9C /* XCTest.framework */,
+				E10480611ACA30BA00BB4A9C /* XCTest.framework */,
 				E104805E1ACA257400BB4A9C /* XCTest.framework */,
 				ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */,
 				ADB3A4E319E48A4300C687D5 /* Security.framework */,
@@ -528,8 +535,6 @@
 		93447F5719C91C5600C2FC38 /* HenryTests */ = {
 			isa = PBXGroup;
 			children = (
-				871B796C1A7854BF00195D34 /* HenryFirebase.h */,
-				871B796D1A7854BF00195D34 /* HenryFirebase.m */,
 				93447F5D19C91C5600C2FC38 /* HenryTests.m */,
 				93447F5819C91C5600C2FC38 /* Supporting Files */,
 			);
@@ -568,6 +573,17 @@
 				E104805C1ACA24A900BB4A9C /* OCMStubRecorder.h */,
 			);
 			path = OCMock;
+			sourceTree = "<group>";
+		};
+		E1CF2CC71ACA4931004BF1A8 /* Modelz */ = {
+			isa = PBXGroup;
+			children = (
+				E1CF2CC01ACA491D004BF1A8 /* BountyModel.h */,
+				E1CF2CC11ACA491D004BF1A8 /* BountyModel.m */,
+				E1CF2CC21ACA491D004BF1A8 /* TaskModel.h */,
+				E1CF2CC31ACA491D004BF1A8 /* TaskModel.m */,
+			);
+			name = Modelz;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -693,6 +709,7 @@
 				87D8132A1A32504900BEDD3E /* HenryMemberTableViewController.m in Sources */,
 				83059FE21A7968D9004F5090 /* HenryLeaderboardTableViewController.m in Sources */,
 				87A6163619F73D63006F574E /* HenryAssignDevsTableViewController.m in Sources */,
+				E1CF2CC41ACA491D004BF1A8 /* BountyModel.m in Sources */,
 				84DD890A19F551F900839255 /* HenryRootNavigationController.m in Sources */,
 				93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */,
 				843D241919F476DF00DBC2CB /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
@@ -712,6 +729,7 @@
 				843D240A19F476BC00DBC2CB /* HenryMilestoneDetailViewController.m in Sources */,
 				5E3086091AB85ED5004293BC /* HenryUsersProfileViewController.m in Sources */,
 				90A0274F1A3CB7B000884462 /* HenryMyTasksTableViewController.m in Sources */,
+				E1CF2CC51ACA491D004BF1A8 /* TaskModel.m in Sources */,
 				87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */,
 				93A50E7519F7078200645F54 /* SideNavTableTableViewController.m in Sources */,
 				843D241619F476DF00DBC2CB /* HenryTaskDetailViewController.m in Sources */,
@@ -730,7 +748,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				93447F5E19C91C5600C2FC38 /* HenryTests.m in Sources */,
-				871B796E1A7854BF00195D34 /* HenryFirebase.m in Sources */,
+				E10480601ACA2B5800BB4A9C /* HenryFirebase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -845,6 +863,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/**",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
@@ -868,6 +888,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SRCROOT)/**",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
@@ -892,6 +914,8 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(PROJECT_DIR)",
 					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
@@ -911,8 +935,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					XCTest,
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -931,6 +953,8 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(PROJECT_DIR)",
 					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks",
+					"$(DEVELOPER_DIR)/Platforms/iPhoneOS.platform/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
@@ -946,8 +970,6 @@
 				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-framework",
-					XCTest,
 					"-ObjC",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

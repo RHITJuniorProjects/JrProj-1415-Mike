@@ -9,6 +9,8 @@
 #import <XCTest/XCTest.h>
 #import "HenryProjectObject.h"
 #import "HenryFirebase.h"
+#import "OCMock.h"
+#import "OCMockObject.h"
 
 
 @interface HenryTests : XCTestCase
@@ -57,33 +59,11 @@
     }
 }
 
-- (void)tearDown
-{
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
 //We know what the name should be, let's be sure we pulled it correctly
 - (void) testPullData:(NSInteger) integ{
     
     XCTAssertEqual(self.testEmail,self.actualEmail);
     XCTAssertEqual(self.testName,self.actualName);
-}
-
-//When you put in an e-mail, it should be in proper email format.
-- (void)testBadEmail{
-    
-}
-
-//When you update the current estimate on a task, it should only contain numbers
--(void)testBadEstimateInput
-{
-    
-}
-
--(void)testEmptyTaskNameAndDescription
-{
-    
 }
 
 -(void)testSorting
@@ -153,5 +133,21 @@
     
    
     
+}
+
+- (void) testGetFirebaseURL {
+    NSString* urlReal = @"https://henry-test.firebaseio.com";
+    NSString* urlToTest = [HenryFirebase getFirebaseURL];
+    XCTAssertEqual(urlReal, urlToTest);
+}
+
+- (void) testGetAllProjects {
+//    HenryFirebase* mockFirebase = 
+}
+
+- (void)tearDown
+{
+    // Put teardown code here. This method is called after the invocation of each test method in the class.
+    [super tearDown];
 }
 @end

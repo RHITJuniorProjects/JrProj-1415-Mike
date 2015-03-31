@@ -40,6 +40,7 @@ Firebase *henryFB;
     }];
 }
 
+// Tested
 +(NSString *)getFirebaseURL {
     return @"https://henry-test.firebaseio.com";
 }
