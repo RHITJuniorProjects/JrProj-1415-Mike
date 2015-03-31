@@ -62,7 +62,6 @@
 		93447F4519C91C5500C2FC38 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F4419C91C5500C2FC38 /* main.m */; };
 		93447F4919C91C5500C2FC38 /* HenryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */; };
 		93447F4B19C91C5500C2FC38 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93447F4A19C91C5500C2FC38 /* Images.xcassets */; };
-		93447F5219C91C5600C2FC38 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F5119C91C5500C2FC38 /* XCTest.framework */; };
 		93447F5319C91C5600C2FC38 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3819C91C5500C2FC38 /* Foundation.framework */; };
 		93447F5419C91C5600C2FC38 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93447F3C19C91C5500C2FC38 /* UIKit.framework */; };
 		93447F5C19C91C5600C2FC38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 93447F5A19C91C5600C2FC38 /* InfoPlist.strings */; };
@@ -79,6 +78,9 @@
 		ADB3A4E219E48A3800C687D5 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */; };
 		ADB3A4E419E48A4300C687D5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E319E48A4300C687D5 /* Security.framework */; };
 		ADB3A4E619E48A4C00C687D5 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */; };
+		E10480511ACA245900BB4A9C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E10480501ACA245900BB4A9C /* libOCMock.a */; };
+		E104805D1ACA24EC00BB4A9C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E10480501ACA245900BB4A9C /* libOCMock.a */; };
+		E104805F1ACA257400BB4A9C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E104805E1ACA257400BB4A9C /* XCTest.framework */; };
 		F278E0C71A607365008C62E5 /* user_male3-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F278E0C61A607365008C62E5 /* user_male3-25.png */; };
 		F278E0C91A6073CB008C62E5 /* user_male_4-25.png in Resources */ = {isa = PBXBuildFile; fileRef = F278E0C81A6073CB008C62E5 /* user_male_4-25.png */; };
 /* End PBXBuildFile section */
@@ -209,6 +211,17 @@
 		ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		ADB3A4E319E48A4300C687D5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E10480501ACA245900BB4A9C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		E10480541ACA24A900BB4A9C /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		E10480551ACA24A900BB4A9C /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		E10480561ACA24A900BB4A9C /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		E10480571ACA24A900BB4A9C /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
+		E10480581ACA24A900BB4A9C /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
+		E10480591ACA24A900BB4A9C /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		E104805A1ACA24A900BB4A9C /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		E104805B1ACA24A900BB4A9C /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
+		E104805C1ACA24A900BB4A9C /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
+		E104805E1ACA257400BB4A9C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F278E0C61A607365008C62E5 /* user_male3-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_male3-25.png"; sourceTree = "<group>"; };
 		F278E0C81A6073CB008C62E5 /* user_male_4-25.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "user_male_4-25.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -227,6 +240,7 @@
 				93447F3B19C91C5500C2FC38 /* CoreGraphics.framework in Frameworks */,
 				93447F3D19C91C5500C2FC38 /* UIKit.framework in Frameworks */,
 				93447F3919C91C5500C2FC38 /* Foundation.framework in Frameworks */,
+				E10480511ACA245900BB4A9C /* libOCMock.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,7 +248,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				93447F5219C91C5600C2FC38 /* XCTest.framework in Frameworks */,
+				E104805D1ACA24EC00BB4A9C /* libOCMock.a in Frameworks */,
+				E104805F1ACA257400BB4A9C /* XCTest.framework in Frameworks */,
 				93447F5419C91C5600C2FC38 /* UIKit.framework in Frameworks */,
 				93447F5319C91C5600C2FC38 /* Foundation.framework in Frameworks */,
 				871B79701A78551B00195D34 /* Firebase.framework in Frameworks */,
@@ -441,6 +456,7 @@
 		93447F2C19C91C5500C2FC38 = {
 			isa = PBXGroup;
 			children = (
+				E10480521ACA247300BB4A9C /* OCMock */,
 				90A0274B1A3CB5E300884462 /* Firebase.framework */,
 				93447F3E19C91C5500C2FC38 /* Henry */,
 				93447F5719C91C5600C2FC38 /* HenryTests */,
@@ -462,6 +478,7 @@
 		93447F3719C91C5500C2FC38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E104805E1ACA257400BB4A9C /* XCTest.framework */,
 				ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */,
 				ADB3A4E319E48A4300C687D5 /* Security.framework */,
 				ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */,
@@ -526,6 +543,31 @@
 				93447F5A19C91C5600C2FC38 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E10480521ACA247300BB4A9C /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				E10480531ACA24A900BB4A9C /* OCMock */,
+				E10480501ACA245900BB4A9C /* libOCMock.a */,
+			);
+			name = OCMock;
+			sourceTree = "<group>";
+		};
+		E10480531ACA24A900BB4A9C /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				E10480541ACA24A900BB4A9C /* NSNotificationCenter+OCMAdditions.h */,
+				E10480551ACA24A900BB4A9C /* OCMArg.h */,
+				E10480561ACA24A900BB4A9C /* OCMConstraint.h */,
+				E10480571ACA24A900BB4A9C /* OCMLocation.h */,
+				E10480581ACA24A900BB4A9C /* OCMMacroState.h */,
+				E10480591ACA24A900BB4A9C /* OCMock.h */,
+				E104805A1ACA24A900BB4A9C /* OCMockObject.h */,
+				E104805B1ACA24A900BB4A9C /* OCMRecorder.h */,
+				E104805C1ACA24A900BB4A9C /* OCMStubRecorder.h */,
+			);
+			path = OCMock;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -807,6 +849,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
 				INFOPLIST_FILE = "Henry/Henry-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -826,6 +872,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
 				INFOPLIST_FILE = "Henry/Henry-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -841,6 +891,7 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
@@ -848,7 +899,22 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/OCMock/",
+				);
 				INFOPLIST_FILE = "HenryTests/HenryTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -864,10 +930,26 @@
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(PROJECT_DIR)",
+					"$(DEVELOPER_DIR)/Platforms/MacOSX.platform/Developer/Library/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Henry/Henry-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/OCMock/",
+				);
 				INFOPLIST_FILE = "HenryTests/HenryTests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
