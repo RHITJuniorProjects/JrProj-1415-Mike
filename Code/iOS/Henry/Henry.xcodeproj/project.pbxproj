@@ -12,6 +12,11 @@
 		0A91BA081AC73498002F9A2C /* DatabaseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A91BA071AC73498002F9A2C /* DatabaseClient.m */; };
 		0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */; };
 		0A96F1BF1AB9150C001FF58C /* HenryStoreCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A96F1BE1AB9150C001FF58C /* HenryStoreCellTableViewCell.m */; };
+		0AC62EA11ACB81BE00C2C93D /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC62EA01ACB81BE00C2C93D /* UserModel.m */; };
+		0AC62EA41ACB832300C2C93D /* MemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC62EA31ACB832300C2C93D /* MemberModel.m */; };
+		0AC62EA71ACB83B500C2C93D /* MilestoneModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC62EA61ACB83B500C2C93D /* MilestoneModel.m */; };
+		0AC62EAA1ACB846800C2C93D /* ProjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC62EA91ACB846800C2C93D /* ProjectModel.m */; };
+		0AC62EAD1ACB860F00C2C93D /* TrophyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AC62EAC1ACB860F00C2C93D /* TrophyModel.m */; };
 		5E3086021AB7C34F004293BC /* HenryStoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */; };
 		5E3086091AB85ED5004293BC /* HenryUsersProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E3086081AB85ED5004293BC /* HenryUsersProfileViewController.m */; };
 		5E65B7551AB15551001324CD /* Shop-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E65B7541AB15551001324CD /* Shop-40.png */; };
@@ -107,6 +112,16 @@
 		0A959BC41A8695B900356DC2 /* HenryCreateBountyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCreateBountyViewController.m; sourceTree = "<group>"; };
 		0A96F1BD1AB9150C001FF58C /* HenryStoreCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreCellTableViewCell.h; sourceTree = "<group>"; };
 		0A96F1BE1AB9150C001FF58C /* HenryStoreCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreCellTableViewCell.m; sourceTree = "<group>"; };
+		0AC62E9F1ACB81BE00C2C93D /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		0AC62EA01ACB81BE00C2C93D /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		0AC62EA21ACB832300C2C93D /* MemberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberModel.h; sourceTree = "<group>"; };
+		0AC62EA31ACB832300C2C93D /* MemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberModel.m; sourceTree = "<group>"; };
+		0AC62EA51ACB83B500C2C93D /* MilestoneModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneModel.h; sourceTree = "<group>"; };
+		0AC62EA61ACB83B500C2C93D /* MilestoneModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestoneModel.m; sourceTree = "<group>"; };
+		0AC62EA81ACB846800C2C93D /* ProjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectModel.h; sourceTree = "<group>"; };
+		0AC62EA91ACB846800C2C93D /* ProjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectModel.m; sourceTree = "<group>"; };
+		0AC62EAB1ACB860F00C2C93D /* TrophyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrophyModel.h; sourceTree = "<group>"; };
+		0AC62EAC1ACB860F00C2C93D /* TrophyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrophyModel.m; sourceTree = "<group>"; };
 		5E3086001AB7C34E004293BC /* HenryStoreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreTableViewController.h; sourceTree = SOURCE_ROOT; };
 		5E3086011AB7C34F004293BC /* HenryStoreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreTableViewController.m; sourceTree = SOURCE_ROOT; };
 		5E3086071AB85ED5004293BC /* HenryUsersProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryUsersProfileViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -582,6 +597,16 @@
 				E1CF2CC11ACA491D004BF1A8 /* BountyModel.m */,
 				E1CF2CC21ACA491D004BF1A8 /* TaskModel.h */,
 				E1CF2CC31ACA491D004BF1A8 /* TaskModel.m */,
+				0AC62E9F1ACB81BE00C2C93D /* UserModel.h */,
+				0AC62EA01ACB81BE00C2C93D /* UserModel.m */,
+				0AC62EA21ACB832300C2C93D /* MemberModel.h */,
+				0AC62EA31ACB832300C2C93D /* MemberModel.m */,
+				0AC62EA51ACB83B500C2C93D /* MilestoneModel.h */,
+				0AC62EA61ACB83B500C2C93D /* MilestoneModel.m */,
+				0AC62EA81ACB846800C2C93D /* ProjectModel.h */,
+				0AC62EA91ACB846800C2C93D /* ProjectModel.m */,
+				0AC62EAB1ACB860F00C2C93D /* TrophyModel.h */,
+				0AC62EAC1ACB860F00C2C93D /* TrophyModel.m */,
 			);
 			name = Modelz;
 			sourceTree = "<group>";
@@ -701,6 +726,7 @@
 			files = (
 				843D241819F476DF00DBC2CB /* TPKeyboardAvoidingScrollView.m in Sources */,
 				93447F4519C91C5500C2FC38 /* main.m in Sources */,
+				0AC62EA11ACB81BE00C2C93D /* UserModel.m in Sources */,
 				0A91BA011AC724FD002F9A2C /* GlobalVariables.m in Sources */,
 				0A959BC51A8695B900356DC2 /* HenryCreateBountyViewController.m in Sources */,
 				8731945D19FDCEC100CE82ED /* DLPieChart.m in Sources */,
@@ -717,10 +743,13 @@
 				87D813331A325A9100BEDD3E /* HenryProfileViewController.m in Sources */,
 				83A0BDBB1A017A8000CC9190 /* HenryFirebase.m in Sources */,
 				83059FE51A7968F7004F5090 /* HenryLeaderboardCellTableViewCell.m in Sources */,
+				0AC62EAD1ACB860F00C2C93D /* TrophyModel.m in Sources */,
 				93447F6B19C91CC100C2FC38 /* HenryProjectsTableViewController.m in Sources */,
 				84BC3A8D1A6300FA00271DFC /* BEMSimpleLineGraphView.m in Sources */,
 				87E464711A085D9300A18BF7 /* HenryProjectObject.m in Sources */,
 				846E418E1A91614100D12DE9 /* HenryCategoryTableViewController.m in Sources */,
+				0AC62EA41ACB832300C2C93D /* MemberModel.m in Sources */,
+				0AC62EA71ACB83B500C2C93D /* MilestoneModel.m in Sources */,
 				5E3086021AB7C34F004293BC /* HenryStoreTableViewController.m in Sources */,
 				87A6163319F73D4C006F574E /* HenryDevDisplayObject.m in Sources */,
 				93447F6E19C91EFB00C2FC38 /* HenryMilestonesTableViewController.m in Sources */,
@@ -733,6 +762,7 @@
 				87A6163919F73D78006F574E /* HenryAssignDevTableViewCell.m in Sources */,
 				93A50E7519F7078200645F54 /* SideNavTableTableViewController.m in Sources */,
 				843D241619F476DF00DBC2CB /* HenryTaskDetailViewController.m in Sources */,
+				0AC62EAA1ACB846800C2C93D /* ProjectModel.m in Sources */,
 				843D241519F476DF00DBC2CB /* HenryProjectDetailViewController.m in Sources */,
 				87D8132D1A32509800BEDD3E /* HenryMemberTableViewCell.m in Sources */,
 				0A91BA051AC7289B002F9A2C /* User.m in Sources */,

@@ -10,7 +10,7 @@
 #import "HenryFirebase.h"
 
 @implementation ProjectModel
-HenryFirebase* firebase;
+Firebase* firebase;
 NSMutableArray* milestones;
 NSString* name;
 // due date
@@ -22,4 +22,13 @@ NSNumber* milestonesPercent;
 NSString* projectId;
 // listchangenotifier listviewcallback
 // listchangenotifier milestonelistviewcallback
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        firebase = [HenryFirebase getFirebaseObject];
+    }
+    return self;
+}
 @end
