@@ -123,7 +123,7 @@ public class ProjectMembersFragment extends ListFragment {
         ListChangeNotifier<Member> lcn = new ListChangeNotifier<Member>(
                 arrayAdapter);
         for (Member m : this.members) {
-            //	m.setListChangeNotifier(lcn);
+            //	m.setChangeNotifier(lcn);
         }
 
         this.adapter = arrayAdapter;

@@ -14,16 +14,16 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.bridge.SortedListChangeNotifier;
 import rhit.jrProj.henry.firebase.Enums;
-import rhit.jrProj.henry.bridge.ListChangeNotifiable;
 import rhit.jrProj.henry.firebase.Project;
 
 /**
  * Created by daveyle on 3/19/2015.
  */
-public abstract class DataListFragment<T extends ListChangeNotifiable> extends ListFragment implements HasCallbacks<T> {
+public abstract class DataListFragment<T extends ChangeNotifiable> extends ListFragment implements HasCallbacks<T> {
 
     ArrayList<T> items;
 
@@ -96,8 +96,8 @@ public abstract class DataListFragment<T extends ListChangeNotifiable> extends L
     public void attachAdapter(ArrayAdapter<T> adapter) {
         lcn = new SortedListChangeNotifier<T>(
                 adapter);
-        for (ListChangeNotifiable m : this.items) {
-            m.setListChangeNotifier(lcn);
+        for (ChangeNotifiable m : this.items) {
+            m.setChangeNotifier(lcn);
         }
         this.mAdapter = adapter;
         setListAdapter(mAdapter);
@@ -165,10 +165,10 @@ public abstract class DataListFragment<T extends ListChangeNotifiable> extends L
      * Notifies the Projects that the sorting mode has changed
      * and calls the changeSorting() method on their respective adapters.
      */
-    public void sortingChanged() {
-        this.sortMode = this.mCallbacks.getSortMode();
+    public void sortingChanged(String sortMode) {
+        this.sortMode =sortMode;
         for (T p : this.items) {
-            ((SortedListChangeNotifier<T>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+            ((SortedListChangeNotifier<T>) p.getChangeNotifier()).changeSorting(this.sortMode);
         }
     }
 

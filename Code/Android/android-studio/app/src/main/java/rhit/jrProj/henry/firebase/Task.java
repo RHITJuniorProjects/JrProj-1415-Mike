@@ -3,9 +3,8 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 
 import rhit.jrProj.henry.TaskDetailFragment;
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
-import rhit.jrProj.henry.bridge.ListChangeNotifiable;
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 
 import android.os.Parcel;
@@ -18,7 +17,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class Task implements Parcelable, ListChangeNotifiable {
+public class Task implements Parcelable, ChangeNotifiable {
     public static int MAX_POINTS = 100;
     public static int MIN_POINTS = 0;
     public TaskDetailFragment hp;
@@ -211,7 +210,7 @@ public class Task implements Parcelable, ListChangeNotifiable {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ChangeNotifier lcn) {
+    public void setChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -394,7 +393,7 @@ public class Task implements Parcelable, ListChangeNotifiable {
      *
      * @return
      */
-    public ChangeNotifier getListChangeNotifier() {
+    public ChangeNotifier getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -498,8 +497,8 @@ public class Task implements Parcelable, ListChangeNotifiable {
         public void onChildAdded(DataSnapshot arg0, String arg1) {
             if (arg0.getKey().equals("name")) {
                 this.task.name = arg0.getValue().toString();
-                if (this.task.getListChangeNotifier() != null) {
-                    this.task.getListChangeNotifier().onChange();
+                if (this.task.getChangeNotifier() != null) {
+                    this.task.getChangeNotifier().onChange();
                 }
             } else if (arg0.getKey().equals("description")) {
                 this.task.description = arg0.getValue().toString();
@@ -609,7 +608,7 @@ public class Task implements Parcelable, ListChangeNotifiable {
                 t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
                 this.task.addBounty(t);
             }
-            t.setListChangeNotifier(this.task.bountyListViewCallback);
+            t.setChangeNotifier(this.task.bountyListViewCallback);
             if (this.task.listViewCallback != null) {
                 this.task.listViewCallback.onChange();
             }

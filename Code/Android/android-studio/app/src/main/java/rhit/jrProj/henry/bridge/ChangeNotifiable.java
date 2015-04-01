@@ -6,9 +6,9 @@ import rhit.jrProj.henry.bridge.ListChangeNotifier;
 /**
  * Created by daveyle on 3/19/2015.
  */
-public interface ListChangeNotifiable {
-    public void setListChangeNotifier(ChangeNotifier lcn);
+public interface ChangeNotifiable {
+    public void setChangeNotifier(ChangeNotifier lcn);
 
-    public ChangeNotifier getListChangeNotifier();
+    public ChangeNotifier getChangeNotifier();
 
 }

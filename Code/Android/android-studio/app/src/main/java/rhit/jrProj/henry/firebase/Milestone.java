@@ -3,8 +3,8 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 import java.util.List;
 
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
-import rhit.jrProj.henry.bridge.ListChangeNotifiable;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
@@ -17,7 +17,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Milestone implements Parcelable, ListChangeNotifiable {
+public class Milestone implements Parcelable, ChangeNotifiable {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -124,7 +124,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ChangeNotifier lcn) {
+    public void setChangeNotifier(ChangeNotifier lcn) {
         this.setListViewCallback(lcn);
     }
 
@@ -301,7 +301,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable {
      * @return
      */
 
-    public ChangeNotifier getListChangeNotifier() {
+    public ChangeNotifier getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -407,8 +407,8 @@ public class Milestone implements Parcelable, ListChangeNotifiable {
 
             if (arg0.getKey().equals("name")) {
                 this.milestone.setName(arg0.getValue(String.class));
-                if (this.milestone.getListChangeNotifier() != null) {
-                    this.milestone.getListChangeNotifier().onChange();
+                if (this.milestone.getChangeNotifier() != null) {
+                    this.milestone.getChangeNotifier().onChange();
                 }
             } else if (arg0.getKey().equals("description")) {
                 this.milestone.setDescription(arg0.getValue(String.class));
@@ -478,7 +478,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable {
                 t.setParentNames(this.milestone.parentProjectName, this.milestone.name);
                 this.milestone.getTasks().add(t);
             }
-            t.setListChangeNotifier(this.milestone.getTaskListViewCallback());
+            t.setChangeNotifier(this.milestone.getTaskListViewCallback());
             if (this.milestone.listViewCallback != null) {
                 this.milestone.listViewCallback.onChange();
             }

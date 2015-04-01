@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import rhit.jrProj.henry.GlobalVariables;
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
-import rhit.jrProj.henry.bridge.ListChangeNotifiable;
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
@@ -22,7 +21,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable, ListChangeNotifiable {
+public class Project implements Parcelable, ChangeNotifiable {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -160,7 +159,7 @@ public class Project implements Parcelable, ListChangeNotifiable {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ChangeNotifier lcn) {
+    public void setChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -169,7 +168,7 @@ public class Project implements Parcelable, ListChangeNotifiable {
      *
      * @return
      */
-    public ChangeNotifier getListChangeNotifier() {
+    public ChangeNotifier getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -482,7 +481,7 @@ public class Project implements Parcelable, ListChangeNotifiable {
                 m.setParentName(this.project.name);
                 this.project.getMilestones().add(m);
             }
-            m.setListChangeNotifier(milestoneListViewCallback);
+            m.setChangeNotifier(milestoneListViewCallback);
             if (this.project.listViewCallback != null) {
                 this.project.listViewCallback.onChange();
             }

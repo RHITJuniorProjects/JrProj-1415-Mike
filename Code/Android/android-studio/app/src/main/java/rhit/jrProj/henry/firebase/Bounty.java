@@ -8,13 +8,12 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
-import rhit.jrProj.henry.bridge.ListChangeNotifiable;
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 
-public class Bounty implements ListChangeNotifiable {
+public class Bounty implements ChangeNotifiable {
     private String claimed = "None";
     private String description = "None";
     private DueDate dueDate=new DueDate();
@@ -129,7 +128,7 @@ public class Bounty implements ListChangeNotifiable {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ChangeNotifier lcn) {
+    public void setChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -137,7 +136,7 @@ public class Bounty implements ListChangeNotifiable {
     /**
      * gets the list changed notifier
      */
-    public ChangeNotifier getListChangeNotifier() {
+    public ChangeNotifier getChangeNotifier() {
         return this.listViewCallback;
     }
 

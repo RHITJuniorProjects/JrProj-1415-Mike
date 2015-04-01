@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
-import rhit.jrProj.henry.bridge.ListChangeNotifiable;
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 
 import rhit.jrProj.henry.firebase.Enums.Role;
 
@@ -21,7 +20,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class User implements Parcelable, ListChangeNotifiable {
+public class User implements Parcelable, ChangeNotifiable {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -148,7 +147,7 @@ public class User implements Parcelable, ListChangeNotifiable {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ChangeNotifier lcn) {
+    public void setChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -343,7 +342,7 @@ public class User implements Parcelable, ListChangeNotifiable {
      *
      * @return
      */
-    public ChangeNotifier getListChangeNotifier() {
+    public ChangeNotifier getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -465,9 +464,9 @@ public class User implements Parcelable, ListChangeNotifiable {
             Project p = new Project(arg0.getRef().getRepo().toString()
                     + "/projects/" + arg0.getKey());
             this.user.getMap().put(p, r);
-            p.setListChangeNotifier(this.user.getListChangeNotifier());
-            if (this.user.getListChangeNotifier() != null) {
-                this.user.getListChangeNotifier().onChange();
+            p.setChangeNotifier(this.user.getChangeNotifier());
+            if (this.user.getChangeNotifier() != null) {
+                this.user.getChangeNotifier().onChange();
             }
         }
 
@@ -497,8 +496,8 @@ public class User implements Parcelable, ListChangeNotifiable {
             Project p = new Project(arg0.getRef().getRepo().toString()
                     + "/projects/" + arg0.getKey());
             this.user.getMap().remove(p);
-            if (this.user.getListChangeNotifier() != null) {
-                this.user.getListChangeNotifier().onChange();
+            if (this.user.getChangeNotifier() != null) {
+                this.user.getChangeNotifier().onChange();
             }
         }
 
