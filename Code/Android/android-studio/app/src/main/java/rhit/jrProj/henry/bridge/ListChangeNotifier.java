@@ -20,7 +20,6 @@ public class ListChangeNotifier<T> implements ChangeNotifier<T> {
      * The method that will be triggered when data is changed in the object.
      */
     public void onChange() {
-//		Log.i("ListCN called", "true");
         this.adapter.notifyDataSetChanged();
     }
 

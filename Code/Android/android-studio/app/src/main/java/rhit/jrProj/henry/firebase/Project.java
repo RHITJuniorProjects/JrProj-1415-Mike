@@ -36,7 +36,7 @@ public class Project implements Parcelable, ChangeNotifiable<Project> {
     /**
      * The project's name
      */
-    private String name = "No name assigned";
+    private String name = Enums.noName;
     /**
      * The due date of the project
      */
@@ -50,7 +50,7 @@ public class Project implements Parcelable, ChangeNotifiable<Project> {
     /**
      * A description of the project.
      */
-    private String description = "No Description Assigned";
+    private String description = Enums.noDes;
 
     /**
      * The percentage of hours complete for this project
@@ -69,7 +69,7 @@ public class Project implements Parcelable, ChangeNotifiable<Project> {
     /**
      * The project id for this project
      */
-    private String projectId = "No ProjectID Assigned";
+    private String projectId = Enums.noID;
 
     /**
      * Do we need to do anything with the backlog?
@@ -543,7 +543,7 @@ public class Project implements Parcelable, ChangeNotifiable<Project> {
         java.util.Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", name);
         map.put("description", des);
-        map.put("due_date", "No Due Date");
+        map.put("due_date", DueDate.nullDate);
         ref.setValue(map);
     }
 

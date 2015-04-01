@@ -36,4 +36,11 @@ public class Enums {
     public final static String OLDFIRST = "Oldest First";
 
     public final static String TWOPANE = "TwoPane";
+
+    public final static String noName = "No name assigned";
+    public final static String noDes = "No description assigned";
+    public final static String noUID = "No User ID assigned";
+    public final static String noID = "No ID assigned";
+
+
 }

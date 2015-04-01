@@ -65,6 +65,8 @@ public class TrophySquareImageView extends ItemSquareImageView<Trophy> {
     }
 
     protected String getLabel(Trophy trophy) {
+
+
         return trophy.getName();
     }
 

@@ -194,5 +194,8 @@ public class Trophy implements Parcelable, ChildEventListener, ChangeNotifiable<
             return limit;
         }
     }
+    public Firebase getFirebase(){
+        return this.mFirebase;
+    }
 
 }

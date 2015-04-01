@@ -32,7 +32,7 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
     /**
      * The name of the milestone
      */
-    private String name = "No Name assigned";
+    private String name = Enums.noName;
 
     /**
      * The due date of a milestone
@@ -56,7 +56,7 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
     /**
      * A description of the work that needs to happen in this milestone.
      */
-    private String description = "No description assigned";
+    private String description = Enums.noDes;
 
     /**
      * This is the class that onChange is called from to when a field in
@@ -68,7 +68,7 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
     /**
      * A string of the milestone's firebase id.
      */
-    private String milestoneId = "No ID assigned";
+    private String milestoneId = Enums.noID;
 
     private ListChangeNotifier<Task> taskListViewCallback;
     /**

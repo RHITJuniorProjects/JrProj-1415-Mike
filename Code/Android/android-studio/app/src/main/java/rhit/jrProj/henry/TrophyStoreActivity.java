@@ -19,12 +19,13 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import rhit.jrProj.henry.bridge.ChangeNotifier;
 import rhit.jrProj.henry.firebase.Trophy;
 import rhit.jrProj.henry.firebase.User;
 import rhit.jrProj.henry.ui.TrophySquareImageView;
 
 
-public class TrophyStoreActivity extends Activity {
+public class TrophyStoreActivity extends Activity implements ChangeNotifier<Trophy> {
     private TextView mAvailablePoints;
     private GlobalVariables mGlobalVariables;
     private TrophyGridViewAdapter mAdapter;
@@ -119,32 +120,7 @@ public class TrophyStoreActivity extends Activity {
             }
         });
 
-        firebase.child("trophies").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot child, String s) {
-                mAdapter.addItem(new Trophy(GlobalVariables.getFirebaseUrl() + "trophies/" + child.getKey()));
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                // not implemented
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+        firebase.child("trophies").addChildEventListener(new ChildrenEventListener(this));
     }
 
 
@@ -179,4 +155,45 @@ public class TrophyStoreActivity extends Activity {
         mAvailablePoints.setText("Your available points: " + newPoints);
     }
 
+    @Override
+    public void onChange() {
+        this.mAdapter.notifyDataSetChanged();
+    }
+
+    private class ChildrenEventListener implements ChildEventListener{
+
+        ChangeNotifier cn;
+
+        public ChildrenEventListener(ChangeNotifier cn){
+            this.cn=cn;
+        }
+
+
+        @Override
+        public void onChildAdded(DataSnapshot child, String s) {
+            Trophy t = new Trophy(GlobalVariables.getFirebaseUrl() + "trophies/" + child.getKey());
+            t.setChangeNotifier(this.cn);
+            mAdapter.addItem(t);
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+
+        }
+    }
 }
