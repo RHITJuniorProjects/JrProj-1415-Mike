@@ -204,7 +204,6 @@
 		93447F4819C91C5500C2FC38 /* HenryAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HenryAppDelegate.m; sourceTree = "<group>"; };
 		93447F4A19C91C5500C2FC38 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		93447F5019C91C5500C2FC38 /* HenryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HenryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		93447F5119C91C5500C2FC38 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		93447F5919C91C5600C2FC38 /* HenryTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HenryTests-Info.plist"; sourceTree = "<group>"; };
 		93447F5B19C91C5600C2FC38 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		93447F5D19C91C5600C2FC38 /* HenryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HenryTests.m; sourceTree = "<group>"; };
@@ -235,7 +234,6 @@
 		E104805A1ACA24A900BB4A9C /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
 		E104805B1ACA24A900BB4A9C /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
 		E104805C1ACA24A900BB4A9C /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
-		E104805E1ACA257400BB4A9C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E10480611ACA30BA00BB4A9C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E10480631ACA30E800BB4A9C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E1CF2CC01ACA491D004BF1A8 /* BountyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BountyModel.h; path = Henry/Classes/BountyModel.h; sourceTree = "<group>"; };
@@ -500,7 +498,6 @@
 			children = (
 				E10480631ACA30E800BB4A9C /* XCTest.framework */,
 				E10480611ACA30BA00BB4A9C /* XCTest.framework */,
-				E104805E1ACA257400BB4A9C /* XCTest.framework */,
 				ADB3A4E519E48A4C00C687D5 /* SystemConfiguration.framework */,
 				ADB3A4E319E48A4300C687D5 /* Security.framework */,
 				ADB3A4E119E48A3800C687D5 /* CFNetwork.framework */,
@@ -509,7 +506,6 @@
 				93447F3819C91C5500C2FC38 /* Foundation.framework */,
 				93447F3A19C91C5500C2FC38 /* CoreGraphics.framework */,
 				93447F3C19C91C5500C2FC38 /* UIKit.framework */,
-				93447F5119C91C5500C2FC38 /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

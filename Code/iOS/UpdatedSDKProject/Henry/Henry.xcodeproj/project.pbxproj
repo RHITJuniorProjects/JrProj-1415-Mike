@@ -1,0 +1,922 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E196C00D1ACC6AF30094B89C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E196C0081ACC6AF30094B89C /* InfoPlist.strings */; };
+		E196C00F1ACC6AF30094B89C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C00C1ACC6AF30094B89C /* main.m */; };
+		E196C0201ACC6B350094B89C /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0121ACC6B320094B89C /* Firebase.framework */; };
+		E196C0281ACC6B860094B89C /* DatabaseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0231ACC6B860094B89C /* DatabaseClient.m */; };
+		E196C0291ACC6B860094B89C /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0251ACC6B860094B89C /* HenryFirebase.m */; };
+		E196C02A1ACC6B860094B89C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0271ACC6B860094B89C /* User.m */; };
+		E196C0591ACC6BFB0094B89C /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0541ACC6BFB0094B89C /* BEMCircle.m */; };
+		E196C05A1ACC6BFB0094B89C /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0561ACC6BFB0094B89C /* BEMLine.m */; };
+		E196C05B1ACC6BFB0094B89C /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0581ACC6BFB0094B89C /* BEMSimpleLineGraphView.m */; };
+		E196C0601ACC6C140094B89C /* DLPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C05F1ACC6C140094B89C /* DLPieChart.m */; };
+		E196C0A11ACC6C2E0094B89C /* HenryRootNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0641ACC6C2E0094B89C /* HenryRootNavigationController.m */; };
+		E196C0A21ACC6C2E0094B89C /* iPadLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E196C0661ACC6C2E0094B89C /* iPadLoginStoryboard.storyboard */; };
+		E196C0A31ACC6C2E0094B89C /* iPadStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E196C0671ACC6C2E0094B89C /* iPadStoryboard.storyboard */; };
+		E196C0A41ACC6C2E0094B89C /* HenryDevDisplayObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C06B1ACC6C2E0094B89C /* HenryDevDisplayObject.m */; };
+		E196C0A51ACC6C2E0094B89C /* HenryProjectObject.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C06D1ACC6C2E0094B89C /* HenryProjectObject.m */; };
+		E196C0A61ACC6C2E0094B89C /* iPhoneLoginStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E196C06F1ACC6C2E0094B89C /* iPhoneLoginStoryboard.storyboard */; };
+		E196C0A71ACC6C2E0094B89C /* iPhoneStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E196C0701ACC6C2E0094B89C /* iPhoneStoryboard.storyboard */; };
+		E196C0A81ACC6C2E0094B89C /* HenryAssignDevTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0731ACC6C2E0094B89C /* HenryAssignDevTableViewCell.m */; };
+		E196C0A91ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0751ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.m */; };
+		E196C0AA1ACC6C2E0094B89C /* HenryMemberTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0771ACC6C2E0094B89C /* HenryMemberTableViewCell.m */; };
+		E196C0AB1ACC6C2E0094B89C /* HenryStoreCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0791ACC6C2E0094B89C /* HenryStoreCellTableViewCell.m */; };
+		E196C0AC1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C07C1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.m */; };
+		E196C0AD1ACC6C2E0094B89C /* HenryCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C07E1ACC6C2E0094B89C /* HenryCategoryTableViewController.m */; };
+		E196C0AE1ACC6C2E0094B89C /* HenryCreateBountyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0801ACC6C2E0094B89C /* HenryCreateBountyViewController.m */; };
+		E196C0AF1ACC6C2E0094B89C /* HenryHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0821ACC6C2E0094B89C /* HenryHomeViewController.m */; };
+		E196C0B01ACC6C2E0094B89C /* HenryLeaderboardTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0841ACC6C2E0094B89C /* HenryLeaderboardTableViewController.m */; };
+		E196C0B11ACC6C2E0094B89C /* HenryMemberTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0861ACC6C2E0094B89C /* HenryMemberTableViewController.m */; };
+		E196C0B21ACC6C2E0094B89C /* HenryMilestoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0881ACC6C2E0094B89C /* HenryMilestoneDetailViewController.m */; };
+		E196C0B31ACC6C2E0094B89C /* HenryMilestonesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C08A1ACC6C2E0094B89C /* HenryMilestonesTableViewController.m */; };
+		E196C0B41ACC6C2E0094B89C /* HenryMyTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C08C1ACC6C2E0094B89C /* HenryMyTasksTableViewController.m */; };
+		E196C0B51ACC6C2E0094B89C /* HenryProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C08E1ACC6C2E0094B89C /* HenryProfileViewController.m */; };
+		E196C0B61ACC6C2E0094B89C /* HenryProjectDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0901ACC6C2E0094B89C /* HenryProjectDetailViewController.m */; };
+		E196C0B71ACC6C2E0094B89C /* HenryProjectsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0921ACC6C2E0094B89C /* HenryProjectsTableViewController.m */; };
+		E196C0B81ACC6C2E0094B89C /* HenryStoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0941ACC6C2E0094B89C /* HenryStoreTableViewController.m */; };
+		E196C0B91ACC6C2E0094B89C /* HenryTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0961ACC6C2E0094B89C /* HenryTaskDetailViewController.m */; };
+		E196C0BA1ACC6C2E0094B89C /* HenryTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0981ACC6C2E0094B89C /* HenryTasksTableViewController.m */; };
+		E196C0BB1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C09A1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m */; };
+		E196C0BC1ACC6C2E0094B89C /* HenryUsersProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C09C1ACC6C2E0094B89C /* HenryUsersProfileViewController.m */; };
+		E196C0BD1ACC6C2E0094B89C /* SideNavTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C09E1ACC6C2E0094B89C /* SideNavTableTableViewController.m */; };
+		E196C0BE1ACC6C2E0094B89C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0A01ACC6C2E0094B89C /* SWRevealViewController.m */; };
+		E196C0C41ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0C11ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.m */; };
+		E196C0C51ACC6C3C0094B89C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0C31ACC6C3C0094B89C /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		E196C0CB1ACC6C520094B89C /* GlobalVariables.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0C81ACC6C520094B89C /* GlobalVariables.m */; };
+		E196C0CC1ACC6C520094B89C /* HenryAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0CA1ACC6C520094B89C /* HenryAppDelegate.m */; };
+		E196C0CE1ACC6C7E0094B89C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E196C0CD1ACC6C7E0094B89C /* Images.xcassets */; };
+		E196C0DD1ACC6D130094B89C /* HenryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0D81ACC6D130094B89C /* HenryTests.m */; };
+		E196C0DE1ACC6D130094B89C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E196C0DA1ACC6D130094B89C /* InfoPlist.strings */; };
+		E196C0DF1ACC6D130094B89C /* HenryTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E196C0DC1ACC6D130094B89C /* HenryTests-Info.plist */; };
+		E196C0E41ACC6E230094B89C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0E31ACC6E230094B89C /* SystemConfiguration.framework */; };
+		E196C0E61ACC6E310094B89C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0E51ACC6E310094B89C /* Security.framework */; };
+		E196C0E81ACC6E4A0094B89C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0E71ACC6E4A0094B89C /* Foundation.framework */; };
+		E196C0EA1ACC6E5F0094B89C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0E91ACC6E5F0094B89C /* UIKit.framework */; };
+		E196C0EC1ACC6E6B0094B89C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0EB1ACC6E6B0094B89C /* CoreGraphics.framework */; };
+		E196C0EE1ACC6E7D0094B89C /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0ED1ACC6E7D0094B89C /* libicucore.dylib */; };
+		E196C0F01ACC6E8B0094B89C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0EF1ACC6E8B0094B89C /* libc++.dylib */; };
+		E196C0F21ACC6E950094B89C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0F11ACC6E950094B89C /* CFNetwork.framework */; };
+		E196C0F41ACC83020094B89C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E196C0F31ACC83020094B89C /* Info.plist */; };
+		E196C0F61ACC850C0094B89C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0131ACC6B320094B89C /* libOCMock.a */; };
+		E196C1051ACC87D00094B89C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C1041ACC87D00094B89C /* LoginViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		E196BF921ACC5D030094B89C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E196BF6D1ACC5D030094B89C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E196BF741ACC5D030094B89C;
+			remoteInfo = Henry;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		E196C0091ACC6AF30094B89C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E196C00B1ACC6AF30094B89C /* Henry-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Henry-Prefix.pch"; sourceTree = "<group>"; };
+		E196C00C1ACC6AF30094B89C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		E196C0121ACC6B320094B89C /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
+		E196C0131ACC6B320094B89C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		E196C0221ACC6B860094B89C /* DatabaseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseClient.h; sourceTree = "<group>"; };
+		E196C0231ACC6B860094B89C /* DatabaseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseClient.m; sourceTree = "<group>"; };
+		E196C0241ACC6B860094B89C /* HenryFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryFirebase.h; sourceTree = "<group>"; };
+		E196C0251ACC6B860094B89C /* HenryFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryFirebase.m; sourceTree = "<group>"; };
+		E196C0261ACC6B860094B89C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		E196C0271ACC6B860094B89C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		E196C0531ACC6BFB0094B89C /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
+		E196C0541ACC6BFB0094B89C /* BEMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
+		E196C0551ACC6BFB0094B89C /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
+		E196C0561ACC6BFB0094B89C /* BEMLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
+		E196C0571ACC6BFB0094B89C /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
+		E196C0581ACC6BFB0094B89C /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
+		E196C05E1ACC6C140094B89C /* DLPieChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPieChart.h; sourceTree = "<group>"; };
+		E196C05F1ACC6C140094B89C /* DLPieChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPieChart.m; sourceTree = "<group>"; };
+		E196C0631ACC6C2E0094B89C /* HenryRootNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryRootNavigationController.h; sourceTree = "<group>"; };
+		E196C0641ACC6C2E0094B89C /* HenryRootNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryRootNavigationController.m; sourceTree = "<group>"; };
+		E196C0661ACC6C2E0094B89C /* iPadLoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadLoginStoryboard.storyboard; sourceTree = "<group>"; };
+		E196C0671ACC6C2E0094B89C /* iPadStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPadStoryboard.storyboard; sourceTree = "<group>"; };
+		E196C06A1ACC6C2E0094B89C /* HenryDevDisplayObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryDevDisplayObject.h; sourceTree = "<group>"; };
+		E196C06B1ACC6C2E0094B89C /* HenryDevDisplayObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryDevDisplayObject.m; sourceTree = "<group>"; };
+		E196C06C1ACC6C2E0094B89C /* HenryProjectObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectObject.h; sourceTree = "<group>"; };
+		E196C06D1ACC6C2E0094B89C /* HenryProjectObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectObject.m; sourceTree = "<group>"; };
+		E196C06F1ACC6C2E0094B89C /* iPhoneLoginStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhoneLoginStoryboard.storyboard; sourceTree = "<group>"; };
+		E196C0701ACC6C2E0094B89C /* iPhoneStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhoneStoryboard.storyboard; sourceTree = "<group>"; };
+		E196C0721ACC6C2E0094B89C /* HenryAssignDevTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryAssignDevTableViewCell.h; sourceTree = "<group>"; };
+		E196C0731ACC6C2E0094B89C /* HenryAssignDevTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryAssignDevTableViewCell.m; sourceTree = "<group>"; };
+		E196C0741ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeaderboardCellTableViewCell.h; sourceTree = "<group>"; };
+		E196C0751ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeaderboardCellTableViewCell.m; sourceTree = "<group>"; };
+		E196C0761ACC6C2E0094B89C /* HenryMemberTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMemberTableViewCell.h; sourceTree = "<group>"; };
+		E196C0771ACC6C2E0094B89C /* HenryMemberTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMemberTableViewCell.m; sourceTree = "<group>"; };
+		E196C0781ACC6C2E0094B89C /* HenryStoreCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreCellTableViewCell.h; sourceTree = "<group>"; };
+		E196C0791ACC6C2E0094B89C /* HenryStoreCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreCellTableViewCell.m; sourceTree = "<group>"; };
+		E196C07B1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryAssignDevsTableViewController.h; sourceTree = "<group>"; };
+		E196C07C1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryAssignDevsTableViewController.m; sourceTree = "<group>"; };
+		E196C07D1ACC6C2E0094B89C /* HenryCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCategoryTableViewController.h; sourceTree = "<group>"; };
+		E196C07E1ACC6C2E0094B89C /* HenryCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCategoryTableViewController.m; sourceTree = "<group>"; };
+		E196C07F1ACC6C2E0094B89C /* HenryCreateBountyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryCreateBountyViewController.h; sourceTree = "<group>"; };
+		E196C0801ACC6C2E0094B89C /* HenryCreateBountyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryCreateBountyViewController.m; sourceTree = "<group>"; };
+		E196C0811ACC6C2E0094B89C /* HenryHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryHomeViewController.h; sourceTree = "<group>"; };
+		E196C0821ACC6C2E0094B89C /* HenryHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryHomeViewController.m; sourceTree = "<group>"; };
+		E196C0831ACC6C2E0094B89C /* HenryLeaderboardTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryLeaderboardTableViewController.h; sourceTree = "<group>"; };
+		E196C0841ACC6C2E0094B89C /* HenryLeaderboardTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryLeaderboardTableViewController.m; sourceTree = "<group>"; };
+		E196C0851ACC6C2E0094B89C /* HenryMemberTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMemberTableViewController.h; sourceTree = "<group>"; };
+		E196C0861ACC6C2E0094B89C /* HenryMemberTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMemberTableViewController.m; sourceTree = "<group>"; };
+		E196C0871ACC6C2E0094B89C /* HenryMilestoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMilestoneDetailViewController.h; sourceTree = "<group>"; };
+		E196C0881ACC6C2E0094B89C /* HenryMilestoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestoneDetailViewController.m; sourceTree = "<group>"; };
+		E196C0891ACC6C2E0094B89C /* HenryMilestonesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMilestonesTableViewController.h; sourceTree = "<group>"; };
+		E196C08A1ACC6C2E0094B89C /* HenryMilestonesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMilestonesTableViewController.m; sourceTree = "<group>"; };
+		E196C08B1ACC6C2E0094B89C /* HenryMyTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryMyTasksTableViewController.h; sourceTree = "<group>"; };
+		E196C08C1ACC6C2E0094B89C /* HenryMyTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryMyTasksTableViewController.m; sourceTree = "<group>"; };
+		E196C08D1ACC6C2E0094B89C /* HenryProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProfileViewController.h; sourceTree = "<group>"; };
+		E196C08E1ACC6C2E0094B89C /* HenryProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProfileViewController.m; sourceTree = "<group>"; };
+		E196C08F1ACC6C2E0094B89C /* HenryProjectDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectDetailViewController.h; sourceTree = "<group>"; };
+		E196C0901ACC6C2E0094B89C /* HenryProjectDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectDetailViewController.m; sourceTree = "<group>"; };
+		E196C0911ACC6C2E0094B89C /* HenryProjectsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryProjectsTableViewController.h; sourceTree = "<group>"; };
+		E196C0921ACC6C2E0094B89C /* HenryProjectsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryProjectsTableViewController.m; sourceTree = "<group>"; };
+		E196C0931ACC6C2E0094B89C /* HenryStoreTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryStoreTableViewController.h; sourceTree = "<group>"; };
+		E196C0941ACC6C2E0094B89C /* HenryStoreTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryStoreTableViewController.m; sourceTree = "<group>"; };
+		E196C0951ACC6C2E0094B89C /* HenryTaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTaskDetailViewController.h; sourceTree = "<group>"; };
+		E196C0961ACC6C2E0094B89C /* HenryTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTaskDetailViewController.m; sourceTree = "<group>"; };
+		E196C0971ACC6C2E0094B89C /* HenryTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTasksTableViewController.h; sourceTree = "<group>"; };
+		E196C0981ACC6C2E0094B89C /* HenryTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTasksTableViewController.m; sourceTree = "<group>"; };
+		E196C0991ACC6C2E0094B89C /* HenryTaskStatusTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTaskStatusTableViewController.h; sourceTree = "<group>"; };
+		E196C09A1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTaskStatusTableViewController.m; sourceTree = "<group>"; };
+		E196C09B1ACC6C2E0094B89C /* HenryUsersProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryUsersProfileViewController.h; sourceTree = "<group>"; };
+		E196C09C1ACC6C2E0094B89C /* HenryUsersProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryUsersProfileViewController.m; sourceTree = "<group>"; };
+		E196C09D1ACC6C2E0094B89C /* SideNavTableTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideNavTableTableViewController.h; sourceTree = "<group>"; };
+		E196C09E1ACC6C2E0094B89C /* SideNavTableTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SideNavTableTableViewController.m; sourceTree = "<group>"; };
+		E196C09F1ACC6C2E0094B89C /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		E196C0A01ACC6C2E0094B89C /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		E196C0C01ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		E196C0C11ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		E196C0C21ACC6C3C0094B89C /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		E196C0C31ACC6C3C0094B89C /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		E196C0C71ACC6C520094B89C /* GlobalVariables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
+		E196C0C81ACC6C520094B89C /* GlobalVariables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalVariables.m; sourceTree = "<group>"; };
+		E196C0C91ACC6C520094B89C /* HenryAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryAppDelegate.h; sourceTree = "<group>"; };
+		E196C0CA1ACC6C520094B89C /* HenryAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryAppDelegate.m; sourceTree = "<group>"; };
+		E196C0CD1ACC6C7E0094B89C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Henry/Images.xcassets; sourceTree = "<group>"; };
+		E196C0D81ACC6D130094B89C /* HenryTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTests.m; sourceTree = "<group>"; };
+		E196C0DB1ACC6D130094B89C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E196C0DC1ACC6D130094B89C /* HenryTests-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "HenryTests-Info.plist"; sourceTree = "<group>"; };
+		E196C0E01ACC6DBF0094B89C /* Henry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Henry.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E196C0E31ACC6E230094B89C /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		E196C0E51ACC6E310094B89C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E196C0E71ACC6E4A0094B89C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E196C0E91ACC6E5F0094B89C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		E196C0EB1ACC6E6B0094B89C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		E196C0ED1ACC6E7D0094B89C /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		E196C0EF1ACC6E8B0094B89C /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		E196C0F11ACC6E950094B89C /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		E196C0F31ACC83020094B89C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E196C0F51ACC83390094B89C /* HenryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HenryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E196C0F91ACC86690094B89C /* NSNotificationCenter+OCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+OCMAdditions.h"; sourceTree = "<group>"; };
+		E196C0FA1ACC86690094B89C /* OCMArg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMArg.h; sourceTree = "<group>"; };
+		E196C0FB1ACC86690094B89C /* OCMConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMConstraint.h; sourceTree = "<group>"; };
+		E196C0FC1ACC86690094B89C /* OCMLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMLocation.h; sourceTree = "<group>"; };
+		E196C0FD1ACC86690094B89C /* OCMMacroState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMMacroState.h; sourceTree = "<group>"; };
+		E196C0FE1ACC86690094B89C /* OCMock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMock.h; sourceTree = "<group>"; };
+		E196C0FF1ACC86690094B89C /* OCMockObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMockObject.h; sourceTree = "<group>"; };
+		E196C1001ACC86690094B89C /* OCMRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMRecorder.h; sourceTree = "<group>"; };
+		E196C1011ACC86690094B89C /* OCMStubRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCMStubRecorder.h; sourceTree = "<group>"; };
+		E196C1031ACC87D00094B89C /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		E196C1041ACC87D00094B89C /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E196BF721ACC5D030094B89C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E196C0E41ACC6E230094B89C /* SystemConfiguration.framework in Frameworks */,
+				E196C0201ACC6B350094B89C /* Firebase.framework in Frameworks */,
+				E196C0E61ACC6E310094B89C /* Security.framework in Frameworks */,
+				E196C0F21ACC6E950094B89C /* CFNetwork.framework in Frameworks */,
+				E196C0F01ACC6E8B0094B89C /* libc++.dylib in Frameworks */,
+				E196C0EE1ACC6E7D0094B89C /* libicucore.dylib in Frameworks */,
+				E196C0EC1ACC6E6B0094B89C /* CoreGraphics.framework in Frameworks */,
+				E196C0EA1ACC6E5F0094B89C /* UIKit.framework in Frameworks */,
+				E196C0E81ACC6E4A0094B89C /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E196BF8E1ACC5D030094B89C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E196C0F61ACC850C0094B89C /* libOCMock.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E196BF6C1ACC5D030094B89C = {
+			isa = PBXGroup;
+			children = (
+				E196C0D71ACC6D130094B89C /* HenryTests */,
+				E196C05C1ACC6C000094B89C /* Henry */,
+				E196C0111ACC6B320094B89C /* Frameworks */,
+				E196C0E01ACC6DBF0094B89C /* Henry.app */,
+				E196C0F51ACC83390094B89C /* HenryTests.xctest */,
+			);
+			sourceTree = "<group>";
+		};
+		E196C0071ACC6AF30094B89C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0F31ACC83020094B89C /* Info.plist */,
+				E196C0081ACC6AF30094B89C /* InfoPlist.strings */,
+				E196C00B1ACC6AF30094B89C /* Henry-Prefix.pch */,
+				E196C00C1ACC6AF30094B89C /* main.m */,
+			);
+			name = "Supporting Files";
+			path = "Henry/Supporting Files";
+			sourceTree = "<group>";
+		};
+		E196C0111ACC6B320094B89C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0F71ACC86690094B89C /* OCMock */,
+				E196C0F11ACC6E950094B89C /* CFNetwork.framework */,
+				E196C0EF1ACC6E8B0094B89C /* libc++.dylib */,
+				E196C0ED1ACC6E7D0094B89C /* libicucore.dylib */,
+				E196C0EB1ACC6E6B0094B89C /* CoreGraphics.framework */,
+				E196C0E91ACC6E5F0094B89C /* UIKit.framework */,
+				E196C0E71ACC6E4A0094B89C /* Foundation.framework */,
+				E196C0E51ACC6E310094B89C /* Security.framework */,
+				E196C0E31ACC6E230094B89C /* SystemConfiguration.framework */,
+				E196C0121ACC6B320094B89C /* Firebase.framework */,
+				E196C0131ACC6B320094B89C /* libOCMock.a */,
+			);
+			path = Frameworks;
+			sourceTree = "<group>";
+		};
+		E196C0211ACC6B860094B89C /* DatabaseStuff */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0221ACC6B860094B89C /* DatabaseClient.h */,
+				E196C0231ACC6B860094B89C /* DatabaseClient.m */,
+				E196C0241ACC6B860094B89C /* HenryFirebase.h */,
+				E196C0251ACC6B860094B89C /* HenryFirebase.m */,
+				E196C0261ACC6B860094B89C /* User.h */,
+				E196C0271ACC6B860094B89C /* User.m */,
+			);
+			name = DatabaseStuff;
+			path = Henry/DatabaseStuff;
+			sourceTree = "<group>";
+		};
+		E196C0521ACC6BFB0094B89C /* Burndown */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0531ACC6BFB0094B89C /* BEMCircle.h */,
+				E196C0541ACC6BFB0094B89C /* BEMCircle.m */,
+				E196C0551ACC6BFB0094B89C /* BEMLine.h */,
+				E196C0561ACC6BFB0094B89C /* BEMLine.m */,
+				E196C0571ACC6BFB0094B89C /* BEMSimpleLineGraphView.h */,
+				E196C0581ACC6BFB0094B89C /* BEMSimpleLineGraphView.m */,
+			);
+			name = Burndown;
+			path = Henry/Burndown;
+			sourceTree = "<group>";
+		};
+		E196C05C1ACC6C000094B89C /* Henry */ = {
+			isa = PBXGroup;
+			children = (
+				E196C1021ACC87D00094B89C /* UniversalViewControllers */,
+				E196C0CD1ACC6C7E0094B89C /* Images.xcassets */,
+				E196C0BF1ACC6C3C0094B89C /* Keyboard */,
+				E196C0611ACC6C2E0094B89C /* iPad */,
+				E196C0681ACC6C2E0094B89C /* iPhone */,
+				E196C05D1ACC6C140094B89C /* Pie Chart Library */,
+				E196C0C61ACC6C520094B89C /* MiscClasses */,
+				E196C0521ACC6BFB0094B89C /* Burndown */,
+				E196C0071ACC6AF30094B89C /* Supporting Files */,
+				E196C0211ACC6B860094B89C /* DatabaseStuff */,
+			);
+			name = Henry;
+			sourceTree = "<group>";
+		};
+		E196C05D1ACC6C140094B89C /* Pie Chart Library */ = {
+			isa = PBXGroup;
+			children = (
+				E196C05E1ACC6C140094B89C /* DLPieChart.h */,
+				E196C05F1ACC6C140094B89C /* DLPieChart.m */,
+			);
+			name = "Pie Chart Library";
+			path = "Henry/Pie Chart Library";
+			sourceTree = "<group>";
+		};
+		E196C0611ACC6C2E0094B89C /* iPad */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0651ACC6C2E0094B89C /* Storyboards */,
+			);
+			name = iPad;
+			path = Henry/iPad;
+			sourceTree = "<group>";
+		};
+		E196C0621ACC6C2E0094B89C /* NavigationControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0631ACC6C2E0094B89C /* HenryRootNavigationController.h */,
+				E196C0641ACC6C2E0094B89C /* HenryRootNavigationController.m */,
+			);
+			name = NavigationControllers;
+			path = ../iPad/NavigationControllers;
+			sourceTree = "<group>";
+		};
+		E196C0651ACC6C2E0094B89C /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0661ACC6C2E0094B89C /* iPadLoginStoryboard.storyboard */,
+				E196C0671ACC6C2E0094B89C /* iPadStoryboard.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		E196C0681ACC6C2E0094B89C /* iPhone */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0691ACC6C2E0094B89C /* Objects */,
+				E196C06E1ACC6C2E0094B89C /* Storyboards */,
+				E196C0711ACC6C2E0094B89C /* ViewCells */,
+				E196C07A1ACC6C2E0094B89C /* ViewControllers */,
+			);
+			name = iPhone;
+			path = Henry/iPhone;
+			sourceTree = "<group>";
+		};
+		E196C0691ACC6C2E0094B89C /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				E196C06A1ACC6C2E0094B89C /* HenryDevDisplayObject.h */,
+				E196C06B1ACC6C2E0094B89C /* HenryDevDisplayObject.m */,
+				E196C06C1ACC6C2E0094B89C /* HenryProjectObject.h */,
+				E196C06D1ACC6C2E0094B89C /* HenryProjectObject.m */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
+		E196C06E1ACC6C2E0094B89C /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				E196C06F1ACC6C2E0094B89C /* iPhoneLoginStoryboard.storyboard */,
+				E196C0701ACC6C2E0094B89C /* iPhoneStoryboard.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		E196C0711ACC6C2E0094B89C /* ViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0721ACC6C2E0094B89C /* HenryAssignDevTableViewCell.h */,
+				E196C0731ACC6C2E0094B89C /* HenryAssignDevTableViewCell.m */,
+				E196C0741ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.h */,
+				E196C0751ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.m */,
+				E196C0761ACC6C2E0094B89C /* HenryMemberTableViewCell.h */,
+				E196C0771ACC6C2E0094B89C /* HenryMemberTableViewCell.m */,
+				E196C0781ACC6C2E0094B89C /* HenryStoreCellTableViewCell.h */,
+				E196C0791ACC6C2E0094B89C /* HenryStoreCellTableViewCell.m */,
+			);
+			path = ViewCells;
+			sourceTree = "<group>";
+		};
+		E196C07A1ACC6C2E0094B89C /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E196C07B1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.h */,
+				E196C07C1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.m */,
+				E196C07D1ACC6C2E0094B89C /* HenryCategoryTableViewController.h */,
+				E196C07E1ACC6C2E0094B89C /* HenryCategoryTableViewController.m */,
+				E196C07F1ACC6C2E0094B89C /* HenryCreateBountyViewController.h */,
+				E196C0801ACC6C2E0094B89C /* HenryCreateBountyViewController.m */,
+				E196C0811ACC6C2E0094B89C /* HenryHomeViewController.h */,
+				E196C0821ACC6C2E0094B89C /* HenryHomeViewController.m */,
+				E196C0831ACC6C2E0094B89C /* HenryLeaderboardTableViewController.h */,
+				E196C0841ACC6C2E0094B89C /* HenryLeaderboardTableViewController.m */,
+				E196C0851ACC6C2E0094B89C /* HenryMemberTableViewController.h */,
+				E196C0861ACC6C2E0094B89C /* HenryMemberTableViewController.m */,
+				E196C0871ACC6C2E0094B89C /* HenryMilestoneDetailViewController.h */,
+				E196C0881ACC6C2E0094B89C /* HenryMilestoneDetailViewController.m */,
+				E196C0891ACC6C2E0094B89C /* HenryMilestonesTableViewController.h */,
+				E196C08A1ACC6C2E0094B89C /* HenryMilestonesTableViewController.m */,
+				E196C08B1ACC6C2E0094B89C /* HenryMyTasksTableViewController.h */,
+				E196C08C1ACC6C2E0094B89C /* HenryMyTasksTableViewController.m */,
+				E196C08D1ACC6C2E0094B89C /* HenryProfileViewController.h */,
+				E196C08E1ACC6C2E0094B89C /* HenryProfileViewController.m */,
+				E196C08F1ACC6C2E0094B89C /* HenryProjectDetailViewController.h */,
+				E196C0901ACC6C2E0094B89C /* HenryProjectDetailViewController.m */,
+				E196C0911ACC6C2E0094B89C /* HenryProjectsTableViewController.h */,
+				E196C0921ACC6C2E0094B89C /* HenryProjectsTableViewController.m */,
+				E196C0931ACC6C2E0094B89C /* HenryStoreTableViewController.h */,
+				E196C0941ACC6C2E0094B89C /* HenryStoreTableViewController.m */,
+				E196C0951ACC6C2E0094B89C /* HenryTaskDetailViewController.h */,
+				E196C0961ACC6C2E0094B89C /* HenryTaskDetailViewController.m */,
+				E196C0971ACC6C2E0094B89C /* HenryTasksTableViewController.h */,
+				E196C0981ACC6C2E0094B89C /* HenryTasksTableViewController.m */,
+				E196C0991ACC6C2E0094B89C /* HenryTaskStatusTableViewController.h */,
+				E196C09A1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m */,
+				E196C09B1ACC6C2E0094B89C /* HenryUsersProfileViewController.h */,
+				E196C09C1ACC6C2E0094B89C /* HenryUsersProfileViewController.m */,
+				E196C09D1ACC6C2E0094B89C /* SideNavTableTableViewController.h */,
+				E196C09E1ACC6C2E0094B89C /* SideNavTableTableViewController.m */,
+				E196C09F1ACC6C2E0094B89C /* SWRevealViewController.h */,
+				E196C0A01ACC6C2E0094B89C /* SWRevealViewController.m */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		E196C0BF1ACC6C3C0094B89C /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0C01ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.h */,
+				E196C0C11ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.m */,
+				E196C0C21ACC6C3C0094B89C /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				E196C0C31ACC6C3C0094B89C /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+			);
+			name = Keyboard;
+			path = Henry/Keyboard;
+			sourceTree = "<group>";
+		};
+		E196C0C61ACC6C520094B89C /* MiscClasses */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0C71ACC6C520094B89C /* GlobalVariables.h */,
+				E196C0C81ACC6C520094B89C /* GlobalVariables.m */,
+				E196C0C91ACC6C520094B89C /* HenryAppDelegate.h */,
+				E196C0CA1ACC6C520094B89C /* HenryAppDelegate.m */,
+			);
+			name = MiscClasses;
+			path = Henry/MiscClasses;
+			sourceTree = SOURCE_ROOT;
+		};
+		E196C0D71ACC6D130094B89C /* HenryTests */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0D81ACC6D130094B89C /* HenryTests.m */,
+				E196C0D91ACC6D130094B89C /* Supporting Files */,
+			);
+			path = HenryTests;
+			sourceTree = "<group>";
+		};
+		E196C0D91ACC6D130094B89C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0DA1ACC6D130094B89C /* InfoPlist.strings */,
+				E196C0DC1ACC6D130094B89C /* HenryTests-Info.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E196C0F71ACC86690094B89C /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0F81ACC86690094B89C /* OCMock */,
+			);
+			path = OCMock;
+			sourceTree = "<group>";
+		};
+		E196C0F81ACC86690094B89C /* OCMock */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0F91ACC86690094B89C /* NSNotificationCenter+OCMAdditions.h */,
+				E196C0FA1ACC86690094B89C /* OCMArg.h */,
+				E196C0FB1ACC86690094B89C /* OCMConstraint.h */,
+				E196C0FC1ACC86690094B89C /* OCMLocation.h */,
+				E196C0FD1ACC86690094B89C /* OCMMacroState.h */,
+				E196C0FE1ACC86690094B89C /* OCMock.h */,
+				E196C0FF1ACC86690094B89C /* OCMockObject.h */,
+				E196C1001ACC86690094B89C /* OCMRecorder.h */,
+				E196C1011ACC86690094B89C /* OCMStubRecorder.h */,
+			);
+			name = OCMock;
+			path = Frameworks/OCMock/OCMock;
+			sourceTree = SOURCE_ROOT;
+		};
+		E196C1021ACC87D00094B89C /* UniversalViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				E196C0621ACC6C2E0094B89C /* NavigationControllers */,
+				E196C1031ACC87D00094B89C /* LoginViewController.h */,
+				E196C1041ACC87D00094B89C /* LoginViewController.m */,
+			);
+			name = UniversalViewControllers;
+			path = Henry/UniversalViewControllers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		E196BF741ACC5D030094B89C /* Henry */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E196BF9B1ACC5D030094B89C /* Build configuration list for PBXNativeTarget "Henry" */;
+			buildPhases = (
+				E196BF711ACC5D030094B89C /* Sources */,
+				E196BF721ACC5D030094B89C /* Frameworks */,
+				E196BF731ACC5D030094B89C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Henry;
+			productName = Henry;
+			productReference = E196C0E01ACC6DBF0094B89C /* Henry.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E196BF901ACC5D030094B89C /* HenryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E196BF9E1ACC5D030094B89C /* Build configuration list for PBXNativeTarget "HenryTests" */;
+			buildPhases = (
+				E196BF8D1ACC5D030094B89C /* Sources */,
+				E196BF8E1ACC5D030094B89C /* Frameworks */,
+				E196BF8F1ACC5D030094B89C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E196BF931ACC5D030094B89C /* PBXTargetDependency */,
+			);
+			name = HenryTests;
+			productName = HenryTests;
+			productReference = E196C0F51ACC83390094B89C /* HenryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E196BF6D1ACC5D030094B89C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Rose-Hulman";
+				TargetAttributes = {
+					E196BF741ACC5D030094B89C = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					E196BF901ACC5D030094B89C = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = E196BF741ACC5D030094B89C;
+					};
+				};
+			};
+			buildConfigurationList = E196BF701ACC5D030094B89C /* Build configuration list for PBXProject "Henry" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = E196BF6C1ACC5D030094B89C;
+			productRefGroup = E196BF6C1ACC5D030094B89C;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E196BF741ACC5D030094B89C /* Henry */,
+				E196BF901ACC5D030094B89C /* HenryTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E196BF731ACC5D030094B89C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E196C0A21ACC6C2E0094B89C /* iPadLoginStoryboard.storyboard in Resources */,
+				E196C0A61ACC6C2E0094B89C /* iPhoneLoginStoryboard.storyboard in Resources */,
+				E196C0CE1ACC6C7E0094B89C /* Images.xcassets in Resources */,
+				E196C0A71ACC6C2E0094B89C /* iPhoneStoryboard.storyboard in Resources */,
+				E196C00D1ACC6AF30094B89C /* InfoPlist.strings in Resources */,
+				E196C0A31ACC6C2E0094B89C /* iPadStoryboard.storyboard in Resources */,
+				E196C0F41ACC83020094B89C /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E196BF8F1ACC5D030094B89C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E196C0DE1ACC6D130094B89C /* InfoPlist.strings in Resources */,
+				E196C0DF1ACC6D130094B89C /* HenryTests-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E196BF711ACC5D030094B89C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E196C0AF1ACC6C2E0094B89C /* HenryHomeViewController.m in Sources */,
+				E196C05B1ACC6BFB0094B89C /* BEMSimpleLineGraphView.m in Sources */,
+				E196C1051ACC87D00094B89C /* LoginViewController.m in Sources */,
+				E196C0CB1ACC6C520094B89C /* GlobalVariables.m in Sources */,
+				E196C0AB1ACC6C2E0094B89C /* HenryStoreCellTableViewCell.m in Sources */,
+				E196C0591ACC6BFB0094B89C /* BEMCircle.m in Sources */,
+				E196C0CC1ACC6C520094B89C /* HenryAppDelegate.m in Sources */,
+				E196C0AC1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.m in Sources */,
+				E196C0B31ACC6C2E0094B89C /* HenryMilestonesTableViewController.m in Sources */,
+				E196C0AA1ACC6C2E0094B89C /* HenryMemberTableViewCell.m in Sources */,
+				E196C0BD1ACC6C2E0094B89C /* SideNavTableTableViewController.m in Sources */,
+				E196C0B11ACC6C2E0094B89C /* HenryMemberTableViewController.m in Sources */,
+				E196C0B71ACC6C2E0094B89C /* HenryProjectsTableViewController.m in Sources */,
+				E196C0B01ACC6C2E0094B89C /* HenryLeaderboardTableViewController.m in Sources */,
+				E196C0BE1ACC6C2E0094B89C /* SWRevealViewController.m in Sources */,
+				E196C0A11ACC6C2E0094B89C /* HenryRootNavigationController.m in Sources */,
+				E196C0C51ACC6C3C0094B89C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				E196C0B51ACC6C2E0094B89C /* HenryProfileViewController.m in Sources */,
+				E196C0BC1ACC6C2E0094B89C /* HenryUsersProfileViewController.m in Sources */,
+				E196C0AD1ACC6C2E0094B89C /* HenryCategoryTableViewController.m in Sources */,
+				E196C0B61ACC6C2E0094B89C /* HenryProjectDetailViewController.m in Sources */,
+				E196C02A1ACC6B860094B89C /* User.m in Sources */,
+				E196C0BB1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m in Sources */,
+				E196C0AE1ACC6C2E0094B89C /* HenryCreateBountyViewController.m in Sources */,
+				E196C05A1ACC6BFB0094B89C /* BEMLine.m in Sources */,
+				E196C0C41ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.m in Sources */,
+				E196C0A91ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.m in Sources */,
+				E196C0281ACC6B860094B89C /* DatabaseClient.m in Sources */,
+				E196C0BA1ACC6C2E0094B89C /* HenryTasksTableViewController.m in Sources */,
+				E196C0A41ACC6C2E0094B89C /* HenryDevDisplayObject.m in Sources */,
+				E196C0A51ACC6C2E0094B89C /* HenryProjectObject.m in Sources */,
+				E196C0B21ACC6C2E0094B89C /* HenryMilestoneDetailViewController.m in Sources */,
+				E196C00F1ACC6AF30094B89C /* main.m in Sources */,
+				E196C0A81ACC6C2E0094B89C /* HenryAssignDevTableViewCell.m in Sources */,
+				E196C0B81ACC6C2E0094B89C /* HenryStoreTableViewController.m in Sources */,
+				E196C0291ACC6B860094B89C /* HenryFirebase.m in Sources */,
+				E196C0601ACC6C140094B89C /* DLPieChart.m in Sources */,
+				E196C0B41ACC6C2E0094B89C /* HenryMyTasksTableViewController.m in Sources */,
+				E196C0B91ACC6C2E0094B89C /* HenryTaskDetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E196BF8D1ACC5D030094B89C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E196C0DD1ACC6D130094B89C /* HenryTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E196BF931ACC5D030094B89C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E196BF741ACC5D030094B89C /* Henry */;
+			targetProxy = E196BF921ACC5D030094B89C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		E196C0081ACC6AF30094B89C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E196C0091ACC6AF30094B89C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		E196C0DA1ACC6D130094B89C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E196C0DB1ACC6D130094B89C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E196BF991ACC5D030094B89C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E196BF9A1ACC5D030094B89C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E196BF9C1ACC5D030094B89C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Henry/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E196BF9D1ACC5D030094B89C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/Henry/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E196BF9F1ACC5D030094B89C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/Frameworks/OCMock/OCMock",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/HenryTests/Supporting Files/HenryTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Henry.app/Henry";
+			};
+			name = Debug;
+		};
+		E196BFA01ACC5D030094B89C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(PROJECT_DIR)/Frameworks/OCMock/OCMock",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/HenryTests/Supporting Files/HenryTests-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-framework",
+					XCTest,
+					"-ObjC",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Henry.app/Henry";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E196BF701ACC5D030094B89C /* Build configuration list for PBXProject "Henry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E196BF991ACC5D030094B89C /* Debug */,
+				E196BF9A1ACC5D030094B89C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E196BF9B1ACC5D030094B89C /* Build configuration list for PBXNativeTarget "Henry" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E196BF9C1ACC5D030094B89C /* Debug */,
+				E196BF9D1ACC5D030094B89C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E196BF9E1ACC5D030094B89C /* Build configuration list for PBXNativeTarget "HenryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E196BF9F1ACC5D030094B89C /* Debug */,
+				E196BFA01ACC5D030094B89C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E196BF6D1ACC5D030094B89C /* Project object */;
+}
