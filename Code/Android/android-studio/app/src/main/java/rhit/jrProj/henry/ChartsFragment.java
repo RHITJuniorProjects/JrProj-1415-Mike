@@ -5,43 +5,32 @@ import java.util.List;
 
 import org.achartengine.GraphicalView;
 
-import rhit.jrProj.henry.firebase.Enums.Role;
-import rhit.jrProj.henry.firebase.Member;
+import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.helpers.GraphHelper;
-import rhit.jrProj.henry.helpers.GraphHelper.Point;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
- * either contained in a {@link ProjectListActivity} in two-pane mode (on
- * tablets) or a {@link ChartsActivity} on handsets.
+ * either contained in a {ProjectListActivity} in two-pane mode (on
+ * tablets) or a {ChartsActivity} on handsets.
  */
 public class ChartsFragment extends Fragment implements
         OnItemSelectedListener {
@@ -49,7 +38,7 @@ public class ChartsFragment extends Fragment implements
     /**
      * The dummy content this fragment is presenting.
      */
-    private Project projectItem;
+    private Project mProjectItem;
 
     private LinearLayout mMembersList;
 
@@ -65,7 +54,7 @@ public class ChartsFragment extends Fragment implements
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
+    private static Callbacks mDummyCallbacks = new Callbacks() {
         public Project getSelectedProject() {
             return null;
         }
@@ -82,9 +71,9 @@ public class ChartsFragment extends Fragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments().containsKey("TwoPane")) {
+        if (getArguments().containsKey(Enums.TWOPANE)) {
             this.mTwoPane = getArguments()
-                    .getBoolean("TwoPane");
+                    .getBoolean(Enums.TWOPANE);
         }
 
     }
@@ -115,18 +104,10 @@ public class ChartsFragment extends Fragment implements
                              Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_charts,
                 container, false);
-        this.projectItem = this.mCallbacks.getSelectedProject();
-//		this.mMembersList = (LinearLayout) rootView.findViewById(R.id.projectMembers);
-
-        if (this.projectItem != null) {
+        this.mProjectItem = this.mCallbacks.getSelectedProject();
+        if (this.mProjectItem != null) {
             ((TextView) rootView.findViewById(R.id.project_name))
-                    .setText("Name of project: " + this.projectItem.getName());
-//			((TextView) rootView.findViewById(R.id.project_due_date))
-//				.setText("Due on: " + this.projectItem.getDueDateFormatted());
-//			((TextView) rootView.findViewById(R.id.project_description))
-//				.setText("Description: " + this.projectItem.getDescription());
-
-
+                    .setText("Name of project: " + this.mProjectItem.getName());
             Spinner spinner = (Spinner) rootView
                     .findViewById(R.id.project_chart_spinner);
             // Create an ArrayAdapter using the string array and a default
@@ -142,7 +123,6 @@ public class ChartsFragment extends Fragment implements
 
             // Set the default for the spinner
             spinner.setSelection(0);
-            // /////
             spinner.setOnItemSelectedListener(this);
 
 
@@ -150,7 +130,7 @@ public class ChartsFragment extends Fragment implements
                     .findViewById(R.id.pieChart);
             List<Integer> values = new ArrayList<Integer>();
             List<String> keys = new ArrayList<String>();
-            for (Milestone milestone : this.projectItem.getMilestones()) {
+            for (Milestone milestone : this.mProjectItem.getMilestones()) {
                 GraphHelper.PieChartInfo chartInfo = milestone.getLocAddedInfo();
                 values.addAll(chartInfo.getValues());
                 keys.addAll(chartInfo.getKeys());
@@ -158,7 +138,7 @@ public class ChartsFragment extends Fragment implements
 
 
             GraphicalView chart = GraphHelper.makePieChart(
-                    "Lines Added for " + this.projectItem.getName(),
+                    "Lines Added for " + this.mProjectItem.getName(),
                     values, keys,
                     this.getActivity());
             chartView.addView(chart, new LayoutParams(
@@ -183,7 +163,7 @@ public class ChartsFragment extends Fragment implements
     @Override
     public void onDetach() {
         super.onDetach();
-        this.mCallbacks = sDummyCallbacks;
+        this.mCallbacks = mDummyCallbacks;
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int position,
@@ -193,19 +173,19 @@ public class ChartsFragment extends Fragment implements
         chartView.removeAllViews();
         GraphicalView chart;
         if (position == 0) {
-            GraphHelper.LineChartInfo chartInfo = this.projectItem
+            GraphHelper.LineChartInfo chartInfo = this.mProjectItem
                     .getLocInfo();
 
             chart = GraphHelper.makeLineChart("Lines of Code Added for "
-                    + this.projectItem.getName(), "Milestones", "Lines of Code", chartInfo, 0, this.projectItem.getMilestones().size(), 0, 9000, this.getActivity());
+                    + this.mProjectItem.getName(), "Milestones", "Lines of Code", chartInfo, 0, this.mProjectItem.getMilestones().size(), 0, 9000, this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
         } else {
-            GraphHelper.LineChartInfo chartInfo = this.projectItem
+            GraphHelper.LineChartInfo chartInfo = this.mProjectItem
                     .getEstimateAccuracyInfo();
             chart = GraphHelper.makeLineChart("Accuracy of Estimated Hours", "Milestones", "Ratio of Estimated/Actual",
-                    chartInfo, 0, this.projectItem.getMilestones().size(), -5, 5, this.getActivity());
+                    chartInfo, 0, this.mProjectItem.getMilestones().size(), -5, 5, this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();

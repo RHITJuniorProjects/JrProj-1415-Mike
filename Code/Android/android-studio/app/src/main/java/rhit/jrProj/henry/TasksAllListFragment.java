@@ -215,7 +215,7 @@ public class TasksAllListFragment extends ListFragment implements OnItemSelected
 //		}
         setListAdapter(allTasksAdapter);
         if (this.mCallbacks.isFromMainActivity()) {
-            this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+            this.setActivateOnItemClick(this.getArguments().getBoolean(Enums.TWOPANE));
         }
     }
 

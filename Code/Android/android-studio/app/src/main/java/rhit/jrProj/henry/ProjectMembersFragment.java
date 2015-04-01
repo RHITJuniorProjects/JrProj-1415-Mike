@@ -128,7 +128,7 @@ public class ProjectMembersFragment extends ListFragment {
 
         this.adapter = arrayAdapter;
         setListAdapter(arrayAdapter);
-        this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+        this.setActivateOnItemClick(this.getArguments().getBoolean(Enums.TWOPANE));
     }
 
     @Override

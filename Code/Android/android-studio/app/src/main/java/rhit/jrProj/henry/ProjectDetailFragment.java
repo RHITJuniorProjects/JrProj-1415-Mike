@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.achartengine.GraphicalView;
 
+import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
@@ -78,9 +79,9 @@ public class ProjectDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments().containsKey("TwoPane")) {
+        if (getArguments().containsKey(Enums.TWOPANE)) {
             this.mTwoPane = getArguments()
-                    .getBoolean("TwoPane");
+                    .getBoolean(Enums.TWOPANE);
         }
 
     }

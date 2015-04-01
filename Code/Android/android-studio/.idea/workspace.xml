@@ -28,16 +28,16 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: rhit.jrProj.henry" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f14f8908-cf7b-4b34-b64f-8ecca00984f7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Enums.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Enums.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/ListChangeNotifier.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/ListChangeNotifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Milestone.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Milestone.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Project.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Project.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Task.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Task.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyGridViewAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyGridViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ui/TrophySquareImageView.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ui/TrophySquareImageView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java" />
+    <list default="true" id="f14f8908-cf7b-4b34-b64f-8ecca00984f7" name="Default" comment="Refactored Charts. Also replaced all uses of &#10;&#10;Noah and L.E. worked together on this one.">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyDetailFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ChartsFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ChartsFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GeneralAlgorithms.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GeneralAlgorithms.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GraphHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GraphHelper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/HorizontalPicker.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/HorizontalPicker.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TasksAllListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TasksAllListFragment.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="src.iws" />
@@ -66,11 +66,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="TrophyStoreActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="TrophyStoreActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8576577" vertical-offset="578" max-vertical-offset="3315">
-              <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2473" max-vertical-offset="3315">
+              <caret line="199" column="0" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#6185#6186#0" expanded="true" />
@@ -82,47 +82,51 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ListChangeNotifier.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/ListChangeNotifier.java">
+      <file leaf-file-name="BountyDetailFragment.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
-              <caret line="22" column="44" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="44" />
-              <folding>
-                <element signature="e#531#532#0" expanded="true" />
-                <element signature="e#582#583#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TrophySquareImageView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ui/TrophySquareImageView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="448" max-vertical-offset="1071">
-              <caret line="68" column="0" selection-start-line="68" selection-start-column="0" selection-end-line="68" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.81621623" vertical-offset="2233" max-vertical-offset="2788">
+              <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Trophy.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java">
+      <file leaf-file-name="ProjectDetailFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2318" max-vertical-offset="2924">
-              <caret line="197" column="30" selection-start-line="197" selection-start-column="30" selection-end-line="197" selection-end-column="30" />
-              <folding>
-                <element signature="e#5163#5164#0" expanded="true" />
-                <element signature="e#5200#5201#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="547" max-vertical-offset="3910">
+              <caret line="88" column="13" selection-start-line="88" selection-start-column="13" selection-end-line="88" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ItemSquareImageView.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ui/ItemSquareImageView.java">
+      <file leaf-file-name="ProjectMembersFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="1649">
-              <caret line="69" column="17" selection-start-line="69" selection-start-column="17" selection-end-line="69" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1703" max-vertical-offset="3383">
+              <caret line="130" column="67" selection-start-line="130" selection-start-column="67" selection-end-line="130" selection-end-column="67" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TaskDetailFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1346" max-vertical-offset="4879">
+              <caret line="119" column="60" selection-start-line="119" selection-start-column="60" selection-end-line="119" selection-end-column="60" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TasksAllListFragment.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TasksAllListFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2825" max-vertical-offset="6511">
+              <caret line="217" column="84" selection-start-line="217" selection-start-column="84" selection-end-line="217" selection-end-column="84" />
               <folding />
             </state>
           </provider>
@@ -1355,6 +1359,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ui/TrophySquareImageView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GraphHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/HorizontalPicker.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GeneralAlgorithms.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ChartsFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyDetailFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TasksAllListFragment.java" />
       </list>
     </option>
   </component>
@@ -1918,7 +1931,11 @@
       <created>1427921096442</created>
       <updated>1427921096442</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Set up TrophyStoreActivity as a ChangeNotifier.&#10;&#10;Noah and L.E. worked together on this one.">
+      <created>1427923505891</created>
+      <updated>1427923505891</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -2004,7 +2021,8 @@
     <MESSAGE value="&amp; rockwotj: Updated User, Member and Project to adhere to refactoring plan" />
     <MESSAGE value="Replaced ListChangeNotifiers where possible with ChangeNotifiers. &#10;&#10;Noah and L.E. worked together on this one." />
     <MESSAGE value="Genericized ChangeNotifiers to facilitate use of the object methods.&#10;Noah and L.E. worked together on this one." />
-    <option name="LAST_COMMIT_MESSAGE" value="Genericized ChangeNotifiers to facilitate use of the object methods.&#10;Noah and L.E. worked together on this one." />
+    <MESSAGE value="Set up TrophyStoreActivity as a ChangeNotifier.&#10;&#10;Noah and L.E. worked together on this one." />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up TrophyStoreActivity as a ChangeNotifier.&#10;&#10;Noah and L.E. worked together on this one." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2012,56 +2030,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/leaderboard.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="554">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/global.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="554">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_trophy_store.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25718608" vertical-offset="0" max-vertical-offset="661">
-          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/welcome.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23146747" vertical-offset="0" max-vertical-offset="661">
-          <caret line="9" column="7" selection-start-line="9" selection-start-column="7" selection-end-line="9" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/tasks_all.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28290468" vertical-offset="0" max-vertical-offset="661">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyDetailFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.22743683" vertical-offset="1860" max-vertical-offset="2788">
-          <caret line="128" column="21" selection-start-line="128" selection-start-column="21" selection-end-line="128" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2431">
-          <caret line="8" column="34" selection-start-line="8" selection-start-column="34" selection-end-line="8" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_profile_list.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.11004127" vertical-offset="0" max-vertical-offset="1454">
@@ -2123,13 +2091,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3434">
-          <caret line="27" column="13" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/LeaderboardActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33866668" vertical-offset="851" max-vertical-offset="3740">
@@ -2162,13 +2123,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="1.9399039" vertical-offset="4081" max-vertical-offset="5984">
           <caret line="398" column="32" selection-start-line="398" selection-start-column="28" selection-end-line="398" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ChartsFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.3269231" vertical-offset="1701" max-vertical-offset="3196">
-          <caret line="204" column="0" selection-start-line="204" selection-start-column="0" selection-end-line="204" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2433,10 +2387,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/HorizontalPicker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.47927928" vertical-offset="2029" max-vertical-offset="2584">
+          <caret line="170" column="0" selection-start-line="170" selection-start-column="0" selection-end-line="170" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GeneralAlgorithms.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3981982" vertical-offset="0" max-vertical-offset="2159">
+          <caret line="23" column="25" selection-start-line="23" selection-start-column="25" selection-end-line="23" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/helpers/GraphHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="7044" max-vertical-offset="7599">
+          <caret line="501" column="0" selection-start-line="501" selection-start-column="0" selection-end-line="501" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ChartsFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.81621623" vertical-offset="2437" max-vertical-offset="2992">
+          <caret line="199" column="0" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8576577" vertical-offset="578" max-vertical-offset="3315">
-          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2760" max-vertical-offset="3315">
+          <caret line="199" column="0" selection-start-line="199" selection-start-column="0" selection-end-line="199" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#6185#6186#0" expanded="true" />
@@ -2444,6 +2430,46 @@
             <element signature="e#6395#6396#0" expanded="true" />
             <element signature="e#6429#6430#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="547" max-vertical-offset="3910">
+          <caret line="88" column="13" selection-start-line="88" selection-start-column="13" selection-end-line="88" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProjectMembersFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1703" max-vertical-offset="3383">
+          <caret line="130" column="67" selection-start-line="130" selection-start-column="67" selection-end-line="130" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TaskDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1346" max-vertical-offset="4879">
+          <caret line="119" column="60" selection-start-line="119" selection-start-column="60" selection-end-line="119" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TasksAllListFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2825" max-vertical-offset="6511">
+          <caret line="217" column="84" selection-start-line="217" selection-start-column="84" selection-end-line="217" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/BountyDetailFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.81621623" vertical-offset="2233" max-vertical-offset="2788">
+          <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

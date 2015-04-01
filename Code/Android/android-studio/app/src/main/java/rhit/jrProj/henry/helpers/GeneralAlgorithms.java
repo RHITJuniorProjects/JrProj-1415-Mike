@@ -23,8 +23,6 @@ public class GeneralAlgorithms {
      * compares two strings together ignoring case and putting 10 after 9
      * instead of after 1
      *
-     * @param s1
-     * @param s2
      * @return
      */
     private final static String getChunk(String s, int slength, int marker) {
@@ -94,69 +92,6 @@ public class GeneralAlgorithms {
         return s1len - s2len;
     }
 
-//    public static int compareToByDate(String s1, String s2, boolean newestFirst) {
-//        if (s1 == s2)
-//            return 0;
-//        else if (s1.equals("No Due Date") || s1.equals(""))
-//            return -1;
-//        else if (s2.equals("No Due Date") || s2.equals(""))
-//            return 1;
-//        else {
-//            int result = 0;
-//            int year1 = new Integer(s1.substring(0, 4)).intValue();
-//            int year2 = new Integer(s2.substring(0, 4)).intValue();
-//            int month1 = new Integer(s1.substring(5, 7)).intValue();
-//            int month2 = new Integer(s2.substring(5, 7)).intValue();
-//            int day1 = new Integer(s1.substring(8)).intValue();
-//            int day2 = new Integer(s2.substring(8)).intValue();
-//            if (year1 != year2) {
-//                result = (year1 < year2) ? -1 : 1;
-//            } else {
-//                if (month1 != month2) {
-//                    result = (month1 < month2) ? -1 : 1;
-//                } else {
-//                    if (day1 != day2) {
-//                        result = (day1 < day2) ? -1 : 1;
-//                    } else {
-//                        result = 0;
-//                    }
-//                }
-//            }
-//            if (newestFirst) {
-//                return -1 * result;
-//            } else {
-//                return result;
-//            }
-//        }
-//    }
-
-    /**
-     * Formats Due date to dd/mm/yyyy
-     *
-     * @return formatted due date as String
-     */
-//    public static String getDueDateFormatted(String s1) {
-//        if (s1.equals("No Due Date") || s1.equals(""))
-//            return s1;
-//        int yearend1 = s1.indexOf("/");
-//        if (yearend1 == -1) {
-//            yearend1 = s1.indexOf("-");
-//        }
-//        int monthend1 = s1.lastIndexOf("/");
-//        if (monthend1 == -1) {
-//            monthend1 = s1.lastIndexOf("-");
-//        }
-//
-//        String year1 = s1.substring(0, yearend1);
-//
-//        int month1 = new Integer(s1.substring(yearend1 + 1, monthend1))
-//                .intValue();
-//
-//        String day1 = s1.substring(monthend1 + 1);
-//        String month = months[month1 - 1];
-//        return day1 + " " + month + " " + year1;
-//
-//    }
 
     public static HashMap<String, Double> getRatio(Milestone m) {
         HashMap<String, List<Double>> map = new HashMap<String, List<Double>>(); //username, list of ratios  (one for each task)
@@ -164,9 +99,7 @@ public class GeneralAlgorithms {
         Random rand = new Random();
         for (Task t : m.getTasks()) {
             double actual = t.getHoursSpent();
-//			actual=rand.nextInt(9)+1;
             double estimate = t.getOriginalHoursEstimate();
-//			estimate=rand.nextInt(9)+1;
             double ratio = (actual - estimate) / estimate;
             if (map.containsKey(t.getAssignedUserName())) {
                 map.get(t.getAssignedUserName()).add(ratio);

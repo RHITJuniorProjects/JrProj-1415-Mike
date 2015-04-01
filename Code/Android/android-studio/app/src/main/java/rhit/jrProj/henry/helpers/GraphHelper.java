@@ -75,37 +75,6 @@ public class GraphHelper {
 
         List<String> x_ticks = chartInfo.getXTicks();
 
-//	return makeLineChartHelper(activity);
-
-//		double yMax = 0;
-//		double yMin = 0;
-//		double xMax = 0;
-//		double max = 0;
-//		if (values.isEmpty()) {
-//			// there are no values in the list, i.e no users. In this case, just
-//			// display a blank graph
-//			yMax = 10;
-//			yMin = 0;
-//			xMax = 10;
-//		} else {
-//
-//			xMax = values.get(0).size();
-//			for (int i = 0; i < values.size(); i++) {
-//				if (values.get(i).size() > xMax) {
-//					xMax = values.get(i).size();
-//				}
-//				max = maxX(values.get(i));
-//				if (max > yMax) {
-//					yMax = max;
-//				}
-//				double min = minX(values.get(i));
-//				if (min < yMin) {
-//					yMin = min;
-//				}
-//			}
-//			xMax += .5;
-//
-//		}
         Set<String> seriesTitles = data.keySet();
         Random rand = new Random();
         int[] COLORS = new int[seriesTitles.size()];
@@ -113,10 +82,9 @@ public class GraphHelper {
             COLORS[i] = Color.rgb(rand.nextInt(255), rand.nextInt(255),
                     rand.nextInt(255));
         }
-//		XYSeriesRenderer[] renderers=new XYSeriesRenderer[seriesTitles.size()];
         XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
         setChartSettings(renderer, title, xAxisLabel, yAxisLabel, Color.BLACK, Color.BLACK);
-//		renderer.
+
         if (displayBaseline) {
             XYSeriesRenderer zeroRender = new XYSeriesRenderer();
             zeroRender.setColor(Color.BLACK);
@@ -135,15 +103,6 @@ public class GraphHelper {
             renderera.setDisplayChartValues(true);
             renderera.setChartValuesTextSize(fontSize);
             renderer.addSeriesRenderer(renderera);
-
-//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
-//					.setDisplayChartValues(true);
-//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i))
-//					.setChartValuesTextSize(fontSize);
-//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setColor(COLORS[i]);
-//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setFillPoints(true);
-//			((XYSeriesRenderer) renderer.getSeriesRendererAt(i)).setLineWidth(3);
-
         }
         renderer.setXLabels(0);
         for (int i = 0; i < x_ticks.size(); i++) {
@@ -209,45 +168,6 @@ public class GraphHelper {
 
     }
 
-//	public static Double maxX(List<Point> points) {
-//		Double max = points.get(0).getX();
-//		for (int i = 0; i < points.size(); i++) {
-//			if (max < points.get(i).getX()) {
-//				max = points.get(i).getX();
-//			}
-//		}
-//		return max;
-//	}
-//
-//	public static Double maxY(List<Point> points) {
-//		Double max = points.get(0).getY();
-//		for (int i = 0; i < points.size(); i++) {
-//			if (max < points.get(i).getY()) {
-//				max = points.get(i).getY();
-//			}
-//		}
-//		return max;
-//	}
-//
-//	public static Double minX(List<Point> points) {
-//		Double min = points.get(0).getX();
-//		for (int i = 0; i < points.size(); i++) {
-//			if (min > points.get(i).getX()) {
-//				min = points.get(i).getX();
-//			}
-//		}
-//		return min;
-//	}
-//
-//	public static Double minY(List<Point> points) {
-//		Double min = points.get(0).getY();
-//		for (int i = 0; i < points.size(); i++) {
-//			if (min > points.get(i).getY()) {
-//				min = points.get(i).getY();
-//			}
-//		}
-//		return min;
-//	}
 
     public static GraphicalView makeStackedBarChart(String title,
                                                     String xAxisLabel, String yAxisLabel, List<List<Double>> values,

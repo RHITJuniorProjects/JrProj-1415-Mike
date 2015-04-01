@@ -117,7 +117,7 @@ public class TaskDetailFragment extends Fragment implements
                             new Member(mGlobalVariables.getFirebaseUrl()
                                     + "/users/"
                                     + this.mCallbacks.getUser().getKey()));
-            if (this.getArguments().getBoolean("TwoPane")
+            if (this.getArguments().getBoolean(Enums.TWOPANE)
                     && role == Enums.Role.LEAD) {
 
                 ((TextView) rootView.findViewById(R.id.task_assignee))

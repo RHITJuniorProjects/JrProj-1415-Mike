@@ -111,7 +111,7 @@ public class BountyDetailFragment extends Fragment implements
 //				numPicker.hideButtons();
 //			}
 //			numPicker.setBounty(this.bountyItem);
-            if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser()) && this.getArguments().getBoolean("TwoPane")) {
+            if (mCallbacks.getSelectedProject().isLead(mCallbacks.getUser()) && this.getArguments().getBoolean(Enums.TWOPANE)) {
                 numPicker.setVisibility(View.VISIBLE);
                 numPicker.setEnabled(true);
 
