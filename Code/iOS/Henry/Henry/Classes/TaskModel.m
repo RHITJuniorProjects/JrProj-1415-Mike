@@ -24,7 +24,7 @@ HenryFirebase* firebase;
 NSString* name = @"No name assigned";
 
 // A description of the task
-NSString* description = @"No description assigned";
+NSString* taskDescription = @"No description assigned";
 
 // A list of the user ids of the users assigned to the task
 NSString* assignedUserId = @"No User ID assigned";

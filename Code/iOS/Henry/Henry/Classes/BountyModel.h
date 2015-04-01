@@ -10,6 +10,5 @@
 
 @interface BountyModel : NSObject
 
-@property NSString* completionName;
 
 @end
