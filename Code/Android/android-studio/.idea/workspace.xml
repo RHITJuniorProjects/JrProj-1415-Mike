@@ -29,24 +29,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f14f8908-cf7b-4b34-b64f-8ecca00984f7" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/ChangeNotifier.java" />
-      <change type="DELETED" beforePath="C:\Users\johnsoaa\JrProj-1415-Mike\Code\Android\android-studio\app\src\main\java\rhit\jrProj\henry\bridge\GridViewAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\johnsoaa\JrProj-1415-Mike\Code\Android\android-studio\app\src\main\java\rhit\jrProj\henry\firebase\ListChangeNotifiable.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Bounty.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Bounty.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateMilestoneFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateMilestoneFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/DataListFragment.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/ListChangeNotifier.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/bridge/ListChangeNotifier.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Member.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Member.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Milestone.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Milestone.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProfileActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/ProfileActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Project.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Project.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Task.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Task.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TasksAllActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TasksAllActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/Trophy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyGridViewAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyGridViewAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/TrophyStoreActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/User.java" afterPath="$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/firebase/User.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="src.iws" />
@@ -88,7 +70,7 @@
       <file leaf-file-name="CreateMilestoneFragment.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateMilestoneFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6163896" vertical-offset="1725" max-vertical-offset="2873">
+            <state vertical-scroll-proportion="1.0156556" vertical-offset="1725" max-vertical-offset="2873">
               <caret line="170" column="39" selection-start-line="170" selection-start-column="39" selection-end-line="170" selection-end-column="39" />
               <folding />
             </state>
@@ -115,6 +97,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="johnsoaa" />
         <option value="ajohnsonRH" />
         <option value="ajohnsonrh" />
       </list>
@@ -1333,10 +1316,10 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1938" />
-    <option name="height" value="1050" />
+    <option name="x" value="80" />
+    <option name="y" value="225" />
+    <option name="width" value="1152" />
+    <option name="height" value="719" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -1833,7 +1816,11 @@
       <created>1426543998663</created>
       <updated>1426543998663</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="&amp; rockwotj: Updated User, Member and Project to adhere to refactoring plan">
+      <created>1427678228594</created>
+      <updated>1427678228594</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -1857,7 +1844,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
+    <frame x="80" y="225" width="1152" height="719" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1880,7 +1867,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994652" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19679144" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" x="204" y="189" width="464" height="610" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33948338" sideWeight="0.5" order="0" side_tool="true" content_ui="combo" x="204" y="189" width="464" height="610" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17257144" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32914287" sideWeight="0.5871658" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1916,7 +1903,8 @@
     <MESSAGE value="Finished adding trophy to user in firebase. &#10;TODO: Change available_points after purchasing a trophy." />
     <MESSAGE value="Added trophy grand child listener to User" />
     <MESSAGE value="commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+    <MESSAGE value="&amp; rockwotj: Updated User, Member and Project to adhere to refactoring plan" />
+    <option name="LAST_COMMIT_MESSAGE" value="&amp; rockwotj: Updated User, Member and Project to adhere to refactoring plan" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2337,7 +2325,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/rhit/jrProj/henry/CreateMilestoneFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6163896" vertical-offset="1725" max-vertical-offset="2873">
+        <state vertical-scroll-proportion="1.0156556" vertical-offset="1725" max-vertical-offset="2873">
           <caret line="170" column="39" selection-start-line="170" selection-start-column="39" selection-end-line="170" selection-end-column="39" />
           <folding />
         </state>
