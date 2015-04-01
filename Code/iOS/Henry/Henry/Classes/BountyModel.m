@@ -13,7 +13,7 @@
 
 @implementation BountyModel
 NSString* claimed = @"None";
-NSString* description = @"None";
+NSString* bountyDescription = @"None";
 NSString* dueDate = @"No Due Date";
 NSInteger hourLimit = -1;
 NSInteger lineLimit = -1;
