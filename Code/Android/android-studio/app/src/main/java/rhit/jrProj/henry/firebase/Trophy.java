@@ -9,14 +9,14 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 
 /**
  * Created by johnsoaa on 3/14/2015.
  */
-public class Trophy implements Parcelable, ChildEventListener {
+public class Trophy implements Parcelable, ChildEventListener, ChangeNotifiable<Trophy> {
 
     /**
      * A Creator object that allows this object to be created by a parcel
@@ -37,7 +37,7 @@ public class Trophy implements Parcelable, ChildEventListener {
     private String mImage;
     private String mName;
     private String mKey;
-    private ChangeNotifier listChangeNotifier;
+    private ChangeNotifier<Trophy> changeNotifier;
 
     public Trophy(String firebaseURL) {
         mFirebase = new Firebase(firebaseURL);
@@ -80,8 +80,8 @@ public class Trophy implements Parcelable, ChildEventListener {
 
     public void setCost(int mCost) {
         this.mCost = mCost;
-        if (this.listChangeNotifier != null) {
-            this.listChangeNotifier.onChange();
+        if (this.changeNotifier != null) {
+            this.changeNotifier.onChange();
         }
     }
 
@@ -113,13 +113,13 @@ public class Trophy implements Parcelable, ChildEventListener {
         return this.mKey;
     }
 
-    public void setListChangeNotifier(ChangeNotifier listChangeNotifier) {
-        this.listChangeNotifier = listChangeNotifier;
+    public void setChangeNotifier(ChangeNotifier<Trophy> changeNotifier) {
+        this.changeNotifier = changeNotifier;
     }
 
 
-    public ChangeNotifier getListChangeNotifier() {
-        return this.listChangeNotifier;
+    public ChangeNotifier<Trophy> getChangeNotifier() {
+        return this.changeNotifier;
     }
 
 
@@ -135,8 +135,8 @@ public class Trophy implements Parcelable, ChildEventListener {
         } else if (key.equals("name")) {
             setName(dataSnapshot.getValue(String.class));
         }
-        if (listChangeNotifier != null) {
-            listChangeNotifier.onChange();
+        if (changeNotifier != null) {
+            changeNotifier.onChange();
         }
     }
 
@@ -194,4 +194,5 @@ public class Trophy implements Parcelable, ChildEventListener {
             return limit;
         }
     }
+
 }

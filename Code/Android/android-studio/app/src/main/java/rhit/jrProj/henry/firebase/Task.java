@@ -17,7 +17,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class Task implements Parcelable, ChangeNotifiable {
+public class Task implements Parcelable, ChangeNotifiable<Task> {
     public static int MAX_POINTS = 100;
     public static int MIN_POINTS = 0;
     public TaskDetailFragment hp;
@@ -91,8 +91,8 @@ public class Task implements Parcelable, ChangeNotifiable {
      * Firebase is updated. This then notifies the object that is displaying the
      * task that this object has been updated.
      */
-    private ChangeNotifier listViewCallback;
-    private ChangeNotifier bountyListViewCallback;
+    private ChangeNotifier<Task> viewCallback;
+    private ChangeNotifier<Bounty> bountyListViewCallback;
     public Bounty completionBounty;
     public String completionBountyID;
 
@@ -153,7 +153,7 @@ public class Task implements Parcelable, ChangeNotifiable {
      *
      * @return
      */
-    public ChangeNotifier getBountyListViewCallback() {
+    public ChangeNotifier<Bounty> getBountyListViewCallback() {
         return this.bountyListViewCallback;
     }
 
@@ -210,8 +210,8 @@ public class Task implements Parcelable, ChangeNotifiable {
      *
      * @param lcn
      */
-    public void setChangeNotifier(ChangeNotifier lcn) {
-        this.listViewCallback = lcn;
+    public void setChangeNotifier(ChangeNotifier<Task> lcn) {
+        this.viewCallback = lcn;
     }
 
     /**
@@ -393,8 +393,8 @@ public class Task implements Parcelable, ChangeNotifiable {
      *
      * @return
      */
-    public ChangeNotifier getChangeNotifier() {
-        return this.listViewCallback;
+    public ChangeNotifier<Task> getChangeNotifier() {
+        return this.viewCallback;
     }
 
 
@@ -415,8 +415,8 @@ public class Task implements Parcelable, ChangeNotifiable {
         this.firebase.child("status").setValue(taskStatus);
         this.firebase.child("is_completed").setValue(
                 Boolean.valueOf(taskStatus.equals(Enums.CLOSED)));
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 
@@ -427,8 +427,8 @@ public class Task implements Parcelable, ChangeNotifiable {
         this.assignedUserId = member.getKey();
         this.assignedUserName = member.toString();
         this.firebase.child("assignedTo").setValue(member.getKey());
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 
@@ -609,8 +609,8 @@ public class Task implements Parcelable, ChangeNotifiable {
                 this.task.addBounty(t);
             }
             t.setChangeNotifier(this.task.bountyListViewCallback);
-            if (this.task.listViewCallback != null) {
-                this.task.listViewCallback.onChange();
+            if (this.task.viewCallback != null) {
+                this.task.viewCallback.onChange();
             }
             if (this.task.bountyListViewCallback != null) {
                 Log.i("test3", "non-null BLVC");
@@ -640,8 +640,8 @@ public class Task implements Parcelable, ChangeNotifiable {
         public void onChildRemoved(DataSnapshot arg0) {
             Bounty t = new Bounty(arg0.getRef().toString(), this.task);
             this.task.getBounties().remove(t);
-            if (this.task.listViewCallback != null) {
-                this.task.listViewCallback.onChange();
+            if (this.task.viewCallback != null) {
+                this.task.viewCallback.onChange();
             }
         }
     }
@@ -676,8 +676,8 @@ public class Task implements Parcelable, ChangeNotifiable {
             this.points = newPoints;
             this.completionBounty.setPoints(this.points);
         }
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 
@@ -694,8 +694,8 @@ public class Task implements Parcelable, ChangeNotifiable {
 
     public void setPoints(int newPoints) {
         this.points = newPoints;
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 

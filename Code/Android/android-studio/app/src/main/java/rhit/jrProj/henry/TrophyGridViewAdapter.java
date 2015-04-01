@@ -43,7 +43,7 @@ public class TrophyGridViewAdapter extends BaseAdapter {
 
     public void addItem(Trophy t) {
         mItems.add(t);
-        t.setListChangeNotifier(new ListChangeNotifier<Trophy>(this));
+        t.setChangeNotifier(new ListChangeNotifier<Trophy>(this));
     }
 
     @Override

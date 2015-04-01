@@ -2,7 +2,6 @@ package rhit.jrProj.henry.firebase;
 
 import rhit.jrProj.henry.GlobalVariables;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -261,7 +260,7 @@ public class Member implements Parcelable {
             if (arg0.getKey().equals("trophies")) {
                 for (DataSnapshot child : arg0.getChildren()) {
                     Trophy t = new Trophy(GlobalVariables.getFirebaseUrl() + "trophies/" + child.getKey());
-                    t.setListChangeNotifier(getListChangeNotifier());
+                    t.setChangeNotifier(getListChangeNotifier());
                     mTrophies.add(t);
                 }
             }

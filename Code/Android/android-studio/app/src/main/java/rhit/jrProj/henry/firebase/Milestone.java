@@ -17,7 +17,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Milestone implements Parcelable, ChangeNotifiable {
+public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -63,7 +63,7 @@ public class Milestone implements Parcelable, ChangeNotifiable {
      * Firebase is updated. This then notifies the object that is displaying the
      * Milestone that this object has been updated.
      */
-    private ChangeNotifier listViewCallback;
+    private ChangeNotifier<Milestone> listViewCallback;
 
     /**
      * A string of the milestone's firebase id.
@@ -125,7 +125,7 @@ public class Milestone implements Parcelable, ChangeNotifiable {
      * @param lcn
      */
     public void setChangeNotifier(ChangeNotifier lcn) {
-        this.setListViewCallback(lcn);
+        this.setViewCallback(lcn);
     }
 
     /**
@@ -301,7 +301,7 @@ public class Milestone implements Parcelable, ChangeNotifiable {
      * @return
      */
 
-    public ChangeNotifier getChangeNotifier() {
+    public ChangeNotifier<Milestone> getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -329,8 +329,8 @@ public class Milestone implements Parcelable, ChangeNotifiable {
      *
      * @param listViewCallback
      */
-    public void setListViewCallback(
-            ChangeNotifier listViewCallback) {
+    public void setViewCallback(
+            ChangeNotifier<Milestone> listViewCallback) {
         this.listViewCallback = listViewCallback;
     }
 

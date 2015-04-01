@@ -21,7 +21,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable, ChangeNotifiable {
+public class Project implements Parcelable, ChangeNotifiable<Project> {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -81,9 +81,9 @@ public class Project implements Parcelable, ChangeNotifiable {
      * Firebase is updated. This then notifies the object that is displaying the
      * project that this object has been updated.
      */
-    private ChangeNotifier listViewCallback;
+    private ChangeNotifier<Project> listViewCallback;
 
-    private ChangeNotifier milestoneListViewCallback;
+    private ChangeNotifier<Milestone> milestoneListViewCallback;
     /**
      * A Creator object that allows this object to be created by a parcel
      */
@@ -159,7 +159,7 @@ public class Project implements Parcelable, ChangeNotifiable {
      *
      * @param lcn
      */
-    public void setChangeNotifier(ChangeNotifier lcn) {
+    public void setChangeNotifier(ChangeNotifier<Project> lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -168,7 +168,7 @@ public class Project implements Parcelable, ChangeNotifiable {
      *
      * @return
      */
-    public ChangeNotifier getChangeNotifier() {
+    public ChangeNotifier<Project> getChangeNotifier() {
         return this.listViewCallback;
     }
 

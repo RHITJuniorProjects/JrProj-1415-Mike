@@ -13,7 +13,7 @@ import rhit.jrProj.henry.bridge.ChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.HorizontalPicker;
 
-public class Bounty implements ChangeNotifiable {
+public class Bounty implements ChangeNotifiable<Bounty> {
     private String claimed = "None";
     private String description = "None";
     private DueDate dueDate=new DueDate();
@@ -37,7 +37,7 @@ public class Bounty implements ChangeNotifiable {
      * Firebase is updated. This then notifies the object that is displaying the
      * task that this object has been updated.
      */
-    private ChangeNotifier listViewCallback;
+    private ChangeNotifier<Bounty> listViewCallback;
     /**
      * The bounty's parent project ID
      */
@@ -128,7 +128,7 @@ public class Bounty implements ChangeNotifiable {
      *
      * @param lcn
      */
-    public void setChangeNotifier(ChangeNotifier lcn) {
+    public void setChangeNotifier(ChangeNotifier<Bounty> lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -136,7 +136,7 @@ public class Bounty implements ChangeNotifiable {
     /**
      * gets the list changed notifier
      */
-    public ChangeNotifier getChangeNotifier() {
+    public ChangeNotifier<Bounty> getChangeNotifier() {
         return this.listViewCallback;
     }
 
