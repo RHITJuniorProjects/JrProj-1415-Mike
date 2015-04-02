@@ -3,7 +3,7 @@
  * Handles read/write operations directly relating to commits.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 2 April 2015, 6:36pm
+ * Last Modified:16 March 2015, 7:48pm
  */
 var Firebase = require('firebase');
 
@@ -19,14 +19,10 @@ var firebaseUrl = metricsTest;
 // optional commandline arg: name of the DB to connect to. Defaults to henry-metrics-test otherwise.
 if (process.argv.length === 3) {
     firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
+    console.log("Connecting to " + firebaseUrl);
+} else if (process.argv.length === 4) {
+    // TODO: override auth token?
 }
-else if (process.argv.length === 4) {
-    tokenVal = process.argv[3];
-    firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
-}
-
-
-console.log("Connecting to " + firebaseUrl);
 
 // Firebase references for root and top-level trees
 var fbRef = new Firebase(firebaseUrl);
@@ -96,7 +92,7 @@ projectsRef.once('value', function(projects) {
     });
 });
 
-// zero out project data in preparation for startup aggregation
+// zero out data in preparation for startup aggregation
 projectsRef.once('value', function(projects) {
     projects.forEach(function(project) {
         project.child('milestones').ref().once('value', function(milestones) {
@@ -108,24 +104,6 @@ projectsRef.once('value', function(projects) {
                         'total_hours': 0,
                         'total_lines_of_code': 0,
                         'percent_complete': 0
-                    });
-                });
-            });
-        });
-    });
-});
-
-// zero out user data in preparation for startup aggregation
-usersRef.once('value', function(users) {
-    users.forEach(function(user) {
-        user.child('projects').forEach(function(project) {
-            project.child('milestones').forEach(function(milestone) {
-                milestone.child('tasks').forEach(function(task) {
-                    task.ref().update({
-                        'added_lines_of_code': 0,
-                        'removed_lines_of_code': 0,
-                        'total_hours': 0,
-                        'total_lines_of_code': 0,
                     });
                 });
             });
@@ -193,8 +171,6 @@ function calculateMetrics(projectRef, commit) {
         return;
 
     }
-    var addedLOC = commit.child(addedLines).val();
-    var removedLOC = commit.child(removedLines).val();
 
     var taskRef = projectRef.child('milestones/' + milestone + '/tasks/' + task);
 
@@ -203,26 +179,27 @@ function calculateMetrics(projectRef, commit) {
         var newHours = currentHours + commit.child('hours').val();
 
         var totalLOC = taskBranch.child(totalLines).val();
-
-
+        var addedLOC = commit.child(addedLines).val();
+        var removedLOC = commit.child(removedLines).val();
+        
+        
         var newTotalLOC = totalLOC + addedLOC - removedLOC;
         var totalAddedLOC = taskBranch.child(addedLines).val() + addedLOC;
         var totalRemovedLOC = taskBranch.child(removedLines).val() + removedLOC;
 
         var updatedHourEstimate = taskBranch.child('updated_hour_estimate').val();
-        if (commit.hasChild('updated_hour_estimate')) {
+        if (commit.hasChild('updated_hour_estimate')){
             updatedHourEstimate = commit.child('updated_hour_estimate').val();
         }
-
+        
         var taskHrPercent = calculatePercentage(newHours, updatedHourEstimate);
         var status = commit.child('status').val();
-
-        if (currentHours !== newHours ||
-            addedLOC !== totalAddedLOC ||
-            removedLOC !== totalRemovedLOC ||
-            status !== taskBranch.child('status').val() ||
-            updatedHourEstimate !== taskBranch.child('updated_hour_estimate').val()) {
-
+        
+        if (currentHours !== newHours || 
+            addedLOC !== totalAddedLOC || 
+            removedLOC !== totalRemovedLOC || 
+            status != taskBranch.child('status').val() || 
+            updatedHourEstimate != taskBranch.child('updated_hour_estimate').val()) {
             taskBranch.ref().update({
                 'total_hours': newHours,
                 'total_lines_of_code': newTotalLOC,
@@ -230,88 +207,10 @@ function calculateMetrics(projectRef, commit) {
                 'removed_lines_of_code': totalRemovedLOC,
                 'percent_complete': taskHrPercent,
                 'status': status,
-                'updated_hour_estimate': updatedHourEstimate
+                'updated_hour_estimate' : updatedHourEstimate
             });
         }
     });
-    // update user with task info
-    var projectID = commit.child('project').val();
-    var milestoneID = commit.child('milestone').val();
-    var taskID = taskRef.key();
-    var assignee = commit.child('user').val();
-    var partner = commit.child('pair_programmed').val();
-
-    var commitHours = commit.child('hours').val();
-
-    // TODO: log update?
-    if (assignee !== null) {
-        var taskNode = usersRef.child(assignee + '/projects/' + projectID + '/milestones/' + milestoneID + '/tasks/' + taskID);
-        taskNode.once('value', function(taskSnap) {
-
-            if (taskSnap.val() === null) {
-                console.log('task does not exist for user');
-                taskNode.update({
-                    'total_hours': commitHours,
-                    'added_lines_of_code': addedLOC,
-                    'removed_lines_of_code': removedLOC,
-                    'total_lines_of_code': addedLOC - removedLOC
-                });
-            }
-            else {
-
-                var userHours = taskSnap.child('hours').val() + commitHours;
-                var userTotalLOC;
-
-                if (partner === null || !partner) {
-                    userTotalLOC = taskSnap.child(totalLines).val() + addedLOC - removedLOC;
-                    taskNode.update({
-                        'total_hours': userHours,
-                        'added_lines_of_code': taskSnap.child(addedLines).val() + addedLOC,
-                        'removed_lines_of_code': taskSnap.child(removedLines).val() + removedLOC,
-                        'total_lines_of_code': userTotalLOC
-                    });
-                }
-                // TODO: here and below: ensure partner is on project? (CLI may handle)
-                else if (partner !== null) {
-                    console.log("Pair programmed commit: User: " + assignee + ", partner: " + partner);
-                    console.log("project, milestone, task: " + projectID + ", " + milestoneID + ", " + taskID)
-                    userTotalLOC = taskSnap.child(totalLines).val() + Math.ceil(addedLOC / 2) - Math.ceil(removedLOC / 2);
-                    taskNode.update({
-                        'total_hours': userHours,
-                        'added_lines_of_code': Math.ceil((taskSnap.child(addedLines).val() + addedLOC) / 2),
-                        'removed_lines_of_code': Math.ceil((taskSnap.child(removedLines).val() + removedLOC) / 2),
-                        'total_lines_of_code': userTotalLOC
-                    });
-                }
-            }
-        });
-
-        if (partner !== null && partner !== false) {
-            var partnerTaskNode = usersRef.child(partner + '/projects/' + projectID + '/milestones/' + milestoneID + '/tasks/' + taskID);
-            partnerTaskNode.once('value', function(partnerTaskSnap) {
-                if (partnerTaskSnap.val() === null) {
-                    console.log('task does not exist for partner')
-                    partnerTaskNode.update({
-                        'total_hours': commitHours,
-                        'added_lines_of_code': addedLOC,
-                        'removed_lines_of_code': removedLOC,
-                        'total_lines_of_code': addedLOC - removedLOC
-                    });
-                }
-                else {
-                    var partnerTotalLOC = partnerTaskSnap.child(totalLines).val() + Math.floor(addedLOC / 2) - Math.floor(removedLOC / 2);
-                    var partnerHours = partnerTaskSnap.child(totalHours).val() + commit.child('hours').val();
-
-                    partnerTaskNode.update({
-                        'total_hours': partnerHours,
-                        'added_lines_of_code': Math.ceil(partnerTaskSnap.child(addedLines).val() + addedLOC / 2),
-                        'removed_lines_of_code': Math.ceil(partnerTaskSnap.child(removedLines).val() + removedLOC / 2),
-                        'total_lines_of_code': partnerTotalLOC
-                    });
-                }
-            });
-        }
-    }
 
     var milestoneRef = taskRef.parent().parent();
 
@@ -420,7 +319,7 @@ function listenToProject(project) {
 }
 
 /* 
- * Adds various listeners at the milestone level:
+ * Adds various listeners at the milestone level: 
  *     sets defaults for new tasks
  *     listens for changes to existing tasks
  */
@@ -440,21 +339,76 @@ function addMilestoneListeners(milestoneRef) {
 
     var isStartup = true;
     milestoneRef.child('tasks').on('child_added', function(newTask) {
+
         // do new task stuff
+        // console.log('a child is born'); // blame Abby
+        //set defaults
         setDefaults(newTask);
+
+        // //updated_hour_estimate listener
+        // newTask.child('updated_hour_estimate').ref().on('value', function(updatedHrEst) {
+        //     if (isStartup) return;
+        //     updatedHourEstChange(updatedHrEst, milestoneRef, newTask, isStartup);
+        // });
+
     });
 
     milestoneRef.child('tasks').on('child_changed', function(changedTask) {
         // do changed task stuff
+        // console.log('changing task');
+        // TODO: this is called twice on change to updated_hour_estimate
         taskChanged(milestoneRef, changedTask.ref());
     });
     isStartup = false;
 }
 
 /* 
+ * Potentially dead. Listens for a direct change to a task's updated_hour_estimate field.
+ */
+// function updatedHourEstChange(updatedHrEst, milestoneRef, task, isStartup) {
+//     var projectID = milestoneRef.parent().parent().key();
+
+//     // commit maker for change to updated_hour_estimate
+//     var newCommit = {
+//         'added_lines_of_code': 0,
+//         'hours': 0,
+//         'message': 'Change to updated_hour_estimate from Metrics Script',
+//         'milestone': milestoneRef.key(),
+//         'project': projectID,
+//         'removed_lines_of_code': 0,
+//         'status': task.child('status').val(),
+//         'task': task.key(),
+//         'timestamp': Firebase.ServerValue.TIMESTAMP,
+//         'user': task.child('assignedTo').val(),
+//         'updated_hour_estimate': updatedHrEst.val()
+//     };
+    
+//     var childExists = false;
+//     commitsRef.child(projectID).once('value', function(commits) {
+//         commits.forEach(function(commit) {
+//             if (commit.child('message') === newCommit['message'] && 
+//                 commit.child('task') === newCommit['task'] && 
+//                 commit.child('updated_hour_estimate') !== null && 
+//                 commit.child('updated_hour_estimate') === newCommit['updated_hour_estimate']) {
+//                 childExists = true;
+//             }
+//         });
+//     });
+
+//     if (!childExists) {
+//         console.log("Pushing commit for new updated_hour_estimate");
+//         commitsRef.child(projectID).push(newCommit);
+//     }
+
+// }
+
+/* 
  * makes appropriate updates whenever a task is changed
  */
 function taskChanged(milestoneRef, taskRef) {
+    //note: do not set defaults
+    // console.log('in taskChanged');
+
     //re-initialize milestone and aggregate task data for all tasks
     milestoneRef.update({
         'task_percent': 0,
@@ -497,7 +451,7 @@ function taskChanged(milestoneRef, taskRef) {
         });
 
     });
-
+    
     // bounty stuff
     taskRef.once('value', function(taskBranch) {
         // update user with task info
@@ -510,8 +464,8 @@ function taskChanged(milestoneRef, taskRef) {
                 taskBranch.child('bounties').forEach(function(bounty) {
                     if ((bounty.child('hour_limit').val() === 'None') || (bounty.child('hour_limit').val() >= taskBranch.child(totalHours).val())) {
                         if ((bounty.child('line_limit').val() === 'None') || (bounty.child('line_limit').val() >= taskBranch.child(totalHours).val()))
-                            var date = bounty.child('due_date').val();
-                        if (date === 'No Due Date' || +Date.parse(date) >= +(new Date().getTime())) {
+                        var date = bounty.child('due_date').val();
+                        if (date === 'No Due Date' || Date.parse(date) >= new Date().getTime()) {
                             bountyPoints += bounty.child('points').val();
                         }
                     }
@@ -519,29 +473,29 @@ function taskChanged(milestoneRef, taskRef) {
 
                 if (taskBranch.child('status').val() === 'Closed') {
                     taskNode.update({
-                        // 'total_hours': taskBranch.child(totalHours).val(),
-                        // 'added_lines_of_code': taskBranch.child(addedLines).val(),
-                        // 'removed_lines_of_code': taskBranch.child(removedLines).val(),
-                        // 'total_lines_of_code': taskBranch.child(totalLines).val(),
+                        'total_hours': taskBranch.child(totalHours).val(),
+                        'added_lines_of_code': taskBranch.child(addedLines).val(),
+                        'removed_lines_of_code': taskBranch.child(removedLines).val(),
+                        'total_lines_of_code': taskBranch.child(totalLines).val(),
                         'points': bountyPoints
                     });
                 }
                 else {
                     taskNode.update({
-                        // 'total_hours': taskBranch.child(totalHours).val(),
-                        // 'added_lines_of_code': taskBranch.child(addedLines).val(),
-                        // 'removed_lines_of_code': taskBranch.child(removedLines).val(),
-                        // 'total_lines_of_code': taskBranch.child(totalLines).val(),
+                        'total_hours': taskBranch.child(totalHours).val(),
+                        'added_lines_of_code': taskBranch.child(addedLines).val(),
+                        'removed_lines_of_code': taskBranch.child(removedLines).val(),
+                        'total_lines_of_code': taskBranch.child(totalLines).val(),
                         'points': 0
                     });
                 }
             }
             else {
                 taskNode.update({
-                    // 'total_hours': taskBranch.child(totalHours).val(),
-                    // 'added_lines_of_code': taskBranch.child(addedLines).val(),
-                    // 'removed_lines_of_code': taskBranch.child(removedLines).val(),
-                    // 'total_lines_of_code': taskBranch.child(totalLines).val(),
+                    'total_hours': taskBranch.child(totalHours).val(),
+                    'added_lines_of_code': taskBranch.child(addedLines).val(),
+                    'removed_lines_of_code': taskBranch.child(removedLines).val(),
+                    'total_lines_of_code': taskBranch.child(totalLines).val(),
                     'points': 0
                 });
             }
@@ -654,22 +608,21 @@ function aggregateTaskData(milestoneRef, task) {
             'hours_percent': hoursPercent
         });
 
-        // TODO: try to update user inside commit
         // update user with task info
-        // var projectID = milestoneRef.parent().parent().key();
-        // var milestoneID = milestone.key();
-        // var taskID = task.key();
-        // var assignee = task.child('assignedTo').val();
+        var projectID = milestoneRef.parent().parent().key();
+        var milestoneID = milestone.key();
+        var taskID = task.key();
+        var assignee = task.child('assignedTo').val();
 
-        // if (assignee !== null) {
-        //     var taskNode = usersRef.child(assignee + '/projects/' + projectID + '/milestones/' + milestoneID + '/tasks/' + taskID).ref();
-        //     taskNode.update({
-        //         'total_hours': task.child(totalHours).val(),
-        //         'added_lines_of_code': task.child(addedLines).val(),
-        //         'removed_lines_of_code': task.child(removedLines).val(),
-        //         'total_lines_of_code': task.child(totalLines).val()
-        //     });
-        // }
+        if (assignee !== null) {
+            var taskNode = usersRef.child(assignee + '/projects/' + projectID + '/milestones/' + milestoneID + '/tasks/' + taskID).ref();
+            taskNode.update({
+                'total_hours': task.child(totalHours).val(),
+                'added_lines_of_code': task.child(addedLines).val(),
+                'removed_lines_of_code': task.child(removedLines).val(),
+                'total_lines_of_code': task.child(totalLines).val()
+            });
+        }
     });
 }
 
