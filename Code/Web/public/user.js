@@ -1,4 +1,5 @@
 function userLeaderboard(){
+	console.log("userLeaderboard called");
 	var pointsArray = [];
 	var arr = [];
 	// console.log("here");
@@ -45,6 +46,7 @@ function userLeaderboard(){
 
 // Adds the currently member selected in the "Add member" modal to the project
 function addNewMember() {
+	console.log("user.addNewMember called");
 	var projectID = selectedProject.uid;
 	var selected = $("#member-select").val();
 
@@ -73,9 +75,11 @@ User.ProjectData = function (user, ref) {
 
 User.ProjectData.prototype = {
 	getProject: function () {
+		console.log("User.ProjectData.getProject called");
 		return projects.get(this.uid);
 	},
 	getMilestoneData: function () {
+		console.log("User.ProjectData.getMilestoneData called");
 		return new Table(
 			function (ref) {
 				return new User.MilestoneData(this.user, ref)
@@ -84,12 +88,14 @@ User.ProjectData.prototype = {
 		);
 	},
 	getMilestones: function () {
+		console.log("User.ProjectData.getMilestones called");
 		return new ReferenceTable(
 			this.getProject().getMilestones,
 			this.__milestones
 		);
 	},
 	getLinesOfCode: function (callback) {
+		console.log("User.ProjectData.getLinesOfCode called");
 		this.__total_lines_of_code.on('value', function (snap) {
 			callback(snap.val());
 		});
@@ -112,6 +118,7 @@ User.MilestoneData.prototype = {
 
 	},
 	getLinesOfCode: function (callback) {
+		console.log("User.MilestoneData.getLinesOfCode called");
 		this.__total_lines_of_code.on('value', function (snap) {
 			callback(snap.val());
 		});
