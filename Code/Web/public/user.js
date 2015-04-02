@@ -61,6 +61,7 @@ function addNewMember() {
 
 
 User.ProjectData = function (user, ref) {
+	console.log("User.ProjectData called");
 	this.user = user;
 	this.__firebase = ref;
 	this.uid = ref.key();
@@ -96,6 +97,7 @@ User.ProjectData.prototype = {
 };
 
 User.MilestoneData = function (user, ref) {
+	console.log("User.MilestoneData called");
 	this.user = user;
 	this.__firebase = ref;
 	this.uid = ref.key();
