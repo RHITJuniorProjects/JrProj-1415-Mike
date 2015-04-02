@@ -139,7 +139,7 @@
 - (void) testGetFirebaseURL {
     NSString* urlReal = @"https://henry-test.firebaseio.com";
     NSString* urlToTest = [HenryFirebase getFirebaseURL];
-    XCTAssertEqual(urlReal, urlToTest);
+    XCTAssertEqualObjects(urlReal, urlToTest);
 }
 
 - (void) testGetAllProjects {

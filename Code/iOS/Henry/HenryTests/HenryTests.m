@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "HenryProjectObject.h"
 #import "HenryFirebase.h"
-#import "OCMock.h"
+#import "OCMock/OCMock/OCMock.h"
 #import "OCMockObject.h"
 
 
