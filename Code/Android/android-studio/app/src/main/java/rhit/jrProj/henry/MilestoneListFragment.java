@@ -107,9 +107,10 @@ public class MilestoneListFragment extends DataListFragment<Milestone> {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        createAdapter();
+
         super.createHeaders("Milestones in:", "Project: "
                 + this.mCallbacks.getSelectedProject().getName());
+        createAdapter();
     }
 
     @Override

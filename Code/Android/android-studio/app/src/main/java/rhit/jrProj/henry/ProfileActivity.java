@@ -2,6 +2,7 @@ package rhit.jrProj.henry;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -10,14 +11,17 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Trophy;
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends Activity implements ChangeNotifier {
 
     private TextView mNameTextView;
     private TextView mEmailTextView;
     private TextView mPointTextView;
     private TrophyGridViewAdapter mAdapter;
+    private Member mMember;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,56 +35,13 @@ public class ProfileActivity extends Activity {
         mPointTextView = (TextView) findViewById(R.id.user_points);
 
         final String fireBaseUrl = GlobalVariables.getFirebaseUrl();
-        Firebase firebase = new Firebase(fireBaseUrl);
 
         String userKey = getIntent().getStringExtra("USER");
-
-        firebase.child("users").child(userKey)
-                .addChildEventListener(new ChildEventListener() {
-
-                    @Override
-                    public void onCancelled(FirebaseError arg0) {
-                        // do nothing
-                    }
-
-                    @Override
-                    public void onChildAdded(DataSnapshot arg0, String arg1) {
-                        updateUI(arg0);
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot arg0, String arg1) {
-                        updateUI(arg0);
-                    }
-
-                    @Override
-                    public void onChildMoved(DataSnapshot arg0, String arg1) {
-                        // do nothing
-                    }
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot arg0) {
-                        // do nothing
-                    }
-
-                    public void updateUI(DataSnapshot arg0) {
-                        if (arg0.getKey().equals("trophies")) {
-                            for (DataSnapshot child : arg0.getChildren()) {
-                                Trophy t = new Trophy(fireBaseUrl + "trophies/" + child.getKey());
-                                mAdapter.addTrophy(t);
-                            }
-                        }
-                        if (arg0.getKey().equals("name")) {
-                            updateName(arg0.getValue(String.class));
-                        } else if (arg0.getKey().equals("email")) {
-                            updateEmail(arg0.getValue(String.class));
-                        } else if (arg0.getKey().equals("total_points")) {
-                            updatePoints(arg0.getValue(Integer.class));
-                        }
-                    }
-                });
-
+        mMember = new Member(fireBaseUrl + "users/" + userKey);
+        mMember.setListChangeNotifier(this);
     }
+
+
 
     private void updateName(String name) {
         mNameTextView.setText(name);
@@ -92,5 +53,15 @@ public class ProfileActivity extends Activity {
 
     private void updatePoints(int newPoints) {
         mPointTextView.setText("Total Points: " + newPoints);
+    }
+
+    @Override
+    public void onChange() {
+        Log.d("RHH", "onProfileActivityChange!");
+        updateName(mMember.getName());
+        updateEmail(mMember.getEmail());
+        updatePoints(mMember.getTotalPoints());
+        mAdapter.setTrophies(mMember.getTrophies());
+        mAdapter.notifyDataSetChanged();
     }
 }

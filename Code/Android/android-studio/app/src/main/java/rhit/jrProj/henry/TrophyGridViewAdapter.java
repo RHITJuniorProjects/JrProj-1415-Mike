@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import rhit.jrProj.henry.bridge.GridViewAdapter;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.firebase.Trophy;
 import rhit.jrProj.henry.ui.TrophySquareImageView;
@@ -17,40 +17,65 @@ import rhit.jrProj.henry.ui.TrophySquareImageView;
 /**
  * Created by johnsoaa & rockwotj on 3/14/2015.
  */
-public class TrophyGridViewAdapter extends GridViewAdapter<Trophy> {
+public class TrophyGridViewAdapter extends BaseAdapter {
 
 
+    private Context mContext;
+    private List<Trophy> mItems;
     private boolean mIsStore;
 
 
     public TrophyGridViewAdapter(Context context) {
-        super(context);
+        mItems = new ArrayList<Trophy>();
+        mContext = context;
     }
 
-    public void addTrophy(Trophy t) {
-        super.addItem(t);
-        t.setListChangeNotifier(new ListChangeNotifier<Trophy>(this));
+
+    @Override
+    public int getCount() {
+        return mItems.size();
     }
 
+    @Override
+    public Trophy getItem(int i) {
+        return mItems.get(i);
+    }
+
+    public void addItem(Trophy t) {
+        mItems.add(t);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         TrophySquareImageView trophySquareImageView;
         if (view == null) {
             if (mIsStore) {
-                trophySquareImageView = new TrophyStoreImageView(super.getContext());
+                trophySquareImageView = new TrophyStoreImageView(mContext);
             } else {
-                trophySquareImageView = new TrophySquareImageView(super.getContext());
+                trophySquareImageView = new TrophySquareImageView(mContext);
             }
         } else {
             trophySquareImageView = (TrophySquareImageView) view;
         }
-        trophySquareImageView.initialize(super.getItem(i));
+        trophySquareImageView.initialize(getItem(i));
         return trophySquareImageView;
     }
 
     public void setIsStore(boolean isStore) {
         this.mIsStore = isStore;
+    }
+
+    public void setTrophies(List<Trophy> trophies) {
+        mItems = trophies;
     }
 
     private class TrophyStoreImageView extends TrophySquareImageView {

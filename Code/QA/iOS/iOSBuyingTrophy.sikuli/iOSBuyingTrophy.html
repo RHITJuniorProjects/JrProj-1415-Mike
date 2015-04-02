@@ -67,34 +67,32 @@
    </head>
 <body>
 <div class="info">
-<h2>iOSAddingBounty.sikuli\iOSAddingBounty.sikuli</h2> <a href="iOSAddingBounty.sikuli\iOSAddingBounty.zip">(Download this script)</a>
+<h2>iOSBuyingTrophy.sikuli\iOSBuyingTrophy.sikuli</h2> <a href="iOSBuyingTrophy.sikuli\iOSBuyingTrophy.zip">(Download this script)</a>
 </div>
 <pre class="sikuli-code">
-<span class="skw">click</span>(<img src="1423510288286.png" />)
-<span class="skw">click</span>(<img src="1423510299034.png" />)
-<span class="skw">click</span>(<img src="1423510311179.png" />)
-<span class="skw">click</span>(<img src="1423510323042.png" />)
-<span class="skw">click</span>(<img src="1423510335359.png" />)
-<span class="skw">click</span>(<img src="1423510349579.png" />)
-<span class="skw">type</span>(<span class="str">"10"</span>)
-<span class="skw">click</span>(<img src="1423510377169.png" />)
-<span class="skw">click</span>(<img src="1423510393314.png" />)
-<span class="skw">click</span>(<img src="1423510687230.png" />)
-<span class="skw">type</span>(<span class="str">"https://henry-test.firebaseapp.com/"</span> + Key.ENTER)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1423510510426.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1423510527490.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1423510537879.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1423510552450.png" />)
-<span class="skw">wait</span>(<span class="dig">5</span>)
-<span class="skw">click</span>(<img src="1423510565260.png" />)
-<span class="kw">if</span> exists(Pattern(<img src="1423510597889.png" />).similar(<span class="dig">0.41</span>)):
-    <span class="kw">print</span>(<span class="str">"Bounty added successfully"</span>)
+<span class="skw">click</span>(<img src="1427938411948.png" />)
+<span class="kw">if</span> exists(<img src="1427938436943.png" />):
+    <span class="kw">print</span>(<span class="str">"Displaying correct points."</span>)
 <span class="kw">else</span>:
-    <span class="kw">print</span>(<span class="str">"ERROR: Bounty not added successfully"</span>)
+    <span class="kw">print</span> (<span class="str">"ERROR: Incorrectly displaying points"</span>)
+
+<span class="skw">click</span>(<img src="1427938535414.png" />)
+<span class="skw">click</span>(<img src="1427938553160.png" />)
+<span class="skw">click</span>(<img src="1427938570238.png" />)
+<span class="skw">click</span>(<img src="1427938584879.png" />)
+<span class="kw">if</span> exists(<img src="1427938612177.png" />):
+    <span class="kw">print</span>(<span class="str">"Trophy purchased correctly"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span> (<span class="str">"ERROR: Trophy not displaying on Profile"</span>)
+
+
+<span class="skw">click</span>(<img src="1427938570238.png" />)
+<span class="skw">click</span>(<img src="1427938411948.png" />)
+<span class="skw">click</span>(<img src="1427938880818.png" />)
+<span class="kw">if</span> exists(<img src="1427938904074.png" />):
+    <span class="kw">print</span>(<span class="str">"Correctly stopped from buying trophy too expensive"</span>)
+<span class="kw">else</span>:
+    <span class="kw">print</span> (<span class="str">"ERROR: Trophy shouldn't be purchaseable"</span>)
 </pre>
 </body>
 </html>

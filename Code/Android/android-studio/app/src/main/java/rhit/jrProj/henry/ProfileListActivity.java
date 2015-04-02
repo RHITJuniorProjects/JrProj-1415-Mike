@@ -34,7 +34,7 @@ public class ProfileListActivity extends Activity {
                 + "users/" + firebase.getAuth().getUid());
         ExpandableListView stickyList = (ExpandableListView) findViewById(R.id.list);
         final ProfileListAdapter adapter = new ProfileListAdapter();
-        mUser.setListChangeNotifier(new ExpandableListChangeNotifier<Project>(adapter));
+        mUser.setChangeNotifier(new ExpandableListChangeNotifier<Project>(adapter));
         stickyList.setAdapter(adapter);
         stickyList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override

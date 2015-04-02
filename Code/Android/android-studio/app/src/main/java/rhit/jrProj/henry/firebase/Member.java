@@ -1,15 +1,18 @@
 package rhit.jrProj.henry.firebase;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.GlobalVariables;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Member implements Parcelable {
 
@@ -41,7 +44,7 @@ public class Member implements Parcelable {
      * Firebase is updated. This then notifies the object that is displaying the
      * User that this object has been updated.
      */
-    private ListChangeNotifier<Project> listViewCallback;
+    private ChangeNotifier listViewCallback;
 
     /**
      * A user's metrics for a project
@@ -67,6 +70,11 @@ public class Member implements Parcelable {
         }
     };
 
+    private int mTotalPoints;
+
+
+    private List<Trophy> mTrophies;
+
     /**
      * Creates a new User from a parcel
      *
@@ -82,6 +90,7 @@ public class Member implements Parcelable {
         this.key = this.firebase.toString().substring(
                 this.firebase.toString().lastIndexOf("/") + 1);
         this.projectMetrics = new Map<String, Member.ProjectMetrics>();
+        mTrophies = new ArrayList<Trophy>();
     }
 
     /**
@@ -93,7 +102,9 @@ public class Member implements Parcelable {
         this.firebase = new Firebase(firebaseURL);
         this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
         this.firebase.addChildEventListener(new ChildrenListener(this));
+
         this.projectMetrics = new Map<String, Member.ProjectMetrics>();
+        mTrophies = new ArrayList<Trophy>();
     }
 
     public int describeContents() {
@@ -101,12 +112,16 @@ public class Member implements Parcelable {
     }
 
     /**
-     * Sets a new list changed notifier
+     * Sets a new list changed notifiers
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
+    public void setListChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
+    }
+
+    public List<Trophy> getTrophies() {
+        return mTrophies;
     }
 
     /**
@@ -198,7 +213,7 @@ public class Member implements Parcelable {
      *
      * @return
      */
-    ListChangeNotifier<Project> getListChangeNotifier() {
+    ChangeNotifier getListChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -212,6 +227,14 @@ public class Member implements Parcelable {
                     this.firebase.toString());
         }
         return false;
+    }
+
+    public int getTotalPoints() {
+        return mTotalPoints;
+    }
+
+    public void setTotalPoints(int totalPoints) {
+        this.mTotalPoints = mTotalPoints;
     }
 
     class ChildrenListener implements ChildEventListener {
@@ -234,6 +257,13 @@ public class Member implements Parcelable {
          * existing child and once for every added child.
          */
         public void onChildAdded(DataSnapshot arg0, String arg1) {
+            if (arg0.getKey().equals("trophies")) {
+                for (DataSnapshot child : arg0.getChildren()) {
+                    Trophy t = new Trophy(GlobalVariables.getFirebaseUrl() + "trophies/" + child.getKey());
+                    t.setChangeNotifier(getListChangeNotifier());
+                    mTrophies.add(t);
+                }
+            }
             if (arg0.getKey().equals("name")) {
                 this.user.setName(arg0.getValue().toString());
             } else if (arg0.getKey().equals("git")) {
@@ -245,6 +275,9 @@ public class Member implements Parcelable {
                     this.user.projectMetrics.put(grandChild.getKey(),
                             new ProjectMetrics(this.user, grandChild.getKey()));
                 }
+            }
+            if(getListChangeNotifier() != null) {
+                getListChangeNotifier().onChange();
             }
         }
 

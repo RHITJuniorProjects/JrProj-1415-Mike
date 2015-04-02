@@ -108,7 +108,7 @@ public class ProjectListFragment extends DataListFragment<Project> {
         super.type=Enums.ObjectType.PROJECT;
         createAdapter();
         this.mCallbacks.getUser()
-                .setListChangeNotifier(super.getListChangeNotifier());
+                .setChangeNotifier(super.getListChangeNotifier());
 
 
     }

@@ -6,7 +6,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.GlobalVariables;
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
@@ -19,7 +21,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable, ListChangeNotifiable<Project> {
+public class Project implements Parcelable, ChangeNotifiable<Project> {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -34,7 +36,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
     /**
      * The project's name
      */
-    private String name = "No name assigned";
+    private String name = Enums.noName;
     /**
      * The due date of the project
      */
@@ -48,7 +50,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
     /**
      * A description of the project.
      */
-    private String description = "No Description Assigned";
+    private String description = Enums.noDes;
 
     /**
      * The percentage of hours complete for this project
@@ -67,7 +69,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
     /**
      * The project id for this project
      */
-    private String projectId = "No ProjectID Assigned";
+    private String projectId = Enums.noID;
 
     /**
      * Do we need to do anything with the backlog?
@@ -79,9 +81,9 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      * Firebase is updated. This then notifies the object that is displaying the
      * project that this object has been updated.
      */
-    private ListChangeNotifier<Project> listViewCallback;
+    private ChangeNotifier<Project> listViewCallback;
 
-    private ListChangeNotifier<Milestone> milestoneListViewCallback;
+    private ChangeNotifier<Milestone> milestoneListViewCallback;
     /**
      * A Creator object that allows this object to be created by a parcel
      */
@@ -157,7 +159,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
+    public void setChangeNotifier(ChangeNotifier<Project> lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -166,7 +168,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
      *
      * @return
      */
-    public ListChangeNotifier<Project> getListChangeNotifier() {
+    public ChangeNotifier<Project> getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -479,7 +481,7 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
                 m.setParentName(this.project.name);
                 this.project.getMilestones().add(m);
             }
-            m.setListChangeNotifier(milestoneListViewCallback);
+            m.setChangeNotifier(milestoneListViewCallback);
             if (this.project.listViewCallback != null) {
                 this.project.listViewCallback.onChange();
             }
@@ -535,5 +537,14 @@ public class Project implements Parcelable, ListChangeNotifiable<Project> {
         return this.getDueDate().compareTo(p.getDueDate(), newestFirst);
     }
 
+    public void createMilestone(String name, String des) {
+        Firebase ref = new Firebase(GlobalVariables.getFirebaseUrl() + "projects/"
+                + this.projectId + "/milestones/").push();
+        java.util.Map<String, Object> map = new HashMap<String, Object>();
+        map.put("name", name);
+        map.put("description", des);
+        map.put("due_date", DueDate.nullDate);
+        ref.setValue(map);
+    }
 
 }

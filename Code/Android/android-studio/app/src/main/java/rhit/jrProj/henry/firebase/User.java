@@ -3,23 +3,24 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
 
 import rhit.jrProj.henry.firebase.Enums.Role;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class User implements Parcelable, ListChangeNotifiable<Project> {
+public class User implements Parcelable, ChangeNotifiable {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -68,7 +69,7 @@ public class User implements Parcelable, ListChangeNotifiable<Project> {
      * Firebase is updated. This then notifies the object that is displaying the
      * User that this object has been updated.
      */
-    private ListChangeNotifier<Project> listViewCallback;
+    private ChangeNotifier listViewCallback;
 
 
     /**
@@ -146,7 +147,7 @@ public class User implements Parcelable, ListChangeNotifiable<Project> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Project> lcn) {
+    public void setChangeNotifier(ChangeNotifier lcn) {
         this.listViewCallback = lcn;
     }
 
@@ -285,6 +286,14 @@ public class User implements Parcelable, ListChangeNotifiable<Project> {
         mTrophies.put(newTrophy.getKey(), newTrophy);
     }
 
+    public List<Trophy> getTrophies() {
+        List<Trophy> trophies = new ArrayList<Trophy>();
+        for(Trophy t : mTrophies.values()) {
+            trophies.add(t);
+        }
+        return trophies;
+    }
+
     /**
      * Returns the amount of points the user has.
      */
@@ -333,7 +342,7 @@ public class User implements Parcelable, ListChangeNotifiable<Project> {
      *
      * @return
      */
-    public ListChangeNotifier<Project> getListChangeNotifier() {
+    public ChangeNotifier getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -455,9 +464,9 @@ public class User implements Parcelable, ListChangeNotifiable<Project> {
             Project p = new Project(arg0.getRef().getRepo().toString()
                     + "/projects/" + arg0.getKey());
             this.user.getMap().put(p, r);
-            p.setListChangeNotifier(this.user.getListChangeNotifier());
-            if (this.user.getListChangeNotifier() != null) {
-                this.user.getListChangeNotifier().onChange();
+            p.setChangeNotifier(this.user.getChangeNotifier());
+            if (this.user.getChangeNotifier() != null) {
+                this.user.getChangeNotifier().onChange();
             }
         }
 
@@ -487,8 +496,8 @@ public class User implements Parcelable, ListChangeNotifiable<Project> {
             Project p = new Project(arg0.getRef().getRepo().toString()
                     + "/projects/" + arg0.getKey());
             this.user.getMap().remove(p);
-            if (this.user.getListChangeNotifier() != null) {
-                this.user.getListChangeNotifier().onChange();
+            if (this.user.getChangeNotifier() != null) {
+                this.user.getChangeNotifier().onChange();
             }
         }
 

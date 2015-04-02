@@ -21,6 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
 
+/**
+ * What does this class do?
+ */
 public class TasksAllActivity extends Activity implements TasksAllListFragment.Callbacks {
     private GlobalVariables mGlobalVariables;
     private User user;

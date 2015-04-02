@@ -3,11 +3,9 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 
 import rhit.jrProj.henry.TaskDetailFragment;
-import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.Enums.Role;
-import rhit.jrProj.henry.firebase.Milestone.GrandChildrenListener;
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
-import rhit.jrProj.henry.helpers.HorizontalPicker;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -19,10 +17,15 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-public class Task implements Parcelable, ListChangeNotifiable<Task> {
+public class Task implements Parcelable, ChangeNotifiable<Task> {
     public static int MAX_POINTS = 100;
     public static int MIN_POINTS = 0;
-    public TaskDetailFragment hp;
+
+    private final static String childBounties = "bounties";
+    private final static String childAssignedTo = "assignedTo";
+    private final static String childStatus = "status";
+    private final static String childName = "name";
+
 
     /**
      * A reference to firebase to keep the data up to date.
@@ -32,17 +35,17 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
     /**
      * The task's name
      */
-    String name = "No name assigned";
+    String name = Enums.noName;
 
     /**
      * A description of the task
      */
-    String description = "No description assigned";
+    String description = Enums.noDes;
 
     /**
      * A list of the user ids of the users assigned to the task
      */
-    String assignedUserId = "No User ID assigned";
+    String assignedUserId = Enums.noUID;
 
     /**
      * The name of the user assigned to this task
@@ -93,8 +96,8 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      * Firebase is updated. This then notifies the object that is displaying the
      * task that this object has been updated.
      */
-    private ListChangeNotifier<Task> listViewCallback;
-    private ListChangeNotifier<Bounty> bountyListViewCallback;
+    private ChangeNotifier<Task> viewCallback;
+    private ChangeNotifier<Bounty> bountyListViewCallback;
     public Bounty completionBounty;
     public String completionBountyID;
 
@@ -155,7 +158,7 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      *
      * @return
      */
-    public ListChangeNotifier<Bounty> getBountyListViewCallback() {
+    public ChangeNotifier<Bounty> getBountyListViewCallback() {
         return this.bountyListViewCallback;
     }
 
@@ -170,7 +173,7 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
 //		setParentIDs(firebaseURL);
 //		setParentNames();
         this.firebase.addChildEventListener(new ChildrenListener(this));
-        this.firebase.child("bounties").addChildEventListener(
+        this.firebase.child(childBounties).addChildEventListener(
                 new GrandChildrenListener(this));
         this.name = pc.readString();
         this.description = pc.readString();
@@ -186,7 +189,7 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
         this.taskID = firebaseURL
                 .substring(firebaseURL.lastIndexOf('/') + 1);
         this.firebase.addChildEventListener(new ChildrenListener(this));
-        this.firebase.child("bounties").addChildEventListener(
+        this.firebase.child(childBounties).addChildEventListener(
                 new GrandChildrenListener(this));
     }
 
@@ -212,8 +215,8 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Task> lcn) {
-        this.listViewCallback = lcn;
+    public void setChangeNotifier(ChangeNotifier<Task> lcn) {
+        this.viewCallback = lcn;
     }
 
     /**
@@ -395,8 +398,8 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      *
      * @return
      */
-    public ListChangeNotifier<Task> getListChangeNotifier() {
-        return this.listViewCallback;
+    public ChangeNotifier<Task> getChangeNotifier() {
+        return this.viewCallback;
     }
 
 
@@ -414,11 +417,11 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
      */
     public void updateStatus(String taskStatus) {
         this.status = taskStatus;
-        this.firebase.child("status").setValue(taskStatus);
+        this.firebase.child(childStatus).setValue(taskStatus);
         this.firebase.child("is_completed").setValue(
                 Boolean.valueOf(taskStatus.equals(Enums.CLOSED)));
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 
@@ -428,9 +431,9 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
     public void updateAssignee(Member member) {
         this.assignedUserId = member.getKey();
         this.assignedUserName = member.toString();
-        this.firebase.child("assignedTo").setValue(member.getKey());
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        this.firebase.child(childAssignedTo).setValue(member.getKey());
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 
@@ -497,17 +500,17 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
          * description and list of tasks for that milestone
          */
         public void onChildAdded(DataSnapshot arg0, String arg1) {
-            if (arg0.getKey().equals("name")) {
+            if (arg0.getKey().equals(childName)) {
                 this.task.name = arg0.getValue().toString();
-                if (this.task.getListChangeNotifier() != null) {
-                    this.task.getListChangeNotifier().onChange();
+                if (this.task.getChangeNotifier() != null) {
+                    this.task.getChangeNotifier().onChange();
                 }
             } else if (arg0.getKey().equals("description")) {
                 this.task.description = arg0.getValue().toString();
-            } else if (arg0.getKey().equals("assignedTo")) {
+            } else if (arg0.getKey().equals(childAssignedTo)) {
                 this.task.assignedUserId = arg0.getValue().toString();
                 this.getUserNameFromId(this.task.getAssignedUserId());
-            } else if (arg0.getKey().equals("status")) {
+            } else if (arg0.getKey().equals(childStatus)) {
                 this.task.status = arg0.getValue().toString();
             } else if (arg0.getKey().equals("added_lines_of_code")) {
                 this.task.addedLines = arg0.getValue(Integer.class).intValue();
@@ -520,12 +523,11 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
                 this.task.hoursEstimatedOriginal = arg0.getValue(Integer.class).intValue();
             } else if (arg0.getKey().equals("total_hours")) {
                 this.task.hoursComplete = arg0.getValue(Integer.class).intValue();
-            } else if (arg0.getKey().equals("bounties")) {
+            } else if (arg0.getKey().equals(childBounties)) {
                 for (DataSnapshot child : arg0.getChildren()) {
                     Bounty t = new Bounty(child.getRef().toString(), this.task);
                     if (!this.task.getBounties().contains(t)) {
                         t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
-//						this.task.getBounties().add(t);
                     }
                 }
             }
@@ -534,7 +536,7 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
 
         public void getUserNameFromId(String id) {
             Firebase userBase = Task.this.firebase.getRoot().child("users")
-                    .child(id).child("name");
+                    .child(id).child(childName);
             userBase.addValueEventListener(new ValueEventListener() {
 
                 public void onDataChange(DataSnapshot snapshot) {
@@ -610,9 +612,9 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
                 t.setParentNames(this.task.parentProjectName, this.task.parentMilestoneName, this.task.name);
                 this.task.addBounty(t);
             }
-            t.setListChangeNotifier(this.task.bountyListViewCallback);
-            if (this.task.listViewCallback != null) {
-                this.task.listViewCallback.onChange();
+            t.setChangeNotifier(this.task.bountyListViewCallback);
+            if (this.task.viewCallback != null) {
+                this.task.viewCallback.onChange();
             }
             if (this.task.bountyListViewCallback != null) {
                 Log.i("test3", "non-null BLVC");
@@ -642,8 +644,8 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
         public void onChildRemoved(DataSnapshot arg0) {
             Bounty t = new Bounty(arg0.getRef().toString(), this.task);
             this.task.getBounties().remove(t);
-            if (this.task.listViewCallback != null) {
-                this.task.listViewCallback.onChange();
+            if (this.task.viewCallback != null) {
+                this.task.viewCallback.onChange();
             }
         }
     }
@@ -678,8 +680,8 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
             this.points = newPoints;
             this.completionBounty.setPoints(this.points);
         }
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 
@@ -696,8 +698,8 @@ public class Task implements Parcelable, ListChangeNotifiable<Task> {
 
     public void setPoints(int newPoints) {
         this.points = newPoints;
-        if (this.listViewCallback != null) {
-            this.listViewCallback.onChange();
+        if (this.viewCallback != null) {
+            this.viewCallback.onChange();
         }
     }
 

@@ -123,12 +123,12 @@ public class ProjectMembersFragment extends ListFragment {
         ListChangeNotifier<Member> lcn = new ListChangeNotifier<Member>(
                 arrayAdapter);
         for (Member m : this.members) {
-            //	m.setListChangeNotifier(lcn);
+            //	m.setChangeNotifier(lcn);
         }
 
         this.adapter = arrayAdapter;
         setListAdapter(arrayAdapter);
-        this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+        this.setActivateOnItemClick(this.getArguments().getBoolean(Enums.TWOPANE));
     }
 
     @Override

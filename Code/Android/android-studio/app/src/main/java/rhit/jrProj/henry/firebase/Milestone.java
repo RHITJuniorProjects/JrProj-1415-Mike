@@ -3,9 +3,9 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 import java.util.List;
 
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
-import rhit.jrProj.henry.firebase.User.ChildrenListener;
-import rhit.jrProj.henry.firebase.User.GrandChildrenListener;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
@@ -17,7 +17,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
+public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -32,7 +32,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
     /**
      * The name of the milestone
      */
-    private String name = "No Name assigned";
+    private String name = Enums.noName;
 
     /**
      * The due date of a milestone
@@ -56,19 +56,19 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
     /**
      * A description of the work that needs to happen in this milestone.
      */
-    private String description = "No description assigned";
+    private String description = Enums.noDes;
 
     /**
      * This is the class that onChange is called from to when a field in
      * Firebase is updated. This then notifies the object that is displaying the
      * Milestone that this object has been updated.
      */
-    private ListChangeNotifier<Milestone> listViewCallback;
+    private ChangeNotifier<Milestone> listViewCallback;
 
     /**
      * A string of the milestone's firebase id.
      */
-    private String milestoneId = "No ID assigned";
+    private String milestoneId = Enums.noID;
 
     private ListChangeNotifier<Task> taskListViewCallback;
     /**
@@ -124,8 +124,8 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      *
      * @param lcn
      */
-    public void setListChangeNotifier(ListChangeNotifier<Milestone> lcn) {
-        this.setListViewCallback(lcn);
+    public void setChangeNotifier(ChangeNotifier lcn) {
+        this.setViewCallback(lcn);
     }
 
     /**
@@ -301,7 +301,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      * @return
      */
 
-    public ListChangeNotifier<Milestone> getListChangeNotifier() {
+    public ChangeNotifier<Milestone> getChangeNotifier() {
         return this.listViewCallback;
     }
 
@@ -329,8 +329,8 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
      *
      * @param listViewCallback
      */
-    public void setListViewCallback(
-            ListChangeNotifier<Milestone> listViewCallback) {
+    public void setViewCallback(
+            ChangeNotifier<Milestone> listViewCallback) {
         this.listViewCallback = listViewCallback;
     }
 
@@ -407,8 +407,8 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
 
             if (arg0.getKey().equals("name")) {
                 this.milestone.setName(arg0.getValue(String.class));
-                if (this.milestone.getListChangeNotifier() != null) {
-                    this.milestone.getListChangeNotifier().onChange();
+                if (this.milestone.getChangeNotifier() != null) {
+                    this.milestone.getChangeNotifier().onChange();
                 }
             } else if (arg0.getKey().equals("description")) {
                 this.milestone.setDescription(arg0.getValue(String.class));
@@ -478,7 +478,7 @@ public class Milestone implements Parcelable, ListChangeNotifiable<Milestone> {
                 t.setParentNames(this.milestone.parentProjectName, this.milestone.name);
                 this.milestone.getTasks().add(t);
             }
-            t.setListChangeNotifier(this.milestone.getTaskListViewCallback());
+            t.setChangeNotifier(this.milestone.getTaskListViewCallback());
             if (this.milestone.listViewCallback != null) {
                 this.milestone.listViewCallback.onChange();
             }

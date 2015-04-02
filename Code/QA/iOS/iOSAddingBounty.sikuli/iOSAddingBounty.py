@@ -9,6 +9,7 @@ click("1423510377169.png")
 click("1423510393314.png")
 click("1423510687230.png")
 type("https://henry-test.firebaseapp.com/" + Key.ENTER)
+wait(5)
 click("1423510510426.png")
 wait(5)
 click("1423510527490.png")
@@ -18,7 +19,7 @@ wait(5)
 click("1423510552450.png")
 wait(5)
 click("1423510565260.png")
-if exists("1423510597889.png"):
+if exists(Pattern("1423510597889.png").similar(0.41)):
     print("Bounty added successfully")
 else:
     print("ERROR: Bounty not added successfully")

@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
  *
  * @author rockwotj. Created Oct 10, 2014.
  */
-public class ListChangeNotifier<T> {
+public class ListChangeNotifier<T> implements ChangeNotifier<T> {
 
     private BaseAdapter adapter;
 
@@ -20,7 +20,6 @@ public class ListChangeNotifier<T> {
      * The method that will be triggered when data is changed in the object.
      */
     public void onChange() {
-//		Log.i("ListCN called", "true");
         this.adapter.notifyDataSetChanged();
     }
 

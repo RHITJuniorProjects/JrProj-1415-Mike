@@ -620,20 +620,13 @@ public class MainActivity extends Activity implements
      * current fragment
      */
     public void sortingMode(MenuItem item) {
+        Log.i("Sorting mode", item.getTitle().toString());
         this.sortingMode = item.getTitle().toString();
         if (this.currFragment != null) {
-            if (this.currFragment instanceof ProjectListFragment) {
-                ((ProjectListFragment) this.currFragment).sortingChanged();
+            if (this.currFragment instanceof DataListFragment){
+                ((DataListFragment)this.currFragment).sortingChanged(this.sortingMode);
             }
-            if (this.currFragment instanceof MilestoneListFragment) {
-                ((MilestoneListFragment) this.currFragment).sortingChanged();
-            }
-            if (this.currFragment instanceof TaskListFragment) {
-                ((TaskListFragment) this.currFragment).sortingChanged();
-            }
-            if (this.currFragment instanceof BountyListFragment) {
-                ((BountyListFragment) this.currFragment).sortingChanged();
-            }
+
             if (this.currFragment instanceof TasksAllListFragment) {
                 ((TasksAllListFragment) this.currFragment).sortingChanged();
             }

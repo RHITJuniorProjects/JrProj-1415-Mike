@@ -194,7 +194,7 @@ public class TasksAllListFragment extends ListFragment implements OnItemSelected
 //		SortedListChangeNotifier<Project> lcn2 = new SortedListChangeNotifier<Project>(
 //				arrayAdapter, this.sortMode);
 //		
-//		user.setListChangeNotifier(lcn2);
+//		user.setChangeNotifier(lcn2);
         getAllMyTasks();
 //
 //		// This still doesn't account for dynamically adding and removing tasks
@@ -211,11 +211,11 @@ public class TasksAllListFragment extends ListFragment implements OnItemSelected
         lcn = new SortedListChangeNotifier<Task>(allTasksAdapter);
 
 //		for (Task t : this.tasks) {
-//			t.setListChangeNotifier(lcn);
+//			t.setChangeNotifier(lcn);
 //		}
         setListAdapter(allTasksAdapter);
         if (this.mCallbacks.isFromMainActivity()) {
-            this.setActivateOnItemClick(this.getArguments().getBoolean("TwoPane"));
+            this.setActivateOnItemClick(this.getArguments().getBoolean(Enums.TWOPANE));
         }
     }
 
@@ -380,7 +380,7 @@ public class TasksAllListFragment extends ListFragment implements OnItemSelected
     public void sortingChanged() {
         this.sortMode = this.mCallbacks.getSortMode();
         for (Task p : this.tasks) {
-            ((SortedListChangeNotifier<Task>) p.getListChangeNotifier()).changeSorting(this.sortMode);
+            ((SortedListChangeNotifier<Task>) p.getChangeNotifier()).changeSorting(this.sortMode);
         }
     }
 
@@ -399,7 +399,7 @@ public class TasksAllListFragment extends ListFragment implements OnItemSelected
         } else {
             this.unfinishedTasks.add(t);
         }
-        t.setListChangeNotifier(lcn);
+        t.setChangeNotifier(lcn);
     }
 
     @Override
