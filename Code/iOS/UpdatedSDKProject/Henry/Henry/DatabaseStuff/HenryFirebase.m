@@ -32,8 +32,6 @@ Firebase *henryFB;
 }
 
 - (void) updateDataSnapshot{
-//    currentFB = henryFB.
-    [HenryFirebase getFirebaseObject];
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         self.snapshot = snapshot;
     } withCancelBlock:^(NSError *error) {
@@ -46,40 +44,54 @@ Firebase *henryFB;
     return @"https://henry-test.firebaseio.com";
 }
 
-- (NSDictionary *) getAllProjects{
-    [self updateDataSnapshot];
-    NSDictionary *projects = self.snapshot.value[@"projects"];
-    NSLog(@"%@",projects);
-    return projects;
+- (void) getAllProjectsWithBlock:(ProjectCallback) completionBlock {
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *projects = snapshot.value[@"projects"];
+        completionBlock(projects, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
 }
 
-- (NSDictionary *) getMilestones:(NSString*) projectId{
-    [self updateDataSnapshot];
-    NSDictionary *milestones = self.snapshot.value[@"projects"][projectId][@"milestones"];
-    return milestones;
+- (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestoneCallback) completionBlock {
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *milestones = snapshot.value[@"projects"][projectId][@"milestones"];
+        completionBlock(milestones, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
 }
 
-- (NSDictionary *) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId{
-    [self updateDataSnapshot];
-    NSDictionary *tasks = self.snapshot.value[@"projects"][projectId][@"milestones"][milestoneId];
-    return tasks;
+- (void) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(TasksForMilestoneCallback) completionBlock {
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *tasks = snapshot.value[@"projects"][projectId][@"milestones"][milestoneId];
+        completionBlock(tasks, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
 }
 
-- (NSDictionary *) getTasksForUser:(NSString*) userId{
-    [self updateDataSnapshot];
-    
-    return nil ;
+- (void) getAllTrophiesWithBlock: (TrophiesCallback) completionBlock {
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *trophies = snapshot.value[@"trophies"];
+        completionBlock(trophies, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
 }
 
-- (NSDictionary *) getAllTrophies {
-    [self updateDataSnapshot];
-    NSDictionary *trophies = self.snapshot.value[@"trophies"];
-    return trophies;
+- (void) getUserInfoWithUserId: (NSString*) userid withBlock: (UserInfoCallback) completionBlock {
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *userInfo = snapshot.value[@"users"][userid];
+        completionBlock(userInfo, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
 }
 
--(NSArray*) getBounties:(NSString*) taskId{
+// This was never implemented, so that needs to happen
+-(void) getBounties:(NSString*) taskId{
     [self updateDataSnapshot];
-    return nil ;
 }
 
 
