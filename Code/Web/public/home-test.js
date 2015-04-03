@@ -317,7 +317,7 @@ function getNameAndDraw(current, userArray, linesArray){
                 totalArray.push(new Array(nameArray[i], linesArray[i]));
                
             }
-            
+            console.log(totalArray);
             pieChartDrawer(totalArray);
 
         }

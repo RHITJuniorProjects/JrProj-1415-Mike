@@ -10,7 +10,7 @@
 							<h1 id="project-name"></h1>
 							<div id="myMilestoneModal" class="reveal-modal small-4" data-reveal>
 								<h2>New Milestone</h2><br />
-                                <form action="" onsubmit="addNewMilestone(); return false;">
+                                <form action="" onsubmit="Project.prototype.addNewMilestone(); return false;">
                                     <label for="milestoneName">Milestone Name:</label> <input type="text" id="milestoneName" />
                                     <label for="milestoneDescription">Description:</label> <input type="text" id="milestoneDescription" />
                                     <label for="milestoneDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>

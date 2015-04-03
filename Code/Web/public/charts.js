@@ -87,8 +87,8 @@ function BurndownChart(id,title,burndownData){
 		}
 	};
 	this.setYAxis('Hours','hrs');
-	this.addSeries(burndownData.estimatedHours());
-	this.addSeries(burndownData.hoursCompleted());
+	this.addSeries(burndownData.getEstimatedHours());
+	this.addSeries(burndownData.getHoursCompleted());
 }
 
 BurndownChart.prototype = new LineChart(null,'Burn Down Chart');
@@ -195,9 +195,9 @@ function makeSeriesGetter(name){
 }
 
 BurndownData.prototype._init = function(){
-	if(this._initialized){
-		return;
-	}
+	// if(this._initialized){
+	// 	return;
+	// }
 	this._estimHours = new Series('Estimated Hours');
 	this._compHours = new Series('Completed Hours');
 	this._remTasks = new Series('Remaining Tasks');
@@ -214,10 +214,115 @@ BurndownData.prototype._init = function(){
 		bdd._remTasks.addPoint([time,  obj.tasks_remaining]);
 		bdd._compTasks.addPoint([time, obj.tasks_completed]);
 	});
-	this._initialized = true;
+	// this._initialized = true;
 };
 
-BurndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
-BurndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
-BurndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
-BurndownData.prototype.tasksRemaining = makeSeriesGetter('_remTasks');
+BurndownData.prototype.getEstimatedHours = function(){
+	return this._estimHours;
+};
+
+BurndownData.prototype.getCompletedHours = function(){
+	return this._compHours;
+};
+
+BurndownData.prototype.getRemainingTasks = function(){
+	return this._remTasks;
+};
+
+BurndownData.prototype.getCompletedTasks = function(){
+	return this._compTasks;
+};
+
+function BarChart(xdata,ydata, xAxisName, yAxisName){
+	this.xdata = xdata;
+	this.ydata = ydata;
+	this.xAxisName = xAxisName;
+	this.yAxisName = yAxisName;
+
+}
+
+BarChart.prototype.create = function(render,title){
+	 $(render).highcharts({
+        chart: {
+            type: 'column',
+            margin: 75,
+            options3d: {
+                enabled: false,
+                alpha: 10,
+                beta: 25,
+                depth: 70
+            }
+        },
+        title: {
+            text: title,
+            style: { "color": "#333333", "fontSize": "30px" },
+        },
+        plotOptions: {
+            column: {
+                depth: 25
+            }
+        },
+        xAxis: {
+            categories: this.xdata
+        },
+        yAxis: {
+            opposite: false,
+            tickInterval: 20,
+            max: 100,
+            title: {
+                text: this.xAxisName
+            }
+        },
+        series: [{
+            name: this.yAxisName,
+            data: this.ydata
+        }],
+        colors: ['#0099FF', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
+                '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
+    });
+};
+
+
+function PieChart(pieData){
+	this.pieData = pieData;
+	console.log(pieData);
+
+}
+
+PieChart.prototype.create = function(render,title){
+    $(render).highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: 1,//null,
+            plotShadow: false
+        },
+        title: {
+            text: 'Breakup of Committed Lines of Code for Project'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.y} lines</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}:</b> {point.y} lines',
+                    style: {
+                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    }
+                }
+            }
+        },
+        series: [{
+            type: 'pie',
+            name: 'Line Breakup',
+            data: this.pieData
+        }]
+	});
+};
+// BurndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
+// BurndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
+// BurndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
+// BurndownData.prototype.tasksRemaining = makeSeriesGetter('_remTasks');

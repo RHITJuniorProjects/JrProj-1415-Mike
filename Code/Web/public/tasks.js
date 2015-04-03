@@ -83,11 +83,6 @@ Task.prototype = {
 			});
 		});
 	},
-	// getFlag: function (callback) {
-	//     this.__is_completed.on('value', function (dat) {
-	//         callback(dat.val());
-	//     });
-	// },
 	getTotalLinesOfCode: function (callback) {
 		this.__total_lines_of_code.on('value', function (dat) {
 			callback(dat.val());
@@ -158,13 +153,6 @@ Task.prototype = {
 		this.getDueDate(function (dueDate) {
 			due.html(dueDate);
 		});
-		// this.getFlag(function (f) {
-		//     if(f){
-		//         flag.html('<img src="completed.png" />');
-		//     } else {
-		//         flag.html('<img src="notcompleted.png" />');
-		//     }
-		// });
 		this.getTimeEstimate(function (hour_estimateStr) {
 			hoursEstimate.html(hour_estimateStr);
 		});
@@ -294,28 +282,7 @@ Task.prototype = {
 					taskBounties.show();
 				});
 
-				add.click(function(){
-					var msg = {
-						claimed:"None",
-						points:Number(points.val()),
-						name:"Name",
-						description:'Description'
-					};
-					if(typeS.val() === "Lines"){
-						msg.line_limit = Number(num.val());
-						msg.hour_limit = 'None';
-					} else {
-						msg.hour_limit = Number(num.val());
-						msg.line_limit = 'None';
-					}
-
-					if(condS.val() === "Whenever"){
-						msg.due_date = 'No Due Date';
-					} else {
-						msg.due_date = date.val();
-					}
-					task.__firebase.child('bounties').push(msg);
-				});
+				add.click(createNewBounty(points, typeS, num, condS, date, task));
 
 				modal.keypress(function (e) {
 					if (e.which == 13) {
@@ -331,7 +298,6 @@ Task.prototype = {
 					dueInput.fdatepicker('show');
 				});
 				submit.click(function () {
-
 					if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() ||
 						!dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
 						$("#task-error").show();
@@ -426,104 +392,27 @@ Task.prototype = {
 	}
 };
 
-function newTask() {
-	var cats;
-	var nameInput = $('<input type="text">'),
-		descriptionInput = $('<textarea>'),
-		userSelect = users.getSelect(function (user) {
-			selectedUser = user;
-		}, user.uid),
-		newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>'),
-		categoriesSelect = makeSelect(defaultCategories.concat(cats), "Feature").append(newCategory),
-		categoriesText = $('<input type="text" hidden=true>'),
-		statusSelect = makeSelect(Task.Statuses, "New"),
-		estHoursInput = $('<input type="text">'),
-		nameH = '<h3>Add New Task</h3>',
-		submit = $('<input class="button" value="Add Task" />'),
-		modal = $('#task-modal'),
-		dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
-		taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
+function createNewBounty(points, typeS, num, condS, date, task) {
+	var msg = {
+			claimed:"None",
+			points:Number(points.val()),
+			name:"Name",
+			description:'Description'
+		};
+	if(typeS.val() === "Lines"){
+		msg.line_limit = Number(num.val());
+		msg.hour_limit = 'None';
+	} else {
+		msg.hour_limit = Number(num.val());
+		msg.line_limit = 'None';
+	}
 
-	$('#task-modal').foundation('reveal', 'open');
-	selectedProject.getCustomCategories(function(categories){
-		if(categories){
-			cats = Object.keys(categories);
-		} else {
-			cats = [];
-		}
-		modal.children().remove();
-		$(categoriesText).hide();
-		modal.append(
-			nameH,
-			label(nameInput, 'Name'),
-			label(descriptionInput, 'Description'),
-			label(userSelect, 'User'),
-			label(categoriesSelect, 'Category'),
-			categoriesText,
-			label(statusSelect, 'Status'),
-			label(estHoursInput, 'Estimated Hours'),
-			label(dueInput, "Due Date"),
-			submit,
-			taskError
-		);
-		newCategory.click(function() {
-			$(categoriesSelect).hide();
-			$(categoriesText).show();
-		});
-		dueInput.click(function () {
-			dueInput.fdatepicker({format: 'yyyy-mm-dd'});
-			dueInput.fdatepicker('show');
-		});
-		modal.keypress(function (e) {
-			if (e.which == 13) {
-				submit.click();
-			}
-		});
-		submit.click(function () {
-
-			if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() ||
-				!categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
-				$("#task-error").show();
-				return;
-			} else {
-				$("#task-error").hide();
-			}
-
-			var estHours = Number(estHoursInput.val());
-
-			if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
-				$("#task-error").show();
-				return;
-			}
-
-			if(!dueInput.val().match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
-				$("#task-error").show();
-				return;
-			}
-			var categoryName = null;
-			if($(categoriesSelect).is(":visible")) {
-				categoryName = categoriesSelect.val();
-			} else {
-				categoryName = categoriesText.val();
-			}
-			if(categoryName){
-				var category = {};
-				category[categoryName] = true;
-				selectedProject.__custom_categories.update(category);
-			}
-			selectedMilestone.__tasks.push({
-				name: nameInput.val(),
-				description: descriptionInput.val(),
-				assignedTo: userSelect.val(),
-				category: categoryName,
-				status: statusSelect.val(),
-				original_hour_estimate: estHours,
-				due_date: dueInput.val() 
-			});
-			$("#task-modal").foundation('reveal', 'close');
-		});
-
-	});
+	if(condS.val() === "Whenever"){
+		msg.due_date = 'No Due Date';
+	} else {
+		msg.due_date = date.val();
+	}
+	task.__firebase.child('bounties').push(msg);
 }
 
 function taskStatistics(){

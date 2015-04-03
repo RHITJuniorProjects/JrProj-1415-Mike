@@ -13,7 +13,7 @@ function Project(firebase) {
 	this.__hoursPercent = firebase.child('hours_percent');
 	this.__burndownData = new BurndownData(firebase.child('burndown_data'));
 	this.__totalPoints = firebase.root().child('users/' + user.uid + '/projects/' + this.uid + '/total_points');
-};
+}
 
 Project.prototype = {
 	getName: function (callback) {
@@ -171,7 +171,8 @@ Project.prototype = {
 };
 
 // creates new projects and are added into firebase
-function addNewProject() {
+Project.prototype.addNewProject = function() {
+// function addNewProject(){
 	var docName = $("#projectName").val();
 	var docDescription = $("#projectDescription").val();
 	var docDueDate = $("#projectDueDate").val();
@@ -198,14 +199,60 @@ function addNewProject() {
 
 	var members = {};
 	members[currentUser] = 'Lead';
-	var project = firebase.child('projects').push({
-		'name': docName,
-		'description': docDescription,
-		'due_date': docDueDate,
-		'total_estimated_hours': estHours,
-		'custom_categories': {},
-		'members': members
-	});
+	ProjectDB.prototype.pushNewProject(docName,docDescription,docDueDate,estHours,members);
 	$('#project-submit').foundation('reveal', 'close');
-}
+};
+
+Project.prototype.addNewMilestone = function() {
+	var docName = $("#milestoneName").val();
+	var docDescription = $("#milestoneDescription").val();
+	var docDueDate = $("#milestoneDueDate").val();
+	var docEstimatedHours = $("#milestoneEstimatedHours").val();
+	var projectid = selectedProject.uid;
+
+	// Validate fields
+	if (!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid) {
+		$("#milestone-error").show();
+		return;
+	} else {
+		$("#milestone-error").hide();
+	}
+
+	var estHours = Number(docEstimatedHours);
+
+	if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
+		$("#milestone-error").show();
+		return;
+	}
+
+	if(!docDueDate.match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
+		$("#milestone-error").show();
+		return;
+	}
+
+	ProjectDB.prototype.pushNewMilestone(selectedProject.uid, docName,docDescription,docDueDate,estHours);
+	$("#milestone-submit").foundation('reveal', 'close');
+};
+
+Project.prototype.getMilestoneList = function(){
+	return selectedProject.getMilestones();
+
+};
+
+Project.prototype.getCharts = function(){
+	//filling arrays for the charts 
+	var projectHoursArray = ProjectDB.prototype.getChartHoursArray();
+    var projectNameArray = ProjectDB.prototype.getChartNameArray();
+    var projectTaskArray = ProjectDB.prototype.getChartTaskArray();
+    // console.log(projectNameArray);
+ 	//chart creation
+    var projectHourBarChart = new BarChart(projectNameArray,projectHoursArray,'Percent Completed by Hours', 'Percent Complete');
+    projectHourBarChart.create('#projContainer1','Progress of Projects');
+    var projectTaskBarChart = new BarChart(projectNameArray,projectTaskArray,'Percent Completed by Task', 'Percent Complete');
+    projectTaskBarChart.create('#projContainer2','Project completeness based on Task');
+    
+};
+
+
+
 

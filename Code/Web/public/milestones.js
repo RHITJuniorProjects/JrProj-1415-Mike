@@ -89,41 +89,120 @@ Milestone.prototype = {
 	}
 };
 
-//Adds a new milestone to firebase based on the values of the modal's textfield inputs
-function addNewMilestone() {
-	var docName = $("#milestoneName").val();
-	var docDescription = $("#milestoneDescription").val();
-	var docDueDate = $("#milestoneDueDate").val();
-	var docEstimatedHours = $("#milestoneEstimatedHours").val();
-	var projectid = selectedProject.uid;
+//Adds a new task to firebase based on the values of the modal's textfield inputs
+Milestone.prototype.newTask = function() {
+	var cats;
+	var nameInput = $('<input type="text">'),
+		descriptionInput = $('<textarea>'),
+		userSelect = users.getSelect(function (user) {
+			selectedUser = user;
+		}, user.uid),
+		newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>'),
+		categoriesSelect = makeSelect(defaultCategories.concat(cats), "Feature").append(newCategory),
+		categoriesText = $('<input type="text" hidden=true>'),
+		statusSelect = makeSelect(Task.Statuses, "New"),
+		estHoursInput = $('<input type="text">'),
+	   // bountyInput = $('<input type="text">'),
+		nameH = '<h3>Add New Task</h3>',
+		submit = $('<input class="button" value="Add Task" />'),
+		modal = $('#task-modal'),
+		//completed = makeSelect(Task.Flags, 'false');
+		dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
+		taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
-	// Validate fields
-	if (!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid) {
-		$("#milestone-error").show();
-		return;
-	} else {
-		$("#milestone-error").hide();
-	}
-
-	var estHours = Number(docEstimatedHours);
-
-	if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
-		$("#milestone-error").show();
-		return;
-	}
-
-	if(!docDueDate.match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
-		$("#milestone-error").show();
-		return;
-	}
-
-	firebase.child('projects/' + projectid).child('milestones').push(
-		{ 'name': docName,
-		  'description': docDescription,
-		  'due_date': docDueDate,
-		  'total_estimated_hours': estHours
+	$('#task-modal').foundation('reveal','open');
+	selectedProject.getCustomCategories(function(categories){
+		if(categories){
+			cats = Object.keys(categories);
+		} else {
+			cats = [];
 		}
-	);
+		modal.children().remove();
+		$(categoriesText).hide();
+		modal.append(
+			nameH,
+			label(nameInput, 'Name'),
+			label(descriptionInput, 'Description'),
+			label(userSelect, 'User'),
+			label(categoriesSelect, 'Category'),
+			categoriesText,
+			label(statusSelect, 'Status'),
+			label(estHoursInput, 'Estimated Hours'),
+			//label(completed, 'Is Completed'),
+			label(dueInput, "Due Date"),
+			//label(bountyInput,"Bounty Points"),
+			submit,
+			taskError
+		);
+		newCategory.click(function() {
+			$(categoriesSelect).hide();
+			$(categoriesText).show();
+		});
+		dueInput.click(function () {
+			dueInput.fdatepicker({format: 'yyyy-mm-dd'});
+			dueInput.fdatepicker('show');
+		});
+		modal.keypress(function (e) {
+			if (e.which == 13) {
+				submit.click();
+			}
+		});
+		submit.click(function () {
 
-	$("#milestone-submit").foundation('reveal', 'close');
+			if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
+				$("#task-error").show();
+				return;
+			} else {
+				$("#task-error").hide();
+			}
+
+			var estHours = Number(estHoursInput.val());
+
+			if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
+				$("#task-error").show();
+				return;
+			}
+
+			if(!dueInput.val().match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
+				$("#task-error").show();
+				return;
+			}
+			var categoryName = null;
+			if($(categoriesSelect).is(":visible")) {
+				categoryName = categoriesSelect.val();
+			} else {
+				categoryName = categoriesText.val();
+			}
+			if(categoryName){
+				var cate = {};
+				cate[categoryName] = true;
+				selectedProject.__custom_categories.update(cate);
+			}
+			MilestoneDB.prototype.pushNewTask(nameInput.val(),descriptionInput.val(),userSelect.val(),categoryName,statusSelect.val(),estHours,dueInput.val());
+		
+			$("#task-modal").foundation('reveal', 'close');
+		});
+
+	});
 }
+
+Milestone.prototype.getTaskList = function(){
+	return selectedMilestone.getTasks();
+};
+
+Milestone.prototype.getCharts = function(){
+	var milestonePercentCompArray = [];
+    var milestoneNameArray = [];
+    var userID = [];
+    var userNameLOCArray = [];
+ 
+	milestonePercentCompArray = MilestoneDB.prototype.getMilestoneHours();
+	milestoneNameArray = MilestoneDB.prototype.getMilestoneName();
+	userID = MilestoneDB.prototype.getMembers();
+	userNameLOCArray = MilestoneDB.prototype.getPieChartData(userID);
+
+    var milestoneHourBarChart = new BarChart(milestoneNameArray,milestonePercentCompArray,'Percent Completed by Hours', 'Percent Complete');
+    milestoneHourBarChart.create('#mileContainer','Progress of Milestone');
+    var pieChart = new PieChart(userNameLOCArray);
+    pieChart.create('#linesOfCode','Breakup of Committed Lines of Code for Project');
+};
