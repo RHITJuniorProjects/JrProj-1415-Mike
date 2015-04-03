@@ -23,7 +23,51 @@ MilestoneDB.prototype.pushNewTask = function(nameInput,descriptionInput,userSele
 		due_date: dueInput 
 	});
 };
-MilestoneDB.prototype.getMilestoneNames = function() {
 
-	
+MilestoneDB.prototype.getMilestoneName = function() {
+	var array = [];
+	firebase.child("projects/"+selectedProject.uid+"/milestones").on('value', function(snapshot) {
+        var milestone = snapshot.val();
+        for(var id in snapshot.val()){
+            array.push(milestone[id].name);
+        }
+    });	
+    return array;
+};
+MilestoneDB.prototype.getMilestoneHours = function() {
+	var array = [];
+	firebase.child("projects/"+selectedProject.uid+"/milestones").on('value', function(snapshot) {
+        var milestone = snapshot.val();
+        for(var id in snapshot.val()){
+            array.push(milestone[id].hours_percent);
+        }
+    });	
+    return array;
+};
+MilestoneDB.prototype.getMembers = function() {
+	var array = [];
+	firebase.child("projects/" + selectedProject.uid +"/members").on('value', function (snapshot) {
+	    for(var member in snapshot.val()){
+	        array.push(member);
+	    }
+    });
+    return array;
+};
+MilestoneDB.prototype.getPieChartData = function(userID) {
+	var userNameLOCArray = [];
+	var userLOC = [];
+	var userName = [];
+	var i =0;
+	firebase.child("users").on('value', function(snapshot){
+		var user = snapshot.val();
+		for(var id in snapshot.val()){
+			if(id === userID[i] ){
+				userLOC.push(user[id].projects[selectedProject.uid].total_lines_of_code);
+				userName.push(user[id].name);
+				userNameLOCArray.push(new Array(userName[i], userLOC[i]));
+				i++
+			}
+		}
+	});
+    return userNameLOCArray;
 };

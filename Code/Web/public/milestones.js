@@ -193,42 +193,14 @@ Milestone.prototype.getTaskList = function(){
 Milestone.prototype.getCharts = function(){
 	var milestonePercentCompArray = [];
     var milestoneNameArray = [];
-    var userLOC = [];
-    var userName = [];
     var userID = [];
     var userNameLOCArray = [];
-    var projectTotalLOC = 0;
+ 
+	milestonePercentCompArray = MilestoneDB.prototype.getMilestoneHours();
+	milestoneNameArray = MilestoneDB.prototype.getMilestoneName();
+	userID = MilestoneDB.prototype.getMembers();
+	userNameLOCArray = MilestoneDB.prototype.getPieChartData(userID);
 
-	firebase.child("projects/"+selectedProject.uid+"/milestones").on('value', function(snapshot) {
-        var milestone = snapshot.val();
-        for(var id in snapshot.val()){
-            milestoneNameArray.push(milestone[id].name);
-            milestonePercentCompArray.push(milestone[id].hours_percent);
-        }
-    });
-	firebase.child("projects/" + selectedProject.uid +"/total_lines_of_code").on('value', function (snapshot) {
-	   projectTotalLOC = snapshot.val();
-    });
-	firebase.child("projects/" + selectedProject.uid +"/members").on('value', function (snapshot) {
-	    for(var member in snapshot.val()){
-	    	// console.log(member);
-	        userID.push(member);
-	    }
-    });
-	
-	var i =0;
-	firebase.child("users").on('value', function(snapshot){
-		var user = snapshot.val();
-		for(var id in snapshot.val()){
-			if(id === userID[i] ){
-				userLOC.push(user[id].projects[selectedProject.uid].total_lines_of_code);
-				userName.push(user[id].name);
-				userNameLOCArray.push(new Array(userName[i], userLOC[i]));
-				i++
-			}
-		}
-	});
-		
     var milestoneHourBarChart = new BarChart(milestoneNameArray,milestonePercentCompArray,'Percent Completed by Hours', 'Percent Complete');
     milestoneHourBarChart.create('#mileContainer','Progress of Milestone');
     var pieChart = new PieChart(userNameLOCArray);
