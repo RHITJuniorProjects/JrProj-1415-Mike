@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import rhit.jrProj.henry.bridge.ChangeNotifiable;
+import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.bridge.Leaderboard;
 import rhit.jrProj.henry.helpers.Checkers;
 
 import android.app.Activity;
@@ -28,11 +31,11 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class LeaderboardActivity extends Activity {
+public class LeaderboardActivity extends Activity implements ChangeNotifier<Leaderboard> {
+
+    private Leaderboard mLeaderboardObject;
 
     private GlobalVariables mGlobalVariables;
-
-    private Map<String, LeaderboardUser> mUsers;
 
     private TableLayout mLeaderboard;
 
@@ -47,43 +50,15 @@ public class LeaderboardActivity extends Activity {
 
         mLeaderboard = (TableLayout) findViewById(R.id.leaderboard);
 
-        mUsers = new HashMap<String, LeaderboardUser>();
-
         String fireBaseUrl = mGlobalVariables.getFirebaseUrl();
         Firebase firebase = new Firebase(fireBaseUrl);
 
         mUserKey = firebase.getAuth().getUid();
 
         Firebase usersRef = firebase.child("users");
-        usersRef.addChildEventListener(new ChildEventListener() {
+        this.mLeaderboardObject = new Leaderboard(usersRef);
+        this.mLeaderboardObject.setChangeNotifier(this);
 
-            @Override
-            public void onCancelled(FirebaseError arg0) {
-                // do nothing
-            }
-
-            @Override
-            public void onChildAdded(DataSnapshot arg0, String arg1) {
-                updateUser(arg0);
-                updateDisplay();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot arg0, String arg1) {
-                updateUser(arg0);
-                updateDisplay();
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot arg0, String arg1) {
-                // do nothing
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot arg0) {
-                // do nothing
-            }
-        });
     }
 
     @Override
@@ -105,37 +80,9 @@ public class LeaderboardActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateUser(DataSnapshot arg0) {
-        String id = arg0.getKey();
-        String name = arg0.child("name").getValue(String.class);
-        try {
-            Checkers.checkNotNull(name);
-        } catch (Exception e) {
-            // Reference was null,
-            return;
-        }
-
-        LeaderboardUser user = mUsers.get(id);
-        if (user == null) {
-            user = new LeaderboardUser(id, name);
-            mUsers.put(id, user);
-        }
-
-        Integer total_points = arg0.child("total_points").getValue(
-                Integer.class);
-        try {
-            Checkers.checkNotNull(total_points);
-            Checkers.checkNotNegative(total_points);
-            user.setTotalPoints(total_points);
-        } catch (Exception e) {
-            // Reference did not exist or corrupt data
-            mUsers.remove(id);
-        }
-    }
-
-    private void updateDisplay() {
-        Collection<LeaderboardUser> usersCollection = mUsers.values();
-        List<LeaderboardUser> usersList = new ArrayList<LeaderboardUser>(
+    private void updateDisplay(Map<String, Leaderboard.LeaderboardUser> users) {
+        Collection<Leaderboard.LeaderboardUser> usersCollection = users.values();
+        List<Leaderboard.LeaderboardUser> usersList = new ArrayList<Leaderboard.LeaderboardUser>(
                 usersCollection);
         Collections.sort(usersList);
 
@@ -143,7 +90,7 @@ public class LeaderboardActivity extends Activity {
 
         List<TableRow> rows = new ArrayList<TableRow>();
         for (int i = 0; i < 25 && i < usersList.size(); i++) {
-            LeaderboardUser user = usersList.get(i);
+            Leaderboard.LeaderboardUser user = usersList.get(i);
             TableRow row = createRow(user, i + 1, user.getId().equals(mUserKey));
             rows.add(row);
             if (user.getId().equals(mUserKey)) {
@@ -161,7 +108,7 @@ public class LeaderboardActivity extends Activity {
         }
     }
 
-    private TableRow createRow(LeaderboardUser user, int position, boolean bold) {
+    private TableRow createRow(Leaderboard.LeaderboardUser user, int position, boolean bold) {
         Display display = getWindowManager().getDefaultDisplay();
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
@@ -208,41 +155,8 @@ public class LeaderboardActivity extends Activity {
                 getResources().getDisplayMetrics());
     }
 
-    private class LeaderboardUser implements Comparable<LeaderboardUser> {
-
-        private String mId;
-        private String mName;
-
-        private int mTotal_Points;
-
-        public LeaderboardUser(String id, String name) {
-            mId = id;
-            mName = name;
-        }
-
-        public String getName() {
-            return mName;
-        }
-
-        public int getTotalPoints() {
-            return mTotal_Points;
-        }
-
-        public void setTotalPoints(int total_points) {
-            mTotal_Points = total_points;
-        }
-
-        public String getId() {
-            return this.mId;
-        }
-
-        @Override
-        public int compareTo(LeaderboardUser another) {
-            if (another.getTotalPoints() > this.getTotalPoints()) {
-                return 1;
-            }
-            return -1;
-        }
-
+    @Override
+    public void onChange() {
+        this.updateDisplay(mLeaderboardObject.getUsers());
     }
 }
