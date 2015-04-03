@@ -230,7 +230,7 @@ Milestone.prototype.getCharts = function(){
 			if(id === userID[i] ){
 				userLOC.push(user[id].projects[selectedProject.uid].total_lines_of_code);
 				userName.push(user[id].name);
-				userNameLOCArray.push(userName[i], userLOC[i]);
+				userNameLOCArray.push(new Array(userName[i], userLOC[i]));
 				i++
 			}
 		}

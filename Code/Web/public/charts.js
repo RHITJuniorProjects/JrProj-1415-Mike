@@ -269,7 +269,7 @@ BarChart.prototype.create = function(render,title){
 
 function PieChart(pieData){
 	this.pieData = pieData;
-	// console.log(pieData);
+	console.log(pieData);
 
 }
 
