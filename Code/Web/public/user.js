@@ -62,65 +62,65 @@ function addNewMember() {
 }
 
 
-// User.ProjectData = function (user, ref) {
-// 	console.log("User.ProjectData called");
-// 	this.user = user;
-// 	this.__firebase = ref;
-// 	this.uid = ref.key();
-// 	this.__added_lines_of_code = ref.child('added_lines_of_code');
-// 	this.__removed_lines_of_code = ref.child('removed_lines_of_code');
-// 	this.__total_lines_of_code = ref.child('total_lines_of_code');
-// 	this.__milestones = ref.child('milestones');
-// };
+User.ProjectData = function (user, ref) {
+	console.log("User.ProjectData called");
+	this.user = user;
+	this.__firebase = ref;
+	this.uid = ref.key();
+	this.__added_lines_of_code = ref.child('added_lines_of_code');
+	this.__removed_lines_of_code = ref.child('removed_lines_of_code');
+	this.__total_lines_of_code = ref.child('total_lines_of_code');
+	this.__milestones = ref.child('milestones');
+};
 
-// User.ProjectData.prototype = {
-// 	getProject: function () {
-// 		console.log("User.ProjectData.getProject called");
-// 		return projects.get(this.uid);
-// 	},
-// 	getMilestoneData: function () {
-// 		console.log("User.ProjectData.getMilestoneData called");
-// 		return new Table(
-// 			function (ref) {
-// 				return new User.MilestoneData(this.user, ref)
-// 			},
-// 			this.__milestones
-// 		);
-// 	},
-// 	getMilestones: function () {
-// 		console.log("User.ProjectData.getMilestones called");
-// 		return new ReferenceTable(
-// 			this.getProject().getMilestones,
-// 			this.__milestones
-// 		);
-// 	},
-// 	getLinesOfCode: function (callback) {
-// 		console.log("User.ProjectData.getLinesOfCode called");
-// 		this.__total_lines_of_code.on('value', function (snap) {
-// 			callback(snap.val());
-// 		});
-// 	}
-// };
+User.ProjectData.prototype = {
+	getProject: function () {
+		console.log("User.ProjectData.getProject called");
+		return projects.get(this.uid);
+	},
+	getMilestoneData: function () {
+		console.log("User.ProjectData.getMilestoneData called");
+		return new Table(
+			function (ref) {
+				return new User.MilestoneData(this.user, ref)
+			},
+			this.__milestones
+		);
+	},
+	getMilestones: function () {
+		console.log("User.ProjectData.getMilestones called");
+		return new ReferenceTable(
+			this.getProject().getMilestones,
+			this.__milestones
+		);
+	},
+	getLinesOfCode: function (callback) {
+		console.log("User.ProjectData.getLinesOfCode called");
+		this.__total_lines_of_code.on('value', function (snap) {
+			callback(snap.val());
+		});
+	}
+};
 
-// User.MilestoneData = function (user, ref) {
-// 	console.log("User.MilestoneData called");
-// 	this.user = user;
-// 	this.__firebase = ref;
-// 	this.uid = ref.key();
-// 	this.__added_lines_of_code = ref.child('added_lines_of_code');
-// 	this.__removed_lines_of_code = ref.child('removed_lines_of_code');
-// 	this.__total_lines_of_code = ref.child('total_lines_of_code');
-// 	this.__tasks = ref.child('tasks');
-// };
+User.MilestoneData = function (user, ref) {
+	console.log("User.MilestoneData called");
+	this.user = user;
+	this.__firebase = ref;
+	this.uid = ref.key();
+	this.__added_lines_of_code = ref.child('added_lines_of_code');
+	this.__removed_lines_of_code = ref.child('removed_lines_of_code');
+	this.__total_lines_of_code = ref.child('total_lines_of_code');
+	this.__tasks = ref.child('tasks');
+};
 
-// User.MilestoneData.prototype = {
-// 	getMilestone: function () {
+User.MilestoneData.prototype = {
+	getMilestone: function () {
 
-// 	},
-// 	getLinesOfCode: function (callback) {
-// 		console.log("User.MilestoneData.getLinesOfCode called");
-// 		this.__total_lines_of_code.on('value', function (snap) {
-// 			callback(snap.val());
-// 		});
-// 	}
-// };
+	},
+	getLinesOfCode: function (callback) {
+		console.log("User.MilestoneData.getLinesOfCode called");
+		this.__total_lines_of_code.on('value', function (snap) {
+			callback(snap.val());
+		});
+	}
+};
