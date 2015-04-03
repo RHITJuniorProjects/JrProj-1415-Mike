@@ -39,6 +39,8 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import rhit.jrProj.henry.bridge.Login;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -48,11 +50,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
      * A dialog that displays during the authentication process saying "Authenticating with Firebase..."
      */
     private ProgressDialog mAuthProgressDialog;
-
-    private Firebase ref;
-
-    /* Data from the authenticated user */
-    private AuthData authData;
 
     /* A tag that is used for logging statements */
     private static final String TAG = "LoginDemo";
@@ -65,13 +62,17 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     private GlobalVariables mGlobalVariables;
 
+    private Login mLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         mGlobalVariables = ((GlobalVariables) getApplicationContext());
-        ref = new Firebase(mGlobalVariables.getFirebaseUrl());
+        Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl());
+        mLogin = new Login(ref, this);
+
         ActionBar actionBar = getActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(0x268bd2));
 
@@ -151,7 +152,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !mLogin.isPasswordValid(password)) {
             this.mPasswordView
                     .setError(getString(R.string.error_invalid_password));
             focusView = this.mPasswordView;
@@ -163,7 +164,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             this.mEmailView.setError(getString(R.string.error_field_required));
             focusView = this.mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!mLogin.isEmailValid(email)) {
             this.mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = this.mEmailView;
             cancel = true;
@@ -178,7 +179,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             // perform the user login attempt.
             showProgress(true);
             this.mAuthProgressDialog.show();
-            loginWithPassword(email, password);
+            mLogin.loginWithPassword(email, password);
             showProgress(false);
         }
     }
@@ -193,7 +194,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         this.mAuthProgressDialog.hide();
         Intent intent = new Intent(this, WelcomeActivity.class);
         intent.putExtra("user",
-                mGlobalVariables.getFirebaseUrl() + "users/" + this.authData.getUid());
+                mGlobalVariables.getFirebaseUrl() + "users/" + authdata.getUid());
         this.startActivity(intent);
         this.finish();
     }
@@ -282,17 +283,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     /**
-     * Authenticates the user with Firebase, using the specified email address and password
-     *
-     * @param username
-     * @param password
-     */
-    public void loginWithPassword(String username, String password) {
-        this.ref.authWithPassword(username, password, new AuthResultHandler(
-                "password"));
-    }
-
-    /**
      * Populates the autocomplete feature
      */
     private void populateAutoComplete() {
@@ -337,38 +327,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     }
 
     /**
-     * Verifies the user provided a valid email.
-     *
-     * @param email
-     * @return
-     */
-    private boolean isEmailValid(String email) {
-        return email.contains("@");
-    }
-
-    /**
-     * Verifies the password is longer than 4 characters.
-     *
-     * @param password
-     * @return
-     */
-    private boolean isPasswordValid(String password) {
-        return password.length() > 4;
-    }
-
-    /**
-     * Authenticates a user to allow them to login.
-     *
-     * @param authData
-     */
-    private void setAuthenticatedUser(AuthData authData) {
-        if (authData != null) {
-            this.authData = authData;
-            openProjectListView(this.authData);
-        }
-    }
-
-    /**
      * Opens a browser activity that loads the page that allows the user to create a new account
      *
      * @param view
@@ -379,38 +337,9 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
     }
 
-    /**
-     * A custom AuthResultHandler
-     *
-     * @author daveyle
-     */
-    private class AuthResultHandler implements Firebase.AuthResultHandler {
-
-        private final String provider;
-
-        /**
-         * Creates a new AuthResultHandler
-         *
-         * @param provider
-         */
-        public AuthResultHandler(String provider) {
-            this.provider = provider;
-        }
-
-        /**
-         * On successful authentication, calls the setAuthenticatedUser method
-         */
-        public void onAuthenticated(AuthData authData) {
-            setAuthenticatedUser(authData);
-        }
-
-        /**
-         * On failed login, displays an error message
-         */
-        public void onAuthenticationError(FirebaseError firebaseError) {
-            showErrorDialog(firebaseError.toString());
-            mAuthProgressDialog.hide();
-        }
+    public void showError(String errorMessage) {
+        showErrorDialog(errorMessage);
+        mAuthProgressDialog.hide();
     }
 
 }
