@@ -166,9 +166,6 @@ fb.child("projects/" + projectID + "/milestones").on('value', function(snapshot)
 });
 
 
-
-
-
 function getLinesOfCode(item, array){
     fb.child("users/" + item + "/projects/" + projectID + "/total_lines_of_code").on('value', function(snapshot){
         linesOfCodeArray.push(snapshot.val());

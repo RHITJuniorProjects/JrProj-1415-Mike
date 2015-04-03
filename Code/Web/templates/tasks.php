@@ -9,7 +9,7 @@
 							"#ViewTasks"),
 					new Tab("View Tasks",["id" => "TaskTab", "class" => "active"]),
 					new Tab("Add New Task",["onclick" => "Milestone.prototype.newTask() || setTimeout(function(){ $('#TaskTab a').click() });"],"#ViewTasks"),
-					new Tab("Task Statistics",["onclick" => "taskStatistics()"],"#ViewTasks"),
+					new Tab("Task Statistics",["onclick" => "Task.prototype.getCharts()"],"#ViewTasks"),
 					new Tab("Burndown Chart")
 				)
 			);
