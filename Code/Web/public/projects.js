@@ -199,14 +199,7 @@ Project.prototype.addNewProject = function() {
 
 	var members = {};
 	members[currentUser] = 'Lead';
-	var project = firebase.child('projects').push({
-		'name': docName,
-		'description': docDescription,
-		'due_date': docDueDate,
-		'total_estimated_hours': estHours,
-		'custom_categories': {},
-		'members': members
-	});
+	ProjectDB.prototype.pushNewProject(docName,docDescription,docDueDate,estHours,members);
 	$('#project-submit').foundation('reveal', 'close');
 };
 
@@ -237,14 +230,7 @@ Project.prototype.addNewMilestone = function() {
 		return;
 	}
 
-	firebase.child('projects/' + projectid).child('milestones').push(
-		{ 'name': docName,
-		  'description': docDescription,
-		  'due_date': docDueDate,
-		  'total_estimated_hours': estHours
-		}
-	);
-
+	ProjectDB.prototype.pushNewMilestone(selectedProject.uid, docName,docDescription,docDueDate,estHours);
 	$("#milestone-submit").foundation('reveal', 'close');
 };
 
@@ -254,18 +240,12 @@ Project.prototype.getMilestoneList = function(){
 };
 
 Project.prototype.getCharts = function(){
-	var projectHoursArray = [];
-    var projectNameArray = [];
-    var projectTaskArray = [];
-	firebase.child("projects").on('value', function(snapshot) {
-        var project = snapshot.val();
-        for(var id in snapshot.val()){
-            projectNameArray.push(project[id].name);
-            projectHoursArray.push(project[id].hours_percent);
-            projectTaskArray.push(project[id].task_percent);
-        }
-    });
-
+	//filling arrays for the charts 
+	var projectHoursArray = ProjectDB.prototype.getChartHoursArray();
+    var projectNameArray = ProjectDB.prototype.getChartNameArray();
+    var projectTaskArray = ProjectDB.prototype.getChartTaskArray();
+    // console.log(projectNameArray);
+ 	//chart creation
     var projectHourBarChart = new BarChart(projectNameArray,projectHoursArray,'Percent Completed by Hours', 'Percent Complete');
     projectHourBarChart.create('#projContainer1','Progress of Projects');
     var projectTaskBarChart = new BarChart(projectNameArray,projectTaskArray,'Percent Completed by Task', 'Percent Complete');

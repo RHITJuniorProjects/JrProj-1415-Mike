@@ -178,16 +178,8 @@ Milestone.prototype.newTask = function() {
 				cate[categoryName] = true;
 				selectedProject.__custom_categories.update(cate);
 			}
-			selectedMilestone.__tasks.push({
-				name: nameInput.val(),
-				description: descriptionInput.val(),
-				assignedTo: userSelect.val(),
-				category: categoryName,
-				status: statusSelect.val(),
-				original_hour_estimate: estHours,
-				// is_completed: false,    //default task to uncompleted
-				due_date: dueInput.val() 
-			});
+			MilestoneDB.prototype.pushNewTask(nameInput.val(),descriptionInput.val(),userSelect.val(),categoryName,statusSelect.val(),estHours,dueInput.val());
+		
 			$("#task-modal").foundation('reveal', 'close');
 		});
 
@@ -206,6 +198,7 @@ Milestone.prototype.getCharts = function(){
     var userID = [];
     var userNameLOCArray = [];
     var projectTotalLOC = 0;
+
 	firebase.child("projects/"+selectedProject.uid+"/milestones").on('value', function(snapshot) {
         var milestone = snapshot.val();
         for(var id in snapshot.val()){
