@@ -31,6 +31,7 @@ Trophy.prototype = {
 		});
 	}
 };
+
 Trophy.prototype.getTableRow =  function () {
 	var row = $('<tr class="trophy-row">');//for later: data-reveal-id="trophy-modal">');
 	var name = $('<td>');
