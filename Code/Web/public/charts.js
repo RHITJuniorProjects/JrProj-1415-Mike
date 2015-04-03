@@ -195,9 +195,9 @@ function makeSeriesGetter(name){
 }
 
 BurndownData.prototype._init = function(){
-	if(this._initialized){
-		return;
-	}
+	// if(this._initialized){
+	// 	return;
+	// }
 	this._estimHours = new Series('Estimated Hours');
 	this._compHours = new Series('Completed Hours');
 	this._remTasks = new Series('Remaining Tasks');
@@ -214,7 +214,23 @@ BurndownData.prototype._init = function(){
 		bdd._remTasks.addPoint([time,  obj.tasks_remaining]);
 		bdd._compTasks.addPoint([time, obj.tasks_completed]);
 	});
-	this._initialized = true;
+	// this._initialized = true;
+};
+
+BurndownData.prototype._getEstimHours = function(){
+	return this._estimHours;
+};
+
+BurndownData.prototype._getCompHours = function(){
+	return this._compHours;
+};
+
+BurndownData.prototype._getRemTasks = function(){
+	return this._remTasks;
+};
+
+BurndownData.prototype._getCompTasks = function(){
+	return this._compTasks;
 };
 
 function BarChart(xdata,ydata, xAxisName, yAxisName){
@@ -306,7 +322,7 @@ PieChart.prototype.create = function(render,title){
         }]
 	});
 };
-BurndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
-BurndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
-BurndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
-BurndownData.prototype.tasksRemaining = makeSeriesGetter('_remTasks');
+// BurndownData.prototype.estimatedHours = makeSeriesGetter('_estimHours');
+// BurndownData.prototype.hoursCompleted = makeSeriesGetter('_compHours');
+// BurndownData.prototype.tasksCompleted = makeSeriesGetter('_compTasks');
+// BurndownData.prototype.tasksRemaining = makeSeriesGetter('_remTasks');
