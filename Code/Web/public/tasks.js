@@ -177,9 +177,9 @@ Task.prototype = {
 
 				var nav = $('<nav class="breadcrumbs gamification">'),
 					editA = $('<a class="current" href="#">Edit Task</a>'),
-					bountyA = $('<a href="#">View Bounties</a>');
+					bountyA = $('<a href="#">View Bounties</a>'),
+					check = $('#gamification-switch');
 
-				var check = $('#gamification-switch');
 				if(!check.is(':checked')){
 					nav.hide();
 				}
@@ -191,7 +191,7 @@ Task.prototype = {
 					vals = snap.val(),
 					nameInput = $('<input type="text" value="' + vals.name + '">'),
 					descriptionInput = $('<textarea>' + vals.description + '</textarea>'),
-					userSelect = new ReferenceTable(users,task.__members).getSelect(function (user) {
+					userSelect = new ReferenceTable(users, task.__members).getSelect(function (user) {
 						selectedUser = user;
 					}, vals.assignedTo),
 					newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>');
@@ -203,7 +203,7 @@ Task.prototype = {
 					estHoursInput = $('<input type="text" value="' + vals.updated_hour_estimate + '">'),
 					eNameH = $('<h3>'),
 					bNameH = $('<h3>'),
-					submit = $('<input class="button" value="Edit Task" />'),
+					submit = $('<input class="button" value="Submit" />'),
 					taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 				if(vals.bounties != undefined) {
 					bountyPoints = $('<input type="text" value="' + vals.bounties.points + '">');
@@ -238,7 +238,7 @@ Task.prototype = {
 					numc = $('<div class="small-2 columns">'),
 					num = $('<input type="number" placeholder="amount">'),
 					addc = $('<div class="small-2 columns">'),
-					add= $('<input type="button" class="button small" value="Add Bounty">'),
+					add = $('<input type="button" class="button small" value="Add Bounty">'),
 					datec = $('<div class="small-2 columns">'),
 					date = $('<input type="date" placeholder="yyyy-mm-dd">'),
 					typec = $('<div class="small-2 columns">'),
@@ -288,8 +288,8 @@ Task.prototype = {
 				});
 
 				bountyA.click(function(){
-					bountyA.attr('class','current');
-					editA.attr('class','');
+					bountyA.attr('class', 'current');
+					editA.attr('class', '');
 					taskEdit.hide();
 					taskBounties.show();
 				});
@@ -332,7 +332,8 @@ Task.prototype = {
 				});
 				submit.click(function () {
 
-					if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
+					if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() ||
+						!dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
 						$("#task-error").show();
 						return;
 					} else {
@@ -340,12 +341,6 @@ Task.prototype = {
 					}
 
 					var estHours = Number(estHoursInput.val());
-					// console.log(estHours);
-					// var flagVal = flagInput.val() == 'true' ? true : false;
-					// console.log(typeof(flagInput.val()));
-					// console.log(flagInput.val());
-					// console.log(typeof(flagVal));
-					// console.log(flagVal);
 
 					if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
 						$("#task-error").show();
@@ -363,17 +358,13 @@ Task.prototype = {
 					} else {
 						categoryName = categoriesText.val();
 					}
-					// var bpoints = task.getBountiesPoints();
+
 					task.__firebase.update({
 						name: nameInput.val(),
 						description: descriptionInput.val(),
 						assignedTo: userSelect.val(),
 						due_date: dueInput.val(),
 						category: categoryName,
-						//status: statusSelect.val(),
-						// is_completed: ,
-						//update here not sure how to though
-						// bounties: {points: task.getBountiesPoints()},
 						updated_hour_estimate: estHours
 					});
 					var commit = {
@@ -389,7 +380,7 @@ Task.prototype = {
 						updated_hour_estimate : Number(estHoursInput.val()),
 						user : userSelect.val()
 					};
-					// console.log(commit);
+
 					task.__root.child("commits/" + selectedProject.uid).push(commit);
 					
 					var cate = {};
@@ -399,11 +390,7 @@ Task.prototype = {
 				});
 			});
 		});
-		/*
-		this.getTimeEstimate(function(time) {
-			//console.log(time);
-		});
-		*/
+
 		return row;
 	},
 	setUser: function (user) {
@@ -428,9 +415,6 @@ Task.prototype = {
 	setName: function (name) {
 		this.__name.set(name);
 	},
-	// setFlag: function (flag) {
-	//     this.__is_completed.set(flag);
-	// },
 	setDueDate: function (dueDate) {
 		this.__due_date.set(dueDate);
 	},
@@ -454,15 +438,13 @@ function newTask() {
 		categoriesText = $('<input type="text" hidden=true>'),
 		statusSelect = makeSelect(Task.Statuses, "New"),
 		estHoursInput = $('<input type="text">'),
-	   // bountyInput = $('<input type="text">'),
 		nameH = '<h3>Add New Task</h3>',
 		submit = $('<input class="button" value="Add Task" />'),
 		modal = $('#task-modal'),
-		//completed = makeSelect(Task.Flags, 'false');
 		dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
 		taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
-	$('#task-modal').foundation('reveal','open');
+	$('#task-modal').foundation('reveal', 'open');
 	selectedProject.getCustomCategories(function(categories){
 		if(categories){
 			cats = Object.keys(categories);
@@ -480,9 +462,7 @@ function newTask() {
 			categoriesText,
 			label(statusSelect, 'Status'),
 			label(estHoursInput, 'Estimated Hours'),
-			//label(completed, 'Is Completed'),
 			label(dueInput, "Due Date"),
-			//label(bountyInput,"Bounty Points"),
 			submit,
 			taskError
 		);
@@ -501,7 +481,8 @@ function newTask() {
 		});
 		submit.click(function () {
 
-			if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
+			if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() ||
+				!categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
 				$("#task-error").show();
 				return;
 			} else {
@@ -526,9 +507,9 @@ function newTask() {
 				categoryName = categoriesText.val();
 			}
 			if(categoryName){
-				var cate = {};
-				cate[categoryName] = true;
-				selectedProject.__custom_categories.update(cate);
+				var category = {};
+				category[categoryName] = true;
+				selectedProject.__custom_categories.update(category);
 			}
 			selectedMilestone.__tasks.push({
 				name: nameInput.val(),
@@ -537,7 +518,6 @@ function newTask() {
 				category: categoryName,
 				status: statusSelect.val(),
 				original_hour_estimate: estHours,
-				// is_completed: false,    //default task to uncompleted
 				due_date: dueInput.val() 
 			});
 			$("#task-modal").foundation('reveal', 'close');
@@ -545,10 +525,8 @@ function newTask() {
 
 	});
 }
+
 function taskStatistics(){
-	//console.log('one');
-	$('#taskContainer').foundation('reveal','open');
-	//console.log('two');
-	// console.log(selectedMilestone);
-	drawTaskStuff(selectedProject.uid,selectedMilestone.uid,firebase);
+	$('#taskContainer').foundation('reveal', 'open');
+	drawTaskStuff(selectedProject.uid, selectedMilestone.uid, firebase);
 }

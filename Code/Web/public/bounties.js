@@ -9,25 +9,25 @@ function Bounty(firebase){
 	this.__points = firebase.child('points');
 }
 
-Bounty.Types = ["Lines","Hours"];
+Bounty.Types = ["Lines", "Hours"];
 
-Bounty.Conditions = ["By Date","Whenever"];
+Bounty.Conditions = ["By Date", "Whenever"];
 
 Bounty.makeTypeSelect = function(onselect){
-	return makeSelect(Bounty.Types,Bounty.Types[0],onselect);
+	return makeSelect(Bounty.Types, Bounty.Types[0], onselect);
 };
 
 Bounty.makeConditionSelect = function(onselect){
-	return makeSelect(Bounty.Conditions,Bounty.Conditions[0],onselect);
+	return makeSelect(Bounty.Conditions, Bounty.Conditions[0], onselect);
 };
 
 Bounty.prototype = {
-	getName:function(callback){
-		this.__name.on('value',function(snap){
+	getName: function(callback){
+		this.__name.on('value', function(snap){
 			callback(snap.val);
 		});
 	},
-	getType:function(callback){
+	getType: function(callback){
 		this.getHourLimit(function(hours){
 			if(hours > 0){
 				callback('Hours');
@@ -36,7 +36,7 @@ Bounty.prototype = {
 			}
 		});
 	},
-	getCondition:function(callback){
+	getCondition: function(callback){
 		this.getDueDate(function(date){
 			if(date === 'No Due Date'){
 				callback('Whenever');
@@ -45,28 +45,28 @@ Bounty.prototype = {
 			}
 		});
 	},
-	getClaiment:function(callback){
-		this.__claimed.on('value',function(snap){
+	getClaiment: function(callback){
+		this.__claimed.on('value', function(snap){
 			callback(snap.val());
 		});
 	},
-	getHourLimit:function(callback){
-		this.__hour_limit.on('value',function(snap){
+	getHourLimit: function(callback){
+		this.__hour_limit.on('value', function(snap){
 			callback(snap.val());
 		});
 	},
-	getLineLimit:function(callback){
-		this.__line_limit.on('value',function(snap){
+	getLineLimit: function(callback){
+		this.__line_limit.on('value', function(snap){
 			callback(snap.val());
 		});
 	},
-	getName:function(callback){
-		this.__name.on('value',function(snap){
+	getName: function(callback){
+		this.__name.on('value', function(snap){
 			callback(snap.val());
 		});
 	},
-	getPoints:function(callback){
-		this.__points.on('value',function(snap){
+	getPoints: function(callback){
+		this.__points.on('value', function(snap){
 			var v = snap.val();
 			if(v === null){
 				callback(0);
@@ -74,12 +74,12 @@ Bounty.prototype = {
 			callback(v);
 		});
 	},
-	getDueDate:function(callback){
-		this.__due_date.on('value',function(snap){
+	getDueDate: function(callback){
+		this.__due_date.on('value', function(snap){
 			callback(snap.val());
 		});
 	},
-	getRow:function(){
+	getRow: function(){
 		var row = $('<div class="row">'),
 			typeSpan = $('<span>'),
 			tc = $('<div class="small-3 columns">'),
@@ -94,17 +94,17 @@ Bounty.prototype = {
 		this.getType(function(type){
 			if(type === 'Lines'){
 				bounty.getLineLimit(function(lim){
-					typeSpan.text(lim.toString()+' Lines');
+					typeSpan.text(lim.toString() + ' Lines');
 				});
 			} else {
 				bounty.getHourLimit(function(lim){
-					typeSpan.text(lim.toString()+' Hours');
+					typeSpan.text(lim.toString() + ' Hours');
 				});
 			}
 		});
 
 		this.getPoints(function(p){
-			pointsSpan.html(p.toString()+' Points');
+			pointsSpan.html(p.toString() + ' Points');
 		});
 
 		this.getCondition(function(cond){
@@ -112,13 +112,13 @@ Bounty.prototype = {
 				condSpan.text('');
 			} else {
 				bounty.getDueDate(function(date){
-					condSpan.text("By "+date);
+					condSpan.text("By " + date);
 				});
 			}
 		});
 
 		this.getClaiment(function(claiment){
-			claimSpan.text('claimed by '+claiment);
+			claimSpan.text('claimed by ' + claiment);
 		});
 		row.append(
 			tc.append(typeSpan),
