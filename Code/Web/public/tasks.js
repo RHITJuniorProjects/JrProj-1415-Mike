@@ -418,19 +418,23 @@ function createNewBounty(points, typeS, num, condS, date, task) {
 	task.__firebase.child('bounties').push(msg);
 }
 
-function taskStatistics(){
-	$('#taskContainer').foundation('reveal', 'open');
-	getCharts(selectedProject.uid, selectedMilestone.uid, firebase);
-}
+// function taskStatistics(){
+// 	$('#taskContainer').foundation('reveal', 'open');
+// 	getCharts(selectedProject.uid, selectedMilestone.uid, firebase);
+// }
 
-function getCharts(projID, mileID, fb) {
+// function getCharts(projID, mileID, fb) {
+Task.prototype.getCharts = function() {
+	$('#taskContainer').foundation('reveal', 'open');
+
 	projectTaskArray = [];
 	taskNameArray = [];
 	taskPercentArray = [];
-	projectID = projID.toString();
-	milestoneID = mileID.toString();
+	projectID = selectedProject.uid.toString();
+	milestoneID = selectedMilestone.uid.toString();
 
-	fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks").on('value', function(snapshot) {
+	firebase.child("projects/" + projectID + "/milestones/" + milestoneID +
+		"/tasks").on('value', function(snapshot) {
 		var taskIDArray = [];
 		for(var item in snapshot.val()){
 			taskIDArray.push(item);
@@ -441,7 +445,6 @@ function getCharts(projID, mileID, fb) {
 		}
 	});
 };
-
 
 function getTaskData(projectID, milestoneID, item, array){
 	fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item +"/name").on('value',function(snapshot){
