@@ -89,41 +89,155 @@ Milestone.prototype = {
 	}
 };
 
-//Adds a new milestone to firebase based on the values of the modal's textfield inputs
-function addNewMilestone() {
-	var docName = $("#milestoneName").val();
-	var docDescription = $("#milestoneDescription").val();
-	var docDueDate = $("#milestoneDueDate").val();
-	var docEstimatedHours = $("#milestoneEstimatedHours").val();
-	var projectid = selectedProject.uid;
+//Adds a new task to firebase based on the values of the modal's textfield inputs
+Milestone.prototype.newTask = function() {
+	var cats;
+	var nameInput = $('<input type="text">'),
+		descriptionInput = $('<textarea>'),
+		userSelect = users.getSelect(function (user) {
+			selectedUser = user;
+		}, user.uid),
+		newCategory = $('<option id="newCategory" value="Add Category">Add Category</option>'),
+		categoriesSelect = makeSelect(defaultCategories.concat(cats), "Feature").append(newCategory),
+		categoriesText = $('<input type="text" hidden=true>'),
+		statusSelect = makeSelect(Task.Statuses, "New"),
+		estHoursInput = $('<input type="text">'),
+	   // bountyInput = $('<input type="text">'),
+		nameH = '<h3>Add New Task</h3>',
+		submit = $('<input class="button" value="Add Task" />'),
+		modal = $('#task-modal'),
+		//completed = makeSelect(Task.Flags, 'false');
+		dueInput = $('<input type="text" placeholder="yyyy-mm-dd">'),
+		taskError = $('<div id="task-error" class="my-error" hidden>All fields must be specified</div>');
 
-	// Validate fields
-	if (!docName || !docDescription || !docDueDate || !docEstimatedHours || !projectid) {
-		$("#milestone-error").show();
-		return;
-	} else {
-		$("#milestone-error").hide();
-	}
-
-	var estHours = Number(docEstimatedHours);
-
-	if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
-		$("#milestone-error").show();
-		return;
-	}
-
-	if(!docDueDate.match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
-		$("#milestone-error").show();
-		return;
-	}
-
-	firebase.child('projects/' + projectid).child('milestones').push(
-		{ 'name': docName,
-		  'description': docDescription,
-		  'due_date': docDueDate,
-		  'total_estimated_hours': estHours
+	$('#task-modal').foundation('reveal','open');
+	selectedProject.getCustomCategories(function(categories){
+		if(categories){
+			cats = Object.keys(categories);
+		} else {
+			cats = [];
 		}
-	);
+		modal.children().remove();
+		$(categoriesText).hide();
+		modal.append(
+			nameH,
+			label(nameInput, 'Name'),
+			label(descriptionInput, 'Description'),
+			label(userSelect, 'User'),
+			label(categoriesSelect, 'Category'),
+			categoriesText,
+			label(statusSelect, 'Status'),
+			label(estHoursInput, 'Estimated Hours'),
+			//label(completed, 'Is Completed'),
+			label(dueInput, "Due Date"),
+			//label(bountyInput,"Bounty Points"),
+			submit,
+			taskError
+		);
+		newCategory.click(function() {
+			$(categoriesSelect).hide();
+			$(categoriesText).show();
+		});
+		dueInput.click(function () {
+			dueInput.fdatepicker({format: 'yyyy-mm-dd'});
+			dueInput.fdatepicker('show');
+		});
+		modal.keypress(function (e) {
+			if (e.which == 13) {
+				submit.click();
+			}
+		});
+		submit.click(function () {
 
-	$("#milestone-submit").foundation('reveal', 'close');
+			if(!nameInput.val() || !descriptionInput.val() || !userSelect.val() || !dueInput.val() || !categoriesSelect.val() || !statusSelect.val() || !estHoursInput.val()){
+				$("#task-error").show();
+				return;
+			} else {
+				$("#task-error").hide();
+			}
+
+			var estHours = Number(estHoursInput.val());
+
+			if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
+				$("#task-error").show();
+				return;
+			}
+
+			if(!dueInput.val().match(/^(19|20)[0-9][0-9][-\\/. ](0[1-9]|1[012])[-\\/. ](0[1-9]|[12][0-9]|3[01])$/)){
+				$("#task-error").show();
+				return;
+			}
+			var categoryName = null;
+			if($(categoriesSelect).is(":visible")) {
+				categoryName = categoriesSelect.val();
+			} else {
+				categoryName = categoriesText.val();
+			}
+			if(categoryName){
+				var cate = {};
+				cate[categoryName] = true;
+				selectedProject.__custom_categories.update(cate);
+			}
+			selectedMilestone.__tasks.push({
+				name: nameInput.val(),
+				description: descriptionInput.val(),
+				assignedTo: userSelect.val(),
+				category: categoryName,
+				status: statusSelect.val(),
+				original_hour_estimate: estHours,
+				// is_completed: false,    //default task to uncompleted
+				due_date: dueInput.val() 
+			});
+			$("#task-modal").foundation('reveal', 'close');
+		});
+
+	});
 }
+
+Milestone.prototype.getTaskList = function(){
+	return selectedMilestone.getTasks();
+};
+
+Milestone.prototype.getCharts = function(){
+	var milestonePercentCompArray = [];
+    var milestoneNameArray = [];
+    var userLOC = [];
+    var userName = [];
+    var userID = [];
+    var userNameLOCArray = [];
+    var projectTotalLOC = 0;
+	firebase.child("projects/"+selectedProject.uid+"/milestones").on('value', function(snapshot) {
+        var milestone = snapshot.val();
+        for(var id in snapshot.val()){
+            milestoneNameArray.push(milestone[id].name);
+            milestonePercentCompArray.push(milestone[id].hours_percent);
+        }
+    });
+	firebase.child("projects/" + selectedProject.uid +"/total_lines_of_code").on('value', function (snapshot) {
+	   projectTotalLOC = snapshot.val();
+    });
+	firebase.child("projects/" + selectedProject.uid +"/members").on('value', function (snapshot) {
+	    for(var member in snapshot.val()){
+	    	// console.log(member);
+	        userID.push(member);
+	    }
+    });
+	
+	var i =0;
+	firebase.child("users").on('value', function(snapshot){
+		var user = snapshot.val();
+		for(var id in snapshot.val()){
+			if(id === userID[i] ){
+				userLOC.push(user[id].projects[selectedProject.uid].total_lines_of_code);
+				userName.push(user[id].name);
+				userNameLOCArray.push(userName[i], userLOC[i]);
+				i++
+			}
+		}
+	});
+		
+    var milestoneHourBarChart = new BarChart(milestoneNameArray,milestonePercentCompArray,'Percent Completed by Hours', 'Percent Complete');
+    milestoneHourBarChart.create('#mileContainer','Progress of Milestone');
+    var pieChart = new PieChart(userNameLOCArray);
+    pieChart.create('#linesOfCode','Breakup of Committed Lines of Code for Project');
+};

@@ -218,10 +218,9 @@ function selectProject(project){
 		selectedProject.off();
 	}
 	selectedProject = project;
-	var milestones = selectedProject.getMilestones();
-	
-	drawMilestoneStuff(selectedProject.uid, firebase);
-	
+	var milestones = selectedProject.getMilestoneList();
+	// drawMilestoneStuff(selectedProject.uid, firebase);
+	Milestone.prototype.getCharts();
 	var $panel = $('#milestones-panel');
 	$panel.children().remove();
 	milestones.onItemAdded(function(milestone){
@@ -250,7 +249,7 @@ function selectMilestone(milestone){
 		selectedMilestone.off();
 	}
 	selectedMilestone = milestone;
-	var tasks = selectedMilestone.getTasks();
+	var tasks = selectedMilestone.getTaskList();
 	var $panel = $('#task-rows');
 	$panel.children().remove();
 	tasks.onItemAdded(function(task){
@@ -287,10 +286,9 @@ function viewProfile(user){
 
 function showProjects(){
 	drawUserStatistics(firebase,user.uid);
-	drawProjectStuff(firebase);
+	Project.prototype.getCharts();
 	milestonePage.hide();
 	taskPage.hide();
-	// myTrophyStorePage.hide();
 	profilePage.hide();
 	projectPage.show();
 	myStatisticsPage.hide();
@@ -298,13 +296,6 @@ function showProjects(){
 	getTrophies();
 }
 
-// function showMyTrophyStore() {
-//     milestonePage.hide();
-//     projectPage.hide();
-//     taskPage.hide();
-//     myStatisticsPage.hide();
-//     myTrophyStorePage.show();
-// }
 
 function selectMyTasks(){
 	var $panel = $('#my-tasks-rows');
