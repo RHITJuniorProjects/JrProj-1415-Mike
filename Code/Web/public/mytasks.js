@@ -13,7 +13,6 @@ MyTasks.prototype.getTableRow =  function () {
 	var stat = $('<td>');
 	var userTD = $('<td>');
 	var due = $('<td>');
-	// var flag = $('<td>');
 	var hoursEstimate = $('<td>');
 	var bountyPoints = $('<td class="gamification">');
 	var task = this;
@@ -47,13 +46,6 @@ MyTasks.prototype.getTableRow =  function () {
 	this.getDueDate(function (dueDate) {
 		due.html(dueDate);
 	});
-	// this.getFlag(function (f) {
-	//     if(f){
-	//         flag.html('<img src="completed.png" />');
-	//     } else {
-	//         flag.html('<img src="notcompleted.png" />');
-	//     }
-	// });
 	this.getTimeEstimate(function (hour_estimateStr) {
 		hoursEstimate.html(hour_estimateStr);
 	});
@@ -109,7 +101,6 @@ MyTasks.prototype.getTableRow =  function () {
 				categoriesText,
 				label(statusSelect, 'Status'),
 				label(dueInput, 'Due Date'),
-				// label(flagInput, 'Is Complete'),
 				label(estHoursInput, 'Estimated Hours'),
 				//label(bountyPoints, 'Bounty Points')
 				submit,
@@ -180,29 +171,7 @@ MyTasks.prototype.getTableRow =  function () {
 				taskBounties.show();
 			});
 
-			add.click(function(){
-				var msg = {
-					claimed:"None",
-					points:Number(points.val()),
-					name:"Bounty",
-					description:'Description'
-				};
-				if(typeS.val() === "Lines"){
-					msg.line_limit = Number(num.val());
-					msg.hour_limit = 'None';
-				} else {
-					msg.hour_limit = Number(num.val());
-					msg.line_limit = 'None';
-				}
-
-				if(condS.val() === "Whenever"){
-					msg.due_date = 'No Due Date';
-				} else {
-					msg.due_date = date.val();
-				}
-				//console.log(msg);
-				task.__firebase.child('bounties').push(msg);
-			});
+			add.click(createNewBounty(points, typeS, num, condS, date, task));
 
 			modal.keypress(function (e) {
 				if (e.which == 13) {
@@ -227,12 +196,6 @@ MyTasks.prototype.getTableRow =  function () {
 				}
 
 				var estHours = Number(estHoursInput.val());
-				// console.log(estHours);
-				// var flagVal = flagInput.val() == 'true' ? true : false;
-				// console.log(typeof(flagInput.val()));
-				// console.log(flagInput.val());
-				// console.log(typeof(flagVal));
-				// console.log(flagVal);
 
 				if(isNaN(estHours) || !isFinite(estHours) || estHours < 0){
 					$("#task-error").show();
@@ -287,10 +250,28 @@ MyTasks.prototype.getTableRow =  function () {
 			});
 		});
 	});
-	/*
-	this.getTimeEstimate(function(time) {
-		//console.log(time);
-	});
-	*/
 	return row;
 };
+
+function createNewBounty(points, typeS, num, condS, date, task) {
+	var msg = {
+			claimed:"None",
+			points:Number(points.val()),
+			name:"Name",
+			description:'Description'
+		};
+	if(typeS.val() === "Lines"){
+		msg.line_limit = Number(num.val());
+		msg.hour_limit = 'None';
+	} else {
+		msg.hour_limit = Number(num.val());
+		msg.line_limit = 'None';
+	}
+
+	if(condS.val() === "Whenever"){
+		msg.due_date = 'No Due Date';
+	} else {
+		msg.due_date = date.val();
+	}
+	task.__firebase.child('bounties').push(msg);
+}

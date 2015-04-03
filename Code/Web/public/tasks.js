@@ -1,3 +1,6 @@
+var taskNameArray = [];
+var taskPercentArray = [];
+
 function Task(firebase) {
 	this.__firebase = firebase;
 	this.__root = firebase.root();
@@ -175,7 +178,7 @@ Task.prototype = {
 				nav.append(editA,bountyA);
 
 				// make edit page
-				var	taskEdit = $('<div id="task-edit">'),
+				var taskEdit = $('<div id="task-edit">'),
 					vals = snap.val(),
 					nameInput = $('<input type="text" value="' + vals.name + '">'),
 					descriptionInput = $('<textarea>' + vals.description + '</textarea>'),
@@ -220,7 +223,7 @@ Task.prototype = {
 				);
 
 				// make bounty page
-				var	taskBounties = $('<div id="task-bounties">'),
+				var taskBounties = $('<div id="task-bounties">'),
 					list = $('<div>'),
 					newBounty = $('<div id="row">'),
 					numc = $('<div class="small-2 columns">'),
@@ -415,7 +418,84 @@ function createNewBounty(points, typeS, num, condS, date, task) {
 	task.__firebase.child('bounties').push(msg);
 }
 
-function taskStatistics(){
+// function taskStatistics(){
+// 	$('#taskContainer').foundation('reveal', 'open');
+// 	getCharts(selectedProject.uid, selectedMilestone.uid, firebase);
+// }
+
+// function getCharts(projID, mileID, fb) {
+Task.prototype.getCharts = function() {
 	$('#taskContainer').foundation('reveal', 'open');
-	drawTaskStuff(selectedProject.uid, selectedMilestone.uid, firebase);
-}
+
+	projectTaskArray = [];
+	taskNameArray = [];
+	taskPercentArray = [];
+	projectID = selectedProject.uid.toString();
+	milestoneID = selectedMilestone.uid.toString();
+
+	firebase.child("projects/" + projectID + "/milestones/" + milestoneID +
+		"/tasks").on('value', function(snapshot) {
+		var taskIDArray = [];
+		for(var item in snapshot.val()){
+			taskIDArray.push(item);
+		}
+
+		for(i = 0; i < taskIDArray.length; i++){
+			getTaskData(projectID, milestoneID, taskIDArray[i], taskIDArray);
+		}
+	});
+};
+
+function getTaskData(projectID, milestoneID, item, array){
+	fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item +"/name").on('value',function(snapshot){
+		taskNameArray.push(snapshot.val());
+		fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item + "/percent_complete").on('value',function(snapshot){
+			taskPercentArray.push(snapshot.val());
+		});
+
+		taskDrawer(taskNameArray, taskPercentArray);
+	});
+};
+
+function taskDrawer(name, percent_complete){
+	  $('#taskContainer').highcharts({
+		chart: {
+			type: 'column',
+			options3d: {
+				enabled: false,
+				alpha: 10,
+				beta: 25,
+				depth: 70
+			}
+		},
+		title: {
+			text: 'Progress of Tasks',
+			style: { "color": "#333333", "fontSize": "30px"},
+		},
+		plotOptions: {
+			column: {
+				depth: 25
+			}
+		},
+		xAxis: {
+			categories: name
+		},
+		yAxis: {
+			alternate:'#F0F0F0',
+			opposite: false,
+			tickInterval: 20,
+			margin: 120,
+			max: 120,
+			title: {
+				text: 'Percent Complete',
+				style: {"font-family": "Arial", "font-weight": "bold", "color": "#333333"}  
+			}
+		},
+		series: [{
+			name: 'Percent Complete',
+			data: percent_complete
+		}],
+		colors: ['#0099FF', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
+				'#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
+	});
+};
