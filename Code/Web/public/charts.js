@@ -87,8 +87,8 @@ function BurndownChart(id,title,burndownData){
 		}
 	};
 	this.setYAxis('Hours','hrs');
-	this.addSeries(burndownData.estimatedHours());
-	this.addSeries(burndownData.hoursCompleted());
+	this.addSeries(burndownData.getEstimatedHours());
+	this.addSeries(burndownData.getHoursCompleted());
 }
 
 BurndownChart.prototype = new LineChart(null,'Burn Down Chart');
@@ -217,19 +217,19 @@ BurndownData.prototype._init = function(){
 	// this._initialized = true;
 };
 
-BurndownData.prototype._getEstimHours = function(){
+BurndownData.prototype.getEstimatedHours = function(){
 	return this._estimHours;
 };
 
-BurndownData.prototype._getCompHours = function(){
+BurndownData.prototype.getCompletedHours = function(){
 	return this._compHours;
 };
 
-BurndownData.prototype._getRemTasks = function(){
+BurndownData.prototype.getRemainingTasks = function(){
 	return this._remTasks;
 };
 
-BurndownData.prototype._getCompTasks = function(){
+BurndownData.prototype.getCompletedTasks = function(){
 	return this._compTasks;
 };
 
