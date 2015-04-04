@@ -9,9 +9,12 @@
 #import "HenryAssignDevsTableViewController.h"
 #import "HenryAssignDevTableViewCell.h"
 #import "HenryDevDisplayObject.h"
+#import "UserModel.h"
+#import "TaskModel.h"
 #import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
 @property Firebase* fb;
+@property HenryFirebase* henryFB;
 @property UITableViewCell *previouslySelected; 
 @property int selectedIndex;
 @property BOOL firstTime;
@@ -25,7 +28,10 @@
     @try{
     [super viewWillDisappear:animated];
     if(self.hasClicked){
-        self.detailView.statusButton.titleLabel.text = [self.names objectAtIndex:self.selectedIndex];
+        UserModel* assignedUser = [UserModel new];
+        assignedUser.name = [self.names objectAtIndex:self.selectedIndex];
+        
+        self.detailView.statusButton.titleLabel.text = assignedUser.name;
         NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
         self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",self.ProjectID, self.MilestoneID, self.taskID] ];
         [self.fb updateChildValues:newValue];
@@ -42,13 +48,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     self.fb = [HenryFirebase getFirebaseObject];
     
-    
-    
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
+    [self updateTableFromFirebase];
 }
 
 - (void)viewDidLoad {
@@ -57,16 +57,12 @@
     
     self.firstTime = YES;
     self.fb = [HenryFirebase getFirebaseObject];
+    self.henryFB = [HenryFirebase new];
     self.hasClicked = NO;
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     // Attach a block to read the data at our posts reference
-    
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
+    [self updateTableFromFirebase];
     
     self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MilestoneID, self.taskID]];
     // Uncomment the following line to preserve selection between presentations.
@@ -82,25 +78,32 @@
     }
 }
 
--(void)updateTable:(FDataSnapshot *)snapshot {
-    @try{
-    self.assignableDevs = snapshot.value[@"projects"][self.ProjectID][@"members"];
-    
-    self.allDevs = snapshot.value[@"users"];
-    self.developers = [[NSMutableArray alloc] init];
-    NSArray *keys = [self.assignableDevs allKeys];
-    self.names = [[NSMutableArray alloc] init];
-    for (NSString *key in keys) {
-        NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
+- (void)updateTableWithAvailableDevsFromDictionary:(NSDictionary *)usersDictionary {
+    self.assignableDevs = usersDictionary;
+    NSArray* keys = [self.assignableDevs allKeys];
+    self.names = [NSMutableArray new];
+    for(NSString* key in keys) {
+        NSString* name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
         //NSLog(key);
         if(name != NULL){
             [self.names addObject:name];
             [self.developers addObject:key];
         }
     }
-    
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.tableView reloadData];
+}
+
+-(void)updateTableFromFirebase {
+    @try{
+        self.developers = [[NSMutableArray alloc] init];
+        [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+            self.allDevs = usersDictionary;
+            [self.henryFB getMembersOnProjectWithProjectID:self.ProjectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+                [self updateTableWithAvailableDevsFromDictionary:usersDictionary];
+            }];
+        }];
+    
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];

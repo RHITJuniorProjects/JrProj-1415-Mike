@@ -78,7 +78,8 @@ Firebase *writeToFB;
     }];
 }
 
-- (void) getAllTrophiesWithBlock: (TrophiesCallback) completionBlock {
+- (void) getAllTrophiesWithBlock: (TrophiesCallback) completionBlock;
+{
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSDictionary *trophies = snapshot.value[@"trophies"];
         completionBlock(trophies, YES, nil);
@@ -86,13 +87,29 @@ Firebase *writeToFB;
         completionBlock(nil,NO,error);
     }];
 }
+- (void) getAllUsersWithBlock: (UsersCallback) completionBlock;
+{
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *users = snapshot.value[@"users"];
+        completionBlock(users, YES, nil);
+    }];
+}
 
-- (void) getUserInfoWithUserId: (NSString*) userid withBlock: (UserInfoCallback) completionBlock {
+- (void) getUserInfoWithUserId: (NSString*) userid withBlock: (UserInfoCallback) completionBlock;
+{
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSDictionary *userInfo = snapshot.value[@"users"][userid];
         completionBlock(userInfo, YES, nil);
     } withCancelBlock:^(NSError *error) {
         completionBlock(nil,NO,error);
+    }];
+}
+
+- (void) getMembersOnProjectWithProjectID: (NSString*) projectId withBlock: (UsersCallback) completionBlock;
+{
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *membersOnProject = snapshot.value[@"projects"][projectId][@"members"];
+        completionBlock(membersOnProject, YES, nil);
     }];
 }
 
@@ -102,6 +119,14 @@ Firebase *writeToFB;
     writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", userid]];
     writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"trophies/%@",trophy.key]];
     [writeToFB setValue:trophy.name];
+}
+- (void) assignMemberToTask: (TaskModel*) task withMember: (UserModel*) user;
+{
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",task.parentProjectID, task.parentMilestoneID, task.taskID]];
+    NSDictionary *newValue = @{@"assignedTo":user.key};
+    [writeToFB updateChildValues:newValue];
+    
 }
 
 // This was never implemented, so that needs to happen

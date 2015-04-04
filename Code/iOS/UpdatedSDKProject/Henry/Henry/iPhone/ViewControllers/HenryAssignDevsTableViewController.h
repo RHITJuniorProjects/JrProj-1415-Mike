@@ -12,6 +12,7 @@
 @interface HenryAssignDevsTableViewController : UITableViewController
 @property NSMutableArray *developers;
 @property NSMutableArray *names;
+@property NSMutableArray *developerObjects;
 @property NSString *ProjectID;
 @property NSString *MilestoneID;
 @property NSString *taskID;
