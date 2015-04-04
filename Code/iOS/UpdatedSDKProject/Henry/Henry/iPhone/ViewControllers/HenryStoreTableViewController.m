@@ -9,12 +9,11 @@
 #import "HenryStoreTableViewController.h"
 #import "HenryStoreCellTableViewCell.h"
 #import "HenryFirebase.h"
+#import "TrophyModel.h"
 
 @interface HenryStoreTableViewController ()
-@property Firebase *fbTrophies;
-@property Firebase *fbUsers;
-@property Firebase *fbUser;
-@property NSMutableDictionary *trophies;
+@property HenryFirebase *firebase;
+@property NSDictionary *trophies;
 @property NSMutableArray *users;
 @property NSMutableArray *trophykey;
 @property NSString* userid;
@@ -24,6 +23,7 @@
 
 @end
 @implementation HenryStoreTableViewController
+NSMutableArray *trophyObjectArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,54 +37,46 @@
     self.userid = [defaults objectForKey:@"id"];
     self.userInfo = [[NSMutableDictionary alloc] init];
     self.trophies = [[NSMutableDictionary alloc] init];
+    
     self.users = [[NSMutableArray alloc] init];
     self.trophykey = [[NSMutableArray alloc] init];
     self.trophyIndex = 0;
-//    self.fbTrophies = [HenryFirebase getFirebaseObject];
-//    self.fbTrophies = [self.fbTrophies childByAppendingPath:@"/trophies"];
-    self.fbUsers = [HenryFirebase getFirebaseObject];
-    //self.fbUsers = [self.fbUsers childByAppendingPath:@"/users"];
-    self.fbUser = [HenryFirebase getFirebaseObject];
+    self.firebase = [HenryFirebase new];
     
-//    // get snapshot of trophies
-//    [self.fbTrophies observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-//        [self updateTable:snapshot];
-//    } withCancelBlock:^(NSError *error) {
-//        NSLog(@"%@", error.description);
-//    }];
-    
-    // get snapshot of user
-    [self.fbUsers observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
+    [self updateInfo];
 }
 
--(void)updateTable:(FDataSnapshot *)snapshot {
-    
-//    self.trophies = snapshot.value[@"trophies"];
-////    NSLog(@"%@", self.trophies);
-//    self.trophykey = [NSMutableArray arrayWithArray:[self.trophies allKeys]];
-//    [self.tableView reloadData];
+- (void)addAvailableTrophiesToTrophyObjectArrayFromDictionary:(NSDictionary *)trophiesDictionary {
+    self.trophies = trophiesDictionary;
+    self.trophykey = [NSMutableArray arrayWithArray:[self.trophies allKeys]];
+    [self.trophykey removeObjectsInArray:[[self.userInfo valueForKey:@"trophies"] allKeys]];
+    trophyObjectArray = [NSMutableArray new];
+    for (int i = 0; i < [self.trophykey count]; i++) {
+        NSDictionary* tempFBTrophy = [self.trophies valueForKey:[self.trophykey objectAtIndex:i]];
+        TrophyModel* tempTrophyModel = [[TrophyModel alloc] initWithName:[tempFBTrophy valueForKey:@"name"] Description:[tempFBTrophy valueForKey:@"description"] Cost:[tempFBTrophy valueForKey:@"cost"]];
+        [trophyObjectArray addObject:tempTrophyModel];
+    }
 }
 
--(void)updateInfo:(FDataSnapshot *)snapshot {
+-(void)updateInfo {
     @try{
        
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.navigationItem.title = @"Trophy Store";
-        self.userInfo = snapshot.value[@"users"][self.userid];
-        self.trophies = snapshot.value[@"trophies"];
-        self.trophykey = [NSMutableArray arrayWithArray:[self.trophies allKeys]];
-        [self.trophykey removeObjectsInArray:[[self.userInfo valueForKey:@"trophies"] allKeys]];
-        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
         
-        self.availablePoints = [self.userInfo objectForKey:@"available_points"];
-        self.pointsAvailable.text = [NSString stringWithFormat:@"Available Points to Spend: %@", [[self.userInfo objectForKey:@"available_points"] stringValue]];
+        [self.firebase getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
+            self.userInfo = userInfoDictionary;
+            [self.firebase getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+                [self addAvailableTrophiesToTrophyObjectArrayFromDictionary:trophiesDictionary];
+                [self.tableView reloadData];
+            }];
+            self.availablePoints = [self.userInfo objectForKey:@"available_points"];
+            self.pointsAvailable.text = [NSString stringWithFormat:@"Available Points to Spend: %@", [self.availablePoints stringValue]];
+            
+        }];
+//        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
         NSLog(@"%@", self.userInfo);
 //        NSLog([NSString stringWithFormat:@"Available points: %@",[self.userInfo objectForKey:@"available_points"]]);
-        [self.tableView reloadData];
        // [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }@catch(NSException *exception) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -95,36 +87,31 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 1;
-}
+// Unnecessary until we decide to separate them for some reason
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//#warning Potentially incomplete method implementation.
+//    // Return the number of sections.
+//    return 1;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
     return [self.trophykey count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HenryStoreCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"trophyCell" forIndexPath:indexPath];
+    NSInteger rowIndex = indexPath.row;
+    TrophyModel* tempModel = [trophyObjectArray objectAtIndex:rowIndex];
+    //Changed
+    cell.trophyName.text = tempModel.name;
+    cell.trophyDescription.text = tempModel.trophyModelDescription;
     
-    cell.trophyName.text = [[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"name"];
+    NSLog(@"%@",tempModel.cost.stringValue);
     
-    cell.trophyDescription.text = [[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"description"];
-    
-    NSLog(@"%@",[[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"cost"]);
-    
-    cell.trophyPrice.text = [[[self.trophies valueForKey:[self.trophykey objectAtIndex:indexPath.row]] valueForKey:@"cost"] stringValue];
-
+    cell.trophyPrice.text = tempModel.cost.stringValue;
     
     return cell;
 }
@@ -149,7 +136,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     }else{
         NSLog(@"Other button clicked!");
         
-        self.fbUser = [self.fbUser childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", self.userid]];
+        //TODO: What the hell uses this?
+//        self.fbUser = [self.fbUser childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", self.userid]];
         
         // Decrement points by trophy point amount
         NSString *trophy = [[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"name"];
@@ -180,7 +168,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         // TODO: add trophy!!!
        // [newData setObject:trophy forKey:@"trophies"];
         //[self.fbUser updateChildValues:newData];
-        [[self.fbUser childByAppendingPath:[NSString stringWithFormat:@"trophies/%@",[self.trophykey objectAtIndex:(int)self.trophyIndex]]] setValue:trophy];
+        
+        //TODO: And this???
+//        [[self.fbUser childByAppendingPath:[NSString stringWithFormat:@"trophies/%@",[self.trophykey objectAtIndex:(int)self.trophyIndex]]] setValue:trophy];
         
         [self.tableView reloadData];
         NSLog(@"New points: %@", [self.userInfo objectForKey:@"available_points"]);
@@ -232,6 +222,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     return YES;
 }
 */
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
 
 /*
 #pragma mark - Navigation
