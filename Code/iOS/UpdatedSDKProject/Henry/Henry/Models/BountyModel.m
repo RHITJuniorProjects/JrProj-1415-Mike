@@ -9,7 +9,6 @@
 #import "BountyModel.h"
 #import "TaskModel.h"
 #import "HenryFirebase.h"
-#import <UIKit/UIKit.h>
 #define COMPLETION_NAME @"completion"
 
 @implementation BountyModel

@@ -10,25 +10,15 @@
 #import <Firebase/Firebase.h>
 #import <Firebase/FDataSnapshot.h>
 
-typedef void(^ProjectCallback)(NSDictionary *projectsDictionary,BOOL success, NSError *error);
-typedef void(^MilestoneCallback)(NSDictionary *milestonesDictionary,BOOL success, NSError *error);
-typedef void(^TasksForMilestoneCallback)(NSDictionary *tasksDictionary,BOOL success, NSError *error);
-typedef void(^TrophiesCallback)(NSDictionary *trophiesDictionary,BOOL success, NSError *error);
-typedef void(^BountiesCallback)(NSDictionary *bountysDictionary,BOOL success, NSError *error);
-typedef void(^UserInfoCallback)(NSDictionary *userInfoDictionary,BOOL success, NSError *error);
-
 @interface HenryFirebase : Firebase
 
 +(Firebase *)getFirebaseObject;
 + (NSString *)getFirebaseURL;
 - (void) updateDataSnapshot;
-- (void) getAllProjectsWithBlock:(ProjectCallback) completionBlock;
-- (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestoneCallback) completionBlock;
-- (void) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(TasksForMilestoneCallback) completionBlock;
-- (void) getAllTrophiesWithBlock: (TrophiesCallback) completionBlock;
-- (void) getUserInfoWithUserId: (NSString*) userid withBlock: (UserInfoCallback) completionBlock;
-    
-// Never implemented, so this signature will change
-- (void) getBounties:(NSString*) taskId;
+- (NSDictionary *) getAllProjects;
+- (NSDictionary *) getMilestones:(NSString*) projectId;
+- (NSDictionary *) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId;
+- (NSDictionary *) getTasksForUser:(NSString*) userId;
+- (NSDictionary *) getAllTrophies;
+- (NSArray*) getBounties:(NSString*) taskId;
 @end
-

@@ -7,16 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E150B2411ACD866E0075AB1C /* BountyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2341ACD866D0075AB1C /* BountyModel.m */; };
-		E150B2421ACD866E0075AB1C /* MemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2361ACD866D0075AB1C /* MemberModel.m */; };
-		E150B2431ACD866E0075AB1C /* MilestoneModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2381ACD866D0075AB1C /* MilestoneModel.m */; };
-		E150B2441ACD866E0075AB1C /* ProjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B23A1ACD866D0075AB1C /* ProjectModel.m */; };
-		E150B2451ACD866E0075AB1C /* TaskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B23C1ACD866D0075AB1C /* TaskModel.m */; };
-		E150B2461ACD866E0075AB1C /* TrophyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B23E1ACD866D0075AB1C /* TrophyModel.m */; };
-		E150B2471ACD866E0075AB1C /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2401ACD866E0075AB1C /* UserModel.m */; };
 		E196C00D1ACC6AF30094B89C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E196C0081ACC6AF30094B89C /* InfoPlist.strings */; };
 		E196C00F1ACC6AF30094B89C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C00C1ACC6AF30094B89C /* main.m */; };
 		E196C0201ACC6B350094B89C /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0121ACC6B320094B89C /* Firebase.framework */; };
+		E196C0281ACC6B860094B89C /* DatabaseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0231ACC6B860094B89C /* DatabaseClient.m */; };
 		E196C0291ACC6B860094B89C /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0251ACC6B860094B89C /* HenryFirebase.m */; };
 		E196C02A1ACC6B860094B89C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0271ACC6B860094B89C /* User.m */; };
 		E196C0591ACC6BFB0094B89C /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0541ACC6BFB0094B89C /* BEMCircle.m */; };
@@ -85,25 +79,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E150B2331ACD866D0075AB1C /* BountyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BountyModel.h; sourceTree = "<group>"; };
-		E150B2341ACD866D0075AB1C /* BountyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BountyModel.m; sourceTree = "<group>"; };
-		E150B2351ACD866D0075AB1C /* MemberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberModel.h; sourceTree = "<group>"; };
-		E150B2361ACD866D0075AB1C /* MemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberModel.m; sourceTree = "<group>"; };
-		E150B2371ACD866D0075AB1C /* MilestoneModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneModel.h; sourceTree = "<group>"; };
-		E150B2381ACD866D0075AB1C /* MilestoneModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestoneModel.m; sourceTree = "<group>"; };
-		E150B2391ACD866D0075AB1C /* ProjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectModel.h; sourceTree = "<group>"; };
-		E150B23A1ACD866D0075AB1C /* ProjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectModel.m; sourceTree = "<group>"; };
-		E150B23B1ACD866D0075AB1C /* TaskModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskModel.h; sourceTree = "<group>"; };
-		E150B23C1ACD866D0075AB1C /* TaskModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskModel.m; sourceTree = "<group>"; };
-		E150B23D1ACD866D0075AB1C /* TrophyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrophyModel.h; sourceTree = "<group>"; };
-		E150B23E1ACD866D0075AB1C /* TrophyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrophyModel.m; sourceTree = "<group>"; };
-		E150B23F1ACD866D0075AB1C /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
-		E150B2401ACD866E0075AB1C /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		E196C0091ACC6AF30094B89C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E196C00B1ACC6AF30094B89C /* Henry-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Henry-Prefix.pch"; sourceTree = "<group>"; };
 		E196C00C1ACC6AF30094B89C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E196C0121ACC6B320094B89C /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Firebase.framework; sourceTree = "<group>"; };
 		E196C0131ACC6B320094B89C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
+		E196C0221ACC6B860094B89C /* DatabaseClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseClient.h; sourceTree = "<group>"; };
+		E196C0231ACC6B860094B89C /* DatabaseClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseClient.m; sourceTree = "<group>"; };
 		E196C0241ACC6B860094B89C /* HenryFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryFirebase.h; sourceTree = "<group>"; };
 		E196C0251ACC6B860094B89C /* HenryFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryFirebase.m; sourceTree = "<group>"; };
 		E196C0261ACC6B860094B89C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
@@ -236,32 +218,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		E150B2321ACD866D0075AB1C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				E150B2331ACD866D0075AB1C /* BountyModel.h */,
-				E150B2341ACD866D0075AB1C /* BountyModel.m */,
-				E150B2351ACD866D0075AB1C /* MemberModel.h */,
-				E150B2361ACD866D0075AB1C /* MemberModel.m */,
-				E150B2371ACD866D0075AB1C /* MilestoneModel.h */,
-				E150B2381ACD866D0075AB1C /* MilestoneModel.m */,
-				E150B2391ACD866D0075AB1C /* ProjectModel.h */,
-				E150B23A1ACD866D0075AB1C /* ProjectModel.m */,
-				E150B23B1ACD866D0075AB1C /* TaskModel.h */,
-				E150B23C1ACD866D0075AB1C /* TaskModel.m */,
-				E150B23D1ACD866D0075AB1C /* TrophyModel.h */,
-				E150B23E1ACD866D0075AB1C /* TrophyModel.m */,
-				E150B23F1ACD866D0075AB1C /* UserModel.h */,
-				E150B2401ACD866E0075AB1C /* UserModel.m */,
-			);
-			name = Models;
-			path = Henry/Models;
-			sourceTree = "<group>";
-		};
 		E196BF6C1ACC5D030094B89C = {
 			isa = PBXGroup;
 			children = (
-				E150B2321ACD866D0075AB1C /* Models */,
 				E196C0D71ACC6D130094B89C /* HenryTests */,
 				E196C05C1ACC6C000094B89C /* Henry */,
 				E196C0111ACC6B320094B89C /* Frameworks */,
@@ -303,6 +262,8 @@
 		E196C0211ACC6B860094B89C /* DatabaseStuff */ = {
 			isa = PBXGroup;
 			children = (
+				E196C0221ACC6B860094B89C /* DatabaseClient.h */,
+				E196C0231ACC6B860094B89C /* DatabaseClient.m */,
 				E196C0241ACC6B860094B89C /* HenryFirebase.h */,
 				E196C0251ACC6B860094B89C /* HenryFirebase.m */,
 				E196C0261ACC6B860094B89C /* User.h */,
@@ -660,13 +621,11 @@
 				E196C0AF1ACC6C2E0094B89C /* HenryHomeViewController.m in Sources */,
 				E196C05B1ACC6BFB0094B89C /* BEMSimpleLineGraphView.m in Sources */,
 				E196C1051ACC87D00094B89C /* LoginViewController.m in Sources */,
-				E150B2461ACD866E0075AB1C /* TrophyModel.m in Sources */,
 				E196C0CB1ACC6C520094B89C /* GlobalVariables.m in Sources */,
 				E196C0AB1ACC6C2E0094B89C /* HenryStoreCellTableViewCell.m in Sources */,
 				E196C0591ACC6BFB0094B89C /* BEMCircle.m in Sources */,
 				E196C0CC1ACC6C520094B89C /* HenryAppDelegate.m in Sources */,
 				E196C0AC1ACC6C2E0094B89C /* HenryAssignDevsTableViewController.m in Sources */,
-				E150B2451ACD866E0075AB1C /* TaskModel.m in Sources */,
 				E196C0B31ACC6C2E0094B89C /* HenryMilestonesTableViewController.m in Sources */,
 				E196C0AA1ACC6C2E0094B89C /* HenryMemberTableViewCell.m in Sources */,
 				E196C0BD1ACC6C2E0094B89C /* SideNavTableTableViewController.m in Sources */,
@@ -679,23 +638,19 @@
 				E196C0B51ACC6C2E0094B89C /* HenryProfileViewController.m in Sources */,
 				E196C0BC1ACC6C2E0094B89C /* HenryUsersProfileViewController.m in Sources */,
 				E196C0AD1ACC6C2E0094B89C /* HenryCategoryTableViewController.m in Sources */,
-				E150B2411ACD866E0075AB1C /* BountyModel.m in Sources */,
 				E196C0B61ACC6C2E0094B89C /* HenryProjectDetailViewController.m in Sources */,
 				E196C02A1ACC6B860094B89C /* User.m in Sources */,
 				E196C0BB1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m in Sources */,
-				E150B2471ACD866E0075AB1C /* UserModel.m in Sources */,
 				E196C0AE1ACC6C2E0094B89C /* HenryCreateBountyViewController.m in Sources */,
 				E196C05A1ACC6BFB0094B89C /* BEMLine.m in Sources */,
 				E196C0C41ACC6C3C0094B89C /* TPKeyboardAvoidingScrollView.m in Sources */,
 				E196C0A91ACC6C2E0094B89C /* HenryLeaderboardCellTableViewCell.m in Sources */,
+				E196C0281ACC6B860094B89C /* DatabaseClient.m in Sources */,
 				E196C0BA1ACC6C2E0094B89C /* HenryTasksTableViewController.m in Sources */,
 				E196C0A41ACC6C2E0094B89C /* HenryDevDisplayObject.m in Sources */,
 				E196C0A51ACC6C2E0094B89C /* HenryProjectObject.m in Sources */,
-				E150B2441ACD866E0075AB1C /* ProjectModel.m in Sources */,
 				E196C0B21ACC6C2E0094B89C /* HenryMilestoneDetailViewController.m in Sources */,
-				E150B2431ACD866E0075AB1C /* MilestoneModel.m in Sources */,
 				E196C00F1ACC6AF30094B89C /* main.m in Sources */,
-				E150B2421ACD866E0075AB1C /* MemberModel.m in Sources */,
 				E196C0A81ACC6C2E0094B89C /* HenryAssignDevTableViewCell.m in Sources */,
 				E196C0B81ACC6C2E0094B89C /* HenryStoreTableViewController.m in Sources */,
 				E196C0291ACC6B860094B89C /* HenryFirebase.m in Sources */,

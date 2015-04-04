@@ -11,17 +11,10 @@
 
 @implementation TrophyModel
 HenryFirebase* firebase;
-
-- (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost;
-{
-    self = super.init;
-    if(self) {
-        _name = name;
-        _trophyModelDescription = desc;
-        _cost = cost;
-    }
-
-    return self;
-}
+NSNumber* cost;
+NSString* description;
+NSString* image;
+NSString* name;
+NSString* key;
 // listchangenotifier listchangenotifier
 @end
