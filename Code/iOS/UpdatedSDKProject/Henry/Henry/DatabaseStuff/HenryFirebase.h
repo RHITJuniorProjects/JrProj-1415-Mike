@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Firebase/Firebase.h>
 #import <Firebase/FDataSnapshot.h>
+#import "TrophyModel.h"
 
 typedef void(^ProjectCallback)(NSDictionary *projectsDictionary,BOOL success, NSError *error);
 typedef void(^MilestoneCallback)(NSDictionary *milestonesDictionary,BOOL success, NSError *error);
@@ -27,6 +28,7 @@ typedef void(^UserInfoCallback)(NSDictionary *userInfoDictionary,BOOL success, N
 - (void) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(TasksForMilestoneCallback) completionBlock;
 - (void) getAllTrophiesWithBlock: (TrophiesCallback) completionBlock;
 - (void) getUserInfoWithUserId: (NSString*) userid withBlock: (UserInfoCallback) completionBlock;
+- (void) purchaseTrophyWithTrophyModel: (TrophyModel*) trophy withUserId: (NSString*) userid;
     
 // Never implemented, so this signature will change
 - (void) getBounties:(NSString*) taskId;

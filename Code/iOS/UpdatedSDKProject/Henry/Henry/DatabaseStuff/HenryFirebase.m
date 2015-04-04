@@ -16,6 +16,13 @@
 
 Firebase *henryFB;
 
+// This is an instance of FireBase that can be changed to whatever you need to write to the database.
+// When writing to the database make sure you don't expect that this is set to what you want.
+// You should always set it to what you need (meaning do whatever childByAppendingPath stuff you need to do)
+// so you are sure that it is going to do what you want it to.
+Firebase *writeToFB;
+
+
 
 
 
@@ -87,6 +94,14 @@ Firebase *henryFB;
     } withCancelBlock:^(NSError *error) {
         completionBlock(nil,NO,error);
     }];
+}
+
+- (void) purchaseTrophyWithTrophyModel: (TrophyModel*) trophy withUserId: (NSString*) userid;
+{
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", userid]];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"trophies/%@",trophy.key]];
+    [writeToFB setValue:trophy.name];
 }
 
 // This was never implemented, so that needs to happen

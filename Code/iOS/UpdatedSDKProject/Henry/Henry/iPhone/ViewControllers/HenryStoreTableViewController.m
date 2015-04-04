@@ -58,6 +58,17 @@ NSMutableArray *trophyObjectArray;
     }
 }
 
+- (NSNumber*)calculateNewAvailablePointsAndUpdateDisplay:(TrophyModel *)trophyToPurchase
+{
+    NSNumber *newAvailablePoints = [[NSNumber alloc] initWithFloat:([self.availablePoints floatValue] - [trophyToPurchase.cost floatValue])];
+    NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
+    [newData setObject:newAvailablePoints forKey:@"available_points"];
+    [self.tableView reloadData];
+    NSLog(@"New points: %@", [self.userInfo objectForKey:@"available_points"]);
+    
+    return newAvailablePoints;
+}
+
 -(void)updateInfo {
     @try{
        
@@ -74,10 +85,8 @@ NSMutableArray *trophyObjectArray;
             self.pointsAvailable.text = [NSString stringWithFormat:@"Available Points to Spend: %@", [self.availablePoints stringValue]];
             
         }];
-//        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
         NSLog(@"%@", self.userInfo);
 //        NSLog([NSString stringWithFormat:@"Available points: %@",[self.userInfo objectForKey:@"available_points"]]);
-       // [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     }@catch(NSException *exception) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -89,15 +98,7 @@ NSMutableArray *trophyObjectArray;
 
 #pragma mark - Table view data source
 
-// Unnecessary until we decide to separate them for some reason
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
-//    // Return the number of sections.
-//    return 1;
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
     return [self.trophykey count];
 }
 
@@ -135,59 +136,17 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"Cancel button clicked!");
     }else{
         NSLog(@"Other button clicked!");
+        TrophyModel* trophyToPurchase = [[TrophyModel alloc] initWithName:[[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"name"] Description:nil Cost:[[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"cost"]];
+        trophyToPurchase.key = [self.trophykey objectAtIndex:(int)self.trophyIndex];
         
-        //TODO: What the hell uses this?
-//        self.fbUser = [self.fbUser childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", self.userid]];
+        NSLog(@"Trophy selected: %@", trophyToPurchase.name);
+        NSLog(@"Trophy cost: %@", trophyToPurchase.cost);
         
-        // Decrement points by trophy point amount
-        NSString *trophy = [[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"name"];
-        NSNumber *cost = [[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"cost"];
-        NSLog(@"Trophy selected: %@", trophy);
-        NSLog(@"Trophy cost: %@", cost);
+        [self.firebase purchaseTrophyWithTrophyModel:trophyToPurchase withUserId:self.userid];
         
-        NSNumber *newAvailablePoints = [[NSNumber alloc] initWithFloat:([self.availablePoints floatValue] - [cost floatValue])];
-        
-        // user can't buy trophy if not enough points
-//        if(newAvailablePoints < 0) {
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"You don't have enough points to buy this trophy!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
-//            [alert show];
-//        }
-        NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
-        // restoring original - FOR TESTING ONLY
-        
-//        NSNumber *originalPoints = [[NSNumber alloc] initWithFloat:29];
-//        [newData setObject:originalPoints forKey:@"available_points"];
-//        [self.fbUser updateChildValues:newData];
-//        [self.tableView reloadData];
-//        newData = [[NSMutableDictionary alloc] init];
-        
-        [newData setObject:newAvailablePoints forKey:@"available_points"];
-        
-        
-        // Add trophy to inventory
-        // TODO: add trophy!!!
-       // [newData setObject:trophy forKey:@"trophies"];
-        //[self.fbUser updateChildValues:newData];
-        
-        //TODO: And this???
-//        [[self.fbUser childByAppendingPath:[NSString stringWithFormat:@"trophies/%@",[self.trophykey objectAtIndex:(int)self.trophyIndex]]] setValue:trophy];
-        
-        [self.tableView reloadData];
-        NSLog(@"New points: %@", [self.userInfo objectForKey:@"available_points"]);
-        //[self dismissViewControllerAnimated:YES completion:nil];
-        
+        [self calculateNewAvailablePointsAndUpdateDisplay:trophyToPurchase];
     }
 }
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
 
 /*
 // Override to support conditional editing of the table view.
