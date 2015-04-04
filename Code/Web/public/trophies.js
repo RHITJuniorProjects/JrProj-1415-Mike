@@ -41,8 +41,6 @@ Trophy.prototype.getTableRow =  function () {
 	var buttonCell = $('<td>');
 	var trophy = this;
 	var modal = $('#trophy-modal');
-	// var currentImage = trophy.image;
-	// console.log(this.uid);
 
 	row.append(name, desc, cost, image, buttonCell);
 	this.getName(function (nameStr) {
@@ -60,13 +58,8 @@ Trophy.prototype.getTableRow =  function () {
 
 	var button = $('<button>');
 	button.html("Buy");
-	// button.attr("id", trophy.uid);
 	button.click(function() {
 		buyTrophy(name.html(), desc.html(), cost.html(), image.html(), trophy);
-		// buyTrophy(trophy);
-		// console.log(trophy);
-		// console.log(this.uid.__name);
-		// console.log(this.uid.name);
 	});
 	buttonCell.append(button);
 	
@@ -80,8 +73,6 @@ Trophy.prototype.getUserTableRow =  function () {
 	var image = $('<td>');
 	var trophy = this;
 	var modal = $('#trophy-modal');
-	// var currentImage = trophy.image;
-	// console.log(this.uid);
 
 	row.append(name, desc, image);
 	this.getName(function (nameStr) {
@@ -96,53 +87,34 @@ Trophy.prototype.getUserTableRow =  function () {
 
 	return row;
 };
+
 function buyTrophy(name, desc, cost, img, trophy) {
-	// console.log(user);
 	user.getBountyPoints(function(pts) {
-		// console.log(pts);
 	var haveTrophy = false;
 		for(var i = 0; i < userTrophies.length; i++) {
 			if(userTrophies[i].uid == trophy.uid){
-				console.log("you already have that trophy");
 				haveTrophy = true;
 				break;
 			}
 		}
 		if (!haveTrophy){
-				// console.log(cost);
 				if(pts >= cost) {
 					user.setPoints(pts - cost);
-					//firebase.child("user/" + user.uid + "/trophies").push({
-					//	trophy.uid.val(): name
-					//	cost: cost,
-					//	description: desc,
-					//	image: img,
-					//	name:  name	
-					// 		user.setPoints(pts - cost);
 					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).push();
 					 firebase.child("users/" + user.uid + "/trophies/" + trophy.uid).set(name, getTrophies);
-					// 	// value: name,
-					// 	name: name
-					// });			
-					//});
-
 				}
 				else {
 					console.log("not enough points");
 				}
 			}
-		
-		
 	});
 	getTrophies();
 }
 
 function getTrophies() {
-	// console.log("get called");
 	userTrophies = [];
 	var $panel = $('#trophy-store-rows');
 	$panel.children().remove();
-	//var userTrophies = [];
 	user.__trophies.orderByChild("name").on('child_added', function (snap) {
 			var val = new Trophy(snap.ref());
 			userTrophies[userTrophies.length] = val;
@@ -152,7 +124,6 @@ function getTrophies() {
 		var needs = true;
 		for (var i = 0; i < arrayLength; i++) {
 			if(userTrophies[i].uid == trophy.uid) {
-
 				needs = false;
 				break;
 			}
