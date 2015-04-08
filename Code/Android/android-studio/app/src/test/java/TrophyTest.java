@@ -18,7 +18,7 @@ public class TrophyTest extends TestCase{
     protected void setUp() throws Exception {
         super.setUp();
     }
-    
+
 
     public void testCreateTrophy(){
         Parcel mockedParcel = mock(Parcel.class);
