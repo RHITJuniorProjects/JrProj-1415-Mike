@@ -28,11 +28,10 @@
     @try{
     [super viewWillDisappear:animated];
     if(self.hasClicked){
-        UserModel* assignedUser = [UserModel new];
-        assignedUser.name = [self.names objectAtIndex:self.selectedIndex];
+        UserModel* selectedUser = [self.developerObjects objectAtIndex:self.selectedIndex];
+        self.detailView.statusButton.titleLabel.text = selectedUser.name;
+        NSDictionary *newValue = @{@"assignedTo":selectedUser.key};
         
-        self.detailView.statusButton.titleLabel.text = assignedUser.name;
-        NSDictionary *newValue = @{@"assignedTo":[self.developers objectAtIndex:self.selectedIndex]};
         self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",self.ProjectID, self.MilestoneID, self.taskID] ];
         [self.fb updateChildValues:newValue];
     }
@@ -81,13 +80,16 @@
 - (void)updateTableWithAvailableDevsFromDictionary:(NSDictionary *)usersDictionary {
     self.assignableDevs = usersDictionary;
     NSArray* keys = [self.assignableDevs allKeys];
-    self.names = [NSMutableArray new];
+    self.developerObjects = [NSMutableArray new];
+    
     for(NSString* key in keys) {
         NSString* name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
         //NSLog(key);
         if(name != NULL){
-            [self.names addObject:name];
-            [self.developers addObject:key];
+            UserModel* tempModel = [UserModel new];
+            tempModel.name = name;
+            tempModel.key = key;
+            [self.developerObjects addObject:tempModel];
         }
     }
     [self.tableView reloadData];
@@ -95,7 +97,7 @@
 
 -(void)updateTableFromFirebase {
     @try{
-        self.developers = [[NSMutableArray alloc] init];
+
         [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
             self.allDevs = usersDictionary;
             [self.henryFB getMembersOnProjectWithProjectID:self.ProjectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
@@ -141,7 +143,8 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     @try{
-    return self.names.count;
+        return self.developerObjects.count;
+        
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -156,7 +159,9 @@
     HenryAssignDevTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DevCell" forIndexPath:indexPath];
 
  // Configure the cell...
-    NSString *dev = [self.names objectAtIndex:indexPath.row];
+        UserModel *userAtIndexPath = [self.developerObjects objectAtIndex:indexPath.row];
+        NSString *dev = userAtIndexPath.name;
+        
     cell.devNameLabel.text = dev;
     if ([cell.devNameLabel.text isEqualToString:self.initialSelection] && self.firstTime) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -242,13 +247,12 @@
     @try{
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-    
-    HenryTaskDetailViewController *vc = [segue destinationViewController];
-    vc.primaryDev = [self.developers objectAtIndex:indexPath.row];
-    vc.ProjectID = self.ProjectID;
-    vc.MileStoneID = self.MilestoneID;
-    vc.taskID = self.taskID;
+        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
+        HenryTaskDetailViewController *vc = [segue destinationViewController];
+        vc.primaryDev = [[self.developerObjects objectAtIndex:indexPath.row] key];
+        vc.ProjectID = self.ProjectID;
+        vc.MileStoneID = self.MilestoneID;
+        vc.taskID = self.taskID;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
