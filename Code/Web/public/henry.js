@@ -381,7 +381,7 @@ firebase.onAuth( // called on page load to auth users
 					$(".notLoggedIn").hide();
 					$(".loginRequired").show();
 					selectUser(user);
-					firebase.child("users/" + user.uid + "/total_points").on("value", function(snap) {
+					firebase.child("users/" + user.uid + "/available_points").on("value", function(snap) {
 						$("#currentPoints").html("Points: " + snap.val());
 					});
 					// drawUserStatistics(firebase,user.uid);
