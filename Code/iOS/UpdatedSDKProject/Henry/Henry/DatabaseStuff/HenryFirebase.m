@@ -87,6 +87,28 @@ Firebase *writeToFB;
         completionBlock(nil,NO,error);
     }];
 }
+
+- (void) getTrophiesBelongingToUserId: (NSString*) userId withBlock: (TrophiesCallback) completionBlock;
+{
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        // Contains all trophies. Each value is another dictionary with name key, description key, etc...
+        NSDictionary* allTrophies = snapshot.value[@"trophies"];
+        
+        // Literally only contains key-values pairs where the key is the key for the trophie, and the value is the name. Lame.
+        NSDictionary* userTrophies = snapshot.value[@"users"][userId][@"trophies"];
+        
+        NSMutableArray* userTrophiesKeys = [[userTrophies allKeys] mutableCopy];
+        [userTrophiesKeys removeObject:@"placeholder"];
+        NSMutableDictionary* userTrophiesWithAllValues = [NSMutableDictionary new];
+        
+        for (NSString* key in userTrophiesKeys) {
+            [userTrophiesWithAllValues setObject:[allTrophies objectForKey:key] forKey:key];
+        }
+        
+        completionBlock(userTrophiesWithAllValues, YES, nil);
+    }];
+}
+
 - (void) getAllUsersWithBlock: (UsersCallback) completionBlock;
 {
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
@@ -113,12 +135,21 @@ Firebase *writeToFB;
     }];
 }
 
-- (void) purchaseTrophyWithTrophyModel: (TrophyModel*) trophy withUserId: (NSString*) userid;
+- (void) purchaseTrophyWithTrophyModel: (TrophyModel*) trophy withUserId: (NSString*) userid withOldAvailablePoints: (NSNumber*) oldAvailPoints;
 {
     writeToFB = [HenryFirebase getFirebaseObject];
     writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/users/%@/", userid]];
     writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"trophies/%@",trophy.key]];
     [writeToFB setValue:trophy.name];
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/users/%@/available_points", userid]];
+    
+    long currentAvailPoints = [oldAvailPoints longValue];
+    currentAvailPoints = currentAvailPoints - [trophy.cost integerValue];
+    NSNumber* newAvailablePoints = [[NSNumber alloc] initWithLong:currentAvailPoints];
+    NSString* newAvailPointString = [newAvailablePoints stringValue];
+    NSLog(@"DaNew Available POints: %@", newAvailPointString);
+    [writeToFB setValue:newAvailablePoints];
 }
 - (void) assignMemberToTask: (TaskModel*) task withMember: (UserModel*) user;
 {

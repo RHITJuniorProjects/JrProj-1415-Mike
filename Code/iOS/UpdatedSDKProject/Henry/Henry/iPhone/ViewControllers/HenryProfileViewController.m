@@ -10,10 +10,11 @@
 #import "HenryFirebase.h"
 
 @interface HenryProfileViewController ()
-@property Firebase *fb;
-@property FDataSnapshot* snapshot;
-@property NSArray *trophies;
-@property NSMutableArray *userTrophies;
+//@property Firebase *fb;
+//@property FDataSnapshot* snapshot;
+@property HenryFirebase *firebase;
+@property NSMutableDictionary *userTrophies;
+@property NSArray* userTrophiesKeys;
 @end
 
 @implementation HenryProfileViewController
@@ -21,59 +22,58 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.trophies = [[NSArray alloc] init];
-    self.userTrophies = [[NSMutableArray alloc] init];
     self.userid = [defaults objectForKey:@"id"];
+    self.firebase = [HenryFirebase new];
     //NSLog([NSString stringWithFormat:@"The user id is: %@", self.userid]);
     //self.navigationItem.title = @"USER PROFILE";
-    self.fb = [HenryFirebase getFirebaseObject];
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo:snapshot];
-        //[self updateTable:snapshot];
-        self.snapshot = snapshot;
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
+//    self.fb = [HenryFirebase getFirebaseObject];
+    [self updateInfo];
     
     // Do any additional setup after loading the view.
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    [self.fb removeAllObservers];
+//    [self.fb removeAllObservers];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    self.fb = [HenryFirebase getFirebaseObject];
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
+//    self.fb = [HenryFirebase getFirebaseObject];
+//    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+//        [self updateInfo:snapshot];
+//    } withCancelBlock:^(NSError *error) {
+//        NSLog(@"%@", error.description);
+//    }];
 }
 
--(void)updateInfo:(FDataSnapshot *)snapshot {
+-(void)updateInfo {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        NSDictionary *userInfo = snapshot.value[@"users"][self.userid];
-        self.trophies = snapshot.value[@"trophies"];
-        self.userTrophies = [NSMutableArray arrayWithArray:[snapshot.value[@"users"][self.userid][@"trophies"] allKeys]];
-        
-        [self.userTrophies removeObject:@"placeholder"];
-                                        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
+        [self.firebase getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
+            NSDictionary *userInfo = userInfoDictionary;
+            NSString *points = [userInfo objectForKey:@"total_points"];
+            self.pointsLabel.text = [NSString stringWithFormat:@"Total Points: %@",points];
+            self.availablePointsLabel.text = [NSString stringWithFormat:@"Available Points to Spend: %@",[userInfo objectForKey:@"available_points"]];
+            [self.firebase getTrophiesBelongingToUserId:self.userid withBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+                self.userTrophies = [trophiesDictionary mutableCopy];
+                [self.userTrophies removeObjectForKey:@"placeholder"];
+                self.userTrophiesKeys = [self.userTrophies allKeys];
+                self.navigationItem.title = [userInfo objectForKey:@"name"];
 
-        self.navigationItem.title = [userInfo objectForKey:@"name"];
-        NSString *points = [userInfo objectForKey:@"total_points"];
+                //NSLog(@"%@",[self.trophies[self.userTrophies[0]]]);
+                if ([self.userTrophiesKeys count] == 0) {
+                    self.trophyTable.hidden = true;
+                }
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                NSLog(@"%@",self.userTrophiesKeys);
+                [self.trophyTable reloadData];
+            }];
+        }];
+//        self.userTrophies = [NSMutableArray arrayWithArray:[snapshot.value[@"users"][self.userid][@"trophies"] allKeys]];
+
+        
         //NSLog([NSString stringWithFormat:@"%@",[userInfo objectForKey:@"total_points"]]);
-        self.pointsLabel.text = [NSString stringWithFormat:@"Total Points: %@",points];
-        self.availablePointsLabel.text = [NSString stringWithFormat:@"Available Points to Spend: %@",[userInfo objectForKey:@"available_points"]];
-        [self.trophyTable reloadData];
-        //NSLog(@"%@",[self.trophies[self.userTrophies[0]]]);
-        if ([self.userTrophies count] == 0) {
-            self.trophyTable.hidden = true;
-        }
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        NSLog(@"%@",self.userTrophies);
-    }@catch(NSException *exception){
+    }
+    @catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
         
@@ -109,8 +109,9 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"ProfileTrophyCell"];
     }
-    cell.textLabel.text = [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"name"];
-    cell.detailTextLabel.text= [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"description"];
+    TrophyModel* tempTrophy = [self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]];
+    cell.textLabel.text = [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"name"];;
+    cell.detailTextLabel.text= [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"description"];
    // cell.imageView.image = [UI]
     
     return cell;

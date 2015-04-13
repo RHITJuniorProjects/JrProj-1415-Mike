@@ -17,7 +17,7 @@
 @property NSMutableArray *users;
 @property NSMutableArray *trophykey;
 @property NSString* userid;
-@property NSDictionary *userInfo;
+@property NSMutableDictionary *userInfo;
 @property NSNumber *availablePoints;
 @property NSInteger *trophyIndex;
 
@@ -58,17 +58,6 @@ NSMutableArray *trophyObjectArray;
     }
 }
 
-- (NSNumber*)calculateNewAvailablePointsAndUpdateDisplay:(TrophyModel *)trophyToPurchase
-{
-    NSNumber *newAvailablePoints = [[NSNumber alloc] initWithFloat:([self.availablePoints floatValue] - [trophyToPurchase.cost floatValue])];
-    NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
-    [newData setObject:newAvailablePoints forKey:@"available_points"];
-    [self.tableView reloadData];
-    NSLog(@"New points: %@", [self.userInfo objectForKey:@"available_points"]);
-    
-    return newAvailablePoints;
-}
-
 -(void)updateInfo {
     @try{
        
@@ -76,16 +65,17 @@ NSMutableArray *trophyObjectArray;
         self.navigationItem.title = @"Trophy Store";
         
         [self.firebase getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
-            self.userInfo = userInfoDictionary;
+            self.userInfo = [userInfoDictionary mutableCopy];
             [self.firebase getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
                 [self addAvailableTrophiesToTrophyObjectArrayFromDictionary:trophiesDictionary];
                 [self.tableView reloadData];
             }];
             self.availablePoints = [self.userInfo objectForKey:@"available_points"];
             self.pointsAvailable.text = [NSString stringWithFormat:@"Available Points to Spend: %@", [self.availablePoints stringValue]];
+            NSLog(@"%@", self.userInfo);
             
         }];
-        NSLog(@"%@", self.userInfo);
+        
 //        NSLog([NSString stringWithFormat:@"Available points: %@",[self.userInfo objectForKey:@"available_points"]]);
     }@catch(NSException *exception) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
@@ -142,9 +132,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"Trophy selected: %@", trophyToPurchase.name);
         NSLog(@"Trophy cost: %@", trophyToPurchase.cost);
         
-        [self.firebase purchaseTrophyWithTrophyModel:trophyToPurchase withUserId:self.userid];
-        
-        [self calculateNewAvailablePointsAndUpdateDisplay:trophyToPurchase];
+        [self.firebase purchaseTrophyWithTrophyModel:trophyToPurchase withUserId:self.userid withOldAvailablePoints: self.availablePoints];
+        [self.tableView reloadData];
     }
 }
 
