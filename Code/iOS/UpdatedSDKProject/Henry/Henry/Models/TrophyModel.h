@@ -11,9 +11,9 @@
 @interface TrophyModel : NSObject
 @property (nonatomic, strong) NSNumber* cost;
 @property (nonatomic, strong) NSString* trophyModelDescription;
-@property (nonatomic, strong) NSString* image;
+@property (nonatomic, strong) NSString* imageTrophy;
 @property (nonatomic, strong) NSString* name;
 @property (nonatomic, strong) NSString* key;
 
-- (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost;
+- (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost Image: (NSString *) trophyimage;
 @end

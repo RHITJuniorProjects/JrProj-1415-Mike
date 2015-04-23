@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *trophyName;
 @property (weak, nonatomic) IBOutlet UILabel *trophyDescription;
 @property (weak, nonatomic) IBOutlet UILabel *trophyPrice;
+@property (weak, nonatomic) IBOutlet UIImageView *trophyImage;
 
 @end

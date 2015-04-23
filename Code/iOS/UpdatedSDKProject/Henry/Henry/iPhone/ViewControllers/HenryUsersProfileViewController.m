@@ -80,6 +80,9 @@
     }
     cell.textLabel.text = [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"name"];
     cell.detailTextLabel.text= [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]] valueForKey:@"description"];
+    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"image"]]];
+        cell.imageView.image = [UIImage imageWithData:imageData];
+
 //    dispatch_async(dispatch_get_global_queue(0,0), ^{
 //        NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"image"]]];
 //        if ( data == nil )
