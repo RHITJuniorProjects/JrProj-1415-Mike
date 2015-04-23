@@ -201,6 +201,7 @@ User.prototype = {
 			// 	$panel.append(trophy.getTableRow());
 			// }              
 		});
+		return userTrophies;
 	},
 	off: function (arg1, arg2) {
 		this.__firebase.off(arg1, arg2);
