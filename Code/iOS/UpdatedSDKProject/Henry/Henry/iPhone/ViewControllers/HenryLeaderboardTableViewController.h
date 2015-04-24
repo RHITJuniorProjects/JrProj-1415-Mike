@@ -10,6 +10,6 @@
 
 @interface HenryLeaderboardTableViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UISegmentedControl *leaderboardSegmentedControl;
-- (IBAction)leaderboardSegControlClicked:(id)sender;
+- (IBAction)pointsOrTrophiesSegControlClicked:(id)sender;
 
 @end

@@ -82,6 +82,18 @@ Firebase *writeToFB;
 {
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSDictionary *trophies = snapshot.value[@"trophies"];
+        
+        completionBlock(trophies, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
+}
+
+- (void) getAllTrophyModelsWithBlock: (TrophiesCallback) completionBlock;
+{
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *trophies = snapshot.value[@"trophies"];
+        
         completionBlock(trophies, YES, nil);
     } withCancelBlock:^(NSError *error) {
         completionBlock(nil,NO,error);

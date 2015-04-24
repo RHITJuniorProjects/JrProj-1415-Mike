@@ -17,6 +17,7 @@
 @property NSDictionary *users;
 @property NSMutableArray *top25;
 @property NSMutableArray *top25Trophies;
+@property NSInteger numUsersToDisplay;
 
 @end
 
@@ -25,6 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.numUsersToDisplay = 10;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.uid = [defaults objectForKey:@"id"];
@@ -50,7 +53,7 @@
     NSMutableArray *idT = [NSMutableArray arrayWithArray:[self.users allKeys]];
     long points = 0;
     long trophies = 0;
-    for (int n = 0; n < 25 && 0 < idT.count; n++) {
+    for (int n = 0; n < ids.count && 0 < idT.count; n++) {
         int idt = 0;
         for (int i = 0; i < idT.count; i++) {
             if (n == 0) {
@@ -66,7 +69,7 @@
         [self.top25Trophies addObject:idT[idt]];
         [idT removeObjectAtIndex:idt];
     }
-    for (int n = 0; n < 25 && 0 < ids.count; n++) {
+    for (int n = 0; n < 50 && 0 < ids.count; n++) {
         int id = 0;
         for (int i = 0; i < ids.count; i++) {
             points = [[[self.users valueForKey:ids[i]] valueForKey:@"total_points"] longValue];
@@ -95,9 +98,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    
     NSLog(@"%@", self.top25);
-    return [self.top25Trophies count]>[self.top25 count]?[self.top25Trophies count] + 1 : [self.top25 count] + 1;
+    return [self.top25 count] < self.numUsersToDisplay ?[self.top25 count] + 1 : self.numUsersToDisplay + 1;
 }
 
 
@@ -150,52 +152,30 @@
 }
 
 
+- (IBAction)numUsersToDisplaySegControlClicked:(id)sender {
+    //Figures out the last clicked segment.
+    int clickedSegment = (int)[sender selectedSegmentIndex];
+    switch(clickedSegment)
+    {
+            //Segment 1 is Top 10
+        case 0:
+            self.numUsersToDisplay = 10;
+            break;
+            
+            //Segment 2 Top 25
+        case 1:
+            self.numUsersToDisplay = 25;
+            break;
+            //Segment 3 Top 50
+        case 2:
+            self.numUsersToDisplay = 50;
+            break;
+    }
+    [self.tableView reloadData];
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-- (IBAction)leaderboardSegControlClicked:(id)sender {
+- (IBAction)pointsOrTrophiesSegControlClicked:(id)sender {
     @try {
         //Figures out the last clicked segment.
         int clickedSegment = (int)[sender selectedSegmentIndex];
