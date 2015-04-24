@@ -112,7 +112,9 @@
     TrophyModel* tempTrophy = [self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]];
     cell.textLabel.text = [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"name"];;
     cell.detailTextLabel.text= [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"description"];
-   // cell.imageView.image = [UI]
+    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"image"]]];
+    //NSLog(@"%@", tempTrophy.imageTrophy);
+    cell.imageView.image = [UIImage imageWithData:imageData];
     
     return cell;
 }

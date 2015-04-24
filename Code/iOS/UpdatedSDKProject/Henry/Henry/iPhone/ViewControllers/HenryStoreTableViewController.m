@@ -53,7 +53,7 @@ NSMutableArray *trophyObjectArray;
     trophyObjectArray = [NSMutableArray new];
     for (int i = 0; i < [self.trophykey count]; i++) {
         NSDictionary* tempFBTrophy = [self.trophies valueForKey:[self.trophykey objectAtIndex:i]];
-        TrophyModel* tempTrophyModel = [[TrophyModel alloc] initWithName:[tempFBTrophy valueForKey:@"name"] Description:[tempFBTrophy valueForKey:@"description"] Cost:[tempFBTrophy valueForKey:@"cost"]];
+        TrophyModel* tempTrophyModel = [[TrophyModel alloc] initWithName:[tempFBTrophy valueForKey:@"name"] Description:[tempFBTrophy valueForKey:@"description"] Cost:[tempFBTrophy valueForKey:@"cost"] Image:[tempFBTrophy valueForKey:@"image"]];
         [trophyObjectArray addObject:tempTrophyModel];
     }
 }
@@ -99,6 +99,10 @@ NSMutableArray *trophyObjectArray;
     //Changed
     cell.trophyName.text = tempModel.name;
     cell.trophyDescription.text = tempModel.trophyModelDescription;
+    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: tempModel.imageTrophy]];
+    NSLog(@"%@", tempModel.imageTrophy);
+    cell.trophyImage.image = [UIImage imageWithData:imageData];
+    //[imageData release];
     
     NSLog(@"%@",tempModel.cost.stringValue);
     
@@ -126,7 +130,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"Cancel button clicked!");
     }else{
         NSLog(@"Other button clicked!");
-        TrophyModel* trophyToPurchase = [[TrophyModel alloc] initWithName:[[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"name"] Description:nil Cost:[[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"cost"]];
+        TrophyModel* trophyToPurchase = [[TrophyModel alloc] initWithName:[[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"name"] Description:nil Cost:[[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"cost"] Image:[[self.trophies valueForKey:[self.trophykey objectAtIndex:(int)self.trophyIndex]] valueForKey:@"image"]];
         trophyToPurchase.key = [self.trophykey objectAtIndex:(int)self.trophyIndex];
         
         NSLog(@"Trophy selected: %@", trophyToPurchase.name);

@@ -12,13 +12,14 @@
 @implementation TrophyModel
 HenryFirebase* firebase;
 
-- (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost;
+- (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost Image: (NSString *) trophyimage;
 {
     self = super.init;
     if(self) {
         _name = name;
         _trophyModelDescription = desc;
         _cost = cost;
+        _imageTrophy = trophyimage;
     }
 
     return self;
