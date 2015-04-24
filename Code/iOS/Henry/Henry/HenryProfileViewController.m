@@ -12,6 +12,8 @@
 @interface HenryProfileViewController ()
 @property Firebase *fb;
 @property FDataSnapshot* snapshot;
+@property NSArray *trophies;
+@property NSMutableArray *userTrophies;
 @end
 
 @implementation HenryProfileViewController
@@ -19,12 +21,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.trophies = [[NSArray alloc] init];
+    self.userTrophies = [[NSMutableArray alloc] init];
     self.userid = [defaults objectForKey:@"id"];
     //NSLog([NSString stringWithFormat:@"The user id is: %@", self.userid]);
     //self.navigationItem.title = @"USER PROFILE";
     self.fb = [HenryFirebase getFirebaseObject];
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateInfo:snapshot];
+        //[self updateTable:snapshot];
         self.snapshot = snapshot;
     } withCancelBlock:^(NSError *error) {
         NSLog(@"%@", error.description);
@@ -37,7 +42,7 @@
     [self.fb removeAllObservers];
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewWillAppear:(BOOL)animated {
     self.fb = [HenryFirebase getFirebaseObject];
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateInfo:snapshot];
@@ -50,13 +55,24 @@
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         NSDictionary *userInfo = snapshot.value[@"users"][self.userid];
-        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
+        self.trophies = snapshot.value[@"trophies"];
+        self.userTrophies = [NSMutableArray arrayWithArray:[snapshot.value[@"users"][self.userid][@"trophies"] allKeys]];
+        
+        [self.userTrophies removeObject:@"placeholder"];
+                                        //DEPRECATED: self.githubLabel.text = [NSString stringWithFormat:@"Github: %@",[userInfo objectForKey:@"github"]];
 
         self.navigationItem.title = [userInfo objectForKey:@"name"];
         NSString *points = [userInfo objectForKey:@"total_points"];
         //NSLog([NSString stringWithFormat:@"%@",[userInfo objectForKey:@"total_points"]]);
         self.pointsLabel.text = [NSString stringWithFormat:@"Total Points: %@",points];
+        self.availablePointsLabel.text = [NSString stringWithFormat:@"Available Points to Spend: %@",[userInfo objectForKey:@"available_points"]];
+        [self.trophyTable reloadData];
+        //NSLog(@"%@",[self.trophies[self.userTrophies[0]]]);
+        if ([self.userTrophies count] == 0) {
+            self.trophyTable.hidden = true;
+        }
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        NSLog(@"%@",self.userTrophies);
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -85,6 +101,28 @@
         [alert show];
         exit(0);
     }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ProfileTrophyCell"];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"ProfileTrophyCell"];
+    }
+    cell.textLabel.text = [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"name"];
+    cell.detailTextLabel.text= [[self.trophies valueForKey:self.userTrophies[indexPath.row]]valueForKey:@"description"];
+   // cell.imageView.image = [UI]
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return [self.userTrophies count];
+}
+
+-(void)updateTable:(FDataSnapshot *)snapshot {
+
 }
 
 /*
