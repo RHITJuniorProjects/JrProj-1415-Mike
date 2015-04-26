@@ -3,7 +3,7 @@
  * Handles read/write operations directly relating to commits.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 2 April 2015, 6:36pm
+ * Last Modified: 23 April 2015, 10:00am
  */
 var Firebase = require('firebase');
 
@@ -20,9 +20,10 @@ var firebaseUrl = metricsTest;
 if (process.argv.length === 3) {
     firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
 }
+// Optional commandline arg: security token
 else if (process.argv.length === 4) {
-    tokenVal = process.argv[3];
     firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
+    tokenVal = process.argv[3];
 }
 
 
@@ -38,8 +39,9 @@ var projectsRef = new Firebase(firebaseUrl + '/projects');
 var FirebaseTokenGenerator = require('firebase-token-generator');
 
 // TODO: add more as needed, or do commandline override for auth token
-var metricsTestToken = 'swPpsOgpNn7isrfxeoWNNV7yxLy85j94JO7p9lDf';
-var testToken = 'FDrYDBNvRCgq0kGonjmsPl0gUwXvxcqUdgaCQ1FI';
+var config = require('./config.json');
+var metricsTestToken = config.metricsTestToken;
+var testToken = config.testToken;
 
 var tokenVal = null;
 
@@ -193,9 +195,9 @@ function calculateMetrics(projectRef, commit) {
         return;
 
     }
+    
     var addedLOC = commit.child(addedLines).val();
     var removedLOC = commit.child(removedLines).val();
-
     var taskRef = projectRef.child('milestones/' + milestone + '/tasks/' + task);
 
     taskRef.once('value', function(taskBranch) {
@@ -203,8 +205,6 @@ function calculateMetrics(projectRef, commit) {
         var newHours = currentHours + commit.child('hours').val();
 
         var totalLOC = taskBranch.child(totalLines).val();
-
-
         var newTotalLOC = totalLOC + addedLOC - removedLOC;
         var totalAddedLOC = taskBranch.child(addedLines).val() + addedLOC;
         var totalRemovedLOC = taskBranch.child(removedLines).val() + removedLOC;
@@ -222,16 +222,6 @@ function calculateMetrics(projectRef, commit) {
             removedLOC !== totalRemovedLOC ||
             status !== taskBranch.child('status').val() ||
             updatedHourEstimate !== taskBranch.child('updated_hour_estimate').val()) {
-
-            taskBranch.ref().update({
-                'total_hours': newHours,
-                'total_lines_of_code': newTotalLOC,
-                'added_lines_of_code': totalAddedLOC,
-                'removed_lines_of_code': totalRemovedLOC,
-                'percent_complete': taskHrPercent,
-                'status': status,
-                'updated_hour_estimate': updatedHourEstimate
-            });
         }
     });
     // update user with task info
@@ -258,7 +248,6 @@ function calculateMetrics(projectRef, commit) {
                 });
             }
             else {
-
                 var userHours = taskSnap.child('hours').val() + commitHours;
                 var userTotalLOC;
 
