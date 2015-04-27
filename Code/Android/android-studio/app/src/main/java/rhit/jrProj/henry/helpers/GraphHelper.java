@@ -369,6 +369,19 @@ public class GraphHelper {
             }
             return s;
         }
+        public double getMaxY(){
+            Object[] allPointsA=  values.values().toArray();
+            double maxY=((List<Point>)allPointsA[0]).get(0).getY();
+            for (int i=0; i<allPointsA.length; i++){
+                List<Point> currList=(List<Point>)allPointsA[i];
+                for (Point p: currList){
+                    if (p.getY()>maxY){
+                        maxY=p.getY();
+                    }
+                }
+            }
+            return maxY;
+        }
 
     }
 

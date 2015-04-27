@@ -173,11 +173,11 @@ public class ChartsFragment extends Fragment implements
         chartView.removeAllViews();
         GraphicalView chart;
         if (position == 0) {
-            GraphHelper.LineChartInfo chartInfo = this.mProjectItem
+            GraphHelper.LineChartInfo chartInfo = (GraphHelper.LineChartInfo) this.mProjectItem
                     .getLocInfo();
 
             chart = GraphHelper.makeLineChart("Lines of Code Added for "
-                    + this.mProjectItem.getName(), "Milestones", "Lines of Code", chartInfo, 0, this.mProjectItem.getMilestones().size(), 0, 9000, this.getActivity());
+                    + this.mProjectItem.getName(), "Milestones", "Lines of Code", chartInfo, 0, this.mProjectItem.getMilestones().size(), 0, (int)chartInfo.getMaxY(), this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 

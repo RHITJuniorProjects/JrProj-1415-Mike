@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -38,10 +39,11 @@ import android.widget.TextView;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
- * either contained in a {@link ProjectListActivity} in two-pane mode (on
- * tablets) or a {@link ProjectDetailActivity} on handsets.
+ * either contained in a {ProjectListActivity} in two-pane mode (on
+ * tablets) or a {ProjectDetailActivity} on handsets.
  */
-public class ProjectDetailFragment extends Fragment {
+public class ProjectDetailFragment extends Fragment  implements
+        AdapterView.OnItemSelectedListener {
 
     /**
      * The dummy content this fragment is presenting.
@@ -194,7 +196,7 @@ public class ProjectDetailFragment extends Fragment {
             // spinner layout
             ArrayAdapter<CharSequence> adapter = ArrayAdapter
                     .createFromResource(this.getActivity(),
-                            R.array.milestone_charts,
+                            R.array.project_charts,
                             android.R.layout.simple_spinner_item);
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -203,6 +205,7 @@ public class ProjectDetailFragment extends Fragment {
 
             // Set the default for the spinner
             spinner.setSelection(0);
+            spinner.setOnItemSelectedListener(this);
             // /////
             ((Switch) rootView.findViewById(R.id.projectMemberSwitch)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -263,6 +266,134 @@ public class ProjectDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         this.mCallbacks = sDummyCallbacks;
+    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+        FrameLayout chartView = (FrameLayout) this.getActivity().findViewById(
+                R.id.pieChart);
+        chartView.removeAllViews();
+        GraphicalView chart;
+
+
+        if (position == 0) {
+            GraphHelper.LineChartInfo chartInfo =  this.projectItem
+                    .getLocInfo();
+            int totalLoc=(int)chartInfo.getMaxY();
+            int chartMax=(int)1.25*totalLoc;
+            if (chartMax-totalLoc<10){
+                chartMax=totalLoc+10;
+            }
+
+            chart = GraphHelper.makeLineChart("Lines of Code Added for "
+                    + this.projectItem.getName(), "Milestones", "Lines of Code", chartInfo, 0, this.projectItem.getMilestones().size(), 0, chartMax, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+
+        } else if (position== 2) {
+            GraphHelper.LineChartInfo chartInfo = this.projectItem
+                    .getEstimateAccuracyInfo();
+            chart = GraphHelper.makeLineChart("Accuracy of Estimated Hours", "Milestones", "Ratio of Estimated/Actual",
+                    chartInfo, 0, this.projectItem.getMilestones().size(), -5, 5, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+        }
+        else if (position == 1) {
+            GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+
+            chartInfo.addNewPoint("estimated",
+                    new GraphHelper.Point(1.0, 150.0));
+
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(0.0, 0.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(1.0, 10.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(2.0, 20.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(3.0, 30.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(4.0, 40.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(5.0, 50.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(6.0, 65.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(7.0, 75.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(8.0, 80.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(9.0, 85.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(10.0, 90.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(11.0, 100.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(12.0, 110.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(13.0, 120.0));
+            chartInfo.addNewPoint("Estimated Hours Remaining",
+                    new GraphHelper.Point(14.0, 130.0));
+
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(0.0,
+                    150.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(1.0,
+                    140.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(2.0,
+                    130.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(3.0,
+                    122.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(4.0,
+                    112.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(5.0,
+                    106.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(6.0,
+                    101.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(7.0,
+                    91.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(8.0,
+                    87.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(9.0,
+                    82.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(10.0,
+                    77.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(11.0,
+                    67.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(12.0,
+                    58.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(13.0,
+                    50.0));
+            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(14.0,
+                    40.0));
+
+            chartInfo.addNewTick("0");
+            chartInfo.addNewTick("1");
+            chartInfo.addNewTick("2");
+            chartInfo.addNewTick("3");
+            chartInfo.addNewTick("4");
+            chartInfo.addNewTick("5");
+            chartInfo.addNewTick("6");
+            chartInfo.addNewTick("7");
+            chartInfo.addNewTick("8");
+            chartInfo.addNewTick("9");
+            chartInfo.addNewTick("10");
+            chartInfo.addNewTick("11");
+            chartInfo.addNewTick("12");
+            chartInfo.addNewTick("13");
+            chartInfo.addNewTick("14");
+
+            chart = GraphHelper.makeLineChart(getString(R.string.burndown),
+                    getString(R.string.days), getString(R.string.hours),
+                    chartInfo, 0, 21, 0, 150, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+        }
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // do nothing
     }
 
 }
