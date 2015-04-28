@@ -1,6 +1,6 @@
 <div id='tasks-page' hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		<dl class="tabs vertical" data-tab><dd onclick="selectProject(selectedProject)"><a href="#ViewTasks">Back To Milestone</a></dd><dd class="active"><a href="#ViewTasks">View Tasks</a></dd><dd onclick="newTask()"><a href="#ViewTasks">Add New Task</a></dd><dd onclick="taskStatics()"><a href="#ViewTasks">Task Statistics</a></dd><dd><a href="#BurndownChart">Burndown Chart</a></dd></dl>	</div>
+		<dl class="tabs vertical" data-tab><dd onclick="selectProject(selectedProject)"><a href="#ViewTasks">Back To Milestone</a></dd><dd id="TaskTab" class="active"><a href="#ViewTasks">View Tasks</a></dd><dd onclick="Milestone.prototype.newTask() || setTimeout(function(){ $('#TaskTab a').click() });"><a href="#ViewTasks">Add New Task</a></dd><dd onclick="Task.prototype.getCharts()"><a href="#ViewTasks">Task Statistics</a></dd><dd><a href="#BurndownChart">Burndown Chart</a></dd></dl>	</div>
 	<div class="small-9 columns main-content">
 		<div class="tabs-content">
 			<div class="content active" id="ViewTasks">

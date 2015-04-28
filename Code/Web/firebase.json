@@ -20,6 +20,10 @@
     {
         "source":"/mytasks",
         "destination":"/mytasks.html"
+    },
+    {
+        "source":"/trophystore",
+        "destination":"/trophystore.html"
     }
   ]
 }

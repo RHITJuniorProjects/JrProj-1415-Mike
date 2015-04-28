@@ -7,8 +7,6 @@ var milestonePercentArray = [];
 var projectHoursArray = [];
 var projectNameArray = [];
 var projectTaskArray = [];
-var taskNameArray = [];
-var taskPercentArray = [];
 var getLinesOfCode;
 var getNameAndDraw;
 var pieChartDrawer;
@@ -124,94 +122,6 @@ function projectDrawerTask(name, taskData) {
     });
 };
 
-// };
-
-
-function drawTaskStuff (projID, mileID, fb) {
-projectTaskArray = [];
-taskNameArray = [];
-taskPercentArray = [];
-  projectID = projID.toString();
-  milestoneID = mileID.toString();
-
-  fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks").on('value', function(snapshot) {
-    var taskIDArray = [];
-    for(var item in snapshot.val()){
-        taskIDArray.push(item);
-    }
-     //console.log(taskIDArray[0]);
-    for(i =0; i < taskIDArray.length; i++){
-        getTaskData(projectID, milestoneID, taskIDArray[i], taskIDArray);
-    }
-});
-
-
-function getTaskData(projectID, milestoneID, item, array){
-    fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item +"/name").on('value',function(snapshot){
-        taskNameArray.push(snapshot.val());
-        // console.log("name " + snapshot.val());
-         //console.log(taskNameArray);
-           fb.child("projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + item + "/percent_complete").on('value',function(snapshot){
-            taskPercentArray.push(snapshot.val());
-
-            });
-       
-        taskDrawer(taskNameArray, taskPercentArray);
-    });
-};
-
-function taskDrawer(name, percent_complete){
-      $('#taskContainer').highcharts({
-        chart: {
-            type: 'column',
-            options3d: {
-                enabled: false,
-                alpha: 10,
-                beta: 25,
-                depth: 70
-            }
-        },
-        title: {
-            text: 'Progress of Tasks',
-            style: { "color": "#333333", "fontSize": "30px"},
-        },
-        plotOptions: {
-            column: {
-                depth: 25
-            }
-        },
-        xAxis: {
-            categories: name
-        },
-        yAxis: {
-            alternate:'#F0F0F0',
-            opposite: false,
-            tickInterval: 20,
-            margin: 120,
-            max: 120,
-            // labels: {
-            //         formatter: function() {
-            //             var value = change[this.value];
-            //             return value !== 'undefined' ? value : this.value;
-            //         }
-            // },
-            title: {
-                text: 'Percent Complete',
-                style: {"font-family": "Arial", "font-weight": "bold", "color": "#333333"}  
-            }
-        },
-        series: [{
-            name: 'Percent Complete',
-            data: percent_complete
-        }],
-        colors: ['#0099FF', '#434348', '#90ed7d', '#f7a35c', '#8085e9', 
-                '#f15c80', '#e4d354', '#8085e8', '#8d4653', '#91e8e1'] 
-    });
-};
-
-
-};
-
 var change = {
     20: 'New',
     40: 'Implementation',
@@ -254,9 +164,6 @@ fb.child("projects/" + projectID + "/milestones").on('value', function(snapshot)
     }
 
 });
-
-
-
 
 
 function getLinesOfCode(item, array){
@@ -317,7 +224,7 @@ function getNameAndDraw(current, userArray, linesArray){
                 totalArray.push(new Array(nameArray[i], linesArray[i]));
                
             }
-            
+            console.log(totalArray);
             pieChartDrawer(totalArray);
 
         }

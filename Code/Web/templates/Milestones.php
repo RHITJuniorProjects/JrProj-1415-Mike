@@ -6,7 +6,8 @@
 			make_tabbar(
 				array(
 					new Tab("Back to My Projects", ["onclick" => "showProjects()"],"#ProjectMilestones"),
-					new Tab("Project Milestones",["class" => "active"]),
+					new Tab("Project Milestones",["id" => "MilestoneTab", "class" => "active"]),
+					new Tab("Add New Milestone",["onclick" => "$('#myMilestoneModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"],"#ProjectMilestones"),
 					new Tab("Team Members"),
 					new Tab("Milestone Statistics")
 				)
@@ -19,20 +20,9 @@
 					<div class="small-10 columns small-offset-1">
 						<div class="row collapse text-center outlined">
 							<h1 id="project-name"></h1>
-							<?php	// in case we want the add modal instead for the members page
-							/*<button data-reveal-id="myModal">Add Member</button>
-							<div id="myModal" class="reveal-modal small-4" data-reveal>
-								Users <br />
-                                <form action="" onsubmit="addNewMember(); return false;">
-                                    <select id="member-select"></select>
-                                    <input type="submit" id="member-submit" class="button" value="Add" />
-                                    <div id="member-error" class="my-error" hidden>No member selected</div>
-                                </form>
-							</div>*/?>
-							<button data-reveal-id="myMilestoneModal">Add Milestone</button>
 							<div id="myMilestoneModal" class="reveal-modal small-4" data-reveal>
 								<h2>New Milestone</h2><br />
-                                <form action="" onsubmit="addNewMilestone(); return false;">
+                                <form action="" onsubmit="Project.prototype.addNewMilestone(); return false;">
                                     <label for="milestoneName">Milestone Name:</label> <input type="text" id="milestoneName" />
                                     <label for="milestoneDescription">Description:</label> <input type="text" id="milestoneDescription" />
                                     <label for="milestoneDueDate">Due Date:</label> <input type="text" placeholder="yyyy-mm-dd" id="milestoneDueDate" onclick="showDatePicker('#milestoneDueDate')"/>
