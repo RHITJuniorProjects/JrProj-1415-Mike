@@ -62,8 +62,12 @@ NSString* parentTaskName;
 // The bounty's parent task
 TaskModel* parentTask;
 
-#pragma mark MethodsFromAndroid
-// TODO: Add methods after Line: 75 from android
+#pragma mark - Model Conversion
++ (BountyModel*) convertToModelFromDictionary:(NSDictionary*) dict {
+    // TODO: Implement
+    return nil;
+}
+
 
 
 

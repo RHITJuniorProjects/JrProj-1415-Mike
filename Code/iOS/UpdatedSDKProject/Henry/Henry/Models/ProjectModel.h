@@ -9,5 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface ProjectModel : NSObject
-
+@property (nonatomic, strong) NSMutableArray* milestones;
+@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) NSString* description;
+@property (nonatomic, strong) NSNumber* hoursPercent;
+@property (nonatomic, strong) NSNumber* taskPercent;
+@property (nonatomic, strong) NSNumber* milestonePercent;
+@property (nonatomic, strong) NSString* projectId;
 @end

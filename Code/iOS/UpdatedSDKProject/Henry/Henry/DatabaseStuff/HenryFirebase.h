@@ -25,6 +25,8 @@ typedef void(^UsersCallback)(NSDictionary *usersDictionary,BOOL success, NSError
 
 +(Firebase *)getFirebaseObject;
 + (NSString *)getFirebaseURL;
++(void)setFirebaseWritingObjectTo: (Firebase*) fb;
++(void)setFirebaseReadingObjectTo: (Firebase*) fb;
 - (void) updateDataSnapshot;
 - (void) getAllProjectsWithBlock:(ProjectCallback) completionBlock;
 - (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestoneCallback) completionBlock;

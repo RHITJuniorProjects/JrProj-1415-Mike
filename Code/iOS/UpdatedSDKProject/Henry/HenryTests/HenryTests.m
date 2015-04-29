@@ -11,7 +11,6 @@
 #import "HenryProjectObject.h"
 #import "HenryFirebase.h"
 #import "OCMock.h"
-#import "OCMockObject.h"
 
 
 @interface HenryTests : XCTestCase
@@ -143,7 +142,9 @@
 }
 
 - (void) testGetAllProjects {
-//    HenryFirebase* mockFirebase = 
+    // A nice mock
+    id mockFirebase = OCMClassMock([Firebase class]);
+    
 }
 
 - (void)tearDown

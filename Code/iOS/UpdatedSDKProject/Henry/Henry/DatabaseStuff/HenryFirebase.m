@@ -38,6 +38,16 @@ Firebase *writeToFB;
     }
 }
 
++(void)setFirebaseReadingObjectTo: (Firebase*) fb;
+{
+    henryFB = fb;
+}
+
++(void)setFirebaseWritingObjectTo: (Firebase*) fb;
+{
+    writeToFB = fb;
+}
+
 - (void) updateDataSnapshot{
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         self.snapshot = snapshot;

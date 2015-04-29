@@ -10,25 +10,19 @@
 #import "HenryFirebase.h"
 
 @implementation ProjectModel
-Firebase* firebase;
-NSMutableArray* milestones;
-NSString* name;
-// due date
-// map
-NSString* description;
-NSNumber* hoursPercent;
-NSNumber* tasksPercent;
-NSNumber* milestonesPercent;
-NSString* projectId;
-// listchangenotifier listviewcallback
-// listchangenotifier milestonelistviewcallback
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        firebase = [HenryFirebase getFirebaseObject];
-    }
-    return self;
++ (ProjectModel*) constructModelFromDictionary: (NSDictionary*) dict {
+    //TODO: Finish making this class
+    ProjectModel* projectToReturn = [ProjectModel new];
+    projectToReturn.name = [dict objectForKey:@"name"];
+    projectToReturn.description = [dict objectForKey:@"description"];
+    projectToReturn.hoursPercent = [dict objectForKey:@"hours_percent"];
+    projectToReturn.taskPercent = [dict objectForKey:@"task_percent"];
+    projectToReturn.milestonePercent = [dict objectForKey:@"milestone_percent"];
+    projectToReturn.projectId = [dict objectForKey:@"projectId"];
+    
+    
+    return projectToReturn;
 }
+
 @end
