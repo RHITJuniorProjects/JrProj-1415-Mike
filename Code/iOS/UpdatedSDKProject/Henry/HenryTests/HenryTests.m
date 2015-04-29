@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "HenryProjectObject.h"
 #import "HenryFirebase.h"
+#import "LoginViewController.h"
 #import "OCMock.h"
 
 
@@ -144,6 +145,35 @@
 - (void) testGetAllProjects {
     // A nice mock
     id mockFirebase = OCMClassMock([Firebase class]);
+    id mockSnapshot = OCMClassMock([FDataSnapshot class]);
+    HenryFirebase *hfb = [[HenryFirebase alloc] init];
+    [hfb getAllProjectsWithBlock:^(NSDictionary *projectsDictionary, BOOL success, NSError *error) {
+        <#code#>
+    }]
+}
+
+- (void) testValidEmail {
+    NSString* validEmail = @"watersdr@rose-hulman.edu";
+    NSString* validEmail2 = @"blah@blah.biz";
+    NSString* invalidEmail = @"blah";
+    NSString* invalidEmail2 = @"hello!world";
+    NSString* invalidEmail3 = @"@@@@";
+    NSString* invalidEmail4 = @"blah@blah.9999999";
+    NSString* invalidEmail5 = @"@rose-hulman.edu";
+    
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    
+    XCTAssertTrue([lvc isValidEmailFormat: validEmail]);
+    XCTAssertTrue([lvc isValidEmailFormat: validEmail2]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail2]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail3]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail4]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail5]);
+    
+}
+
+- (void) testTextFieldShouldReturn {
     
 }
 

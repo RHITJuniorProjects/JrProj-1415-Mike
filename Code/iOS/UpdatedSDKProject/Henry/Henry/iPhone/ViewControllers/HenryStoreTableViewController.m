@@ -23,7 +23,6 @@
 
 @end
 @implementation HenryStoreTableViewController
-NSMutableArray *trophyObjectArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,11 +49,11 @@ NSMutableArray *trophyObjectArray;
     self.trophies = trophiesDictionary;
     self.trophykey = [NSMutableArray arrayWithArray:[self.trophies allKeys]];
     [self.trophykey removeObjectsInArray:[[self.userInfo valueForKey:@"trophies"] allKeys]];
-    trophyObjectArray = [NSMutableArray new];
+    self.trophyObjectArray = [NSMutableArray new];
     for (int i = 0; i < [self.trophykey count]; i++) {
         NSDictionary* tempFBTrophy = [self.trophies valueForKey:[self.trophykey objectAtIndex:i]];
         TrophyModel* tempTrophyModel = [[TrophyModel alloc] initWithName:[tempFBTrophy valueForKey:@"name"] Description:[tempFBTrophy valueForKey:@"description"] Cost:[tempFBTrophy valueForKey:@"cost"] Image:[tempFBTrophy valueForKey:@"image"]];
-        [trophyObjectArray addObject:tempTrophyModel];
+        [self.trophyObjectArray addObject:tempTrophyModel];
     }
 }
 
@@ -95,7 +94,7 @@ NSMutableArray *trophyObjectArray;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HenryStoreCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"trophyCell" forIndexPath:indexPath];
     NSInteger rowIndex = indexPath.row;
-    TrophyModel* tempModel = [trophyObjectArray objectAtIndex:rowIndex];
+    TrophyModel* tempModel = [self.trophyObjectArray objectAtIndex:rowIndex];
     //Changed
     cell.trophyName.text = tempModel.name;
     cell.trophyDescription.text = tempModel.trophyModelDescription;

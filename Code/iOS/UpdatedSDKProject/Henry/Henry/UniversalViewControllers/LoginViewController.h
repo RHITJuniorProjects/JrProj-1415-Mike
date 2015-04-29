@@ -13,7 +13,8 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *emailText;
 @property (weak, nonatomic) IBOutlet UITextField *passwordText;
+@property Firebase *fb;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loginIndicator;
 - (IBAction)loginAction:(id)sender;
-@property Firebase *fb;
+- (BOOL)isValidEmailFormat:(NSString*) emailString;
 @end

@@ -10,6 +10,7 @@
 
 @interface HenryStoreTableViewController : UITableViewController <UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *pointsAvailable;
+@property NSMutableArray *trophyObjectArray;
 //@property NSString* userid;
 //@property NSDictionary *userInfo;
 //@property NSNumber *availablePoints;
