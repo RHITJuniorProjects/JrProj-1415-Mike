@@ -16,4 +16,5 @@
 @property (nonatomic, strong) NSString* key;
 
 - (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost Image: (NSString *) trophyimage;
+- (BOOL) isEqual:(TrophyModel*) object;
 @end

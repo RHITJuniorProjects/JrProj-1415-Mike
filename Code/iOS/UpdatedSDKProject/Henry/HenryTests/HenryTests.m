@@ -209,7 +209,11 @@
                                  };
     HenryStoreTableViewController *hstv = [[HenryStoreTableViewController alloc] init];
     [hstv addAvailableTrophiesToTrophyObjectArrayFromDictionary: dictToPass];
-    XCTAssertTrue([expected isEqual:hstv.trophyObjectArray]);
+    
+    for (int i = 0; i < [dictToPass count]; i++) {
+        XCTAssertTrue([hstv.trophyObjectArray[i] isEqual: expected[i]]);
+    }
+
     
 }
 

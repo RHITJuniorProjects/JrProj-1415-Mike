@@ -24,5 +24,9 @@ HenryFirebase* firebase;
 
     return self;
 }
+
+- (BOOL) isEqual:(TrophyModel*) object {
+    return [self.name isEqualToString:object.name] && [self.trophyModelDescription isEqualToString:object.trophyModelDescription] && [self.cost isEqualToNumber:object.cost] && [self.imageTrophy isEqualToString:object.imageTrophy];
+}
 // listchangenotifier listchangenotifier
 @end
