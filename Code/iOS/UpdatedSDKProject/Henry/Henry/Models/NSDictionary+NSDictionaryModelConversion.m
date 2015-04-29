@@ -17,9 +17,10 @@
 
 @implementation NSDictionary (NSDictionaryModelConversion)
 
-//- (id) constructModelFromDictionaryWithModelClass:(Class) modelClass;
-//{
-//    
-//}
+// TODO: Implement
+- (id) constructModelFromDictionaryWithModelClass:(Class) modelClass;
+{
+    return nil;
+}
 
 @end
