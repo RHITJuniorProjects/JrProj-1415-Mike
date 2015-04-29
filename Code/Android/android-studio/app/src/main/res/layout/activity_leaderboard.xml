@@ -3,14 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TableLayout
-        android:id="@+id/leaderboard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:weightSum="1.0">
-    </TableLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RadioGroup
+            android:id="@+id/top_leaderboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <RadioButton
+                android:id="@+id/_10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top 10"
+                android:checked="false" />
+
+            <RadioButton
+                android:id="@+id/_25"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top 25"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/_50"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top 50"
+                android:checked="false" />
+
+        </RadioGroup>
+
+        <TableLayout
+            android:id="@+id/leaderboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/top_leaderboard"
+            android:weightSum="1.0">
+        </TableLayout>
+        </RelativeLayout>
+
+
 
 </ScrollView>

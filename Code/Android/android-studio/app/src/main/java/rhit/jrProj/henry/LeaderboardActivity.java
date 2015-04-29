@@ -22,6 +22,8 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -41,6 +43,16 @@ public class LeaderboardActivity extends Activity implements ChangeNotifier<Lead
 
     private String mUserKey;
 
+    private RadioGroup mDisplayTop;
+
+    private RadioButton mTop10;
+
+    private RadioButton mTop25;
+
+    private RadioButton mTop50;
+
+    public int topUsersToDisplay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,9 +67,37 @@ public class LeaderboardActivity extends Activity implements ChangeNotifier<Lead
 
         mUserKey = firebase.getAuth().getUid();
 
+        topUsersToDisplay = 25;
+
         Firebase usersRef = firebase.child("users");
         this.mLeaderboardObject = new Leaderboard(usersRef);
         this.mLeaderboardObject.setChangeNotifier(this);
+        this.mDisplayTop = (RadioGroup) findViewById(R.id.top_leaderboard);
+        this.mTop10 = (RadioButton) findViewById(R.id._10);
+        this.mTop25 = (RadioButton) findViewById(R.id._25);
+        this.mTop50 = (RadioButton) findViewById(R.id._50);
+
+        this.mDisplayTop.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+                    case(R.id._10):
+                        topUsersToDisplay = 10;
+                        break;
+                    case(R.id._25):
+                        topUsersToDisplay = 25;
+                        break;
+                    case(R.id._50):
+                        topUsersToDisplay = 50;
+                        break;
+
+                }
+
+                updateDisplay(mLeaderboardObject.getUsers());
+            }
+        });
+
+
 
     }
 
@@ -89,7 +129,7 @@ public class LeaderboardActivity extends Activity implements ChangeNotifier<Lead
         mLeaderboard.removeAllViews();
 
         List<TableRow> rows = new ArrayList<TableRow>();
-        for (int i = 0; i < 25 && i < usersList.size(); i++) {
+        for (int i = 0; i < topUsersToDisplay && i < usersList.size(); i++) {
             Leaderboard.LeaderboardUser user = usersList.get(i);
             TableRow row = createRow(user, i + 1, user.getId().equals(mUserKey));
             rows.add(row);
