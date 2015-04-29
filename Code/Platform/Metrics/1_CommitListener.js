@@ -3,26 +3,18 @@
  * Handles read/write operations directly relating to commits.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 2 April 2015, 6:36pm
- * Last Modified: 23 April 2015, 10:00am
+ * Last Modified: 26 April 2015, 7:37pm
  */
 var Firebase = require('firebase');
 
 // various firebase DBs in use
-var production = 'https://henry-production.firebaseio.com';
-var staging = 'https://henry-staging.firebaseio.com';
 var test = 'https://henry-test.firebaseio.com';
 var metricsTest = 'https://henry-metrics-test.firebaseio.com';
-var qa = 'https://henry-qa.firebaseio.com';
 
 var firebaseUrl = metricsTest;
 
 // optional commandline arg: name of the DB to connect to. Defaults to henry-metrics-test otherwise.
 if (process.argv.length === 3) {
-    firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
-}
-else if (process.argv.length === 4) {
-    tokenVal = process.argv[3];
     firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
 }
 // Optional commandline arg: security token
@@ -44,8 +36,6 @@ var projectsRef = new Firebase(firebaseUrl + '/projects');
 var FirebaseTokenGenerator = require('firebase-token-generator');
 
 // TODO: add more as needed, or do commandline override for auth token
-var metricsTestToken = 'swPpsOgpNn7isrfxeoWNNV7yxLy85j94JO7p9lDf';
-var testToken = 'FDrYDBNvRCgq0kGonjmsPl0gUwXvxcqUdgaCQ1FI';
 var config = require('./config.json');
 var metricsTestToken = config.metricsTestToken;
 var testToken = config.testToken;
@@ -202,12 +192,9 @@ function calculateMetrics(projectRef, commit) {
         return;
 
     }
-    var addedLOC = commit.child(addedLines).val();
-    var removedLOC = commit.child(removedLines).val();
     
     var addedLOC = commit.child(addedLines).val();
     var removedLOC = commit.child(removedLines).val();
-
     var taskRef = projectRef.child('milestones/' + milestone + '/tasks/' + task);
 
     taskRef.once('value', function(taskBranch) {
@@ -215,12 +202,6 @@ function calculateMetrics(projectRef, commit) {
         var newHours = currentHours + commit.child('hours').val();
 
         var totalLOC = taskBranch.child(totalLines).val();
-
-
-
-
-
-
         var newTotalLOC = totalLOC + addedLOC - removedLOC;
         var totalAddedLOC = taskBranch.child(addedLines).val() + addedLOC;
         var totalRemovedLOC = taskBranch.child(removedLines).val() + removedLOC;
@@ -238,31 +219,6 @@ function calculateMetrics(projectRef, commit) {
             removedLOC !== totalRemovedLOC ||
             status !== taskBranch.child('status').val() ||
             updatedHourEstimate !== taskBranch.child('updated_hour_estimate').val()) {
-
-            taskBranch.ref().update({
-                'total_hours': newHours,
-                'total_lines_of_code': newTotalLOC,
-                'added_lines_of_code': totalAddedLOC,
-                'removed_lines_of_code': totalRemovedLOC,
-                'percent_complete': taskHrPercent,
-                'status': status,
-                'updated_hour_estimate': updatedHourEstimate
-            });
-
-        if (currentHours !== newHours ||
-            addedLOC !== totalAddedLOC ||
-            removedLOC !== totalRemovedLOC ||
-            status !== taskBranch.child('status').val() ||
-            updatedHourEstimate !== taskBranch.child('updated_hour_estimate').val()) {
-
-
-
-
-
-
-
-
-
         }
     });
     // update user with task info
@@ -271,78 +227,6 @@ function calculateMetrics(projectRef, commit) {
     var taskID = taskRef.key();
     var assignee = commit.child('user').val();
     var partner = commit.child('pair_programmed').val();
-
-    var commitHours = commit.child('hours').val();
-
-    // TODO: log update?
-    if (assignee !== null) {
-        var taskNode = usersRef.child(assignee + '/projects/' + projectID + '/milestones/' + milestoneID + '/tasks/' + taskID);
-        taskNode.once('value', function(taskSnap) {
-
-            if (taskSnap.val() === null) {
-                console.log('task does not exist for user');
-                taskNode.update({
-                    'total_hours': commitHours,
-                    'added_lines_of_code': addedLOC,
-                    'removed_lines_of_code': removedLOC,
-                    'total_lines_of_code': addedLOC - removedLOC
-                });
-            }
-            else {
-
-                var userHours = taskSnap.child('hours').val() + commitHours;
-                var userTotalLOC;
-
-                if (partner === null || !partner) {
-                    userTotalLOC = taskSnap.child(totalLines).val() + addedLOC - removedLOC;
-                    taskNode.update({
-                        'total_hours': userHours,
-                        'added_lines_of_code': taskSnap.child(addedLines).val() + addedLOC,
-                        'removed_lines_of_code': taskSnap.child(removedLines).val() + removedLOC,
-                        'total_lines_of_code': userTotalLOC
-                    });
-                }
-                // TODO: here and below: ensure partner is on project? (CLI may handle)
-                else if (partner !== null) {
-                    console.log("Pair programmed commit: User: " + assignee + ", partner: " + partner);
-                    console.log("project, milestone, task: " + projectID + ", " + milestoneID + ", " + taskID)
-                    userTotalLOC = taskSnap.child(totalLines).val() + Math.ceil(addedLOC / 2) - Math.ceil(removedLOC / 2);
-                    taskNode.update({
-                        'total_hours': userHours,
-                        'added_lines_of_code': Math.ceil((taskSnap.child(addedLines).val() + addedLOC) / 2),
-                        'removed_lines_of_code': Math.ceil((taskSnap.child(removedLines).val() + removedLOC) / 2),
-                        'total_lines_of_code': userTotalLOC
-                    });
-                }
-            }
-        });
-
-        if (partner !== null && partner !== false) {
-            var partnerTaskNode = usersRef.child(partner + '/projects/' + projectID + '/milestones/' + milestoneID + '/tasks/' + taskID);
-            partnerTaskNode.once('value', function(partnerTaskSnap) {
-                if (partnerTaskSnap.val() === null) {
-                    console.log('task does not exist for partner')
-                    partnerTaskNode.update({
-                        'total_hours': commitHours,
-                        'added_lines_of_code': addedLOC,
-                        'removed_lines_of_code': removedLOC,
-                        'total_lines_of_code': addedLOC - removedLOC
-                    });
-                }
-                else {
-                    var partnerTotalLOC = partnerTaskSnap.child(totalLines).val() + Math.floor(addedLOC / 2) - Math.floor(removedLOC / 2);
-                    var partnerHours = partnerTaskSnap.child(totalHours).val() + commit.child('hours').val();
-
-                    partnerTaskNode.update({
-                        'total_hours': partnerHours,
-                        'added_lines_of_code': Math.ceil(partnerTaskSnap.child(addedLines).val() + addedLOC / 2),
-                        'removed_lines_of_code': Math.ceil(partnerTaskSnap.child(removedLines).val() + removedLOC / 2),
-                        'total_lines_of_code': partnerTotalLOC
-                    });
-                }
-            });
-        }
-    }
 
     var commitHours = commit.child('hours').val();
 

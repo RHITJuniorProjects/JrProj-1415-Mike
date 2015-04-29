@@ -3,16 +3,13 @@
  * Handles read/write operations directly relating to Users.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 23 April 2015, 10:00am.
+ * Last Modified: 26 April 2015, 7:30pm.
  */
 var Firebase = require('firebase');
 
 // various firebase DBs in use
-var production = 'https://henry-production.firebaseio.com';
-var staging = 'https://henry-staging.firebaseio.com';
 var test = 'https://henry-test.firebaseio.com';
 var metricsTest = 'https://henry-metrics-test.firebaseio.com';
-var qa = 'https://henry-qa.firebaseio.com';
 
 var firebaseUrl = metricsTest;
 
@@ -22,12 +19,12 @@ if (process.argv.length === 3) {
     console.log("Connecting to " + firebaseUrl);
 }
 else if (process.argv.length === 4) {
-    // TODO: override auth token?
+    firebaseUrl = 'https://' + process.argv[2] + '.firebaseio.com';
+    tokenVal = process.argv[3];
 }
 
 // Firebase references for root and top-level trees
 var fbRef = new Firebase(firebaseUrl);
-var commitsRef = new Firebase(firebaseUrl + '/commits');
 var usersRef = new Firebase(firebaseUrl + '/users');
 var projectsRef = new Firebase(firebaseUrl + '/projects');
 var trophiesRef = new Firebase(firebaseUrl + '/trophies');
@@ -103,7 +100,7 @@ usersRef.on('child_added', function(user) {
     userTrophies.ref().on('child_added', function(trophy) {
         if (trophy.key() === 'placeholder') return;
         console.log('new trophy added. User: ' + user.key() + ', trophy: ' + trophy.key());
-        calculateAvailablePoints(user.ref(), trophy.key());
+        setTopTrophy(user, userTrophies);
     });
 
     user.ref().on('child_added', function(projects) {
@@ -211,20 +208,7 @@ function aggregateUserProjectData(userProject) {
         'total_points': totalProjectPoints
     });
 
-    var userPoints = 0;
-    userRef.once('value', function(user) {
-        user.child('projects').forEach(function(project) {
-            if (project.hasChild('total_points')) {
-                // console.log('adding user points');
-                userPoints += project.child('total_points').val();
-            }
-        });
-    });
-    calculateAvailablePoints(userRef, userPoints);
-    // console.log('changing user ' + userRef.key());
-    userRef.update({
-        'total_points': userPoints,
-    });
+    calculatePoints(userRef);
 }
 
 /*
@@ -322,19 +306,87 @@ function calculatePercentage(current, total) {
 }
 
 /*
- * Calculates the number of available points after a trophy has been added
+ * Calculates the number of total and available points after a task change
  */
-function calculateAvailablePoints(userRef, trophyID) {
-    console.log('calculating available points for user ' + userRef.key());
-    trophiesRef.once('value', function(trophies) {
-        if (trophies.child(trophyID) === null) return;
-        userRef.once('value', function(user) {
-            console.log('got here');
-            var availablePoints = user.child('available_points').val();
-            availablePoints -= trophies.child(trophyID + '/cost').val();
+function calculatePoints(userRef) {
+    var userPoints = 0;
+    userRef.once('value', function(user) {
+        user.child('projects').forEach(function(project) {
+            if (project.hasChild('total_points')) {
+                // console.log('adding user points');
+                userPoints += project.child('total_points').val();
+            }
+        });
+    });
+    // console.log('calculating available points for user ' + userRef.key());
+    var availablePoints = userPoints;
+
+    userRef.child('trophies').once('value', function(userTrophies) {
+        trophiesRef.once('value', function(trophies) {
+            userTrophies.forEach(function(trophy) {
+                if (trophies.hasChild(trophy.key())) {
+                    availablePoints -= trophies.child(trophy.key() + '/cost').val();
+                    // console.log('Inside: User: ' + userRef.key() + ', availablePoints: ' + availablePoints)
+                }
+            });
+            projectsRef.once('value', function(projects) {
+                projects.forEach(function(project) {
+                    userRef.once('value', function(user) {
+                        if (!user.child('projects').hasChild(project.key()) 
+                            || !project.hasChild('custom_trophies')) return;
+                        var trophies = project.child('custom_trophies');
+                        userTrophies.forEach(function (trophy) {
+                            if (trophies.hasChild(trophy.key())) {
+                                availablePoints -= trophies.child(trophy.key() + '/cost').val();
+                            }
+                        });
+                    });
+                });
+            });
+            // console.log('Between: User: ' + userRef.key() + ', availablePoints: ' + availablePoints);
             userRef.update({
-                'available_points': availablePoints
+                'available_points': availablePoints,
+                'total_points': userPoints
             });
         });
     });
+    // console.log('Outside: User: ' + userRef.key() + ', availablePoints: ' + availablePoints)
+}
+/*
+ * Sets the top trophy among the given user's trophies
+ */
+function setTopTrophy(user, userTrophies) {
+    var topTrophy = "None";
+    var topCost = 0;
+    trophiesRef.once('value', function(trophies) {
+        userTrophies.forEach(function(trophy) {
+            var cost = trophies.child(trophy.key() + '/cost').val();
+            if (cost !== null && cost > topCost) {
+                topTrophy = trophy.key();
+                topCost = cost;
+                // console.log('Inside: User: ' + user.key() + ', top trophy: ' + topTrophy);
+            }
+        });
+        // check custom trophies
+        projectsRef.once('value', function(projects) {
+            projects.forEach(function(project) {
+                if (!user.child('projects').hasChild(project.key()) 
+                    || !project.hasChild('custom_trophies')) return;
+                var trophies = project.child('custom_trophies');
+                userTrophies.forEach(function(trophy) {
+                    var cost = trophies.child(trophy.key() + '/cost').val();
+                    if (cost !== null && cost > topCost) {
+                        topTrophy = trophy.key();
+                        topCost = cost;
+                    }
+                });
+            });
+        });
+        // console.log('Between: User: ' + user.key() + ', top trophy: ' + topTrophy);
+        user.ref().update({
+            'top_trophy': topTrophy
+        });
+    });
+
+
 }
