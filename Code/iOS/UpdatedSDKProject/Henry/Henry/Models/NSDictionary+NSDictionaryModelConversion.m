@@ -8,7 +8,6 @@
 
 #import "NSDictionary+NSDictionaryModelConversion.h"
 #import "BountyModel.h"
-#import "MemberModel.h"
 #import "MilestoneModel.h"
 #import "ProjectModel.h"
 #import "TaskModel.h"

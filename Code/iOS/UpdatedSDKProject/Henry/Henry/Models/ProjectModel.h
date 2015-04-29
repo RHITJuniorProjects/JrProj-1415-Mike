@@ -9,11 +9,27 @@
 #import <Foundation/Foundation.h>
 
 @interface ProjectModel : NSObject
-@property (nonatomic, strong) NSMutableArray* milestones;
-@property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSString* description;
-@property (nonatomic, strong) NSNumber* hoursPercent;
-@property (nonatomic, strong) NSNumber* taskPercent;
-@property (nonatomic, strong) NSNumber* milestonePercent;
-@property (nonatomic, strong) NSString* projectId;
+@property NSNumber* addedLinesOfCode;
+@property NSMutableDictionary* backlog;
+@property NSMutableDictionary* customCategories;
+@property NSString* projectDescription;
+@property NSString* dueDate;
+@property NSNumber* hoursPercent;
+@property NSMutableDictionary* memberRoles;
+@property NSNumber* milestonePercent;
+@property NSMutableDictionary* milestones;
+@property NSNumber* milestonesCompleted;
+@property NSString* name;
+@property NSNumber* removedLinesOfCode;
+@property NSNumber* taskPercent;
+@property NSNumber* tasksCompleted;
+@property NSNumber* totalEstimatedHours;
+@property NSNumber* totalHours;
+@property NSNumber* totalLinesOfCode;
+@property NSNumber* totalMilestones;
+@property NSNumber* totalTasks;
+
+
+
++ (ProjectModel*) constructModelFromDictionary: (NSDictionary*) dict;
 @end

@@ -97,9 +97,9 @@
     TrophyModel* tempModel = [self.trophyObjectArray objectAtIndex:rowIndex];
     //Changed
     cell.trophyName.text = tempModel.name;
-    cell.trophyDescription.text = tempModel.trophyModelDescription;
-    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: tempModel.imageTrophy]];
-    NSLog(@"%@", tempModel.imageTrophy);
+    cell.trophyDescription.text = tempModel.trophyDescription;
+    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: tempModel.image]];
+    NSLog(@"%@", tempModel.image);
     cell.trophyImage.image = [UIImage imageWithData:imageData];
     //[imageData release];
     

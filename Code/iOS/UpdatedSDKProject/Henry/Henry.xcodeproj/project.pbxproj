@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		E12D0CDB1AE9428400F695DD /* NSDictionary+NSDictionaryModelConversion.m in Sources */ = {isa = PBXBuildFile; fileRef = E12D0CDA1AE9428400F695DD /* NSDictionary+NSDictionaryModelConversion.m */; };
 		E150B2411ACD866E0075AB1C /* BountyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2341ACD866D0075AB1C /* BountyModel.m */; };
-		E150B2421ACD866E0075AB1C /* MemberModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2361ACD866D0075AB1C /* MemberModel.m */; };
 		E150B2431ACD866E0075AB1C /* MilestoneModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2381ACD866D0075AB1C /* MilestoneModel.m */; };
 		E150B2441ACD866E0075AB1C /* ProjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B23A1ACD866D0075AB1C /* ProjectModel.m */; };
 		E150B2451ACD866E0075AB1C /* TaskModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B23C1ACD866D0075AB1C /* TaskModel.m */; };
@@ -90,8 +89,6 @@
 		E12D0CDA1AE9428400F695DD /* NSDictionary+NSDictionaryModelConversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+NSDictionaryModelConversion.m"; path = "Henry/Models/NSDictionary+NSDictionaryModelConversion.m"; sourceTree = "<group>"; };
 		E150B2331ACD866D0075AB1C /* BountyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BountyModel.h; sourceTree = "<group>"; };
 		E150B2341ACD866D0075AB1C /* BountyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BountyModel.m; sourceTree = "<group>"; };
-		E150B2351ACD866D0075AB1C /* MemberModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemberModel.h; sourceTree = "<group>"; };
-		E150B2361ACD866D0075AB1C /* MemberModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MemberModel.m; sourceTree = "<group>"; };
 		E150B2371ACD866D0075AB1C /* MilestoneModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MilestoneModel.h; sourceTree = "<group>"; };
 		E150B2381ACD866D0075AB1C /* MilestoneModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MilestoneModel.m; sourceTree = "<group>"; };
 		E150B2391ACD866D0075AB1C /* ProjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectModel.h; sourceTree = "<group>"; };
@@ -244,8 +241,6 @@
 			children = (
 				E150B2331ACD866D0075AB1C /* BountyModel.h */,
 				E150B2341ACD866D0075AB1C /* BountyModel.m */,
-				E150B2351ACD866D0075AB1C /* MemberModel.h */,
-				E150B2361ACD866D0075AB1C /* MemberModel.m */,
 				E150B2371ACD866D0075AB1C /* MilestoneModel.h */,
 				E150B2381ACD866D0075AB1C /* MilestoneModel.m */,
 				E150B2391ACD866D0075AB1C /* ProjectModel.h */,
@@ -701,7 +696,6 @@
 				E196C0B21ACC6C2E0094B89C /* HenryMilestoneDetailViewController.m in Sources */,
 				E150B2431ACD866E0075AB1C /* MilestoneModel.m in Sources */,
 				E196C00F1ACC6AF30094B89C /* main.m in Sources */,
-				E150B2421ACD866E0075AB1C /* MemberModel.m in Sources */,
 				E196C0A81ACC6C2E0094B89C /* HenryAssignDevTableViewCell.m in Sources */,
 				E196C0B81ACC6C2E0094B89C /* HenryStoreTableViewController.m in Sources */,
 				E196C0291ACC6B860094B89C /* HenryFirebase.m in Sources */,

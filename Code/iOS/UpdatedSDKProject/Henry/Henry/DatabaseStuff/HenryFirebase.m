@@ -8,6 +8,15 @@
 
 #import "HenryFirebase.h"
 #import <UIKit/UIKit.h>
+
+#import "BountyModel.h"
+
+#import "MilestoneModel.h"
+#import "ProjectModel.h"
+#import "TaskModel.h"
+#import "TrophyModel.h"
+#import "UserModel.h"
+
 @interface HenryFirebase()
 @property FDataSnapshot* snapshot;
 @end
@@ -59,6 +68,21 @@ Firebase *writeToFB;
 // Tested
 +(NSString *)getFirebaseURL {
     return @"https://henry-test.firebaseio.com";
+}
+
+- (void) getAllProjectModelsWithBlock:(ProjectCallback)completionBlock {
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *rawProjects = snapshot.value[@"projects"];
+        NSMutableDictionary *projectModels = [NSMutableDictionary new];
+        NSArray *projectKeys = [rawProjects allKeys];
+        for (NSString* key in projectKeys) {
+            ProjectModel* tempProject = [ProjectModel constructModelFromDictionary:[rawProjects objectForKey:key]];
+            [projectModels setObject:tempProject forKey:key];
+        }
+        completionBlock(rawProjects, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
 }
 
 - (void) getAllProjectsWithBlock:(ProjectCallback) completionBlock {
@@ -173,11 +197,11 @@ Firebase *writeToFB;
     NSLog(@"DaNew Available POints: %@", newAvailPointString);
     [writeToFB setValue:newAvailablePoints];
 }
-- (void) assignMemberToTask: (TaskModel*) task withMember: (UserModel*) user;
+- (void) assignMemberToTaskWithTaskKey: (NSString*) taskId UserKey: (NSString*) userId ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId;
 {
     writeToFB = [HenryFirebase getFirebaseObject];
-    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",task.parentProjectID, task.parentMilestoneID, task.taskID]];
-    NSDictionary *newValue = @{@"assignedTo":user.key};
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",projectId, milestoneId, taskId]];
+    NSDictionary *newValue = @{@"assignedTo":userId};
     [writeToFB updateChildValues:newValue];
     
 }

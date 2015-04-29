@@ -10,14 +10,14 @@
 
 
 @interface UserModel : NSObject
-@property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSString* gitName;
-@property (nonatomic, strong) NSString* email;
-@property (nonatomic, strong) NSString* key;
-@property (nonatomic, strong) NSNumber* totalPoints;
-@property (nonatomic, strong) NSNumber* availablePoints;
-@property (nonatomic, weak) NSMutableDictionary* trophies;
-// list change notifier...
-// map of projects...
-@property (nonatomic, strong) NSMutableArray* tasks;
+
+@property NSNumber* availablePoints;
+@property NSString* email;
+@property NSString* name;
+@property NSMutableDictionary* projects;
+@property NSNumber* totalPoints;
+@property NSMutableDictionary* trophies;
+@property NSString* key;
+
++ (UserModel*)constructModelFromDictionary:(NSDictionary*) dict;
 @end

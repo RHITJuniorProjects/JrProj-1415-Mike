@@ -38,7 +38,7 @@ typedef void(^UsersCallback)(NSDictionary *usersDictionary,BOOL success, NSError
 - (void) getTrophiesBelongingToUserId: (NSString*) userId withBlock: (TrophiesCallback) completionBlock;
 
 - (void) purchaseTrophyWithTrophyModel: (TrophyModel*) trophy withUserId: (NSString*) userid withOldAvailablePoints: (NSNumber*) oldAvailPoints;
-- (void) assignMemberToTask: (TaskModel*) task withMember: (UserModel*) user;
+- (void) assignMemberToTaskWithTaskKey: (NSString*) taskId UserKey: (NSString*) userId ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId;
 
 
     

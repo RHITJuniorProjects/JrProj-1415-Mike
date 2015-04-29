@@ -1,5 +1,5 @@
 //
-//  HenryTaskStatusTableViewController.m
+//  HenryCategoryTableViewController.m
 //  Henry
 //
 //  Created by Carter Grove on 10/17/14.
@@ -12,7 +12,7 @@
 @interface HenryCategoryTableViewController ()
 @property NSArray *cellTitles;
 @property UITableViewCell *previouslySelected;
-@property int selectedIndex;
+@property NSInteger selectedIndex;
 @property BOOL firstTime;
 @property BOOL clearChecksOnSelection;
 @property Firebase *fb;
