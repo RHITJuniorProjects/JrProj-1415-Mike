@@ -1,0 +1,26 @@
+ssh into the VM
+
+$ screen -r
+
+if you get "there is no creen to be resumed":
+    screen
+    (enter to skip dialog)
+
+(once in screen)
+$ nodejs 1_CommitListener.js <firebase-name> <optional: auth-token>
+
+ctrl+a A (rename window to "CommitListener", press enter to confirm)
+
+(give CommitListener about 10 minutes to spin up)
+
+ctrl+a c (open a new screen window)
+
+$ nodejs 2_UserListener.js <firebase-name> <optional: auth-token>
+
+ctrl+a A (rename window to "UserListener", press enter to confirm)
+
+({ctrl+a "} to switch between windows)
+
+({ctrl+a d} to detach from screen)
+
+$ logout (logout of ssh)
