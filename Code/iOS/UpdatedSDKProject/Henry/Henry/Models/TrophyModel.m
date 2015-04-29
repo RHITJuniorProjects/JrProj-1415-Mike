@@ -34,4 +34,7 @@
     return self;
 }
 
+- (BOOL) isEqual:(TrophyModel*) object {
+    return [self.name isEqualToString:object.name] && [self.trophyDescription isEqualToString:object.trophyDescription] && [self.cost isEqualToNumber:object.cost] && [self.image isEqualToString:object.image];
+}
 @end

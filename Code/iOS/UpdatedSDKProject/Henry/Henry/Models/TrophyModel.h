@@ -17,5 +17,6 @@
 
 - (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost Image: (NSString *) trophyimage;
 + (TrophyModel*)constructModelFromDictionary:(NSDictionary*) dict;
+- (BOOL) isEqual:(TrophyModel*) object;
 
 @end
