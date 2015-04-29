@@ -9,7 +9,7 @@
 #import "LoginViewController.h"
 #import "HenryRootNavigationController.h"
 
-@interface LoginViewController () <UITextFieldDelegate>
+@interface LoginViewController ()
 @end
 
 @implementation LoginViewController
