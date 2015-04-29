@@ -26,10 +26,11 @@
     <application
         android:name=".GlobalVariables"
         android:allowBackup="true"
-        android:icon="@drawable/roselogo_small"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:logo="@drawable/roselogo_small"
+        android:logo="@drawable/ic_launcher"
         android:theme="@style/AppTheme">
+        android:exported="true"
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
@@ -118,6 +119,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
         <activity
@@ -133,5 +135,8 @@
             android:name=".TrophyStoreActivity"
             android:label="@string/title_activity_trophy_store" />
     </application>
+
+
+
 
 </manifest>

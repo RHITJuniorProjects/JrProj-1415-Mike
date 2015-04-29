@@ -3,7 +3,10 @@ package rhit.jrProj.henry;
 import org.achartengine.GraphicalView;
 import org.achartengine.model.Point;
 
+import rhit.jrProj.henry.firebase.BurndownData;
 import rhit.jrProj.henry.firebase.Milestone;
+import rhit.jrProj.henry.firebase.MilestoneBurndownData;
+import rhit.jrProj.henry.firebase.ProjectBurndownData;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
 import android.app.Activity;
@@ -22,6 +25,8 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * A fragment representing a single Milestone detail screen. This fragment is
@@ -160,91 +165,32 @@ public class MilestoneDetailFragment extends Fragment implements
             chart.repaint();
         } else if (position == 2) {
             GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+            BurndownData burndownData=new MilestoneBurndownData(this.milestoneItem);
+            List<Double> remHour=burndownData.getEstimatedHoursRemaining();
+            List<Double> doneHour=burndownData.getHoursWorked();
+            List<Double> remTasks=burndownData.getTasksRemaining();
+            List<Double> doneTasks=burndownData.getTasksDone();
 
-            chartInfo.addNewPoint("estimated",
-                    new GraphHelper.Point(1.0, 150.0));
+            for (int i=0; i<remHour.size(); i++){
+                chartInfo.addNewPoint("Estimated Hours Remaining",
+                        new GraphHelper.Point(new Double(i), remHour.get(i)));
+                chartInfo.addNewPoint("Hours Completed",
+                        new GraphHelper.Point(new Double(i), doneHour.get(i)));
+                chartInfo.addNewPoint("Tasks Remaining",
+                        new GraphHelper.Point(new Double(i), remTasks.get(i)));
+                chartInfo.addNewPoint("Tasks Completed",
+                        new GraphHelper.Point(new Double(i), doneTasks.get(i)));
+                chartInfo.addNewTick(((Integer) i).toString());
 
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(0.0, 0.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(1.0, 10.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(2.0, 20.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(3.0, 30.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(4.0, 40.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(5.0, 50.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(6.0, 65.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(7.0, 75.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(8.0, 80.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(9.0, 85.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(10.0, 90.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(11.0, 100.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(12.0, 110.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(13.0, 120.0));
-            chartInfo.addNewPoint("Estimated Hours Remaining",
-                    new GraphHelper.Point(14.0, 130.0));
-
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(0.0,
-                    150.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(1.0,
-                    140.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(2.0,
-                    130.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(3.0,
-                    122.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(4.0,
-                    112.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(5.0,
-                    106.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(6.0,
-                    101.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(7.0,
-                    91.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(8.0,
-                    87.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(9.0,
-                    82.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(10.0,
-                    77.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(11.0,
-                    67.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(12.0,
-                    58.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(13.0,
-                    50.0));
-            chartInfo.addNewPoint("Hours Worked", new GraphHelper.Point(14.0,
-                    40.0));
-
-            chartInfo.addNewTick("0");
-            chartInfo.addNewTick("1");
-            chartInfo.addNewTick("2");
-            chartInfo.addNewTick("3");
-            chartInfo.addNewTick("4");
-            chartInfo.addNewTick("5");
-            chartInfo.addNewTick("6");
-            chartInfo.addNewTick("7");
-            chartInfo.addNewTick("8");
-            chartInfo.addNewTick("9");
-            chartInfo.addNewTick("10");
-            chartInfo.addNewTick("11");
-            chartInfo.addNewTick("12");
-            chartInfo.addNewTick("13");
-            chartInfo.addNewTick("14");
-
+            }
+            int totalLoc=(int)chartInfo.getMaxY();
+            int chartMax=(int)1.25*totalLoc;
+            if (chartMax-totalLoc<10){
+                chartMax=totalLoc+10;
+            }
             chart = GraphHelper.makeLineChart(getString(R.string.burndown),
                     getString(R.string.days), getString(R.string.hours),
-                    chartInfo, 0, 21, 0, 150, this.getActivity());
+                    chartInfo, 0, remHour.size(), 0, chartMax, this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();

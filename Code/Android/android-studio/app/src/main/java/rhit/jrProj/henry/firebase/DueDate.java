@@ -59,7 +59,7 @@ public class DueDate {
     }
 
     public String getMonthName() {
-        return months[month - 1];
+        return months[month];
     }
 
     public int getYear() {

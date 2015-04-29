@@ -2,6 +2,7 @@ package rhit.jrProj.henry;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,8 @@ import android.view.View.OnClickListener;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+
+import java.util.List;
 
 import rhit.jrProj.henry.firebase.User;
 
@@ -23,6 +26,14 @@ public class WelcomeActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         mGlobalVariables = ((GlobalVariables) getApplicationContext());
         Firebase.setAndroidContext(this);
+        Intent intent2 = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent2.getAction())) {
+            Uri uri = intent2.getData();
+            List<String> params = uri.getPathSegments();
+            String first = params.get(0);
+            mGlobalVariables.setFirebaseUrl(first);
+
+        }
         Firebase ref = new Firebase(mGlobalVariables.getFirebaseUrl());
         AuthData authData = ref.getAuth();
 
