@@ -14,4 +14,5 @@
 //@property NSString* userid;
 //@property NSDictionary *userInfo;
 //@property NSNumber *availablePoints;
+- (void)addAvailableTrophiesToTrophyObjectArrayFromDictionary:(NSDictionary *)trophiesDictionary;
 @end
