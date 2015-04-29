@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.achartengine.GraphicalView;
 
+import rhit.jrProj.henry.firebase.BurndownData;
 import rhit.jrProj.henry.firebase.Enums;
 import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
+import rhit.jrProj.henry.firebase.ProjectBurndownData;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
 import android.app.Activity;
@@ -24,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -38,10 +41,11 @@ import android.widget.TextView;
 
 /**
  * A fragment representing a single Project detail screen. This fragment is
- * either contained in a {@link ProjectListActivity} in two-pane mode (on
- * tablets) or a {@link ProjectDetailActivity} on handsets.
+ * either contained in a {ProjectListActivity} in two-pane mode (on
+ * tablets) or a {ProjectDetailActivity} on handsets.
  */
-public class ProjectDetailFragment extends Fragment {
+public class ProjectDetailFragment extends Fragment  implements
+        AdapterView.OnItemSelectedListener {
 
     /**
      * The dummy content this fragment is presenting.
@@ -194,7 +198,7 @@ public class ProjectDetailFragment extends Fragment {
             // spinner layout
             ArrayAdapter<CharSequence> adapter = ArrayAdapter
                     .createFromResource(this.getActivity(),
-                            R.array.milestone_charts,
+                            R.array.project_charts,
                             android.R.layout.simple_spinner_item);
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -203,6 +207,7 @@ public class ProjectDetailFragment extends Fragment {
 
             // Set the default for the spinner
             spinner.setSelection(0);
+            spinner.setOnItemSelectedListener(this);
             // /////
             ((Switch) rootView.findViewById(R.id.projectMemberSwitch)).setOnCheckedChangeListener(new OnCheckedChangeListener() {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -263,6 +268,75 @@ public class ProjectDetailFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         this.mCallbacks = sDummyCallbacks;
+    }
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+        FrameLayout chartView = (FrameLayout) this.getActivity().findViewById(
+                R.id.pieChart);
+        chartView.removeAllViews();
+        GraphicalView chart;
+
+
+        if (position == 0) {
+            GraphHelper.LineChartInfo chartInfo =  this.projectItem
+                    .getLocInfo();
+            int totalLoc=(int)chartInfo.getMaxY();
+            int chartMax=(int)1.25*totalLoc;
+            if (chartMax-totalLoc<10){
+                chartMax=totalLoc+10;
+            }
+
+            chart = GraphHelper.makeLineChart("Lines of Code Added for "
+                    + this.projectItem.getName(), "Milestones", "Lines of Code", chartInfo, 0, this.projectItem.getMilestones().size(), 0, chartMax, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+
+        } else if (position== 2) {
+            GraphHelper.LineChartInfo chartInfo = this.projectItem
+                    .getEstimateAccuracyInfo();
+            chart = GraphHelper.makeLineChart("Accuracy of Estimated Hours", "Milestones", "Ratio of Estimated/Actual",
+                    chartInfo, 0, this.projectItem.getMilestones().size(), -5, 5, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+        }
+        else if (position == 1) {
+            GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+            BurndownData burndownData=new ProjectBurndownData(this.projectItem);
+            List<Double> remHour=burndownData.getEstimatedHoursRemaining();
+            List<Double> doneHour=burndownData.getHoursWorked();
+            List<Double> remTasks=burndownData.getTasksRemaining();
+            List<Double> doneTasks=burndownData.getTasksDone();
+
+            for (int i=0; i<remHour.size(); i++){
+                chartInfo.addNewPoint("Estimated Hours Remaining", 
+                    new GraphHelper.Point(new Double(i), remHour.get(i)));
+                chartInfo.addNewPoint("Hours Completed", 
+                    new GraphHelper.Point(new Double(i), doneHour.get(i)));
+                chartInfo.addNewPoint("Tasks Remaining", 
+                    new GraphHelper.Point(new Double(i), remTasks.get(i)));
+                chartInfo.addNewPoint("Tasks Completed", 
+                    new GraphHelper.Point(new Double(i), doneTasks.get(i)));
+                chartInfo.addNewTick(((Integer) i).toString());
+
+            }
+            int totalLoc=(int)chartInfo.getMaxY();
+            int chartMax=(int)1.25*totalLoc;
+            if (chartMax-totalLoc<10){
+                chartMax=totalLoc+10;
+            }
+            chart = GraphHelper.makeLineChart(getString(R.string.burndown),
+                    getString(R.string.days), getString(R.string.hours),
+                    chartInfo, 0, remHour.size(), 0, chartMax, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+        }
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+        // do nothing
     }
 
 }

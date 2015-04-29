@@ -9,6 +9,7 @@ import java.util.List;
 import rhit.jrProj.henry.GlobalVariables;
 import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.bridge.FirebaseObject;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
@@ -21,7 +22,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Project implements Parcelable, ChangeNotifiable<Project> {
+public class Project implements Parcelable, ChangeNotifiable<Project>, FirebaseObject {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -219,6 +220,16 @@ public class Project implements Parcelable, ChangeNotifiable<Project> {
      */
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public String getID() {
+        return this.getProjectId();
+    }
+
+    @Override
+    public String getURL() {
+        return GlobalVariables.getFirebaseUrl()+"projects/"+this.projectId+"/";
     }
 
     /**

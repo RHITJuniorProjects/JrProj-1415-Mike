@@ -3,8 +3,10 @@ package rhit.jrProj.henry.firebase;
 import java.util.ArrayList;
 import java.util.List;
 
+import rhit.jrProj.henry.GlobalVariables;
 import rhit.jrProj.henry.bridge.ChangeNotifiable;
 import rhit.jrProj.henry.bridge.ChangeNotifier;
+import rhit.jrProj.henry.bridge.FirebaseObject;
 import rhit.jrProj.henry.bridge.ListChangeNotifier;
 import rhit.jrProj.henry.helpers.GeneralAlgorithms;
 import rhit.jrProj.henry.helpers.GraphHelper;
@@ -17,7 +19,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
+public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, FirebaseObject {
 
     /**
      * A reference to Firebase to keep the data up to date.
@@ -284,6 +286,16 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
      */
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public String getID() {
+        return this.getMilestoneId();
+    }
+
+    @Override
+    public String getURL() {
+        return GlobalVariables.getFirebaseUrl()+"projects/"+this.getParentProjectID()+"/milestones/"+this.milestoneId;
     }
 
     /**

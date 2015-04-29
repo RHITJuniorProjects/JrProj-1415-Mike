@@ -3,7 +3,7 @@
  * Handles read/write operations directly relating to Users.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 16 March 2015, 7:48pm
+ * Last Modified: 23 April 2015, 10:00am.
  */
 var Firebase = require('firebase');
 
@@ -36,8 +36,9 @@ var trophiesRef = new Firebase(firebaseUrl + '/trophies');
 var FirebaseTokenGenerator = require('firebase-token-generator');
 
 // TODO: add more as needed, or do commandline override for auth token
-var metricsTestToken = 'swPpsOgpNn7isrfxeoWNNV7yxLy85j94JO7p9lDf';
-var testToken = 'FDrYDBNvRCgq0kGonjmsPl0gUwXvxcqUdgaCQ1FI';
+var config = require('./config.json');
+var metricsTestToken = config.metricsTestToken;
+var testToken = config.testToken;
 
 var tokenVal = null;
 
@@ -80,6 +81,10 @@ var updatedHourEst = 'updated_hour_estimate';
 
 usersRef.on('child_added', function(user) {
     console.log('New user ' + user.key() + ' added');
+    // reset available points prior to aggregation
+    user.ref().update({
+        'available_points': user.child('total_points').val()
+    });
     // Deal with new trophies
     if (!user.hasChild('trophies')) {
         user.ref().update({
@@ -89,46 +94,48 @@ usersRef.on('child_added', function(user) {
         });
     }
     var userTrophies = user.child('trophies');
-    user.ref().child('trophies').on('child_added', function(trophy) {
-        console.log('new trophy added');
-        calculateAvailablePoints(user.ref(), user.child('total_points').val());
-        
-        if (userTrophies.hasChild('placeholder') && userTrophies.numChildren() >= 2) {
-            userTrophies.ref().update({
-                'placeholder': null
-            });
-        }
+    if (userTrophies.hasChild('placeholder') && userTrophies.numChildren() >= 2) {
+        userTrophies.ref().update({
+            'placeholder': null
+        });
+    }
+    // TODO: test the thing
+    userTrophies.ref().on('child_added', function(trophy) {
+        if (trophy.key() === 'placeholder') return;
+        console.log('new trophy added. User: ' + user.key() + ', trophy: ' + trophy.key());
+        calculateAvailablePoints(user.ref(), trophy.key());
     });
+
     user.ref().on('child_added', function(projects) {
+
         // are there projects? drill down into them
-        if (projects.key() == 'projects') {
-            projects.ref().on('child_added', function(userProject) {
-                console.log('New project ' + userProject.key() + ' added for user ' + user.key());
-                userProject.ref().on('child_added', function(milestones) {
-                    // are there milestones? drill down into them
-                    if (milestones.key() == 'milestones') {
-                        milestones.ref().on('child_added', function(milestone) {
-                            console.log('New milestone ' + milestone.key() + ' added to project ' + userProject.key() + ' for user ' + user.key());
-                            milestone.ref().on('child_added', function(tasks) {
-                                // are there tasks? drill down into them
-                                if (tasks.key() == 'tasks') {
-                                    tasks.ref().on('child_added', function(task) {
-                                        console.log('New task ' + task.key() + ' added to milestone ' + milestone.key() + ' and project ' + userProject.key() + ' for user ' + user.key());
-                                        task.ref().on('value', function(taskVal) {
-                                            // Propagate up from the task level
-                                            aggregateUserProjectData(userProject);
-                                            var project = projectsRef.child(userProject.key());
-                                            // calculate percentage contribution for loc and hours
-                                            updateLocAndHoursContribs(project);
-                                        });
-                                    });
-                                }
+        if (projects.key() !== 'projects') return;
+        projects.ref().on('child_added', function(userProject) {
+            //console.log('New project ' + userProject.key() + ' added for user ' + user.key());
+            userProject.ref().on('child_added', function(milestones) {
+
+                // are there milestones? drill down into them
+                if (milestones.key() !== 'milestones') return;
+                milestones.ref().on('child_added', function(milestone) {
+                    //console.log('New milestone ' + milestone.key() + ' added to project ' + userProject.key() + ' for user ' + user.key());
+                    milestone.ref().on('child_added', function(tasks) {
+
+                        // are there tasks? drill down into them
+                        if (tasks.key() !== 'tasks') return;
+                        tasks.ref().on('child_added', function(task) {
+                            //console.log('New task ' + task.key() + ' added to milestone ' + milestone.key() + ' and project ' + userProject.key() + ' for user ' + user.key());
+                            task.ref().on('value', function(taskVal) {
+                                // Propagate up from the task level every time anything happens to the task
+                                aggregateUserProjectData(userProject);
+                                var project = projectsRef.child(userProject.key());
+                                // calculate percentage contribution for loc and hours
+                                updateLocAndHoursContribs(project);
                             });
                         });
-                    }
+                    });
                 });
             });
-        }
+        });
     });
 });
 
@@ -285,7 +292,7 @@ function updateLocAndHoursContribs(projectRef) {
                 var projTotalLOCPercent = calculatePercentage(projContribTotalLOC, projTotalLOC);
                 var projHoursPercent = calculatePercentage(projContribHours, projHours);
 
-                console.log("Updating percents for user " + memberSnapshot.key() + " at project " + projectRef.key());
+                // console.log("Updating percents for user " + memberSnapshot.key() + " at project " + projectRef.key());
                 member.child('projects/' + projectID).ref().update({
                     'hours_percent': projHoursPercent,
                     'removed_loc_percent': projRemovedLOCPercent,
@@ -317,17 +324,14 @@ function calculatePercentage(current, total) {
 /*
  * Calculates the number of available points after a trophy has been added
  */
-function calculateAvailablePoints(userRef, totalPoints) {
-    var availablePoints = totalPoints;
+function calculateAvailablePoints(userRef, trophyID) {
+    console.log('calculating available points for user ' + userRef.key());
     trophiesRef.once('value', function(trophies) {
+        if (trophies.child(trophyID) === null) return;
         userRef.once('value', function(user) {
-            user.child('trophies').forEach(function(trophy) {
-                if (trophy.key() === 'placeholder') return;
-                if (trophies.child(trophy.key()) !== null) {
-                    availablePoints -= trophies.child(trophy.key()).child('cost').val();
-                }
-                
-            });
+            console.log('got here');
+            var availablePoints = user.child('available_points').val();
+            availablePoints -= trophies.child(trophyID + '/cost').val();
             userRef.update({
                 'available_points': availablePoints
             });

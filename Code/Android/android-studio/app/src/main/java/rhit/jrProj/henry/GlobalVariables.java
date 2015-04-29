@@ -3,6 +3,7 @@ package rhit.jrProj.henry;
 import rhit.jrProj.henry.firebase.User;
 
 import android.app.Application;
+import android.util.Log;
 
 public class GlobalVariables extends Application {
 
@@ -18,7 +19,7 @@ public class GlobalVariables extends Application {
     /**
      * The Url to the firebase repository
      */
-    private static final String firebaseUrl = "https://henry-test.firebaseio.com/";
+    private static String firebaseUrl = "https://henry-test.firebaseio.com/";
 
 
     public boolean ismTwoPane() {
@@ -40,5 +41,11 @@ public class GlobalVariables extends Application {
     public static String getFirebaseUrl() {
         return firebaseUrl;
     }
+
+    public void setFirebaseUrl(String newURL) {
+        Log.i("changing firebase url:", newURL);
+        GlobalVariables.firebaseUrl="http://"+newURL+".firebaseio.com/";
+    }
+
 
 }

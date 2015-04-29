@@ -10,7 +10,19 @@
 <script type="text/javascript" src="/firebase.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js" ></script>
 <script type="text/javascript" src="/foundation-datepicker.js"></script>
+<script type="text/javascript" src="/tables.js"></script>
 <script type="text/javascript" src="/henry.js"></script>
+<script type="text/javascript" src="/trophies.js"></script>
+<script type="text/javascript" src="/milestones.js"></script>
+<script type="text/javascript" src="/tasks.js"></script>
+<script type="text/javascript" src="/mytasks.js"></script>
+<script type="text/javascript" src="/bounties.js"></script>
+<script type="text/javascript" src="/projects.js"></script>
+<script type="text/javascript" src="/charts.js"></script>
+<script type="text/javascript" src="/user.js"></script>
+<script type="text/javascript" src="/login.js"></script>
+<script type="text/javascript" src="/ProjectDB.js"></script>
+<script type="text/javascript" src="/MilestoneDB.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/highcharts-3d.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -36,8 +48,10 @@
 	<section class="top-bar-section">
 		<ul class="left loginRequired" hidden>
 			<li><a href="projects">My Projects</a></li>
+			<li><a href="trophystore">Store</a></li>
+			<!-- <li><a onclick="showMyTrophyStore()">Trophy Store</a></li> -->
 			<!-- <li><a onclick="showMyTasksPage()">My Tasks</a></li> -->
-			<!-- <li><a onclick="showMyStatsticsPage()">My Statistics</a></li> -->
+			<!-- <li><a onclick="showMyStatsticsPage()">MyStatistics</a></li> -->
 			<li><a data-reveal-id="preference-modal" href="#">User Preferences</a><li>
 			<!-- add top bar links here> -->
 		</ul>
