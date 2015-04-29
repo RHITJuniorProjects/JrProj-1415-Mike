@@ -18,6 +18,7 @@
 <script type="text/javascript" src="/charts.js"></script>
 <script type="text/javascript" src="/user.js"></script>
 <script type="text/javascript" src="/login.js"></script>
+<script type="text/javascript" src="/leaderboard.js"></script>
 <script type="text/javascript" src="/ProjectDB.js"></script>
 <script type="text/javascript" src="/MilestoneDB.js"></script>
 <script src="https://code.highcharts.com/highcharts.js"></script>

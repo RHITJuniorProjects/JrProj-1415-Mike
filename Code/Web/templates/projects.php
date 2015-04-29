@@ -116,28 +116,12 @@
 						<div class="row">
 							<div class="small-12 columns">
 								<div>
-								<table>
-									<tr>
-										<td> Place</td>
-										<td> Name</td>
-										<td> Points</td>
-									</tr>
-									<tr id = "currentUser">
-										<td id = "0"></td>
-										<td id = "name0"></td>
-										<td id = "pointValue0"></td>
-									</tr>
-									<?php
-										for($i = 1; $i < 26; $i++) {
-									?>
-											<tr id="place<?php echo $i; ?>">
-												<td id="<?php echo $i; ?>"></td>
-												<td id="name<?php echo $i; ?>"></td>
-												<td id="pointValue<?php echo $i; ?>"></td>
-											</tr>
-									<?php		
-										}
-									?>
+									<form action="" method="post">
+										<input type="radio" id="10" name="leaderboard_display" value="10" onclick="createLeaderboard(10);"> Display top 10 <br />
+										<input type="radio" name="leaderboard_display" value="25" checked="true" id="25" onclick="createLeaderboard(25);"> Display top 25 <br />
+										<input type="radio" name="leaderboard_display" value="50" id="50" onclick="createLeaderboard(50);"> Display top 50 <br />
+									</form>
+								<table id="leaderboard-table">
 								</table>
 								</div>
 							</div>
