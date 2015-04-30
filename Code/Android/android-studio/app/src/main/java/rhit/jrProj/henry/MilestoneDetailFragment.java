@@ -1,12 +1,9 @@
 package rhit.jrProj.henry;
 
 import org.achartengine.GraphicalView;
-import org.achartengine.model.Point;
 
 import rhit.jrProj.henry.firebase.BurndownData;
 import rhit.jrProj.henry.firebase.Milestone;
-import rhit.jrProj.henry.firebase.MilestoneBurndownData;
-import rhit.jrProj.henry.firebase.ProjectBurndownData;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
 import android.app.Activity;
@@ -163,23 +160,16 @@ public class MilestoneDetailFragment extends Fragment implements
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
-        } else if (position == 2) {
+        } else if (position == 2) {//BD hours
             GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
-            BurndownData burndownData=new MilestoneBurndownData(this.milestoneItem);
-            List<Double> remHour=burndownData.getEstimatedHoursRemaining();
-            List<Double> doneHour=burndownData.getHoursWorked();
-            List<Double> remTasks=burndownData.getTasksRemaining();
-            List<Double> doneTasks=burndownData.getTasksDone();
+            BurndownData burndownData=new BurndownData(this.milestoneItem);
+            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
 
-            for (int i=0; i<remHour.size(); i++){
+            for (int i=0; i<bdPts.size(); i++){
                 chartInfo.addNewPoint("Estimated Hours Remaining",
-                        new GraphHelper.Point(new Double(i), remHour.get(i)));
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getEstimatedHoursRemaining()));
                 chartInfo.addNewPoint("Hours Completed",
-                        new GraphHelper.Point(new Double(i), doneHour.get(i)));
-                chartInfo.addNewPoint("Tasks Remaining",
-                        new GraphHelper.Point(new Double(i), remTasks.get(i)));
-                chartInfo.addNewPoint("Tasks Completed",
-                        new GraphHelper.Point(new Double(i), doneTasks.get(i)));
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getHoursWorked()));
                 chartInfo.addNewTick(((Integer) i).toString());
 
             }
@@ -188,9 +178,37 @@ public class MilestoneDetailFragment extends Fragment implements
             if (chartMax-totalLoc<10){
                 chartMax=totalLoc+10;
             }
+
+
             chart = GraphHelper.makeLineChart(getString(R.string.burndown),
                     getString(R.string.days), getString(R.string.hours),
-                    chartInfo, 0, remHour.size(), 0, chartMax, this.getActivity());
+                    chartInfo, 0,bdPts.size()+2, 0, chartMax, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+        } else if (position == 3) {//BD tasks
+            GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+            BurndownData burndownData=new BurndownData(this.milestoneItem);
+            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
+
+            for (int i=0; i<bdPts.size(); i++){
+                chartInfo.addNewPoint("Tasks Remaining",
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksRemaining()));
+                chartInfo.addNewPoint("Tasks Completed",
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksDone()));
+                chartInfo.addNewTick(((Integer) i).toString());
+
+            }
+            int totalLoc=(int)chartInfo.getMaxY();
+            int chartMax=(int)1.25*totalLoc;
+            if (chartMax-totalLoc<10){
+                chartMax=totalLoc+10;
+            }
+
+
+            chart = GraphHelper.makeLineChart(getString(R.string.burndown),
+                    getString(R.string.days), getString(R.string.hours),
+                    chartInfo, 0,bdPts.size()+2, 0, chartMax, this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();

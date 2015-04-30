@@ -11,7 +11,6 @@ import rhit.jrProj.henry.firebase.Enums.Role;
 import rhit.jrProj.henry.firebase.Member;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
-import rhit.jrProj.henry.firebase.ProjectBurndownData;
 import rhit.jrProj.henry.helpers.GraphHelper;
 
 import android.app.Activity;
@@ -19,7 +18,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -292,7 +290,7 @@ public class ProjectDetailFragment extends Fragment  implements
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
 
-        } else if (position== 2) {
+        } else if (position== 3) {
             GraphHelper.LineChartInfo chartInfo = this.projectItem
                     .getEstimateAccuracyInfo();
             chart = GraphHelper.makeLineChart("Accuracy of Estimated Hours", "Milestones", "Ratio of Estimated/Actual",
@@ -301,23 +299,16 @@ public class ProjectDetailFragment extends Fragment  implements
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
         }
-        else if (position == 1) {
+        else if (position == 1) { //BDHours
             GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
-            BurndownData burndownData=new ProjectBurndownData(this.projectItem);
-            List<Double> remHour=burndownData.getEstimatedHoursRemaining();
-            List<Double> doneHour=burndownData.getHoursWorked();
-            List<Double> remTasks=burndownData.getTasksRemaining();
-            List<Double> doneTasks=burndownData.getTasksDone();
+            BurndownData burndownData=new BurndownData(this.projectItem);
+            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
 
-            for (int i=0; i<remHour.size(); i++){
-                chartInfo.addNewPoint("Estimated Hours Remaining", 
-                    new GraphHelper.Point(new Double(i), remHour.get(i)));
-                chartInfo.addNewPoint("Hours Completed", 
-                    new GraphHelper.Point(new Double(i), doneHour.get(i)));
-                chartInfo.addNewPoint("Tasks Remaining", 
-                    new GraphHelper.Point(new Double(i), remTasks.get(i)));
-                chartInfo.addNewPoint("Tasks Completed", 
-                    new GraphHelper.Point(new Double(i), doneTasks.get(i)));
+            for (int i=0; i<bdPts.size(); i++){
+                chartInfo.addNewPoint("Estimated Hours Remaining",
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getEstimatedHoursRemaining()));
+                chartInfo.addNewPoint("Hours Completed",
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getHoursWorked()));
                 chartInfo.addNewTick(((Integer) i).toString());
 
             }
@@ -326,9 +317,37 @@ public class ProjectDetailFragment extends Fragment  implements
             if (chartMax-totalLoc<10){
                 chartMax=totalLoc+10;
             }
+            int maxX=bdPts.get(bdPts.size()-1).getX().intValue()+2;
+
             chart = GraphHelper.makeLineChart(getString(R.string.burndown),
                     getString(R.string.days), getString(R.string.hours),
-                    chartInfo, 0, remHour.size(), 0, chartMax, this.getActivity());
+                    chartInfo, 0,maxX , 0, chartMax, this.getActivity());
+            chartView.addView(chart, new LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            chart.repaint();
+        }else if (position == 2) { //BDTasks
+            GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+            BurndownData burndownData=new BurndownData(this.projectItem);
+            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
+
+            for (int i=0; i<bdPts.size(); i++){
+                chartInfo.addNewPoint("Tasks Remaining",
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksRemaining()));
+                chartInfo.addNewPoint("Tasks Completed",
+                        new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksDone()));
+                chartInfo.addNewTick(((Integer) i).toString());
+
+            }
+            int totalLoc=(int)chartInfo.getMaxY();
+            int chartMax=(int)1.25*totalLoc;
+            if (chartMax-totalLoc<10){
+                chartMax=totalLoc+10;
+            }
+            int maxX=bdPts.get(bdPts.size()-1).getX().intValue()+2;
+
+            chart = GraphHelper.makeLineChart(getString(R.string.burndown),
+                    getString(R.string.days), getString(R.string.hours),
+                    chartInfo, 0,maxX , 0, chartMax, this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();

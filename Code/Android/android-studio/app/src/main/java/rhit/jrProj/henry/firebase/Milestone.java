@@ -1,5 +1,6 @@
 package rhit.jrProj.henry.firebase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import rhit.jrProj.henry.helpers.GraphHelper;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -67,12 +69,15 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, Fireb
      */
     private ChangeNotifier<Milestone> listViewCallback;
 
+    private ArrayList<BurndownObject> burndownObjects=new ArrayList<BurndownObject>();
+
     /**
      * A string of the milestone's firebase id.
      */
     private String milestoneId = Enums.noID;
 
     private ListChangeNotifier<Task> taskListViewCallback;
+    private ChangeNotifier<BurndownObject> burndownObjectChangeNotifier;
     /**
      * A Creator object that allows this object to be created by a parcel
      */
@@ -217,7 +222,9 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, Fireb
         return this.parentProjectID;
     }
 
-
+    public List<BurndownObject> getBurndownObjects(){
+        return this.burndownObjects;
+    }
     /**
      * Returns the due date of the milestone
      *
@@ -437,6 +444,15 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, Fireb
                         this.milestone.tasks.add(t);
                     }
                 }
+            }else if (arg0.getKey().equals("burndown_data")){
+                for (DataSnapshot child : arg0.getChildren()){
+                    BurndownObject bo=new BurndownObject(child.getRef().toString());
+                    bo.setTimeStamp(new Long(child.getKey()));
+                    bo.setChangeNotifier(this.milestone.burndownObjectChangeNotifier);
+                    if (!this.milestone.burndownObjects.contains(bo)){
+                        this.milestone.burndownObjects.add(bo);
+                    }
+                }
             }
         }
 
@@ -522,6 +538,7 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, Fireb
             }
         }
     }
+
 
     /**
      * Compares this project with the other given project. This implementation treats lower

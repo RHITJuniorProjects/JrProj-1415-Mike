@@ -23,13 +23,15 @@
     </string-array>
     <string-array name="project_charts">
         <item>Lines of Code Added By Milestone</item>
-        <item>Burndown Chart</item>
+        <item>Burndown Chart-Hours</item>
+        <item>Burndown Chart-Tasks</item>
         <item>Accuracy of Time Estimates</item>
     </string-array>
     <string-array name="milestone_charts">
         <item>Lines of Code Added</item>
         <item>Lines of Code Total</item>
-        <item>Burndown Chart</item>
+        <item>Burndown Chart-Hours</item>
+        <item>Burndown Chart-Tasks</item>
         <item>Accuracy of Time Estimates</item>
     </string-array>
     <string-array name="tasks_all">
