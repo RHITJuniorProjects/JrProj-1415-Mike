@@ -102,5 +102,7 @@
     <string name="title_activity_profile_list">ProfileListActivity</string>
     <string name="profiles">Profiles</string>
     <string name="title_activity_trophy_store">Trophy Store</string>
+    <string name="list_projects">List Projects</string>
+    <string name="projects_title">User\'s Projects</string>
 
 </resources>

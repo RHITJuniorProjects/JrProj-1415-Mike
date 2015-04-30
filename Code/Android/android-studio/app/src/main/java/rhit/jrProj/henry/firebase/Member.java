@@ -5,11 +5,13 @@ import rhit.jrProj.henry.bridge.ChangeNotifier;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +77,8 @@ public class Member implements Parcelable {
 
     private List<Trophy> mTrophies;
 
+    private ArrayList<String> projectTitles;
+
     /**
      * Creates a new User from a parcel
      *
@@ -93,18 +97,27 @@ public class Member implements Parcelable {
         mTrophies = new ArrayList<Trophy>();
     }
 
+    public Member(String firebaseUrl) {
+        this(firebaseUrl, false);
+    }
+
     /**
      * Creates a user from a Firebase url
      *
      * @param firebaseURL
      */
-    public Member(String firebaseURL) {
+    public Member(String firebaseURL, boolean hasProjects) {
         this.firebase = new Firebase(firebaseURL);
         this.key = firebaseURL.substring(firebaseURL.lastIndexOf("/") + 1);
         this.firebase.addChildEventListener(new ChildrenListener(this));
 
         this.projectMetrics = new Map<String, Member.ProjectMetrics>();
         mTrophies = new ArrayList<Trophy>();
+        projectTitles = new ArrayList<String>();
+        if (hasProjects) {
+            this.firebase.child("projects").addChildEventListener(
+                    new ProjectNameListener(this));
+        }
     }
 
     public int describeContents() {
@@ -237,6 +250,17 @@ public class Member implements Parcelable {
         this.mTotalPoints = mTotalPoints;
     }
 
+    public ArrayList<String> getProjectTitles() {
+        return this.projectTitles;
+    }
+
+    public void addProjectTitle(String title){
+        this.projectTitles.add(title);
+    }
+
+    public void removeProjectTitle(String title){
+        this.projectTitles.remove(title);
+    }
     class ChildrenListener implements ChildEventListener {
         private Member user;
 
@@ -276,7 +300,7 @@ public class Member implements Parcelable {
                             new ProjectMetrics(this.user, grandChild.getKey()));
                 }
             }
-            if(getListChangeNotifier() != null) {
+            if (getListChangeNotifier() != null) {
                 getListChangeNotifier().onChange();
             }
         }
@@ -448,4 +472,94 @@ public class Member implements Parcelable {
 
     }
 
+    private class ProjectNameListener implements ChildEventListener {
+        private Member mm;
+
+        public ProjectNameListener(Member m) {
+            this.mm = m;
+        }
+
+        @Override
+        public void onChildAdded(DataSnapshot arg0, String s) {
+            Firebase projectName = arg0.getRef().getRoot().child("projects").child(arg0.getKey());
+            //new Firebase(arg0.getRef().getRepo().toString() + "/projects/" + arg0.getKey() + "/name");
+            Log.d("RHH","Project at:" + projectName.toString());
+            projectName.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    Log.d("RHH","Project at:" + dataSnapshot.getValue().toString());
+                    if (dataSnapshot.getKey().equals("name")) {
+                        mm.addProjectTitle(dataSnapshot.getValue(String.class));
+                    }
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
+
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot arg0) {
+            Firebase projectName = new Firebase(arg0.getRef().getRepo().toString() + "/projects/" + arg0.getKey() + "/name");
+            projectName.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    mm.removeProjectTitle(dataSnapshot.getValue(String.class));
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            //de nada
+        }
+
+        @Override
+        public void onCancelled(FirebaseError firebaseError) {
+
+        }
+
+    }
 }
