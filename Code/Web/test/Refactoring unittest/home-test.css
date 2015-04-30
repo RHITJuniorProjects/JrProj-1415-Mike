@@ -1,0 +1,13 @@
+#projContainer1, #projContainer2, #taskContainer, #mileContainer , #linesOfCode1{
+	max-width: 600px;
+	height: 400px;
+	margin: 0 auto;
+}
+
+#taskContainer #linesOfCode1 {
+	height: 500px;
+}
+
+h1{
+	text-align: center;
+}
