@@ -49,16 +49,18 @@ function userLeaderboard(){
 		$('#pointValue' + 0).html(points);
 	});
 
-	user.getTopTrophy(function (trophy) {});
-	console.log(userTrophies[0]);
-	var trophyUID = userTrophies[userTrophies.length-1].uid;
-	firebase.child("trophies/" + trophyUID + "/image").on('value', function(snap) {
+	user.getTopTrophy(function (trophy) {
+		var tempTrophy = userTrophies[userTrophies.length-1];
+		if(tempTrophy != null) {
+		var trophyUID = tempTrophy.uid;
+		firebase.child("trophies/" + trophyUID + "/image").on('value', function(snap) {
 				image = snap.val();
 				if(image != null) {
 					$('#topTrophy' + 0).html("<img src=" + image + " height=42 width=42>");
 				}
+		});
+	}
 	});
-	
 	
 	$('#pointValue' + 0).html(0);
 	var i =1;
