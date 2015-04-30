@@ -121,11 +121,13 @@
 										<td> Place</td>
 										<td> Name</td>
 										<td> Points</td>
+										<td> Top Trophy</td>
 									</tr>
 									<tr id = "currentUser">
 										<td id = "0"></td>
 										<td id = "name0"></td>
 										<td id = "pointValue0"></td>
+										<td id = "topTrophy0"></td>
 									</tr>
 									<?php
 										for($i = 1; $i < 26; $i++) {
@@ -134,6 +136,7 @@
 												<td id="<?php echo $i; ?>"></td>
 												<td id="name<?php echo $i; ?>"></td>
 												<td id="pointValue<?php echo $i; ?>"></td>
+												<td id="topTrophy<?php echo $i; ?>"></td>
 											</tr>
 									<?php		
 										}

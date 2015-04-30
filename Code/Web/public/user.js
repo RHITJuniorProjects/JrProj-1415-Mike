@@ -7,15 +7,33 @@ function userLeaderboard(){
 		var users = snapshot.val();
 		for(var id in users){
 			var name = users[id].name;
-			var points = users[id].total_points; 
+			var points = users[id].total_points;
+			userTrophies = [];
+
+			firebase.child("users/" + id + "/trophies").orderByChild("cost").on('child_added', function (snap) {
+				var val = new Trophy(snap.ref());
+				userTrophies[userTrophies.length] = val;
+			});
+			var trophy = userTrophies[userTrophies.length-1];
+			var image = "";
+			firebase.child("trophies/" + trophy.uid + "/image").on('value', function(snap) {
+				image = snap.val();
+			});
 			pointsArray.push(name);
 			if(points != null){
 			pointsArray.push(points);
 			} else {
 				pointsArray.push(0);
 			}
+			if(image != null) {
+			pointsArray.push(image);
+			} else {
+				pointsArray.push("");
+			}
 			arr.push(pointsArray);
 			pointsArray = [];
+			
+			 
 		} 
 		
 	});
@@ -31,13 +49,27 @@ function userLeaderboard(){
 		$('#pointValue' + 0).html(points);
 	});
 
+	user.getTopTrophy(function (trophy) {});
+	console.log(userTrophies[0]);
+	var trophyUID = userTrophies[userTrophies.length-1].uid;
+	firebase.child("trophies/" + trophyUID + "/image").on('value', function(snap) {
+				image = snap.val();
+				if(image != null) {
+					$('#topTrophy' + 0).html("<img src=" + image + " height=42 width=42>");
+				}
+	});
+	
+	
 	$('#pointValue' + 0).html(0);
 	var i =1;
-	for(var element in arr){
+	for(var element in arr) {
 		// console.log(element);
 		$('#' + i).html(i);
 		$('#name' + i).html(arr[i-1][0]);
 		$('#pointValue' + i).html(arr[i-1][1]);
+		if(arr[i-1][2] != "") {
+		$('#topTrophy' + i).html("<img src=" + arr[i-1][2] + " height=42 width=42>");
+		}
 		i++;
 	}
 

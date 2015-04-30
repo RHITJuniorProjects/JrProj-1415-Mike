@@ -203,6 +203,16 @@ User.prototype = {
 		});
 		return userTrophies;
 	},
+
+	getTopTrophy: function (callback) {
+		userTrophies = [];
+		this.__trophies.orderByChild("cost").on('child_added', function (snap) {
+			var val = new Trophy(snap.ref());
+			userTrophies[userTrophies.length] = val;
+		});
+		callback(userTrophies[0]);
+	}, 
+	
 	off: function (arg1, arg2) {
 		this.__firebase.off(arg1, arg2);
 	}
