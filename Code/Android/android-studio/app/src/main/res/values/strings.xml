@@ -23,13 +23,15 @@
     </string-array>
     <string-array name="project_charts">
         <item>Lines of Code Added By Milestone</item>
-        <item>Burndown Chart</item>
+        <item>Burndown Chart-Hours</item>
+        <item>Burndown Chart-Tasks</item>
         <item>Accuracy of Time Estimates</item>
     </string-array>
     <string-array name="milestone_charts">
         <item>Lines of Code Added</item>
         <item>Lines of Code Total</item>
-        <item>Burndown Chart</item>
+        <item>Burndown Chart-Hours</item>
+        <item>Burndown Chart-Tasks</item>
         <item>Accuracy of Time Estimates</item>
     </string-array>
     <string-array name="tasks_all">
@@ -100,5 +102,7 @@
     <string name="title_activity_profile_list">ProfileListActivity</string>
     <string name="profiles">Profiles</string>
     <string name="title_activity_trophy_store">Trophy Store</string>
+    <string name="list_projects">List Projects</string>
+    <string name="projects_title">User\'s Projects</string>
 
 </resources>

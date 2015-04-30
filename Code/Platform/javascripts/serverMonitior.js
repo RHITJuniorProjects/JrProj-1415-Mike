@@ -9,6 +9,7 @@ var Firebase = require("firebase");
 var testURL = "https://henry-test.firebaseio.com"
 
 var testToken = 'FDrYDBNvRCgq0kGonjmsPl0gUwXvxcqUdgaCQ1FI';
+var nodeMailer = require('nodemailer');
 
 var FirebaseTokenGenerator = require('firebase-token-generator');
 var tokenGenerator = new FirebaseTokenGenerator(testToken);
@@ -42,7 +43,7 @@ var taskRef = fbRef.child("projects/-JYcg488tAYS5rJJT4Kh/milestones/-JYc_9ZGEPFM
 	var prevProjectRemoved = projectRef.val("removed_lines_of_code");*/
 	
 	setInterval(function(){ //Will run every 2.5 minutes
-    firstTask();
+    firstTask()
     setTimeout(checker(28), 5000);
 	},250000);
 
@@ -89,15 +90,29 @@ var commitsRef = fbRef.child("commits/-JYcg488tAYS5rJJT4Kh");
         //Do checking stuff here. Check to make sure that new = prev + constant
         if(newTime!=prevTime+4){
             //EMAIL THERE IS AN ERROR
-            var recipient = 'jonathan.kl.jenkins@gmail.com',
-     		subject   = 'server has crashed',
-     message  = 'At time '+Firebase.ServerValue.TIMESTAMP+' the monitioring script found an error';
-
-	location.href = 'http://mail.google.com/mail/?view=cm&fs=1'+
-                '&to=' + recipient +
-                '&su=' + subject +
-                '&body=' + message +
-                '&ui=1';
+            
+        var transporter = nodeMailer.createTransport({
+			  service: 'Gmail',
+    	auth: {
+        user: 'platformhenry@gmail.com',
+        pass: 'Platform123'
+    	}
+});
+var mailOptions = {
+    from: 'platformhenry@gmail.com',
+    to: 'jonathan.kl.jenkins@gmail.com', // list of receivers
+    subject: 'The server is malfunctioning. Please investigate.', // Subject line
+    text: 'Fix it', // plaintext body
+    html: 'Now.' // html body
+};
+// send mail with defined transport object
+		transporter.sendMail(mailOptions, function(error, info){
+    	if(error){
+        	console.log(error);
+    	}else{
+        	console.log('Message sent: ' + info.response);
+    	}
+	});
             console.log("Something is wrong with time");
     	    console.log(newTime);
     	    console.log(prevTime+4);

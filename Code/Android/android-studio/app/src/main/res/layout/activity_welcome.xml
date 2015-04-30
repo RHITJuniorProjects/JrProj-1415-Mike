@@ -60,8 +60,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/go_to_metrics_btn"
-                    android:layout_marginLeft="50dp"
-                    android:text="Metrics"
+                    android:layout_marginLeft="30dp"
+                    android:text="Leaderboard"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textColor="@color/black" />
 

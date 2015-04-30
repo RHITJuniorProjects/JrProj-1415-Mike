@@ -138,6 +138,13 @@ public class User implements Parcelable, ChangeNotifiable {
         this.firebase.child("trophies").addChildEventListener(new TrophyGrandChildrenListener(this));
     }
 
+    /* Sets a new list changed notifiers
+    *
+            * @param lcn
+    */
+    public void setListChangeNotifier(ChangeNotifier lcn) {
+        this.listViewCallback = lcn;
+    }
     public int describeContents() {
         return 0; // do nothing
     }
@@ -433,7 +440,7 @@ public class User implements Parcelable, ChangeNotifiable {
      *
      * @author rockwotj. Created Oct 19, 2014.
      */
-    class GrandChildrenListener implements ChildEventListener {
+    static class GrandChildrenListener implements ChildEventListener {
 
         private User user;
 
