@@ -11,5 +11,6 @@
 @interface HenryLeaderboardCellTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *rankLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UILabel *pointsLabel;
 @end

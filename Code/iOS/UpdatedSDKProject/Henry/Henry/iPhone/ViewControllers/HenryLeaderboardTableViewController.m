@@ -17,6 +17,7 @@
 @property NSDictionary *users;
 @property NSMutableArray *top25;
 @property NSMutableArray *top25Trophies;
+@property NSDictionary *trophies;
 @property NSInteger numUsersToDisplay;
 
 @end
@@ -35,9 +36,8 @@
     self.top25 = [[NSMutableArray alloc] init];
     self.top25Trophies = [[NSMutableArray alloc] init];
     self.users = [[NSDictionary alloc] init];
-    
+    self.trophies = [[NSDictionary alloc] init];
     self.fb = [HenryFirebase getFirebaseObject];
-    self.fb = [self.fb childByAppendingPath:@"/users"];
     
     [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         [self updateTable:snapshot];
@@ -48,7 +48,8 @@
 
 
 -(void)updateTable:(FDataSnapshot *)snapshot {
-    self.users = snapshot.value;
+    self.users = [snapshot.value valueForKey:@"users"];
+    self.trophies = [snapshot.value valueForKey:@"trophies"];
     NSMutableArray *ids = [NSMutableArray arrayWithArray:[self.users allKeys]];
     NSMutableArray *idT = [NSMutableArray arrayWithArray:[self.users allKeys]];
     long points = 0;
@@ -111,6 +112,15 @@
         cell.pointsLabel.font = [UIFont boldSystemFontOfSize:17];
         cell.nameLabel.text = [[self.users valueForKey:self.uid] valueForKey:@"name"];
         cell.rankLabel.text = @"";
+        NSArray *trophies = [[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys];
+        NSString *trophy = [trophies objectAtIndex:0];
+        if(![trophy isEqualToString:@"placeholder"]){
+        NSString *imageURL = [[self.trophies valueForKey:trophy] valueForKey:@"image"];
+        NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageURL]];
+          
+                // WARNING: is the cell still using the same data by this point??
+        cell.image.image = [UIImage imageWithData: data];
+        }
         if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
             cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] count]-([[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
         } else {
@@ -124,6 +134,16 @@
             userRow = [self.top25Trophies[indexPath.row-1] isEqualToString:self.uid];
             cell.nameLabel.text = [[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"name"];
             cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] count]- ([[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
+            NSArray *trophies = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"trophies"] allKeys];
+            NSString *trophy = [trophies objectAtIndex:0];
+            if(![trophy isEqualToString:@"placeholder"]){
+                NSString *imageURL = [[self.trophies valueForKey:trophy] valueForKey:@"image"];
+                NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageURL]];
+                
+                // WARNING: is the cell still using the same data by this point??
+                cell.image.image = [UIImage imageWithData: data];
+            }
+
             if (![[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] allKeys] containsObject:@"trophies"]) {
                 cell.pointsLabel.text = @"0";
             }
@@ -132,7 +152,15 @@
             userRow = [self.top25[indexPath.row-1] isEqualToString:self.uid];
         cell.nameLabel.text = [[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"name"];
         cell.pointsLabel.text = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"total_points"] stringValue];
-    
+            NSArray *trophies = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"trophies"] allKeys];
+            NSString *trophy = [trophies objectAtIndex:0];
+            if(![trophy isEqualToString:@"placeholder"]){
+                NSString *imageURL = [[self.trophies valueForKey:trophy] valueForKey:@"image"];
+                NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageURL]];
+                
+                // WARNING: is the cell still using the same data by this point??
+                cell.image.image = [UIImage imageWithData: data];
+            }
         if (![[[self.users valueForKey:self.top25[indexPath.row-1]] allKeys] containsObject:@"total_points"]) {
             cell.pointsLabel.text = @"0";
         }

@@ -1164,13 +1164,16 @@
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="10000000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SRo-ra-R6B">
-                                            <rect key="frame" x="228" y="11" width="84" height="21"/>
+                                            <rect key="frame" x="265" y="11" width="47" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wmZ-YR-cqe">
+                                            <rect key="frame" x="47" y="1" width="40" height="40"/>
+                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Johnnry Joe Leroy" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" useAutomaticPreferredMaxLayoutWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ih5-Fz-C8Y">
-                                            <rect key="frame" x="47" y="15" width="141" height="21"/>
+                                            <rect key="frame" x="101" y="11" width="119" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -1178,6 +1181,7 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="image" destination="wmZ-YR-cqe" id="h9g-8k-rfj"/>
                                     <outlet property="nameLabel" destination="Ih5-Fz-C8Y" id="F5a-pr-yQh"/>
                                     <outlet property="pointsLabel" destination="SRo-ra-R6B" id="hyd-2X-jtR"/>
                                     <outlet property="rankLabel" destination="6pd-CH-z1v" id="Gdp-G5-SUk"/>
