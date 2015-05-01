@@ -13,8 +13,8 @@
 @property NSMutableArray *developers;
 @property NSMutableArray *names;
 @property NSMutableArray *developerObjects;
-@property NSString *ProjectID;
-@property NSString *MilestoneID;
+@property NSString *projectID;
+@property NSString *milestoneID;
 @property NSString *taskID;
 @property HenryTaskDetailViewController *detailView;
 @property NSDictionary *assignableDevs;

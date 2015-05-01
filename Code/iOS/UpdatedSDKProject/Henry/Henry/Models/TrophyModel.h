@@ -10,10 +10,13 @@
 
 @interface TrophyModel : NSObject
 @property (nonatomic, strong) NSNumber* cost;
-@property (nonatomic, strong) NSString* trophyModelDescription;
-@property (nonatomic, strong) NSString* imageTrophy;
+@property (nonatomic, strong) NSString* trophyDescription;
+@property (nonatomic, strong) NSString* image;
 @property (nonatomic, strong) NSString* name;
-@property (nonatomic, strong) NSString* key;
+@property NSString* key;
 
 - (TrophyModel*)initWithName:(NSString*) name Description:(NSString*) desc Cost: (NSNumber*) cost Image: (NSString *) trophyimage;
++ (TrophyModel*)constructModelFromDictionary:(NSDictionary*) dict;
+- (BOOL) isEqual:(TrophyModel*) object;
+
 @end

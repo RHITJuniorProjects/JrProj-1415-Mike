@@ -1195,6 +1195,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Leaderboard" id="95y-rh-UEw"/>
+                    <connections>
+                        <outlet property="pointsOrTrophiesSegControlOutlet" destination="RKx-1O-KKO" id="ZU3-Cc-70b"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Ux-E9-Vp7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -13,10 +13,9 @@
 #import "TaskModel.h"
 #import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
-@property Firebase* fb;
 @property HenryFirebase* henryFB;
 @property UITableViewCell *previouslySelected; 
-@property int selectedIndex;
+@property NSInteger selectedIndex;
 @property BOOL firstTime;
 @property BOOL clearChecksOnSelection;
 @property BOOL hasClicked;
@@ -30,12 +29,10 @@
     if(self.hasClicked){
         UserModel* selectedUser = [self.developerObjects objectAtIndex:self.selectedIndex];
         self.detailView.statusButton.titleLabel.text = selectedUser.name;
-        NSDictionary *newValue = @{@"assignedTo":selectedUser.key};
         
-        self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",self.ProjectID, self.MilestoneID, self.taskID] ];
-        [self.fb updateChildValues:newValue];
+        [self.henryFB assignMemberToTaskWithTaskKey:self.taskID UserKey:selectedUser.key ProjectKey:self.projectID MilestoneKey:self.milestoneID];
     }
-        [self.fb removeAllObservers];
+        [self.henryFB removeAllObservers];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -45,8 +42,6 @@
     
 }
 -(void)viewWillAppear:(BOOL)animated{
-    self.fb = [HenryFirebase getFirebaseObject];
-    
     [self updateTableFromFirebase];
 }
 
@@ -55,7 +50,6 @@
     [super viewDidLoad];
     
     self.firstTime = YES;
-    self.fb = [HenryFirebase getFirebaseObject];
     self.henryFB = [HenryFirebase new];
     self.hasClicked = NO;
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -63,7 +57,6 @@
     // Attach a block to read the data at our posts reference
     [self updateTableFromFirebase];
     
-    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MilestoneID, self.taskID]];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -100,7 +93,7 @@
 
         [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
             self.allDevs = usersDictionary;
-            [self.henryFB getMembersOnProjectWithProjectID:self.ProjectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+            [self.henryFB getMembersOnProjectWithProjectID:self.projectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
                 [self updateTableWithAvailableDevsFromDictionary:usersDictionary];
             }];
         }];
@@ -238,28 +231,6 @@
     return YES;
 }
 */
-
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    @try{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-        NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
-        HenryTaskDetailViewController *vc = [segue destinationViewController];
-        vc.primaryDev = [[self.developerObjects objectAtIndex:indexPath.row] key];
-        vc.ProjectID = self.ProjectID;
-        vc.MileStoneID = self.MilestoneID;
-        vc.taskID = self.taskID;
-    }@catch(NSException *exception){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-        [alert show];
-        exit(0);
-        
-    }
-}
 
 
 @end

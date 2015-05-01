@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 
 @interface BountyModel : NSObject
-
-
+@property NSString* claimed;
+@property NSString* bountyDescription;
+@property NSString* dueDate;
+@property NSString* hourLimit;
+@property NSString* lineLimit;
+@property NSString* name;
+@property NSNumber* points;
++ (BountyModel*) constructModelFromDictionary:(NSDictionary*) dict;
 @end

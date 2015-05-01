@@ -15,8 +15,11 @@
 @property (weak, nonatomic) IBOutlet UITextField *PointsField;
 @property (weak, nonatomic) IBOutlet UITextField *MutatableField;
 @property (weak, nonatomic) IBOutlet UILabel *MuatableLabel;
+@property NSString* projectId;
+@property NSString* milestoneId;
+@property NSString* taskId;
+
 - (IBAction)ComfirmationButton:(id)sender;
-@property Firebase *fb;
 - (IBAction)cancelButtonPressed:(id)sender;
 - (IBAction)dismissKeyboard:(id)sender;
 

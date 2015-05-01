@@ -12,7 +12,7 @@
 #import "HenryMemberTableViewCell.h"
 
 @interface HenryProjectDetailViewController ()
-@property Firebase *fb;
+@property HenryFirebase* henryFB;
 @property NSMutableArray *lineGraphData;
 @property NSMutableArray *hoursGraphData;
 @property int activeChart;
@@ -25,33 +25,24 @@
  */
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.fb removeAllObservers];
+    [self.henryFB removeAllObservers];
 }
 -(void)viewWillAppear:(BOOL)animated {
     @try{
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        if (self.projectID == nil) {
-            self.fb = [HenryFirebase getFirebaseObject];
-            [self.fb observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            if (self.projectID == nil) {
                 NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
                 self.uid = [defaults objectForKey:@"id"];
-                NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
+            
+                [self.henryFB getProjectsUserIsOnWithUserKey:self.uid withBlock:^(NSDictionary *projectsDictionary, BOOL success, NSError *error) {
+                NSArray *projects = [projectsDictionary allKeys];
                 self.projectID = [projects objectAtIndex:0];
-                [self updateInfo:snapshot];
-            } withCancelBlock:^(NSError *error) {
-                NSLog(@"%@", error.description);
-            }];
-            [self.fb observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                self.uid = [defaults objectForKey:@"id"];
-                NSArray *projects = [snapshot.value[@"users"][self.uid][@"projects"] allKeys];
-                //self.projectID = [projects objectAtIndex:0];
-                [self populateMembers:snapshot];
-            } withCancelBlock:^(NSError *error) {
-                NSLog(@"%@", error.description);
-            }];
+                [self updateInfo];
+                [self populateMembers];
+                }];
+            }
         }
-    }
+        [self updateInfo];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -66,8 +57,8 @@
     // Do any additional setup after loading the view.
         [self.lineGraph setName:@"lines"];
         [self.hoursLineChart setName:@"hours"];
-    self.fb = [HenryFirebase getFirebaseObject];
-    self.hoursGraphData = [[NSMutableArray alloc] init];
+        self.henryFB = [HenryFirebase new];
+        self.hoursGraphData = [[NSMutableArray alloc] init];
         self.hoursLineChart.alwaysDisplayPopUpLabels = NO;
         self.hoursLineChart.enablePopUpReport = YES;
         self.hoursLineChart.alwaysDisplayDots = YES;
@@ -78,7 +69,7 @@
         self.hoursLineChart.enableReferenceXAxisLines = YES;
         self.hoursLineChart.enableReferenceYAxisLines = YES;
         [self.hoursLineChart changeFontSize:5];
-    self.lineGraphData = [[NSMutableArray alloc] init];
+        self.lineGraphData = [[NSMutableArray alloc] init];
         self.lineGraph.alwaysDisplayPopUpLabels = NO;
         self.lineGraph.enablePopUpReport = YES;
         self.lineGraph.alwaysDisplayDots = YES;
@@ -89,12 +80,6 @@
         self.lineGraph.enableReferenceXAxisLines = YES;
         self.lineGraph.enableReferenceYAxisLines = YES;
         [self.lineGraph changeFontSize:5];
-    // Attach a block to read the data at our posts reference
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo: snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -103,7 +88,90 @@
     }
 }
 
+- (void)updateLabelsAndProgressBars:(NSDictionary *)json {
+    self.projectNameLabel.text = [json objectForKey:@"name"];
+    self.projectDescriptionView.text = [json objectForKey:@"description"];
+    self.dueDateLabel.text = [json objectForKey:@"due_date"];
+    double totalHours = [[json objectForKey:@"total_hours"] doubleValue];
+    double estimatedHours = [[json objectForKey:@"total_estimated_hours"] doubleValue];
+    self.hoursLoggedLabel.text = [NSString stringWithFormat:@"%0.2f/%0.2f", totalHours, estimatedHours];
+    self.hoursLoggedProgressBar.progress = totalHours/estimatedHours;
+    self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
+    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] floatValue] / 100;
+    self.milestonesCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"milestones_completed"],[json objectForKey:@"total_milestones"]];
+    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestone_percent"] floatValue] / 100;
+}
 
+- (void)updateBurndown:(NSDictionary *)desiredProject {
+    NSDictionary *burndownData = [desiredProject objectForKey:@"milestones"];
+    NSArray *burndownKeys = [burndownData allKeys];
+    burndownKeys = [[burndownKeys reverseObjectEnumerator] allObjects];
+    self.lineGraphData = [[NSMutableArray alloc] init];
+    NSInteger i = 0;
+    for (NSString *burndownKey in burndownKeys) {
+        NSMutableArray *subArray = [[NSMutableArray alloc] init];
+        NSMutableArray *hoursSubArray = [[NSMutableArray alloc] init];
+        NSDictionary *entry = [burndownData objectForKey:burndownKey];
+        //NSLog(@"Adding %@",[entry objectForKey:@"total_lines_of_code"]);
+        //NSLog(@"adding %@",[entry objectForKey:@"name"]);
+        //NSLog(@"Aadding %ld",(long)i);
+        [hoursSubArray addObject:[entry objectForKey:@"total_hours"]];
+        [hoursSubArray addObject:[entry objectForKey:@"name"]];
+        [hoursSubArray addObject:[NSNumber numberWithInteger:i]];
+        [subArray addObject:[entry objectForKey:@"total_lines_of_code"]];
+        [subArray addObject:[entry objectForKey:@"name"]];
+        [subArray addObject:[NSNumber numberWithInteger:i]];
+        i++;
+        [self.lineGraphData addObject:subArray];
+        [self.hoursGraphData addObject:hoursSubArray];
+        [self.lineGraph reloadGraph];
+        [self.hoursLineChart reloadGraph];
+    }
+}
+
+-(void)updateInfo {
+    @try{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [self.henryFB getAllProjectsWithBlock:^(NSDictionary *projectsDictionary, BOOL success, NSError *error) {
+            NSDictionary* desiredProject = projectsDictionary[self.projectID];
+            [self updateLabelsAndProgressBars:desiredProject];
+            [self updateBurndown:desiredProject];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        }];
+        
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+            self.allDevs = usersDictionary;
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+            [self.henryFB getMembersOnProjectWithProjectID:self.projectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+                self.assignableDevs = usersDictionary;
+                
+                NSArray *assignableDevKeys = [self.assignableDevs allKeys];
+                NSMutableArray *dataArray = [[NSMutableArray alloc] init];
+                NSMutableArray *developers = [[NSMutableArray alloc] init];
+                self.names = [[NSMutableArray alloc] init];
+                
+                for (NSString *key in assignableDevKeys) {
+                    NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
+                    NSNumber *lines = [[[[self.allDevs objectForKey:key] objectForKey:@"projects"] objectForKey:self.projectID] objectForKey:@"added_lines_of_code"];
+                    if(name != NULL && lines!=0){
+                        [self.names addObject:name];
+                        [dataArray addObject:lines];
+                        [developers addObject:key];
+                    }
+                }
+                [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
+                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            }];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        }];
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+        
+    }
+}
 
 -(NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
     if([graph.name isEqualToString:@"lines"]){
@@ -239,84 +307,19 @@
     return cell;
 }
 
--(void)updateInfo:(FDataSnapshot *)snapshot {
-    @try{
+-(void)populateMembers {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    NSDictionary *json = snapshot.value[@"projects"][self.projectID];
-        NSDictionary *burndownData = [json objectForKey:@"milestones"];
-        NSArray *burndownKeys = [burndownData allKeys];
-        burndownKeys = [[burndownKeys reverseObjectEnumerator] allObjects];
-        self.lineGraphData = [[NSMutableArray alloc] init];
-        NSInteger i = 0;
-        for (NSString *burndownKey in burndownKeys) {
-            NSMutableArray *subArray = [[NSMutableArray alloc] init];
-            NSMutableArray *hoursSubArray = [[NSMutableArray alloc] init];
-            NSDictionary *entry = [burndownData objectForKey:burndownKey];
-            //NSLog(@"Adding %@",[entry objectForKey:@"total_lines_of_code"]);
-            //NSLog(@"adding %@",[entry objectForKey:@"name"]);
-            //NSLog(@"Aadding %ld",(long)i);
-            [hoursSubArray addObject:[entry objectForKey:@"total_hours"]];
-            [hoursSubArray addObject:[entry objectForKey:@"name"]];
-            [hoursSubArray addObject:[NSNumber numberWithInteger:i]];
-            [subArray addObject:[entry objectForKey:@"total_lines_of_code"]];
-            [subArray addObject:[entry objectForKey:@"name"]];
-            [subArray addObject:[NSNumber numberWithInteger:i]];
-            i++;
-            [self.lineGraphData addObject:subArray];
-            [self.hoursGraphData addObject:hoursSubArray];
-        }
-        
-    self.projectNameLabel.text = [json objectForKey:@"name"];
-    self.projectDescriptionView.text = [json objectForKey:@"description"];
-    self.dueDateLabel.text = [json objectForKey:@"due_date"];
-    double totalHours = [[json objectForKey:@"total_hours"] doubleValue];
-    double estimatedHours = [[json objectForKey:@"total_estimated_hours"] doubleValue];
-    self.hoursLoggedLabel.text = [NSString stringWithFormat:@"%0.2f/%0.2f", totalHours, estimatedHours];
-    self.hoursLoggedProgressBar.progress = totalHours/estimatedHours;
-    self.tasksCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"tasks_completed"],[json objectForKey:@"total_tasks"]];
-    self.tasksCompletedProgressBar.progress = [[json objectForKey:@"task_percent"] floatValue] / 100;
-    self.milestonesCompletedLabel.text = [NSString stringWithFormat:@"%@/%@",[json objectForKey:@"milestones_completed"],[json objectForKey:@"total_milestones"]];
-    self.milestonesCompletedProgressBar.progress = [[json objectForKey:@"milestone_percent"] floatValue] / 100;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    
-    self.assignableDevs = snapshot.value[@"projects"][self.projectID][@"members"];
-    NSMutableArray *dataArray = [[NSMutableArray alloc] init];
-    
-    self.allDevs = snapshot.value[@"users"];
-    NSMutableArray *developers = [[NSMutableArray alloc] init];
-    NSArray *keys = [self.assignableDevs allKeys];
-    self.names = [[NSMutableArray alloc] init];
-    for (NSString *key in keys) {
-        NSString *name = [[self.allDevs objectForKey:key] objectForKey:@"name"];
-        NSNumber *lines = [[[[self.allDevs objectForKey:key] objectForKey:@"projects"] objectForKey:self.projectID] objectForKey:@"added_lines_of_code"];
-        if(name != NULL && lines!=0){
-            [self.names addObject:name];
-            [dataArray addObject:lines];
-            [developers addObject:key];
-        }
-    }
-    [self.lineGraph reloadGraph];
-    [self.hoursLineChart reloadGraph];
-    [self.pieChart renderInLayer:self.pieChart dataArray:dataArray nameArray:self.names];
-    }@catch(NSException *exception){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-        [alert show];
-        exit(0);
-        
-    }
-}
-
--(void)populateMembers:(FDataSnapshot *) snapshot {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    NSDictionary *json = snapshot.value[@"projects"][self.projectID];
-    self.projectJson = json;
-    self.members = [json objectForKey:@"members"];
-    NSDictionary *json2 = snapshot.value[@"users"];
-    self.allMembers = json2;
-    [self.memberTableView reloadData];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    [self.henryFB getAllProjectsWithBlock:^(NSDictionary *projectsDictionary, BOOL success, NSError *error) {
+        NSDictionary* json = projectsDictionary[self.projectID];
+        self.projectJson = json;
+        self.members = [json objectForKey:@"members"];
+        [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+            NSDictionary *json2 = usersDictionary;
+            self.allMembers = json2;
+            [self.memberTableView reloadData];
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        }];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,8 +10,9 @@
 #import <UIKit/UIKit.h>
 #import "HenryProjectObject.h"
 #import "HenryFirebase.h"
+#import "LoginViewController.h"
+#import "HenryStoreTableViewController.h"
 #import "OCMock.h"
-#import "OCMockObject.h"
 
 
 @interface HenryTests : XCTestCase
@@ -143,7 +144,77 @@
 }
 
 - (void) testGetAllProjects {
-//    HenryFirebase* mockFirebase = 
+    // A nice mock
+    id mockFirebase = OCMClassMock([Firebase class]);
+    id mockSnapshot = OCMClassMock([FDataSnapshot class]);
+    HenryFirebase *hfb = [[HenryFirebase alloc] init];
+//    [hfb getAllProjectsWithBlock:^(NSDictionary *projectsDictionary, BOOL success, NSError *error) {
+//        <#code#>
+//    }]
+}
+
+- (void) testValidEmail {
+    NSString* validEmail = @"watersdr@rose-hulman.edu";
+    NSString* validEmail2 = @"blah@blah.biz";
+    NSString* invalidEmail = @"blah";
+    NSString* invalidEmail2 = @"hello!world";
+    NSString* invalidEmail3 = @"@@@@";
+    NSString* invalidEmail4 = @"blah@blah.9999999";
+    NSString* invalidEmail5 = @"@rose-hulman.edu";
+    
+    LoginViewController *lvc = [[LoginViewController alloc] init];
+    
+    XCTAssertTrue([lvc isValidEmailFormat: validEmail]);
+    XCTAssertTrue([lvc isValidEmailFormat: validEmail2]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail2]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail3]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail4]);
+    XCTAssertFalse([lvc isValidEmailFormat: invalidEmail5]);
+    
+}
+
+- (void) testTextFieldShouldReturn {
+    
+}
+
+- (void) testAddingTrophiesFromDictionary {
+    TrophyModel* tempTrophyModel1 = [[TrophyModel alloc] initWithName:@"Trophy1" Description:@"Description1" Cost:@1 Image:@"Image1"];
+    TrophyModel* tempTrophyModel2 = [[TrophyModel alloc] initWithName:@"Trophy2" Description:@"Description2" Cost:@1 Image:@"Image2"];
+    TrophyModel* tempTrophyModel3 = [[TrophyModel alloc] initWithName:@"Trophy3" Description:@"Description3" Cost:@1 Image:@"Image3"];
+    NSMutableArray *expected = [NSMutableArray arrayWithObjects:(tempTrophyModel1), (tempTrophyModel2), (tempTrophyModel3), nil];
+    
+    NSDictionary *trophy1 = @{
+                              @"cost" : @1,
+                              @"description" : @"Description1",
+                              @"image" : @"Image1",
+                              @"name" : @"Trophy1"
+                              };
+    NSDictionary *trophy2 = @{
+                              @"cost" : @1,
+                              @"description" : @"Description2",
+                              @"image" : @"Image2",
+                              @"name" : @"Trophy2"
+                              };
+    NSDictionary *trophy3 = @{
+                              @"cost" : @1,
+                              @"description" : @"Description3",
+                              @"image" : @"Image3",
+                              @"name" : @"Trophy3"
+                              };
+    NSDictionary *dictToPass = @{
+                                 @"Trophy1" : trophy1,
+                                 @"Trophy2" : trophy2,
+                                 @"Trophy3" : trophy3
+                                 };
+    HenryStoreTableViewController *hstv = [[HenryStoreTableViewController alloc] init];
+    [hstv addAvailableTrophiesToTrophyObjectArrayFromDictionary: dictToPass];
+    
+    for (int i = 0; i < [dictToPass count]; i++) {
+        XCTAssertTrue([hstv.trophyObjectArray[i] isEqual: expected[i]]);
+    }
+
+    
 }
 
 - (void)tearDown

@@ -9,5 +9,20 @@
 #import <Foundation/Foundation.h>
 
 @interface MilestoneModel : NSObject
+@property NSNumber* addedLinesOfCode;
+@property NSDictionary* burndownData;
+@property NSString* milestoneDescription;
+@property NSString* dueDate;
+@property NSNumber* hoursPercent;
+@property NSString* name;
+@property NSNumber* removedLinesOfCode;
+@property NSNumber* taskPercent;
+@property NSMutableDictionary* tasks;
+@property NSNumber* tasksCompleted;
+@property NSNumber* totalEstimatedHours;
+@property NSNumber* totalHours;
+@property NSNumber* totalLinesOfCode;
+@property NSNumber* totalTasks;
 
++ (MilestoneModel*) constructModelFromDictionary: (NSDictionary*) dict;
 @end

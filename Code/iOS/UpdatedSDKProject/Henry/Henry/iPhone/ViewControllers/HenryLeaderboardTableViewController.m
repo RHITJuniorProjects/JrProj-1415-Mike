@@ -12,7 +12,7 @@
 #import "HenryFirebase.h"
 
 @interface HenryLeaderboardTableViewController ()
-@property Firebase *fb;
+@property HenryFirebase* henryFB;
 @property NSString *uid;
 @property NSDictionary *users;
 @property NSMutableArray *top25;
@@ -23,7 +23,7 @@
 @end
 
 @implementation HenryLeaderboardTableViewController
-@synthesize leaderboardSegmentedControl;
+@synthesize pointsOrTrophiesSegControlOutlet;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -39,10 +39,9 @@
     self.trophies = [[NSDictionary alloc] init];
     self.fb = [HenryFirebase getFirebaseObject];
     
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
+    [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+        self.users = usersDictionary;
+        [self updateTable];
     }];
 }
 
@@ -130,7 +129,7 @@
         
         BOOL userRow = false;
         cell.rankLabel.text = [NSString stringWithFormat:@"%i.", (int)indexPath.row];
-        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+        if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
             userRow = [self.top25Trophies[indexPath.row-1] isEqualToString:self.uid];
             cell.nameLabel.text = [[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"name"];
             cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] count]- ([[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
@@ -244,7 +243,7 @@
         NSLog(@"%@",self.top25[2]);
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         HenryUsersProfileViewController *vc = [segue destinationViewController];
-         if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+         if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
              vc.upid =[self.top25Trophies objectAtIndex:indexPath.row-1];
              vc.profile = [self.users valueForKey:[self.top25Trophies objectAtIndex:indexPath.row-1]];
          } else {

@@ -1,5 +1,5 @@
 //
-//  HenryTaskStatusTableViewController.m
+//  HenryCategoryTableViewController.m
 //  Henry
 //
 //  Created by Carter Grove on 10/17/14.
@@ -12,10 +12,10 @@
 @interface HenryCategoryTableViewController ()
 @property NSArray *cellTitles;
 @property UITableViewCell *previouslySelected;
-@property int selectedIndex;
+@property NSInteger selectedIndex;
 @property BOOL firstTime;
 @property BOOL clearChecksOnSelection;
-@property Firebase *fb;
+@property HenryFirebase* henryFB;
 @end
 
 @implementation HenryCategoryTableViewController
@@ -25,8 +25,8 @@
         [super viewWillDisappear:animated];
         self.detailView.categoryButton.titleLabel.text = [self.cellTitles objectAtIndex:_selectedIndex];
         UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
-        NSDictionary *newValue = @{@"status":selectedCell.textLabel.text};
-        [self.fb updateChildValues:newValue];
+        
+        [self.henryFB assignStatusToTaskWithTaskKey:self.taskID StatusKey:selectedCell.textLabel.text ProjectKey:self.projectID MilestoneKey:self.milestoneID];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -54,9 +54,7 @@
         self.firstTime = YES;
         self.clearChecksOnSelection = NO;
         
-        self.fb = [HenryFirebase getFirebaseObject];
-        
-        self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
+        self.henryFB = [HenryFirebase new];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];

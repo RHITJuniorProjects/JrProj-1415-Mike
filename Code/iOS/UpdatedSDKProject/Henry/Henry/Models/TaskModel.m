@@ -9,19 +9,36 @@
 #import "TaskModel.h"
 #import "BountyModel.h"
 #import "HenryFirebase.h"
-#define MAX_POINTS @100;
-#define MIN_POINTS @0;
-#define defaultAssignedUserName @"default";
-#define pointsName @"points"
 
 @implementation TaskModel
-// Android: public TaskDetailFragment hp;
 
-// A reference to Firebase to keep the data up to date
-HenryFirebase* firebase;
-
-#pragma mark MethodsFromAndroid
-// TODO: Implement methods after line: 140 from Android
-
++ (TaskModel*) constructModelFromDictionary: (NSDictionary*) dict;
+{
+    TaskModel* tempTask = [TaskModel new];
+    tempTask.addedLinesOfCode = [dict objectForKey:@"added_lines_of_code"];
+    tempTask.assignedTo = [dict objectForKey:@"assignedTo"];
+    tempTask.category = [dict objectForKey:@"category"];
+    tempTask.taskDescription = [dict objectForKey:@"description"];
+    tempTask.dueDate = [dict objectForKey:@"due_date"];
+    tempTask.isCompleted = [dict objectForKey:@"isCompleted"];
+    tempTask.name = [dict objectForKey:@"name"];
+    tempTask.originalHourEstimate = [dict objectForKey:@"original_hour_estimate"];
+    tempTask.percentComplete = [dict objectForKey:@"percent_complete"];
+    tempTask.removedLinesOfCode = [dict objectForKey:@"removed_lines_of_code"];
+    tempTask.status = [dict objectForKey:@"status"];
+    tempTask.totalHours = [dict objectForKey:@"total_hours"];
+    tempTask.totalLinesOfCode = [dict objectForKey:@"total_lines_of_code"];
+    tempTask.updatedHourEstimate = [dict objectForKey:@"updated_hour_estimate"];
+    
+    NSDictionary* rawBounties =[dict objectForKey:@"bounties"];
+    NSMutableDictionary* bountyObjects = [NSMutableDictionary new];
+    NSArray* bountyKeys = [rawBounties allKeys];
+    for (NSString* key in bountyKeys) {
+        BountyModel* tempBounty = [BountyModel constructModelFromDictionary:[rawBounties objectForKey:key]];
+        [bountyObjects setObject:tempBounty forKey:key];
+    }
+    tempTask.bounties = bountyObjects;
+    return tempTask;
+}
 
 @end

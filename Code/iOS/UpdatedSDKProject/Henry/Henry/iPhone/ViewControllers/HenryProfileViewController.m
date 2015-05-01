@@ -10,8 +10,6 @@
 #import "HenryFirebase.h"
 
 @interface HenryProfileViewController ()
-//@property Firebase *fb;
-//@property FDataSnapshot* snapshot;
 @property HenryFirebase *firebase;
 @property NSMutableDictionary *userTrophies;
 @property NSArray* userTrophiesKeys;
@@ -110,9 +108,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"ProfileTrophyCell"];
     }
     TrophyModel* tempTrophy = [self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]];
-    cell.textLabel.text = [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"name"];;
-    cell.detailTextLabel.text= [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"description"];
-    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.userTrophies valueForKey:self.userTrophiesKeys[indexPath.row]]valueForKey:@"image"]]];
+    cell.textLabel.text = [tempTrophy valueForKey:@"name"];;
+    cell.detailTextLabel.text= [tempTrophy valueForKey:@"description"];
+    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [tempTrophy valueForKey:@"image"]]];
     //NSLog(@"%@", tempTrophy.imageTrophy);
     cell.imageView.image = [UIImage imageWithData:imageData];
     

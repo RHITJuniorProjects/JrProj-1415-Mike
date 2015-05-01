@@ -84,9 +84,7 @@
     @try{
     [self.view endEditing:YES];
     self.loginIndicator.hidden = NO;
-    NSString *regex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    if (![emailTest evaluateWithObject:self.emailText.text]) {
+    if (![self isValidEmailFormat:self.emailText.text]) {
         UIAlertView *badEmailAlert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:@"Incorrect e-mail format" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
         [badEmailAlert show];
         self.loginIndicator.hidden = YES;
@@ -141,12 +139,22 @@
     
 }
 
+- (BOOL)isValidEmailFormat:(NSString*) emailString;
+{
+    NSString *regex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [emailTest evaluateWithObject:emailString];
+}
+
 -(BOOL)textFieldShouldReturn:(UITextField *)textField {
     @try{
-    [textField resignFirstResponder];
-    [self loginAction:nil];
-    
-    return YES;
+        if (textField == self.passwordText) {
+            [textField resignFirstResponder];
+            [self loginAction:nil];
+        } else if (textField == self.emailText) {
+            [self.passwordText becomeFirstResponder];
+        }
+        return YES;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];

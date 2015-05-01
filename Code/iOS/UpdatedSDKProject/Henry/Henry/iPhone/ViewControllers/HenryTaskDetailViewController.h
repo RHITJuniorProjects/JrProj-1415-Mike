@@ -20,7 +20,7 @@
 @property NSString *ProjectID;
 @property NSString *MileStoneID;
 @property NSString *taskID;
-@property HenryDevDisplayObject *primaryDev;
+@property NSString *primaryDev;
 @property (weak, nonatomic) IBOutlet UIButton *bountyButton;
 - (IBAction)bountyButtonPressed:(id)sender;
 @end

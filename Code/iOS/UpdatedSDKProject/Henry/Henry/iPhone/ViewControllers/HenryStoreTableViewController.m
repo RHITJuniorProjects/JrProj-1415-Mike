@@ -12,7 +12,7 @@
 #import "TrophyModel.h"
 
 @interface HenryStoreTableViewController ()
-@property HenryFirebase *firebase;
+@property HenryFirebase *henryFB;
 @property NSDictionary *trophies;
 @property NSMutableArray *users;
 @property NSMutableArray *trophykey;
@@ -23,7 +23,6 @@
 
 @end
 @implementation HenryStoreTableViewController
-NSMutableArray *trophyObjectArray;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,7 +40,7 @@ NSMutableArray *trophyObjectArray;
     self.users = [[NSMutableArray alloc] init];
     self.trophykey = [[NSMutableArray alloc] init];
     self.trophyIndex = 0;
-    self.firebase = [HenryFirebase new];
+    self.henryFB = [HenryFirebase new];
     
     [self updateInfo];
 }
@@ -50,11 +49,11 @@ NSMutableArray *trophyObjectArray;
     self.trophies = trophiesDictionary;
     self.trophykey = [NSMutableArray arrayWithArray:[self.trophies allKeys]];
     [self.trophykey removeObjectsInArray:[[self.userInfo valueForKey:@"trophies"] allKeys]];
-    trophyObjectArray = [NSMutableArray new];
+    self.trophyObjectArray = [NSMutableArray new];
     for (int i = 0; i < [self.trophykey count]; i++) {
         NSDictionary* tempFBTrophy = [self.trophies valueForKey:[self.trophykey objectAtIndex:i]];
         TrophyModel* tempTrophyModel = [[TrophyModel alloc] initWithName:[tempFBTrophy valueForKey:@"name"] Description:[tempFBTrophy valueForKey:@"description"] Cost:[tempFBTrophy valueForKey:@"cost"] Image:[tempFBTrophy valueForKey:@"image"]];
-        [trophyObjectArray addObject:tempTrophyModel];
+        [self.trophyObjectArray addObject:tempTrophyModel];
     }
 }
 
@@ -64,9 +63,9 @@ NSMutableArray *trophyObjectArray;
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.navigationItem.title = @"Trophy Store";
         
-        [self.firebase getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
+        [self.henryFB getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
             self.userInfo = [userInfoDictionary mutableCopy];
-            [self.firebase getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+            [self.henryFB getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
                 [self addAvailableTrophiesToTrophyObjectArrayFromDictionary:trophiesDictionary];
                 [self.tableView reloadData];
             }];
@@ -95,12 +94,12 @@ NSMutableArray *trophyObjectArray;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HenryStoreCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"trophyCell" forIndexPath:indexPath];
     NSInteger rowIndex = indexPath.row;
-    TrophyModel* tempModel = [trophyObjectArray objectAtIndex:rowIndex];
+    TrophyModel* tempModel = [self.trophyObjectArray objectAtIndex:rowIndex];
     //Changed
     cell.trophyName.text = tempModel.name;
-    cell.trophyDescription.text = tempModel.trophyModelDescription;
-    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: tempModel.imageTrophy]];
-    NSLog(@"%@", tempModel.imageTrophy);
+    cell.trophyDescription.text = tempModel.trophyDescription;
+    NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: tempModel.image]];
+    NSLog(@"%@", tempModel.image);
     cell.trophyImage.image = [UIImage imageWithData:imageData];
     //[imageData release];
     
@@ -136,7 +135,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"Trophy selected: %@", trophyToPurchase.name);
         NSLog(@"Trophy cost: %@", trophyToPurchase.cost);
         
-        [self.firebase purchaseTrophyWithTrophyModel:trophyToPurchase withUserId:self.userid withOldAvailablePoints: self.availablePoints];
+        [self.henryFB purchaseTrophyWithTrophyModel:trophyToPurchase withUserId:self.userid withOldAvailablePoints: self.availablePoints];
         [self.tableView reloadData];
     }
 }
