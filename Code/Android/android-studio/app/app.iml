@@ -9,6 +9,7 @@
     <facet type="android" name="Android">
       <configuration>
         <option name="SELECTED_BUILD_VARIANT" value="debug" />
+        <option name="SELECTED_TEST_ARTIFACT" value="_android_test_" />
         <option name="ASSEMBLE_TASK_NAME" value="assembleDebug" />
         <option name="COMPILE_JAVA_TASK_NAME" value="compileDebugSources" />
         <option name="ASSEMBLE_TEST_TASK_NAME" value="assembleDebugAndroidTest" />
@@ -85,12 +86,12 @@
     <orderEntry type="jdk" jdkName="Android API 20 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="firebase-client-android-2.0.1" level="project" />
-    <orderEntry type="library" exported="" name="stickylistheaders-2.5.2" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-20.0.0" level="project" />
-    <orderEntry type="library" exported="" name="achartengine-1.2.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-20.0.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat_v7" level="project" />
+    <orderEntry type="library" exported="" name="achartengine-1.2.0" level="project" />
+    <orderEntry type="library" exported="" name="stickylistheaders-2.5.2" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-20.0.0" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-20.0.0" level="project" />
   </component>
 </module>
 
