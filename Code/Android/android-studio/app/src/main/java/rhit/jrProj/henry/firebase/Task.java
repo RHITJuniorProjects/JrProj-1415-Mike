@@ -617,7 +617,7 @@ public class Task implements Parcelable, ChangeNotifiable<Task> {
                 this.task.viewCallback.onChange();
             }
             if (this.task.bountyListViewCallback != null) {
-                Log.i("test3", "non-null BLVC");
+                //Log.i("test3", "non-null BLVC");
                 this.task.bountyListViewCallback.onChange();
             }
 

@@ -51,12 +51,6 @@
         android:showAsAction="always"
         android:title="Search"/>
     <item
-        android:id="@+id/action_charts"
-        android:icon="@drawable/ic_action_line_chart"
-        android:onClick="charts"
-        android:showAsAction="always"
-        android:title="Charts"/>
-    <item
         android:id="@+id/action_all_tasks"
         android:onClick="openAllMyTasks"
         android:showAsAction="always"

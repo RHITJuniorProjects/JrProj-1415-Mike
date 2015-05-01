@@ -28,7 +28,6 @@ public class Project implements Parcelable, ChangeNotifiable<Project>, FirebaseO
      * A reference to Firebase to keep the data up to date.
      */
     private Firebase firebase;
-
     /**
      * A List of milestones that are contained within the project
      */
@@ -300,6 +299,13 @@ public class Project implements Parcelable, ChangeNotifiable<Project>, FirebaseO
      *
      * @return
      */
+    public BurndownData getBurndownData(){
+        BurndownData burndownData=new BurndownData(this);
+        for (Milestone m: this.getMilestones()){
+            burndownData.combine(m.getBurndownData());
+        }
+        return burndownData;
+    }
     public boolean isLead(User u) {
         return (Enums.Role.LEAD == u.getRole(this));
     }
@@ -420,9 +426,9 @@ public class Project implements Parcelable, ChangeNotifiable<Project>, FirebaseO
                                     Enums.Role.valueOf(member.getValue(
                                             String.class).toUpperCase()));
                         } catch (Exception e) {
-                            Log.i("FAILED",
-                                    "Adding a role to a member failed: "
-                                            + e.getMessage());
+                            //Log.i("FAILED",
+                             //       "Adding a role to a member failed: "
+                               //             + e.getMessage());
                         }
                     }
                 }

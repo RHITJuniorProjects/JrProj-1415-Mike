@@ -7,6 +7,8 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import rhit.jrProj.henry.GlobalVariables;
@@ -19,7 +21,7 @@ import rhit.jrProj.henry.bridge.FirebaseObject;
  */
 public class BurndownData<T extends FirebaseObject> implements ChangeNotifiable<BurndownData> {
     T fo;
-    List<BurndownObject> bdo = new ArrayList<BurndownObject>();
+    ArrayList<BurndownObject> bdo = new ArrayList<BurndownObject>();
     ChangeNotifier changeNotifier;
 
     public BurndownData(T fo) {
@@ -37,32 +39,50 @@ public class BurndownData<T extends FirebaseObject> implements ChangeNotifiable<
         return this.changeNotifier;
     }
 
-    public List<BurndownPoint> getBurndownPoints() {
-        ArrayList<BurndownPoint> bdp = new ArrayList<BurndownPoint>();
-        if (this.fo instanceof Project) {
-            ArrayList<Milestone> milestones = ((Project) fo).getMilestones();
-            for (int m = 0; m < milestones.size(); m++) {
-
-                ArrayList<BurndownObject> bdo = (ArrayList<BurndownObject>) milestones.get(m).getBurndownObjects();
-                for (int i = 0; i < bdo.size(); i++) {
-                    BurndownPoint bp = new BurndownPoint();
-                    bp.setX(m + (new Double(i) / bdo.size()));
-                    bp.setBurndownObject(bdo.get(i));
-                    bdp.add(bp);
-                }
+    public int getMaxYHours(){
+        int maxY=-1;
+        for (BurndownObject bo: bdo){
+            if (bo.getHoursDone()>maxY){
+                maxY=(int)bo.getHoursDone();
             }
-
-        } else if (this.fo instanceof Milestone) {
-
-            ArrayList<BurndownObject> bdo = (ArrayList<BurndownObject>) ((Milestone) fo).getBurndownObjects();
-            for (int i = 0; i < bdo.size(); i++) {
-                BurndownPoint bp = new BurndownPoint();
-                bp.setX(new Double(i));
-                bp.setBurndownObject(bdo.get(i));
-                bdp.add(bp);
+            else if (bo.getHoursRem() > maxY){
+                maxY= (int) bo.getHoursRem();
             }
         }
+        return maxY;
+    }
+    public int getMaxYTasks(){
+        int maxY=-1;
+        for (BurndownObject bo: bdo){
+            if (bo.getTasksDone()>maxY){
+                maxY=(int)bo.getTasksDone();
+            }
+            else if (bo.getTasksRem() > maxY){
+                maxY= (int) bo.getTasksRem();
+            }
+        }
+        return maxY;
+    }
+
+    public List<BurndownPoint> getBurndownPoints() {
+        ArrayList<BurndownPoint> bdp = new ArrayList<BurndownPoint>();
+
+        ArrayList<BurndownObject> sortedBO=this.bdo;
+        Collections.sort(bdo);
+        for (int i=0; i<bdo.size(); i++){
+            bdp.add(new BurndownPoint((double)i, bdo.get(i)));
+        }
         return bdp;
+
+    }
+    public void addBurndownObject(BurndownObject bo){
+        this.bdo.add(bo);
+    }
+    public void combine(BurndownData bd){
+        this.bdo.addAll(bd.getBurndownObjects());
+    }
+    public List<BurndownObject> getBurndownObjects(){
+        return this.bdo;
     }
 
 
@@ -111,6 +131,10 @@ public class BurndownData<T extends FirebaseObject> implements ChangeNotifiable<
 
         }
 
+
+        public int compareTimeStamps(BurndownPoint o) {
+           return this.getBurndownObject().compareTo(o.getBurndownObject());
+        }
     }
     
 }

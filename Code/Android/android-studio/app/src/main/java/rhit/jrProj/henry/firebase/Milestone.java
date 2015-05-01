@@ -69,7 +69,9 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, Fireb
      */
     private ChangeNotifier<Milestone> listViewCallback;
 
-    private ArrayList<BurndownObject> burndownObjects=new ArrayList<BurndownObject>();
+    private BurndownData<Milestone> burndownData=new BurndownData<Milestone>(this);
+
+    //private ArrayList<BurndownObject> burndownObjects=new ArrayList<BurndownObject>();
 
     /**
      * A string of the milestone's firebase id.
@@ -222,8 +224,10 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, Fireb
         return this.parentProjectID;
     }
 
-    public List<BurndownObject> getBurndownObjects(){
-        return this.burndownObjects;
+   
+
+    public BurndownData getBurndownData(){
+        return this.burndownData;
     }
     /**
      * Returns the due date of the milestone
@@ -449,8 +453,8 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone>, Fireb
                     BurndownObject bo=new BurndownObject(child.getRef().toString());
                     bo.setTimeStamp(new Long(child.getKey()));
                     bo.setChangeNotifier(this.milestone.burndownObjectChangeNotifier);
-                    if (!this.milestone.burndownObjects.contains(bo)){
-                        this.milestone.burndownObjects.add(bo);
+                    if (!this.milestone.burndownData.getBurndownObjects().contains(bo)){
+                        this.milestone.burndownData.addBurndownObject(bo);
                     }
                 }
             }

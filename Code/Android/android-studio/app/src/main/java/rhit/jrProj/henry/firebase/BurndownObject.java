@@ -11,7 +11,7 @@ import rhit.jrProj.henry.bridge.ChangeNotifier;
 /**
  * Created by daveyle on 4/30/2015.
  */
-public class BurndownObject implements ChangeNotifiable<BurndownObject>{
+public class BurndownObject implements ChangeNotifiable<BurndownObject>, Comparable<BurndownObject>{
 
     double hoursRem=-1;
     double hoursDone=-1;
@@ -46,6 +46,17 @@ public class BurndownObject implements ChangeNotifiable<BurndownObject>{
     @Override
     public ChangeNotifier<BurndownObject> getChangeNotifier() {
         return this.changeNotifier;
+    }
+
+    @Override
+    public int compareTo(BurndownObject o) {
+        if (o.getTimeStamp()>this.getTimeStamp()){
+            return -1;
+        }else if (o.getTimeStamp()==this.getTimeStamp()){
+            return 0;
+        }else {
+            return 1;
+        }
     }
 
     private class BurndownChildListener implements ChildEventListener{

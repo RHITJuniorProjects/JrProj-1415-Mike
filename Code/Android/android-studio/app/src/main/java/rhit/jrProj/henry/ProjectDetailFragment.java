@@ -15,12 +15,15 @@ import rhit.jrProj.henry.helpers.GraphHelper;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -55,9 +58,15 @@ public class ProjectDetailFragment extends Fragment  implements
     private boolean mTwoPane;
 
     private Callbacks mCallbacks;
+    private String url;
+    private int type=-1;
 
     public interface Callbacks {
         public Project getSelectedProject();
+        public void setIsProject(boolean b);
+        public void setUrl(String url);
+        public void setType(int i);
+        public void openChartView(View v);
     }
 
     /**
@@ -68,6 +77,10 @@ public class ProjectDetailFragment extends Fragment  implements
         public Project getSelectedProject() {
             return null;
         }
+        public void setIsProject(boolean b){}
+        public void setUrl(String url){}
+        public void setType(int i){}
+        public void openChartView(View v){}
     };
 
 
@@ -121,6 +134,7 @@ public class ProjectDetailFragment extends Fragment  implements
         final View rootView = inflater.inflate(R.layout.fragment_project_detail,
                 container, false);
         this.projectItem = this.mCallbacks.getSelectedProject();
+        this.url=GlobalVariables.getFirebaseUrl()+"/projects/"+this.projectItem.getID();
         this.mMembersList = (LinearLayout) rootView.findViewById(R.id.projectMembers);
 
         if (this.projectItem != null) {
@@ -269,8 +283,12 @@ public class ProjectDetailFragment extends Fragment  implements
     }
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
-        FrameLayout chartView = (FrameLayout) this.getActivity().findViewById(
+        if (this.type!=-1){
+            position=type;
+        }
+        ClickableFrameLayout chartView = (ClickableFrameLayout) this.getActivity().findViewById(
                 R.id.pieChart);
+
         chartView.removeAllViews();
         GraphicalView chart;
 
@@ -290,72 +308,105 @@ public class ProjectDetailFragment extends Fragment  implements
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
 
+
         } else if (position== 3) {
             GraphHelper.LineChartInfo chartInfo = this.projectItem
                     .getEstimateAccuracyInfo();
             chart = GraphHelper.makeLineChart("Accuracy of Estimated Hours", "Milestones", "Ratio of Estimated/Actual",
                     chartInfo, 0, this.projectItem.getMilestones().size(), -5, 5, this.getActivity());
+            for (int i=1; i<this.projectItem.getMilestones().size(); i++) {
+                chartInfo.addNewTick(i + "");
+            }
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
+
         }
         else if (position == 1) { //BDHours
             GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
-            BurndownData burndownData=new BurndownData(this.projectItem);
-            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
+            BurndownData burndownData =projectItem.getBurndownData();
+            List<BurndownData.BurndownPoint> bdPts = burndownData.getBurndownPoints();
 
-            for (int i=0; i<bdPts.size(); i++){
+            for (int i = 0; i < bdPts.size(); i++) {
                 chartInfo.addNewPoint("Estimated Hours Remaining",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getEstimatedHoursRemaining()));
                 chartInfo.addNewPoint("Hours Completed",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getHoursWorked()));
-                chartInfo.addNewTick(((Integer) i).toString());
+
 
             }
-            int totalLoc=(int)chartInfo.getMaxY();
-            int chartMax=(int)1.25*totalLoc;
-            if (chartMax-totalLoc<10){
-                chartMax=totalLoc+10;
+            for (int i = 1; i < projectItem.getMilestones().size(); i++) {
+                chartInfo.addNewTick(i + "");
             }
-            int maxX=bdPts.get(bdPts.size()-1).getX().intValue()+2;
+            int totalLoc = burndownData.getMaxYHours();
+            int chartMax = (int) 1.25 * totalLoc;
+            if (chartMax - totalLoc < 10) {
+                chartMax = totalLoc + 10;
+            }
+            int maxX = bdPts.get(bdPts.size() - 1).getX().intValue() + 2;
 
             chart = GraphHelper.makeLineChart(getString(R.string.burndown),
                     getString(R.string.days), getString(R.string.hours),
-                    chartInfo, 0,maxX , 0, chartMax, this.getActivity());
+                    chartInfo, 0, maxX, 0, chartMax, this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
-        }else if (position == 2) { //BDTasks
-            GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
-            BurndownData burndownData=new BurndownData(this.projectItem);
-            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
+            chartView.setOnClickListener(new ProjectChartOnClickListener(mCallbacks, chartView));
 
-            for (int i=0; i<bdPts.size(); i++){
+        } else if (position == 2) { //BDTasks
+            GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
+            BurndownData burndownData =projectItem.getBurndownData();
+            List<BurndownData.BurndownPoint> bdPts = burndownData.getBurndownPoints();
+
+            for (int i = 0; i < bdPts.size(); i++) {
                 chartInfo.addNewPoint("Tasks Remaining",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksRemaining()));
                 chartInfo.addNewPoint("Tasks Completed",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksDone()));
-                chartInfo.addNewTick(((Integer) i).toString());
+
 
             }
-            int totalLoc=(int)chartInfo.getMaxY();
-            int chartMax=(int)1.25*totalLoc;
-            if (chartMax-totalLoc<10){
-                chartMax=totalLoc+10;
+            for (int i = 1; i < projectItem.getMilestones().size(); i++) {
+                chartInfo.addNewTick(i + "");
             }
-            int maxX=bdPts.get(bdPts.size()-1).getX().intValue()+2;
+            int totalLoc = burndownData.getMaxYTasks();
+            int chartMax = (int) 1.25 * totalLoc;
+            if (chartMax - totalLoc < 5) {
+                chartMax = totalLoc + 5;
+            }
+            int maxX = bdPts.get(bdPts.size() - 1).getX().intValue() + 2;
 
             chart = GraphHelper.makeLineChart(getString(R.string.burndown),
                     getString(R.string.days), getString(R.string.hours),
-                    chartInfo, 0,maxX , 0, chartMax, this.getActivity());
+                    chartInfo, 0, maxX, 0, chartMax, this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
+            chartView.setOnClickListener(new ProjectChartOnClickListener(mCallbacks, chartView));
+
+
         }
+        mCallbacks.setIsProject(true);
+        mCallbacks.setUrl(this.url);
+        mCallbacks.setType(position);
+
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
         // do nothing
     }
-
+    public class ProjectChartOnClickListener implements OnClickListener {
+        Callbacks mCallbacks;
+        FrameLayout chartView;
+        public ProjectChartOnClickListener(Callbacks callbacks, FrameLayout chartView){
+            super();
+            this.mCallbacks=callbacks;
+            this.chartView=chartView;
+        }
+        @Override
+        public void onClick(View view) {
+            this.chartView.removeAllViews();
+            mCallbacks.openChartView(view);
+        }
+    }
 }

@@ -386,7 +386,7 @@ public class TasksAllListFragment extends ListFragment implements OnItemSelected
 
 
     public void onSpinnerHeaderChange(int nu) {
-        Log.i("filter changed", "hi");
+       // Log.i("filter changed", "hi");
         this.allTasksAdapter.changeFilter(nu);
 
     }
@@ -394,7 +394,7 @@ public class TasksAllListFragment extends ListFragment implements OnItemSelected
     public void addTask(Task t) {
         this.tasks.add(t);
         if (t.getStatus().equals(Enums.CLOSED)) {
-            Log.i("CLOSED", t.getName());
+            //Log.i("CLOSED", t.getName());
             this.finishedTasks.add(t);
         } else {
             this.unfinishedTasks.add(t);

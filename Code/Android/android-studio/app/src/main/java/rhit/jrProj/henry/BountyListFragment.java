@@ -212,7 +212,7 @@ public class BountyListFragment extends DataListFragment<Bounty> {
     @Override
     public void onListItemClick(ListView listView, View view, int position,
                                 long id) {
-        Log.i("Selected " + position, "Actual " + (position - 2));
+        //Log.i("Selected " + position, "Actual " + (position - 2));
         super.onListItemClick(listView, view, position - 2, id);
         //selectItem(position);
         // Notify the active callbacks interface (the activity, if the

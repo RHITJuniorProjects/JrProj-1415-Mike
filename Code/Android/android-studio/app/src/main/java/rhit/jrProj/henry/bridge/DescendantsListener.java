@@ -130,7 +130,7 @@ public class DescendantsListener implements ChildEventListener {
         public void onChildAdded(DataSnapshot arg0, String arg1) {
             if (arg0.getKey().equals("tasks")) {
                 for (DataSnapshot child : arg0.getChildren()) {
-                    Log.i("child", child.getKey());
+                    //Log.i("child", child.getKey());
 
 
                     final Task t = new Task(GlobalVariables.getFirebaseUrl() + "projects/" + projectID + "/milestones/" + milestoneID + "/tasks/" + child.getKey());

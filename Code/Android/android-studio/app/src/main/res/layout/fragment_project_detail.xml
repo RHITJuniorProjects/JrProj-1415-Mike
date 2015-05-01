@@ -67,11 +67,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <FrameLayout
+            <rhit.jrProj.henry.ClickableFrameLayout
                 android:id="@+id/pieChart"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" >
-            </FrameLayout>
+                android:layout_height="200dp"
+                android:clickable="true">
+            </rhit.jrProj.henry.ClickableFrameLayout>
 
             <TextView
                 android:id="@+id/project_hours_percent"

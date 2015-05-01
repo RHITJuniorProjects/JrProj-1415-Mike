@@ -82,7 +82,7 @@ public class ProfileActivity extends Activity implements ChangeNotifier {
 
     @Override
     public void onChange() {
-        Log.d("RHH", "onProfileActivityChange!");
+        //Log.d("RHH", "onProfileActivityChange!");
         updateName(mMember.getName());
         updateEmail(mMember.getEmail());
         updatePoints(mMember.getTotalPoints());

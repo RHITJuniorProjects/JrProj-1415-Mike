@@ -43,7 +43,7 @@ public class GlobalVariables extends Application {
     }
 
     public void setFirebaseUrl(String newURL) {
-        Log.i("changing firebase url:", newURL);
+        //Log.i("changing firebase url:", newURL);
         GlobalVariables.firebaseUrl="http://"+newURL+".firebaseio.com/";
     }
 

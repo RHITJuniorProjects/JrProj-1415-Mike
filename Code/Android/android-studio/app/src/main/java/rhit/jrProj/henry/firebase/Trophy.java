@@ -41,7 +41,7 @@ public class Trophy implements Parcelable, ChildEventListener, ChangeNotifiable<
 
     public Trophy(String firebaseURL) {
         mFirebase = new Firebase(firebaseURL);
-        Log.d("RHH", "trophy created at:" + firebaseURL);
+        //Log.d("RHH", "trophy created at:" + firebaseURL);
         mFirebase.addChildEventListener(this);
         this.mCost = 0;
         this.mDescription = "";

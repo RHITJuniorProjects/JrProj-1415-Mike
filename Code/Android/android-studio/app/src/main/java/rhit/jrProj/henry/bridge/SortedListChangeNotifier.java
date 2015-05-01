@@ -61,7 +61,7 @@ public class SortedListChangeNotifier<T> extends ListChangeNotifier<T> {
      * @param sorttype
      */
     public void changeSorting(String sorttype) {
-        Log.i("Changed sorting", sorttype);
+        //Log.i("Changed sorting", sorttype);
         if (!(sorttype.equals(this.sortType))) {
             this.sortType = sorttype;
             createComparator();

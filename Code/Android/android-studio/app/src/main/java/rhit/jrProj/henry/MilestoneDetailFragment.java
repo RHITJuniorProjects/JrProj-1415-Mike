@@ -5,6 +5,7 @@ import org.achartengine.GraphicalView;
 import rhit.jrProj.henry.firebase.BurndownData;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.helpers.GraphHelper;
+import rhit.jrProj.henry.ui.LandscapeFrameLayout;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -35,6 +36,10 @@ public class MilestoneDetailFragment extends Fragment implements
 
     public interface Callbacks {
         public Milestone getSelectedMilestone();
+        public void setIsProject(boolean b);
+        public void setUrl(String url);
+        public void setType(int i);
+        public void openChartView(View v);
     }
 
     /**
@@ -42,12 +47,19 @@ public class MilestoneDetailFragment extends Fragment implements
      */
     private Milestone milestoneItem;
     private Callbacks mCallbacks;
+    private int type=-1;
+    private String url;
+
     private Callbacks sDummyCallbacks = new Callbacks() {
 
         @Override
         public Milestone getSelectedMilestone() {
             return null;
         }
+        public void setIsProject(boolean b){}
+        public void setUrl(String url){}
+        public void setType(int i){}
+        public void openChartView(View v){}
     };
 
     /**
@@ -69,6 +81,8 @@ public class MilestoneDetailFragment extends Fragment implements
         final View rootView = inflater.inflate(
                 R.layout.fragment_milestone_detail, container, false);
         this.milestoneItem = this.mCallbacks.getSelectedMilestone();
+        this.url=GlobalVariables.getFirebaseUrl()+"/projects/"+
+                this.milestoneItem.getParentProjectID()+"/milestones/"+this.milestoneItem.getID();
         if (this.milestoneItem != null) {
             ((TextView) rootView.findViewById(R.id.milestone_name))
                     .setText(this.milestoneItem.getName());
@@ -140,6 +154,9 @@ public class MilestoneDetailFragment extends Fragment implements
                 R.id.pieChart);
         chartView.removeAllViews();
         GraphicalView chart;
+        if (this.type!=-1){
+            position=type;
+        }
         if (position == 0) {
             GraphHelper.PieChartInfo chartInfo = this.milestoneItem
                     .getLocAddedInfo();
@@ -149,6 +166,7 @@ public class MilestoneDetailFragment extends Fragment implements
                     chartInfo.getKeys(), this.getActivity());
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
 
         } else if (position == 1) {
             GraphHelper.StackedBarChartInfo chartInfo = this.milestoneItem
@@ -160,20 +178,21 @@ public class MilestoneDetailFragment extends Fragment implements
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
+
         } else if (position == 2) {//BD hours
             GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
-            BurndownData burndownData=new BurndownData(this.milestoneItem);
-            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
+            BurndownData burndownData =this.milestoneItem.getBurndownData();
+            List<BurndownData.BurndownPoint> bdPts = burndownData.getBurndownPoints();
 
             for (int i=0; i<bdPts.size(); i++){
                 chartInfo.addNewPoint("Estimated Hours Remaining",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getEstimatedHoursRemaining()));
                 chartInfo.addNewPoint("Hours Completed",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getHoursWorked()));
-                chartInfo.addNewTick(((Integer) i).toString());
+                chartInfo.addNewTick(i+"");
 
             }
-            int totalLoc=(int)chartInfo.getMaxY();
+            int totalLoc = burndownData.getMaxYHours();
             int chartMax=(int)1.25*totalLoc;
             if (chartMax-totalLoc<10){
                 chartMax=totalLoc+10;
@@ -186,23 +205,25 @@ public class MilestoneDetailFragment extends Fragment implements
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
+            chartView.setOnClickListener(new ProjectChartOnClickListener(mCallbacks, chartView));
+
         } else if (position == 3) {//BD tasks
             GraphHelper.LineChartInfo chartInfo = new GraphHelper.LineChartInfo();
-            BurndownData burndownData=new BurndownData(this.milestoneItem);
-            List<BurndownData.BurndownPoint> bdPts=burndownData.getBurndownPoints();
+            BurndownData burndownData =this.milestoneItem.getBurndownData();
+            List<BurndownData.BurndownPoint> bdPts = burndownData.getBurndownPoints();
 
             for (int i=0; i<bdPts.size(); i++){
                 chartInfo.addNewPoint("Tasks Remaining",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksRemaining()));
                 chartInfo.addNewPoint("Tasks Completed",
                         new GraphHelper.Point(bdPts.get(i).getX(), bdPts.get(i).getTasksDone()));
-                chartInfo.addNewTick(((Integer) i).toString());
+                chartInfo.addNewTick(i+"");
 
             }
-            int totalLoc=(int)chartInfo.getMaxY();
+            int totalLoc = burndownData.getMaxYHours();
             int chartMax=(int)1.25*totalLoc;
-            if (chartMax-totalLoc<10){
-                chartMax=totalLoc+10;
+            if (chartMax-totalLoc<5){
+                chartMax=totalLoc+5;
             }
 
 
@@ -212,7 +233,14 @@ public class MilestoneDetailFragment extends Fragment implements
             chartView.addView(chart, new LayoutParams(
                     LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             chart.repaint();
+            chartView.setOnClickListener(new ProjectChartOnClickListener(mCallbacks, chartView));
+
         }
+        mCallbacks.setIsProject(false);
+        mCallbacks.setUrl(this.url);
+        mCallbacks.setType(position);
+
+
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -233,6 +261,20 @@ public class MilestoneDetailFragment extends Fragment implements
     public void onDetach() {
         super.onDetach();
         this.mCallbacks = sDummyCallbacks;
+    }
+    public class ProjectChartOnClickListener implements View.OnClickListener {
+        Callbacks mCallbacks;
+        FrameLayout chartView;
+        public ProjectChartOnClickListener(Callbacks callbacks, FrameLayout chartView){
+            super();
+            this.mCallbacks=callbacks;
+            this.chartView=chartView;
+        }
+        @Override
+        public void onClick(View view) {
+            this.chartView.removeAllViews();
+            mCallbacks.openChartView(view);
+        }
     }
 
 }

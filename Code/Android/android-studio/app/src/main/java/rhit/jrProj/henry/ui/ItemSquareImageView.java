@@ -100,7 +100,7 @@ public abstract class ItemSquareImageView<T> extends FrameLayout {
                 InputStream in = new URL(urls[0]).openStream();
                 bitmap = BitmapFactory.decodeStream(in);
             } catch (Exception e) {
-                Log.e("RHH", "Failed to download image");
+                //Log.e("RHH", "Failed to download image");
             }
             return bitmap;
         }
