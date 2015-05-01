@@ -57,7 +57,7 @@
 				</a>
 				</div>
 				<div class="small-2 columns">
-					<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/blob/master/Code/Web/Installers/HenryAndroid.apk?raw=true">
+					<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/blob/master/Code/Web/Installers/henryAndroid.apk?raw=true">
 						<button class="expand">Android Download</button>
 					</a>
 				</div>
