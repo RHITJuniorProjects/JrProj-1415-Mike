@@ -335,7 +335,7 @@
 		
 <div id="milestones-page" hidden>
 	<div class="small-2 columns small-offset-1 tabbar">
-		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#ProjectMilestones">Back to My Projects</a></dd><dd id="MilestoneTab" class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd onclick="$('#myMilestoneModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"><a href="#ProjectMilestones">Add New Milestone</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
+		<dl class="tabs vertical" data-tab><dd onclick="showProjects()"><a href="#ProjectMilestones">Back to My Projects</a></dd><dd id="MilestoneTab" class="active"><a href="#ProjectMilestones">Project Milestones</a></dd><dd onclick="$('#myMilestoneModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"><a href="#ProjectMilestones">Add New Milestone</a></dd><dd onclick="$('#addTrophyModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"><a href="#ProjectMilestones">Add New Trophy</a></dd><dd><a href="#TeamMembers">Team Members</a></dd><dd><a href="#MilestoneStatistics">Milestone Statistics</a></dd></dl>	</div>
 		<div class="small-9 columns main-content">
 			<div class="tabs-content">
 				<div class="content active" id="ProjectMilestones">
@@ -390,6 +390,17 @@
 						<div class="small-12 column">
 							<div id="linesOfCode"></div>
 						</div>
+					</div>
+					<div id="addTrophyModal" class="reveal-modal" data-reveal>
+						<h2>New Trophy</h2><br />
+						<form action="" onsubmit="Trophy.prototype.addTrophy(); return false;">
+							<label for="trophyName">Trophy Name:</label> <input type="text" id="trophyName">
+							<label for="trophyDescription">Description:</label> <input type="text"id="trophyDescription" />
+							<label for="trophyCost">Cost:</label> <input type="text" id="trophyCost" />
+							<label for="trophyImage">Image Url:</label> <input type="text" id="trophyImage">
+							<input type="submit" class="button" id="trophy-submit" value="Add Trophy" />
+							<div id="trophy-error" class="my-error" hidden>All fields must be specified</div>
+						</form>
 					</div>
 					<div class="row" id="burndownchart">
 						<!-- burn down chart inserted by script -->

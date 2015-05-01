@@ -18,7 +18,7 @@
 			<div class="filler">
 			</div>
 			<div id="buttonWrapper">
-				<div class="small-3 columns">
+				<div class="small-2 columns">
 	                <button data-reveal-id="myRegisterModal" class="expand">Register</button>
 	                <div id="myRegisterModal" class="reveal-modal" data-reveal>
 	                    <h2>Register</h2> <br />
@@ -34,7 +34,7 @@
 	                    </form>
 	                </div>
 				</div>
-				<div class="small-3 columns">
+				<div class="small-2 columns">
 					<button data-reveal-id="myLoginModal" class="expand">Login</button>
 	                <div id="myLoginModal" class="reveal-modal" data-reveal>
 	                	<h2>Login</h2> <br />
@@ -46,17 +46,28 @@
 	                     </form>
 	                </div>
 				</div>
-				<div class="small-3 columns">
-					<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/blob/master/Code/Platform/Installer/Windows/Henry_Installer.msi?raw=true">
-					<button class="expand">Download</button>
-				</a>
-				</div>
-				<div class="small-3 columns">
+				<div class="small-2 columns">
 					<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/wiki">
 						<button class="expand">Documentation</button>
 					</a>
 				</div>
-		</div>
+				<div class="small-2 columns">
+					<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/blob/master/Code/Platform/Installer/Windows/Henry_Installer.msi?raw=true">
+					<button class="expand">Henry Installer</button>
+				</a>
+				</div>
+				<div class="small-2 columns">
+					<a href="https://github.com/RHITJuniorProjects/JrProj-1415-Mike/blob/master/Code/Web/Installers/HenryAndroid.apk?raw=true">
+						<button class="expand">Android Download</button>
+					</a>
+				</div>
+				<div class="small-2 columns">
+					<a href=" ">
+						<button class="expand">IOS Download</button>
+					</a>
+				</div>
+				
+			</div>
 		</div>
 		<div class="main-box lightblue">
 			<br/>

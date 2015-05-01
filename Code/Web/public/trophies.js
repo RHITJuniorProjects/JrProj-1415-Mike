@@ -135,27 +135,4 @@ function getTrophies() {
 	});
 
 }
-Trophy.prototype.addTrophy = function(){
-	var trophyName = $("#trophyName").val();
-	var trophyDescription = $("#trophyDescription").val();
-	var trophyCost = $("#trophyCost").val();
-	var trophyImage = $("#trophyImage").val();
-
-	if (!trophyName || !trophyDescription || !trophyCost || !trophyImage) {
-		$("#trophy-error").show();
-		return;
-	} else {
-		$("#trophy-error").hide();
-	}
-
-	var costOfTrophy = Number(trophyCost);
-
-	firebase.child("trophies").push({
-		'cost': trophyCost,
-		'description': description,
-		'image': trophyImage,
-		'name' : trophyName
-	});
-
-}
 

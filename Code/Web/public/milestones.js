@@ -206,3 +206,26 @@ Milestone.prototype.getCharts = function(){
     var pieChart = new PieChart(userNameLOCArray);
     pieChart.create('#linesOfCode','Breakup of Committed Lines of Code for Project');
 };
+
+Milestone.prototype.addCustomTrophy = function(){
+	var trophyName = $("#trophyName").val();
+	var trophyDescription = $("#trophyDescription").val();
+	var trophyCost = $("#trophyCost").val();
+	var trophyImage = $("#trophyImage").val();
+
+	if (!trophyName || !trophyDescription || !trophyCost || !trophyImage) {
+		$("#trophy-error").show();
+		return;
+	} else {
+		$("#trophy-error").hide();
+	}
+
+	var costOfTrophy = Number(trophyCost);
+
+	firebase.child("project"+ selectedProject.uid + "custom_trophies").push({
+		'cost': trophyCost,
+		'description': description,
+		'image': trophyImage,
+		'name' : trophyName
+	});
+}

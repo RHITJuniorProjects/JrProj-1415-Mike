@@ -8,6 +8,7 @@
 					new Tab("Back to My Projects", ["onclick" => "showProjects()"],"#ProjectMilestones"),
 					new Tab("Project Milestones",["id" => "MilestoneTab", "class" => "active"]),
 					new Tab("Add New Milestone",["onclick" => "$('#myMilestoneModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"],"#ProjectMilestones"),
+					new Tab("Add New Trophy",["onclick" => "$('#addTrophyModal').foundation('reveal','open') && setTimeout(function(){ $('#MilestoneTab a').click() });"],"#ProjectMilestones"),
 					new Tab("Team Members"),
 					new Tab("Milestone Statistics")
 				)
@@ -68,6 +69,17 @@
 						<div class="small-12 column">
 							<div id="linesOfCode"></div>
 						</div>
+					</div>
+					<div id="addTrophyModal" class="reveal-modal" data-reveal>
+						<h2>New Trophy</h2><br />
+						<form action="" onsubmit="Trophy.prototype.addTrophy(); return false;">
+							<label for="trophyName">Trophy Name:</label> <input type="text" id="trophyName">
+							<label for="trophyDescription">Description:</label> <input type="text"id="trophyDescription" />
+							<label for="trophyCost">Cost:</label> <input type="text" id="trophyCost" />
+							<label for="trophyImage">Image Url:</label> <input type="text" id="trophyImage">
+							<input type="submit" class="button" id="trophy-submit" value="Add Trophy" />
+							<div id="trophy-error" class="my-error" hidden>All fields must be specified</div>
+						</form>
 					</div>
 					<div class="row" id="burndownchart">
 						<!-- burn down chart inserted by script -->
