@@ -16,7 +16,9 @@
 @property NSMutableArray *memberEmails;
 @property NSMutableArray *memberRoles;
 @property NSMutableArray *memberIds;
-@property Firebase *fb;
+@property NSDictionary* allUsers;
+@property NSDictionary* projectMembers;
+@property HenryFirebase* henryFB;
 @property NSIndexPath *selectedRow;
 @end
 
@@ -28,56 +30,39 @@
 @implementation HenryMemberTableViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.fb = [HenryFirebase getFirebaseObject];
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
+    
+    self.henryFB = [HenryFirebase new];
+    [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+        self.allUsers = usersDictionary;
+        [self.henryFB getMembersOnProjectWithProjectID:self.ProjectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+            self.projectMembers = usersDictionary;
+            [self updateTable];
+        }];
     }];
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.fb removeAllObservers];
+    [self.henryFB removeAllObservers];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Members";
-    
-    self.memberNames = [[NSMutableArray alloc] init];
-    
-    self.fb = [HenryFirebase getFirebaseObject];
-    
-    //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    
-    // Attach a block to read the data at our posts reference
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 
--(void)updateTable:(FDataSnapshot *)snapshot {
+-(void)updateTable {
     @try{
-        NSDictionary *projectMembers = snapshot.value[@"projects"][self.ProjectID][@"members"];
-        NSDictionary *allMembers = snapshot.value[@"users"];
-        NSArray *keys = [projectMembers allKeys];
-        //NSArray *allKeys = [allMembers allKeys];
+        NSArray *keys = [self.projectMembers allKeys];
         
         self.memberNames = [[NSMutableArray alloc] init];
         self.memberEmails = [[NSMutableArray alloc] init];
         self.memberRoles = [[NSMutableArray alloc] init];
         self.memberIds = [[NSMutableArray alloc] init];
         for (NSString *key in keys) {
-            NSString *role = [projectMembers objectForKey:key];
-            NSString *name = [[allMembers objectForKey:key] objectForKey:@"name"];
-            NSString *email = [[allMembers objectForKey:key] objectForKey:@"email"];
+            NSString *role = [self.projectMembers objectForKey:key];
+            NSString *name = [[self.allUsers objectForKey:key] objectForKey:@"name"];
+            NSString *email = [[self.allUsers objectForKey:key] objectForKey:@"email"];
             [self.memberNames addObject:name];
             [self.memberEmails addObject:email];
             [self.memberRoles addObject:role];

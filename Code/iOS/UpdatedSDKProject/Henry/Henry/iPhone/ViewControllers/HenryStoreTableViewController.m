@@ -12,7 +12,7 @@
 #import "TrophyModel.h"
 
 @interface HenryStoreTableViewController ()
-@property HenryFirebase *firebase;
+@property HenryFirebase *henryFB;
 @property NSDictionary *trophies;
 @property NSMutableArray *users;
 @property NSMutableArray *trophykey;
@@ -40,7 +40,7 @@
     self.users = [[NSMutableArray alloc] init];
     self.trophykey = [[NSMutableArray alloc] init];
     self.trophyIndex = 0;
-    self.firebase = [HenryFirebase new];
+    self.henryFB = [HenryFirebase new];
     
     [self updateInfo];
 }
@@ -63,9 +63,9 @@
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         self.navigationItem.title = @"Trophy Store";
         
-        [self.firebase getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
+        [self.henryFB getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
             self.userInfo = [userInfoDictionary mutableCopy];
-            [self.firebase getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+            [self.henryFB getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
                 [self addAvailableTrophiesToTrophyObjectArrayFromDictionary:trophiesDictionary];
                 [self.tableView reloadData];
             }];
@@ -135,7 +135,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
         NSLog(@"Trophy selected: %@", trophyToPurchase.name);
         NSLog(@"Trophy cost: %@", trophyToPurchase.cost);
         
-        [self.firebase purchaseTrophyWithTrophyModel:trophyToPurchase withUserId:self.userid withOldAvailablePoints: self.availablePoints];
+        [self.henryFB purchaseTrophyWithTrophyModel:trophyToPurchase withUserId:self.userid withOldAvailablePoints: self.availablePoints];
         [self.tableView reloadData];
     }
 }

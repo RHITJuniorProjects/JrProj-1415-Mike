@@ -13,7 +13,6 @@
 #import "TaskModel.h"
 #import "HenryFirebase.h"
 @interface HenryAssignDevsTableViewController ()
-@property Firebase* fb;
 @property HenryFirebase* henryFB;
 @property UITableViewCell *previouslySelected; 
 @property NSInteger selectedIndex;
@@ -30,12 +29,10 @@
     if(self.hasClicked){
         UserModel* selectedUser = [self.developerObjects objectAtIndex:self.selectedIndex];
         self.detailView.statusButton.titleLabel.text = selectedUser.name;
-        NSDictionary *newValue = @{@"assignedTo":selectedUser.key};
         
-        self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",self.ProjectID, self.MilestoneID, self.taskID] ];
-        [self.fb updateChildValues:newValue];
+        [self.henryFB assignMemberToTaskWithTaskKey:self.taskID UserKey:selectedUser.key ProjectKey:self.projectID MilestoneKey:self.milestoneID];
     }
-        [self.fb removeAllObservers];
+        [self.henryFB removeAllObservers];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -45,8 +42,6 @@
     
 }
 -(void)viewWillAppear:(BOOL)animated{
-    self.fb = [HenryFirebase getFirebaseObject];
-    
     [self updateTableFromFirebase];
 }
 
@@ -55,7 +50,6 @@
     [super viewDidLoad];
     
     self.firstTime = YES;
-    self.fb = [HenryFirebase getFirebaseObject];
     self.henryFB = [HenryFirebase new];
     self.hasClicked = NO;
     //[UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -63,7 +57,6 @@
     // Attach a block to read the data at our posts reference
     [self updateTableFromFirebase];
     
-    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.ProjectID, self.MilestoneID, self.taskID]];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -100,7 +93,7 @@
 
         [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
             self.allDevs = usersDictionary;
-            [self.henryFB getMembersOnProjectWithProjectID:self.ProjectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+            [self.henryFB getMembersOnProjectWithProjectID:self.projectID withBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
                 [self updateTableWithAvailableDevsFromDictionary:usersDictionary];
             }];
         }];

@@ -14,7 +14,8 @@
 #import "UserModel.h"
 
 typedef void(^ProjectCallback)(NSDictionary *projectsDictionary,BOOL success, NSError *error);
-typedef void(^MilestoneCallback)(NSDictionary *milestonesDictionary,BOOL success, NSError *error);
+typedef void(^MilestonesCallback)(NSDictionary *milestonesDictionary,BOOL success, NSError *error);
+typedef void(^MilestoneCallback)(NSDictionary *milestoneDictionary,BOOL success, NSError *error);
 typedef void(^TasksForMilestoneCallback)(NSDictionary *tasksDictionary,BOOL success, NSError *error);
 typedef void(^TrophiesCallback)(NSDictionary *trophiesDictionary,BOOL success, NSError *error);
 typedef void(^BountiesCallback)(NSDictionary *bountysDictionary,BOOL success, NSError *error);
@@ -29,8 +30,10 @@ typedef void(^UsersCallback)(NSDictionary *usersDictionary,BOOL success, NSError
 +(void)setFirebaseReadingObjectTo: (Firebase*) fb;
 - (void) updateDataSnapshot;
 - (void) getAllProjectsWithBlock:(ProjectCallback) completionBlock;
-- (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestoneCallback) completionBlock;
-- (void) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(TasksForMilestoneCallback) completionBlock;
+- (void) getProjectsUserIsOnWithUserKey: (NSString*) userId withBlock:(ProjectCallback) completionBlock;
+- (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestonesCallback) completionBlock;
+- (void) getMilestoneWithMilestoneKey:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(MilestoneCallback) completionBlock;
+- (void) getTasksWithMilestoneKey:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(TasksForMilestoneCallback) completionBlock;
 - (void) getAllTrophiesWithBlock: (TrophiesCallback) completionBlock;
 - (void) getUserInfoWithUserId: (NSString*) userid withBlock: (UserInfoCallback) completionBlock;
 - (void) getAllUsersWithBlock: (UsersCallback) completionBlock;
@@ -39,8 +42,10 @@ typedef void(^UsersCallback)(NSDictionary *usersDictionary,BOOL success, NSError
 
 - (void) purchaseTrophyWithTrophyModel: (TrophyModel*) trophy withUserId: (NSString*) userid withOldAvailablePoints: (NSNumber*) oldAvailPoints;
 - (void) assignMemberToTaskWithTaskKey: (NSString*) taskId UserKey: (NSString*) userId ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId;
-
-
+- (void) assignStatusToTaskWithTaskKey: (NSString*) taskId StatusKey: (NSString*) statusId ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId;
+- (void) createBountyWithName: (NSString*) name DueDate: (NSString*) dueDate HourLimit: (id) hourLimit LineLimit: (id) lineLimit PointValue: (NSNumber*) pointValue ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId TaskKey: (NSString*)taskId;
+- (void) createMilestoneWithName: (NSString*) name Description: (NSString*) description DueDate: (NSString*) dueDate OnProjectWithProjectKey: (NSString*) projectId;
+- (void) updateTimeEstimateOnTaskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId newTimeEstimate: (NSNumber*) newTimeEstimate;
     
 // Never implemented, so this signature will change
 - (void) getBounties:(NSString*) taskId;

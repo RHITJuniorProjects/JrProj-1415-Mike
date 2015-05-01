@@ -12,7 +12,7 @@
 #import "HenryFirebase.h"
 
 @interface HenryLeaderboardTableViewController ()
-@property Firebase *fb;
+@property HenryFirebase* henryFB;
 @property NSString *uid;
 @property NSDictionary *users;
 @property NSMutableArray *top25;
@@ -22,7 +22,7 @@
 @end
 
 @implementation HenryLeaderboardTableViewController
-@synthesize leaderboardSegmentedControl;
+@synthesize pointsOrTrophiesSegControlOutlet;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,19 +36,16 @@
     self.top25Trophies = [[NSMutableArray alloc] init];
     self.users = [[NSDictionary alloc] init];
     
-    self.fb = [HenryFirebase getFirebaseObject];
-    self.fb = [self.fb childByAppendingPath:@"/users"];
+    self.henryFB = [HenryFirebase new];
     
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateTable:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
+    [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
+        self.users = usersDictionary;
+        [self updateTable];
     }];
 }
 
 
--(void)updateTable:(FDataSnapshot *)snapshot {
-    self.users = snapshot.value;
+-(void)updateTable {
     NSMutableArray *ids = [NSMutableArray arrayWithArray:[self.users allKeys]];
     NSMutableArray *idT = [NSMutableArray arrayWithArray:[self.users allKeys]];
     long points = 0;
@@ -111,7 +108,7 @@
         cell.pointsLabel.font = [UIFont boldSystemFontOfSize:17];
         cell.nameLabel.text = [[self.users valueForKey:self.uid] valueForKey:@"name"];
         cell.rankLabel.text = @"";
-        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+        if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
             cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] count]-([[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
         } else {
         cell.pointsLabel.text = [[[self.users valueForKey:self.uid] valueForKey:@"total_points"] stringValue];
@@ -120,7 +117,7 @@
         
         BOOL userRow = false;
         cell.rankLabel.text = [NSString stringWithFormat:@"%i.", (int)indexPath.row];
-        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+        if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
             userRow = [self.top25Trophies[indexPath.row-1] isEqualToString:self.uid];
             cell.nameLabel.text = [[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"name"];
             cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] count]- ([[[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
@@ -216,7 +213,7 @@
         NSLog(@"%@",self.top25[2]);
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         HenryUsersProfileViewController *vc = [segue destinationViewController];
-         if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+         if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
              vc.upid =[self.top25Trophies objectAtIndex:indexPath.row-1];
              vc.profile = [self.users valueForKey:[self.top25Trophies objectAtIndex:indexPath.row-1]];
          } else {

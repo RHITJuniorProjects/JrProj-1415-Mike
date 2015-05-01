@@ -94,7 +94,17 @@ Firebase *writeToFB;
     }];
 }
 
-- (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestoneCallback) completionBlock {
+- (void) getProjectsUserIsOnWithUserKey: (NSString*) userId withBlock:(ProjectCallback) completionBlock;
+{
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *projects = snapshot.value[@"users"][userId][@"projects"];
+        completionBlock(projects, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
+}
+
+- (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestonesCallback) completionBlock {
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSDictionary *milestones = snapshot.value[@"projects"][projectId][@"milestones"];
         completionBlock(milestones, YES, nil);
@@ -103,9 +113,20 @@ Firebase *writeToFB;
     }];
 }
 
-- (void) getTasksForMilestone:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(TasksForMilestoneCallback) completionBlock {
+- (void) getMilestoneWithMilestoneKey:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(MilestoneCallback) completionBlock;
+{
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSDictionary *tasks = snapshot.value[@"projects"][projectId][@"milestones"][milestoneId];
+        completionBlock(tasks, YES, nil);
+    } withCancelBlock:^(NSError *error) {
+        completionBlock(nil,NO,error);
+    }];
+}
+
+- (void) getTasksWithMilestoneKey:(NSString*) milestoneId projectId:(NSString*) projectId withBlock:(TasksForMilestoneCallback) completionBlock;
+{
+    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSDictionary *tasks = snapshot.value[@"projects"][projectId][@"milestones"][milestoneId][@"tasks"];
         completionBlock(tasks, YES, nil);
     } withCancelBlock:^(NSError *error) {
         completionBlock(nil,NO,error);
@@ -197,13 +218,67 @@ Firebase *writeToFB;
     NSLog(@"DaNew Available POints: %@", newAvailPointString);
     [writeToFB setValue:newAvailablePoints];
 }
+
 - (void) assignMemberToTaskWithTaskKey: (NSString*) taskId UserKey: (NSString*) userId ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId;
 {
+    NSDictionary *newValue = @{@"assignedTo":userId};
     writeToFB = [HenryFirebase getFirebaseObject];
     writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"/projects/%@/milestones/%@/tasks/%@",projectId, milestoneId, taskId]];
-    NSDictionary *newValue = @{@"assignedTo":userId};
     [writeToFB updateChildValues:newValue];
     
+}
+
+- (void) assignStatusToTaskWithTaskKey: (NSString*) taskId StatusKey: (NSString*) statusId ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId;
+{
+    NSDictionary* newValue = @{@"status":statusId};
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", projectId, milestoneId, taskId]];
+    [writeToFB updateChildValues:newValue];
+}
+
+- (void) createBountyWithName: (NSString*) name DueDate: (NSString*) dueDate HourLimit: (id) hourLimit LineLimit: (id) lineLimit PointValue: (NSNumber*) pointValue ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId TaskKey: (NSString*)taskId;
+{
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@/bounties/", projectId, milestoneId, taskId]];
+    writeToFB = [writeToFB childByAutoId];
+    
+    NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
+    [newData setObject:@"None" forKey:@"claimed"];
+    [newData setObject:@"None" forKey:@"description"];
+    [newData setObject:pointValue forKey:@"points"];
+    [newData setObject:name forKey:@"name"];
+    [newData setObject:dueDate forKey:@"due_date"];
+    [newData setObject:hourLimit forKey:@"hour_limit"];
+    [newData setObject:lineLimit forKey:@"line_limit"];
+    [writeToFB setValue: newData];
+}
+
+- (void) createMilestoneWithName: (NSString*) name Description: (NSString*) description DueDate: (NSString*) dueDate OnProjectWithProjectKey: (NSString*) projectId;
+{
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones", projectId]];
+    writeToFB = [writeToFB childByAutoId];
+    
+    NSDictionary *milestone = @{
+                                @"name": name,
+                                @"description": description,
+                                @"due_date": dueDate
+                                };
+    [writeToFB setValue:milestone];
+}
+
+- (void) updateTimeEstimateOnTaskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId newTimeEstimate: (NSNumber*) newTimeEstimate;
+{
+    NSDictionary* newValue = @{@"updated_time_estimate":newTimeEstimate};
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", projectId, milestoneId, taskId]];
+    [writeToFB updateChildValues:newValue];
+}
+
+- (void) removeAllObservers;
+{
+    [henryFB removeAllObservers];
+    [writeToFB removeAllObservers];
 }
 
 // This was never implemented, so that needs to happen

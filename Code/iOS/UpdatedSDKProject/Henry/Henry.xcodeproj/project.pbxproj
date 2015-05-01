@@ -60,7 +60,6 @@
 		E196C0CE1ACC6C7E0094B89C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E196C0CD1ACC6C7E0094B89C /* Images.xcassets */; };
 		E196C0DD1ACC6D130094B89C /* HenryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0D81ACC6D130094B89C /* HenryTests.m */; };
 		E196C0DE1ACC6D130094B89C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E196C0DA1ACC6D130094B89C /* InfoPlist.strings */; };
-		E196C0DF1ACC6D130094B89C /* HenryTests-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E196C0DC1ACC6D130094B89C /* HenryTests-Info.plist */; };
 		E196C0E41ACC6E230094B89C /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0E31ACC6E230094B89C /* SystemConfiguration.framework */; };
 		E196C0E61ACC6E310094B89C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0E51ACC6E310094B89C /* Security.framework */; };
 		E196C0E81ACC6E4A0094B89C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0E71ACC6E4A0094B89C /* Foundation.framework */; };
@@ -69,7 +68,6 @@
 		E196C0EE1ACC6E7D0094B89C /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0ED1ACC6E7D0094B89C /* libicucore.dylib */; };
 		E196C0F01ACC6E8B0094B89C /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0EF1ACC6E8B0094B89C /* libc++.dylib */; };
 		E196C0F21ACC6E950094B89C /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0F11ACC6E950094B89C /* CFNetwork.framework */; };
-		E196C0F41ACC83020094B89C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E196C0F31ACC83020094B89C /* Info.plist */; };
 		E196C0F61ACC850C0094B89C /* libOCMock.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0131ACC6B320094B89C /* libOCMock.a */; };
 		E196C1051ACC87D00094B89C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C1041ACC87D00094B89C /* LoginViewController.m */; };
 /* End PBXBuildFile section */
@@ -595,7 +593,7 @@
 		E196BF6D1ACC5D030094B89C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0620;
+				LastUpgradeCheck = 0630;
 				ORGANIZATIONNAME = "Rose-Hulman";
 				TargetAttributes = {
 					E196BF741ACC5D030094B89C = {
@@ -637,7 +635,6 @@
 				E196C0A71ACC6C2E0094B89C /* iPhoneStoryboard.storyboard in Resources */,
 				E196C00D1ACC6AF30094B89C /* InfoPlist.strings in Resources */,
 				E196C0A31ACC6C2E0094B89C /* iPadStoryboard.storyboard in Resources */,
-				E196C0F41ACC83020094B89C /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,7 +643,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E196C0DE1ACC6D130094B89C /* InfoPlist.strings in Resources */,
-				E196C0DF1ACC6D130094B89C /* HenryTests-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,10 +7,12 @@
 //
 
 #import "HenryCreateBountyViewController.h"
+#import "HenryFirebase.h"
 
 @interface HenryCreateBountyViewController ()
 
 @property NSArray *titles;
+@property HenryFirebase* henryFB;
 
 @end
 
@@ -20,6 +22,7 @@
     [super viewDidLoad];
     
     self.titles = [[NSArray alloc] initWithObjects: @"Completion", @"Complete before: date", @"Complete Within: x hours", @"Write X or more lines", nil];
+    self.henryFB = [HenryFirebase new];
 }
 
 -(NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
@@ -52,52 +55,37 @@
 - (IBAction)ComfirmationButton:(id)sender {
 //    {"bounty 1":{"claimed":"None","description":"Complete this task by 2015-01-31","due_date":"2015-01-31","hour_limit":"None","line_limit":"None","name":"Done by end of January","points":8}}
     
-    NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
-    [newData setObject:@"None" forKey:@"claimed"];
-    [newData setObject:@"None" forKey:@"description"];
+//    NSMutableDictionary *newData = [[NSMutableDictionary alloc] init];
+//    [newData setObject:@"None" forKey:@"claimed"];
+//    [newData setObject:@"None" forKey:@"description"];
     
     NSString *fieldText2 = self.PointsField.text;
     double number2 = [fieldText2 doubleValue];
-    
-    [newData setObject:[[NSNumber alloc] initWithDouble:number2] forKey:@"points"];
+    NSNumber* pointValue = [[NSNumber alloc] initWithDouble:number2];
     
     NSUInteger selectedRow = [self.ConditionPicker selectedRowInComponent:0];
     
     NSString *fieldText = self.MutatableField.text;
     double number = [fieldText doubleValue];
     
+    
     if (selectedRow == 0) {
         // Completion Bounty
-        [newData setObject:@"Completion" forKey:@"name"];
-        [newData setObject:@"No Due Date" forKey:@"due_date"];
-        [newData setObject:@"None" forKey:@"hour_limit"];
-        [newData setObject:@"None" forKey:@"line_limit"];
+        [self.henryFB createBountyWithName:@"Completion" DueDate:@"No Due Date" HourLimit:@"None" LineLimit:@"None" PointValue:pointValue ProjectKey:self.projectId MilestoneKey:self.milestoneId TaskKey:self.taskId];
     } else if (selectedRow == 1) {
         // Date Bounty
-        [newData setObject:@"Date" forKey:@"name"];
-        
         NSDate *date = self.DatePicker.date;
         NSDateFormatter *df = [[NSDateFormatter alloc] init];
         [df setDateFormat:@"yyyy-MM-dd"];
         
-        [newData setObject:[df stringFromDate:date] forKey:@"due_date"];
-        [newData setObject:@"None" forKey:@"hour_limit"];
-        [newData setObject:@"None" forKey:@"line_limit"];
+        [self.henryFB createBountyWithName:@"Date" DueDate:[df stringFromDate:date] HourLimit:@"None" LineLimit:@"None" PointValue:pointValue ProjectKey:self.projectId MilestoneKey:self.milestoneId TaskKey:self.taskId];
     } else if (selectedRow == 2) {
         // Hours Bonty
-        [newData setObject:@"Hours" forKey:@"name"];
-        [newData setObject:@"No Due Date" forKey:@"due_date"];
-        [newData setObject:[[NSNumber alloc] initWithDouble:number] forKey:@"hour_limit"];
-        [newData setObject:@"None" forKey:@"line_limit"];
+        [self.henryFB createBountyWithName:@"Hours" DueDate:@"No Due Date" HourLimit:[[NSNumber alloc] initWithDouble:number] LineLimit:@"None" PointValue:pointValue ProjectKey:self.projectId MilestoneKey:self.milestoneId TaskKey:self.taskId];
     } else {
         // Min Lines Bounty
-        [newData setObject:@"Lines" forKey:@"name"];
-        [newData setObject:@"No Due Date" forKey:@"due_date"];
-        [newData setObject:@"None" forKey:@"hour_limit"];
-        [newData setObject:[[NSNumber alloc] initWithDouble:number] forKey:@"line_limit"];
+        [self.henryFB createBountyWithName:@"Lines" DueDate:@"No Due Date" HourLimit:@"None" LineLimit:[[NSNumber alloc] initWithDouble:number] PointValue:pointValue ProjectKey:self.projectId MilestoneKey:self.milestoneId TaskKey:self.taskId];
     }
-    
-    [self.fb setValue:newData];
     
     [self dismissViewControllerAnimated:YES completion:nil];
     
