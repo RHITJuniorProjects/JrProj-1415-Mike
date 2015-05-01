@@ -2,7 +2,7 @@ function userLeaderboard(){
 	console.log("userLeaderboard called");
 	var pointsArray = [];
 	var arr = [];
-	// console.log("here");
+
 	firebase.child("users").on('value', function(snapshot) {
 		var users = snapshot.val();
 		for(var id in users){
@@ -14,6 +14,7 @@ function userLeaderboard(){
 				var val = new Trophy(snap.ref());
 				userTrophies[userTrophies.length] = val;
 			});
+
 			var trophy = userTrophies[userTrophies.length-1];
 			var image = "";
 			firebase.child("trophies/" + trophy.uid + "/image").on('value', function(snap) {
@@ -21,27 +22,27 @@ function userLeaderboard(){
 			});
 			pointsArray.push(name);
 			if(points != null){
-			pointsArray.push(points);
-			} else {
+				pointsArray.push(points);
+			}
+			else {
 				pointsArray.push(0);
 			}
 			if(image != null) {
-			pointsArray.push(image);
-			} else {
+				pointsArray.push(image);
+			}
+			else {
 				pointsArray.push("");
 			}
 			arr.push(pointsArray);
 			pointsArray = [];
-			
 			 
-		} 
+		}
 		
 	});
+
 	arr.sort(function(a,b) {return b[1] - a[1]});
-	// console.log(arr);
 	$('#' + 0).html('Current User');
 	user.getName(function(name){
-		//console.log(name);
 		$('#name' + 0).html(name);
 	});
 
@@ -52,31 +53,40 @@ function userLeaderboard(){
 	user.getTopTrophy(function (trophy) {
 		var tempTrophy = userTrophies[userTrophies.length-1];
 		if(tempTrophy != null) {
-		var trophyUID = tempTrophy.uid;
-		firebase.child("trophies/" + trophyUID + "/image").on('value', function(snap) {
+			var trophyUID = tempTrophy.uid;
+			firebase.child("trophies/" + trophyUID + "/image").on('value', function(snap) {
 				image = snap.val();
 				if(image != null) {
 					$('#topTrophy' + 0).html("<img src=" + image + " height=42 width=42>");
 				}
-		});
-	}
+			});
+		}
 	});
 	
-	$('#pointValue' + 0).html(0);
-	var i =1;
+	var i = 0;
+	$('#boardCurrentUser').nextAll().remove();	//clear board to repopulate
 	for(var element in arr) {
-		// console.log(element);
-		$('#' + i).html(i);
-		$('#name' + i).html(arr[i-1][0]);
-		$('#pointValue' + i).html(arr[i-1][1]);
-		if(arr[i-1][2] != "") {
-		$('#topTrophy' + i).html("<img src=" + arr[i-1][2] + " height=42 width=42>");
-		}
 		i++;
+		if(i > $('input[name=boardLimit]:checked', '#limitForm').val()) break;
+
+		var row = $('<tr>').attr('id', 'place' + i);
+		var rank = $('<td>').attr('id', i).html(i);
+		var name = $('<td>').attr('id', 'name' + i).html(arr[i - 1][0]);
+		var pts = $('<td>').attr('id', 'pointValue' + i).html(arr[i - 1][1]);
+		var trophy = $('<td>').attr('id', 'topTrophy' + i);
+
+		// rank.html(i);
+		// name.html(arr[i - 1][0]);
+		// pts.html(arr[i - 1][1]);
+		if(arr[i - 1][2] != "") {
+			trophy.html("<img src=" + arr[i - 1][2] + " height=42 width=42>");
+		}
+
+		row.append(rank).append(name).append(pts).append(trophy);
+		$('#leaderTable').append(row);
 	}
 
 };
-
 
 // Adds the currently member selected in the "Add member" modal to the project
 function addNewMember() {

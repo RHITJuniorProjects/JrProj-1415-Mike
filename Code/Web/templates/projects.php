@@ -116,32 +116,28 @@
 						<div class="row">
 							<div class="small-12 columns">
 								<div>
-								<table>
-									<tr>
-										<td> Place</td>
-										<td> Name</td>
-										<td> Points</td>
-										<td> Top Trophy</td>
-									</tr>
-									<tr id = "currentUser">
-										<td id = "0"></td>
-										<td id = "name0"></td>
-										<td id = "pointValue0"></td>
-										<td id = "topTrophy0"></td>
-									</tr>
-									<?php
-										for($i = 1; $i < 26; $i++) {
-									?>
-											<tr id="place<?php echo $i; ?>">
-												<td id="<?php echo $i; ?>"></td>
-												<td id="name<?php echo $i; ?>"></td>
-												<td id="pointValue<?php echo $i; ?>"></td>
-												<td id="topTrophy<?php echo $i; ?>"></td>
-											</tr>
-									<?php		
-										}
-									?>
-								</table>
+									<form id="limitForm">
+										<span>
+											Choose number of users to display:&nbsp;
+											<label style="display:inline"><input type="radio" name="boardLimit" value="10" checked>10</label>
+											<label style="display:inline"><input type="radio" name="boardLimit" value="25">25</label>
+											<label style="display:inline"><input type="radio" name="boardLimit" value="50">50</label>
+										</span>
+									</form>
+									<table id="leaderTable">
+										<tr>
+											<td> Place</td>
+											<td> Name</td>
+											<td> Points</td>
+											<td> Top Trophy</td>
+										</tr>
+										<tr id = "boardCurrentUser">
+											<td id = "0"></td>
+											<td id = "name0"></td>
+											<td id = "pointValue0"></td>
+											<td id = "topTrophy0"></td>
+										</tr>
+									</table>
 								</div>
 							</div>
 						</div>

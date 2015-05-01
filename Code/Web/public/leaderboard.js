@@ -32,13 +32,18 @@ function userLeaderboard(){
 	});
 
 	$('#pointValue' + 0).html(0);
-	var i =1;
+	var i = 1;
 	for(var element in arr){
 		// console.log(element);
 		$('#' + i).html(i);
-		$('#name' + i).html(arr[i-1][0]);
-		$('#pointValue' + i).html(arr[i-1][1]);
+		$('#name' + i).html(arr[i - 1][0]);
+		$('#pointValue' + i).html(arr[i - 1][1]);
 		i++;
+		if(i > $('input[name=boardLimit]:checked', '#limitForm').val()) {
+			console.log("break at: " + i);
+			break;
+		}
+		else console.log("keep going: " + i);
 	}
 
 };

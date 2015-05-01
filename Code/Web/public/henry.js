@@ -426,4 +426,8 @@ $(function(){
 			$('.gamification').hide();
 		}
 	});
+
+	$('#limitForm input').on('change', function() {
+		userLeaderboard();
+	});
 });
