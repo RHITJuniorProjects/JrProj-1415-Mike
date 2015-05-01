@@ -17,7 +17,8 @@
 @property NSDictionary *users;
 @property NSMutableArray *top25;
 @property NSMutableArray *top25Trophies;
-@property NSDictionary *trophies;
+@property NSDictionary *systemTrophies;
+
 @property NSInteger numUsersToDisplay;
 
 @end
@@ -36,19 +37,22 @@
     self.top25 = [[NSMutableArray alloc] init];
     self.top25Trophies = [[NSMutableArray alloc] init];
     self.users = [[NSDictionary alloc] init];
-    self.trophies = [[NSDictionary alloc] init];
-    self.fb = [HenryFirebase getFirebaseObject];
+    self.systemTrophies = [[NSDictionary alloc] init];
+    
+    self.henryFB = [HenryFirebase new];
     
     [self.henryFB getAllUsersWithBlock:^(NSDictionary *usersDictionary, BOOL success, NSError *error) {
         self.users = usersDictionary;
-        [self updateTable];
+        [self.henryFB getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+            self.systemTrophies = trophiesDictionary;
+            [self updateTable];
+        }];
+        
     }];
 }
 
 
--(void)updateTable:(FDataSnapshot *)snapshot {
-    self.users = [snapshot.value valueForKey:@"users"];
-    self.trophies = [snapshot.value valueForKey:@"trophies"];
+-(void)updateTable {
     NSMutableArray *ids = [NSMutableArray arrayWithArray:[self.users allKeys]];
     NSMutableArray *idT = [NSMutableArray arrayWithArray:[self.users allKeys]];
     long points = 0;
@@ -114,16 +118,16 @@
         NSArray *trophies = [[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys];
         NSString *trophy = [trophies objectAtIndex:0];
         if(![trophy isEqualToString:@"placeholder"]){
-        NSString *imageURL = [[self.trophies valueForKey:trophy] valueForKey:@"image"];
-        NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageURL]];
-          
-                // WARNING: is the cell still using the same data by this point??
-        cell.image.image = [UIImage imageWithData: data];
+            NSString *imageURL = [[self.systemTrophies valueForKey:trophy] valueForKey:@"image"];
+            NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageURL]];
+            
+            // WARNING: is the cell still using the same data by this point??
+            cell.image.image = [UIImage imageWithData: data];
         }
-        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+        if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
             cell.pointsLabel.text = [NSString stringWithFormat:@"%i", (int)[[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] count]-([[[[self.users valueForKey:self.uid] valueForKey:@"trophies"] allKeys] containsObject:@"placeholder"]? 1:0)];
         } else {
-        cell.pointsLabel.text = [[[self.users valueForKey:self.uid] valueForKey:@"total_points"] stringValue];
+            cell.pointsLabel.text = [[[self.users valueForKey:self.uid] valueForKey:@"total_points"] stringValue];
         }
     } else {
         
@@ -136,38 +140,38 @@
             NSArray *trophies = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"trophies"] allKeys];
             NSString *trophy = [trophies objectAtIndex:0];
             if(![trophy isEqualToString:@"placeholder"]){
-                NSString *imageURL = [[self.trophies valueForKey:trophy] valueForKey:@"image"];
+                NSString *imageURL = [[self.systemTrophies valueForKey:trophy] valueForKey:@"image"];
                 NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageURL]];
                 
                 // WARNING: is the cell still using the same data by this point??
                 cell.image.image = [UIImage imageWithData: data];
             }
-
             if (![[[self.users valueForKey:self.top25Trophies[indexPath.row-1]] allKeys] containsObject:@"trophies"]) {
                 cell.pointsLabel.text = @"0";
             }
-
+            
         } else {
             userRow = [self.top25[indexPath.row-1] isEqualToString:self.uid];
-        cell.nameLabel.text = [[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"name"];
-        cell.pointsLabel.text = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"total_points"] stringValue];
+            cell.nameLabel.text = [[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"name"];
+            cell.pointsLabel.text = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"total_points"] stringValue];
             NSArray *trophies = [[[self.users valueForKey:self.top25[indexPath.row-1]] valueForKey:@"trophies"] allKeys];
             NSString *trophy = [trophies objectAtIndex:0];
             if(![trophy isEqualToString:@"placeholder"]){
-                NSString *imageURL = [[self.trophies valueForKey:trophy] valueForKey:@"image"];
+                NSString *imageURL = [[self.systemTrophies valueForKey:trophy] valueForKey:@"image"];
                 NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: imageURL]];
                 
                 // WARNING: is the cell still using the same data by this point??
                 cell.image.image = [UIImage imageWithData: data];
             }
-        if (![[[self.users valueForKey:self.top25[indexPath.row-1]] allKeys] containsObject:@"total_points"]) {
-            cell.pointsLabel.text = @"0";
-        }
+            
+            if (![[[self.users valueForKey:self.top25[indexPath.row-1]] allKeys] containsObject:@"total_points"]) {
+                cell.pointsLabel.text = @"0";
+            }
         }
         
-//        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
-//            cell.pointsLabel.text = @"0";
-//        }
+        //        if (leaderboardSegmentedControl.selectedSegmentIndex == 1) {
+        //            cell.pointsLabel.text = @"0";
+        //        }
         if (userRow) {
             cell.backgroundColor = [UIColor lightGrayColor];
         } else {
@@ -199,7 +203,7 @@
             break;
     }
     [self.tableView reloadData];
-
+    
 }
 
 - (IBAction)pointsOrTrophiesSegControlClicked:(id)sender {
@@ -215,17 +219,17 @@
                 
                 //Segment 2 is Trophies
             case 1:
-                 [self.tableView reloadData];
-//                @try{
-//                    NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"total_points" ascending:NO];
-//                    [self.top25 sortUsingDescriptors:[NSArray arrayWithObject:sort2]];
-//                    [self.tableView reloadData];
-//                }@catch(NSException *exception){
-//                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-//                    [alert show];
-//                    exit(0);
-//                    
-//                }
+                [self.tableView reloadData];
+                //                @try{
+                //                    NSSortDescriptor *sort2 = [NSSortDescriptor sortDescriptorWithKey:@"total_points" ascending:NO];
+                //                    [self.top25 sortUsingDescriptors:[NSArray arrayWithObject:sort2]];
+                //                    [self.tableView reloadData];
+                //                }@catch(NSException *exception){
+                //                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+                //                    [alert show];
+                //                    exit(0);
+                //
+                //                }
                 break;
         }
     }
@@ -243,13 +247,13 @@
         NSLog(@"%@",self.top25[2]);
         NSIndexPath *indexPath = [self.tableView indexPathForCell:sender];
         HenryUsersProfileViewController *vc = [segue destinationViewController];
-         if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
-             vc.upid =[self.top25Trophies objectAtIndex:indexPath.row-1];
-             vc.profile = [self.users valueForKey:[self.top25Trophies objectAtIndex:indexPath.row-1]];
-         } else {
-             vc.upid = [self.top25 objectAtIndex:indexPath.row-1];
-             vc.profile = [self.users valueForKey:[self.top25 objectAtIndex:indexPath.row-1]];
-         }
+        if (pointsOrTrophiesSegControlOutlet.selectedSegmentIndex == 1) {
+            vc.upid =[self.top25Trophies objectAtIndex:indexPath.row-1];
+            vc.profile = [self.users valueForKey:[self.top25Trophies objectAtIndex:indexPath.row-1]];
+        } else {
+            vc.upid = [self.top25 objectAtIndex:indexPath.row-1];
+            vc.profile = [self.users valueForKey:[self.top25 objectAtIndex:indexPath.row-1]];
+        }
         
     }
     @catch (NSException *exception) {
@@ -257,7 +261,7 @@
         [alert show];
         exit(0);
     }
-
+    
     
 }
 
@@ -272,6 +276,6 @@
         exit(0);
         
     }
-
+    
 }
 @end
