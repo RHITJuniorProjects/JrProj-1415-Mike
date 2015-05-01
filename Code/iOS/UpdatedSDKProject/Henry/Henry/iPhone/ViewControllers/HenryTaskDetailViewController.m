@@ -9,14 +9,13 @@
 #define kOFFSET_FOR_KEYBOARD 80.0
 
 #import "HenryTaskDetailViewController.h"
-#import "HenryTaskStatusTableViewController.h"
+#import "HenryTaskCategoryTableViewController.h"
 #import "HenryFirebase.h"
 #import "HenryAssignDevsTableViewController.h"
 #import "HenryCreateBountyViewController.h"
 #import "HenryCategoryTableViewController.h"
 
 @interface HenryTaskDetailViewController ()
-//@property Firebase *fb;
 @property HenryFirebase* henryFB;
 @property double originalTimeEstimate;
 @property double currentTimeEstimate;
@@ -29,9 +28,6 @@
 - (void)viewDidLoad {
     @try{
         [super viewDidLoad];
-        
-        // Do any additional setup after loading the view.
-        //        self.fb = [HenryFirebase getFirebaseObject];
         self.henryFB = [HenryFirebase new];
         
     }@catch(NSException *exception){
@@ -48,7 +44,7 @@
     [self updateInfo];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    //    [self.fb removeAllObservers];
+
     [self.henryFB removeAllObservers];
 }
 
@@ -142,7 +138,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     @try{
         if([segue.identifier isEqualToString:@"projectStatus"]){
-            HenryTaskStatusTableViewController *vc = [segue destinationViewController];
+            HenryTaskCategoryTableViewController *vc = [segue destinationViewController];
             vc.initialSelection = self.statusButton.titleLabel.text;
             vc.detailView = self;
             vc.taskID = self.taskID;
@@ -195,42 +191,29 @@
     
     [alert show];
 }
-// TODO: Figure out what this does on the iPad
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    @try{
-//        if (buttonIndex == 1) {
-//            NSString *points = [alertView textFieldAtIndex:0].text;
-//            if ([points length] > 0) {
-//
-//
-//
-//                NSString *urlString = [NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@/bounties/completionBounty", self.ProjectID, self.MileStoneID, self.taskID];
-//                Firebase *bountyRef = [self.fb childByAppendingPath:urlString];
-//
-//                NSDictionary *data = @{
-//                                       @"claimed" : @"none",
-//                                       @"description" : @"Complete this task",
-//                                       @"due_date" : self.due_date,
-//                                       @"points" : points,
-//                                       @"name" : @"Completion Bounty"
-//                                       };
-//
-//                [bountyRef setValue:data];
-//            } else {
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
-//                                                                message:@"You have an empty field."
-//                                                               delegate:nil
-//                                                      cancelButtonTitle:@"OK"
-//                                                      otherButtonTitles:nil];
-//                [alert show];
-//            }
-//        }
-//    }@catch(NSException *exception){
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-//        [alert show];
-//        exit(0);
-//
-//    }
-//}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    @try{
+        if (buttonIndex == 1) {
+            NSString *pointsString = [alertView textFieldAtIndex:0].text;
+            NSNumber *pointsNumber = [NSNumber numberWithInteger:[pointsString integerValue]];
+            if ([pointsString length] > 0) {
+                [self.henryFB createBountyWithName:@"Completion Bounty" DueDate:self.due_date HourLimit:@"None" LineLimit:@"None" PointValue:pointsNumber ProjectKey:self.ProjectID MilestoneKey:self.MileStoneID TaskKey:self.taskID];
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Input"
+                                                                message:@"You have an empty field."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+                [alert show];
+            }
+        }
+    }@catch(NSException *exception){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [alert show];
+        exit(0);
+
+    }
+}
 
 @end

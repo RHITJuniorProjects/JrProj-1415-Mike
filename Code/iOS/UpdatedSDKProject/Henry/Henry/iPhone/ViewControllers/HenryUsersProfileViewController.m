@@ -10,9 +10,8 @@
 #import "HenryFirebase.h"
 
 @interface HenryUsersProfileViewController ()
-@property Firebase *fb;
-@property FDataSnapshot* snapshot;
-@property NSArray *trophies;
+@property HenryFirebase* henryFB;
+@property NSDictionary *trophies;
 @property NSMutableArray *userTrophies;
 @end
 
@@ -23,42 +22,30 @@
     [super viewDidLoad];
     self.userTrophies = [[NSMutableArray alloc] init];
     [[self.profile valueForKey:@"trophies"] removeObjectForKey:@"placeholder"];
-    self.fb = [HenryFirebase getFirebaseObject];
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo:snapshot];
-        self.snapshot = snapshot;
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
-
-    // Do any additional setup after loading the view.
+    self.henryFB = [HenryFirebase new];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    [self.fb removeAllObservers];
+    [self.henryFB removeAllObservers];
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    self.fb = [HenryFirebase getFirebaseObject];
-    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        [self updateInfo:snapshot];
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
-}
--(void)updateInfo:(FDataSnapshot *)snapshot {
+-(void)updateInfo {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        self.trophies = snapshot.value[@"trophies"];
-        NSArray *userT = [snapshot.value[@"users"][self.upid][@"trophies"] allKeys] ;
-        for (int i = 0; i < userT.count; i++) {
-            if (![userT[i]  isEqual: @"placeholder"]) {
-                [self.userTrophies addObject:userT[i]];
-            }
-        }
-        if ([self.userTrophies count] == 0) {
-            self.UsersTrophyTable.hidden = true;
-        }
+        [self.henryFB getAllTrophiesWithBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+            self.trophies = trophiesDictionary;
+            [self.henryFB getTrophiesBelongingToUserId:self.upid withBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+                NSArray *userTrophyKeys = [trophiesDictionary allKeys];
+                for (int i = 0; i < userTrophyKeys.count; i++) {
+                    if (![userTrophyKeys[i]  isEqual: @"placeholder"]) {
+                        [self.userTrophies addObject:userTrophyKeys[i]];
+                    }
+                }
+                if ([self.userTrophies count] == 0) {
+                    self.UsersTrophyTable.hidden = true;
+                }
+            }];
+        }];
         //NSLog(@"%@", self.trophies);
        
         self.navigationItem.title = [self.profile valueForKey:@"name"];
@@ -82,18 +69,6 @@
     cell.detailTextLabel.text= [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]] valueForKey:@"description"];
     NSData * imageData =[[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"image"]]];
         cell.imageView.image = [UIImage imageWithData:imageData];
-
-//    dispatch_async(dispatch_get_global_queue(0,0), ^{
-//        NSData * data = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: [[self.trophies valueForKey:[[[self.profile valueForKey:@"trophies"] allKeys] objectAtIndex:indexPath.row]]valueForKey:@"image"]]];
-//        if ( data == nil )
-//            return;
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            // WARNING: is the cell still using the same data by this point??
-//            cell.image = [UIImage imageWithData: data];
-//        });
-//       // [data release];
-//    });
-    
     return cell;
     
 }
@@ -105,25 +80,5 @@
 
     return [[[self.profile valueForKey:@"trophies"] allKeys]  count];
 }
-
-
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -11,7 +11,6 @@
 #import "HenryTaskDetailViewController.h"
 
 @interface HenryMyTasksTableViewController ()
-@property Firebase *fb;
 @property HenryFirebase* henryFB;
 @property NSMutableArray *tasks;
 @property NSString *uid;
@@ -24,7 +23,6 @@
     [self updateTable];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [self.fb removeAllObservers];
     [self.henryFB removeAllObservers];
 }
 
@@ -41,8 +39,6 @@
         self.uid = [defaults objectForKey:@"id"];
         
         self.tasks = [[NSMutableArray alloc] init];
-        
-        self.fb = [HenryFirebase getFirebaseObject];
         self.henryFB = [HenryFirebase new];
         
     }@catch(NSException *exception){

@@ -81,8 +81,6 @@
             [self.navigationController.navigationBar addGestureRecognizer: self.revealViewController.panGestureRecognizer];
         }
         self.cellText = [[NSMutableArray alloc] init];
-        
-//        self.fb = [HenryFirebase getFirebaseObject];
         self.henryFB = [HenryFirebase new];
         
         // Table will be updated when the projects a user is assigned to changes

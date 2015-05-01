@@ -18,7 +18,6 @@
 		E196C00F1ACC6AF30094B89C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C00C1ACC6AF30094B89C /* main.m */; };
 		E196C0201ACC6B350094B89C /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E196C0121ACC6B320094B89C /* Firebase.framework */; };
 		E196C0291ACC6B860094B89C /* HenryFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0251ACC6B860094B89C /* HenryFirebase.m */; };
-		E196C02A1ACC6B860094B89C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0271ACC6B860094B89C /* User.m */; };
 		E196C0591ACC6BFB0094B89C /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0541ACC6BFB0094B89C /* BEMCircle.m */; };
 		E196C05A1ACC6BFB0094B89C /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0561ACC6BFB0094B89C /* BEMLine.m */; };
 		E196C05B1ACC6BFB0094B89C /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0581ACC6BFB0094B89C /* BEMSimpleLineGraphView.m */; };
@@ -49,7 +48,7 @@
 		E196C0B81ACC6C2E0094B89C /* HenryStoreTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0941ACC6C2E0094B89C /* HenryStoreTableViewController.m */; };
 		E196C0B91ACC6C2E0094B89C /* HenryTaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0961ACC6C2E0094B89C /* HenryTaskDetailViewController.m */; };
 		E196C0BA1ACC6C2E0094B89C /* HenryTasksTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0981ACC6C2E0094B89C /* HenryTasksTableViewController.m */; };
-		E196C0BB1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C09A1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m */; };
+		E196C0BB1ACC6C2E0094B89C /* HenryTaskCategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C09A1ACC6C2E0094B89C /* HenryTaskCategoryTableViewController.m */; };
 		E196C0BC1ACC6C2E0094B89C /* HenryUsersProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C09C1ACC6C2E0094B89C /* HenryUsersProfileViewController.m */; };
 		E196C0BD1ACC6C2E0094B89C /* SideNavTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C09E1ACC6C2E0094B89C /* SideNavTableTableViewController.m */; };
 		E196C0BE1ACC6C2E0094B89C /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E196C0A01ACC6C2E0094B89C /* SWRevealViewController.m */; };
@@ -104,8 +103,6 @@
 		E196C0131ACC6B320094B89C /* libOCMock.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libOCMock.a; sourceTree = "<group>"; };
 		E196C0241ACC6B860094B89C /* HenryFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryFirebase.h; sourceTree = "<group>"; };
 		E196C0251ACC6B860094B89C /* HenryFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryFirebase.m; sourceTree = "<group>"; };
-		E196C0261ACC6B860094B89C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		E196C0271ACC6B860094B89C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		E196C0531ACC6BFB0094B89C /* BEMCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
 		E196C0541ACC6BFB0094B89C /* BEMCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
 		E196C0551ACC6BFB0094B89C /* BEMLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
@@ -162,8 +159,8 @@
 		E196C0961ACC6C2E0094B89C /* HenryTaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTaskDetailViewController.m; sourceTree = "<group>"; };
 		E196C0971ACC6C2E0094B89C /* HenryTasksTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTasksTableViewController.h; sourceTree = "<group>"; };
 		E196C0981ACC6C2E0094B89C /* HenryTasksTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTasksTableViewController.m; sourceTree = "<group>"; };
-		E196C0991ACC6C2E0094B89C /* HenryTaskStatusTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTaskStatusTableViewController.h; sourceTree = "<group>"; };
-		E196C09A1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTaskStatusTableViewController.m; sourceTree = "<group>"; };
+		E196C0991ACC6C2E0094B89C /* HenryTaskCategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryTaskCategoryTableViewController.h; sourceTree = "<group>"; };
+		E196C09A1ACC6C2E0094B89C /* HenryTaskCategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryTaskCategoryTableViewController.m; sourceTree = "<group>"; };
 		E196C09B1ACC6C2E0094B89C /* HenryUsersProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HenryUsersProfileViewController.h; sourceTree = "<group>"; };
 		E196C09C1ACC6C2E0094B89C /* HenryUsersProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HenryUsersProfileViewController.m; sourceTree = "<group>"; };
 		E196C09D1ACC6C2E0094B89C /* SideNavTableTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SideNavTableTableViewController.h; sourceTree = "<group>"; };
@@ -303,8 +300,6 @@
 			children = (
 				E196C0241ACC6B860094B89C /* HenryFirebase.h */,
 				E196C0251ACC6B860094B89C /* HenryFirebase.m */,
-				E196C0261ACC6B860094B89C /* User.h */,
-				E196C0271ACC6B860094B89C /* User.m */,
 			);
 			name = DatabaseStuff;
 			path = Henry/DatabaseStuff;
@@ -459,8 +454,8 @@
 				E196C0961ACC6C2E0094B89C /* HenryTaskDetailViewController.m */,
 				E196C0971ACC6C2E0094B89C /* HenryTasksTableViewController.h */,
 				E196C0981ACC6C2E0094B89C /* HenryTasksTableViewController.m */,
-				E196C0991ACC6C2E0094B89C /* HenryTaskStatusTableViewController.h */,
-				E196C09A1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m */,
+				E196C0991ACC6C2E0094B89C /* HenryTaskCategoryTableViewController.h */,
+				E196C09A1ACC6C2E0094B89C /* HenryTaskCategoryTableViewController.m */,
 				E196C09B1ACC6C2E0094B89C /* HenryUsersProfileViewController.h */,
 				E196C09C1ACC6C2E0094B89C /* HenryUsersProfileViewController.m */,
 				E196C09D1ACC6C2E0094B89C /* SideNavTableTableViewController.h */,
@@ -678,8 +673,7 @@
 				E196C0AD1ACC6C2E0094B89C /* HenryCategoryTableViewController.m in Sources */,
 				E150B2411ACD866E0075AB1C /* BountyModel.m in Sources */,
 				E196C0B61ACC6C2E0094B89C /* HenryProjectDetailViewController.m in Sources */,
-				E196C02A1ACC6B860094B89C /* User.m in Sources */,
-				E196C0BB1ACC6C2E0094B89C /* HenryTaskStatusTableViewController.m in Sources */,
+				E196C0BB1ACC6C2E0094B89C /* HenryTaskCategoryTableViewController.m in Sources */,
 				E150B2471ACD866E0075AB1C /* UserModel.m in Sources */,
 				E196C0AE1ACC6C2E0094B89C /* HenryCreateBountyViewController.m in Sources */,
 				E196C05A1ACC6BFB0094B89C /* BEMLine.m in Sources */,

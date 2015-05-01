@@ -37,12 +37,7 @@
         self.burndown.enableReferenceYAxisLines = YES;
         
         [self updateInfo];
-        // Attach a block to read the data at our posts reference
-//        [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-//            [self updateInfo: snapshot];
-//        } withCancelBlock:^(NSError *error) {
-//            NSLog(@"%@", error.description);
-//        }];
+
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];

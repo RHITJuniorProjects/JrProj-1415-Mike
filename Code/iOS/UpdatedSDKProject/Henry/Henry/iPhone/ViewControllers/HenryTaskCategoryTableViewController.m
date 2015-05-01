@@ -6,19 +6,19 @@
 //  Copyright (c) 2014 Rose-Hulman. All rights reserved.
 //
 
-#import "HenryTaskStatusTableViewController.h"
+#import "HenryTaskCategoryTableViewController.h"
 #import "HenryFirebase.h"
 
-@interface HenryTaskStatusTableViewController ()
+@interface HenryTaskCategoryTableViewController ()
 @property NSArray *cellTitles;
 @property UITableViewCell *previouslySelected;
-@property int selectedIndex;
+@property NSInteger selectedIndex;
 @property BOOL firstTime;
 @property BOOL clearChecksOnSelection;
-@property Firebase *fb;
+@property HenryFirebase* henryFB;
 @end
 
-@implementation HenryTaskStatusTableViewController
+@implementation HenryTaskCategoryTableViewController
 
 -(void)viewWillDisappear:(BOOL)animated {
     @try{
@@ -26,7 +26,7 @@
     self.detailView.statusButton.titleLabel.text = [self.cellTitles objectAtIndex:_selectedIndex];
     UITableViewCell *selectedCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
     NSDictionary *newValue = @{@"category":selectedCell.textLabel.text};
-    [self.fb updateChildValues:newValue];
+        [self.henryFB updateTaskWithNewDictionary:newValue taskKey:self.taskID milestoneKey:self.milestoneID projectKey:self.projectID];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -46,7 +46,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+        self.henryFB = [HenryFirebase new];
+        
     self.cellTitles = [[NSArray alloc] initWithObjects:@"New", @"Implementation", @"Testing", @"Verify", @"Regression", @"Closed", nil];
     
     NSURL *jsonURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@/default_categories.json", [HenryFirebase getFirebaseURL]]];
@@ -76,10 +77,6 @@
     self.selectedIndex = initialIndex;
     self.firstTime = YES;
     self.clearChecksOnSelection = NO;
-
-    self.fb = [HenryFirebase getFirebaseObject];
-        
-    self.fb = [self.fb childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", self.projectID, self.milestoneID, self.taskID]];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];

@@ -137,18 +137,6 @@ Firebase *writeToFB;
 {
     [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSDictionary *trophies = snapshot.value[@"trophies"];
-        
-        completionBlock(trophies, YES, nil);
-    } withCancelBlock:^(NSError *error) {
-        completionBlock(nil,NO,error);
-    }];
-}
-
-- (void) getAllTrophyModelsWithBlock: (TrophiesCallback) completionBlock;
-{
-    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        NSDictionary *trophies = snapshot.value[@"trophies"];
-        
         completionBlock(trophies, YES, nil);
     } withCancelBlock:^(NSError *error) {
         completionBlock(nil,NO,error);
@@ -267,12 +255,39 @@ Firebase *writeToFB;
     [writeToFB setValue:milestone];
 }
 
+- (void) createTaskWithName: (NSString*) name description: (NSString*) desc assignedToUserKey: (NSString*) userId dueDate: (NSString*) dueDate status: (NSString*) status hourEstimate: (id) hourEstimate category: (NSString*) category projectKey: (NSString*) projectId milestoneKey: (NSString*) milestoneId;
+{
+    NSString *urlString = [NSString stringWithFormat:@"projects/%@/milestones/%@/tasks", projectId, milestoneId];
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath: urlString];
+    writeToFB = [writeToFB childByAutoId];
+    
+    NSDictionary *task = @{
+                           @"name": name,
+                           @"description": desc,
+                           @"assignedTo": userId,
+                           @"due_date": dueDate,
+                           @"status": status,
+                           @"original_hour_estimate":hourEstimate,
+                           @"category":category
+                           };
+    [writeToFB setValue:task];
+    
+}
+
 - (void) updateTimeEstimateOnTaskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId newTimeEstimate: (NSNumber*) newTimeEstimate;
 {
     NSDictionary* newValue = @{@"updated_time_estimate":newTimeEstimate};
     writeToFB = [HenryFirebase getFirebaseObject];
     writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", projectId, milestoneId, taskId]];
     [writeToFB updateChildValues:newValue];
+}
+
+- (void) updateTaskWithNewDictionary: (NSDictionary*) newTaskValues taskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId;
+{
+    writeToFB = [HenryFirebase getFirebaseObject];
+    writeToFB = [writeToFB childByAppendingPath:[NSString stringWithFormat:@"projects/%@/milestones/%@/tasks/%@", projectId, milestoneId, taskId]];
+    [writeToFB updateChildValues:newTaskValues];
 }
 
 - (void) removeAllObservers;

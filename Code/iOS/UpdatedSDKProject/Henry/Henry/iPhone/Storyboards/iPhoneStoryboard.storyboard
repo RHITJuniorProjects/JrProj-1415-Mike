@@ -996,7 +996,7 @@
         <!--projectStatus-->
         <scene sceneID="7Zx-Pp-2sm">
             <objects>
-                <tableViewController title="projectStatus" id="YLy-Sx-ePQ" customClass="HenryTaskStatusTableViewController" sceneMemberID="viewController">
+                <tableViewController title="projectStatus" id="YLy-Sx-ePQ" customClass="HenryTaskCategoryTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IO8-1w-lnP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1302,6 +1302,6 @@
     <inferredMetricsTieBreakers>
         <segue reference="Fwr-B4-Jg0"/>
         <segue reference="TUL-V0-Fep"/>
-        <segue reference="5b4-0E-tfw"/>
+        <segue reference="dfn-7L-7pg"/>
     </inferredMetricsTieBreakers>
 </document>

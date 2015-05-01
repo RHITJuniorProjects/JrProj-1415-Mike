@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Firebase/Firebase.h>
 
 @interface HenryCreateBountyViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UIPickerView *ConditionPicker;

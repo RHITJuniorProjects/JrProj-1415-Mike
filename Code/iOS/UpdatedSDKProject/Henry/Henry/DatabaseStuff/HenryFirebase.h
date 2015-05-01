@@ -45,7 +45,9 @@ typedef void(^UsersCallback)(NSDictionary *usersDictionary,BOOL success, NSError
 - (void) assignStatusToTaskWithTaskKey: (NSString*) taskId StatusKey: (NSString*) statusId ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId;
 - (void) createBountyWithName: (NSString*) name DueDate: (NSString*) dueDate HourLimit: (id) hourLimit LineLimit: (id) lineLimit PointValue: (NSNumber*) pointValue ProjectKey: (NSString*) projectId MilestoneKey: (NSString*) milestoneId TaskKey: (NSString*)taskId;
 - (void) createMilestoneWithName: (NSString*) name Description: (NSString*) description DueDate: (NSString*) dueDate OnProjectWithProjectKey: (NSString*) projectId;
+- (void) createTaskWithName: (NSString*) name description: (NSString*) desc assignedToUserKey: (NSString*) userId dueDate: (NSString*) dueDate status: (NSString*) status hourEstimate: (id) hourEstimate category: (NSString*) category projectKey: (NSString*) projectId milestoneKey: (NSString*) milestoneId;
 - (void) updateTimeEstimateOnTaskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId newTimeEstimate: (NSNumber*) newTimeEstimate;
+- (void) updateTaskWithNewDictionary: (NSDictionary*) newTaskValues taskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId;
     
 // Never implemented, so this signature will change
 - (void) getBounties:(NSString*) taskId;

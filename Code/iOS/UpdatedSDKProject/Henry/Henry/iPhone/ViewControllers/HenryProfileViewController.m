@@ -10,7 +10,7 @@
 #import "HenryFirebase.h"
 
 @interface HenryProfileViewController ()
-@property HenryFirebase *firebase;
+@property HenryFirebase *henryFB;
 @property NSMutableDictionary *userTrophies;
 @property NSArray* userTrophiesKeys;
 @end
@@ -21,37 +21,25 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.userid = [defaults objectForKey:@"id"];
-    self.firebase = [HenryFirebase new];
-    //NSLog([NSString stringWithFormat:@"The user id is: %@", self.userid]);
-    //self.navigationItem.title = @"USER PROFILE";
-//    self.fb = [HenryFirebase getFirebaseObject];
+    self.henryFB = [HenryFirebase new];
     [self updateInfo];
     
     // Do any additional setup after loading the view.
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-//    [self.fb removeAllObservers];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-//    self.fb = [HenryFirebase getFirebaseObject];
-//    [self.fb observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-//        [self updateInfo:snapshot];
-//    } withCancelBlock:^(NSError *error) {
-//        NSLog(@"%@", error.description);
-//    }];
+    [self.henryFB removeAllObservers];
 }
 
 -(void)updateInfo {
     @try{
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        [self.firebase getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
+        [self.henryFB getUserInfoWithUserId:self.userid withBlock:^(NSDictionary *userInfoDictionary, BOOL success, NSError *error) {
             NSDictionary *userInfo = userInfoDictionary;
             NSString *points = [userInfo objectForKey:@"total_points"];
             self.pointsLabel.text = [NSString stringWithFormat:@"Total Points: %@",points];
             self.availablePointsLabel.text = [NSString stringWithFormat:@"Available Points to Spend: %@",[userInfo objectForKey:@"available_points"]];
-            [self.firebase getTrophiesBelongingToUserId:self.userid withBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
+            [self.henryFB getTrophiesBelongingToUserId:self.userid withBlock:^(NSDictionary *trophiesDictionary, BOOL success, NSError *error) {
                 self.userTrophies = [trophiesDictionary mutableCopy];
                 [self.userTrophies removeObjectForKey:@"placeholder"];
                 self.userTrophiesKeys = [self.userTrophies allKeys];

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "HenryTaskDetailViewController.h"
 
-@interface HenryTaskStatusTableViewController : UITableViewController
+@interface HenryTaskCategoryTableViewController : UITableViewController
 @property NSString *projectID;
 @property NSString *milestoneID;
 @property NSString *taskID;
