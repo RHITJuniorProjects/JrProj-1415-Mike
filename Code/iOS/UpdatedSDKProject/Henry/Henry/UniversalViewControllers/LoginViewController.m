@@ -34,7 +34,8 @@
 {
     @try{
     [super viewDidLoad];
-    self.fb = [HenryFirebase getFirebaseObject];
+//    self.fb = [HenryFirebase getFirebaseObject];
+        self.henryFB = [HenryFirebase new];
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
@@ -90,45 +91,84 @@
         self.loginIndicator.hidden = YES;
         return;
     }else{
-    [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
-        self.loginIndicator.hidden = YES;
-        NSString *errorMsg = [[NSString alloc] init];
-        if (error) {
-            switch(error.code) {
-                case FAuthenticationErrorUserDoesNotExist:
-                case FAuthenticationErrorInvalidEmail:
-                case FAuthenticationErrorInvalidPassword:
-                    errorMsg = @"Username or password is incorrect.";
-                    break;
-                default:
-                    errorMsg = @"Failed to Login";
-                    break;
+        [self.henryFB authenticateUser:self.emailText.text password:self.passwordText.text withBlock:^(NSError *error, FAuthData *authData) {
+            self.loginIndicator.hidden = YES;
+            NSString *errorMsg = [[NSString alloc] init];
+            if (error) {
+                switch(error.code) {
+                    case FAuthenticationErrorUserDoesNotExist:
+                    case FAuthenticationErrorInvalidEmail:
+                    case FAuthenticationErrorInvalidPassword:
+                        errorMsg = @"Username or password is incorrect.";
+                        break;
+                    default:
+                        errorMsg = @"Failed to Login";
+                        break;
+                }
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:errorMsg delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+                [alert show];
+                return;
             }
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:errorMsg delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
-            [alert show];
-            return;
-        }
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:authData.uid forKey:@"id"];
+            [defaults setObject:authData.token forKey:@"token"];
+            [defaults setObject:authData.providerData[@"email"] forKey:@"email"];
+            [defaults synchronize];
+            
+            
+            if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+            {
+                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadStoryboard" bundle:nil];
+                UIViewController *initialView = [sb instantiateInitialViewController];
+                [self presentViewController:initialView animated:YES completion:nil];
+            } else {
+                UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
+                UIViewController *initialView = [sb instantiateInitialViewController];
+                [self presentViewController:initialView animated:YES completion:nil];
+            }
+        }];
         
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:authData.uid forKey:@"id"];
-        [defaults setObject:authData.token forKey:@"token"];
-        [defaults setObject:authData.providerData[@"email"] forKey:@"email"];
-        [defaults synchronize];
-         
-        
-        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
-        {
-            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadStoryboard" bundle:nil];
-            UIViewController *initialView = [sb instantiateInitialViewController];
-            [self presentViewController:initialView animated:YES completion:nil];
-        } else {
-            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
-            UIViewController *initialView = [sb instantiateInitialViewController];
-            [self presentViewController:initialView animated:YES completion:nil];
-        }
-
-    }];
+//    [self.fb authUser:self.emailText.text password:self.passwordText.text withCompletionBlock:^(NSError *error, FAuthData *authData) {
+//        self.loginIndicator.hidden = YES;
+//        NSString *errorMsg = [[NSString alloc] init];
+//        if (error) {
+//            switch(error.code) {
+//                case FAuthenticationErrorUserDoesNotExist:
+//                case FAuthenticationErrorInvalidEmail:
+//                case FAuthenticationErrorInvalidPassword:
+//                    errorMsg = @"Username or password is incorrect.";
+//                    break;
+//                default:
+//                    errorMsg = @"Failed to Login";
+//                    break;
+//            }
+//            
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Login Failed" message:errorMsg delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+//            [alert show];
+//            return;
+//        }
+//        
+//        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+//        [defaults setObject:authData.uid forKey:@"id"];
+//        [defaults setObject:authData.token forKey:@"token"];
+//        [defaults setObject:authData.providerData[@"email"] forKey:@"email"];
+//        [defaults synchronize];
+//         
+//        
+//        if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+//        {
+//            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPadStoryboard" bundle:nil];
+//            UIViewController *initialView = [sb instantiateInitialViewController];
+//            [self presentViewController:initialView animated:YES completion:nil];
+//        } else {
+//            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"iPhoneStoryboard" bundle:nil];
+//            UIViewController *initialView = [sb instantiateInitialViewController];
+//            [self presentViewController:initialView animated:YES completion:nil];
+//        }
+//
+//    }];
     }
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];

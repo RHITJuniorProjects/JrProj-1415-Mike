@@ -7,18 +7,15 @@
 //
 
 #import "HenryFirebase.h"
-#import <UIKit/UIKit.h>
-
 #import "BountyModel.h"
-
 #import "MilestoneModel.h"
 #import "ProjectModel.h"
 #import "TaskModel.h"
 #import "TrophyModel.h"
 #import "UserModel.h"
 
+#import <UIKit/UIKit.h>
 @interface HenryFirebase()
-@property FDataSnapshot* snapshot;
 @end
 
 @implementation HenryFirebase
@@ -57,17 +54,22 @@ Firebase *writeToFB;
     writeToFB = fb;
 }
 
-- (void) updateDataSnapshot{
-    [henryFB observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        self.snapshot = snapshot;
-    } withCancelBlock:^(NSError *error) {
-        NSLog(@"%@", error.description);
-    }];
-}
-
 // Tested
 +(NSString *)getFirebaseURL {
     return @"https://henry-test.firebaseio.com";
+}
+
+-(id)init {
+    if ( self = [super init] ) {
+        henryFB = [[Firebase alloc] initWithUrl:[HenryFirebase getFirebaseURL]];
+    }
+    return self;
+}
+
+- (void) authenticateUser: (NSString*) email password: (NSString*) password withBlock:(AuthenticationCallback) completionBlock {
+    [henryFB authUser:email password:password withCompletionBlock:^(NSError *error, FAuthData *authData) {
+        completionBlock(error, authData);
+    }];
 }
 
 - (void) getAllProjectModelsWithBlock:(ProjectCallback)completionBlock {
@@ -295,12 +297,5 @@ Firebase *writeToFB;
     [henryFB removeAllObservers];
     [writeToFB removeAllObservers];
 }
-
-// This was never implemented, so that needs to happen
--(void) getBounties:(NSString*) taskId{
-    [self updateDataSnapshot];
-}
-
-
 
 @end

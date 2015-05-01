@@ -21,14 +21,15 @@ typedef void(^TrophiesCallback)(NSDictionary *trophiesDictionary,BOOL success, N
 typedef void(^BountiesCallback)(NSDictionary *bountysDictionary,BOOL success, NSError *error);
 typedef void(^UserInfoCallback)(NSDictionary *userInfoDictionary,BOOL success, NSError *error);
 typedef void(^UsersCallback)(NSDictionary *usersDictionary,BOOL success, NSError *error);
+typedef void(^AuthenticationCallback)(NSError *error, FAuthData *authData);
 
-@interface HenryFirebase : Firebase
+@interface HenryFirebase : NSObject 
 
 +(Firebase *)getFirebaseObject;
 + (NSString *)getFirebaseURL;
 +(void)setFirebaseWritingObjectTo: (Firebase*) fb;
 +(void)setFirebaseReadingObjectTo: (Firebase*) fb;
-- (void) updateDataSnapshot;
+- (void) authenticateUser: (NSString*) email password: (NSString*) password withBlock:(AuthenticationCallback) completionBlock;
 - (void) getAllProjectsWithBlock:(ProjectCallback) completionBlock;
 - (void) getProjectsUserIsOnWithUserKey: (NSString*) userId withBlock:(ProjectCallback) completionBlock;
 - (void) getMilestonesWithProjectId:(NSString*) projectId withBlock:(MilestonesCallback) completionBlock;
@@ -48,8 +49,7 @@ typedef void(^UsersCallback)(NSDictionary *usersDictionary,BOOL success, NSError
 - (void) createTaskWithName: (NSString*) name description: (NSString*) desc assignedToUserKey: (NSString*) userId dueDate: (NSString*) dueDate status: (NSString*) status hourEstimate: (id) hourEstimate category: (NSString*) category projectKey: (NSString*) projectId milestoneKey: (NSString*) milestoneId;
 - (void) updateTimeEstimateOnTaskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId newTimeEstimate: (NSNumber*) newTimeEstimate;
 - (void) updateTaskWithNewDictionary: (NSDictionary*) newTaskValues taskKey: (NSString*) taskId milestoneKey: (NSString*) milestoneId projectKey: (NSString*) projectId;
-    
-// Never implemented, so this signature will change
-- (void) getBounties:(NSString*) taskId;
+- (void) removeAllObservers;
+
 @end
 
