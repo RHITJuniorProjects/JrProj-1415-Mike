@@ -27,6 +27,12 @@ public class User implements Parcelable, ChangeNotifiable {
      */
     private Firebase firebase;
 
+    /*
+     * A reference to FakeFirebase for testing
+     */
+
+    public FakeFirebase fakeFirebase;
+
     /**
      * The User's name
      */
@@ -104,6 +110,14 @@ public class User implements Parcelable, ChangeNotifiable {
             return new User[size];
         }
     };
+
+    User(){
+        this.fakeFirebase = new FakeFirebase();
+        this.name = "testName";
+        this.gitName = "testGitName";
+        this.email = "testEmail";
+
+    }
 
     /**
      * Creates a new User from a parcel

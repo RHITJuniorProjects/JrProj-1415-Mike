@@ -32,6 +32,11 @@ public class Task implements Parcelable, ChangeNotifiable<Task> {
      */
     Firebase firebase;
 
+    /*
+     * A reference to FakeFireBase for testing
+     */
+    public FakeFirebase fakeFirebase;
+
     /**
      * The task's name
      */
@@ -182,6 +187,17 @@ public class Task implements Parcelable, ChangeNotifiable<Task> {
         this.addedLines = pc.readInt();
         this.removedLines = pc.readInt();
         this.totalLines = pc.readInt();
+    }
+
+    public Task(FakeFirebase fakeFirebase){
+        this.fakeFirebase= new FakeFirebase();
+        this.name = "testName";
+        this.description = "testDescription";
+        this.assignedUserId = "testUserID";
+        this.status = "testStatus";
+        this.addedLines = 5;
+        this.removedLines = 2;
+        this.totalLines = 7;
     }
 
     public Task(String firebaseURL) {

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import rhit.jrProj.henry.CreateTaskFragment.Callbacks;
+import rhit.jrProj.henry.firebase.FakeFirebase;
 import rhit.jrProj.henry.firebase.Milestone;
 import rhit.jrProj.henry.firebase.Project;
 import rhit.jrProj.henry.firebase.User;
@@ -34,6 +35,11 @@ public class CreateMilestoneFragment extends DialogFragment {
      * \ Description of the milestone
      */
     private EditText mDescriptionField;
+
+    /*
+     * FakeFirebase for testing
+     */
+    public FakeFirebase fakeFirebase;
     /*
      * Project id associated with the milestone
      */
@@ -199,4 +205,20 @@ public class CreateMilestoneFragment extends DialogFragment {
         ref.setValue(map);
 
     }
+
+    /*
+     * Same as above but utilizing FakeFireBase for Testing
+     * METHOD SIMPLY FOR TESTING
+     */
+    public void createMilestoneForTesting(){
+        String name = "testName";
+        String des = "description";
+        this.fakeFirebase = new FakeFirebase();
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("name", name);
+        map.put("description", des);
+        map.put("due_date", "No Due Date");
+        this.fakeFirebase.setValue(map);
+    }
+
 }

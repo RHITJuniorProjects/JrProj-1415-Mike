@@ -24,6 +24,12 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
      */
     private Firebase firebase;
 
+
+    /**
+     * A reference to the FakeFirebase for testing
+     */
+    public FakeFirebase fakeFirebase;
+
     /**
      * A List of tasks that are contained within the Milestone
      */
@@ -100,6 +106,15 @@ public class Milestone implements Parcelable, ChangeNotifiable<Milestone> {
                 .substring(firebaseUrl.lastIndexOf('/') + 1);
         //Might be useful for later
         //setParentID(firebaseUrl);
+    }
+
+    public Milestone(FakeFirebase fakeFireBase){
+        this.fakeFirebase = new FakeFirebase();
+        this.setName("testName");
+        //this.setDueDate(new DueDate("testDueDate"));
+        this.setDescription("testDescription");
+        this.setTaskPercent(5);
+
     }
 
     /**
