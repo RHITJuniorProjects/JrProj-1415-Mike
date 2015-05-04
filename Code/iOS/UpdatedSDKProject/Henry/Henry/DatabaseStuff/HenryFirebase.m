@@ -34,8 +34,8 @@ Firebase *writeToFB;
 
 +(Firebase *)getFirebaseObject {
     @try{
-    henryFB =[[Firebase alloc] initWithUrl:[HenryFirebase getFirebaseURL]];
-        return henryFB;
+    Firebase* firebaseInstance =[[Firebase alloc] initWithUrl:[HenryFirebase getFirebaseURL]];
+        return firebaseInstance;
     }@catch(NSException *exception){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failing Gracefully" message:@"Something strange has happened. App is closing." delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
         [alert show];
