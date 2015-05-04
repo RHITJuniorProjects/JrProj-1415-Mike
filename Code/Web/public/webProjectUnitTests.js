@@ -46,5 +46,5 @@ var users = new Table(function (fb) {
 		else
 			console.log("Milestones test fails.");
 	});
-})
+});
 
