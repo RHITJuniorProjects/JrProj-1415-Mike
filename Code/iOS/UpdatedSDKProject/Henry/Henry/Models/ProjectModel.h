@@ -32,4 +32,5 @@
 
 
 + (ProjectModel*) constructModelFromDictionary: (NSDictionary*) dict;
++ (ProjectModel*) constructModelFromDictionaryIsolated: (NSDictionary*) dict;
 @end

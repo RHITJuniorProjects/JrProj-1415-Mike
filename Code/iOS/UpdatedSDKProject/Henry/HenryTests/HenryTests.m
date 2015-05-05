@@ -12,6 +12,7 @@
 #import "HenryFirebase.h"
 #import "LoginViewController.h"
 #import "HenryStoreTableViewController.h"
+#import "MilestoneModel.h"
 #import "OCMock.h"
 
 
@@ -143,14 +144,73 @@
     XCTAssertEqualObjects(urlReal, urlToTest);
 }
 
-- (void) testGetAllProjects {
-    // A nice mock
-    id mockFirebase = OCMClassMock([Firebase class]);
-    id mockSnapshot = OCMClassMock([FDataSnapshot class]);
-    HenryFirebase *hfb = [[HenryFirebase alloc] init];
-//    [hfb getAllProjectsWithBlock:^(NSDictionary *projectsDictionary, BOOL success, NSError *error) {
-//        <#code#>
-//    }]
+- (void) testBountyConstructFromDictionary {
+    NSDictionary *dict = @{
+                           @"claimed": @"true",
+                           @"description": @"blah",
+                           @"due_date": @"somedate",
+                           @"hour_limit": @"somelimit",
+                           @"line_limit": @"somelimit",
+                           @"name": @"bounty",
+                           @"points": @10
+                           };
+    BountyModel *actual = [[BountyModel alloc] init];
+    actual.claimed = @"true";
+    actual.bountyDescription = @"blah";
+    actual.dueDate = @"somedate";
+    actual.hourLimit = @"somelimit";
+    actual.lineLimit = @"somelimit";
+    actual.name = @"bounty";
+    actual.points = @10;
+    
+    BountyModel *testing = [BountyModel constructModelFromDictionary:dict];
+    
+    XCTAssertTrue([actual isEqual:testing]);
+    
+}
+
+- (void) testMilestoneConstructFromDictionary {
+    NSDictionary *dict = @{
+                           @"added_lines_of_code": @10,
+                           @"burndown_data": @{
+                                   @"data": @10
+                                   },
+                           @"description": @"blah",
+                           @"due_date": @"somedate",
+                           @"hours_percent": @10,
+                           @"name": @"milestone",
+                           @"removed_lines_of_code": @10,
+                           @"task_percent": @10,
+                           @"tasks_completed": @10,
+                           @"total_estimated_hours": @10,
+                           @"total_hours": @10,
+                           @"total_lines_of_code": @10,
+                           @"total_tasks": @10,
+                           @"tasks": @{
+                                   @"task1" : @"blah"
+                                   }
+                           };
+    MilestoneModel *actual = [[MilestoneModel alloc] init];
+    actual.addedLinesOfCode = @10;
+    actual.milestoneDescription = @"blah";
+    actual.dueDate = @"somedate";
+    actual.hoursPercent = @10;
+    actual.name = @"milestone";
+    actual.removedLinesOfCode = @10;
+    actual.taskPercent = @10;
+    actual.tasksCompleted = @10;
+    actual.totalEstimatedHours = @10;
+    actual.totalHours = @10;
+    actual.totalLinesOfCode = @10;
+    actual.totalTasks = @10;
+    actual.tasksCompleted = @10;
+    actual.totalEstimatedHours = @10;
+    actual.totalHours = @10;
+    
+    MilestoneModel *testing = [MilestoneModel constructModelFromDictionaryIsolated:dict];
+    
+    XCTAssertTrue([actual isEqual:testing]);
+    
 }
 
 - (void) testValidEmail {

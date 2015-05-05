@@ -17,4 +17,5 @@
 @property NSString* name;
 @property NSNumber* points;
 + (BountyModel*) constructModelFromDictionary:(NSDictionary*) dict;
+- (BOOL) isEqual:(BountyModel*) object;
 @end

@@ -29,6 +29,9 @@
     return tempBounty;
 }
 
+- (BOOL) isEqual:(BountyModel*) object {
+    return [self.claimed isEqualToString:object.claimed] && [self.bountyDescription isEqualToString:object.bountyDescription] && [self.dueDate isEqualToString:object.dueDate] && [self.hourLimit isEqualToString:object.hourLimit] && [self.lineLimit isEqualToString:object.lineLimit] && [self.name isEqualToString:object.name] && [self.points isEqualToNumber:object.points];
+}
 
 
 

@@ -25,4 +25,5 @@
 @property NSNumber* totalTasks;
 
 + (MilestoneModel*) constructModelFromDictionary: (NSDictionary*) dict;
++ (MilestoneModel*) constructModelFromDictionaryIsolated: (NSDictionary*) dict;
 @end
