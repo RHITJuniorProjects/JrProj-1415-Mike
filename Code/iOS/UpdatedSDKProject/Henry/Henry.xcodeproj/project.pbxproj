@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ABA7F7341AFBECF0009B95C9 /* AppIcon.appiconset in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F72A1AFBECF0009B95C9 /* AppIcon.appiconset */; };
+		ABA7F7351AFBECF0009B95C9 /* Icon-60.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F72B1AFBECF0009B95C9 /* Icon-60.png */; };
+		ABA7F7361AFBECF0009B95C9 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F72C1AFBECF0009B95C9 /* Icon-72.png */; };
+		ABA7F7371AFBECF0009B95C9 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F72D1AFBECF0009B95C9 /* Icon-72@2x.png */; };
+		ABA7F7381AFBECF0009B95C9 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F72E1AFBECF0009B95C9 /* Icon-Small-50.png */; };
+		ABA7F7391AFBECF0009B95C9 /* Icon-Small-50@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F72F1AFBECF0009B95C9 /* Icon-Small-50@2x.png */; };
+		ABA7F73A1AFBECF0009B95C9 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F7301AFBECF0009B95C9 /* Icon.png */; };
+		ABA7F73B1AFBECF0009B95C9 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F7311AFBECF0009B95C9 /* Icon@2x.png */; };
+		ABA7F73C1AFBECF0009B95C9 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F7321AFBECF0009B95C9 /* iTunesArtwork.png */; };
+		ABA7F73D1AFBECF0009B95C9 /* iTunesArtwork@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ABA7F7331AFBECF0009B95C9 /* iTunesArtwork@2x.png */; };
 		E12D0CDB1AE9428400F695DD /* NSDictionary+NSDictionaryModelConversion.m in Sources */ = {isa = PBXBuildFile; fileRef = E12D0CDA1AE9428400F695DD /* NSDictionary+NSDictionaryModelConversion.m */; };
 		E150B2411ACD866E0075AB1C /* BountyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2341ACD866D0075AB1C /* BountyModel.m */; };
 		E150B2431ACD866E0075AB1C /* MilestoneModel.m in Sources */ = {isa = PBXBuildFile; fileRef = E150B2381ACD866D0075AB1C /* MilestoneModel.m */; };
@@ -82,6 +92,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ABA7F72A1AFBECF0009B95C9 /* AppIcon.appiconset */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon.appiconset; sourceTree = "<group>"; };
+		ABA7F72B1AFBECF0009B95C9 /* Icon-60.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-60.png"; sourceTree = "<group>"; };
+		ABA7F72C1AFBECF0009B95C9 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		ABA7F72D1AFBECF0009B95C9 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		ABA7F72E1AFBECF0009B95C9 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		ABA7F72F1AFBECF0009B95C9 /* Icon-Small-50@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50@2x.png"; sourceTree = "<group>"; };
+		ABA7F7301AFBECF0009B95C9 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		ABA7F7311AFBECF0009B95C9 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		ABA7F7321AFBECF0009B95C9 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		ABA7F7331AFBECF0009B95C9 /* iTunesArtwork@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iTunesArtwork@2x.png"; sourceTree = "<group>"; };
 		E12D0CD91AE9428400F695DD /* NSDictionary+NSDictionaryModelConversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+NSDictionaryModelConversion.h"; path = "Henry/Models/NSDictionary+NSDictionaryModelConversion.h"; sourceTree = "<group>"; };
 		E12D0CDA1AE9428400F695DD /* NSDictionary+NSDictionaryModelConversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+NSDictionaryModelConversion.m"; path = "Henry/Models/NSDictionary+NSDictionaryModelConversion.m"; sourceTree = "<group>"; };
 		E150B2331ACD866D0075AB1C /* BountyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BountyModel.h; sourceTree = "<group>"; };
@@ -268,6 +288,16 @@
 		E196C0071ACC6AF30094B89C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				ABA7F72A1AFBECF0009B95C9 /* AppIcon.appiconset */,
+				ABA7F72B1AFBECF0009B95C9 /* Icon-60.png */,
+				ABA7F72C1AFBECF0009B95C9 /* Icon-72.png */,
+				ABA7F72D1AFBECF0009B95C9 /* Icon-72@2x.png */,
+				ABA7F72E1AFBECF0009B95C9 /* Icon-Small-50.png */,
+				ABA7F72F1AFBECF0009B95C9 /* Icon-Small-50@2x.png */,
+				ABA7F7301AFBECF0009B95C9 /* Icon.png */,
+				ABA7F7311AFBECF0009B95C9 /* Icon@2x.png */,
+				ABA7F7321AFBECF0009B95C9 /* iTunesArtwork.png */,
+				ABA7F7331AFBECF0009B95C9 /* iTunesArtwork@2x.png */,
 				E196C0F31ACC83020094B89C /* Info.plist */,
 				E196C0081ACC6AF30094B89C /* InfoPlist.strings */,
 				E196C00B1ACC6AF30094B89C /* Henry-Prefix.pch */,
@@ -593,6 +623,7 @@
 				TargetAttributes = {
 					E196BF741ACC5D030094B89C = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 73BH7B3T66;
 					};
 					E196BF901ACC5D030094B89C = {
 						CreatedOnToolsVersion = 6.2;
@@ -626,8 +657,18 @@
 			files = (
 				E196C0A21ACC6C2E0094B89C /* iPadLoginStoryboard.storyboard in Resources */,
 				E196C0A61ACC6C2E0094B89C /* iPhoneLoginStoryboard.storyboard in Resources */,
+				ABA7F7381AFBECF0009B95C9 /* Icon-Small-50.png in Resources */,
+				ABA7F73D1AFBECF0009B95C9 /* iTunesArtwork@2x.png in Resources */,
+				ABA7F73C1AFBECF0009B95C9 /* iTunesArtwork.png in Resources */,
+				ABA7F7371AFBECF0009B95C9 /* Icon-72@2x.png in Resources */,
+				ABA7F7361AFBECF0009B95C9 /* Icon-72.png in Resources */,
+				ABA7F7351AFBECF0009B95C9 /* Icon-60.png in Resources */,
+				ABA7F7391AFBECF0009B95C9 /* Icon-Small-50@2x.png in Resources */,
+				ABA7F73A1AFBECF0009B95C9 /* Icon.png in Resources */,
 				E196C0CE1ACC6C7E0094B89C /* Images.xcassets in Resources */,
+				ABA7F73B1AFBECF0009B95C9 /* Icon@2x.png in Resources */,
 				E196C0A71ACC6C2E0094B89C /* iPhoneStoryboard.storyboard in Resources */,
+				ABA7F7341AFBECF0009B95C9 /* AppIcon.appiconset in Resources */,
 				E196C00D1ACC6AF30094B89C /* InfoPlist.strings in Resources */,
 				E196C0A31ACC6C2E0094B89C /* iPadStoryboard.storyboard in Resources */,
 			);
@@ -784,6 +825,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -797,6 +839,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "562b400a-91fe-4e59-b5ab-f0ea7b928169";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = GCov_Build;
@@ -926,6 +969,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -939,6 +983,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "562b400a-91fe-4e59-b5ab-f0ea7b928169";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -948,6 +993,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks",
@@ -961,6 +1007,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "562b400a-91fe-4e59-b5ab-f0ea7b928169";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
