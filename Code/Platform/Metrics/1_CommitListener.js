@@ -3,7 +3,7 @@
  * Handles read/write operations directly relating to commits.
  *
  * Authors: Sean Carter, Abby Mann, Andrew Davidson, Matt Rocco, Jonathan Jenkins, Adam Michael
- * Last Modified: 26 April 2015, 7:37pm
+ * Last Modified: 8 May 2015, 10:43am
  */
 var Firebase = require('firebase');
 
@@ -192,7 +192,7 @@ function calculateMetrics(projectRef, commit) {
         return;
 
     }
-    
+
     var addedLOC = commit.child(addedLines).val();
     var removedLOC = commit.child(removedLines).val();
     var taskRef = projectRef.child('milestones/' + milestone + '/tasks/' + task);
@@ -215,12 +215,22 @@ function calculateMetrics(projectRef, commit) {
         var status = commit.child('status').val();
 
         if (currentHours !== newHours ||
-            addedLOC !== totalAddedLOC ||
-            removedLOC !== totalRemovedLOC ||
-            status !== taskBranch.child('status').val() ||
-            updatedHourEstimate !== taskBranch.child('updated_hour_estimate').val()) {
+                addedLOC !== totalAddedLOC ||
+                removedLOC !== totalRemovedLOC ||
+                status !== taskBranch.child('status').val() ||
+                updatedHourEstimate !== taskBranch.child('updated_hour_estimate').val()) {
+            taskBranch.ref().update({
+                'total_hours': newHours,
+                'total_lines_of_code': newTotalLOC,
+                'added_lines_of_code': totalAddedLOC,
+                'removed_lines_of_code': totalRemovedLOC,
+                'percent_complete': taskHrPercent,
+                'status': status,
+                'updated_hour_estimate': updatedHourEstimate
+            });
         }
     });
+    
     // update user with task info
     var projectID = commit.child('project').val();
     var milestoneID = commit.child('milestone').val();
@@ -250,7 +260,7 @@ function calculateMetrics(projectRef, commit) {
 
                 if (partner === null || !partner) {
                     userTotalLOC = taskSnap.child(totalLines).val() + addedLOC - removedLOC;
-                    taskNode.update({
+                    taskSnap.ref().update({
                         'total_hours': userHours,
                         'added_lines_of_code': taskSnap.child(addedLines).val() + addedLOC,
                         'removed_lines_of_code': taskSnap.child(removedLines).val() + removedLOC,
@@ -262,7 +272,7 @@ function calculateMetrics(projectRef, commit) {
                     console.log("Pair programmed commit: User: " + assignee + ", partner: " + partner);
                     console.log("project, milestone, task: " + projectID + ", " + milestoneID + ", " + taskID)
                     userTotalLOC = taskSnap.child(totalLines).val() + Math.ceil(addedLOC / 2) - Math.ceil(removedLOC / 2);
-                    taskNode.update({
+                    taskSnap.ref().update({
                         'total_hours': userHours,
                         'added_lines_of_code': Math.ceil((taskSnap.child(addedLines).val() + addedLOC) / 2),
                         'removed_lines_of_code': Math.ceil((taskSnap.child(removedLines).val() + removedLOC) / 2),
@@ -288,7 +298,7 @@ function calculateMetrics(projectRef, commit) {
                     var partnerTotalLOC = partnerTaskSnap.child(totalLines).val() + Math.floor(addedLOC / 2) - Math.floor(removedLOC / 2);
                     var partnerHours = partnerTaskSnap.child(totalHours).val() + commit.child('hours').val();
 
-                    partnerTaskNode.update({
+                    partnerTaskSnap.ref().update({
                         'total_hours': partnerHours,
                         'added_lines_of_code': Math.ceil(partnerTaskSnap.child(addedLines).val() + addedLOC / 2),
                         'removed_lines_of_code': Math.ceil(partnerTaskSnap.child(removedLines).val() + removedLOC / 2),
