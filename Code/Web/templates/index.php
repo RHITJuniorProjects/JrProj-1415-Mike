@@ -61,12 +61,12 @@
 						<button class="expand">Android Download</button>
 					</a>
 				</div>
-				<div class="small-2 columns">
+				<!-- <div class="small-2 columns">
 					<a href=" ">
 						<button class="expand">IOS Download</button>
 					</a>
 				</div>
-				
+				 -->
 			</div>
 		</div>
 		<div class="main-box lightblue">
