@@ -1,0 +1,14 @@
+These are instructions for getting code coverage numbers for your iOS project.
+
+The tool that we're going to be using is called "frankencover.it".
+
+First we need to run the commands "brew install groovy" and "brew install lcov" to get the software needed
+Next we need to configure our App to generate the correct files for frankencover.it to interpret.
+Set the main app target to produce test coverage output in debug mode and to instrument program flow in debug mode
+like the picture here: http://imgur.com/cLvVg0X
+
+Now build the application.
+Once the build is finished open up a terminal and run the command: "groovy http://frankencover.it/with -source-dir <filepath to 
+project>"
+
+This will generate output that looks like this: http://imgur.com/QTiHN93
